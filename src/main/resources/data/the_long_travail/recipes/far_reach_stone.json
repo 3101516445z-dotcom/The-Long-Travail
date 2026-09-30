@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ABC",
+    "DEF",
+    "GHI"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:smooth_sandstone"
+    },
+    "B": {
+      "item": "minecraft:cactus"
+    },
+    "C": {
+      "tag": "the_long_travail:stone_terracotta"
+    },
+    "D": {
+      "item": "minecraft:dead_bush"
+    },
+    "E": {
+      "item": "minecraft:map"
+    },
+    "F": {
+      "item": "minecraft:emerald_ore"
+    },
+    "G": {
+      "item": "minecraft:powder_snow_bucket"
+    },
+    "H": {
+      "item": "minecraft:rabbit_foot"
+    },
+    "I": {
+      "item": "minecraft:blue_ice"
+    }
+  },
+  "result": {
+    "item": "the_long_travail:far_reach_stone",
+    "count": 1
+  }
+}

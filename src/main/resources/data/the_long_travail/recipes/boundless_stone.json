@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ABC",
+    "DEF",
+    "GHI"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:ender_pearl"
+    },
+    "B": {
+      "item": "minecraft:chorus_flower"
+    },
+    "C": {
+      "item": "minecraft:end_rod"
+    },
+    "D": {
+      "item": "minecraft:end_crystal"
+    },
+    "E": {
+      "item": "minecraft:dragon_head"
+    },
+    "F": {
+      "item": "minecraft:dragon_breath"
+    },
+    "G": {
+      "item": "minecraft:end_stone_bricks"
+    },
+    "H": {
+      "item": "minecraft:shulker_shell"
+    },
+    "I": {
+      "item": "minecraft:purpur_pillar"
+    }
+  },
+  "result": {
+    "item": "the_long_travail:boundless_stone",
+    "count": 1
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.thelongtravail.mixin",
+  "plugin": "com.thelongtravail.mixin.OptionalCompatPlugin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "mixins.the_long_travail.refmap.json",
+  "mixins": [
+    "AltitudeSpeedMixin",
+    "AltitudeGlidingMixin",
+    "StiffSpeedMixin",
+    "FluidAbsorptionMixin",
+    "FluidErosionUnavoidableMixin",
+    "PlayerCombatMixin",
+    "LivingCombatMixin",
+    "AnvilMenuMixin",
+    "ItemCombinerMenuAccessor",
+    "EffectRemovalInvoker",
+    "EffectDurationAccessor"
+  ],
+  "client": [
+    "AnvilScreenMixin",
+    "DiaryFontMixin",
+    "GuiGraphicsTooltipMixin",
+    "JeiReadingOverlayMixin",
+    "SoundsPotionCompatMixin",
+    "VisualDeprivationRenderMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

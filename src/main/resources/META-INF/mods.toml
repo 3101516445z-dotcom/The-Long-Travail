@@ -1,0 +1,34 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MPL-2.0"
+
+[[mods]]
+modId="the_long_travail"
+version="0.1.0"
+displayName="The Long Travail / 苦旅"
+authors="Phoebe_Real"
+description='''
+Adds the bound Travel Diary curio, The Long Travail / 苦旅.
+'''
+mixinConfigs="mixins.the_long_travail.json"
+
+[[dependencies.the_long_travail]]
+modId="forge"
+mandatory=true
+versionRange="[47.4.20,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.the_long_travail]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1]"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.the_long_travail]]
+modId="curios"
+mandatory=true
+versionRange="[5.14.1,)"
+ordering="AFTER"
+side="BOTH"

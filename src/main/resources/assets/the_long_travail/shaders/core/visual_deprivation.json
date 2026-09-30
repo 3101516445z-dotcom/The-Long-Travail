@@ -1,0 +1,34 @@
+{
+  "vertex": "the_long_travail:visual_deprivation",
+  "fragment": "the_long_travail:visual_deprivation",
+  "attributes": [
+    "Position"
+  ],
+  "samplers": [],
+  "uniforms": [
+    {
+      "name": "Veil",
+      "type": "float",
+      "count": 4,
+      "values": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Softness",
+      "type": "float",
+      "count": 1,
+      "values": [
+        0.45
+      ]
+    }
+  ],
+  "blend": {
+    "func": "add",
+    "srcrgb": "srcalpha",
+    "dstrgb": "1-srcalpha"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ABC",
+    "DEF",
+    "GHI"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:stone"
+    },
+    "B": {
+      "item": "minecraft:mossy_stone_bricks"
+    },
+    "C": {
+      "item": "minecraft:pointed_dripstone"
+    },
+    "D": {
+      "item": "minecraft:polished_deepslate"
+    },
+    "E": {
+      "item": "minecraft:sculk_shrieker"
+    },
+    "F": [
+      {
+        "item": "minecraft:big_dripleaf"
+      },
+      {
+        "item": "minecraft:small_dripleaf"
+      }
+    ],
+    "G": {
+      "item": "minecraft:clay"
+    },
+    "H": {
+      "item": "minecraft:lava_bucket"
+    },
+    "I": {
+      "item": "minecraft:amethyst_cluster"
+    }
+  },
+  "result": {
+    "item": "the_long_travail:deep_valley_stone",
+    "count": 1
+  }
+}

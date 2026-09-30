@@ -1,0 +1,7 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MPL-2.0"
+[[mods]]
+modId="travail_smoke"
+version="1.0"
+displayName="Travail isolated regression fixture"

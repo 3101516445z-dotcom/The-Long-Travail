@@ -1,0 +1,74 @@
+allprojects {
+    afterEvaluate {
+        if (project.hasProperty('reviewMpe')) {
+            repositories.flatDir { dirs 'build/mpe-compat-libs' }
+            dependencies { runtimeOnly fg.deobf('local:more_potion_effects:2.6.0-forge-1.20.1') }
+        }
+        sourceSets {
+            review {
+                java.srcDirs = ['tools/smoke', 'tools/regression']
+                resources.srcDir 'tools/smoke-resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        tasks.register('reviewTimeline', JavaExec) {
+            dependsOn tasks.named('reviewClasses')
+            classpath = sourceSets.review.runtimeClasspath
+            mainClass = 'VisualDeprivationTimelineTest'
+        }
+        tasks.register('reviewPerformance', JavaExec) {
+            dependsOn tasks.named('reviewClasses')
+            classpath = sourceSets.review.runtimeClasspath
+            mainClass = 'PerformanceRegressionTest'
+        }
+        tasks.register('reviewConfigSafety', JavaExec) {
+            dependsOn tasks.named('reviewClasses')
+            classpath = sourceSets.review.runtimeClasspath
+            mainClass = 'ConfigSafetyTest'
+        }
+        tasks.register('reviewShaderCompile', JavaCompile) {
+            source = project.files(project.file('tools/DiaryFontShaderTest.java'))
+            classpath = sourceSets.main.runtimeClasspath
+            destinationDirectory = project.file('build/review-shader')
+            options.encoding = 'UTF-8'
+        }
+        tasks.register('reviewShader', JavaExec) {
+            dependsOn tasks.named('reviewShaderCompile')
+            classpath = project.files(project.file('build/review-shader')) + sourceSets.main.runtimeClasspath
+            mainClass = 'DiaryFontShaderTest'
+            workingDir = project.projectDir
+        }
+        minecraft.runs.server {
+            property 'travail.smoke.result', project.file('build/review-server/smoke-result.txt').absolutePath
+            property 'travail.smoke.forceFailure', project.hasProperty('reviewSmokeFailure').toString()
+            workingDirectory project.file('build/review-server')
+            args '--nogui'
+            mods { travail_smoke { source sourceSets.review } }
+        }
+        tasks.register('reviewSoundCompile', JavaCompile) {
+            dependsOn tasks.named('classes')
+            source = project.files(project.file('tools/EffectSoundPolicyTest.java'))
+            classpath = sourceSets.main.output + sourceSets.main.compileClasspath
+            destinationDirectory = project.file('build/review-sound')
+            options.encoding = 'UTF-8'
+        }
+        tasks.register('reviewSound', JavaExec) {
+            dependsOn tasks.named('reviewSoundCompile')
+            classpath = project.files(project.file('build/review-sound')) + sourceSets.main.output
+            mainClass = 'EffectSoundPolicyTest'
+        }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            def smokeResult = project.file('build/review-server/smoke-result.txt')
+            doFirst {
+                smokeResult.parentFile.mkdirs()
+                smokeResult.text = 'NOT_RUN'
+            }
+            doLast {
+                if (smokeResult.text.trim() != 'PASS') {
+                    throw new GradleException('Travail smoke tests failed or did not complete; inspect the server log.')
+                }
+            }
+        }
+    }
+}

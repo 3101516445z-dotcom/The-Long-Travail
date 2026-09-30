@@ -1,0 +1,22 @@
+# 独立视觉剥夺。旧 deepValley 中的触发概率、持续时间、渐入和渐出仍有效。
+[visualDeprivation]
+    # 世界整体变暗比例，0不变暗，1全黑。
+    worldDarkening = 0.65
+    # 外围附加遮蔽比例。
+    peripheralOpacity = 0.98
+    # 中心清晰椭圆半径，1到达屏幕横纵边缘。
+    clearRadius = 0.45
+    # 边缘柔和过渡宽度。
+    edgeSoftness = 0.45
+    # 距离雾适配；部分光影包会忽略它，独立屏幕遮蔽仍生效。
+    distanceVeilEnabled = true
+    distanceVeilStart = 1.25
+    distanceVeilEnd = 5.0
+    # 波动周期（秒）与深度；0保持无波动。
+    pulsePeriodSeconds = 4.0
+    pulseDepth = 0.0
+    pulseAffectsRadius = false
+    # 渐出中再次触发时的回升刻数。
+    refreshBlendTicks = 5
+    # 主动解除后的视觉退场刻数；逻辑状态立即结束。
+    clearFadeOutTicks = 4
