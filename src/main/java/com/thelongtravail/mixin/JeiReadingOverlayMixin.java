@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/** JEI has its own tooltip rendering path, separate from GuiGraphics tooltips. */
+/** JEI 使用独立于 GuiGraphics 的提示框渲染路径。 */
 @Pseudo
 @Mixin(targets = "mezz.jei.gui.events.GuiEventHandler", remap = false)
 public abstract class JeiReadingOverlayMixin {

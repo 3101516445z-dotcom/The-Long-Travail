@@ -45,8 +45,8 @@ public final class HomecomingItem extends Item {
             ItemStack equipped = stacks.getStackInSlot(index);
             if (!equipped.is(ModRegistry.LONG_TRAVAIL.get())) return unavailable(player, hand);
 
-            ItemStack returning = equipped.copy(); // Preserve the diary's complete progress/NBT.
-            stacks.setStackInSlot(index, ItemStack.EMPTY); // Intentional server-side release of the binding.
+            ItemStack returning = equipped.copy();
+            stacks.setStackInSlot(index, ItemStack.EMPTY); // 在服务端主动解除绑定。
             if (!player.getAbilities().instabuild) player.getItemInHand(hand).shrink(1);
             TravailCurios.returnToInventoryOrDrop(player, returning);
             TravailCurios.syncExtraSlots(serverPlayer, 0);
@@ -55,7 +55,7 @@ public final class HomecomingItem extends Item {
             com.thelongtravail.network.TravailNetwork.sendItemSound(serverPlayer, com.thelongtravail.network.ItemSoundCue.HOMECOMING);
             player.displayClientMessage(Component.translatable("message.the_long_travail.homecoming.success"), true);
         }
-        // Inventory insertion may have reused the now-empty hand slot; return its current stack.
+        // 背包插入可能复用刚清空的手持槽，因此返回该槽当前的物品。
         return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), level.isClientSide);
     }
 

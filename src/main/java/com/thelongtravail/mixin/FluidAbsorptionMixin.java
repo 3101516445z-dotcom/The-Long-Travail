@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-/** Bypass only the absorption deduction; never overwrite the player's absorption state. */
+/** 仅跳过伤害吸收扣减，不覆盖玩家的伤害吸收状态。 */
 @Mixin(Player.class)
 public abstract class FluidAbsorptionMixin {
     @Redirect(method = "actuallyHurt", at = @At(value = "INVOKE",

@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-/** Sounds 2.2.1: capture each diff ID, then filter that exact notification. No duplicate snapshots. */
+/** 针对 Sounds 2.2.1，捕获每个差异 ID 并过滤对应通知，避免重复保存快照。 */
 @Pseudo
 @Mixin(targets = "dev.imb11.sounds.sound.events.PotionEventHelper", remap = false)
 public abstract class SoundsPotionCompatMixin {

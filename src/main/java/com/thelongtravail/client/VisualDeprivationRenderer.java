@@ -10,7 +10,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import java.io.IOException;
 
-/** One alpha-blended world pass, before GUI; no framebuffer copy or depth dependency. */
+/** 在 GUI 前执行一次 alpha 混合的世界渲染，不复制帧缓冲，也不依赖深度。 */
 @Mod.EventBusSubscriber(modid = "the_long_travail", value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class VisualDeprivationRenderer {
     private static ShaderInstance shader;

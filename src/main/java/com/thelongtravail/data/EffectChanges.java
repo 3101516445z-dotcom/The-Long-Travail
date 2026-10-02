@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.*;
 import net.minecraftforge.registries.ForgeRegistries;
 import java.util.*;
-/** Server-thread ownership is conservative: any external add/remove relinquishes it. */
+/** 状态归服务端线程管理；外部添加或移除效果时放弃对该效果的所有权。 */
 public final class EffectChanges {
     private static final Map<ServerPlayer, Map<MobEffect, MobEffectInstance>> OWNED = new WeakHashMap<>();
     private static final Map<ServerPlayer, Diagnostic> DIAGNOSTICS = new WeakHashMap<>();
@@ -41,7 +41,7 @@ public final class EffectChanges {
         var after = player.getEffect(effect);
         if (added && after != null) {
             count(player, "automatic-add", effect);
-            // Do not claim an unrelated, already active potion merely because its hidden chain changed.
+            // 不能仅因隐藏效果链发生变化，就接管已存在的无关效果。
             if (before == null || wasOwned) {
                 var map = OWNED.computeIfAbsent(player, p -> new HashMap<>());
                 if (map.size() < 256 || map.containsKey(effect)) map.put(effect, after);
@@ -62,7 +62,7 @@ public final class EffectChanges {
         }
         return gone;
     }
-    /** One direct attempt, then a one-tick expiry fallback; never retries in a loop. */
+    /** 先直接移除一次，失败则将剩余时间设为一刻，不循环重试。 */
     private static boolean forceRemove(ServerPlayer player, MobEffect effect) {
         if (!player.hasEffect(effect)) return false;
         MobEffectInstance removed = player.removeEffectNoUpdate(effect);
@@ -71,8 +71,8 @@ public final class EffectChanges {
         }
         MobEffectInstance remaining = player.getEffect(effect);
         if (remaining == null) return true;
-        // Mutate the current instance, including infinite durations. Discard its dormant backup
-        // so a weaker/longer effect cannot take over when this one expires.
+        // 直接修改当前实例，包括无限持续效果，并丢弃隐藏的后备效果，
+        // 防止当前效果到期后由较弱或更持久的效果接替。
         var access = (com.thelongtravail.mixin.EffectDurationAccessor) remaining;
         access.travail$hiddenEffect(null);
         access.travail$duration(1);
@@ -82,7 +82,7 @@ public final class EffectChanges {
         var owned = OWNED.get(player);
         if (owned != null) { owned.remove(effect); if (owned.isEmpty()) OWNED.remove(player); }
         count(player, "malice-expiry-fallback", effect);
-        return false; // Scheduling expiry is not proof of successful removal.
+        return false; // 安排到期不代表已成功移除。
     }
     private static void checkMaliceExpiry(ServerPlayer player) {
         var pending = EXPIRING_MALICE.get(player);

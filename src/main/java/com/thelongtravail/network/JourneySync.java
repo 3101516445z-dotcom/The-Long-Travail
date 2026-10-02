@@ -2,7 +2,7 @@ package com.thelongtravail.network;
 
 import com.thelongtravail.TravailAspect;
 
-/** The local viewer's personal exploration count, supplied by the server. */
+/** 当前查看者的个人探索数量，由服务端提供。 */
 public final class JourneySync {
     private static volatile int biomeCount = -1;
     private static volatile int revealedMask;

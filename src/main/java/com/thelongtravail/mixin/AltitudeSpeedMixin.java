@@ -10,14 +10,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * Boundless Malice high-altitude slowdown.
- *
- * Player#getSpeed is read by ordinary ground/swimming movement (LivingEntity#travel and
- * LivingEntity#getFrictionInfluencedSpeed both call it virtually), and it is where
- * LivingEntity#getAttributeValue(MOVEMENT_SPEED) lands. Scaling the returned value keeps the
- * penalty out of the attribute map entirely, so mods that neutralize movement speed penalties
- * cannot reach it, while their own speed bonuses still apply normally.
- * Elytra movement is handled separately by AltitudeGlidingMixin.
+ * 步行和游泳会读取 Player#getSpeed；在返回值处缩放，避免将高空惩罚写入属性表，
+ * 同时保留其他模组的速度加成。鞘翅移动另由 AltitudeGlidingMixin 处理。
  */
 @Mixin(Player.class)
 public abstract class AltitudeSpeedMixin implements AltitudePenalty.Cache {
@@ -51,8 +45,8 @@ public abstract class AltitudeSpeedMixin implements AltitudePenalty.Cache {
     @Inject(method = "getSpeed", at = @At("RETURN"), cancellable = true)
     private void travail$applyAltitudeSlow(CallbackInfoReturnable<Float> cir) {
         Player player = (Player) (Object) this;
-        // Keep both corrections in one callback: either cancellable RETURN injection
-        // could otherwise return before the other callback gets to apply its rule.
+        // 两项修正必须放在同一回调中，否则任一可取消的 RETURN 注入
+        // 都可能提前返回，使另一回调的规则无法应用。
         if (player.hasEffect(ModRegistry.STIFF.get())) {
             cir.setReturnValue(0.0F);
             return;

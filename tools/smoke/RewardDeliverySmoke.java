@@ -76,7 +76,7 @@ public final class RewardDeliverySmoke {
             try (var slot = queue.reserve()) { check(slot != null && queue.reserve() == null, "reservation protects nested capacity"); }
             try (var slot = queue.reserve()) { check(slot != null, "unused reservation released"); slot.submit(level, position, named, 1); }
             check(queue.reserve() == null, "full queue refuses new reward");
-            // Exercise the actual phantom loop with a full queue, then with a one-kill budget.
+            // 以满队列和仅可击杀一次的额度分别测试实际幻翼循环。
             level.getServer().overworld().getDataStorage().set("the_long_travail_rewards", queue);
             var player = new net.minecraftforge.common.util.FakePlayer(level,
                     new com.mojang.authlib.GameProfile(UUID.randomUUID(), "RewardSmoke"));

@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.ArrayList;
 import java.util.UUID;
 
-/** Isolated dev-server fixture, never packaged into the production mod. */
+/** 隔离开发服务器的测试夹具，不打包进正式模组。 */
 @Mod("travail_smoke")
 public final class TravailSmoke {
     private static final net.minecraftforge.registries.DeferredRegister<net.minecraft.world.effect.MobEffect> EFFECTS =
@@ -110,7 +110,7 @@ public final class TravailSmoke {
         boolean passed = false;
         try {
             check(!Boolean.getBoolean("travail.smoke.forceFailure"), "intentional smoke failure-exit verification");
-            // Fixtures mutate settings frequently. Do not autosave/reload intermediate broken pools.
+            // 测试频繁修改配置，禁止自动保存或重载尚未完成修改的无效池。
             com.thelongtravail.config.TravailConfig.SPEC.setConfig(com.electronwill.nightconfig.core.CommentedConfig.inMemory());
             RuntimePools.reload();
             MobEffectInstance first = new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 200, 0, true, false, false);
@@ -158,7 +158,7 @@ public final class TravailSmoke {
             far.setPos(player.getX() + 40, 100, player.getZ());
             corner.setPos(player.getX() + 31, 100, player.getZ() + 31);
             for (var phantom : java.util.List.of(near, far, corner)) {
-                level.getChunkAt(phantom.blockPosition()); // Fixture loads targets; production query must not.
+                level.getChunkAt(phantom.blockPosition()); // 仅测试夹具加载目标区块，正式查询不得加载。
                 check(level.addFreshEntity(phantom), "spawn phantom fixture");
             }
             var kill = com.thelongtravail.event.TravailEvents.class.getDeclaredMethod("killNearbyPhantoms", net.minecraft.server.level.ServerPlayer.class);

@@ -4,7 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-/** Fixed protocol limits, checked before allocation and before sending. */
+/** 分配内存和发送前均检查固定的协议限制。 */
 public final class TooltipConfigCodec {
     public static final int MAX_VALUES = 128, MAX_POOLS = 32, MAX_ENTRIES = 2048,
             MAX_TOTAL_ENTRIES = 8192, MAX_KEY = 128, MAX_ENTRY = 1024, MAX_BYTES = 1_048_576;

@@ -1,6 +1,6 @@
 package com.thelongtravail.data;
 
-/** Keep the last value owned by us separate from a speed newly supplied by another mod. */
+/** 区分本模组上次写入的速度和其他模组新提供的速度。 */
 public final class FlightSpeedAdjustment {
     public record Result(float baseline, float applied) {}
     public static boolean same(float first, float second) { return Math.abs(first - second) <= 1.0E-6F; }

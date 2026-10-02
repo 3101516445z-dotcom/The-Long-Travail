@@ -15,7 +15,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.phys.Vec3;
 import java.util.ArrayDeque;
 
-/** One overworld-owned persistent queue for all dimensions. Never loads a target chunk. */
+/** 所有维度共用由主世界保存的持久化队列，不主动加载目标区块。 */
 public final class RewardDelivery extends SavedData {
     private static final String NAME = "the_long_travail_rewards";
     private final ArrayDeque<Job> jobs = new ArrayDeque<>();
@@ -35,7 +35,7 @@ public final class RewardDelivery extends SavedData {
     public static RewardDelivery get(MinecraftServer server) {
         return server.overworld().getDataStorage().computeIfAbsent(RewardDelivery::load, RewardDelivery::new, NAME);
     }
-    /** Reserve before dealing damage: nested death listeners cannot consume the promised slot. */
+    /** 造成伤害前预留名额，防止嵌套死亡监听器抢占。 */
     public Reservation reserve() {
         if (jobs.size() + reserved >= TravailConfig.REWARD_QUEUE_CAPACITY.get()) return null;
         reserved++;
@@ -48,7 +48,7 @@ public final class RewardDelivery extends SavedData {
             if (!item.isEmpty() && count > 0) {
                 if (TravailConfig.REWARD_OVERFLOW.get() == TravailConfig.RewardOverflow.LIMIT)
                     count = (int) Math.min(count, (long) Math.max(1, item.getMaxStackSize()) * TravailConfig.REWARD_LIMIT.get());
-                // Merge only identical item data at the exact same destination; keep each record bounded.
+                // 仅合并目的地和物品数据均相同的记录，且每条记录都须遵守数量上限。
                 Job tail = jobs.peekLast();
                 if (tail != null && tail.dimension.equals(level.dimension()) && tail.position.equals(position)
                         && ItemStack.isSameItemSameTags(tail.template, item) && (long) tail.count + count <= 4096) tail.count += count;
@@ -79,12 +79,12 @@ public final class RewardDelivery extends SavedData {
                 int count = Math.min(job.count, Math.max(1, job.template.getMaxStackSize()));
                 ItemStack stack = job.template.copy(); stack.setCount(count);
                 ItemEntity entity = new ItemEntity(level, job.position.x, job.position.y, job.position.z, stack);
-                // Failed/cancelled spawns consume the attempt budget, but never erase the reward.
+                // 生成失败或被取消也消耗尝试额度，但不能丢弃奖励。
                 budget--;
                 if (level.addFreshEntity(entity)) { job.count -= count; setDirty(); }
             }
             } finally {
-                // Event listeners may throw: never lose the in-flight record on an exceptional exit.
+                // 事件监听器可能抛出异常，异常退出时仍须保留正在投递的记录。
                 if (job.count > 0) jobs.addLast(job);
             }
         }

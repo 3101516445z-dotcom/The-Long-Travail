@@ -5,7 +5,7 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.FormattedCharSink;
 import java.util.ArrayList;
 
-/** Draw-scoped text: retain visual order, indices and styles, removing only the material marker. */
+/** 仅移除材质标记，保留文本视觉顺序、索引和样式。 */
 public final class DiaryText {
     public interface Unmarked extends FormattedCharSequence {}
 
@@ -14,7 +14,7 @@ public final class DiaryText {
                 sink.accept(index, style.withInsertion(null), codePoint));
     }
 
-    /** Used for the 17 name passes, so source traversal and style conversion happen only once. */
+    /** 名称需要绘制 17 遍，源文本遍历和样式转换只执行一次。 */
     public static FormattedCharSequence prepare(FormattedCharSequence text) {
         var glyphs = new ArrayList<Glyph>();
         text.accept(new FormattedCharSink() {

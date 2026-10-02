@@ -64,8 +64,8 @@ public class LongTravailItem extends Item implements ICurioItem {
     @Override
     public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
         if (slotContext.entity() instanceof Player player) com.thelongtravail.data.AltitudePenalty.forget(player);
-        // Curios invokes this for NBT changes too, including attack cooldown timestamps.
-        // A replacement diary is reconciled in onEquip; only a real removal clears slots.
+        // Curios 在 NBT 变化时也会调用此方法，包括攻击冷却时间戳更新。
+        // 替换日记由 onEquip 校正，只有真正卸下时才清理槽位。
         if (slotContext.entity() instanceof ServerPlayer player && !newStack.is(this))
             TravailCurios.syncExtraSlots(player, 0);
     }
@@ -98,7 +98,7 @@ public class LongTravailItem extends Item implements ICurioItem {
 
     @Override
     public List<Component> getSlotsTooltip(List<Component> tooltip, ItemStack stack) {
-        // The slot label is placed explicitly above our prose instead.
+        // 槽位标签由本模组显式绘制在正文上方。
         return List.of();
     }
 

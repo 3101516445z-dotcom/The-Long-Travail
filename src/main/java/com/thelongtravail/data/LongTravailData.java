@@ -31,9 +31,9 @@ public final class LongTravailData {
         tryInitialize(stack, player);
     }
 
-    /** Transactional generation: failure leaves every byte of the original stack untouched. */
+    /** 事务式生成：失败时原物品数据保持不变。 */
     public static boolean tryInitialize(ItemStack stack, ServerPlayer player) {
-        if (isInitialized(stack)) return true; // Version 1 journeys retain their progress and witnesses.
+        if (isInitialized(stack)) return true; // 保留版本 1 旅程的进度和见证。
         RequirementPools.Snapshot pools = RequirementPools.current(player);
         if (!pools.valid()) return false;
         CompoundTag root = root(stack).copy();
@@ -61,7 +61,7 @@ public final class LongTravailData {
         return true;
     }
 
-    /** Build off-slot first: a generation failure must not erase the equipped diary. */
+    /** 先在槽位外生成，失败时不能清除已装备的日记。 */
     public static ItemStack refreshedCopy(ItemStack original, ServerPlayer player) {
         ItemStack refreshed = original.copy();
         if (refreshed.hasTag()) refreshed.getTag().remove(ROOT);
@@ -88,7 +88,7 @@ public final class LongTravailData {
         return removeRequirement(stack, "Structures", structure);
     }
 
-    /** Constant-size snapshot. NBT references are compared by identity, never by deep equality. */
+    /** 固定大小快照；NBT 引用按对象身份比较，不做深度比较。 */
     public record RequirementIdentity(ItemStack stack, Tag root, Tag requirements, UUID journey, long revision) {
         @Override public boolean equals(Object other) {
             return other instanceof RequirementIdentity key && stack == key.stack && root == key.root
@@ -106,7 +106,7 @@ public final class LongTravailData {
                 root != null && root.hasUUID(JOURNEY_ID) ? root.getUUID(JOURNEY_ID) : null,
                 root == null ? 0 : root.getLong(REQUIREMENTS_REVISION));
     }
-    /** External integrations editing requirements in-place must call this once after their changes. */
+    /** 外部集成原地修改需求后，必须调用一次以使缓存失效。 */
     public static void requirementsChanged(ItemStack stack) {
         if (!isInitialized(stack)) return;
         CompoundTag root = root(stack);

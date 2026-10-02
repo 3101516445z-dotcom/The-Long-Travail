@@ -80,7 +80,7 @@ public final class RenewalSmoke {
         check(player.getMainHandItem().getCount()==1 && diarySlots.getStacks().getStackInSlot(0).getTag().getCompound("LongTravail").getUUID("JourneyId").equals(newId),"cooldown prevents double reset");
         check(cues.size()==1,"cooldown has no sound cue");
         player.getCooldowns().removeCooldown(item); player.getAbilities().instabuild=true;
-        // A full backpack and a retained creative-mode use item force accessory overflow.
+        // 满背包加上创造模式保留使用物品的行为，强制触发饰品溢出。
         for(int i=0;i<player.getInventory().items.size();i++) player.getInventory().items.set(i,new ItemStack(Items.COBBLESTONE,64));
         player.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(item));
         LongTravailData.setWitness(diarySlots.getStacks().getStackInSlot(0),TravailAspect.BOUNDLESS,true);

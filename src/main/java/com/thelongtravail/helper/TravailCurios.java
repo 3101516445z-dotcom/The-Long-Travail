@@ -16,7 +16,7 @@ import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 public final class TravailCurios {
     private static final UUID EXTRA_CURIO_SLOTS = UUID.fromString("b241372a-b39e-479d-b497-f46f92ee55fa");
 
-    /** One owner for the bonus; ordinary NBT refreshes must not revoke occupied slots. */
+    /** 槽位加成由单一所有者管理；普通 NBT 刷新不能撤销已占用的槽位。 */
     public static void syncExtraSlots(ServerPlayer player, int desired) {
         CuriosApi.getCuriosInventory(player).ifPresent(handler -> handler.getStacksHandler("curio").ifPresent(slots -> {
             reconcileExtraSlots(slots, desired, count -> evacuateAddedCurioSlots(player, count));
@@ -25,7 +25,7 @@ public final class TravailCurios {
 
     public static void reconcileExtraSlots(ICurioStacksHandler slots, int desired, IntConsumer evacuate) {
             var current = slots.getModifiers().get(EXTRA_CURIO_SLOTS);
-            // Migrate the old transient modifier without a cached removal on the next tick.
+            // 迁移旧临时修饰符，避免下一刻被缓存的移除操作撤销。
             slots.getCachedModifiers().removeIf(modifier -> EXTRA_CURIO_SLOTS.equals(modifier.getId()));
             int applied = current == null ? 0 : Math.max(0, (int) current.getAmount());
             if (current != null && current.getAmount() == desired
@@ -63,7 +63,7 @@ public final class TravailCurios {
         }));
     }
 
-    /** Inventory.add may silently discard overflow in creative mode. Never use it for returned gear. */
+    /** Inventory.add 在创造模式下可能静默丢弃溢出物品，返还装备时不能使用。 */
     public static void returnToInventoryOrDrop(Player player, ItemStack stack) {
         ItemStack remainder = net.minecraftforge.items.ItemHandlerHelper.insertItemStacked(
                 new net.minecraftforge.items.wrapper.PlayerMainInvWrapper(player.getInventory()), stack, false);

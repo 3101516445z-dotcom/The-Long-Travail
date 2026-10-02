@@ -5,12 +5,8 @@ import net.minecraft.world.effect.MobEffectCategory;
 
 
 /**
- * Purely visual malice effect.
- *
- * The authoritative state lives in the player data, so this instance only supplies the HUD icon
- * only. No attribute modifiers and no
- * periodic logic, so it never changes gameplay. Curative items stay at the vanilla default,
- * which keeps milk a legitimate way out.
+ * 权威状态保存在玩家数据中，此实例仅提供 HUD 图标，不修改属性或执行周期逻辑。
+ * 保留原版治疗物品规则，使牛奶可以解除该状态。
  */
 public class VisualDeprivationEffect extends MobEffect {
     public VisualDeprivationEffect() {

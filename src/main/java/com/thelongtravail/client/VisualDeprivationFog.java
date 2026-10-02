@@ -2,7 +2,7 @@ package com.thelongtravail.client;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ViewportEvent;
 
-/** Optional distance adapter; never widens existing fluid or other-mod fog. */
+/** 可选的视距适配器，不扩大流体或其他模组已设置的雾中视距。 */
 public final class VisualDeprivationFog {
     public static void renderFog(ViewportEvent.RenderFog event) {
         var player = Minecraft.getInstance().player;

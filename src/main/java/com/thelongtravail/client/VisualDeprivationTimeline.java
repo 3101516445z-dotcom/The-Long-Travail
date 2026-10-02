@@ -1,6 +1,6 @@
 package com.thelongtravail.client;
 
-/** Pure animation state: logical expiry and a short visual release are separate. */
+/** 逻辑到期与短暂的视觉退场分别处理。 */
 public final class VisualDeprivationTimeline {
     private Object owner;
     private double clock, lastSample, episodeStart, riseStart, riseLength, end, fallLength;

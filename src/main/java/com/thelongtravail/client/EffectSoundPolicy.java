@@ -1,6 +1,5 @@
 package com.thelongtravail.client;
 import java.util.*;
-/** Bounded notification matching; independent of Minecraft for deterministic tests. */
 public final class EffectSoundPolicy {
     public enum Reason { GAIN, CLEAR, MALICE_CLEAR, EXPIRE }
     private record Mark(String id, boolean gain, Reason reason, long serial, long batch, long tick) {}
@@ -23,7 +22,7 @@ public final class EffectSoundPolicy {
             trim(cleared, 256); cleared.put(id, new Cleared(tick, batch, reason == Reason.MALICE_CLEAR));
         }
     }
-    /** The callback returns true only when it actually invokes playback. */
+    /** 回调仅在实际调用播放时返回 true。 */
     public void notification(String id, boolean gain, java.util.function.BooleanSupplier play) {
         if (pending.size() >= 512) {
             var overflow = pending.removeFirst();
@@ -33,7 +32,7 @@ public final class EffectSoundPolicy {
     }
     public void advance() {
         tick++;
-        // Allow two client ticks for the reason packet following the vanilla effect packet.
+        // 为跟随原版效果包到达的原因包预留两个客户端刻。
         while (!pending.isEmpty() && tick - pending.peekFirst().tick >= 2) decide(pending.removeFirst());
         marks.removeIf(m -> tick - m.tick > 10);
         cleared.entrySet().removeIf(e -> tick - e.getValue().tick > 40);
@@ -52,7 +51,7 @@ public final class EffectSoundPolicy {
         if (event.gain && recent != null && event.tick >= recent.tick - 2 && event.tick - recent.tick <= 40) {
             Long warned = warnings.get(event.id);
             if (warned != null && tick - warned < 200) { diagnostic.accept("quiet-repeat", event.id); return; }
-            // Negative warnings remain per effect. A malice-cleared beneficial batch may merge.
+            // 负面警告逐效果保留；恶意清除的有益效果可批量合并通知。
             if (recent.malice && batches.containsKey(recent.batch)) { diagnostic.accept("quiet-batch", event.id); return; }
             trim(warnings, 256); warnings.put(event.id, tick);
             if (recent.malice) { trim(batches, 256); batches.put(recent.batch, tick); }

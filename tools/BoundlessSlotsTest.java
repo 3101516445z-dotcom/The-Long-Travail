@@ -4,7 +4,6 @@ import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 import java.lang.reflect.Proxy;
 import java.util.*;
 
-/** Exercises the production reconciler against an instrumented Curios handler. */
 public class BoundlessSlotsTest {
     static final UUID OWN = UUID.fromString("b241372a-b39e-479d-b497-f46f92ee55fa");
     static class Inventory {
@@ -43,7 +42,7 @@ public class BoundlessSlotsTest {
         inv.modifiers.put(other.getId(), other);
         inv.reconcile(1);
         var first = inv.modifiers.get(OWN);
-        for (int i = 0; i < 1000; i++) inv.reconcile(1); // ticking / repeated onEquip after NBT changes
+        for (int i = 0; i < 1000; i++) inv.reconcile(1); // 模拟 NBT 变化后反复触发 tick 和 onEquip。
         check(inv.adds == 1 && inv.removes == 0 && inv.evacuated == 0, "Unchanged bonus must not churn or eject items");
         check(inv.modifiers.get(OWN) == first, "Keep the same modifier instance");
         inv.reconcile(3);

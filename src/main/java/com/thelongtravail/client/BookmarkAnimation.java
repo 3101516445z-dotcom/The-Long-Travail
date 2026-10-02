@@ -1,6 +1,5 @@
 package com.thelongtravail.client;
 
-/** Exponential easing with the same response at every rendering frame rate. */
 public final class BookmarkAnimation {
     private static final double RESPONSE = 18.0;
 

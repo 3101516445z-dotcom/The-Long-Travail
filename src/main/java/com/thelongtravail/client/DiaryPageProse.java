@@ -2,7 +2,7 @@ package com.thelongtravail.client;
 
 import com.thelongtravail.TravailAspect;
 
-/** Page-specific prose; preserve the author's line breaks and literal punctuation. */
+/** 保留作者设定的换行和标点。 */
 public final class DiaryPageProse {
     private DiaryPageProse() {}
 

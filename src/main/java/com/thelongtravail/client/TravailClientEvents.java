@@ -145,7 +145,7 @@ public final class TravailClientEvents {
             Minecraft mc = Minecraft.getInstance();
             if (reading.width != owner.width || reading.height != owner.height)
                 reading.init(mc, owner.width, owner.height);
-            // Preserve the real container and its server menu while showing the reading layer.
+            // 显示阅读层时保留原容器界面及其服务端菜单。
             event.getGuiGraphics().pose().pushPose();
             event.getGuiGraphics().pose().translate(0, 0, 600);
             renderingReading = true;
@@ -159,8 +159,8 @@ public final class TravailClientEvents {
 
         @SubscribeEvent(priority = EventPriority.LOWEST)
         public static void tooltip(RenderTooltipEvent.GatherComponents event) {
-            // Custom tooltip renderers can replace drawing before Forge's Color event.
-            // Gathering still identifies the actual hovered stack before that replacement.
+            // 自定义提示框可能在 Forge 的 Color 事件前接管绘制；
+            // 收集阶段仍可在接管前识别实际悬停的物品。
             Minecraft mc = Minecraft.getInstance();
             if (reading != null || mc.screen == null) return;
             hovered = event.getItemStack().is(ModRegistry.LONG_TRAVAIL.get()) ? event.getItemStack() : ItemStack.EMPTY;
@@ -257,8 +257,8 @@ public final class TravailClientEvents {
     }
 
     private static boolean matchesReadingKey(InputConstants.Key key) {
-        // Forge's NONE modifier rejects Shift while it is down, even when Shift is
-        // the bound primary key. Allow modifier keys themselves as standalone binds.
+        // Forge 的 NONE 修饰键会在 Shift 按下时拒绝匹配，即使 Shift 本身就是主绑定键。
+        // 须允许修饰键作为独立按键绑定。
         if (OPEN_DIARY.getKeyModifier() == KeyModifier.NONE && KeyModifier.isKeyCodeModifier(OPEN_DIARY.getKey())) {
             return key.equals(OPEN_DIARY.getKey()) && OPEN_DIARY.getKeyConflictContext().isActive();
         }
@@ -356,7 +356,7 @@ public final class TravailClientEvents {
                 }
             }
         }
-        // A recipe/creative preview describes itself, never another diary owned by the player.
+        // 配方和创造模式预览应显示当前物品自身的状态。
         return () -> target;
     }
 
@@ -369,7 +369,7 @@ public final class TravailClientEvents {
     private static void close() {
         boolean wasReading = reading != null;
         reading = null; owner = null; hovered = ItemStack.EMPTY; hoveredScreen = null;
-        // All close paths converge here. Repeated cleanup cannot replay the sound.
+        // 所有关闭路径汇集于此，重复清理不能重复播放音效。
         if (wasReading) DiaryActionSounds.close();
     }
     private TravailClientEvents() {}

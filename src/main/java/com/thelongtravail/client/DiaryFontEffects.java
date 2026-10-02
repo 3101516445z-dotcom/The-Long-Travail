@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.io.IOException;
 
-/** Scoped text materials: retain the active font's atlas, layout and render states. */
+/** 替换文本材质时保留当前字体的图集、排版和渲染状态。 */
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class DiaryFontEffects {
     private static ShaderInstance shader;
@@ -80,7 +80,7 @@ public final class DiaryFontEffects {
         return new MaterialBuffers(original, material, originX, sweepWidth);
     }
 
-    /** Most text uses one atlas. Allocate a map only when this draw actually uses several types. */
+    /** 仅当本次绘制使用多种渲染类型时才分配映射表。 */
     private static final class MaterialBuffers extends DrawScopedCache<RenderType, RenderType> implements MultiBufferSource {
         private final MultiBufferSource original;
         private final int material;
@@ -112,8 +112,8 @@ public final class DiaryFontEffects {
         if (shader == null) return;
         ShaderInstance originalShader = RenderSystem.getShader();
         String name = originalShader == null ? "" : originalShader.getName();
-        // Modern UI's SDF fill uses a distance field; bitmap/intensity atlases use alpha/red.
-        // Keep outlines and non-text buffers on their original pipeline.
+        // Modern UI 的 SDF 填充使用距离场，位图和强度图集分别读取 alpha 与红色通道。
+        // 描边和非文本缓冲区继续使用原渲染管线。
         if (name.contains("stroke") || name.contains("background")) return;
         int atlas = name.contains("sdf") ? 2 : name.contains("intensity") ? 1 : 0;
         if (!loggedMaterials[material]) {

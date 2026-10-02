@@ -2,7 +2,6 @@ package com.thelongtravail.data;
 import java.util.List;
 import java.util.function.ToIntFunction;
 import net.minecraft.util.RandomSource;
-/** Immutable cumulative weights, prepared once per reload. */
 public final class WeightedTable<T> {
     private final List<T> entries;
     private final long[] cumulative;

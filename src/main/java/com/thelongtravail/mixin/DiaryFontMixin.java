@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/** Runs before optional font replacements; the recursive call carries no material marker. */
+/** 先于可选字体替换执行；递归调用不再携带材质标记。 */
 @Mixin(value = Font.class, priority = 3000)
 public abstract class DiaryFontMixin {
     @org.spongepowered.asm.mixin.Unique
@@ -51,10 +51,9 @@ public abstract class DiaryFontMixin {
         var quality = com.thelongtravail.config.TravailClientConfig.NAME_HALO_QUALITY.get();
         if (material == 0 && quality.samplesPerRing > 0) {
             int inputAlpha = color >>> 24;
-            if (inputAlpha < 4) inputAlpha = 255; // Match Font's implicit opaque color convention.
+            if (inputAlpha < 4) inputAlpha = 255; // 遵循 Font 对隐式不透明颜色的约定。
             MultiBufferSource haloBuffers = DiaryFontEffects.buffers(buffers, 2, x, 1);
-            // Symmetric soft kernel, batched into the same render type. No moving duplicate glyph.
-            // The main glyph covers the interior; the shader ripples only the surrounding light.
+            // 对称柔光核合批至同一渲染类型；主字形覆盖内部，着色器仅使外围光晕产生波动。
             for (int ring = 0; ring < 2; ring++) {
                 float opacity = quality.opacity(ring == 0 ? 0.075F : 0.035F);
                 int haloAlpha = Math.round(inputAlpha * opacity);

@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import com.thelongtravail.network.TravailNetwork;
-/** Only called once a second. Stationary world observations expire after five seconds. */
+/** 每秒调用一次；玩家静止时，世界观测缓存五秒后过期。 */
 public final class JourneyQueries {
     private static final Map<ServerPlayer, State> STATES = new WeakHashMap<>();
     private static final class State {

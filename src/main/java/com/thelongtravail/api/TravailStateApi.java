@@ -10,15 +10,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 /**
- * Public, read-only aspect queries for item integrations. Player queries use the same first
- * equipped Curios diary as the gameplay rules. Inventory-only diaries never activate a state.
- * Call on the logical game thread; the server is authoritative, clients see their synced copy.
- * MALICE/WITNESS identifies an aspect, not whether its conditional effect is firing this instant.
+ * 供外部集成使用的只读状态查询。玩家查询只采用 Curios 中首个已装备的日记，背包中的日记不生效。
+ * 须在逻辑游戏线程调用；服务端状态为准，客户端读取同步副本。
+ * MALICE/WITNESS 表示所属状态，不代表其条件效果此刻正在触发。
  */
 public final class TravailStateApi {
     public enum AspectState { INACTIVE, MALICE, WITNESS }
 
-    /** No diary is INACTIVE, not MALICE. An equipped uninitialized diary follows existing rules. */
+    /** 未装备日记时返回 INACTIVE；已装备但未初始化的日记按现有规则判定。 */
     public static AspectState state(@Nullable Player player, TravailAspect aspect) {
         Objects.requireNonNull(aspect, "aspect");
         ItemStack diary = equipped(player);
@@ -46,10 +45,10 @@ public final class TravailStateApi {
     public static boolean hasBoundlessMalice(@Nullable Player player) { return hasMalice(player, TravailAspect.BOUNDLESS); }
     public static boolean hasBoundlessWitness(@Nullable Player player) { return hasWitness(player, TravailAspect.BOUNDLESS); }
 
-    /** One equipment lookup for callers that need several aspects. Capture again after mutations. */
+    /** 一次装备查询即可读取多个状态；状态变更后须重新获取快照。 */
     public static Snapshot snapshot(@Nullable Player player) { return inspectDiary(equipped(player)); }
 
-    /** Inspects stored item state only. This does NOT establish that somebody has equipped it. */
+    /** 仅读取物品保存的状态，不保证该物品已被装备。 */
     public static Snapshot inspectDiary(@Nullable ItemStack diary) {
         if (diary == null || diary.isEmpty() || !diary.is(ModRegistry.LONG_TRAVAIL.get())) return Snapshot.ABSENT;
         int witnesses = 0;
@@ -59,7 +58,7 @@ public final class TravailStateApi {
         return new Snapshot(true, LongTravailData.isInitialized(diary), witnesses);
     }
 
-    /** Immutable value: keeps neither an ItemStack nor a Player reference and never writes NBT. */
+    /** 不可变快照，不持有 ItemStack 或 Player 引用，也不写入 NBT。 */
     public static final class Snapshot {
         private static final Snapshot ABSENT = new Snapshot(false, false, 0);
         private final boolean diaryPresent, initialized;

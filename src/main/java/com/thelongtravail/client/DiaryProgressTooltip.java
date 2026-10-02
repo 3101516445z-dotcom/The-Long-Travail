@@ -5,7 +5,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 
-/** A separate visual row immediately below the diary's hold-key hint. */
 public record DiaryProgressTooltip(double progress, int hintWidth) implements TooltipComponent {
     public static final class Renderer implements ClientTooltipComponent {
         private static final int EMPTY = 0xFF353535, FILLED = 0xFF858585;

@@ -8,11 +8,8 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 
 /**
- * Server side truth for visual deprivation: a plain timestamp, never an effect instance.
- *
- * Keeping the state outside the effect map is what makes it immune to effect level protection.
- * Mods can refuse to apply the effect or strip it, but they cannot see this state, so the curse
- * still works. The effect instance is only a presentation layer for the vanilla HUD icon.
+ * 服务端以时间戳保存权威状态，不依赖效果实例，避免受到效果层防护的影响。
+ * 其他模组即使拒绝或移除效果实例，诅咒状态仍然有效；效果实例仅用于显示原版 HUD 图标。
  */
 public final class VisualDeprivation {
     public enum ClearReason { COMMAND, MILK, EXPIRED, DEATH, RESPAWN, DIMENSION_CHANGE, DIARY_RESET, NO_ACTIVE_STATE, API }
@@ -29,15 +26,13 @@ public final class VisualDeprivation {
         data.putLong(TOTAL, ticks);
         TravailNetwork.sendVisualDeprivation(player, ticks, ticks);
         MobEffect effect = ModRegistry.VISUAL_DEPRIVATION.get();
-        // Always refresh the presentation instance so it covers the whole episode; vanilla keeps
-        // the existing instance and only extends the duration.
+        // 每次刷新显示实例以覆盖完整持续期；原版会保留现有实例并延长持续时间。
         EffectChanges.add(player, new MobEffectInstance(effect, ticks));
         com.thelongtravail.TheLongTravail.LOGGER.debug(
                 "Visual deprivation started for {} ({} ticks, effect applied: {})",
                 player.getName().getString(), ticks, player.hasEffect(effect));
     }
 
-    /** Ends the state and drops the presentation instance; used by milk and by debug commands. */
     public static void clear(ServerPlayer player) { clear(player, ClearReason.API); }
 
     public static void clear(ServerPlayer player, ClearReason reason) {
@@ -45,7 +40,7 @@ public final class VisualDeprivation {
         forget(player);
         MobEffect effect = ModRegistry.VISUAL_DEPRIVATION.get();
         if (player.hasEffect(effect)) EffectChanges.remove(player, effect, false);
-        // Explicit clears also repair a stale client when the server tag is already absent.
+        // 显式清除时，即使服务端标签已不存在，也要修正客户端残留状态。
         TravailNetwork.sendVisualDeprivation(player, 0, 0, switch (reason) {
             case DEATH, RESPAWN, DIMENSION_CHANGE, DIARY_RESET, NO_ACTIVE_STATE -> true;
             default -> false;
@@ -56,7 +51,7 @@ public final class VisualDeprivation {
         }
     }
 
-    /** Storage-only step; callers must use clear so presentation and client state also converge. */
+    /** 仅清理存储；调用方应使用 clear，同时清理显示实例并同步客户端。 */
     private static void forget(ServerPlayer player) {
         CompoundTag data = player.getPersistentData();
         data.remove(UNTIL);
@@ -70,12 +65,11 @@ public final class VisualDeprivation {
         return left <= 0L ? 0 : (int) Math.min(Integer.MAX_VALUE, left);
     }
 
-    /** Housekeeping: drop the stored timestamp once it has elapsed. */
     public static void tick(ServerPlayer player) {
         if (player.getPersistentData().contains(UNTIL) && remaining(player) == 0) clear(player, ClearReason.EXPIRED);
     }
 
-    /** Re-sends the running episode to a client that just joined, so a relog keeps the visuals. */
+    /** 重新向刚加入的客户端同步尚未结束的状态，保证重登后视觉效果持续。 */
     public static void resend(ServerPlayer player) {
         CompoundTag data = player.getPersistentData();
         int left = remaining(player);

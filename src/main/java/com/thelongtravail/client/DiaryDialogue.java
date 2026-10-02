@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
 
-/** Client-only prose with shared sweep bounds and a uniform brown-gold material. */
 public final class DiaryDialogue {
     private record Key(String prefix, int count, String arguments, int width, Object language, long generation) {}
     private static final java.util.Map<Key, List<Component>> CACHE = new java.util.LinkedHashMap<>();

@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.ForgeHooks;
 import org.spongepowered.asm.mixin.Mixin;
 
-/** Rules surround event dispatch; they do not depend on event-listener registration order. */
+/** 规则包围事件分发执行，不依赖监听器的注册顺序。 */
 @Mixin(value = ForgeHooks.class, remap = false)
 public abstract class FluidErosionUnavoidableMixin {
     @com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation(
@@ -30,7 +30,7 @@ public abstract class FluidErosionUnavoidableMixin {
     @WrapMethod(method = "onLivingAttack", remap = false)
     private static boolean travail$livingAttack(LivingEntity entity, DamageSource source, float amount,
                                                 Operation<Boolean> original) {
-        // Player.hurt has already dispatched its attack; LivingEntity.hurt delegates through here.
+        // Player.hurt 已分发攻击事件；LivingEntity.hurt 则通过此处分发。
         if (entity instanceof Player) return original.call(entity, source, amount);
         return travail$attack(entity, source, amount, original);
     }

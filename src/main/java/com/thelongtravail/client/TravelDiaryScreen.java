@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-/** Rendered as a modal reading layer; the original inventory/container remains the active screen. */
+/** 以模态阅读层绘制，原背包或容器仍为当前活动界面。 */
 public final class TravelDiaryScreen extends Screen {
     private static final ResourceLocation BACKGROUND = texture("diary_base");
     private static final ResourceLocation BOOKMARK = texture("diary_bookmark");
@@ -98,7 +98,6 @@ public final class TravelDiaryScreen extends Screen {
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        // Six independently animated components share a neutral cloth texture.
         for (TravailAspect aspect : TravailAspect.values()) {
             int index = aspect.ordinal();
             boolean hovered = overBookmark(localX, localY, index);
@@ -108,7 +107,7 @@ public final class TravelDiaryScreen extends Screen {
             int y = bookmarkY(index);
             int color = COLORS[index];
             graphics.setColor(((color >> 16) & 255) / 255F, ((color >> 8) & 255) / 255F, (color & 255) / 255F, 1);
-            // Only sample the cloth bounds; the generated asset's transparent margins remain intact.
+            // 仅采样布纹区域，保留生成素材的透明边距。
             graphics.pose().pushPose();
             graphics.pose().translate(x, y, 0);
             graphics.blit(BOOKMARK, 0, 0, 88, 27, 150, 140, 1870, 430, 2172, 724);
@@ -149,7 +148,6 @@ public final class TravelDiaryScreen extends Screen {
         graphics.pose().scale(scale, scale, 1);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        // Translucent cool crystal: shaded body, beveled rim and a restrained facet glint.
         graphics.fillGradient(1, 1, panelWidth - 1, panelHeight - 1, 0xA05A6A85, 0xA0253049);
         graphics.fill(2, 0, panelWidth - 2, 1, 0x9AD8ECFF);
         graphics.fill(0, 2, 1, panelHeight - 2, 0x85BDD9EE);
@@ -174,13 +172,13 @@ public final class TravelDiaryScreen extends Screen {
     private static int bookmarkY(int index) { return 61 + index * 39; }
 
     private boolean overBookmark(double x, double y, int index) {
-        // Fixed hit areas cover both resting and extended positions without hover oscillation.
+        // 固定命中区域同时覆盖收起和展开位置，避免悬停状态反复切换。
         return inside(x, y, 4, bookmarkY(index), 57, bookmarkY(index) + 28);
     }
 
     private void renderIdentity(GuiGraphics graphics) {
         float titleScale = 2.6F;
-        // Default text has about eight pixels of visible ink; the ninth is line leading.
+        // 默认文字可见高度约八像素，第九像素用于行距。
         float inkHeight = font.lineHeight - 1F;
         float titleInkCenter = inkHeight / 2F;
         float titleY = (40 + HEADER_RULE_Y) / 2F - titleInkCenter * titleScale + 3F;
@@ -191,7 +189,7 @@ public final class TravelDiaryScreen extends Screen {
                 Component.translatable("state.the_long_travail." + (completed() ? "witness" : "malice")));
         float aspectScale = Math.min(1.8F, 164F / Math.max(1, font.width(aspectName)));
         float proseScale = 1.2F;
-        // Only page/font changes affect left-page prose, not attack cooldown NBT.
+        // 左页散文缓存仅受页面和字体变化影响，不随攻击冷却 NBT 失效。
         LayoutKey currentProseKey = new LayoutKey(selected, completed(), false, false, false, 0, 0,
                 DiaryFontEffects.resourceGeneration(), net.minecraft.locale.Language.getInstance(), font.lineHeight);
         if (!currentProseKey.equals(proseKey)) {
@@ -200,7 +198,7 @@ public final class TravelDiaryScreen extends Screen {
             float nextLineY = 0;
             for (String line : DiaryPageProse.text(selected, completed()).split("\n")) {
                 if (line.isBlank()) {
-                    nextLineY += 10; // Stanza break, in addition to ordinary line leading.
+                    nextLineY += 10; // 诗节间距，额外叠加在普通行距之上。
                     continue;
                 }
                 for (var wrapped : font.split(Component.literal(line), (int) (164 / proseScale))) {
@@ -224,7 +222,7 @@ public final class TravelDiaryScreen extends Screen {
         }
         List<FormattedCharSequence> proseLines = cachedProse;
         List<Float> lineOffsets = cachedOffsets;
-        // The subtitle stays fixed across all pages; center only the prose below it.
+        // 副标题跨页固定，仅将其下方正文居中。
         float headingY = HEADER_RULE_Y + 12;
         float areaTop = headingY + inkHeight * aspectScale;
         float areaBottom = 310;
@@ -233,7 +231,7 @@ public final class TravelDiaryScreen extends Screen {
                 - inkHeight * proseScale) / Math.max(1F, lastOffset));
         float proseHeight = lastOffset * spacingFactor + inkHeight * proseScale;
         drawScaledCentered(graphics, aspectName, 169, headingY, aspectScale, 0xFF000000 | TEXT_COLORS[selected.ordinal()]);
-        // Raise the visual center slightly to account for the textured paper footer.
+        // 略微上移视觉中心，为纸张底部纹理留出空间。
         float proseY = (areaTop + areaBottom - proseHeight) / 2F - 3F;
         graphics.pose().pushPose();
         graphics.pose().translate(169, proseY, 0);
@@ -319,7 +317,6 @@ public final class TravelDiaryScreen extends Screen {
         List<PageLine> lines = content();
         int viewportHeight = BODY_BOTTOM - BODY_TOP;
         int contentHeight = lines.stream().mapToInt(PageLine::height).sum();
-        // Find the first line of the last page using actual paragraph spacing.
         maxScroll = lines.size();
         int lastPageHeight = 0;
         while (maxScroll > 0 && lastPageHeight + lines.get(maxScroll - 1).height() <= viewportHeight) {
@@ -358,7 +355,7 @@ public final class TravelDiaryScreen extends Screen {
     private void renderClose(GuiGraphics graphics, float x, float y) {
         boolean hover = inside(x, y, 469, 43, 496, 67);
         if (hover) graphics.fill(470, 44, 495, 66, 0x28755A38);
-        // Draw the cross geometrically so its appearance never depends on font coverage.
+        // 用几何图形绘制叉号，避免依赖字体是否包含该字形。
         int color = hover ? 0xFF713D2A : MUTED_INK;
         for (int i = 0; i < 9; i++) {
             graphics.fill(477 + i, 50 + i, 479 + i, 52 + i, color);

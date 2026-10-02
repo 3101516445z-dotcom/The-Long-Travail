@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-/** Server-thread caches; rebuilt after registries exist and after config reload. */
+/** 服务端线程缓存，在注册表可用后及配置重载后重建。 */
 public final class RuntimePools {
     public record Snapshot(WeightedTable<EffectEntry> far, WeightedTable<EffectEntry> valley,
                            WeightedTable<RewardEntry> fish, WeightedTable<RewardEntry> phantom,

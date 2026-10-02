@@ -2,7 +2,7 @@ package com.thelongtravail.client;
 
 import java.util.function.ToIntFunction;
 
-/** Optical centering: lightly hang edge punctuation while retaining the original text. */
+/** 光学居中时让边缘标点略微悬挂，原文保持不变。 */
 public final class ProseAlignment {
     private ProseAlignment() {}
 

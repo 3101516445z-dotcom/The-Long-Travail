@@ -8,14 +8,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 /**
- * High-altitude slowdown of Boundless Malice, evaluated where the speed is read.
- *
- * The penalty is deliberately not stored as an AttributeModifier: nothing appears on the
- * movement speed attribute, so no other mod can inspect it, compensate it with a counter
- * modifier or strip it while recomputing the attribute value.
+ * 高空减速在读取速度时计算，不写入 AttributeModifier，
+ * 避免被其他模组通过抵消修饰符或重算属性移除。
  */
 public final class AltitudePenalty {
-    /** Implemented on each Player instance: no global player references or shared cache lock. */
+    /** 缓存由各 Player 实例持有，避免全局玩家引用和共享缓存锁。 */
     public interface Cache {
         float travail$altitudeFactor();
         void travail$invalidateAltitude();
@@ -26,7 +23,7 @@ public final class AltitudePenalty {
         return player.level().isClientSide ? TooltipConfigSync.revision() : serverRevision;
     }
 
-    /** Multiplier applied to the player's movement speed; 1.0 means no penalty. */
+    /** 移速乘数；1.0 表示无惩罚。 */
     public static float factor(Player player) {
         if (player == null) return 1.0F;
         return player instanceof Cache cache ? cache.travail$altitudeFactor() : compute(player);

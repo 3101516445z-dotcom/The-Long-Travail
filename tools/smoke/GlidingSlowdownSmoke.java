@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-/** Exercises the transformed vanilla travel method, not a copy of its flight equations. */
+/** 测试经过变换的原版 travel 方法，避免复制飞行公式导致测试与实现脱节。 */
 public final class GlidingSlowdownSmoke {
     private static final class Flyer extends FakePlayer {
         Vec3 requested = Vec3.ZERO;
@@ -30,7 +30,7 @@ public final class GlidingSlowdownSmoke {
         @Override public void move(MoverType type, Vec3 motion) {
             requested = motion;
             if (realMovement) { super.move(type, motion); return; }
-            // Isolate flight physics from terrain; optionally emulate a fully blocked X axis.
+            // 隔离地形对飞行物理的影响，可选择模拟 X 轴完全受阻。
             setPos(position().add(wall ? new Vec3(0, motion.y, motion.z) : motion));
             horizontalCollision = wall && motion.x != 0;
             if (horizontalCollision) setDeltaMovement(getDeltaMovement().multiply(0, 1, 1));

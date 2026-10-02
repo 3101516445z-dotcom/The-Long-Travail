@@ -1,6 +1,6 @@
 package com.thelongtravail.client;
 
-/** Frame-rate independent charge and release animation, in seconds. */
+/** 蓄力和释放动画以秒计时，不受帧率影响。 */
 public final class DiaryHoldProgress {
     public static final double DURATION = 1.5;
     private double seconds;

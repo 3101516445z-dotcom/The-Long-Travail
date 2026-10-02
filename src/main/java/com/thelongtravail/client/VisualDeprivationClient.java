@@ -6,7 +6,6 @@ import com.thelongtravail.network.TooltipConfigSync;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 
-/** Independent animation feeds both the final-frame material and distance adapter. */
 public final class VisualDeprivationClient {
     private static final VisualDeprivationTimeline TIMELINE = new VisualDeprivationTimeline();
     private static VisualDeprivationStyle from, target;

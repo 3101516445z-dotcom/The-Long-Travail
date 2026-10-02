@@ -132,7 +132,7 @@ public class TravailEvents {
     @SubscribeEvent
     public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
-        // Reconcile saved (including pre-fix cached) modifiers before normal inventory ticking.
+        // 在背包常规 tick 前校正已保存的修饰符，包括旧版本缓存的修饰符。
         ItemStack equipped = TravailCurios.stack(player);
         if (equipped.isEmpty()) removeExtraSlots(player); else updateExtraSlots(player, equipped);
         TravailNetwork.sendTooltipConfig(player);
@@ -179,7 +179,7 @@ public class TravailEvents {
         if (event.getEntity() instanceof ServerPlayer player) EffectChanges.externalChange(player, event.getEffect());
     }
 
-    /** Milk is a legitimate way out, so it ends the state as well as the presentation instance. */
+    /** 牛奶同时清除权威状态和用于显示的效果实例。 */
     @SubscribeEvent
     public void onUseItemFinish(LivingEntityUseItemEvent.Finish event) {
         if (event.getEntity() instanceof ServerPlayer player && event.getItem().is(Items.MILK_BUCKET)) {
@@ -217,7 +217,7 @@ public class TravailEvents {
     public void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             AltitudePenalty.forget(player);
-            // The persisted deadline belongs to the curse, not to this connection's caches.
+            // 持久化的截止时间属于诅咒状态，不能随连接缓存一起清除。
             clearRuntimeCaches(player);
         }
     }
@@ -265,14 +265,14 @@ public class TravailEvents {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onBreakSpeed(PlayerEvent.BreakSpeed event) {
-        // Client prediction and server block breaking must use the same penalty.
+        // 客户端预测和服务端破坏方块必须使用相同的惩罚系数。
         Player player = event.getEntity();
         ItemStack travail = TravailCurios.stack(player);
         if (!travail.isEmpty() && !LongTravailData.hasWitness(travail, TravailAspect.ABYSS)) {
             double reduction = TravailConfig.ABYSS_MINING_REDUCTION.get();
             if (player.level().isClientSide)
                 reduction = TooltipConfigSync.decimal("abyss.miningReduction", reduction);
-            // Apply after ordinary equipment bonuses, preserving other mods' current speed.
+            // 在普通装备加成之后应用，保留其他模组已计算的速度。
             float multiplier = (float) (1.0D - Math.max(0.0D, Math.min(1.0D, reduction)));
             event.setNewSpeed(event.getNewSpeed() * multiplier);
         }
@@ -314,8 +314,8 @@ public class TravailEvents {
         ResourceLocation effectId = ForgeRegistries.MOB_EFFECTS.getKey(added.getEffect());
         if (effectId != null && RuntimePools.current().levelBonusBlacklist().contains(effectId)) return;
         int maxLevel = configuredMaxLevel(added.getEffect());
-        // Added fires before the outer addEffect writes/merges this instance.
-        // Upgrade that input in place; recursive addEffect would be overwritten on first gain.
+        // Added 事件早于外层 addEffect 写入或合并实例。
+        // 须直接升级传入实例；递归调用 addEffect 的结果会在首次添加时被覆盖。
         EffectUpgrade.apply(added, TravailConfig.FAR_WITNESS_LEVEL_BONUS.get(), maxLevel);
     }
 
@@ -425,11 +425,10 @@ public class TravailEvents {
                 && player.getY() > TravailConfig.BOUNDLESS_HEIGHT_THRESHOLD.get();
         double reduction = TravailConfig.BOUNDLESS_SPEED_REDUCTION.get();
         boolean penaltyActive = active && reduction > 0.0D;
-        // The walking/swimming penalty is applied by AltitudeSpeedMixin when the speed is read,
-        // so nothing is written to the movement speed attribute here.
+        // 步行和游泳惩罚由 AltitudeSpeedMixin 在读取速度时应用，此处不写入移速属性。
         if (penaltyActive && player.getAbilities().flying) reduceFlyingSpeed(player, reduction); else restoreFlyingSpeed(player);
-        // Elytra displacement is scaled by AltitudeGlidingMixin on the controlling side.
-        // Do not damp the stored velocity here: that compounds and misses local prediction.
+        // 鞘翅位移由 AltitudeGlidingMixin 在控制端缩放。
+        // 此处不能衰减保存的速度，否则会累积衰减且无法覆盖本地预测。
     }
 
     private static void reduceFlyingSpeed(ServerPlayer player, double reduction) {
@@ -437,7 +436,7 @@ public class TravailEvents {
         float current = player.getAbilities().getFlyingSpeed();
         float baseline = data.getBoolean("LongTravailFlightSlowed")
                 ? data.getFloat("LongTravailOriginalFlySpeed") : current;
-        // Legacy saves have a baseline but no last-applied value.
+        // 旧存档只有基准值，没有上次应用的值。
         float last = data.contains("LongTravailLastFlySpeed") ? data.getFloat("LongTravailLastFlySpeed") : current;
         FlightSpeedAdjustment.Result adjustment = FlightSpeedAdjustment.apply(current, baseline, last, reduction);
         data.putBoolean("LongTravailFlightSlowed", true);

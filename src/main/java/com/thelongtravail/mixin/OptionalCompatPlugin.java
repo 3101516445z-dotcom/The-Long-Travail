@@ -9,10 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Optional client-side adapters are applied only while the target bytecode still matches the
- * layout they were written against. They are presentation-only: skipping one degrades an overlay
- * or a notification sound, never a game rule. Every other mixin targets a vanilla/Forge class and
- * applies unconditionally, so no third-party mod id is referenced here any more.
+ * 可选客户端适配器仅在目标字节码结构匹配时启用；跳过仅影响覆盖层或通知音效。
+ * 其他针对原版或 Forge 的 Mixin 无条件应用，确保游戏规则不受可选适配器影响。
  */
 public final class OptionalCompatPlugin implements IMixinConfigPlugin {
     public void onLoad(String mixinPackage) {}

@@ -48,7 +48,7 @@ public final class RenewalItem extends Item {
                 return InteractionResultHolder.fail(player.getItemInHand(hand));
             }
             stacks.setStackInSlot(index, refreshed);
-            // Consume before returning extra-slot accessories: they may reuse the emptied hand slot.
+            // 先消耗物品再返还额外槽位的饰品，因为返还物品可能复用刚清空的手持槽。
             if (!player.getAbilities().instabuild) player.getItemInHand(hand).shrink(1);
             player.getCooldowns().addCooldown(this, 20);
             TravailEvents.onDiaryReset(serverPlayer, refreshed);

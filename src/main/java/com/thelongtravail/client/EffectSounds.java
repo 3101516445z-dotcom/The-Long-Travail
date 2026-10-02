@@ -8,7 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import java.util.*;
-/** Client-only adapter, loaded by client setup, not referenced by common packet classes. */
+/** 由客户端初始化加载；通用网络包类不得引用此客户端适配器。 */
 public final class EffectSounds {
     private static final EffectSoundPolicy POLICY = new EffectSoundPolicy(EffectSounds::count);
     private static final Map<String, Integer> COUNTS = new LinkedHashMap<>();
@@ -44,8 +44,8 @@ public final class EffectSounds {
     }
     public static void notification(ResourceLocation id, boolean gain, Object configuredSound) {
         if (!Boolean.getBoolean("the_long_travail.soundsAdapterVerified") || !syncOwner() || id == null) { play(configuredSound); return; }
-        // Filter at actual playback, including queue overflow. A delayed notification must use
-        // current equipment and synchronized settings, not stale state captured two ticks ago.
+        // 在实际播放时过滤，包括队列溢出路径。延迟通知须读取当前装备和同步配置，
+        // 不能使用两刻前捕获的过期状态。
         POLICY.notification(id.toString(), gain, () -> {
             boolean enabled = TooltipConfigSync.integer("general.muteBeneficialEffectGainSounds",
                     TravailConfig.MUTE_BENEFICIAL_EFFECT_GAIN_SOUNDS.get() ? 1 : 0) != 0;

@@ -7,7 +7,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import java.util.ArrayDeque;
 
-/** Local, non-positional vanilla UI sounds. No world broadcast or item-use prediction. */
+/** 仅在本地播放无位置的原版界面音效，不广播到世界，也不预测物品使用结果。 */
 public final class DiaryActionSounds {
     private record Delayed(Object player, Object level, long due) {}
     private static final ArrayDeque<Delayed> DELAYED = new ArrayDeque<>();
@@ -30,7 +30,6 @@ public final class DiaryActionSounds {
         var client = Minecraft.getInstance();
         if (client.player == null || client.level == null) return;
         switch (cue) {
-            // Curios 5.14.1 defaults to this vanilla equip event; slightly raise pitch for clarity.
             case HOMECOMING -> play(SoundEvents.ARMOR_EQUIP_GENERIC, 0.80F, 1.10F);
             case RENEWAL -> {
                 play(SoundEvents.BOOK_PAGE_TURN, 0.35F, 1.2F);

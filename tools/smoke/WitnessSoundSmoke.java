@@ -63,7 +63,7 @@ public final class WitnessSoundSmoke {
             plays.incrementAndGet();
             return true;
         };
-        // External grants have no Travail reason packets, and may overflow the bounded queue.
+        // 外部赋予效果没有本模组的原因包，且可能使有界队列溢出。
         for (int i = 0; i < 1000; i++) policy.notification("external:buff", true, playback);
         policy.advance(); policy.advance();
         check(plays.get() == 0, "unmarked repeated gains including overflow stay quiet");

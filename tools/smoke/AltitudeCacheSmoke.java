@@ -36,8 +36,8 @@ public final class AltitudeCacheSmoke {
             players.add(player); diaries.add(diary);
         }
         for (var diary : diaries) LongTravailData.setWitness(diary, TravailAspect.BOUNDLESS, true);
-        // Intentional same-tick mutation without an equip callback: cached results must survive
-        // 100 other players' reads instead of a global 64-entry clear evicting them.
+        // 故意在同一刻修改状态且不触发装备回调；其他 100 名玩家读取后缓存仍应有效，
+        // 不能像全局 64 项缓存那样因整体清空而被逐出。
         for (int pass = 0; pass < 3; pass++) for (var player : players)
             check(same(AltitudePenalty.factor(player), factor), "100 interleaved per-player caches stay warm");
         var player = players.get(0); var diary = diaries.get(0);

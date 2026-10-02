@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import static org.lwjgl.opengl.GL33.*;
 
-/** Compiles and renders the shipped shaders in a hidden real OpenGL context. */
+/** 在隐藏的真实 OpenGL 上下文中编译并渲染实际发布的着色器。 */
 public class DiaryFontShaderTest {
     static int program, texture;
     static int shader(int kind, Path path) throws Exception {

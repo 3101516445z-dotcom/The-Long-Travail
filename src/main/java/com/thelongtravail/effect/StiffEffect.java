@@ -17,8 +17,7 @@ public class StiffEffect extends MobEffect {
     @Override
     public void removeAttributeModifiers(LivingEntity entity, AttributeMap attributes, int amplifier) {
         super.removeAttributeModifiers(entity, attributes, amplifier);
-        // Old saves may still contain the former permanent effect modifier.
-        // Remove only our historical UUID when the effect expires/is dispelled.
+        // 旧存档可能残留原先的永久效果修饰符；效果到期或被驱散时仅移除本模组的历史 UUID。
         var speed = attributes.getInstance(Attributes.MOVEMENT_SPEED);
         if (speed != null) speed.removeModifier(LEGACY_SPEED_MODIFIER);
     }

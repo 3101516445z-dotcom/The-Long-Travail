@@ -1,6 +1,6 @@
 package com.thelongtravail.data;
 
-/** Rolling 20-game-tick window. Failed attempts count; unused allowance never accumulates. */
+/** 滚动窗口为 20 个游戏刻；失败尝试也计入额度，未用额度不累积。 */
 public final class EffectActionWindow {
     private final int[] counts = new int[20];
     private long previous;

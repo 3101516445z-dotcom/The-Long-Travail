@@ -22,7 +22,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import java.util.*;
 
-/** Real Forge dispatch + transformed Player/LivingEntity; only loaded by the isolated review server. */
+/** 通过真实 Forge 事件分发和变换后的 Player/LivingEntity 测试，仅由隔离审查服务器加载。 */
 public final class CombatRulesSmoke {
     private static final class Victim extends FakePlayer {
         boolean fluid;
@@ -153,19 +153,17 @@ public final class CombatRulesSmoke {
             TravailConfig.RECEIVED_TRIGGER.set(TravailConfig.ReceivedTrigger.ATTACK_ATTEMPT);
             TravailConfig.RECEIVED_COOLDOWN.set(0);
             TravailConfig.RECEIVED_EXCLUSIONS.set(List.of());
-            // The witness negates the whole environment set, and negated damage earns no curse feedback.
             for (DamageSource environment : abyssEnvironment(victim)) {
                 reset(victim);
                 victim.hurt(environment, 1);
                 check(victim.getHealth() == 20, "own immunity blocks " + environment.getMsgId());
                 feedback(victim, false, "own immunity suppresses feedback for " + environment.getMsgId());
             }
-            // The malice amplifies exactly that same set, and still earns its feedback.
             TravailConfig.ABYSS_ENVIRONMENT_MULTIPLIER.set(3D);
             LongTravailData.setWitness(diary, TravailAspect.ABYSS, false);
             for (DamageSource environment : abyssEnvironment(victim)) {
                 reset(victim);
-                // Read the live multiplier per hit; a concurrent config reload must not desync the expectation.
+                // 每次命中读取当前倍率，避免配置并发重载使预期值失效。
                 double multiplier = TravailConfig.ABYSS_ENVIRONMENT_MULTIPLIER.get();
                 check(multiplier != 1D, "abyss malice multiplier is not neutral: " + multiplier);
                 victim.hurt(environment, 1);
@@ -179,7 +177,7 @@ public final class CombatRulesSmoke {
             victim.hurt(fluid, 1);
             check(victim.getHealth() == 20, "own fluid immunity overrides true damage penetration");
             feedback(victim, false, "fluid immunity suppresses feedback");
-            // No curse RNG in this case, so a failed immunity roll can be counted directly.
+            // 此场景不涉及诅咒随机判定，因此可直接统计免疫判定失败次数。
             LongTravailData.setWitness(diary, TravailAspect.FAR_REACH, true);
             LongTravailData.setWitness(diary, TravailAspect.DEEP_VALLEY, true);
             TravailConfig.ABYSS_CANCEL_CHANCE.set(0.5D);

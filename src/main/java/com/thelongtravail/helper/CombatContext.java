@@ -10,7 +10,7 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
-/** One server-side hurt invocation. Nested hits own independent frames, including same-source hits. */
+/** 每次服务端 hurt 调用独占上下文，嵌套伤害即使来源相同也使用独立上下文。 */
 public final class CombatContext implements AutoCloseable {
     private static final ThreadLocal<CombatContext> CURRENT = new ThreadLocal<>();
     private final CombatContext previous;
@@ -55,7 +55,7 @@ public final class CombatContext implements AutoCloseable {
         if (context != null && context.target == target && after < before) context.committed = true;
     }
 
-    /** Called once after a normal return, after the frame has been removed by try-with-resources. */
+    /** 仅在正常返回后调用一次，此时 try-with-resources 已移除当前上下文。 */
     public void finish() {
         if (committed && !victimInternallyImmune && receivedTrigger == TravailConfig.ReceivedTrigger.HEALTH_LOSS
                 && target instanceof ServerPlayer player) ReceivedMalice.trigger(player, source);
@@ -66,7 +66,7 @@ public final class CombatContext implements AutoCloseable {
         if (previous == null) CURRENT.remove(); else CURRENT.set(previous);
     }
 
-    /** Internal immunity is distinct from an attacker's inability to deal damage. */
+    /** 自身免疫与攻击者无法造成伤害是两种不同情况。 */
     public boolean prepareAttack(float amount) {
         if (!immunityEvaluated) {
             immunityEvaluated = true;
@@ -93,10 +93,7 @@ public final class CombatContext implements AutoCloseable {
         return !blocked();
     }
 
-    /**
-     * The damage set the Abyss aspect targets: the malice amplifies it, the witness negates it.
-     * One shared predicate keeps the two sides from drifting apart.
-     */
+    /** 归墟的恶意放大伤害、见证抵消伤害，两者共用同一判定以保持范围一致。 */
     private static boolean abyssEnvironmentDamage(DamageSource source) {
         return source.is(DamageTypes.IN_WALL) || source.is(DamageTypes.CRAMMING)
                 || source.is(DamageTypes.DROWN) || source.is(DamageTypes.FREEZE);
@@ -114,7 +111,7 @@ public final class CombatContext implements AutoCloseable {
             context.externallyCancelled = true;
     }
 
-    /** Called at the first Hurt boundary; uses that stage's input (e.g. vanilla difficulty adjustment). */
+    /** 在首个 Hurt 边界调用，使用该阶段的输入值，包括原版难度调整。 */
     public float prepareHurt(float amount) {
         if (penetrating && !hurtEvaluated) {
             hurtEvaluated = true;
@@ -133,7 +130,7 @@ public final class CombatContext implements AutoCloseable {
     }
 
     private float protect(float external) {
-        // A zero approved by our own rules must remain zero, even if another mod increases it.
+        // 本模组规则判定为零的伤害必须保持为零，即使其他模组随后增大伤害。
         if (protectedDamage <= 0) return 0;
         return Float.isFinite(external) ? Math.max(external, protectedDamage) : protectedDamage;
     }

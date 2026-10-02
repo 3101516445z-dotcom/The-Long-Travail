@@ -121,7 +121,6 @@ public final class ReviewRegressionSmoke {
         check(root.getInt("Version") == 2, "new journey uses validated schema");
         var all = root.getCompound("Requirements");
         var aspect = all.getCompound(TravailAspect.FLOURISHING.id());
-        // Finishing legitimate requirements still works in version 2.
         List<ResourceLocation> biomes = ids(aspect.getList("Biomes", Tag.TAG_STRING));
         List<ResourceLocation> structures = ids(aspect.getList("Structures", Tag.TAG_STRING));
         biomes.forEach(id -> LongTravailData.visitBiome(recovered, id));

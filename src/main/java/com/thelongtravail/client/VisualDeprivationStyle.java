@@ -1,6 +1,5 @@
 package com.thelongtravail.client;
 
-/** Renderer-independent parameters, interpolated after configuration changes. */
 public record VisualDeprivationStyle(float darkening, float opacity, float radius, float softness,
                                      float distanceEnabled, float distanceStart, float distanceEnd,
                                      float pulsePeriod, float pulseDepth, float pulseRadius) {

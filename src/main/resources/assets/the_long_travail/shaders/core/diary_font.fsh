@@ -11,7 +11,6 @@ in float textX;
 out vec4 fragColor;
 
 vec3 nameColor() {
-    // Gold foil with moving engraved veins; one complete traversal every four seconds.
     float angle = fract(Seconds / 4.0) * 6.2831853;
     vec2 p = vec2(textX, gl_FragCoord.y * 0.5);
     float grain = 0.5 + 0.5 * sin(p.x * 1.7 + sin(p.y * 0.9) * 1.8);
@@ -55,7 +54,6 @@ void main() {
     float shadow = brightness < 0.35 ? 0.25 : 1.0;
     vec3 color;
     if (Material > 1.5) {
-        // A travelling light wave across a symmetric halo, leaving the main lettering still.
         float ripple = 0.5 + 0.5 * sin(textX * 0.48 - Seconds * 1.5707963);
         float swell = 0.5 + 0.5 * sin(Seconds * 1.0471976);
         alpha *= 0.55 + 0.30 * ripple + 0.15 * swell;
@@ -63,12 +61,12 @@ void main() {
     } else if (Material < 0.5) {
         color = nameColor();
     } else {
-        // Reset outside the text: the whole band enters and exits over ten seconds.
+        // 在文本范围之外重置光带，使其在十秒内完整移入再移出。
         float center = mix(-0.14, 1.14, fract(Seconds / 10.0));
         float sheen = 1.0 - smoothstep(0.025, 0.12, abs(textX / max(SweepWidth, 1.0) - center));
         vec3 ink = proseColor(Seconds / 8.0 - textX / 110.0);
         color = mix(ink, min(ink + vec3(0.07, 0.065, 0.05), vec3(1.0)), sheen);
     }
-    // Preserve the font renderer's shadow pass without tinting its material marker.
+    // 保留字体渲染器的阴影通道，避免将材质标记染色。
     fragColor = vec4(color * shadow * ColorModulator.rgb, alpha);
 }
