@@ -15,6 +15,11 @@ public final class VisualDeprivationClient {
     private static float phase, previousPhase;
 
     public static void accept(int remaining, int total) { accept(remaining, total, false); }
+    public static void progress(int remaining) {
+        var mc = Minecraft.getInstance();
+        if (mc.player != null && mc.player == owner && mc.level == level && mc.player.isAlive())
+            TIMELINE.progress(mc.player, remaining);
+    }
     public static void accept(int remaining, int total, boolean immediate) {
         var minecraft = Minecraft.getInstance();
         LocalPlayer player = minecraft.player;
@@ -34,7 +39,7 @@ public final class VisualDeprivationClient {
     public static void tick() {
         var mc = Minecraft.getInstance();
         if (mc.player == null || !mc.player.isAlive() || mc.level != level || mc.player != owner) { reset(); level = mc.level; owner = mc.player; return; }
-        if (mc.isPaused()) return;
+        if (mc.isPaused() || com.thelongtravail.boundless.TimeStopManager.frozen(mc.player)) return;
         TIMELINE.tick(mc.player); updateStyle();
         previousPhase = phase;
         if (target != null) phase += (float) (Math.PI * 2 / (Math.max(0.1F, style(0).pulsePeriod()) * 20));

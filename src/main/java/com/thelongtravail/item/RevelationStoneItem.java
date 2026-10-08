@@ -24,6 +24,12 @@ public final class RevelationStoneItem extends Item {
     }
 
     @Override
+    public Component getName(ItemStack stack) {
+        return super.getName(stack).copy().withStyle(style -> style
+                .withColor(0xC5AA77).withInsertion("the_long_travail:name"));
+    }
+
+    @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (player instanceof ServerPlayer serverPlayer) {
@@ -43,6 +49,7 @@ public final class RevelationStoneItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.the_long_travail.revelation_stone",
-                Component.translatable("aspect.the_long_travail." + aspect.id())));
+                Component.translatable("aspect.the_long_travail." + aspect.id()))
+                .withStyle(style -> style.withColor(0xBC995E)));
     }
 }

@@ -1,6 +1,7 @@
 package com.thelongtravail.network;
 
-/** 仅由服务端发往客户端，在状态变化时同步剩余和总持续刻数。 */
-public record VisualDeprivationPacket(int remaining, int total, boolean immediate) {
+// progress 区分进度确认与重新触发，避免每刻重启渐入。
+public record VisualDeprivationPacket(int remaining, int total, boolean immediate, boolean progress) {
+    public VisualDeprivationPacket(int remaining, int total, boolean immediate) { this(remaining, total, immediate, false); }
     public static java.util.function.Consumer<VisualDeprivationPacket> receiver = packet -> {};
 }

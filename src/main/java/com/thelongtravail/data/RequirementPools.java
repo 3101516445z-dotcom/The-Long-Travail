@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-/** 服务端线程快照；无效配置只诊断一次，不在每个玩家 tick 重复报告。 */
+// 服务端线程快照；无效配置只诊断一次，不在每个玩家 tick 重复报告。
 public final class RequirementPools {
     public enum Status { DISABLED, READY, INVALID }
     public record Pool(Status status, List<WeightedEntry> entries, int count) {
@@ -56,7 +56,7 @@ public final class RequirementPools {
         return snapshot;
     }
 
-    /** 空列表和零抽取次数表示主动禁用该类别；非空但无效的列表不属于禁用。 */
+    // 空列表和零抽取次数表示主动禁用该类别；非空但无效的列表不属于禁用。
     public static Pool validate(List<? extends String> configured, int count,
                                 Predicate<ResourceLocation> exists, Consumer<String> diagnostic) {
         if (count <= 0 || configured.isEmpty()) return new Pool(Status.DISABLED, List.of(), 0);

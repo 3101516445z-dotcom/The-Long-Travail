@@ -1,6 +1,6 @@
 package com.thelongtravail.data;
 
-/** 使用稳定相位分散周期任务，不改变执行频率，也不消耗游戏随机数。 */
+// 使用稳定相位分散周期任务，不改变执行频率，也不消耗游戏随机数。
 public final class PeriodicSchedule {
     public static final int FLUID = 0x3F97A251;
     public static final int FAR_REACH = 0x6B124EC7;

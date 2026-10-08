@@ -1,0 +1,24 @@
+{
+  "type": "the_long_travail:spring_crown",
+  "category": "equipment",
+  "flower": "allium",
+  "pattern": [
+    "WWW",
+    "SFS",
+    "W W"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:wheat"
+    },
+    "S": {
+      "item": "minecraft:string"
+    },
+    "F": {
+      "item": "minecraft:allium"
+    }
+  },
+  "result": {
+    "item": "the_long_travail:spring_game"
+  }
+}

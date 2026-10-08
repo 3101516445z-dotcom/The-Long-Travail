@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-/** 以模态阅读层绘制，原背包或容器仍为当前活动界面。 */
+// 以模态阅读层绘制，原背包或容器仍为当前活动界面。
 public final class TravelDiaryScreen extends Screen {
     private static final ResourceLocation BACKGROUND = texture("diary_base");
     private static final ResourceLocation BOOKMARK = texture("diary_bookmark");
@@ -28,8 +28,6 @@ public final class TravelDiaryScreen extends Screen {
     private static final int RIGHT_X = 302, RIGHT_WIDTH = 179, BODY_TOP = HEADER_RULE_Y + 21, BODY_BOTTOM = 300;
     private static final int LINE_HEIGHT = 15, VISIBLE_LINES = (BODY_BOTTOM - BODY_TOP) / LINE_HEIGHT;
     private static final int INK = 0xFF493626, MUTED_INK = 0xFF80664C;
-    private static final int[] COLORS = {0x487846, 0x397F8A, 0xB78732, 0x7A8085, 0xA14A3E, 0x805091};
-    private static final int[] TEXT_COLORS = {0x355B32, 0x285C65, 0x805B22, 0x50565C, 0x81352D, 0x654073};
     private static TravailAspect lastSelected = TravailAspect.FLOURISHING;
 
     private final Supplier<ItemStack> source;
@@ -47,6 +45,7 @@ public final class TravelDiaryScreen extends Screen {
     private LayoutKey proseKey, contentKey;
     private List<FormattedCharSequence> cachedProse = List.of();
     private List<Float> cachedOffsets = List.of();
+    private float cachedProseScale = 1.2F;
     private List<Float> cachedCenters = List.of();
     private List<PageLine> cachedContent = List.of();
     private LongTravailData.RequirementIdentity cachedRequirements;
@@ -105,7 +104,7 @@ public final class TravelDiaryScreen extends Screen {
             bookmarkExtensions[index] = BookmarkAnimation.approach(bookmarkExtensions[index], target, elapsed);
             float x = 14 - bookmarkExtensions[index];
             int y = bookmarkY(index);
-            int color = COLORS[index];
+            int color = com.thelongtravail.AspectTheme.forAspect(TravailAspect.values()[index]).bookAccent;
             graphics.setColor(((color >> 16) & 255) / 255F, ((color >> 8) & 255) / 255F, (color & 255) / 255F, 1);
             // 仅采样布纹区域，保留生成素材的透明边距。
             graphics.pose().pushPose();
@@ -196,17 +195,34 @@ public final class TravelDiaryScreen extends Screen {
             List<FormattedCharSequence> proseLines = new ArrayList<>();
             List<Float> lineOffsets = new ArrayList<>();
             float nextLineY = 0;
-            for (String line : DiaryPageProse.text(selected, completed()).split("\n")) {
-                if (line.isBlank()) {
-                    nextLineY += 10; // 诗节间距，额外叠加在普通行距之上。
-                    continue;
+            String[] paragraphs = DiaryPageProse.text(selected, completed()).split("\n");
+            float availableHeight = 310 - (HEADER_RULE_Y + 12 + inkHeight * aspectScale) - 6;
+            // 长译文先缩小并重新换行，避免仅挤压行距造成字形重叠。
+            for (int step = 0; step <= 8; step++) {
+                proseScale = 1.2F - step * 0.05F;
+                proseLines.clear();
+                lineOffsets.clear();
+                nextLineY = 0;
+                for (String line : paragraphs) {
+                    if (line.isBlank()) {
+                        nextLineY += 10;
+                        continue;
+                    }
+                    for (var wrapped : font.split(Component.literal(line), (int) (164 / proseScale))) {
+                        proseLines.add(wrapped);
+                        lineOffsets.add(nextLineY);
+                        nextLineY += 15;
+                    }
                 }
-                for (var wrapped : font.split(Component.literal(line), (int) (164 / proseScale))) {
-                    proseLines.add(wrapped);
-                    lineOffsets.add(nextLineY);
-                    nextLineY += 15;
-                }
+                float last = lineOffsets.isEmpty() ? 0 : lineOffsets.get(lineOffsets.size() - 1);
+                float fit = Math.min(1F, (availableHeight - inkHeight * proseScale) / Math.max(1F, last));
+                if (15 * fit >= (font.lineHeight + 1) * proseScale) break;
             }
+            if (proseLines.isEmpty()) {
+                proseLines.add(FormattedCharSequence.EMPTY);
+                lineOffsets.add(0F);
+            }
+            cachedProseScale = proseScale;
             List<Float> centers = new ArrayList<>();
             for (var line : proseLines) {
                 StringBuilder text = new StringBuilder();
@@ -221,6 +237,7 @@ public final class TravelDiaryScreen extends Screen {
             proseKey = currentProseKey;
         }
         List<FormattedCharSequence> proseLines = cachedProse;
+        proseScale = cachedProseScale;
         List<Float> lineOffsets = cachedOffsets;
         // 副标题跨页固定，仅将其下方正文居中。
         float headingY = HEADER_RULE_Y + 12;
@@ -230,7 +247,7 @@ public final class TravelDiaryScreen extends Screen {
         float spacingFactor = Math.min(1F, (areaBottom - areaTop
                 - inkHeight * proseScale) / Math.max(1F, lastOffset));
         float proseHeight = lastOffset * spacingFactor + inkHeight * proseScale;
-        drawScaledCentered(graphics, aspectName, 169, headingY, aspectScale, 0xFF000000 | TEXT_COLORS[selected.ordinal()]);
+        drawScaledCentered(graphics, aspectName, 169, headingY, aspectScale, 0xFF000000 | com.thelongtravail.AspectTheme.forAspect(selected).bookInk);
         // 略微上移视觉中心，为纸张底部纹理留出空间。
         float proseY = (areaTop + areaBottom - proseHeight) / 2F - 3F;
         graphics.pose().pushPose();
@@ -285,6 +302,9 @@ public final class TravelDiaryScreen extends Screen {
             append(lines, Component.translatable("tooltip.the_long_travail.revelation.hidden"), MUTED_INK);
         } else if (!LongTravailData.isInitialized(diary)) {
             append(lines, Component.translatable("tooltip.the_long_travail.revelation.not_started"), MUTED_INK);
+        } else if (selected == TravailAspect.UNDERWORLD && diary.hasTag()
+                && diary.getTag().getCompound("LongTravail").getBoolean("UnderworldBookWitness") && completed()) {
+            append(lines, Component.translatable("gui.the_long_travail.diary.book_witness"), INK);
         } else {
             appendGroup(lines, false, "biomes");
             lines.add(new PageLine(FormattedCharSequence.EMPTY, INK));

@@ -4,9 +4,9 @@ import net.minecraft.network.FriendlyByteBuf;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-/** 分配内存和发送前均检查固定的协议限制。 */
+// 分配内存和发送前均检查固定的协议限制。
 public final class TooltipConfigCodec {
-    public static final int MAX_VALUES = 128, MAX_POOLS = 32, MAX_ENTRIES = 2048,
+    public static final int MAX_VALUES = 512, MAX_POOLS = 32, MAX_ENTRIES = 2048,
             MAX_TOTAL_ENTRIES = 8192, MAX_KEY = 128, MAX_ENTRY = 1024, MAX_BYTES = 1_048_576;
     public record Snapshot(Map<String, Double> values, Map<String, List<String>> pools) {
         public Snapshot {

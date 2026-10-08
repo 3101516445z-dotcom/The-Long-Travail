@@ -1,0 +1,220 @@
+{
+  "minecraft:chests/abandoned_mineshaft": {
+    "chance": 0.035,
+    "items": [
+      "the_long_travail:azrael|5|1|1",
+      "the_long_travail:sword_and_lantern|2|1|1"
+    ]
+  },
+  "minecraft:chests/ancient_city": {
+    "chance": 0.085,
+    "items": [
+      "the_long_travail:a_thousand_years_later|6|1|1",
+      "the_long_travail:azrael|5|1|1",
+      "the_long_travail:sword_and_lantern|6|1|1"
+    ]
+  },
+  "minecraft:chests/bastion_bridge": {
+    "chance": 0.025,
+    "items": [
+      "the_long_travail:golden_age|1|1|1"
+    ]
+  },
+  "minecraft:chests/bastion_hoglin_stable": {
+    "chance": 0.025,
+    "items": [
+      "the_long_travail:golden_age|1|1|1"
+    ]
+  },
+  "minecraft:chests/bastion_other": {
+    "chance": 0.025,
+    "items": [
+      "the_long_travail:golden_age|1|1|1"
+    ]
+  },
+  "minecraft:chests/bastion_treasure": {
+    "chance": 0.025,
+    "items": [
+      "the_long_travail:golden_age|1|1|1"
+    ]
+  },
+  "minecraft:chests/buried_treasure": {
+    "chance": 0.15,
+    "items": [
+      "the_long_travail:eki|1|1|1",
+      "the_long_travail:tokaido|1|1|1"
+    ]
+  },
+  "minecraft:chests/desert_pyramid": {
+    "chance": 0.05,
+    "items": [
+      "the_long_travail:book_of_the_dead|2|1|1",
+      "the_long_travail:icarus|3|1|1"
+    ]
+  },
+  "minecraft:chests/end_city_treasure": {
+    "chance": 0.2,
+    "items": [
+      "the_long_travail:icarus|1|1|1",
+      "the_long_travail:daydream|2|1|1",
+      "the_long_travail:star_voice|1|1|1"
+    ]
+  },
+  "minecraft:chests/jungle_temple": {
+    "chance": 0.05,
+    "items": [
+      "the_long_travail:affection|1|1|1"
+    ]
+  },
+  "minecraft:chests/nether_bridge": {
+    "chance": 0.045,
+    "items": [
+      "the_long_travail:a_thousand_years_later|4|1|1",
+      "the_long_travail:golden_age|5|1|1"
+    ]
+  },
+  "minecraft:chests/stronghold_corridor": {
+    "chance": 0.145,
+    "items": [
+      "the_long_travail:azrael|5|1|1",
+      "the_long_travail:daydream|20|1|1",
+      "the_long_travail:star_voice|4|1|1"
+    ]
+  },
+  "minecraft:chests/stronghold_crossing": {
+    "chance": 0.145,
+    "items": [
+      "the_long_travail:azrael|5|1|1",
+      "the_long_travail:daydream|20|1|1",
+      "the_long_travail:star_voice|4|1|1"
+    ]
+  },
+  "minecraft:chests/stronghold_library": {
+    "chance": 0.175,
+    "items": [
+      "the_long_travail:book_of_the_dead|6|1|1",
+      "the_long_travail:azrael|5|1|1",
+      "the_long_travail:daydream|20|1|1",
+      "the_long_travail:star_voice|4|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_armorer": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|1|1|1",
+      "the_long_travail:daydream|1|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_butcher": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|1|1|1",
+      "the_long_travail:daydream|1|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_cartographer": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|1|1|1",
+      "the_long_travail:daydream|1|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_desert_house": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|1|1|1",
+      "the_long_travail:daydream|1|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_fisher": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|1|1|1",
+      "the_long_travail:daydream|1|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_fletcher": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|1|1|1",
+      "the_long_travail:daydream|1|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_mason": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|1|1|1",
+      "the_long_travail:daydream|1|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_plains_house": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|1|1|1",
+      "the_long_travail:daydream|1|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_savanna_house": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|1|1|1",
+      "the_long_travail:daydream|1|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_shepherd": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|1|1|1",
+      "the_long_travail:daydream|1|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_snowy_house": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|1|1|1",
+      "the_long_travail:daydream|1|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_taiga_house": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|1|1|1",
+      "the_long_travail:daydream|1|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_tannery": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|1|1|1",
+      "the_long_travail:daydream|1|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_temple": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|1|1|1",
+      "the_long_travail:daydream|1|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_toolsmith": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|1|1|1",
+      "the_long_travail:daydream|1|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_weaponsmith": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|1|1|1",
+      "the_long_travail:daydream|1|1|1"
+    ]
+  },
+  "minecraft:gameplay/fishing": {
+    "chance": 0.05,
+    "items": [
+      "the_long_travail:eki|1|1|1",
+      "the_long_travail:tokaido|1|1|1"
+    ]
+  }
+}

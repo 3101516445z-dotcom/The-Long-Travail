@@ -15,7 +15,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.phys.Vec3;
 import java.util.ArrayDeque;
 
-/** 所有维度共用由主世界保存的持久化队列，不主动加载目标区块。 */
+// 所有维度共用由主世界保存的持久化队列，不主动加载目标区块。
 public final class RewardDelivery extends SavedData {
     private static final String NAME = "the_long_travail_rewards";
     private final ArrayDeque<Job> jobs = new ArrayDeque<>();
@@ -35,7 +35,7 @@ public final class RewardDelivery extends SavedData {
     public static RewardDelivery get(MinecraftServer server) {
         return server.overworld().getDataStorage().computeIfAbsent(RewardDelivery::load, RewardDelivery::new, NAME);
     }
-    /** 造成伤害前预留名额，防止嵌套死亡监听器抢占。 */
+    // 造成伤害前预留名额，防止嵌套死亡监听器抢占。
     public Reservation reserve() {
         if (jobs.size() + reserved >= TravailConfig.REWARD_QUEUE_CAPACITY.get()) return null;
         reserved++;

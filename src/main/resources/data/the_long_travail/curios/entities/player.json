@@ -1,4 +1,16 @@
 {
-  "entities": ["player"],
-  "slots": ["travel_diary"]
+  "entities": [
+    "player"
+  ],
+  "slots": [
+    "charm",
+    "back",
+    "travel_diary",
+    "feet",
+    "head",
+    "body",
+    "necklace",
+    "belt",
+    "ring"
+  ]
 }

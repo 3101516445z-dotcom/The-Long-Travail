@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-/** 服务端线程缓存，在注册表可用后及配置重载后重建。 */
+// 服务端线程缓存，在注册表可用后及配置重载后重建。
 public final class RuntimePools {
     public record Snapshot(WeightedTable<EffectEntry> far, WeightedTable<EffectEntry> valley,
                            WeightedTable<RewardEntry> fish, WeightedTable<RewardEntry> phantom,
@@ -34,6 +34,7 @@ public final class RuntimePools {
                 new WeightedTable<>(parse(TravailConfig.FISH_ENTITIES.get(), WeightedEntry::parse,
                         e -> ForgeRegistries.ENTITY_TYPES.containsKey(e.id()), WeightedEntry::id), WeightedEntry::weight), Map.copyOf(levels), levelBonusBlacklist());
         JourneyQueries.clear();
+        WayguideSearch.clear();
     }
     private static Set<ResourceLocation> levelBonusBlacklist() {
         Set<ResourceLocation> result = new HashSet<>();

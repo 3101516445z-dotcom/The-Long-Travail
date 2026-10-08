@@ -2,7 +2,7 @@ package com.thelongtravail.data;
 import java.util.*;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.*;
-/** 移除失败的效果轮转至下一轮，避免独占额度。 */
+// 移除失败的效果轮转至下一轮，避免独占额度。
 public final class CleanseRotation {
     private static final Map<ServerPlayer, ArrayDeque<MobEffect>> QUEUES = new WeakHashMap<>();
     public static void forget(ServerPlayer player) { QUEUES.remove(player); }

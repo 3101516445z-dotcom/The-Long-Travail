@@ -6,7 +6,7 @@ import net.minecraft.server.level.ServerPlayer;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-/** 额度仅由穷遐净化、效果赋予和幽谷攻击侧的见证效果赋予共用。 */
+// 额度仅由穷遐净化、效果赋予和幽谷攻击侧的见证效果赋予共用。
 public final class AutomaticEffectBudget {
     private static final Map<ServerPlayer, EffectActionWindow> WINDOWS = new WeakHashMap<>();
     public static boolean acquire(ServerPlayer player) {

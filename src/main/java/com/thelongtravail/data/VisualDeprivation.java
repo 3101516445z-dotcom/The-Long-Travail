@@ -26,7 +26,7 @@ public final class VisualDeprivation {
         data.putLong(TOTAL, ticks);
         TravailNetwork.sendVisualDeprivation(player, ticks, ticks);
         MobEffect effect = ModRegistry.VISUAL_DEPRIVATION.get();
-        // 每次刷新显示实例以覆盖完整持续期；原版会保留现有实例并延长持续时间。
+        // 每次刷新用于显示的效果以覆盖完整持续时间，原版会保留现有实例并延长持续时间。
         EffectChanges.add(player, new MobEffectInstance(effect, ticks));
         com.thelongtravail.TheLongTravail.LOGGER.debug(
                 "Visual deprivation started for {} ({} ticks, effect applied: {})",
@@ -42,7 +42,7 @@ public final class VisualDeprivation {
         if (player.hasEffect(effect)) EffectChanges.remove(player, effect, false);
         // 显式清除时，即使服务端标签已不存在，也要修正客户端残留状态。
         TravailNetwork.sendVisualDeprivation(player, 0, 0, switch (reason) {
-            case DEATH, RESPAWN, DIMENSION_CHANGE, DIARY_RESET, NO_ACTIVE_STATE -> true;
+            case EXPIRED, DEATH, RESPAWN, DIMENSION_CHANGE, DIARY_RESET, NO_ACTIVE_STATE -> true;
             default -> false;
         });
         if (had) {
@@ -51,7 +51,7 @@ public final class VisualDeprivation {
         }
     }
 
-    /** 仅清理存储；调用方应使用 clear，同时清理显示实例并同步客户端。 */
+    // 仅清理存储；调用方应使用 clear，同时清理显示实例并同步客户端。
     private static void forget(ServerPlayer player) {
         CompoundTag data = player.getPersistentData();
         data.remove(UNTIL);
@@ -66,10 +66,13 @@ public final class VisualDeprivation {
     }
 
     public static void tick(ServerPlayer player) {
-        if (player.getPersistentData().contains(UNTIL) && remaining(player) == 0) clear(player, ClearReason.EXPIRED);
+        if (!player.getPersistentData().contains(UNTIL)) return;
+        int left = remaining(player);
+        if (left == 0) clear(player, ClearReason.EXPIRED);
+        else TravailNetwork.sendVisualProgress(player, left);
     }
 
-    /** 重新向刚加入的客户端同步尚未结束的状态，保证重登后视觉效果持续。 */
+    // 重新向刚加入的客户端同步尚未结束的状态，保证重新登录后视觉效果仍持续。
     public static void resend(ServerPlayer player) {
         CompoundTag data = player.getPersistentData();
         int left = remaining(player);
@@ -81,5 +84,10 @@ public final class VisualDeprivation {
         TravailNetwork.sendVisualDeprivation(player, left, Math.max(left, total));
     }
 
+    // 时停期间推迟权威截止时间，与冻结的显示效果保持一致。
+    public static void pause(ServerPlayer player) {
+        var data = player.getPersistentData();
+        if (data.contains(UNTIL)) data.putLong(UNTIL, data.getLong(UNTIL) + 1);
+    }
     private VisualDeprivation() {}
 }

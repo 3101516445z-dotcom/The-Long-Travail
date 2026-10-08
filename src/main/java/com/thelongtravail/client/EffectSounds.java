@@ -1,5 +1,6 @@
 package com.thelongtravail.client;
 import com.thelongtravail.TheLongTravail;
+import com.thelongtravail.mixin.ConfiguredSoundInvoker;
 import com.thelongtravail.config.TravailConfig;
 import com.thelongtravail.data.WitnessSoundRule;
 import com.thelongtravail.network.EffectNotice;
@@ -8,13 +9,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import java.util.*;
-/** 由客户端初始化加载；通用网络包类不得引用此客户端适配器。 */
+// 由客户端初始化加载；通用网络包类不得引用此客户端适配器。
 public final class EffectSounds {
     private static final EffectSoundPolicy POLICY = new EffectSoundPolicy(EffectSounds::count);
     private static final Map<String, Integer> COUNTS = new LinkedHashMap<>();
     private static Object owner, level;
     private static int diagnosticTicks;
-    private static java.lang.reflect.Method playMethod;
     public static void clear() { POLICY.clear(); COUNTS.clear(); diagnosticTicks = 0; owner = null; level = null; }
     private static boolean syncOwner() {
         var client = Minecraft.getInstance();
@@ -42,8 +42,8 @@ public final class EffectSounds {
         if (COUNTS.size() >= 256 && !COUNTS.containsKey(key)) key = "other";
         COUNTS.merge(key, 1, Integer::sum);
     }
-    public static void notification(ResourceLocation id, boolean gain, Object configuredSound) {
-        if (!Boolean.getBoolean("the_long_travail.soundsAdapterVerified") || !syncOwner() || id == null) { play(configuredSound); return; }
+    public static void notification(ResourceLocation id, boolean gain, ConfiguredSoundInvoker configuredSound) {
+        if (!Boolean.getBoolean("the_long_travail.soundsAdapterVerified") || !syncOwner() || id == null) { configuredSound.travail$playSound(); return; }
         // 在实际播放时过滤，包括队列溢出路径。延迟通知须读取当前装备和同步配置，
         // 不能使用两刻前捕获的过期状态。
         POLICY.notification(id.toString(), gain, () -> {
@@ -54,17 +54,9 @@ public final class EffectSounds {
                 count("quiet-witness-beneficial-gain", id.toString());
                 return false;
             }
-            play(configuredSound);
+            configuredSound.travail$playSound();
             return true;
         });
-    }
-    private static void play(Object sound) {
-        try {
-            if (playMethod == null || !playMethod.getDeclaringClass().isInstance(sound)) playMethod = sound.getClass().getMethod("playSound");
-            playMethod.invoke(sound);
-        } catch (ReflectiveOperationException error) {
-            throw new IllegalStateException("Sounds playSound compatibility failed", error);
-        }
     }
     private EffectSounds() {}
 }

@@ -21,12 +21,32 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public final class TravailNetwork {
-    private static final String PROTOCOL = "8";
+    private static final String PROTOCOL = "15";
     private static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(TheLongTravail.MODID, "main"),
             () -> PROTOCOL, PROTOCOL::equals, PROTOCOL::equals);
 
     public static void register() {
+        CHANNEL.registerMessage(13, UnderworldPacket.class, UnderworldPacket::encode, UnderworldPacket::decode, UnderworldPacket::handle, java.util.Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(15, BoundlessPacket.Message.class, BoundlessPacket.Message::encode, BoundlessPacket.Message::decode, BoundlessPacket.Message::handle, java.util.Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(14, UnderworldPacket.Request.class, UnderworldPacket.Request::encode, UnderworldPacket.Request::decode, UnderworldPacket.Request::handle, java.util.Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(12, LanternPacket.class, LanternPacket::encode, LanternPacket::decode, LanternPacket::handle, java.util.Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(9, BoundlessPacket.Cast.class, BoundlessPacket.Cast::encode, BoundlessPacket.Cast::decode, BoundlessPacket.Cast::handle, java.util.Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(10, BoundlessPacket.class, BoundlessPacket::encode, BoundlessPacket::decode, BoundlessPacket::handle, java.util.Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(11, TimeStopPacket.class, TimeStopPacket::encode, TimeStopPacket::decode, TimeStopPacket::handle, java.util.Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(8, StiffPacket.class,
+                (packet, buffer) -> buffer.writeVarInt(packet.remaining()),
+                buffer -> new StiffPacket(buffer.readVarInt()), (packet, supplier) -> {
+                    var context = supplier.get();
+                    context.enqueueWork(() -> StiffPacket.receiver.accept(packet));
+                    context.setPacketHandled(true);
+                }, java.util.Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(5, RainPacket.class, RainPacket::encode, RainPacket::decode, RainPacket::handle,
+                java.util.Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(6, RainCastPacket.class, RainCastPacket::encode, RainCastPacket::decode, RainCastPacket::handle,
+                java.util.Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(7, RainMessagePacket.class, RainMessagePacket::encode, RainMessagePacket::decode, RainMessagePacket::handle,
+                java.util.Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(0, TooltipConfigPacket.class,
                 TooltipConfigPacket::encode, TooltipConfigPacket::decode, TooltipConfigPacket::handle,
                 java.util.Optional.of(NetworkDirection.PLAY_TO_CLIENT));
@@ -49,13 +69,32 @@ public final class TravailNetwork {
                     context.setPacketHandled(true);
                 }, java.util.Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(4, VisualDeprivationPacket.class,
-                (packet, buffer) -> { buffer.writeVarInt(packet.remaining()); buffer.writeVarInt(packet.total()); buffer.writeBoolean(packet.immediate()); },
-                buffer -> new VisualDeprivationPacket(buffer.readVarInt(), buffer.readVarInt(), buffer.readBoolean()),
+                (packet, buffer) -> { buffer.writeVarInt(packet.remaining()); buffer.writeVarInt(packet.total()); buffer.writeBoolean(packet.immediate()); buffer.writeBoolean(packet.progress()); },
+                buffer -> new VisualDeprivationPacket(buffer.readVarInt(), buffer.readVarInt(), buffer.readBoolean(), buffer.readBoolean()),
                 (packet, supplier) -> {
                     var context = supplier.get();
                     context.enqueueWork(() -> VisualDeprivationPacket.receiver.accept(packet));
                     context.setPacketHandled(true);
                 }, java.util.Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+    }
+
+    public static void sendUnderworld(ServerPlayer p, UnderworldPacket packet) { CHANNEL.send(PacketDistributor.PLAYER.with(() -> p), packet); }
+    public static void requestUnderworld(UnderworldPacket.Request packet) { CHANNEL.sendToServer(packet); }
+
+    public static void sendLantern(ServerPlayer source, LanternPacket packet) {
+        if(source.connection != null) CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> source), packet);
+    }
+    public static void sendLanternTo(ServerPlayer viewer, LanternPacket packet) {
+        if(viewer.connection != null) CHANNEL.send(PacketDistributor.PLAYER.with(() -> viewer), packet);
+    }
+    public static void sendStiff(ServerPlayer player, int remaining) {
+        if (player.connection != null)
+            CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new StiffPacket(remaining));
+    }
+
+    public static void sendVisualProgress(ServerPlayer player, int remaining) {
+        if (player.connection != null)
+            CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new VisualDeprivationPacket(remaining, 0, false, true));
     }
 
     public static void sendVisualDeprivation(ServerPlayer player, int remaining, int total) {
@@ -106,11 +145,19 @@ public final class TravailNetwork {
     }
 
     public static void onConfigReloading(ModConfigEvent.Reloading event) {
-        if (event.getConfig().getSpec() != TravailConfig.SPEC) return;
+        if (!com.thelongtravail.config.ConfigFiles.isCommonSpec(event.getConfig().getSpec())) return;
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         if (server != null) server.execute(() -> {
             if (server.isStopped()) return;
             com.thelongtravail.data.RuntimePools.reload();
+            com.thelongtravail.farreach.GoldenAgeActions.reload();
+            com.thelongtravail.flourishing.Affection.resetAll();
+            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+                // 禁用花朵后重新计算已打开的合成结果，避免旧结果仍可取出。
+                player.inventoryMenu.slotsChanged(player.getInventory());
+                if (player.containerMenu != player.inventoryMenu) player.containerMenu.slotsChanged(player.getInventory());
+            }
+            com.thelongtravail.abyss.RainEvents.configReloaded(server);
             TooltipConfigPacket snapshot = tooltipSnapshot();
             if (snapshot == null) return;
             server.getPlayerList().getPlayers().forEach(player ->
@@ -138,5 +185,12 @@ public final class TravailNetwork {
         }
     }
 
+    public static void sendRain(ServerPlayer player, RainPacket packet) { CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), packet); }
+    public static void sendRainMessage(ServerPlayer player, RainMessagePacket packet) { CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), packet); }
+    public static void requestRain() { CHANNEL.sendToServer(new RainCastPacket()); }
+    public static void sendDreamMessage(ServerPlayer player, String key) { CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new BoundlessPacket.Message("message.the_long_travail.dream." + key)); }
+    public static void requestDream() { CHANNEL.sendToServer(new BoundlessPacket.Cast()); }
+    public static void sendBoundless(ServerPlayer p, BoundlessPacket packet) { if (p.connection != null) CHANNEL.send(PacketDistributor.PLAYER.with(() -> p), packet); }
+    public static void sendTimeStop(ServerPlayer p, TimeStopPacket packet) { if (p.connection != null) CHANNEL.send(PacketDistributor.PLAYER.with(() -> p), packet); }
     private TravailNetwork() {}
 }

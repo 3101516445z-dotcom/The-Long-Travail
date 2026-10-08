@@ -98,7 +98,6 @@ public class LongTravailItem extends Item implements ICurioItem {
 
     @Override
     public List<Component> getSlotsTooltip(List<Component> tooltip, ItemStack stack) {
-        // 槽位标签由本模组显式绘制在正文上方。
         return List.of();
     }
 
@@ -119,11 +118,13 @@ public class LongTravailItem extends Item implements ICurioItem {
                 .withStyle(ChatFormatting.GOLD));
         tooltip.add(Component.empty());
         for (int index = 0; index < 12; index++)
-            tooltip.add(Component.translatable("tooltip.the_long_travail.dialogue." + index, Component.literal("旅人"))
+            tooltip.add(Component.translatable("tooltip.the_long_travail.dialogue." + index, Component.translatable("text.the_long_travail.traveler"))
                     .withStyle(style -> style.withColor(0xBC995E)));
         tooltip.add(Component.empty());
         tooltip.add(Component.translatable("tooltip.the_long_travail.open_diary",
-                Component.keybind("key.the_long_travail.open_diary")).withStyle(ChatFormatting.DARK_GRAY));
+                Component.keybind("key.the_long_travail.open_diary")
+                        .withStyle(style -> style.withColor(com.thelongtravail.abyss.RainTooltips.ACCENT_COLOR)))
+                .withStyle(style -> style.withColor(com.thelongtravail.abyss.RainTooltips.BODY_COLOR)));
     }
 
     public static Component flourishingProgress() {

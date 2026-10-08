@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": ["LDL", "DSD", "LDL"],
+  "key": {
+    "L": { "item": "minecraft:lapis_lazuli" },
+    "D": { "item": "minecraft:diamond" },
+    "S": { "item": "minecraft:nether_star" }
+  },
+  "result": { "item": "the_long_travail:wayguide", "count": 1 }
+}

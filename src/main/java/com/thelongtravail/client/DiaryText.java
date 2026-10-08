@@ -5,7 +5,7 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.FormattedCharSink;
 import java.util.ArrayList;
 
-/** 仅移除材质标记，保留文本视觉顺序、索引和样式。 */
+// 仅移除材质标记，保留文本视觉顺序、索引和样式。
 public final class DiaryText {
     public interface Unmarked extends FormattedCharSequence {}
 
@@ -14,7 +14,11 @@ public final class DiaryText {
                 sink.accept(index, style.withInsertion(null), codePoint));
     }
 
-    /** 名称需要绘制 17 遍，源文本遍历和样式转换只执行一次。 */
+    public static FormattedCharSequence forDraw(FormattedCharSequence text, boolean repeated) {
+        return repeated ? prepare(text) : lazyUnmarked(text);
+    }
+
+    // 多遍光晕共享源文本遍历和样式转换；单遍绘制保持延迟处理。
     public static FormattedCharSequence prepare(FormattedCharSequence text) {
         var glyphs = new ArrayList<Glyph>();
         text.accept(new FormattedCharSink() {

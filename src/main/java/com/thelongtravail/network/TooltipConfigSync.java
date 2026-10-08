@@ -28,6 +28,8 @@ public final class TooltipConfigSync {
         return clientValues.getOrDefault(key, fallback);
     }
 
+    public static List<? extends String> pool(String key, List<? extends String> fallback) { return clientPools.containsKey(key) ? clientPools.get(key) : fallback; }
+
     public static int integer(String key, int fallback) {
         return clientValues.containsKey(key) ? clientValues.get(key).intValue() : fallback;
     }
@@ -41,7 +43,7 @@ public final class TooltipConfigSync {
 
     public static String requirementDisplayName(TravailAspect aspect, boolean structures, ResourceLocation id) {
         String key = aspect.id() + "." + (structures ? "structures" : "biomes");
-        return displayNames.computeIfAbsent(key, unused -> {
+        String configuredName = displayNames.computeIfAbsent(key, unused -> {
             List<? extends String> configured = clientPools.containsKey(key) ? clientPools.get(key)
                     : (structures ? TravailConfig.STRUCTURE_POOLS : TravailConfig.BIOME_POOLS).get(aspect).get();
             Map<ResourceLocation, String> names = new LinkedHashMap<>();
@@ -51,10 +53,23 @@ public final class TooltipConfigSync {
             }
             return Map.copyOf(names);
         }).getOrDefault(id, id.toString());
+        // 缓存原始配置名，翻译在读取时进行，避免切换语言后残留旧文本。
+        return com.thelongtravail.data.RequirementNames.resolve(structures, id, configuredName);
     }
 
     static Map<String, Double> serverValues() {
         Map<String, Double> values = new LinkedHashMap<>();
+        values.put("underworldItem.wither", com.thelongtravail.config.UnderworldItemsConfig.WITHER_BONUS.get());
+        values.put("underworldItem.kill", com.thelongtravail.config.UnderworldItemsConfig.KILL_THRESHOLD.get());
+        values.put("underworldItem.protection", (double)com.thelongtravail.config.UnderworldItemsConfig.PROTECTION.get());
+        values.put("swordLantern.memory", com.thelongtravail.valley.SwordLanternConfig.MEMORY.get());
+        values.put("swordLantern.timeout", com.thelongtravail.valley.SwordLanternConfig.TIMEOUT.get());
+        values.put("swordLantern.duration", com.thelongtravail.valley.SwordLanternConfig.DURATION.get());
+        values.put("swordLantern.bonus", com.thelongtravail.valley.SwordLanternConfig.BONUS.get());
+        values.put("swordLantern.health", com.thelongtravail.valley.SwordLanternConfig.HEALTH.get());
+        values.put("farItem.icarus.igniteSeconds", (double)com.thelongtravail.config.FarReachItemsConfig.IGNITE_SECONDS.get());
+        com.thelongtravail.config.FarReachItemsConfig.NUMBERS.forEach((k,v)->values.put("farItem."+k,v.get()));
+        com.thelongtravail.config.BoundlessItemsConfig.NUMBERS.forEach((k, v) -> values.put("boundlessItem." + k, v.get()));
         put(values, "general.muteBeneficialEffectGainSounds", TravailConfig.MUTE_BENEFICIAL_EFFECT_GAIN_SOUNDS.get() ? 1 : 0);
         put(values, "flourishing.healingReduction", TravailConfig.FLOURISHING_HEALING_REDUCTION.get());
         put(values, "flourishing.healthThreshold", TravailConfig.FLOURISHING_HEALTH_THRESHOLD.get());
@@ -108,6 +123,12 @@ public final class TooltipConfigSync {
         put(values, "boundless.extraSlots", TravailConfig.BOUNDLESS_EXTRA_CURIO_SLOTS.get());
         put(values, "boundless.phantomRange", TravailConfig.PHANTOM_RANGE.get());
         put(values, "boundless.phantomInterval", TravailConfig.PHANTOM_CHECK_INTERVAL_SECONDS.get());
+        com.thelongtravail.config.FlourishingItemsConfig.NUMBERS.forEach((k,v)->values.put("floral."+k,v.get()));
+        com.thelongtravail.config.FlourishingItemsConfig.ENABLED.forEach((k,v)->values.put("floral.enabled."+k.id,v.get()?1D:0D));
+        values.put("floral.sharing",com.thelongtravail.config.FlourishingItemsConfig.SHARING.get()?1D:0D);
+        values.put("azrael.malice", com.thelongtravail.config.AzraelConfig.MALICE.get());
+        values.put("azrael.target", com.thelongtravail.config.AzraelConfig.targetChance());
+        values.put("azrael.self", com.thelongtravail.config.AzraelConfig.selfChance());
         return values;
     }
 
@@ -117,6 +138,8 @@ public final class TooltipConfigSync {
             pools.put(aspect.id() + ".biomes", List.copyOf(TravailConfig.BIOME_POOLS.get(aspect).get()));
             pools.put(aspect.id() + ".structures", List.copyOf(TravailConfig.STRUCTURE_POOLS.get(aspect).get()));
         }
+        pools.put("floral.springSlots", List.copyOf(com.thelongtravail.config.FlourishingItemsConfig.SPRING_SLOTS.get()));
+        pools.put("floral.affectionSlots", List.copyOf(com.thelongtravail.config.FlourishingItemsConfig.AFFECTION_SLOTS.get()));
         return pools;
     }
 

@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.*;
 import net.minecraftforge.registries.ForgeRegistries;
 import java.util.*;
-/** 状态归服务端线程管理；外部添加或移除效果时放弃对该效果的所有权。 */
+// 状态归服务端线程管理；外部添加或移除效果时放弃对该效果的所有权。
 public final class EffectChanges {
     private static final Map<ServerPlayer, Map<MobEffect, MobEffectInstance>> OWNED = new WeakHashMap<>();
     private static final Map<ServerPlayer, Diagnostic> DIAGNOSTICS = new WeakHashMap<>();
@@ -62,7 +62,7 @@ public final class EffectChanges {
         }
         return gone;
     }
-    /** 先直接移除一次，失败则将剩余时间设为一刻，不循环重试。 */
+    // 先直接移除一次，失败则将剩余时间设为一刻，不循环重试。
     private static boolean forceRemove(ServerPlayer player, MobEffect effect) {
         if (!player.hasEffect(effect)) return false;
         MobEffectInstance removed = player.removeEffectNoUpdate(effect);

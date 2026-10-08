@@ -1,6 +1,6 @@
 package com.thelongtravail.data;
 
-/** 滚动窗口为 20 个游戏刻；失败尝试也计入额度，未用额度不累积。 */
+// 滚动窗口为 20 个游戏刻；失败尝试也计入额度，未用额度不累积。
 public final class EffectActionWindow {
     private final int[] counts = new int[20];
     private long previous;

@@ -16,7 +16,7 @@ import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 public final class TravailCurios {
     private static final UUID EXTRA_CURIO_SLOTS = UUID.fromString("b241372a-b39e-479d-b497-f46f92ee55fa");
 
-    /** 槽位加成由单一所有者管理；普通 NBT 刷新不能撤销已占用的槽位。 */
+    // 槽位加成由单一所有者管理；普通 NBT 刷新不能撤销已占用的槽位。
     public static void syncExtraSlots(ServerPlayer player, int desired) {
         CuriosApi.getCuriosInventory(player).ifPresent(handler -> handler.getStacksHandler("curio").ifPresent(slots -> {
             reconcileExtraSlots(slots, desired, count -> evacuateAddedCurioSlots(player, count));
@@ -63,7 +63,7 @@ public final class TravailCurios {
         }));
     }
 
-    /** Inventory.add 在创造模式下可能静默丢弃溢出物品，返还装备时不能使用。 */
+    // Inventory.add 在创造模式下可能静默丢弃溢出物品，返还装备时不能使用。
     public static void returnToInventoryOrDrop(Player player, ItemStack stack) {
         ItemStack remainder = net.minecraftforge.items.ItemHandlerHelper.insertItemStacked(
                 new net.minecraftforge.items.wrapper.PlayerMainInvWrapper(player.getInventory()), stack, false);

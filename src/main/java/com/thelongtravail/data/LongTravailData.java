@@ -31,7 +31,7 @@ public final class LongTravailData {
         tryInitialize(stack, player);
     }
 
-    /** 事务式生成：失败时原物品数据保持不变。 */
+    // 事务式生成：失败时原物品数据保持不变。
     public static boolean tryInitialize(ItemStack stack, ServerPlayer player) {
         if (isInitialized(stack)) return true; // 保留版本 1 旅程的进度和见证。
         RequirementPools.Snapshot pools = RequirementPools.current(player);
@@ -61,7 +61,7 @@ public final class LongTravailData {
         return true;
     }
 
-    /** 先在槽位外生成，失败时不能清除已装备的日记。 */
+    // 先在槽位外生成，失败时不能清除已装备的日记。
     public static ItemStack refreshedCopy(ItemStack original, ServerPlayer player) {
         ItemStack refreshed = original.copy();
         if (refreshed.hasTag()) refreshed.getTag().remove(ROOT);
@@ -88,7 +88,7 @@ public final class LongTravailData {
         return removeRequirement(stack, "Structures", structure);
     }
 
-    /** 固定大小快照；NBT 引用按对象身份比较，不做深度比较。 */
+    // 固定大小快照；NBT 引用按对象身份比较，不做深度比较。
     public record RequirementIdentity(ItemStack stack, Tag root, Tag requirements, UUID journey, long revision) {
         @Override public boolean equals(Object other) {
             return other instanceof RequirementIdentity key && stack == key.stack && root == key.root
@@ -106,7 +106,7 @@ public final class LongTravailData {
                 root != null && root.hasUUID(JOURNEY_ID) ? root.getUUID(JOURNEY_ID) : null,
                 root == null ? 0 : root.getLong(REQUIREMENTS_REVISION));
     }
-    /** 外部集成原地修改需求后，必须调用一次以使缓存失效。 */
+    // 外部集成原地修改需求后，必须调用一次以使缓存失效。
     public static void requirementsChanged(ItemStack stack) {
         if (!isInitialized(stack)) return;
         CompoundTag root = root(stack);
@@ -125,10 +125,18 @@ public final class LongTravailData {
     }
 
     public static List<ResourceLocation> remainingStructures(ItemStack stack) {
+        return remainingRequirements(stack, "Structures");
+    }
+
+    public static List<ResourceLocation> remainingBiomes(ItemStack stack) {
+        return remainingRequirements(stack, "Biomes");
+    }
+
+    private static List<ResourceLocation> remainingRequirements(ItemStack stack, String listName) {
         java.util.Set<ResourceLocation> result = new java.util.LinkedHashSet<>();
         CompoundTag requirements = root(stack).getCompound(REQUIREMENTS);
         for (TravailAspect aspect : TravailAspect.values()) {
-            ListTag list = requirements.getCompound(aspect.id()).getList("Structures", Tag.TAG_STRING);
+            ListTag list = requirements.getCompound(aspect.id()).getList(listName, Tag.TAG_STRING);
             for (int i = 0; i < list.size(); i++) {
                 ResourceLocation id = ResourceLocation.tryParse(list.getString(i));
                 if (id != null) result.add(id);

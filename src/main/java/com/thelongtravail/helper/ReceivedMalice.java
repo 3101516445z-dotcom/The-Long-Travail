@@ -6,7 +6,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-/** 服务端线程状态，由嵌套伤害共用；触发效果前先预留冷却。 */
+// 服务端线程状态，由嵌套伤害共用；触发效果前先预留冷却。
 public final class ReceivedMalice {
     private static final Map<ServerPlayer, Long> LAST = new WeakHashMap<>();
     public static void forget(ServerPlayer player) { LAST.remove(player); }

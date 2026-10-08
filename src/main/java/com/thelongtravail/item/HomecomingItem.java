@@ -46,10 +46,11 @@ public final class HomecomingItem extends Item {
             if (!equipped.is(ModRegistry.LONG_TRAVAIL.get())) return unavailable(player, hand);
 
             ItemStack returning = equipped.copy();
-            stacks.setStackInSlot(index, ItemStack.EMPTY); // 在服务端主动解除绑定。
+            stacks.setStackInSlot(index, ItemStack.EMPTY);
             if (!player.getAbilities().instabuild) player.getItemInHand(hand).shrink(1);
             TravailCurios.returnToInventoryOrDrop(player, returning);
             TravailCurios.syncExtraSlots(serverPlayer, 0);
+            com.thelongtravail.helper.DependentAccessories.reconcile(serverPlayer);
             player.getInventory().setChanged();
             player.containerMenu.broadcastChanges();
             com.thelongtravail.network.TravailNetwork.sendItemSound(serverPlayer, com.thelongtravail.network.ItemSoundCue.HOMECOMING);

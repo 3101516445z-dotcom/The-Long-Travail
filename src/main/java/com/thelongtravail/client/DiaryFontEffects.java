@@ -15,13 +15,14 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.io.IOException;
 
-/** 替换文本材质时保留当前字体的图集、排版和渲染状态。 */
+// 替换文本材质时保留当前字体的图集、排版和渲染状态。
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class DiaryFontEffects {
     private static ShaderInstance shader;
     private static long resourceGeneration;
     public static long resourceGeneration() { return resourceGeneration; }
-    private static final boolean[] loggedMaterials = new boolean[3];
+    private static final com.thelongtravail.AspectTheme[] THEMES = com.thelongtravail.AspectTheme.values();
+    private static final boolean[] loggedMaterials = new boolean[3 + 2 * THEMES.length];
     private static final long EPOCH = System.nanoTime();
 
     @SubscribeEvent
@@ -45,6 +46,8 @@ public final class DiaryFontEffects {
             String marker = style.getInsertion();
             int current = "the_long_travail:name".equals(marker) ? 0
                     : marker != null && marker.startsWith("the_long_travail:prose:") ? 1 : -1;
+            var theme = com.thelongtravail.AspectTheme.fromMarker(marker);
+            if (theme != null) current = theme.material();
             if (current < 0 || (material >= 0 && material != current)) { mixed = true; return false; }
             material = current; return true;
         }
@@ -80,7 +83,6 @@ public final class DiaryFontEffects {
         return new MaterialBuffers(original, material, originX, sweepWidth);
     }
 
-    /** 仅当本次绘制使用多种渲染类型时才分配映射表。 */
     private static final class MaterialBuffers extends DrawScopedCache<RenderType, RenderType> implements MultiBufferSource {
         private final MultiBufferSource original;
         private final int material;
@@ -119,7 +121,7 @@ public final class DiaryFontEffects {
         if (!loggedMaterials[material]) {
             loggedMaterials[material] = true;
             TheLongTravail.LOGGER.info("Diary text material active: {}, original shader: {}, atlas: {}",
-                    material == 0 ? "name" : material == 1 ? "prose" : "rippling halo", name, atlas);
+                    material == 0 ? "name" : material == 1 ? "prose" : material == 2 ? "rippling halo" : THEMES[(material - 3) % THEMES.length].name() + (material >= 9 ? " halo" : ""), name, atlas);
         }
         RenderSystem.setShader(() -> shader);
         shader.safeGetUniform("Seconds").set((System.nanoTime() - EPOCH) / 1_000_000_000F % 3600F);
@@ -127,7 +129,18 @@ public final class DiaryFontEffects {
         shader.safeGetUniform("AtlasMode").set((float) atlas);
         shader.safeGetUniform("OriginX").set(originX);
         shader.safeGetUniform("SweepWidth").set(sweepWidth);
+        if (material >= 3) {
+            var theme = THEMES[(material - 3) % THEMES.length];
+            setPalette("ThemeDark", theme.dark);
+            setPalette("ThemeMain", theme.main);
+            setPalette("ThemeHighlight", theme.highlight);
+            shader.safeGetUniform("Barren").set(theme == com.thelongtravail.AspectTheme.FAR_REACH ? 1F : 0F);
+        }
+
     }
 
+    private static void setPalette(String uniform, int color) {
+        shader.safeGetUniform(uniform).set(((color >> 16) & 255) / 255F, ((color >> 8) & 255) / 255F, (color & 255) / 255F);
+    }
     private DiaryFontEffects() {}
 }

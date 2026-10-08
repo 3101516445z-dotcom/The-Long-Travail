@@ -17,7 +17,7 @@ import java.util.Objects;
 public final class TravailStateApi {
     public enum AspectState { INACTIVE, MALICE, WITNESS }
 
-    /** 未装备日记时返回 INACTIVE；已装备但未初始化的日记按现有规则判定。 */
+    // 未装备日记时返回 INACTIVE；已装备但未初始化的日记按现有规则判定。
     public static AspectState state(@Nullable Player player, TravailAspect aspect) {
         Objects.requireNonNull(aspect, "aspect");
         ItemStack diary = equipped(player);
@@ -45,10 +45,10 @@ public final class TravailStateApi {
     public static boolean hasBoundlessMalice(@Nullable Player player) { return hasMalice(player, TravailAspect.BOUNDLESS); }
     public static boolean hasBoundlessWitness(@Nullable Player player) { return hasWitness(player, TravailAspect.BOUNDLESS); }
 
-    /** 一次装备查询即可读取多个状态；状态变更后须重新获取快照。 */
+    // 一次装备查询即可读取多个状态；状态变更后须重新获取快照。
     public static Snapshot snapshot(@Nullable Player player) { return inspectDiary(equipped(player)); }
 
-    /** 仅读取物品保存的状态，不保证该物品已被装备。 */
+    // 仅读取物品保存的状态，不保证该物品已被装备。
     public static Snapshot inspectDiary(@Nullable ItemStack diary) {
         if (diary == null || diary.isEmpty() || !diary.is(ModRegistry.LONG_TRAVAIL.get())) return Snapshot.ABSENT;
         int witnesses = 0;
@@ -58,7 +58,7 @@ public final class TravailStateApi {
         return new Snapshot(true, LongTravailData.isInitialized(diary), witnesses);
     }
 
-    /** 不可变快照，不持有 ItemStack 或 Player 引用，也不写入 NBT。 */
+    // 不可变快照，不持有 ItemStack 或 Player 引用，也不写入 NBT。
     public static final class Snapshot {
         private static final Snapshot ABSENT = new Snapshot(false, false, 0);
         private final boolean diaryPresent, initialized;

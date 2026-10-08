@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Slice;
 
-/** 在控制端缩放鞘翅位移，避免物理速度累积衰减。 */
+// 在控制端缩放鞘翅位移，避免物理速度累积衰减。
 @Mixin(LivingEntity.class)
 public abstract class AltitudeGlidingMixin {
     @Unique private float travail$glidingFactor = 1.0F;

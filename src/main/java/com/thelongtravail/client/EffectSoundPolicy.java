@@ -22,7 +22,7 @@ public final class EffectSoundPolicy {
             trim(cleared, 256); cleared.put(id, new Cleared(tick, batch, reason == Reason.MALICE_CLEAR));
         }
     }
-    /** 回调仅在实际调用播放时返回 true。 */
+    // 回调仅在实际调用播放时返回 true。
     public void notification(String id, boolean gain, java.util.function.BooleanSupplier play) {
         if (pending.size() >= 512) {
             var overflow = pending.removeFirst();

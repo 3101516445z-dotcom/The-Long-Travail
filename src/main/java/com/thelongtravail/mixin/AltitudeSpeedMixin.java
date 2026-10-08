@@ -1,7 +1,7 @@
 package com.thelongtravail.mixin;
 
 import com.thelongtravail.data.AltitudePenalty;
-import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.data.StiffState;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -47,11 +47,12 @@ public abstract class AltitudeSpeedMixin implements AltitudePenalty.Cache {
         Player player = (Player) (Object) this;
         // 两项修正必须放在同一回调中，否则任一可取消的 RETURN 注入
         // 都可能提前返回，使另一回调的规则无法应用。
-        if (player.hasEffect(ModRegistry.STIFF.get())) {
+        if (StiffState.active(player)) {
             cir.setReturnValue(0.0F);
             return;
         }
         float factor = AltitudePenalty.factor(player);
-        if (factor < 1.0F) cir.setReturnValue(cir.getReturnValueF() * factor);
+        factor *= com.thelongtravail.abyss.RainState.speed(player);
+        if (factor != 1.0F) cir.setReturnValue(cir.getReturnValueF() * factor);
     }
 }

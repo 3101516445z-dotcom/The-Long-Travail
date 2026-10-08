@@ -1,4 +1,7 @@
 {
   "replace": false,
-  "values": ["the_long_travail:fluid_erosion"]
+  "values": [
+    "the_long_travail:fluid_erosion",
+    "the_long_travail:rose_retaliation"
+  ]
 }

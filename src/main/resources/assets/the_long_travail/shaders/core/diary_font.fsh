@@ -5,6 +5,10 @@ uniform float Seconds;
 uniform float Material;
 uniform float AtlasMode;
 uniform float SweepWidth;
+uniform vec3 ThemeDark;
+uniform vec3 ThemeMain;
+uniform vec3 ThemeHighlight;
+uniform float Barren;
 in vec4 vertexColor;
 in vec2 texCoord0;
 in float textX;
@@ -30,6 +34,25 @@ vec3 nameColor() {
     return mix(color, vec3(1.0, 0.96, 0.77), point * pulse * halo * 0.80);
 }
 
+vec3 aspectNameColor() {
+    float angle = fract(Seconds / mix(4.0, 9.0, Barren)) * 6.2831853;
+    vec2 p = vec2(textX, gl_FragCoord.y * 0.5);
+    float grain = 0.5 + 0.5 * sin(p.x * 1.7 + sin(p.y * 0.9) * 1.8);
+    float bend = sin(p.y * 0.73 + p.x * 0.21) * 0.65;
+    float distance = abs(sin((p.x * 0.24 - angle + bend) * 0.5));
+    float vein = 1.0 - smoothstep(0.02, mix(0.22, 0.10, Barren), distance);
+    float glow = 1.0 - smoothstep(0.16, 0.62, distance);
+    vec3 color = mix(ThemeDark, ThemeMain, 0.35 + grain * 0.65);
+    color = mix(color, ThemeMain, glow * mix(0.65, 0.25, Barren));
+    color = mix(color, ThemeHighlight, vein * mix(0.94, 0.72, Barren));
+    vec2 cell = floor(p / 3.5);
+    vec2 local = fract(p / 3.5) - 0.5;
+    float seed = fract(sin(dot(cell, vec2(127.1, 311.7))) * 43758.5453);
+    float point = step(mix(0.83, 0.96, Barren), seed) * (1.0 - smoothstep(0.04, 0.30, length(local)));
+    float pulse = 0.5 + 0.5 * sin(angle + seed * 6.2831853);
+    return mix(color, ThemeHighlight, point * pulse * glow * 0.80);
+}
+
 vec3 proseColor(float phase) {
     vec3 bronze = vec3(0.68, 0.51, 0.29);
     vec3 ochre = vec3(0.74, 0.60, 0.37);
@@ -53,7 +76,14 @@ void main() {
     float brightness = max(vertexColor.r, max(vertexColor.g, vertexColor.b));
     float shadow = brightness < 0.35 ? 0.25 : 1.0;
     vec3 color;
-    if (Material > 1.5) {
+    if (Material > 8.5) {
+        float ripple = 0.5 + 0.5 * sin(textX * 0.48 - Seconds * 1.5707963);
+        float swell = 0.5 + 0.5 * sin(Seconds * 1.0471976);
+        alpha *= 0.55 + 0.30 * ripple + 0.15 * swell;
+        color = mix(ThemeMain, ThemeHighlight, ripple * 0.6);
+    } else if (Material > 2.5) {
+        color = aspectNameColor();
+    } else if (Material > 1.5) {
         float ripple = 0.5 + 0.5 * sin(textX * 0.48 - Seconds * 1.5707963);
         float swell = 0.5 + 0.5 * sin(Seconds * 1.0471976);
         alpha *= 0.55 + 0.30 * ripple + 0.15 * swell;
