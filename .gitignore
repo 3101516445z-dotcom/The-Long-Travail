@@ -32,3 +32,35 @@ desktop.ini
 *.tmp
 *.bak
 *~
+
+# 本地备份与开发资料
+/backups/
+/local-archive/
+/tools/refactor-events.py
+
+# 依赖本机素材、整合包脚本或预置客户端世界的开发工具
+/tools/generate-homecoming.py
+/tools/generate-revelation-stones.py
+/tools/boundless-script-test.cjs
+/tools/*-client/
+/tools/*-client-resources/
+/tools/*-client.init.gradle
+/tools/visual-resources/
+/tools/visual.init.gradle
+/tools/wayguide-visual.init.gradle
+
+# 依赖本机准备的第三方模组组合
+/tools/prepare-underworld-compat.ps1
+/tools/icarus-caelus.init.gradle
+/tools/underworld-compat.init.gradle
+/tools/underworld-hardcore.init.gradle
+
+# 仅公开配置说明与接口文档
+/docs/*
+!/docs/configuration-controls.md
+!/docs/state-api.md
+
+# 更新日志编写规则、模板与草稿仅在本地保留
+/更新日志/README.md
+/更新日志/模板.md
+/更新日志/未发布.md
