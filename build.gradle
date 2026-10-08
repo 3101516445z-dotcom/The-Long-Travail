@@ -6,7 +6,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.38'
 }
 
-version = '0.1.0'
+version = '0.1.1'
 group = 'com.thelongtravail'
 
 base {
@@ -50,16 +50,25 @@ jarJar.enable()
 
 repositories {
     mavenCentral()
-    flatDir {
-        dirs '../../mods'
-        content { includeModule('top.theillusivec4.curios', 'curios-forge') }
-    }
     maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
     maven { url = 'https://maven.theillusivec4.top/' }
+    maven {
+        url = 'https://maven.blamejared.com/'
+        content { includeGroup('mezz.jei') }
+    }
+    maven {
+        url = 'https://api.modrinth.com/maven'
+        content { includeModule('maven.modrinth', 'embeddium') }
+    }
 }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.20.1-47.4.20'
+    compileOnly fg.deobf('top.theillusivec4.caelus:caelus-forge:3.2.0+1.20.1')
+    // 固定为 Embeddium 0.3.31 的 Minecraft 1.20.1 正式版。
+    compileOnly fg.deobf('maven.modrinth:embeddium:UTbfe5d1')
+    compileOnly fg.deobf('mezz.jei:jei-1.20.1-common-api:15.20.0.132')
+    compileOnly fg.deobf('mezz.jei:jei-1.20.1-forge-api:15.20.0.132')
     implementation fg.deobf('top.theillusivec4.curios:curios-forge:5.14.1+1.20.1')
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     compileOnly annotationProcessor('io.github.llamalad7:mixinextras-common:0.4.1')
