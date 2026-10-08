@@ -1,0 +1,17 @@
+allprojects {
+    afterEvaluate {
+        tasks.register('compileLocalizationCheck', JavaCompile) {
+            dependsOn tasks.named('classes')
+            source = project.files('tools/RequirementNamesTest.java')
+            classpath = sourceSets.main.output + sourceSets.main.compileClasspath
+            destinationDirectory = project.file('build/localization-check')
+            options.encoding = 'UTF-8'
+        }
+        tasks.register('checkLocalization', JavaExec) {
+            dependsOn tasks.named('compileLocalizationCheck')
+            classpath = project.files('build/localization-check') + sourceSets.main.output + sourceSets.main.runtimeClasspath
+            mainClass = 'RequirementNamesTest'
+            workingDir = project.projectDir
+        }
+    }
+}

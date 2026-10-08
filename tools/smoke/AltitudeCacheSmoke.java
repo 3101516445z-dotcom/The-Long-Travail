@@ -61,7 +61,7 @@ public final class AltitudeCacheSmoke {
         speedAttribute.addTransientModifier(bonus);
         float altitudeSpeed = player.getSpeed();
         check(altitudeSpeed > 0, "baseline with altitude and external speed bonus");
-        player.addEffect(new net.minecraft.world.effect.MobEffectInstance(ModRegistry.STIFF.get(), 100));
+        com.thelongtravail.data.StiffState.start(player, 100);
         check(ModRegistry.STIFF.get().getAttributeModifiers().isEmpty(), "stiff no longer adds speed attribute penalties");
         check(player.getSpeed() == 0, "stiff overrides altitude and positive speed bonus");
         var legacyId = UUID.fromString("d2b21a50-a731-4f15-91ea-5cfcb76e818f");
@@ -71,6 +71,8 @@ public final class AltitudeCacheSmoke {
         check(player.getSpeed() == 0, "clearing all speed modifiers cannot bypass stiff");
         speedAttribute.addTransientModifier(bonus);
         player.removeEffect(ModRegistry.STIFF.get());
+        check(player.getSpeed() == 0, "dispelling icon cannot bypass independent stiff");
+        com.thelongtravail.data.StiffState.clear(player);
         check(same(player.getSpeed(), altitudeSpeed), "dispelling immediately restores altitude plus external bonus");
         player.addEffect(new net.minecraft.world.effect.MobEffectInstance(ModRegistry.STIFF.get(), 1));
         speedAttribute.addPermanentModifier(new net.minecraft.world.entity.ai.attributes.AttributeModifier(legacyId, "legacy stiff", -1,

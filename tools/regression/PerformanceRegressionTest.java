@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class PerformanceRegressionTest {
     private static void check(boolean ok, String message) { if (!ok) throw new AssertionError(message); }
     public static void main(String[] args) {
+        NameHaloRegressionTest.run();
         int peak = 0;
         int[] loads = new int[100];
         Random random = new Random(42);

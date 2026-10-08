@@ -16,13 +16,15 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.ArrayList;
 import java.util.UUID;
 
-/** 隔离开发服务器的测试夹具，不打包进正式模组。 */
+// 隔离开发服务器的测试夹具，不打包进正式模组。
 @Mod("travail_smoke")
 public final class TravailSmoke {
     private static final net.minecraftforge.registries.DeferredRegister<net.minecraft.world.effect.MobEffect> EFFECTS =
             net.minecraftforge.registries.DeferredRegister.create(net.minecraftforge.registries.ForgeRegistries.MOB_EFFECTS, "travail_smoke");
     private static final java.util.List<net.minecraftforge.registries.RegistryObject<net.minecraft.world.effect.MobEffect>> PROTECTED = new ArrayList<>();
     private static int removalAttempts;
+    static final net.minecraftforge.registries.RegistryObject<net.minecraft.world.effect.MobEffect> ATTACK_CALLBACK =
+            EFFECTS.register("attack_callback", AttackCleanseSmoke.CallbackEffect::new);
     static {
         for (int i = 0; i < 70; i++) PROTECTED.add(EFFECTS.register("protected_" + i,
                 () -> new net.minecraft.world.effect.MobEffect(net.minecraft.world.effect.MobEffectCategory.HARMFUL, 0) {}));
@@ -107,11 +109,20 @@ public final class TravailSmoke {
     }
 
     private void run(ServerStartedEvent event) {
-        boolean passed = false;
+        if (Boolean.getBoolean("travail.smoke.wayguide.livePerformance") || Boolean.getBoolean("travail.smoke.wayguide.performance")) {
+            try { WayguidePerformanceSmoke.runLive(event.getServer().overworld()); }
+            catch (Exception error) { throw new RuntimeException(error); }
+            return;
+        }
+        boolean passed = false, deferred = false;
         try {
             check(!Boolean.getBoolean("travail.smoke.forceFailure"), "intentional smoke failure-exit verification");
+            ConfigLayoutSmoke.run();
             // 测试频繁修改配置，禁止自动保存或重载尚未完成修改的无效池。
-            com.thelongtravail.config.TravailConfig.SPEC.setConfig(com.electronwill.nightconfig.core.CommentedConfig.inMemory());
+            com.thelongtravail.config.TravailConfig.SPECS.values().forEach(spec -> spec.setConfig(com.electronwill.nightconfig.core.CommentedConfig.inMemory()));
+            FloralItemsSmoke.run(event.getServer().overworld());
+            RainItemsSmoke.run(event.getServer().overworld());
+            RainStateOptimizationSmoke.run(event.getServer().overworld());
             RuntimePools.reload();
             MobEffectInstance first = new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 200, 0, true, false, false);
             EffectUpgrade.apply(first, 2, 5);
@@ -161,7 +172,7 @@ public final class TravailSmoke {
                 level.getChunkAt(phantom.blockPosition()); // 仅测试夹具加载目标区块，正式查询不得加载。
                 check(level.addFreshEntity(phantom), "spawn phantom fixture");
             }
-            var kill = com.thelongtravail.event.TravailEvents.class.getDeclaredMethod("killNearbyPhantoms", net.minecraft.server.level.ServerPlayer.class);
+            var kill = Class.forName("com.thelongtravail.event.TravailRewards").getDeclaredMethod("killNearbyPhantoms", net.minecraft.server.level.ServerPlayer.class);
             kill.setAccessible(true);
             kill.invoke(null, player);
             check(!near.isAlive() && far.isAlive() && corner.isAlive(), "local spherical phantom query");
@@ -175,20 +186,28 @@ public final class TravailSmoke {
             RenewalSmoke.run(level);
             ReviewRegressionSmoke.run(level);
             AltitudeCacheSmoke.run(level);
+            StiffStateSmoke.run(level);
             GlidingSlowdownSmoke.run(level);
             CombatRulesSmoke.run(level);
+            AttackCleanseSmoke.run(level);
+            WayguideReturnsSmoke.run(level);
             RewardDeliverySmoke.run(level);
             JourneyBudgetSmoke.run(level);
+            TravailCommandsSmoke.run(level);
+            JourneyQuerySmoke.run(level);
+            WayguideSchedulingSmoke.run(level);
             StateApiSmoke.run(level);
             WitnessSoundSmoke.run(level);
             MaliceRemovalSmoke.run(level);
             LevelBonusBlacklistSmoke.run(level);
+            if (Boolean.getBoolean("travail.smoke.wayguide")) { WayguideSmoke.run(level); deferred = true; }
             passed = true;
             System.out.println("TRAVAIL_SMOKE_PASS: effect merge, read-only NBT, dedicated tooltips, fluid/normal absorption, totem, phantom radius, flight ownership");
         } catch (Throwable error) {
             System.out.println("TRAVAIL_SMOKE_FAIL");
             error.printStackTrace();
         } finally {
+            if (deferred) return; // 异步路引夹具在真实服务器逐刻完成后写结果并停服。
             try {
                 java.nio.file.Files.writeString(java.nio.file.Path.of(System.getProperty("travail.smoke.result", "smoke-result.txt")),
                         passed ? "PASS" : "FAIL");

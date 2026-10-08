@@ -1,0 +1,30 @@
+allprojects {
+    afterEvaluate {
+        def directory = project.file('build/selected-improvements-server')
+        sourceSets {
+            selectedTest {
+                java.srcDir 'tools/selected-smoke'
+                resources.srcDir 'tools/smoke-resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        minecraft.runs.server {
+            workingDirectory directory
+            property 'travail.hotpath.metrics', 'true'
+            args '--nogui'
+            mods { travail_smoke { source sourceSets.selectedTest } }
+        }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            doFirst {
+                directory.mkdirs()
+                new File(directory, 'eula.txt').text = project.file('run/eula.txt').text
+                new File(directory, 'server.properties').text = 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25590\nlevel-name=selected-test\nlevel-type=minecraft\\:flat\ngenerate-structures=false\nview-distance=2\nsimulation-distance=2\nmax-tick-time=0\n'
+                new File(directory, 'selected-result.txt').text = 'NOT_RUN'
+            }
+            doLast {
+                if (new File(directory, 'selected-result.txt').text.trim() != 'PASS') throw new GradleException('Selected improvement checks failed')
+            }
+        }
+    }
+}

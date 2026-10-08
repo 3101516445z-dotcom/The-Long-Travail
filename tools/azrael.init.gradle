@@ -1,0 +1,35 @@
+allprojects {
+    afterEvaluate {
+        def directory = project.file('build/azrael-review-server')
+        sourceSets {
+            azraelTest {
+                java.srcDir 'tools/azrael-smoke'
+                resources.srcDir 'tools/smoke-resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        minecraft.runs.server {
+            workingDirectory directory
+            property 'travail.execution.diagnostics', 'true'
+            args '--nogui'
+            mods { travail_smoke { source sourceSets.azraelTest } }
+        }
+        tasks.named('compileAzraelTestJava') { source project.file('tools/smoke/CombatRulesSmoke.java'); source project.file('tools/smoke/LegacyLootBaseline.java') }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            doFirst {
+                directory.mkdirs()
+                def eula = new File(directory, 'eula.txt')
+                if (!eula.exists()) eula.text = project.file('run/eula.txt').text
+                def properties = new File(directory, 'server.properties')
+                if (!properties.exists()) properties.text = 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25579\nlevel-name=azrael-test\nlevel-type=minecraft\\:flat\ngenerate-structures=false\nview-distance=2\nsimulation-distance=2\nmax-tick-time=0\n'
+                def result = new File(directory, 'azrael-result.txt')
+                if (result.exists()) result.delete()
+            }
+            doLast {
+                def result = new File(directory, 'azrael-result.txt')
+                if (!result.exists() || result.text.trim() != 'PASS') throw new GradleException('Azrael isolated-server tests failed; inspect build/azrael-review-server/logs/latest.log')
+            }
+        }
+    }
+}

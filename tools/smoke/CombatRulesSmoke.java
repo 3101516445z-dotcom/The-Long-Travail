@@ -22,7 +22,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import java.util.*;
 
-/** 通过真实 Forge 事件分发和变换后的 Player/LivingEntity 测试，仅由隔离审查服务器加载。 */
+// 通过真实 Forge 事件分发和变换后的 Player/LivingEntity 测试，仅由隔离审查服务器加载。
 public final class CombatRulesSmoke {
     private static final class Victim extends FakePlayer {
         boolean fluid;
@@ -110,6 +110,7 @@ public final class CombatRulesSmoke {
         player.setHealth(20);
         player.setAbsorptionAmount(0);
         player.removeAllEffects();
+        com.thelongtravail.data.StiffState.clear(player);
         VisualDeprivation.clear(player);
         player.visualStarts = 0;
         player.addEffect(new MobEffectInstance(MobEffects.LUCK, 200));

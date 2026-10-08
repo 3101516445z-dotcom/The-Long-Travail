@@ -62,7 +62,7 @@ public final class JourneyBudgetSmoke {
         MinecraftForge.EVENT_BUS.register(listener);
         try {
             TravailConfig.MAX_AUTOMATIC_EFFECT_ACTIONS.set(2); TravailConfig.FAR_WITNESS_ACTION_COUNT.set(10);
-            var process = TravailEvents.class.getDeclaredMethod("processFarReachWitness", net.minecraft.server.level.ServerPlayer.class);
+            var process = Class.forName("com.thelongtravail.event.TravailEffectActions").getDeclaredMethod("processFarReachWitness", net.minecraft.server.level.ServerPlayer.class);
             process.setAccessible(true); AutomaticEffectBudget.forget(player);
             process.invoke(null, player);
             check(listener.removes == 1 && listener.adds == 1, "cancelled cleanse and denied grant share cap");

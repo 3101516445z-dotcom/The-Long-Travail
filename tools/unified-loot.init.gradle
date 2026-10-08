@@ -1,0 +1,31 @@
+allprojects {
+    afterEvaluate {
+        def directory = project.file('build/unified-loot-review-server')
+        sourceSets {
+            unifiedLootTest {
+                java.srcDir 'tools/unified-loot-smoke'
+                resources.srcDirs 'tools/smoke-resources', 'tools/unified-loot-resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        minecraft.runs.server {
+            workingDirectory directory
+            args '--nogui'
+            mods { travail_smoke { source sourceSets.unifiedLootTest } }
+        }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            doFirst {
+                directory.mkdirs()
+                def eula = new File(directory, 'eula.txt')
+                if (!eula.exists()) eula.text = project.file('run/eula.txt').text
+                new File(directory, 'server.properties').text = 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25589\nlevel-name=loot-test\nlevel-type=minecraft\\:flat\ngenerate-structures=false\nview-distance=2\nsimulation-distance=2\nmax-tick-time=0\n'
+                new File(directory, 'unified-loot-result.txt').text = 'NOT_RUN'
+            }
+            doLast {
+                if (new File(directory, 'unified-loot-result.txt').text.trim() != 'PASS')
+                    throw new GradleException('Unified loot tests failed; inspect build/unified-loot-review-server/logs/latest.log')
+            }
+        }
+    }
+}

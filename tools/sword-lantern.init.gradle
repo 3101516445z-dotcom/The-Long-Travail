@@ -1,0 +1,33 @@
+allprojects {
+    afterEvaluate {
+        def directory = project.file('build/sword-lantern-review-server')
+        sourceSets {
+            lanternTest {
+                java.srcDir 'tools/sword-lantern-smoke'
+                resources.srcDir 'tools/smoke-resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        minecraft.runs.server {
+            workingDirectory directory
+            args '--nogui'
+            mods { travail_smoke { source sourceSets.lanternTest } }
+        }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            doFirst {
+                directory.mkdirs()
+                def eula = new File(directory, 'eula.txt')
+                if (!eula.exists()) eula.text = project.file('run/eula.txt').text
+                def properties = new File(directory, 'server.properties')
+                if (!properties.exists()) properties.text = 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25581\nlevel-name=sword-lantern-test\nlevel-type=minecraft\\:flat\ngenerate-structures=false\nview-distance=2\nsimulation-distance=2\nmax-tick-time=0\n'
+                def result = new File(directory, 'sword-lantern-result.txt')
+                if (result.exists()) result.delete()
+            }
+            doLast {
+                def result = new File(directory, 'sword-lantern-result.txt')
+                if (!result.exists() || result.text.trim() != 'PASS') throw new GradleException('SwordLantern isolated-server tests failed; inspect build/sword-lantern-review-server/logs/latest.log')
+            }
+        }
+    }
+}

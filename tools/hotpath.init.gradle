@@ -1,0 +1,32 @@
+allprojects {
+    afterEvaluate {
+        def directory = project.file('build/hotpath-review-server')
+        sourceSets {
+            hotpathTest {
+                java.srcDir 'tools/hotpath-smoke'
+                resources.srcDir 'tools/smoke-resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        tasks.named('compileHotpathTestJava') { source project.file('tools/smoke/JourneyQuerySmoke.java') }
+        minecraft.runs.server {
+            workingDirectory directory
+            property 'travail.hotpath.metrics', 'true'
+            args '--nogui'
+            mods { travail_smoke { source sourceSets.hotpathTest } }
+        }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            doFirst {
+                directory.mkdirs()
+                new File(directory, 'eula.txt').text = project.file('run/eula.txt').text
+                def properties = new File(directory, 'server.properties')
+                if (!properties.exists()) properties.text = 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25589\nlevel-name=hotpath-test\nlevel-type=minecraft\\:flat\ngenerate-structures=false\nview-distance=2\nsimulation-distance=2\nmax-tick-time=0\n'
+                new File(directory, 'hotpath-result.txt').text = 'NOT_RUN'
+            }
+            doLast {
+                if (new File(directory, 'hotpath-result.txt').text.trim() != 'PASS') throw new GradleException('Hot path server checks failed; inspect build/code-review-hotpath.log')
+            }
+        }
+    }
+}

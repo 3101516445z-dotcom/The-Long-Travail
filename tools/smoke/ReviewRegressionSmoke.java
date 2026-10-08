@@ -24,12 +24,16 @@ public final class ReviewRegressionSmoke {
 
     public static void run(ServerLevel level) {
         var packets = new ArrayList<Integer>();
+        var progressPackets = new ArrayList<Boolean>();
         var player = new FakePlayer(level, new GameProfile(UUID.randomUUID(), "ReviewSmoke"));
         java.util.function.Consumer<net.minecraft.network.protocol.Packet<?>> capture = packet -> {
             if (packet instanceof net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket payload
                     && payload.getIdentifier().toString().equals("the_long_travail:main")) {
                 var data = new net.minecraft.network.FriendlyByteBuf(payload.getData().duplicate());
-                if (data.readVarInt() == 4) packets.add(data.readVarInt());
+                if (data.readVarInt() == 4) {
+                    packets.add(data.readVarInt()); data.readVarInt(); data.readBoolean();
+                    progressPackets.add(data.readBoolean());
+                }
             }
         };
         var wire = new net.minecraft.network.Connection(net.minecraft.network.protocol.PacketFlow.SERVERBOUND) {
@@ -42,10 +46,17 @@ public final class ReviewRegressionSmoke {
         var diary = new ItemStack(ModRegistry.LONG_TRAVAIL.get());
         check(LongTravailData.tryInitialize(diary, player), "valid journey generation");
         VisualDeprivation.start(player, 100);
+        check(!progressPackets.get(progressPackets.size() - 1), "start is distinct from progress");
+        VisualDeprivation.tick(player);
+        check(progressPackets.get(progressPackets.size() - 1) && packets.get(packets.size() - 1) == 100,
+                "active server tick sends authoritative progress");
         events.onDiaryReset(player, diary);
         check(VisualDeprivation.remaining(player) == 0 && packets.get(packets.size() - 1) == 0,
                 "online diary reset sends visual end packet");
         check(!player.hasEffect(ModRegistry.VISUAL_DEPRIVATION.get()), "reset removes presentation icon");
+        int idlePackets = packets.size();
+        VisualDeprivation.tick(player);
+        check(packets.size() == idlePackets, "inactive players send no progress");
         int previous = packets.size();
         VisualDeprivation.clear(player);
         VisualDeprivation.clear(player);

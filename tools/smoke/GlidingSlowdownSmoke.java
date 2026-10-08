@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-/** 测试经过变换的原版 travel 方法，避免复制飞行公式导致测试与实现脱节。 */
+// 测试经过变换的原版 travel 方法，避免复制飞行公式导致测试与实现脱节。
 public final class GlidingSlowdownSmoke {
     private static final class Flyer extends FakePlayer {
         Vec3 requested = Vec3.ZERO;

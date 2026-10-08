@@ -1,0 +1,27 @@
+// 运行命令：gradlew --offline -I tools/audit.init.gradle auditStandalone
+allprojects {
+    afterEvaluate {
+        def tests = [
+            'BookmarkAnimationTest', 'BoundlessSlotsTest', 'DiaryHoldProgressTest',
+            // EffectUpgrade 依赖 Forge 启动时的字节码变换，由 TravailSmoke 和 LevelBonusBlacklistSmoke 覆盖测试。
+            'JourneyAndSoundTest',
+            'com.thelongtravail.data.RevelationProgressTest'
+        ]
+        tasks.register('auditStandaloneCompile', JavaCompile) {
+            dependsOn tasks.named('classes')
+            source = tests.collect { project.file('tools/' + it.tokenize('.').last() + '.java') }
+            classpath = sourceSets.main.output + sourceSets.main.compileClasspath
+            destinationDirectory = project.file('build/audit-standalone')
+            options.encoding = 'UTF-8'
+        }
+        def checks = tests.collect { entry ->
+            tasks.register('audit' + entry.tokenize('.').last(), JavaExec) {
+                dependsOn tasks.named('auditStandaloneCompile')
+                classpath = project.files('build/audit-standalone') + sourceSets.main.output + sourceSets.main.runtimeClasspath
+                mainClass = entry
+                workingDir = project.projectDir
+            }
+        }
+        tasks.register('auditStandalone') { dependsOn checks }
+    }
+}

@@ -4,7 +4,7 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '../src/main/resources/assets/the_long_travail');
 const translations = ['zh_cn', 'en_us'].map(locale => JSON.parse(fs.readFileSync(path.join(root, 'lang', locale + '.json'), 'utf8')));
 assert.deepEqual(Object.keys(translations[0]).sort(), Object.keys(translations[1]).sort(), 'Locale keys must match');
-assert.equal(translations[0]['tooltip.the_long_travail.open_diary'], '\u957f\u6309[%1$s]\u9605\u8bfb\u8be6\u60c5', 'Chinese hold hint must survive file encoding');
+assert.equal(translations[0]['tooltip.the_long_travail.open_diary'], '\u957f\u6309[%1$s]\u9605\u8bfb\u8be6\u60c5\u3002', 'Chinese hold hint must survive file encoding');
 assert.equal(translations[0]['gui.the_long_travail.diary.bookmark_hint'], '%1$s\u4e4b%2$s', 'Bookmark HUD uses the localized possessive separator');
 const arities = { flourishing: [3, 1], abyss: [4, 1], far_reach: [3, 4], deep_valley: [4, 5], underworld: [2, 5], boundless: [2, 3] };
 for (const locale of translations) {
@@ -12,6 +12,10 @@ for (const locale of translations) {
     assert(!('gui.the_long_travail.diary.close_hint' in locale), 'Exit shortcuts are deliberately not displayed');
     for (const [aspect, counts] of Object.entries(arities)) {
         ['malice', 'witness'].forEach((state, index) => {
+            const prose = locale[`gui.the_long_travail.diary.prose.${aspect}.${state}`];
+            assert.equal(typeof prose, 'string', 'Every diary page needs localized prose');
+            assert(prose.trim().length > 0 && prose.includes('\n\n'), 'Preserve prose stanzas');
+            assert(!prose.includes('（玩家名）'), 'Prose uses the established traveler wording');
             const prefix = `tooltip.the_long_travail.${aspect}.${state}`;
             const effect = locale[prefix + '.effect'];
             assert.equal(typeof effect, 'string', prefix + ' needs the effect text used by the diary');
@@ -21,6 +25,11 @@ for (const locale of translations) {
         });
     }
 }
+for (const [key, value] of Object.entries(translations[1])) {
+    if (key.startsWith('gui.the_long_travail.diary.prose.')) assert(!/\p{Script=Han}/u.test(value), 'English prose must be translated');
+}
+assert.equal(translations[0]['text.the_long_travail.traveler'], '旅人');
+assert.equal(translations[1]['text.the_long_travail.traveler'], 'Traveler');
 assert(!fs.existsSync(path.join(root, 'font/diary.json')), 'GUI uses the default font');
 assert(!fs.existsSync(path.join(root, 'font/zhimangxing.ttf')), 'Special handwriting font removed');
 for (const [file, width, height] of [['diary_base', 1448, 1086], ['diary_bookmark', 2172, 724]]) {

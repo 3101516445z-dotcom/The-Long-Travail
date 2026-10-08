@@ -1,5 +1,16 @@
 allprojects {
     afterEvaluate {
+        def wayguideReview = project.hasProperty('reviewWayguide')
+        def rainReview = project.hasProperty('reviewRain')
+        def wayguidePerformance = project.hasProperty('reviewWayguidePerformance')
+        def wayguideLivePerformance = project.hasProperty('reviewWayguideLivePerformance')
+        def reviewDirectory = project.file(wayguideLivePerformance ? 'build/wayguide-live-performance-server' : wayguidePerformance ? 'build/wayguide-performance-server' : wayguideReview ? 'build/wayguide-review-server' : 'build/review-server')
+        if (project.hasProperty('reviewWayguideRun')) reviewDirectory = project.file(reviewDirectory.path + '-' + project.property('reviewWayguideRun'))
+        def resultFile = new File(reviewDirectory, 'smoke-result.txt')
+        if (rainReview) {
+            reviewDirectory = project.file('build/rain-review-server')
+            resultFile = new File(reviewDirectory, 'smoke-result.txt')
+        }
         if (project.hasProperty('reviewMpe')) {
             repositories.flatDir { dirs 'build/mpe-compat-libs' }
             dependencies { runtimeOnly fg.deobf('local:more_potion_effects:2.6.0-forge-1.20.1') }
@@ -40,9 +51,12 @@ allprojects {
             workingDir = project.projectDir
         }
         minecraft.runs.server {
-            property 'travail.smoke.result', project.file('build/review-server/smoke-result.txt').absolutePath
+            property 'travail.smoke.result', resultFile.absolutePath
+            property 'travail.smoke.wayguide', wayguideReview.toString()
+            property 'travail.smoke.wayguide.performance', wayguidePerformance.toString()
+            property 'travail.smoke.wayguide.livePerformance', wayguideLivePerformance.toString()
             property 'travail.smoke.forceFailure', project.hasProperty('reviewSmokeFailure').toString()
-            workingDirectory project.file('build/review-server')
+            workingDirectory reviewDirectory
             args '--nogui'
             mods { travail_smoke { source sourceSets.review } }
         }
@@ -59,9 +73,20 @@ allprojects {
             mainClass = 'EffectSoundPolicyTest'
         }
         tasks.matching { it.name == 'runServer' }.configureEach {
-            def smokeResult = project.file('build/review-server/smoke-result.txt')
+            def smokeResult = resultFile
             doFirst {
                 smokeResult.parentFile.mkdirs()
+                new File(reviewDirectory, 'eula.txt').text = project.file('run/eula.txt').text
+                if (!(rainReview || wayguideReview || wayguidePerformance || wayguideLivePerformance)) {
+                    def properties = new File(reviewDirectory, 'server.properties')
+                    if (!properties.exists()) properties.text = 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25588\nlevel-name=review-test\nlevel-type=minecraft\\:normal\ngenerate-structures=true\nview-distance=3\nsimulation-distance=3\nmax-tick-time=0\n'
+                }
+                if (rainReview || wayguideReview || wayguidePerformance || wayguideLivePerformance) {
+                    def eula = new File(reviewDirectory, 'eula.txt')
+                    if (!eula.exists()) eula.text = 'eula=true\n'
+                    def properties = new File(reviewDirectory, 'server.properties')
+                    if (!properties.exists()) properties.text = 'online-mode=false\nserver-port=25567\nlevel-name=wayguide-review-world\nlevel-type=minecraft\\:normal\ngenerate-structures=true\nview-distance=3\nsimulation-distance=3\nmax-tick-time=0\n' + (wayguidePerformance || wayguideLivePerformance ? 'level-seed=12839401283740\n' : '')
+                }
                 smokeResult.text = 'NOT_RUN'
             }
             doLast {

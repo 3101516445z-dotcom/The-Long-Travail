@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import static org.lwjgl.opengl.GL33.*;
 
-/** 在隐藏的真实 OpenGL 上下文中编译并渲染实际发布的着色器。 */
+// 在隐藏的真实 OpenGL 上下文中编译并渲染实际发布的着色器。
 public class DiaryFontShaderTest {
     static int program, texture;
     static int shader(int kind, Path path) throws Exception {
@@ -31,6 +31,9 @@ public class DiaryFontShaderTest {
         } finally { MemoryUtil.memFree(pixel); }
     }
     static void check(boolean value, String reason) { if (!value) throw new AssertionError(reason); }
+    static void color(String name, int rgb) {
+        glUniform3f(glGetUniformLocation(program, name), ((rgb >> 16) & 255)/255f, ((rgb >> 8) & 255)/255f, (rgb & 255)/255f);
+    }
     static int proseRed(float seconds, float x) {
         double phase = seconds / 8.0 - x / 110.0;
         double stage = (phase - Math.floor(phase)) * 3;
@@ -114,7 +117,29 @@ public class DiaryFontShaderTest {
             glVertexAttrib4f(1,168/255f,133/255f,50/255f,1);
             int[] playerInk = sample(0,1,0,255,255);
             check(java.util.Arrays.equals(playerInk, proseStart), "Player name shares the same prose material");
+            glVertexAttrib4f(1,1,1,1,1);
+            uniform("OriginX", 0);
+            var outputs = new java.util.HashSet<String>();
+            for (var theme : com.thelongtravail.AspectTheme.values()) {
+                color("ThemeDark", theme.dark); color("ThemeMain", theme.main); color("ThemeHighlight", theme.highlight);
+                uniform("Barren", theme == com.thelongtravail.AspectTheme.FAR_REACH ? 1 : 0);
+                var frames = new java.util.HashSet<String>();
+                for (int frame = 0; frame < 90; frame++)
+                    frames.add(java.util.Arrays.toString(sample(frame / 10f, theme.material(), 0, 255, 255)));
+                check(frames.size() >= 3, "Theme must show multiple animation colors: " + theme);
+                outputs.add(java.util.Arrays.toString(sample(0, theme.material(), 0, 255, 255)));
+                for (int atlas = 0; atlas < 3; atlas++) {
+                    check(sample(0,theme.material(),atlas,255,255)[3] == 255, "Theme solid coverage: " + theme);
+                    check(sample(0,theme.material(),atlas,0,0)[3] == 0, "Theme transparent coverage: " + theme);
+                    int[] halo = sample(0,theme.material()+6,atlas,255,255);
+                    check(halo[3] > 0 && halo[3] < 255, "Soft theme halo coverage: " + theme);
+                    check(sample(0,theme.material()+6,atlas,0,0)[3] == 0, "Theme halo outside glyph: " + theme);
+                    check(!java.util.Arrays.equals(halo, sample(1,theme.material()+6,atlas,255,255)), "Animated theme halo: " + theme);
+                }
+            }
+            check(outputs.size() == 6, "Six themes must have distinct colors");
             check(glGetError() == GL_NO_ERROR, "OpenGL error");
+            System.out.println("PASS: six distinct animated aspect palettes and halos, bitmap/intensity/SDF coverage");
             System.out.println("PASS: GLSL compile/link, 4s gold-foil cycle and contrast, 10s off-text prose sweep, uniform brown-gold prose, bitmap/intensity/SDF coverage; " + glGetString(GL_RENDERER));
         } finally { GLFW.glfwDestroyWindow(window); GLFW.glfwTerminate(); }
     }

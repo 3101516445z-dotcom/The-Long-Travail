@@ -82,7 +82,7 @@ public final class RewardDeliverySmoke {
                     new com.mojang.authlib.GameProfile(UUID.randomUUID(), "RewardSmoke"));
             player.setPos(position.x, position.y, position.z);
             for (int i=0;i<3;i++) { var phantom = new Phantom(EntityType.PHANTOM, level); phantom.setPos(position.x+i, position.y, position.z); level.addFreshEntity(phantom); phantoms.add(phantom); }
-            var kill = TravailEvents.class.getDeclaredMethod("killNearbyPhantoms", net.minecraft.server.level.ServerPlayer.class); kill.setAccessible(true);
+            var kill = Class.forName("com.thelongtravail.event.TravailRewards").getDeclaredMethod("killNearbyPhantoms", net.minecraft.server.level.ServerPlayer.class); kill.setAccessible(true);
             kill.invoke(null, player); check(phantoms.stream().allMatch(Phantom::isAlive), "full queue pauses kills");
             TravailConfig.REWARD_QUEUE_CAPACITY.set(8); TravailConfig.PHANTOM_MAX_KILLS.set(1);
             level.getServer().overworld().getDataStorage().set("the_long_travail_rewards", new RewardDelivery());
