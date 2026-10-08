@@ -1,98 +1,52 @@
 # 配置说明
 
-服务端与单人游戏的主要配置文件为：
+配置位于游戏目录的 `config/the_long_travail/`，首次启动时自动生成。各项设置的含义、默认值和范围，可查看配置文件中的注释，或同目录下的 `配置说明.txt`（英文版为 `Configuration Guide.txt`）。
 
-```text
-config/the_long_travail-common.toml
-```
+## 到哪里修改
 
-修改后请保存文件，并重新启动世界或服务器以确保配置生效。配置文件中的每个选项都带有中英文注释。
+| 文件 | 主要内容 |
+| --- | --- |
+| `general.toml` | 初始赠送、探索目标数量、受击恶意、效果与奖励数量限制、Sounds 提示音、战利品 |
+| `client.toml` | 名称光晕、视觉效果、技能台词等本机显示设置 |
+| `utility_items.toml` | 路引的搜索范围、时限与搜索开销 |
+| `aspects/flourishing.toml` | 繁茂主题 |
+| `aspects/abyss.toml` | 归墟主题 |
+| `aspects/far_reach.toml` | 穷遐主题 |
+| `aspects/deep_valley.toml` | 幽谷主题，包括视觉剥夺 |
+| `aspects/underworld.toml` | 冥府主题，包括额外钓鱼奖励 |
+| `aspects/boundless.toml` | 无垠主题，包括幻翼奖励 |
 
-## 通用设置
+每份主题配置都包含对应的恶意、见证、探索条件和相关物品设置：
 
-`[general]` 包含首次进入世界时是否赠送“苦旅”、每组旅程抽取的群系与结构数量，以及自动效果频率限制等设置。
+- `travail.malice` / `travail.witness`：恶意与见证。
+- `travail.requirements`：可抽取的探索目标。
+- `items`：该主题的物品效果。
 
-```toml
-[general]
-receivedMaliceTrigger = "ATTACK_ATTEMPT"
-receivedMaliceCooldownTicks = 0
-receivedMaliceExcludedDamageTypes = []
-maxAutomaticEffectActionsPerPlayerPerSecond = 0
-```
+## 修改后如何生效
 
-- `receivedMaliceTrigger`：受击恶意的触发方式。`ATTACK_ATTEMPT` 按攻击尝试触发，`HEALTH_LOSS` 仅在生命值实际下降时触发。
-- `receivedMaliceCooldownTicks`：受击恶意的共享冷却，20 游戏刻约为一秒；`0` 表示不限制。
-- `receivedMaliceExcludedDamageTypes`：不会触发受击恶意的伤害类型 ID 列表。
-- `maxAutomaticEffectActionsPerPlayerPerSecond`：每名玩家每秒允许的自动效果尝试次数；`0` 表示不限制。
+保存后重启游戏或服务器，可确保配置生效；战利品设置也可通过 `/reload` 更新。联机时，玩法设置以服务端为准，`client.toml` 只影响本机显示。
 
-## 六组旅程设置
+修改探索目标池或抽取数量，只影响之后新初始化的旅程；已有旅程、已释放技能和正在进行的冷却不会重新计算。从旧配置目录升级时，需要手动重新调整设置。
 
-以下分组分别控制六组恶意与见证：
+## 常用调整
 
-- `[flourishing]`：繁茂
-- `[abyss]`：归墟
-- `[farReach]`：穷遐
-- `[deepValley]`：幽谷
-- `[underworld]`：冥府
-- `[boundless]`：无垠
+- **效果强度与触发条件**：在对应主题文件中修改。概率通常用 `0`～`1` 表示，例如 `0.5` 为 50%；具体单位和范围以注释为准。
+- **名称光晕**：在 `client.toml` 的 `nameEffects` 中调整，可选 `HIGH`、`MEDIUM`、`LOW` 或 `OFF`。
+- **路引搜索**：在 `utility_items.toml` 的 `items.wayguide` 中调整。扩大搜索范围、缩小采样间隔会增加搜索开销；搜索失败不代表整个维度都没有目标。
+- **大量效果或奖励造成卡顿**：查看 `general.toml` 的 `effectLimits` 和 `rewardDelivery`，限制效果触发次数或分批发放奖励。
 
-每组可以调整效果数值、群系池、结构池和权重。修改基础池只影响之后首次初始化的苦旅，已经生成的旅程会继续保留原有条件。
+## 战利品设置
 
-常见配置格式：
+统一在 `general.toml` 的 `loot` 中调整，按战利品表 ID 分别设置：
 
-```text
-群系：群系ID|显示名称|权重
-结构：结构ID|显示名称|权重
-正面效果：效果ID|最高等级|权重
-普通权重实体：实体ID|权重
-奖励物品：物品ID|权重|最小数量|最大数量
-```
+| 配置项 | 含义 |
+| --- | --- |
+| `enabled` | 苦旅战利品总开关 |
+| 每张表的 `chance` | 该表抽中苦旅奖池的概率，`0`～`1`，设为 `0` 关闭 |
+| 每张表的 `items` | 奖池条目，格式为 `物品ID\|权重\|最小数量\|最大数量` |
 
-概率通常使用 `0` 到 `1` 的小数，例如 `0.5` 表示 50%。
+每次抽中奖池后，按权重选中一种物品，不替换原版奖励。增加条目只会改变各物品的占比，不会提高奖池的总概率。
 
-## 流体伤害模式
+保存后执行 `/reload` 或重启；已经生成内容的箱子不会重新抽取。配置有误时可查看日志中的提示，修正后再次加载。更新模组不会自动将新增的默认来源或物品补入已有配置。
 
-`[abyss]` 中的 `fluidErosionProtectionMode` 支持：
-
-- `ENFORCED`：采用苦旅计算的流体伤害下限。
-- `RESPECT_CANCELLATION`：尊重被其他机制取消的伤害事件。
-- `STANDARD`：采用普通伤害事件处理方式。
-
-## 奖励预算
-
-`[rewards]` 可以限制额外奖励实体的生成速度和队列容量，避免极端配置一次生成过多物品。
-
-```toml
-[rewards]
-rewardMaxItemEntitiesPerTick = 32
-rewardQueueCapacity = 1024
-rewardOverflowPolicy = "DEFER"
-rewardMaxEntitiesPerReward = 64
-```
-
-- `DEFER`：将奖励分批发放。
-- `LIMIT`：限制单次奖励产生的物品实体数量。
-
-## 客户端画质
-
-客户端配置文件为：
-
-```text
-config/the_long_travail-client.toml
-```
-
-```toml
-nameHaloQuality = "HIGH"
-```
-
-可选值为 `HIGH`、`MEDIUM`、`LOW` 和 `OFF`。降低该选项可以减少名称光晕的绘制开销；`OFF` 只关闭外围光晕，不影响正文显示。
-
-## 正面效果提示音
-
-`[general]` 中的 `muteBeneficialEffectGainSounds` 用于控制兼容 Sounds 模组时的正面效果获得提示音：
-
-```toml
-muteBeneficialEffectGainSounds = true
-```
-
-未安装 Sounds 时，此选项不会影响游戏。
+日记能力带来的额外钓鱼奖励、幻翼奖励，仍在各自主题文件中调整。
