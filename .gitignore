@@ -36,29 +36,24 @@ desktop.ini
 # 本地备份与开发资料
 /backups/
 /local-archive/
-/tools/refactor-events.py
+/待删除/
+/历史对照/
+/测试运行归档/
+/历史发布资料/
 
-# 依赖本机素材、整合包脚本或预置客户端世界的开发工具
-/tools/generate-homecoming.py
-/tools/generate-revelation-stones.py
-/tools/boundless-script-test.cjs
-/tools/*-client/
-/tools/*-client-resources/
-/tools/*-client.init.gradle
-/tools/visual-resources/
-/tools/visual.init.gradle
-/tools/wayguide-visual.init.gradle
+# 开发工具与测试仅本地保留
+/tools/
 
-# 依赖本机准备的第三方模组组合
-/tools/prepare-underworld-compat.ps1
-/tools/icarus-caelus.init.gradle
-/tools/underworld-compat.init.gradle
-/tools/underworld-hardcore.init.gradle
-
-# 仅公开配置说明与接口文档
+# 公开配置、接口与饰品接入说明；机制文档的公开范围另行确认
 /docs/*
 !/docs/configuration-controls.md
 !/docs/state-api.md
+!/docs/accessory-equipment.md
+
+# 制作人个人参考约定，仅本地保留
+/docs/wording-conventions.md
+/docs/tooltip-color-conventions.md
+/docs/aspect-name-themes.md
 
 # 更新日志编写规则、模板与草稿仅在本地保留
 /更新日志/README.md
