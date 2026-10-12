@@ -11,13 +11,19 @@ public record DiaryProgressTooltip(double progress, int hintWidth) implements To
         private static final int TOP_PADDING = 3, BAR_HEIGHT = 3, BOTTOM_PADDING = 5;
         private final DiaryProgressTooltip value;
 
-        public Renderer(DiaryProgressTooltip value) { this.value = value; }
+        public Renderer(DiaryProgressTooltip value) {
+            this.value = value;
+        }
 
         @Override
-        public int getHeight() { return TOP_PADDING + BAR_HEIGHT + BOTTOM_PADDING; }
+        public int getHeight() {
+            return TOP_PADDING + BAR_HEIGHT + BOTTOM_PADDING;
+        }
 
         @Override
-        public int getWidth(Font font) { return Math.max(1, value.hintWidth()); }
+        public int getWidth(Font font) {
+            return Math.max(1, value.hintWidth());
+        }
 
         @Override
         public void renderImage(Font font, int x, int y, GuiGraphics graphics) {

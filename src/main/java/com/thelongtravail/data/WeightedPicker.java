@@ -19,7 +19,8 @@ public final class WeightedPicker {
         return entries.get(entries.size() - 1);
     }
 
-    public static <T> List<T> withoutReplacement(List<T> source, int count, ToIntFunction<T> weight, RandomSource random) {
+    public static <T> List<T> withoutReplacement(
+            List<T> source, int count, ToIntFunction<T> weight, RandomSource random) {
         List<T> candidates = new ArrayList<>(source);
         List<T> result = new ArrayList<>();
         while (!candidates.isEmpty() && result.size() < count) {

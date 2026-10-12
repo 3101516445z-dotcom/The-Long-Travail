@@ -10,8 +10,18 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(net.minecraft.client.player.LocalPlayer.class)
 public abstract class IcarusLocalFlightMixin {
-    @WrapOperation(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;canElytraFly(Lnet/minecraft/world/entity/LivingEntity;)Z", remap = false))
-    private boolean travail$icarusFlight(ItemStack stack, LivingEntity entity, Operation<Boolean> original) {
-        return IcarusFlight.equipped(entity) ? IcarusFlight.allowed(entity) : original.call(stack, entity);
+    @WrapOperation(
+            method = "aiStep",
+            at =
+                    @At(
+                            value = "INVOKE",
+                            target =
+                                    "Lnet/minecraft/world/item/ItemStack;canElytraFly(Lnet/minecraft/world/entity/LivingEntity;)Z",
+                            remap = false))
+    private boolean travail$icarusFlight(
+            ItemStack stack, LivingEntity entity, Operation<Boolean> original) {
+        return IcarusFlight.equipped(entity)
+                ? IcarusFlight.allowed(entity)
+                : original.call(stack, entity);
     }
 }

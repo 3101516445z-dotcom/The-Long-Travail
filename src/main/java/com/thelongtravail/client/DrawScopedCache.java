@@ -2,7 +2,7 @@ package com.thelongtravail.client;
 
 import java.util.IdentityHashMap;
 
-// 缓存仅在单次绘制中有效；常见的单图集路径不分配映射表或工厂 lambda。
+// 缓存仅在单次绘制中有效；只使用一个图集时，无需分配映射表或创建回调。
 public abstract class DrawScopedCache<K, V> {
     private K first;
     private V firstValue;
@@ -10,11 +10,17 @@ public abstract class DrawScopedCache<K, V> {
 
     public final V value(K key) {
         java.util.Objects.requireNonNull(key);
-        if (first == null) { first = key; firstValue = create(key); }
+        if (first == null) {
+            first = key;
+            firstValue = create(key);
+        }
         if (key == first) return firstValue;
         if (others == null) others = new IdentityHashMap<>();
         V value = others.get(key);
-        if (value == null) { value = create(key); others.put(key, value); }
+        if (value == null) {
+            value = create(key);
+            others.put(key, value);
+        }
         return value;
     }
 

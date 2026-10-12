@@ -25,8 +25,12 @@ public final class TravelDiaryScreen extends Screen {
     private static final ResourceLocation BOOKMARK = texture("diary_bookmark");
     private static final int WIDTH = 524, HEIGHT = 360, BOOK_X = 40, BOOK_WIDTH = 480;
     private static final int HEADER_Y = 74, HEADER_RULE_Y = HEADER_Y + 17;
-    private static final int RIGHT_X = 302, RIGHT_WIDTH = 179, BODY_TOP = HEADER_RULE_Y + 21, BODY_BOTTOM = 300;
-    private static final int LINE_HEIGHT = 15, VISIBLE_LINES = (BODY_BOTTOM - BODY_TOP) / LINE_HEIGHT;
+    private static final int RIGHT_X = 302,
+            RIGHT_WIDTH = 179,
+            BODY_TOP = HEADER_RULE_Y + 21,
+            BODY_BOTTOM = 300;
+    private static final int LINE_HEIGHT = 15,
+            VISIBLE_LINES = (BODY_BOTTOM - BODY_TOP) / LINE_HEIGHT;
     private static final int INK = 0xFF493626, MUTED_INK = 0xFF80664C;
     private static TravailAspect lastSelected = TravailAspect.FLOURISHING;
 
@@ -49,16 +53,33 @@ public final class TravelDiaryScreen extends Screen {
     private List<Float> cachedCenters = List.of();
     private List<PageLine> cachedContent = List.of();
     private LongTravailData.RequirementIdentity cachedRequirements;
-    private record LayoutKey(TravailAspect aspect, boolean witness, boolean journey, boolean revealed,
-                             boolean initialized, int biomes, long config, long resources,
-                             net.minecraft.locale.Language language, int lineHeight) {}
-    private LayoutKey layoutKey() {
-        return new LayoutKey(selected, completed(), journeyPage,
-                com.thelongtravail.network.JourneySync.isRevealed(selected), LongTravailData.isInitialized(diary),
-                com.thelongtravail.network.JourneySync.biomeCount(), TooltipConfigSync.revision(),
-                DiaryFontEffects.resourceGeneration(), net.minecraft.locale.Language.getInstance(), font.lineHeight);
-    }
+    private long cachedStateRevision = Long.MIN_VALUE;
 
+    private record LayoutKey(
+            TravailAspect aspect,
+            boolean witness,
+            boolean journey,
+            boolean revealed,
+            boolean initialized,
+            int biomes,
+            long config,
+            long resources,
+            net.minecraft.locale.Language language,
+            int lineHeight) {}
+
+    private LayoutKey layoutKey() {
+        return new LayoutKey(
+                selected,
+                completed(),
+                journeyPage,
+                com.thelongtravail.network.JourneySync.isRevealed(selected),
+                LongTravailData.isInitialized(diary),
+                com.thelongtravail.network.JourneySync.biomeCount(),
+                TooltipConfigSync.revision(),
+                DiaryFontEffects.resourceGeneration(),
+                net.minecraft.locale.Language.getInstance(),
+                font.lineHeight);
+    }
 
     public TravelDiaryScreen(Supplier<ItemStack> source, Runnable closeAction) {
         super(Component.translatable("gui.the_long_travail.diary.title"));
@@ -75,13 +96,21 @@ public final class TravelDiaryScreen extends Screen {
         return Component.translatable("gui.the_long_travail.diary." + key, args);
     }
 
-    private boolean completed() { return LongTravailData.hasWitness(diary, selected); }
-    private boolean hasJourney() { return !completed(); }
+    private boolean completed() {
+        return LongTravailData.hasWitness(diary, selected);
+    }
+
+    private boolean hasJourney() {
+        return !completed();
+    }
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         diary = source.get();
-        if (!diary.is(ModRegistry.LONG_TRAVAIL.get())) { onClose(); return; }
+        if (!diary.is(ModRegistry.LONG_TRAVAIL.get())) {
+            onClose();
+            return;
+        }
         if (!hasJourney()) journeyPage = false;
         updateLayout();
         float localX = (mouseX - bookLeft) / bookScale;
@@ -101,11 +130,18 @@ public final class TravelDiaryScreen extends Screen {
             int index = aspect.ordinal();
             boolean hovered = overBookmark(localX, localY, index);
             float target = aspect == selected ? (hovered ? 10 : 8) : hovered ? 4 : 0;
-            bookmarkExtensions[index] = BookmarkAnimation.approach(bookmarkExtensions[index], target, elapsed);
+            bookmarkExtensions[index] =
+                    BookmarkAnimation.approach(bookmarkExtensions[index], target, elapsed);
             float x = 14 - bookmarkExtensions[index];
             int y = bookmarkY(index);
-            int color = com.thelongtravail.AspectTheme.forAspect(TravailAspect.values()[index]).bookAccent;
-            graphics.setColor(((color >> 16) & 255) / 255F, ((color >> 8) & 255) / 255F, (color & 255) / 255F, 1);
+            int color =
+                    com.thelongtravail.AspectTheme.forAspect(TravailAspect.values()[index])
+                            .bookAccent;
+            graphics.setColor(
+                    ((color >> 16) & 255) / 255F,
+                    ((color >> 8) & 255) / 255F,
+                    (color & 255) / 255F,
+                    1);
             // 仅采样布纹区域，保留生成素材的透明边距。
             graphics.pose().pushPose();
             graphics.pose().translate(x, y, 0);
@@ -123,10 +159,18 @@ public final class TravelDiaryScreen extends Screen {
 
         for (TravailAspect aspect : TravailAspect.values()) {
             if (overBookmark(localX, localY, aspect.ordinal())) {
-                renderBookmarkHud(graphics, Component.translatable("gui.the_long_travail.diary.bookmark_hint",
-                        Component.translatable("aspect.the_long_travail." + aspect.id()),
-                        Component.translatable("state.the_long_travail." +
-                                (LongTravailData.hasWitness(diary, aspect) ? "witness" : "malice"))), mouseX, mouseY);
+                renderBookmarkHud(
+                        graphics,
+                        Component.translatable(
+                                "gui.the_long_travail.diary.bookmark_hint",
+                                Component.translatable("aspect.the_long_travail." + aspect.id()),
+                                Component.translatable(
+                                        "state.the_long_travail."
+                                                + (LongTravailData.hasWitness(diary, aspect)
+                                                        ? "witness"
+                                                        : "malice"))),
+                        mouseX,
+                        mouseY);
                 break;
             }
         }
@@ -163,12 +207,20 @@ public final class TravelDiaryScreen extends Screen {
     }
 
     private void updateLayout() {
-        bookScale = 0.8F * Math.max(0.1F, Math.min(1.25F, Math.min((width - 12F) / WIDTH, (height - 12F) / HEIGHT)));
+        bookScale =
+                0.8F
+                        * Math.max(
+                                0.1F,
+                                Math.min(
+                                        1.25F,
+                                        Math.min((width - 12F) / WIDTH, (height - 12F) / HEIGHT)));
         bookLeft = (width - Math.round(WIDTH * bookScale)) / 2;
         bookTop = (height - Math.round(HEIGHT * bookScale)) / 2;
     }
 
-    private static int bookmarkY(int index) { return 61 + index * 39; }
+    private static int bookmarkY(int index) {
+        return 61 + index * 39;
+    }
 
     private boolean overBookmark(double x, double y, int index) {
         // 固定命中区域同时覆盖收起和展开位置，避免悬停状态反复切换。
@@ -183,14 +235,27 @@ public final class TravelDiaryScreen extends Screen {
         float titleY = (40 + HEADER_RULE_Y) / 2F - titleInkCenter * titleScale + 3F;
         drawScaledCentered(graphics, text("title"), 169, titleY, titleScale, INK);
         graphics.fill(87, HEADER_RULE_Y, 251, HEADER_RULE_Y + 1, 0x55755A38);
-        Component aspectName = text("bookmark_hint",
-                Component.translatable("aspect.the_long_travail." + selected.id()),
-                Component.translatable("state.the_long_travail." + (completed() ? "witness" : "malice")));
+        Component aspectName =
+                text(
+                        "bookmark_hint",
+                        Component.translatable("aspect.the_long_travail." + selected.id()),
+                        Component.translatable(
+                                "state.the_long_travail." + (completed() ? "witness" : "malice")));
         float aspectScale = Math.min(1.8F, 164F / Math.max(1, font.width(aspectName)));
         float proseScale = 1.2F;
         // 左页散文缓存仅受页面和字体变化影响，不随攻击冷却 NBT 失效。
-        LayoutKey currentProseKey = new LayoutKey(selected, completed(), false, false, false, 0, 0,
-                DiaryFontEffects.resourceGeneration(), net.minecraft.locale.Language.getInstance(), font.lineHeight);
+        LayoutKey currentProseKey =
+                new LayoutKey(
+                        selected,
+                        completed(),
+                        false,
+                        false,
+                        false,
+                        0,
+                        0,
+                        DiaryFontEffects.resourceGeneration(),
+                        net.minecraft.locale.Language.getInstance(),
+                        font.lineHeight);
         if (!currentProseKey.equals(proseKey)) {
             List<FormattedCharSequence> proseLines = new ArrayList<>();
             List<Float> lineOffsets = new ArrayList<>();
@@ -208,14 +273,18 @@ public final class TravelDiaryScreen extends Screen {
                         nextLineY += 10;
                         continue;
                     }
-                    for (var wrapped : font.split(Component.literal(line), (int) (164 / proseScale))) {
+                    for (var wrapped :
+                            font.split(Component.literal(line), (int) (164 / proseScale))) {
                         proseLines.add(wrapped);
                         lineOffsets.add(nextLineY);
                         nextLineY += 15;
                     }
                 }
                 float last = lineOffsets.isEmpty() ? 0 : lineOffsets.get(lineOffsets.size() - 1);
-                float fit = Math.min(1F, (availableHeight - inkHeight * proseScale) / Math.max(1F, last));
+                float fit =
+                        Math.min(
+                                1F,
+                                (availableHeight - inkHeight * proseScale) / Math.max(1F, last));
                 if (15 * fit >= (font.lineHeight + 1) * proseScale) break;
             }
             if (proseLines.isEmpty()) {
@@ -226,7 +295,11 @@ public final class TravelDiaryScreen extends Screen {
             List<Float> centers = new ArrayList<>();
             for (var line : proseLines) {
                 StringBuilder text = new StringBuilder();
-                line.accept((index, style, codePoint) -> { text.appendCodePoint(codePoint); return true; });
+                line.accept(
+                        (index, style, codePoint) -> {
+                            text.appendCodePoint(codePoint);
+                            return true;
+                        });
                 float offset = ProseAlignment.offset(text.toString(), value -> font.width(value));
                 float spare = Math.max(0, (164F / proseScale - font.width(line)) / 2F);
                 centers.add(-font.width(line) / 2F + Math.max(-spare, Math.min(spare, offset)));
@@ -244,10 +317,18 @@ public final class TravelDiaryScreen extends Screen {
         float areaTop = headingY + inkHeight * aspectScale;
         float areaBottom = 310;
         float lastOffset = lineOffsets.get(lineOffsets.size() - 1);
-        float spacingFactor = Math.min(1F, (areaBottom - areaTop
-                - inkHeight * proseScale) / Math.max(1F, lastOffset));
+        float spacingFactor =
+                Math.min(
+                        1F,
+                        (areaBottom - areaTop - inkHeight * proseScale) / Math.max(1F, lastOffset));
         float proseHeight = lastOffset * spacingFactor + inkHeight * proseScale;
-        drawScaledCentered(graphics, aspectName, 169, headingY, aspectScale, 0xFF000000 | com.thelongtravail.AspectTheme.forAspect(selected).bookInk);
+        drawScaledCentered(
+                graphics,
+                aspectName,
+                169,
+                headingY,
+                aspectScale,
+                0xFF000000 | com.thelongtravail.AspectTheme.forAspect(selected).bookInk);
         // 略微上移视觉中心，为纸张底部纹理留出空间。
         float proseY = (areaTop + areaBottom - proseHeight) / 2F - 3F;
         graphics.pose().pushPose();
@@ -256,8 +337,11 @@ public final class TravelDiaryScreen extends Screen {
         for (int i = 0; i < proseLines.size(); i++) {
             var line = proseLines.get(i);
             graphics.pose().pushPose();
-            graphics.pose().translate(cachedCenters.get(i),
-                    lineOffsets.get(i) * spacingFactor / proseScale, 0);
+            graphics.pose()
+                    .translate(
+                            cachedCenters.get(i),
+                            lineOffsets.get(i) * spacingFactor / proseScale,
+                            0);
             graphics.drawString(font, line, 0, 0, INK, false);
             graphics.pose().popPose();
         }
@@ -265,14 +349,32 @@ public final class TravelDiaryScreen extends Screen {
     }
 
     private void renderTabs(GuiGraphics graphics, float x, float y) {
-        tab(graphics, text("effects"), 305, HEADER_Y, 73, !journeyPage, inside(x, y, 302, 68, 381, 94));
+        tab(
+                graphics,
+                text("effects"),
+                305,
+                HEADER_Y,
+                73,
+                !journeyPage,
+                inside(x, y, 302, 68, 381, 94));
         if (hasJourney()) {
-            Component title = text(com.thelongtravail.network.JourneySync.isRevealed(selected) ? "journey" : "journey_locked");
+            Component title =
+                    text(
+                            com.thelongtravail.network.JourneySync.isRevealed(selected)
+                                    ? "journey"
+                                    : "journey_locked");
             tab(graphics, title, 391, HEADER_Y, 93, journeyPage, inside(x, y, 387, 68, 490, 94));
         }
     }
 
-    private void tab(GuiGraphics graphics, Component title, int x, int y, int width, boolean active, boolean hovered) {
+    private void tab(
+            GuiGraphics graphics,
+            Component title,
+            int x,
+            int y,
+            int width,
+            boolean active,
+            boolean hovered) {
         if (hovered) graphics.fill(x - 2, y - 4, x + width + 2, y + 16, 0x14755A38);
         drawCentered(graphics, title, x + width / 2, y, active ? INK : MUTED_INK);
         if (active) graphics.fill(x, y + 17, x + width, y + 18, 0xFF96764E);
@@ -281,7 +383,11 @@ public final class TravelDiaryScreen extends Screen {
     private List<PageLine> content() {
         LayoutKey key = layoutKey();
         LongTravailData.RequirementIdentity requirements = LongTravailData.queryIdentity(diary);
-        if (!key.equals(contentKey) || !requirements.equals(cachedRequirements)) {
+        if (!key.equals(contentKey)
+                || !requirements.equals(cachedRequirements)
+                || cachedStateRevision
+                        != com.thelongtravail.data.JourneyState.stateRevision(diary)) {
+            cachedStateRevision = com.thelongtravail.data.JourneyState.stateRevision(diary);
             cachedContent = List.copyOf(buildContent());
             cachedRequirements = requirements;
             contentKey = key;
@@ -296,14 +402,26 @@ public final class TravelDiaryScreen extends Screen {
                 append(lines, LongTravailItem.flourishingProgress(), INK);
                 lines.add(new PageLine(FormattedCharSequence.EMPTY, INK, LINE_HEIGHT / 2));
             }
-            for (FormattedCharSequence line : font.split(LongTravailItem.aspectEffect(selected, completed()), RIGHT_WIDTH))
-                lines.add(new PageLine(line, INK, font.width(line) == 0 ? LINE_HEIGHT / 2 : LINE_HEIGHT));
+            for (FormattedCharSequence line :
+                    font.split(LongTravailItem.aspectEffect(selected, completed()), RIGHT_WIDTH))
+                lines.add(
+                        new PageLine(
+                                line, INK, font.width(line) == 0 ? LINE_HEIGHT / 2 : LINE_HEIGHT));
         } else if (!com.thelongtravail.network.JourneySync.isRevealed(selected)) {
-            append(lines, Component.translatable("tooltip.the_long_travail.revelation.hidden"), MUTED_INK);
+            append(
+                    lines,
+                    Component.translatable("tooltip.the_long_travail.revelation.hidden"),
+                    MUTED_INK);
         } else if (!LongTravailData.isInitialized(diary)) {
-            append(lines, Component.translatable("tooltip.the_long_travail.revelation.not_started"), MUTED_INK);
-        } else if (selected == TravailAspect.UNDERWORLD && diary.hasTag()
-                && diary.getTag().getCompound("LongTravail").getBoolean("UnderworldBookWitness") && completed()) {
+            append(
+                    lines,
+                    Component.translatable("tooltip.the_long_travail.revelation.not_started"),
+                    MUTED_INK);
+        } else if (selected == TravailAspect.UNDERWORLD
+                && diary.hasTag()
+                && com.thelongtravail.data.JourneyState.hasSource(
+                        diary, selected, com.thelongtravail.data.JourneyState.BOOK_SOURCE)
+                && completed()) {
             append(lines, Component.translatable("gui.the_long_travail.diary.book_witness"), INK);
         } else {
             appendGroup(lines, false, "biomes");
@@ -317,13 +435,21 @@ public final class TravelDiaryScreen extends Screen {
         var entries = LongTravailData.requirementsForDisplay(diary, selected, structures);
         long done = entries.stream().filter(LongTravailData.RequirementStatus::completed).count();
         float headingScale = 1.15F;
-        for (var line : font.split(text(heading, done, entries.size()), (int) (RIGHT_WIDTH / headingScale)))
+        for (var line :
+                font.split(text(heading, done, entries.size()), (int) (RIGHT_WIDTH / headingScale)))
             lines.add(new PageLine(line, INK, 18, headingScale));
         lines.add(new PageLine(FormattedCharSequence.EMPTY, INK, 4));
-        if (entries.isEmpty()) append(lines, Component.translatable("tooltip.the_long_travail.revelation.none"), MUTED_INK);
+        if (entries.isEmpty())
+            append(
+                    lines,
+                    Component.translatable("tooltip.the_long_travail.revelation.none"),
+                    MUTED_INK);
         for (var entry : entries) {
-            String name = TooltipConfigSync.requirementDisplayName(selected, structures, entry.id());
-            append(lines, Component.literal((entry.completed() ? "✓ " : "○ ") + name),
+            String name =
+                    TooltipConfigSync.requirementDisplayName(selected, structures, entry.id());
+            append(
+                    lines,
+                    Component.literal((entry.completed() ? "✓ " : "○ ") + name),
                     entry.completed() ? 0xFF677653 : INK);
         }
     }
@@ -339,13 +465,16 @@ public final class TravelDiaryScreen extends Screen {
         int contentHeight = lines.stream().mapToInt(PageLine::height).sum();
         maxScroll = lines.size();
         int lastPageHeight = 0;
-        while (maxScroll > 0 && lastPageHeight + lines.get(maxScroll - 1).height() <= viewportHeight) {
+        while (maxScroll > 0
+                && lastPageHeight + lines.get(maxScroll - 1).height() <= viewportHeight) {
             lastPageHeight += lines.get(--maxScroll).height();
         }
         scroll = Math.min(scroll, maxScroll);
         float fade = Math.min(1, 0.3F + (System.nanoTime() - contentChanged) / 160_000_000F);
         int alpha = Math.max(4, (int) (255 * fade)) << 24;
-        graphics.enableScissor((int) (bookLeft + RIGHT_X * bookScale), (int) (bookTop + (BODY_TOP - 2) * bookScale),
+        graphics.enableScissor(
+                (int) (bookLeft + RIGHT_X * bookScale),
+                (int) (bookTop + (BODY_TOP - 2) * bookScale),
                 (int) Math.ceil(bookLeft + (RIGHT_X + RIGHT_WIDTH + 3) * bookScale),
                 (int) Math.ceil(bookTop + BODY_BOTTOM * bookScale));
         int y = BODY_TOP;
@@ -367,7 +496,9 @@ public final class TravelDiaryScreen extends Screen {
             int maxOffset = lines.subList(0, maxScroll).stream().mapToInt(PageLine::height).sum();
             int thumbY = BODY_TOP + (trackHeight - thumbHeight) * offset / maxOffset;
             graphics.fill(trackX, thumbY, trackX + 2, thumbY + thumbHeight, 0xB0755A38);
-            Component position = Component.translatable("gui.the_long_travail.diary.scroll", scroll + 1, maxScroll + 1);
+            Component position =
+                    Component.translatable(
+                            "gui.the_long_travail.diary.scroll", scroll + 1, maxScroll + 1);
             graphics.drawString(font, position, RIGHT_X, 311, MUTED_INK, false);
         }
     }
@@ -383,11 +514,13 @@ public final class TravelDiaryScreen extends Screen {
         }
     }
 
-    private void drawCentered(GuiGraphics graphics, Component value, int centerX, int y, int color) {
+    private void drawCentered(
+            GuiGraphics graphics, Component value, int centerX, int y, int color) {
         graphics.drawString(font, value, centerX - font.width(value) / 2, y, color, false);
     }
 
-    private void drawScaledCentered(GuiGraphics graphics, Component value, int centerX, float y, float scale, int color) {
+    private void drawScaledCentered(
+            GuiGraphics graphics, Component value, int centerX, float y, float scale, int color) {
         graphics.pose().pushPose();
         graphics.pose().translate(centerX, y, 0);
         graphics.pose().scale(scale, scale, 1);
@@ -395,14 +528,23 @@ public final class TravelDiaryScreen extends Screen {
         graphics.pose().popPose();
     }
 
-    private void changeContent() { scroll = 0; contentChanged = System.nanoTime(); }
+    private void changeContent() {
+        scroll = 0;
+        contentChanged = System.nanoTime();
+    }
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT) { onClose(); return true; }
+        if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
+            onClose();
+            return true;
+        }
         if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return true;
         double x = (mouseX - bookLeft) / bookScale, y = (mouseY - bookTop) / bookScale;
-        if (inside(x, y, 469, 43, 496, 67)) { onClose(); return true; }
+        if (inside(x, y, 469, 43, 496, 67)) {
+            onClose();
+            return true;
+        }
         for (TravailAspect aspect : TravailAspect.values()) {
             if (overBookmark(x, y, aspect.ordinal())) {
                 if (selected != aspect) {
@@ -440,24 +582,33 @@ public final class TravelDiaryScreen extends Screen {
         if (keyCode == GLFW.GLFW_KEY_ESCAPE || keyCode == GLFW.GLFW_KEY_BACKSPACE) onClose();
         else if (keyCode == GLFW.GLFW_KEY_DOWN) scroll = Math.min(maxScroll, scroll + 1);
         else if (keyCode == GLFW.GLFW_KEY_UP) scroll = Math.max(0, scroll - 1);
-        else if (keyCode == GLFW.GLFW_KEY_PAGE_DOWN) scroll = Math.min(maxScroll, scroll + VISIBLE_LINES);
+        else if (keyCode == GLFW.GLFW_KEY_PAGE_DOWN)
+            scroll = Math.min(maxScroll, scroll + VISIBLE_LINES);
         else if (keyCode == GLFW.GLFW_KEY_PAGE_UP) scroll = Math.max(0, scroll - VISIBLE_LINES);
         return true;
     }
 
     @Override
-    public void onClose() { closeAction.run(); }
+    public void onClose() {
+        closeAction.run();
+    }
 
     @Override
-    public boolean isPauseScreen() { return false; }
+    public boolean isPauseScreen() {
+        return false;
+    }
 
     private static boolean inside(double x, double y, int left, int top, int right, int bottom) {
         return x >= left && x < right && y >= top && y < bottom;
     }
 
     private record PageLine(FormattedCharSequence text, int color, int height, float scale) {
-        private PageLine(FormattedCharSequence text, int color, int height) { this(text, color, height, 1F); }
-        private PageLine(FormattedCharSequence text, int color) { this(text, color, LINE_HEIGHT); }
+        private PageLine(FormattedCharSequence text, int color, int height) {
+            this(text, color, height, 1F);
+        }
+
+        private PageLine(FormattedCharSequence text, int color) {
+            this(text, color, LINE_HEIGHT);
+        }
     }
 }
-

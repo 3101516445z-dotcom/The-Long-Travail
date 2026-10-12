@@ -22,6 +22,7 @@ public class TheLongTravail {
         TravailNetwork.register();
         modBus.addListener(TravailNetwork::onConfigReloading);
         ConfigFiles.register(context);
+        com.thelongtravail.compat.maid.MaidAccessories.init();
         MinecraftForge.EVENT_BUS.register(new TravailEvents());
     }
 }

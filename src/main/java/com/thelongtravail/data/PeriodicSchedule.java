@@ -12,7 +12,7 @@ public final class PeriodicSchedule {
         hash *= 0x7FEB352D;
         hash ^= hash >>> 15;
         long phase = Math.floorMod(hash, interval);
-        // 先对时间取模，避免接近时钟上限时发生 long 溢出。
+        // 先对时间取余，避免接近时钟上限时发生 long 溢出。
         return (Math.floorMod(gameTime, interval) + phase) % interval == 0;
     }
 

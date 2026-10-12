@@ -17,6 +17,7 @@ public abstract class AnvilScreenMixin {
         if (player == null) return original;
         var stack = TravailCurios.stack(player);
         return !stack.isEmpty() && LongTravailData.hasWitness(stack, TravailAspect.UNDERWORLD)
-                ? Integer.MAX_VALUE : original;
+                ? Integer.MAX_VALUE
+                : original;
     }
 }

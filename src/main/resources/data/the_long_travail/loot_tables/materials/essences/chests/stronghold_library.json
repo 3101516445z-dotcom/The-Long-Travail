@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "name": "the_long_travail:material_choice",
+      "rolls": 1,
+      "bonus_rolls": 0,
+      "conditions": [],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "the_long_travail:boundless_essence",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 99
+        }
+      ]
+    }
+  ]
+}

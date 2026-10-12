@@ -9,14 +9,16 @@ import java.util.UUID;
 
 // 玩家实例只显示图标，真正限制由 StiffState 管理；非玩家保留原有药水行为。
 public class StiffEffect extends MobEffect {
-    private static final UUID LEGACY_SPEED_MODIFIER = UUID.fromString("d2b21a50-a731-4f15-91ea-5cfcb76e818f");
+    private static final UUID LEGACY_SPEED_MODIFIER =
+            UUID.fromString("d2b21a50-a731-4f15-91ea-5cfcb76e818f");
 
     public StiffEffect() {
         super(MobEffectCategory.HARMFUL, 0x59636f);
     }
 
     @Override
-    public void removeAttributeModifiers(LivingEntity entity, AttributeMap attributes, int amplifier) {
+    public void removeAttributeModifiers(
+            LivingEntity entity, AttributeMap attributes, int amplifier) {
         super.removeAttributeModifiers(entity, attributes, amplifier);
         // 旧存档可能残留原先的永久效果修饰符；效果到期或被驱散时仅移除本模组的历史 UUID。
         var speed = attributes.getInstance(Attributes.MOVEMENT_SPEED);

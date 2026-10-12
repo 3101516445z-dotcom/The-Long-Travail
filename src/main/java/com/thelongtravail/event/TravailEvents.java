@@ -1,6 +1,7 @@
 package com.thelongtravail.event;
 
 import com.thelongtravail.TravailAspect;
+import com.thelongtravail.config.ModeEffectRules;
 import com.thelongtravail.config.TravailConfig;
 import com.thelongtravail.data.*;
 import com.thelongtravail.helper.TravailCurios;
@@ -20,7 +21,6 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-
 public class TravailEvents {
     @SubscribeEvent
     public void onServerTick(net.minecraftforge.event.TickEvent.ServerTickEvent event) {
@@ -31,6 +31,7 @@ public class TravailEvents {
             WayguideReturns.get(event.getServer()).tick(event.getServer());
         }
     }
+
     @SubscribeEvent
     public void onServerStarted(net.minecraftforge.event.server.ServerStartedEvent event) {
         RuntimePools.reload();
@@ -41,6 +42,7 @@ public class TravailEvents {
         JourneyVisits.clear();
         WayguideSearch.clear(); // 在世界和玩家保存前交接托管物品。
     }
+
     @SubscribeEvent
     public void onServerStopped(net.minecraftforge.event.server.ServerStoppedEvent event) {
         RequirementPools.invalidate();
@@ -61,7 +63,11 @@ public class TravailEvents {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         // 在背包常规 tick 前校正已保存的修饰符，包括旧版本缓存的修饰符。
         ItemStack equipped = TravailCurios.stack(player);
-        if (equipped.isEmpty()) TravailPlayerMaintenance.removeExtraSlots(player); else TravailPlayerMaintenance.updateExtraSlots(player, equipped);
+        if (equipped.isEmpty()) TravailPlayerMaintenance.removeExtraSlots(player);
+        else {
+            TravailPlayerMaintenance.updateExtraSlots(player, equipped);
+            TravailAdvancements.onDiaryEquipped(player);
+        }
         TravailNetwork.sendTooltipConfig(player);
         TravailNetwork.sendJourney(player);
         TravailPlayerMaintenance.giveStarterItem(player);
@@ -83,23 +89,33 @@ public class TravailEvents {
 
     @SubscribeEvent
     public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player) { resetRuntime(player, VisualDeprivation.ClearReason.RESPAWN); TravailNetwork.sendJourney(player); WayguideReturns.get(player.server).activate(player); }
+        if (event.getEntity() instanceof ServerPlayer player) {
+            resetRuntime(player, VisualDeprivation.ClearReason.RESPAWN);
+            TravailNetwork.sendJourney(player);
+            WayguideReturns.get(player.server).activate(player);
+        }
     }
 
     @SubscribeEvent
     public void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player) { resetRuntime(player, VisualDeprivation.ClearReason.DIMENSION_CHANGE); TravailNetwork.sendJourney(player); WayguideReturns.get(player.server).activate(player); }
+        if (event.getEntity() instanceof ServerPlayer player) {
+            resetRuntime(player, VisualDeprivation.ClearReason.DIMENSION_CHANGE);
+            TravailNetwork.sendJourney(player);
+            WayguideReturns.get(player.server).activate(player);
+        }
     }
 
     @SubscribeEvent
     public void onEffectRemoved(MobEffectEvent.Remove event) {
-        if (event.getEntity() instanceof ServerPlayer player) EffectChanges.externalChange(player, event.getEffect());
+        if (event.getEntity() instanceof ServerPlayer player)
+            EffectChanges.externalChange(player, event.getEffect());
     }
 
     // 牛奶同时清除权威状态和用于显示的效果实例。
     @SubscribeEvent
     public void onUseItemFinish(LivingEntityUseItemEvent.Finish event) {
-        if (event.getEntity() instanceof ServerPlayer player && event.getItem().is(Items.MILK_BUCKET)) {
+        if (event.getEntity() instanceof ServerPlayer player
+                && event.getItem().is(Items.MILK_BUCKET)) {
             VisualDeprivation.clear(player, VisualDeprivation.ClearReason.MILK);
             StiffState.clear(player);
         }
@@ -107,13 +123,36 @@ public class TravailEvents {
 
     @SubscribeEvent
     public void afterPlayerTick(net.minecraftforge.event.TickEvent.PlayerTickEvent event) {
-        if (event.phase == net.minecraftforge.event.TickEvent.Phase.END && event.player instanceof ServerPlayer player) EffectChanges.tick(player);
+        if (event.phase == net.minecraftforge.event.TickEvent.Phase.END
+                && event.player instanceof ServerPlayer player) EffectChanges.tick(player);
     }
+
     public static void onDiaryReset(ServerPlayer player, ItemStack diary) {
         resetRuntime(player, VisualDeprivation.ClearReason.DIARY_RESET);
         TravailPlayerMaintenance.updateExtraSlots(player, diary);
         TravailPlayerMaintenance.updateAltitudePenalty(player, diary);
         TravailNetwork.sendJourney(player);
+    }
+
+    public static void onJourneyChanged(
+            ServerPlayer player, ItemStack diary, JourneyService.OperationResult change) {
+        if (change.queryPolicy() == JourneyService.QueryPolicy.INVALIDATE) {
+            JourneyQueries.forget(player);
+            WayguideSearch.forget(player);
+        }
+        int switched = change.beforeMask() ^ change.afterMask();
+        if ((switched & TravailAspect.DEEP_VALLEY.mask()) != 0
+                || change.resetAspects().contains(TravailAspect.DEEP_VALLEY))
+            com.thelongtravail.valley.AzraelState.forget(player);
+        if ((switched & TravailAspect.FAR_REACH.mask()) != 0
+                || change.resetAspects().contains(TravailAspect.FAR_REACH))
+            CleanseRotation.forget(player);
+        if ((switched & TravailAspect.BOUNDLESS.mask()) != 0
+                || change.resetAspects().contains(TravailAspect.BOUNDLESS)) {
+            AltitudePenalty.forget(player);
+            TravailPlayerMaintenance.updateExtraSlots(player, diary);
+            TravailPlayerMaintenance.updateAltitudePenalty(player, diary);
+        }
     }
 
     private static void resetRuntime(ServerPlayer player, VisualDeprivation.ClearReason reason) {
@@ -127,13 +166,18 @@ public class TravailEvents {
         AltitudePenalty.forget(player);
         com.thelongtravail.helper.ReceivedMalice.forget(player);
         AutomaticEffectBudget.forget(player);
-        JourneyQueries.forget(player); CleanseRotation.forget(player); EffectChanges.forget(player);
+        JourneyQueries.forget(player);
+        CleanseRotation.forget(player);
+        EffectChanges.forget(player);
         WayguideSearch.forget(player);
     }
+
     @SubscribeEvent
     public void onDeath(LivingDeathEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player) resetRuntime(player, VisualDeprivation.ClearReason.DEATH);
+        if (event.getEntity() instanceof ServerPlayer player)
+            resetRuntime(player, VisualDeprivation.ClearReason.DEATH);
     }
+
     @SubscribeEvent
     public void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
@@ -165,23 +209,42 @@ public class TravailEvents {
         TravailPlayerMaintenance.updateAltitudePenalty(player, travail);
         if (player.tickCount % 20 == 0) {
             TravailPlayerMaintenance.updateExtraSlots(player, travail);
+            TravailAdvancements.onDiaryEquipped(player);
         }
 
-        if (!LongTravailData.hasWitness(travail, TravailAspect.ABYSS) && touchesFluid(player)
-                && isDue(player, TravailConfig.ABYSS_FLUID_INTERVAL_SECONDS.get(), PeriodicSchedule.FLUID)) {
+        if (ModeEffectRules.diaryApplies(player)
+                && !LongTravailData.hasWitness(travail, TravailAspect.ABYSS)
+                && touchesFluid(player)
+                && isDue(
+                        player,
+                        TravailConfig.ABYSS_FLUID_INTERVAL_SECONDS.get(),
+                        PeriodicSchedule.FLUID)) {
             TrueDamage.hurtFluid(player, safeFloat(TravailConfig.ABYSS_FLUID_DAMAGE.get()));
         }
-        if (!LongTravailData.hasWitness(travail, TravailAspect.UNDERWORLD)) TravailPlayerMaintenance.clampExperience(player);
+        if (ModeEffectRules.diaryApplies(player)
+                && !LongTravailData.hasWitness(travail, TravailAspect.UNDERWORLD))
+            TravailPlayerMaintenance.clampExperience(player);
         if (LongTravailData.hasWitness(travail, TravailAspect.BOUNDLESS)
-                && Math.floorMod(player.level().getGameTime() + player.getUUID().hashCode(),
-                        Math.max(20, TravailEffectActions.secondsToTicks(TravailConfig.PHANTOM_CHECK_INTERVAL_SECONDS.get()))) == 0) TravailRewards.killNearbyPhantoms(player);
+                && Math.floorMod(
+                                player.level().getGameTime() + player.getUUID().hashCode(),
+                                Math.max(
+                                        20,
+                                        TravailEffectActions.secondsToTicks(
+                                                TravailConfig.PHANTOM_CHECK_INTERVAL_SECONDS
+                                                        .get())))
+                        == 0) TravailRewards.killNearbyPhantoms(player);
         if (LongTravailData.hasWitness(travail, TravailAspect.DEEP_VALLEY)) {
-            if (player.hasEffect(MobEffects.DARKNESS)) EffectChanges.remove(player, MobEffects.DARKNESS, false);
-            if (player.hasEffect(MobEffects.BLINDNESS)) EffectChanges.remove(player, MobEffects.BLINDNESS, false);
+            if (player.hasEffect(MobEffects.DARKNESS))
+                EffectChanges.remove(player, MobEffects.DARKNESS, false);
+            if (player.hasEffect(MobEffects.BLINDNESS))
+                EffectChanges.remove(player, MobEffects.BLINDNESS, false);
         }
 
         if (LongTravailData.hasWitness(travail, TravailAspect.FAR_REACH)
-                && isDue(player, TravailConfig.FAR_WITNESS_INTERVAL_SECONDS.get(), PeriodicSchedule.FAR_REACH)) {
+                && isDue(
+                        player,
+                        TravailConfig.FAR_WITNESS_INTERVAL_SECONDS.get(),
+                        PeriodicSchedule.FAR_REACH)) {
             TravailEffectActions.processFarReachWitness(player);
         }
     }
@@ -249,11 +312,11 @@ public class TravailEvents {
 
     private static boolean isDue(ServerPlayer player, double seconds, int task) {
         int interval = TravailEffectActions.secondsToTicks(seconds);
-        return PeriodicSchedule.due(player.level().getGameTime(), player.getUUID().hashCode(), task, interval);
+        return PeriodicSchedule.due(
+                player.level().getGameTime(), player.getUUID().hashCode(), task, interval);
     }
 
     private static float safeFloat(double value) {
         return value >= Float.MAX_VALUE ? Float.MAX_VALUE : (float) Math.max(0.0D, value);
     }
-
 }

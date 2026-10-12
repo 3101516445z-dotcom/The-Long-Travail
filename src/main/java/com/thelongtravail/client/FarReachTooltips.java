@@ -12,7 +12,8 @@ import java.util.ArrayList;
 
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID, value = Dist.CLIENT)
 public final class FarReachTooltips {
-    @SubscribeEvent public static void tooltip(ItemTooltipEvent event) {
+    @SubscribeEvent
+    public static void tooltip(ItemTooltipEvent event) {
         if (!(event.getItemStack().getItem() instanceof FarReachAccessoryItem item)) return;
         var lines = event.getToolTip();
         for (int i = 0; i < lines.size(); i++) {
@@ -25,5 +26,6 @@ public final class FarReachTooltips {
             break;
         }
     }
+
     private FarReachTooltips() {}
 }

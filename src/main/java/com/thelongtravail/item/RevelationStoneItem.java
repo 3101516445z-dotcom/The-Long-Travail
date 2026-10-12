@@ -25,31 +25,40 @@ public final class RevelationStoneItem extends Item {
 
     @Override
     public Component getName(ItemStack stack) {
-        return super.getName(stack).copy().withStyle(style -> style
-                .withColor(0xC5AA77).withInsertion("the_long_travail:name"));
+        return com.thelongtravail.AspectTheme.forAspect(aspect).name(super.getName(stack));
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> use(
+            Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (player instanceof ServerPlayer serverPlayer) {
             boolean unlocked = PlayerJourneyData.reveal(serverPlayer, aspect);
             TravailNetwork.sendJourney(serverPlayer);
-            player.displayClientMessage(Component.translatable(unlocked
-                    ? "message.the_long_travail.revealed" : "message.the_long_travail.already_revealed",
-                    Component.translatable("aspect.the_long_travail." + aspect.id())), true);
+            player.displayClientMessage(
+                    com.thelongtravail.helper.ActionMessages.text(
+                            unlocked
+                                    ? "message.the_long_travail.revealed"
+                                    : "message.the_long_travail.already_revealed",
+                            Component.translatable("aspect.the_long_travail." + aspect.id())),
+                    true);
             if (unlocked) {
                 if (!player.getAbilities().instabuild) stack.shrink(1);
-                TravailNetwork.sendItemSound(serverPlayer, com.thelongtravail.network.ItemSoundCue.stone(aspect));
+                TravailNetwork.sendItemSound(
+                        serverPlayer, com.thelongtravail.network.ItemSoundCue.stone(aspect));
             }
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.the_long_travail.revelation_stone",
-                Component.translatable("aspect.the_long_travail." + aspect.id()))
-                .withStyle(style -> style.withColor(0xBC995E)));
+    public void appendHoverText(
+            ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+        tooltip.add(
+                Component.translatable(
+                                "tooltip.the_long_travail.revelation_stone",
+                                Component.translatable("aspect.the_long_travail." + aspect.id())
+                                        .withStyle(style -> style.withColor(0xFFD84D)))
+                        .withStyle(style -> style.withColor(0xB88750)));
     }
 }

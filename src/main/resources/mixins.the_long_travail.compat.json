@@ -1,0 +1,25 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.thelongtravail.compat.mixin",
+  "plugin": "com.thelongtravail.compat.OptionalCompatPlugin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "mixins.the_long_travail.refmap.json",
+  "mixins": [
+    "caelus.IcarusCaelusApiMixin",
+    "gravestone.BookGravestoneMixin",
+    "gravestone.BookBlockEntityMixin",
+    "maid.MaidSwimMixin",
+    "maid.MaidPersonalityStorageMixin"
+  ],
+  "client": [
+    "maid.MaidTooltipMixin",
+    "jei.JeiReadingOverlayMixin",
+    "sounds.ConfiguredSoundInvoker",
+    "sounds.SoundsPotionCompatMixin",
+    "embeddium.LanternEmbeddiumLightMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

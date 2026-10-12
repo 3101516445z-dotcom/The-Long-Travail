@@ -8,7 +8,10 @@ public final class DiaryPageProse {
     private DiaryPageProse() {}
 
     public static String text(TravailAspect aspect, boolean witness) {
-        return Component.translatable("gui.the_long_travail.diary.prose." + aspect.id()
-                + (witness ? ".witness" : ".malice")).getString();
+        return Component.translatable(
+                        "gui.the_long_travail.diary.prose."
+                                + aspect.id()
+                                + (witness ? ".witness" : ".malice"))
+                .getString();
     }
 }

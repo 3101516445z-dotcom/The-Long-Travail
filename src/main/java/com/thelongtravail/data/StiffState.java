@@ -14,8 +14,11 @@ public final class StiffState {
     public static boolean active(LivingEntity entity) {
         // 保留命令等途径向非玩家生物施加僵硬的原有行为。
         if (!(entity instanceof Player player)) return entity.hasEffect(ModRegistry.STIFF.get());
+        if (!com.thelongtravail.config.ModeEffectRules.diaryApplies(player)) return false;
         // 本地倒计时仅供预测显示，不能在低 TPS 时抢先解除服务端状态。
-        return player.level().isClientSide ? player.getPersistentData().contains(UNTIL) : remaining(player) > 0;
+        return player.level().isClientSide
+                ? player.getPersistentData().contains(UNTIL)
+                : remaining(player) > 0;
     }
 
     public static int remaining(Player player) {
@@ -26,7 +29,7 @@ public final class StiffState {
     }
 
     public static void start(ServerPlayer player, int ticks) {
-        if (ticks <= 0) return;
+        if (ticks <= 0 || !com.thelongtravail.config.ModeEffectRules.diaryApplies(player)) return;
         int duration = Math.max(ticks, remaining(player));
         accept(player, duration);
         TravailNetwork.sendStiff(player, duration);
@@ -46,12 +49,16 @@ public final class StiffState {
 
     public static void clear(ServerPlayer player) {
         accept(player, 0);
-        if (player.hasEffect(ModRegistry.STIFF.get())) EffectChanges.remove(player, ModRegistry.STIFF.get(), false);
+        if (player.hasEffect(ModRegistry.STIFF.get()))
+            EffectChanges.remove(player, ModRegistry.STIFF.get(), false);
         TravailNetwork.sendStiff(player, 0);
     }
 
     public static void tick(ServerPlayer player) {
-        if (player.getPersistentData().contains(UNTIL) && remaining(player) == 0) clear(player);
+        if (player.getPersistentData().contains(UNTIL)
+                && (remaining(player) == 0
+                        || !com.thelongtravail.config.ModeEffectRules.diaryApplies(player)))
+            clear(player);
     }
 
     public static void resend(ServerPlayer player) {
@@ -65,5 +72,6 @@ public final class StiffState {
         var data = player.getPersistentData();
         if (data.contains(UNTIL)) data.putLong(UNTIL, data.getLong(UNTIL) + 1);
     }
+
     private StiffState() {}
 }

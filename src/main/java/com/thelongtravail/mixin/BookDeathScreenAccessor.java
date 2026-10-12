@@ -8,6 +8,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(DeathScreen.class)
 public interface BookDeathScreenAccessor {
-    @Accessor("exitButtons") List<Button> travail$exitButtons();
-    @Accessor("delayTicker") int travail$delayTicker();
+    @Accessor("exitButtons")
+    List<Button> travail$exitButtons();
+
+    @Accessor("delayTicker")
+    int travail$delayTicker();
 }

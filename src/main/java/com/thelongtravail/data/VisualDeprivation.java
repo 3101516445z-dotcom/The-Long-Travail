@@ -7,17 +7,26 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 
-/**
- * 服务端以时间戳保存权威状态，不依赖效果实例，避免受到效果层防护的影响。
- * 其他模组即使拒绝或移除效果实例，诅咒状态仍然有效；效果实例仅用于显示原版 HUD 图标。
- */
+// 服务端单独以时间戳记录诅咒状态，不依赖药水效果实例，避免其他模组的效果免疫阻止诅咒生效。
+// 其他模组即使拒绝或移除效果实例，诅咒状态仍然有效；效果实例仅用于显示原版 HUD 图标。
 public final class VisualDeprivation {
-    public enum ClearReason { COMMAND, MILK, EXPIRED, DEATH, RESPAWN, DIMENSION_CHANGE, DIARY_RESET, NO_ACTIVE_STATE, API }
+    public enum ClearReason {
+        COMMAND,
+        MILK,
+        EXPIRED,
+        DEATH,
+        RESPAWN,
+        DIMENSION_CHANGE,
+        DIARY_RESET,
+        NO_ACTIVE_STATE,
+        API
+    }
+
     private static final String UNTIL = "LongTravailVisualDeprivationUntil";
     private static final String TOTAL = "LongTravailVisualDeprivationTotal";
 
     public static void start(ServerPlayer player, int ticks) {
-        if (ticks <= 0) {
+        if (ticks <= 0 || !com.thelongtravail.config.ModeEffectRules.diaryApplies(player)) {
             clear(player, ClearReason.NO_ACTIVE_STATE);
             return;
         }
@@ -30,21 +39,30 @@ public final class VisualDeprivation {
         EffectChanges.add(player, new MobEffectInstance(effect, ticks));
         com.thelongtravail.TheLongTravail.LOGGER.debug(
                 "Visual deprivation started for {} ({} ticks, effect applied: {})",
-                player.getName().getString(), ticks, player.hasEffect(effect));
+                player.getName().getString(),
+                ticks,
+                player.hasEffect(effect));
     }
 
-    public static void clear(ServerPlayer player) { clear(player, ClearReason.API); }
+    public static void clear(ServerPlayer player) {
+        clear(player, ClearReason.API);
+    }
 
     public static void clear(ServerPlayer player, ClearReason reason) {
         boolean had = player.getPersistentData().contains(UNTIL);
         forget(player);
         MobEffect effect = ModRegistry.VISUAL_DEPRIVATION.get();
         if (player.hasEffect(effect)) EffectChanges.remove(player, effect, false);
-        // 显式清除时，即使服务端标签已不存在，也要修正客户端残留状态。
-        TravailNetwork.sendVisualDeprivation(player, 0, 0, switch (reason) {
-            case EXPIRED, DEATH, RESPAWN, DIMENSION_CHANGE, DIARY_RESET, NO_ACTIVE_STATE -> true;
-            default -> false;
-        });
+        // 主动清除时，即使服务端标签已不存在，也要清除客户端残留状态。
+        TravailNetwork.sendVisualDeprivation(
+                player,
+                0,
+                0,
+                switch (reason) {
+                    case EXPIRED, DEATH, RESPAWN, DIMENSION_CHANGE, DIARY_RESET, NO_ACTIVE_STATE ->
+                            true;
+                    default -> false;
+                });
         if (had) {
             com.thelongtravail.TheLongTravail.LOGGER.debug(
                     "Visual deprivation cleared for {} ({})", player.getName().getString(), reason);
@@ -68,7 +86,9 @@ public final class VisualDeprivation {
     public static void tick(ServerPlayer player) {
         if (!player.getPersistentData().contains(UNTIL)) return;
         int left = remaining(player);
-        if (left == 0) clear(player, ClearReason.EXPIRED);
+        if (!com.thelongtravail.config.ModeEffectRules.diaryApplies(player))
+            clear(player, ClearReason.NO_ACTIVE_STATE);
+        else if (left == 0) clear(player, ClearReason.EXPIRED);
         else TravailNetwork.sendVisualProgress(player, left);
     }
 
@@ -89,5 +109,6 @@ public final class VisualDeprivation {
         var data = player.getPersistentData();
         if (data.contains(UNTIL)) data.putLong(UNTIL, data.getLong(UNTIL) + 1);
     }
+
     private VisualDeprivation() {}
 }

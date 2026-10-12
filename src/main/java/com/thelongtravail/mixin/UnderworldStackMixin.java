@@ -10,9 +10,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ItemStack.class)
 public abstract class UnderworldStackMixin {
-    @Inject(method="of",at=@At("RETURN"))
-    private static void travail$restore(CompoundTag n,CallbackInfoReturnable<ItemStack> cir) {
-        var server=ServerLifecycleHooks.getCurrentServer();
-        if(server!=null&&server.isSameThread()&&server.overworld()!=null)UnderworldLedger.get(server).reconcile(cir.getReturnValue());
+    @Inject(method = "of", at = @At("RETURN"))
+    private static void travail$restore(CompoundTag n, CallbackInfoReturnable<ItemStack> cir) {
+        var server = ServerLifecycleHooks.getCurrentServer();
+        if (server != null && server.isSameThread() && server.overworld() != null)
+            UnderworldLedger.get(server).reconcile(cir.getReturnValue());
     }
 }

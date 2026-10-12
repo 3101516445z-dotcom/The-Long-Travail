@@ -17,28 +17,42 @@ import top.theillusivec4.curios.api.CuriosApi;
 import java.util.List;
 
 public final class HomecomingItem extends Item {
-    public HomecomingItem() { super(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)); }
+    public HomecomingItem() {
+        super(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC));
+    }
 
     @Override
     public Component getName(ItemStack stack) {
-        return super.getName(stack).copy().withStyle(style -> style
-                .withColor(0xC5AA77).withInsertion("the_long_travail:name"));
+        return super.getName(stack)
+                .copy()
+                .withStyle(
+                        style -> style.withColor(0xC5AA77).withInsertion("the_long_travail:name"));
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(
+            ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         for (int index = 0; index < 4; index++)
-            tooltip.add(Component.translatable("tooltip.the_long_travail.homecoming.prose." + index)
-                    .withStyle(style -> style.withColor(0xBC995E)));
+            tooltip.add(
+                    Component.translatable("tooltip.the_long_travail.homecoming.prose." + index)
+                            .withStyle(style -> style.withColor(0xBC995E)));
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> use(
+            Level level, Player player, InteractionHand hand) {
         if (player instanceof ServerPlayer serverPlayer) {
             var found = TravailCurios.find(player);
             var inventory = CuriosApi.getCuriosInventory(player).resolve();
-            var slots = found.isPresent() && inventory.isPresent()
-                    ? inventory.get().getStacksHandler(found.get().slotContext().identifier()) : java.util.Optional.<top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler>empty();
+            var slots =
+                    found.isPresent() && inventory.isPresent()
+                            ? inventory
+                                    .get()
+                                    .getStacksHandler(found.get().slotContext().identifier())
+                            : java.util.Optional
+                                    .<top.theillusivec4.curios.api.type.inventory
+                                                    .ICurioStacksHandler>
+                                            empty();
             if (slots.isEmpty()) return unavailable(player, hand);
             int index = found.get().slotContext().index();
             var stacks = slots.get().getStacks();
@@ -53,15 +67,22 @@ public final class HomecomingItem extends Item {
             com.thelongtravail.helper.DependentAccessories.reconcile(serverPlayer);
             player.getInventory().setChanged();
             player.containerMenu.broadcastChanges();
-            com.thelongtravail.network.TravailNetwork.sendItemSound(serverPlayer, com.thelongtravail.network.ItemSoundCue.HOMECOMING);
-            player.displayClientMessage(Component.translatable("message.the_long_travail.homecoming.success"), true);
+            com.thelongtravail.network.TravailNetwork.sendItemSound(
+                    serverPlayer, com.thelongtravail.network.ItemSoundCue.HOMECOMING);
+            player.displayClientMessage(
+                    com.thelongtravail.helper.ActionMessages.text(
+                            "message.the_long_travail.homecoming.success"),
+                    true);
         }
         // 背包插入可能复用刚清空的手持槽，因此返回该槽当前的物品。
         return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), level.isClientSide);
     }
 
     private InteractionResultHolder<ItemStack> unavailable(Player player, InteractionHand hand) {
-        player.displayClientMessage(Component.translatable("message.the_long_travail.homecoming.unavailable"), true);
+        player.displayClientMessage(
+                com.thelongtravail.helper.ActionMessages.text(
+                        "message.the_long_travail.homecoming.unavailable"),
+                true);
         return InteractionResultHolder.fail(player.getItemInHand(hand));
     }
 }

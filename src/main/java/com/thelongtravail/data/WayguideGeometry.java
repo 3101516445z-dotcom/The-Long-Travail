@@ -18,16 +18,34 @@ public final class WayguideGeometry {
         private int x, z, dx, dz = -1;
         private boolean finished;
 
-        public Spiral(int radius) { this.radius = Math.max(0, radius); }
-        public int x() { return x; }
-        public int z() { return z; }
-        public boolean finished() { return finished; }
+        public Spiral(int radius) {
+            this.radius = Math.max(0, radius);
+        }
+
+        public int x() {
+            return x;
+        }
+
+        public int z() {
+            return z;
+        }
+
+        public boolean finished() {
+            return finished;
+        }
+
         public void advance() {
-            if (x == radius && z == -radius) { finished = true; return; }
-            if (x == z || (x < 0 && x == -z) || (x > 0 && x == 1 - z)) {
-                int previousDx = dx; dx = -dz; dz = previousDx;
+            if (x == radius && z == -radius) {
+                finished = true;
+                return;
             }
-            x += dx; z += dz;
+            if (x == z || (x < 0 && x == -z) || (x > 0 && x == 1 - z)) {
+                int previousDx = dx;
+                dx = -dz;
+                dz = previousDx;
+            }
+            x += dx;
+            z += dz;
         }
     }
 

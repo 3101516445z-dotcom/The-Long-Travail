@@ -4,13 +4,13 @@ license="MPL-2.0"
 
 [[mods]]
 modId="the_long_travail"
-version="0.1.1"
+version="0.1.1-fix"
 displayName="The Long Travail / 苦旅"
 authors="Phoebe_Real"
 description='''
 Adds the bound Travel Diary curio, The Long Travail / 苦旅.
 '''
-mixinConfigs="mixins.the_long_travail.json"
+mixinConfigs="mixins.the_long_travail.json,mixins.the_long_travail.compat.json"
 
 [[dependencies.the_long_travail]]
 modId="forge"

@@ -13,5 +13,6 @@ import java.util.concurrent.CompletableFuture;
 @Mixin(ServerChunkCache.class)
 public interface ChunkFutureInvoker {
     @Invoker("getChunkFutureMainThread")
-    CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> travail$requestChunk(int x, int z, ChunkStatus status, boolean create);
+    CompletableFuture<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>> travail$requestChunk(
+            int x, int z, ChunkStatus status, boolean create);
 }

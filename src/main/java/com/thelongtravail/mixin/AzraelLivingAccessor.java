@@ -6,5 +6,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(LivingEntity.class)
 public interface AzraelLivingAccessor {
-    @Accessor("lastHurtByPlayerTime") void travail$recentPlayerHit(int ticks);
+    @Accessor("lastHurtByPlayerTime")
+    void travail$recentPlayerHit(int ticks);
 }

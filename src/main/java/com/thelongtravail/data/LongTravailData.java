@@ -3,7 +3,6 @@ package com.thelongtravail.data;
 import com.thelongtravail.TravailAspect;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -21,8 +20,6 @@ public final class LongTravailData {
     private static final String JOURNEY_ID = "JourneyId";
     private static final String OWNER_ID = "OwnerId";
     private static final String WITNESSES = "Witnesses";
-    private static final String FORCED_WITNESSES = "ForcedWitnesses";
-    private static final String FORCED_MALICES = "ForcedMalices";
     private static final String REQUIREMENTS = "Requirements";
     private static final String REQUIREMENTS_REVISION = "RequirementsRevision";
     private static final int DATA_VERSION = 2;
@@ -33,7 +30,9 @@ public final class LongTravailData {
 
     // 事务式生成：失败时原物品数据保持不变。
     public static boolean tryInitialize(ItemStack stack, ServerPlayer player) {
-        if (isInitialized(stack)) return true; // 保留版本 1 旅程的进度和见证。
+        if (!JourneyState.validStorage(stack)) return false;
+        if (isInitialized(stack)) return JourneyState.supported(root(stack)); // 保留版本 1 旅程的进度和见证。
+        if (!JourneyState.supported(root(stack))) return false;
         RequirementPools.Snapshot pools = RequirementPools.current(player);
         if (!pools.valid()) return false;
         CompoundTag root = root(stack).copy();
@@ -45,12 +44,7 @@ public final class LongTravailData {
         RandomSource random = player.getRandom();
         CompoundTag requirements = new CompoundTag();
         for (TravailAspect aspect : TravailAspect.values()) {
-            CompoundTag aspectTag = new CompoundTag();
-            var selected = pools.aspects().get(aspect);
-            aspectTag.put("Biomes", draw(selected.biomes(), random));
-            aspectTag.put("Structures", draw(selected.structures(), random));
-            aspectTag.putString("BiomesStatus", selected.biomes().status().name());
-            aspectTag.putString("StructuresStatus", selected.structures().status().name());
+            CompoundTag aspectTag = JourneyOperations.generate(pools.aspects().get(aspect), random);
             requirements.put(aspect.id(), aspectTag);
         }
         root.put(REQUIREMENTS, requirements);
@@ -63,21 +57,25 @@ public final class LongTravailData {
 
     // 先在槽位外生成，失败时不能清除已装备的日记。
     public static ItemStack refreshedCopy(ItemStack original, ServerPlayer player) {
+        if (!JourneyState.validStorage(original)) return ItemStack.EMPTY;
+        CompoundTag existing = root(original);
+        if (!JourneyState.supported(existing)) return ItemStack.EMPTY;
+        if (isInitialized(original))
+            for (TravailAspect aspect : TravailAspect.values())
+                if (JourneyState.identity(existing, aspect) == null) return ItemStack.EMPTY;
         ItemStack refreshed = original.copy();
         if (refreshed.hasTag()) refreshed.getTag().remove(ROOT);
         return tryInitialize(refreshed, player) ? refreshed : ItemStack.EMPTY;
     }
 
     public static boolean isInitialized(ItemStack stack) {
-        return stack.hasTag() && stack.getTag().contains(ROOT, Tag.TAG_COMPOUND)
+        return stack.hasTag()
+                && stack.getTag().contains(ROOT, Tag.TAG_COMPOUND)
                 && stack.getTag().getCompound(ROOT).getBoolean(INITIALIZED);
     }
 
     public static boolean hasWitness(ItemStack stack, TravailAspect aspect) {
-        CompoundTag root = root(stack);
-        if ((root.getInt(FORCED_MALICES) & aspect.mask()) != 0) return false;
-        if ((root.getInt(FORCED_WITNESSES) & aspect.mask()) != 0) return true;
-        return (root.getInt(WITNESSES) & aspect.mask()) != 0;
+        return JourneyState.hasWitness(root(stack), aspect);
     }
 
     public static boolean visitBiome(ItemStack stack, ResourceLocation biome) {
@@ -89,23 +87,42 @@ public final class LongTravailData {
     }
 
     // 固定大小快照；NBT 引用按对象身份比较，不做深度比较。
-    public record RequirementIdentity(ItemStack stack, Tag root, Tag requirements, UUID journey, long revision) {
-        @Override public boolean equals(Object other) {
-            return other instanceof RequirementIdentity key && stack == key.stack && root == key.root
-                    && requirements == key.requirements && revision == key.revision && java.util.Objects.equals(journey, key.journey);
+    public record RequirementIdentity(
+            ItemStack stack, Tag root, Tag requirements, UUID journey, long revision) {
+        @Override
+        public boolean equals(Object other) {
+            return other instanceof RequirementIdentity key
+                    && stack == key.stack
+                    && root == key.root
+                    && requirements == key.requirements
+                    && revision == key.revision
+                    && java.util.Objects.equals(journey, key.journey);
         }
-        @Override public int hashCode() {
-            return java.util.Objects.hash(System.identityHashCode(stack), System.identityHashCode(root),
-                    System.identityHashCode(requirements), journey, revision);
+
+        @Override
+        public int hashCode() {
+            return java.util.Objects.hash(
+                    System.identityHashCode(stack),
+                    System.identityHashCode(root),
+                    System.identityHashCode(requirements),
+                    journey,
+                    revision);
         }
     }
+
     public static RequirementIdentity queryIdentity(ItemStack stack) {
-        CompoundTag root = stack.hasTag() && stack.getTag().contains(ROOT, Tag.TAG_COMPOUND)
-                ? stack.getTag().getCompound(ROOT) : null;
-        return new RequirementIdentity(stack, root, root == null ? null : root.get(REQUIREMENTS),
+        CompoundTag root =
+                stack.hasTag() && stack.getTag().contains(ROOT, Tag.TAG_COMPOUND)
+                        ? stack.getTag().getCompound(ROOT)
+                        : null;
+        return new RequirementIdentity(
+                stack,
+                root,
+                root == null ? null : root.get(REQUIREMENTS),
                 root != null && root.hasUUID(JOURNEY_ID) ? root.getUUID(JOURNEY_ID) : null,
                 root == null ? 0 : root.getLong(REQUIREMENTS_REVISION));
     }
+
     // 外部集成原地修改需求后，必须调用一次以使缓存失效。
     public static void requirementsChanged(ItemStack stack) {
         if (!isInitialized(stack)) return;
@@ -114,13 +131,16 @@ public final class LongTravailData {
         bumpRequirementsRevision(root);
         saveRoot(stack, root);
     }
+
     private static void bumpRequirementsRevision(CompoundTag root) {
-        root.putLong(REQUIREMENTS_REVISION, root.getLong(REQUIREMENTS_REVISION) + 1L);
+        JourneyOperations.requirementsChanged(root);
     }
+
     public static boolean hasRemainingBiomes(ItemStack stack) {
         CompoundTag requirements = root(stack).getCompound(REQUIREMENTS);
         for (TravailAspect aspect : TravailAspect.values())
-            if (!requirements.getCompound(aspect.id()).getList("Biomes", Tag.TAG_STRING).isEmpty()) return true;
+            if (!requirements.getCompound(aspect.id()).getList("Biomes", Tag.TAG_STRING).isEmpty())
+                return true;
         return false;
     }
 
@@ -145,7 +165,8 @@ public final class LongTravailData {
         return List.copyOf(result);
     }
 
-    public static List<RequirementStatus> requirementsForDisplay(ItemStack stack, TravailAspect aspect, boolean structures) {
+    public static List<RequirementStatus> requirementsForDisplay(
+            ItemStack stack, TravailAspect aspect, boolean structures) {
         List<RequirementStatus> result = new ArrayList<>();
         CompoundTag aspectTag = root(stack).getCompound(REQUIREMENTS).getCompound(aspect.id());
         String listName = structures ? "Structures" : "Biomes";
@@ -164,30 +185,22 @@ public final class LongTravailData {
 
     public static void setWitness(ItemStack stack, TravailAspect aspect, boolean witness) {
         CompoundTag root = root(stack);
-        int forcedWitnesses = root.getInt(FORCED_WITNESSES);
-        int forcedMalices = root.getInt(FORCED_MALICES);
-        if (witness) {
-            forcedWitnesses |= aspect.mask();
-            forcedMalices &= ~aspect.mask();
-        } else {
-            forcedMalices |= aspect.mask();
-            forcedWitnesses &= ~aspect.mask();
-        }
-        root.putInt(FORCED_WITNESSES, forcedWitnesses);
-        root.putInt(FORCED_MALICES, forcedMalices);
-        saveRoot(stack, root);
+        if (JourneyOperations.override(
+                        root,
+                        List.of(aspect),
+                        witness
+                                ? JourneyOperations.Override.WITNESS
+                                : JourneyOperations.Override.MALICE)
+                == JourneyOperations.Status.SUCCESS) saveRoot(stack, root);
     }
 
     public static void clearForcedWitnessState(ItemStack stack, TravailAspect aspect) {
         CompoundTag root = root(stack);
-        if (aspect == null) {
-            root.remove(FORCED_WITNESSES);
-            root.remove(FORCED_MALICES);
-        } else {
-            root.putInt(FORCED_WITNESSES, root.getInt(FORCED_WITNESSES) & ~aspect.mask());
-            root.putInt(FORCED_MALICES, root.getInt(FORCED_MALICES) & ~aspect.mask());
-        }
-        saveRoot(stack, root);
+        if (JourneyOperations.override(
+                        root,
+                        aspect == null ? List.of(TravailAspect.values()) : List.of(aspect),
+                        JourneyOperations.Override.NATURAL)
+                == JourneyOperations.Status.SUCCESS) saveRoot(stack, root);
     }
 
     public record RequirementStatus(ResourceLocation id, boolean completed) {}
@@ -202,62 +215,34 @@ public final class LongTravailData {
         saveRoot(stack, root);
     }
 
-    private static boolean removeRequirement(ItemStack stack, String listName, ResourceLocation target) {
+    private static boolean removeRequirement(
+            ItemStack stack, String listName, ResourceLocation target) {
         if (!isInitialized(stack)) return false;
         CompoundTag root = root(stack);
-        CompoundTag requirements = root.getCompound(REQUIREMENTS);
+        long revision = root.getLong(REQUIREMENTS_REVISION),
+                stateRevision = root.getLong("StateRevision");
+        var ref =
+                new JourneyOperations.RequirementRef(
+                        listName.equals("Biomes")
+                                ? JourneyOperations.Kind.BIOME
+                                : JourneyOperations.Kind.STRUCTURE,
+                        target);
         boolean changed = false;
-        for (TravailAspect aspect : TravailAspect.values()) {
-            CompoundTag aspectTag = requirements.getCompound(aspect.id());
-            ListTag list = aspectTag.getList(listName, Tag.TAG_STRING);
-            ListTag completed = aspectTag.getList("Completed" + listName, Tag.TAG_STRING);
-            for (int i = list.size() - 1; i >= 0; i--) {
-                if (target.toString().equals(list.getString(i))) {
-                    if (!completed.contains(list.get(i))) completed.add(list.get(i).copy());
-                    list.remove(i);
-                    changed = true;
-                }
-            }
-            aspectTag.put(listName, list);
-            aspectTag.put("Completed" + listName, completed);
-            requirements.put(aspect.id(), aspectTag);
-        }
+        for (TravailAspect aspect : TravailAspect.values())
+            changed |=
+                    JourneyOperations.complete(root, aspect, ref)
+                            == JourneyOperations.Status.SUCCESS;
         if (changed) {
-            root.put(REQUIREMENTS, requirements);
-            updateCompletions(root);
-            bumpRequirementsRevision(root);
+            root.putLong(REQUIREMENTS_REVISION, revision + 1);
+            root.putLong("StateRevision", stateRevision + 1);
             saveRoot(stack, root);
         }
         return changed;
     }
 
     private static void updateCompletions(CompoundTag root) {
-        int witnesses = root.getInt(WITNESSES);
-        CompoundTag requirements = root.getCompound(REQUIREMENTS);
-        for (TravailAspect aspect : TravailAspect.values()) {
-            if (!requirements.contains(aspect.id(), Tag.TAG_COMPOUND)) continue;
-            CompoundTag aspectTag = requirements.getCompound(aspect.id());
-            boolean valid = root.getInt(VERSION) < 2 || (validStatus(aspectTag.getString("BiomesStatus"))
-                    && validStatus(aspectTag.getString("StructuresStatus")));
-            if (valid && aspectTag.contains("Biomes", Tag.TAG_LIST) && aspectTag.contains("Structures", Tag.TAG_LIST)
-                    && aspectTag.getList("Biomes", Tag.TAG_STRING).isEmpty()
-                    && aspectTag.getList("Structures", Tag.TAG_STRING).isEmpty()) {
-                witnesses |= aspect.mask();
-            }
-        }
-        root.putInt(WITNESSES, witnesses);
-    }
-
-    private static boolean validStatus(String status) {
-        return "READY".equals(status) || "DISABLED".equals(status);
-    }
-
-    private static ListTag draw(RequirementPools.Pool pool, RandomSource random) {
-        ListTag result = new ListTag();
-        for (WeightedEntry entry : WeightedPicker.withoutReplacement(pool.entries(), pool.count(), WeightedEntry::weight, random)) {
-            result.add(StringTag.valueOf(entry.id().toString()));
-        }
-        return result;
+        for (TravailAspect aspect : TravailAspect.values())
+            JourneyOperations.updateCompletion(root, aspect);
     }
 
     private static CompoundTag root(ItemStack stack) {

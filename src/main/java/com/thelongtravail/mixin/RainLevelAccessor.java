@@ -7,5 +7,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 // getThunderLevel 已乘以降雨强度，快照和原版数据包需要读取未经处理的字段值。
 @Mixin(Level.class)
 public interface RainLevelAccessor {
-    @Accessor("thunderLevel") float travail$rawThunderLevel();
+    @Accessor("thunderLevel")
+    float travail$rawThunderLevel();
 }

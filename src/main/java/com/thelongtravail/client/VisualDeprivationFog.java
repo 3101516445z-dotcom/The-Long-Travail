@@ -1,4 +1,5 @@
 package com.thelongtravail.client;
+
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ViewportEvent;
 
@@ -11,7 +12,8 @@ public final class VisualDeprivationFog {
         float envelope = VisualDeprivationClient.envelope(player, partial);
         if (envelope <= 0) return;
         var style = VisualDeprivationClient.style(partial);
-        float blend = envelope * style.distanceEnabled() * VisualDeprivationClient.pulse(partial, style);
+        float blend =
+                envelope * style.distanceEnabled() * VisualDeprivationClient.pulse(partial, style);
         if (blend <= 0) return;
         float far = event.getFarPlaneDistance(), near = event.getNearPlaneDistance();
         float targetFar = Math.min(far, style.distanceEnd());
@@ -20,6 +22,7 @@ public final class VisualDeprivationFog {
         event.setNearPlaneDistance(mix(near, targetNear, blend));
         event.setCanceled(true);
     }
+
     public static void color(ViewportEvent.ComputeFogColor event) {
         var player = Minecraft.getInstance().player;
         if (player == null || event.getCamera().getEntity() != player) return;
@@ -27,14 +30,21 @@ public final class VisualDeprivationFog {
         float envelope = VisualDeprivationClient.envelope(player, partial);
         if (envelope <= 0) return;
         var style = VisualDeprivationClient.style(partial);
-        float remaining = 1 - envelope * style.distanceEnabled() * VisualDeprivationClient.pulse(partial, style);
+        float remaining =
+                1
+                        - envelope
+                                * style.distanceEnabled()
+                                * VisualDeprivationClient.pulse(partial, style);
         event.setRed(event.getRed() * remaining);
         event.setGreen(event.getGreen() * remaining);
         event.setBlue(event.getBlue() * remaining);
     }
+
     private static float mix(float from, float to, float amount) {
-        return from > 0 && to > 0 ? (float) Math.exp(Math.log(from) * (1 - amount) + Math.log(to) * amount)
+        return from > 0 && to > 0
+                ? (float) Math.exp(Math.log(from) * (1 - amount) + Math.log(to) * amount)
                 : from + (to - from) * amount;
     }
+
     private VisualDeprivationFog() {}
 }

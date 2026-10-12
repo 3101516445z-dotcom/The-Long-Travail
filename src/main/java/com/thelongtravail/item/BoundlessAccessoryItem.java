@@ -12,11 +12,44 @@ import java.util.List;
 
 public final class BoundlessAccessoryItem extends Item implements ICurioItem {
     public final boolean dream;
-    public BoundlessAccessoryItem(boolean dream){super(new Properties().stacksTo(1).rarity(Rarity.RARE));this.dream=dream;}
-    @Override public Component getName(ItemStack s){return AspectTheme.BOUNDLESS.name(super.getName(s));}
-    @Override public boolean canEquip(SlotContext c,ItemStack s){return !c.cosmetic()&&c.identifier().equals(dream?"head":"necklace")&&c.entity() instanceof Player p
-            &&(dream||!TravailCurios.stack(p).isEmpty())&&DependentAccessories.unique(c,this);}
-    @Override public boolean canEquipFromUse(SlotContext c,ItemStack s){return false;}
-    @Override public boolean canRightClickEquip(ItemStack s){return false;}
-    @Override public void appendHoverText(ItemStack s,Level l,List<Component> lines,TooltipFlag f){lines.addAll(com.thelongtravail.boundless.BoundlessTooltips.forViewer(dream,l==null||l.isClientSide?com.thelongtravail.boundless.BoundlessTooltips.viewer.get():null,com.thelongtravail.boundless.BoundlessTooltips.dreamKey.get()));}
+
+    public BoundlessAccessoryItem(boolean dream) {
+        super(new Properties().stacksTo(1).rarity(Rarity.RARE));
+        this.dream = dream;
+    }
+
+    @Override
+    public Component getName(ItemStack s) {
+        return AspectTheme.BOUNDLESS.name(super.getName(s));
+    }
+
+    @Override
+    public boolean canEquip(SlotContext c, ItemStack s) {
+        return !c.cosmetic()
+                && (dream || c.identifier().equals("necklace"))
+                && c.entity() instanceof Player p
+                && (dream || AccessoryEquipRules.hasDiary(p))
+                && DependentAccessories.unique(c, this);
+    }
+
+    @Override
+    public boolean canEquipFromUse(SlotContext c, ItemStack s) {
+        return true;
+    }
+
+    @Override
+    public boolean canRightClickEquip(ItemStack s) {
+        return true;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack s, Level l, List<Component> lines, TooltipFlag f) {
+        lines.addAll(
+                com.thelongtravail.boundless.BoundlessTooltips.forViewer(
+                        dream,
+                        l == null || l.isClientSide
+                                ? com.thelongtravail.boundless.BoundlessTooltips.viewer.get()
+                                : null,
+                        com.thelongtravail.boundless.BoundlessTooltips.dreamKey.get()));
+    }
 }

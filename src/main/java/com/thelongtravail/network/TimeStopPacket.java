@@ -12,16 +12,21 @@ import java.util.*;
 import java.util.function.*;
 
 public record TimeStopPacket(ResourceLocation dimension, List<View> fields) {
-    // 保持协议 15 的既有限制；管理器输入校验与解码器共用这些边界。
+    // 管理器输入校验与解码器共用这些边界，避免服务端接受客户端无法读取的数据。
     public static final int MAX_FIELDS = 4096, MAX_ALLIES = 4096;
     public static final double MAX_RADIUS = 128;
+
     public record View(long id, Vec3 center, double radius, Set<UUID> allies) {
-        public boolean contains(Vec3 position) { return center.distanceToSqr(position) <= radius*radius; }
+        public boolean contains(Vec3 position) {
+            return center.distanceToSqr(position) <= radius * radius;
+        }
     }
+
     public static Consumer<TimeStopPacket> receiver = packet -> {};
     public static Predicate<Entity> clientFrozen = entity -> false;
-    public static BiFunction<Entity,Vec3,Vec3> clientClip = (entity,delta) -> delta;
-    public static BiPredicate<Level,BlockPos> clientBlock = (level,position) -> false;
+    public static BiFunction<Entity, Vec3, Vec3> clientClip = (entity, delta) -> delta;
+    public static BiPredicate<Level, BlockPos> clientBlock = (level, position) -> false;
+
     public static void encode(TimeStopPacket packet, FriendlyByteBuf buffer) {
         buffer.writeResourceLocation(packet.dimension);
         buffer.writeVarInt(packet.fields.size());
@@ -34,29 +39,38 @@ public record TimeStopPacket(ResourceLocation dimension, List<View> fields) {
             buffer.writeCollection(field.allies, FriendlyByteBuf::writeUUID);
         }
     }
+
     public static TimeStopPacket decode(FriendlyByteBuf buffer) {
         ResourceLocation dimension = buffer.readResourceLocation();
         int count = buffer.readVarInt();
-        if (count < 0 || count > MAX_FIELDS) throw new IllegalArgumentException("time stop field count");
+        if (count < 0 || count > MAX_FIELDS)
+            throw new IllegalArgumentException("time stop field count");
         List<View> fields = new ArrayList<>();
-        for (int i=0; i<count; i++) {
+        for (int i = 0; i < count; i++) {
             long id = buffer.readLong();
             Vec3 center = new Vec3(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
             double radius = buffer.readDouble();
             int alliesCount = buffer.readVarInt();
-            if (alliesCount < 0 || alliesCount > MAX_ALLIES || !Double.isFinite(center.lengthSqr())
-                    || !Double.isFinite(radius) || radius <= 0 || radius > MAX_RADIUS)
-                throw new IllegalArgumentException("time stop field");
+            if (alliesCount < 0
+                    || alliesCount > MAX_ALLIES
+                    || !Double.isFinite(center.lengthSqr())
+                    || !Double.isFinite(radius)
+                    || radius <= 0
+                    || radius > MAX_RADIUS) throw new IllegalArgumentException("time stop field");
             Set<UUID> allies = new HashSet<>();
-            for (int k=0; k<alliesCount; k++) allies.add(buffer.readUUID());
+            for (int k = 0; k < alliesCount; k++) allies.add(buffer.readUUID());
             fields.add(new View(id, center, radius, Set.copyOf(allies)));
         }
         return new TimeStopPacket(dimension, List.copyOf(fields));
     }
+
     public static void handle(TimeStopPacket packet, Supplier<NetworkEvent.Context> supplier) {
         var context = supplier.get();
         context.enqueueWork(() -> receiver.accept(packet));
         context.setPacketHandled(true);
     }
-    public static void send(ServerLevel level) { TimeStopSync.send(level); }
+
+    public static void send(ServerLevel level) {
+        TimeStopSync.send(level);
+    }
 }

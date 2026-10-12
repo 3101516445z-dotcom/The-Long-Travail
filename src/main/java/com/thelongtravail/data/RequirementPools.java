@@ -17,13 +17,24 @@ import java.util.function.Predicate;
 
 // 服务端线程快照；无效配置只诊断一次，不在每个玩家 tick 重复报告。
 public final class RequirementPools {
-    public enum Status { DISABLED, READY, INVALID }
-    public record Pool(Status status, List<WeightedEntry> entries, int count) {
-        public Pool { entries = List.copyOf(entries); }
+    public enum Status {
+        DISABLED,
+        READY,
+        INVALID
     }
+
+    public record Pool(Status status, List<WeightedEntry> entries, int count) {
+        public Pool {
+            entries = List.copyOf(entries);
+        }
+    }
+
     public record AspectPools(Pool biomes, Pool structures) {}
+
     public record Snapshot(Map<TravailAspect, AspectPools> aspects, boolean valid) {
-        public Snapshot { aspects = Map.copyOf(aspects); }
+        public Snapshot {
+            aspects = Map.copyOf(aspects);
+        }
     }
 
     private static Registry<?> biomeRegistry, structureRegistry;
@@ -39,16 +50,27 @@ public final class RequirementPools {
         var registries = player.serverLevel().registryAccess();
         var biomes = registries.registryOrThrow(Registries.BIOME);
         var structures = registries.registryOrThrow(Registries.STRUCTURE);
-        if (snapshot != null && biomeRegistry == biomes && structureRegistry == structures) return snapshot;
+        if (snapshot != null && biomeRegistry == biomes && structureRegistry == structures)
+            return snapshot;
         Map<TravailAspect, AspectPools> result = new EnumMap<>(TravailAspect.class);
         boolean valid = true;
         for (TravailAspect aspect : TravailAspect.values()) {
-            Pool biomePool = validate(TravailConfig.BIOME_POOLS.get(aspect).get(), TravailConfig.BIOME_DRAW_COUNT.get(),
-                    biomes::containsKey, message -> warn(aspect, "biomes", message));
-            Pool structurePool = validate(TravailConfig.STRUCTURE_POOLS.get(aspect).get(), TravailConfig.STRUCTURE_DRAW_COUNT.get(),
-                    structures::containsKey, message -> warn(aspect, "structures", message));
+            Pool biomePool =
+                    validate(
+                            TravailConfig.BIOME_POOLS.get(aspect).get(),
+                            TravailConfig.BIOME_DRAW_COUNT.get(),
+                            biomes::containsKey,
+                            message -> warn(aspect, "biomes", message));
+            Pool structurePool =
+                    validate(
+                            TravailConfig.STRUCTURE_POOLS.get(aspect).get(),
+                            TravailConfig.STRUCTURE_DRAW_COUNT.get(),
+                            structures::containsKey,
+                            message -> warn(aspect, "structures", message));
             result.put(aspect, new AspectPools(biomePool, structurePool));
-            valid &= biomePool.status() != Status.INVALID && structurePool.status() != Status.INVALID;
+            valid &=
+                    biomePool.status() != Status.INVALID
+                            && structurePool.status() != Status.INVALID;
         }
         biomeRegistry = biomes;
         structureRegistry = structures;
@@ -57,20 +79,32 @@ public final class RequirementPools {
     }
 
     // 空列表和零抽取次数表示主动禁用该类别；非空但无效的列表不属于禁用。
-    public static Pool validate(List<? extends String> configured, int count,
-                                Predicate<ResourceLocation> exists, Consumer<String> diagnostic) {
+    public static Pool validate(
+            List<? extends String> configured,
+            int count,
+            Predicate<ResourceLocation> exists,
+            Consumer<String> diagnostic) {
         if (count <= 0 || configured.isEmpty()) return new Pool(Status.DISABLED, List.of(), 0);
         Map<ResourceLocation, WeightedEntry> unique = new LinkedHashMap<>();
         for (String text : configured) {
             WeightedEntry entry = WeightedEntry.parse(text);
-            if (entry == null || !exists.test(entry.id())) diagnostic.accept("Ignoring invalid/unavailable target: " + text);
-            else if (unique.putIfAbsent(entry.id(), entry) != null) diagnostic.accept("Ignoring duplicate target: " + entry.id());
+            if (entry == null || !exists.test(entry.id()))
+                diagnostic.accept("Ignoring invalid/unavailable target: " + text);
+            else if (unique.putIfAbsent(entry.id(), entry) != null)
+                diagnostic.accept("Ignoring duplicate target: " + entry.id());
         }
         if (unique.isEmpty()) {
-            diagnostic.accept("No valid targets remain; new journey generation is blocked until the pool is corrected.");
+            diagnostic.accept(
+                    "No valid targets remain; new journey generation is blocked until the pool is corrected.");
             return new Pool(Status.INVALID, List.of(), 0);
         }
-        if (unique.size() < count) diagnostic.accept("Requested " + count + " unique targets, but only " + unique.size() + " are available; drawing all available targets.");
+        if (unique.size() < count)
+            diagnostic.accept(
+                    "Requested "
+                            + count
+                            + " unique targets, but only "
+                            + unique.size()
+                            + " are available; drawing all available targets.");
         return new Pool(Status.READY, List.copyOf(unique.values()), Math.min(count, unique.size()));
     }
 

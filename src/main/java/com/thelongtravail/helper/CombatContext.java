@@ -1,6 +1,7 @@
 package com.thelongtravail.helper;
 
 import com.thelongtravail.TravailAspect;
+import com.thelongtravail.config.ModeEffectRules;
 import com.thelongtravail.config.TravailConfig;
 import com.thelongtravail.data.LongTravailData;
 import com.thelongtravail.event.TravailEvents;
@@ -26,6 +27,8 @@ public final class CombatContext implements AutoCloseable {
     private boolean victimInternallyImmune;
     private boolean ekiImmune, skipReceivedPenalty;
     private double ekiDamageBonus;
+    private double maidBonus;
+    private boolean maidImmune;
     private double icarusDamageBonus;
     private double swordLanternBonus;
     private final double witherBonus;
@@ -46,23 +49,46 @@ public final class CombatContext implements AutoCloseable {
         this.target = target;
         this.source = source;
         this.execution = com.thelongtravail.valley.AzraelExecution.matches(target, source);
-        this.witherBonus = execution ? 0 : com.thelongtravail.underworld.UnderworldItems.bonus(target, source);
-        Double transferredBonus = com.thelongtravail.flourishing.FloralCombat.claimTransfer(target, source);
+        this.witherBonus =
+                execution
+                        ? 0
+                        : com.thelongtravail.underworld.UnderworldItems.bonus(target, source)
+                                + com.thelongtravail.compat.maid.MaidAccessories.witherBonus(
+                                        target, source);
+        Double transferredBonus =
+                com.thelongtravail.flourishing.FloralCombat.claimTransfer(target, source);
         this.floralTransfer = transferredBonus != null;
         this.floralPoison = com.thelongtravail.flourishing.FloralEvents.claimPoison(target, source);
         this.roseDamage = com.thelongtravail.flourishing.FloralCombat.rose(source);
-        this.floralBonus = execution ? 0 : floralTransfer ? transferredBonus : com.thelongtravail.flourishing.FloralCombat.bonus(target, source);
+        this.floralBonus =
+                execution
+                        ? 0
+                        : floralTransfer
+                                ? transferredBonus
+                                : com.thelongtravail.flourishing.FloralCombat.bonus(target, source);
         this.attacker = source.getEntity() instanceof ServerPlayer player ? player : null;
-        this.protection = roseDamage ? TravailConfig.FluidProtection.ENFORCED : source.is(TrueDamage.FLUID) && TravailConfig.FLUID_EROSION_UNAVOIDABLE.get()
-                ? TravailConfig.FLUID_PROTECTION.get() : TravailConfig.FluidProtection.STANDARD;
+        this.protection =
+                roseDamage
+                        ? TravailConfig.FluidProtection.ENFORCED
+                        : source.is(TrueDamage.FLUID)
+                                        && TravailConfig.FLUID_EROSION_UNAVOIDABLE.get()
+                                ? TravailConfig.FLUID_PROTECTION.get()
+                                : TravailConfig.FluidProtection.STANDARD;
         this.penetrating = protection != TravailConfig.FluidProtection.STANDARD;
         this.receivedTrigger = TravailConfig.RECEIVED_TRIGGER.get();
-        if (!execution && !floralTransfer && !roseDamage && attacker != null && attacker != target && com.thelongtravail.abyss.RainState.ekiMalice(attacker))
+        if (!execution
+                && !floralTransfer
+                && !roseDamage
+                && attacker != null
+                && attacker != target
+                && com.thelongtravail.abyss.RainState.ekiMalice(attacker))
             ekiDamageBonus = com.thelongtravail.config.RainConfig.DAMAGE.get();
         if (!execution && !floralTransfer && !roseDamage && attacker != null && attacker != target)
             icarusDamageBonus = com.thelongtravail.farreach.FarReachCombat.bonus(attacker);
         if (!execution && !floralTransfer && !roseDamage && attacker != null && attacker != target)
             swordLanternBonus = com.thelongtravail.valley.SwordLanternState.bonus(attacker, target);
+        if (!execution && !floralTransfer && !roseDamage)
+            maidBonus = com.thelongtravail.compat.maid.MaidAccessories.bonus(target, source);
         CURRENT.set(this);
     }
 
@@ -72,12 +98,18 @@ public final class CombatContext implements AutoCloseable {
 
     public static CombatContext current(LivingEntity target, DamageSource source) {
         CombatContext context = CURRENT.get();
-        return context != null && context.target == target && context.source == source ? context : null;
+        return context != null && context.target == target && context.source == source
+                ? context
+                : null;
     }
 
-    public boolean isFloralPoison() { return floralPoison; }
+    public boolean isFloralPoison() {
+        return floralPoison;
+    }
 
-    public boolean isFloralTransfer() { return floralTransfer; }
+    public boolean isFloralTransfer() {
+        return floralTransfer;
+    }
 
     public static void recordHealthLoss(LivingEntity target, float before, float after) {
         CombatContext context = CURRENT.get();
@@ -89,84 +121,179 @@ public final class CombatContext implements AutoCloseable {
 
     public static void recordAbsorptionLoss(LivingEntity target, float before, float after) {
         CombatContext context = CURRENT.get();
-        if (context != null && context.target == target && Float.isFinite(before) && Float.isFinite(after) && after < before)
-            context.confirmDamage();
+        if (context != null
+                && context.target == target
+                && Float.isFinite(before)
+                && Float.isFinite(after)
+                && after < before) context.confirmDamage();
     }
 
     // 在首次实际扣除生命值或伤害吸收量时记录顺序，每次 hurt 调用最多判定一次，处决仍延后执行。
     private void confirmDamage() {
-        if (damageConfirmed || execution || com.thelongtravail.valley.AzraelExecution.active()) return;
+        if (damageConfirmed || execution || com.thelongtravail.valley.AzraelExecution.active())
+            return;
         damageConfirmed = true;
-        CombatConsequences.confirmed(target,source,attacker,floralTransfer,roseDamage);
+        CombatConsequences.confirmed(target, source, attacker, floralTransfer, roseDamage);
+        com.thelongtravail.compat.maid.MaidAccessories.confirmed(
+                target, source, floralTransfer, roseDamage);
     }
 
-    // 仅在正常返回后调用一次，此时 try-with-resources 已移除当前上下文。
+    // 仅在正常返回后调用一次；此时资源清理已移除当前伤害上下文。
     public void finish() {
         if (execution) return;
-        if (committed && !icarusImmune && !victimInternallyImmune && !skipReceivedPenalty && receivedTrigger == TravailConfig.ReceivedTrigger.HEALTH_LOSS
+        if (accessoryAttack) {
+            com.thelongtravail.flourishing.FloralEvents.received(target, source);
+            com.thelongtravail.compat.maid.MaidAccessories.retaliate(target, source);
+        }
+        if (committed
+                && !icarusImmune
+                && !victimInternallyImmune
+                && !skipReceivedPenalty
+                && receivedTrigger == TravailConfig.ReceivedTrigger.HEALTH_LOSS
                 && target instanceof ServerPlayer player) ReceivedMalice.trigger(player, source);
-        if (committed && !floralTransfer && !roseDamage && attacker != null && attacker != target) TravailEvents.processSuccessfulAttack(attacker);
-        if (committed) com.thelongtravail.flourishing.FloralEvents.successful(target, source, floralTransfer);
+        if (committed && !floralTransfer && !roseDamage && attacker != null && attacker != target)
+            TravailEvents.processSuccessfulAttack(attacker);
+        if (committed) {
+            com.thelongtravail.flourishing.FloralEvents.successful(target, source, floralTransfer);
+            com.thelongtravail.compat.maid.MaidAccessories.successful(
+                    target, source, floralTransfer);
+        }
     }
 
-    @Override public void close() {
-        if (previous == null) CURRENT.remove(); else CURRENT.set(previous);
+    @Override
+    public void close() {
+        if (previous == null) CURRENT.remove();
+        else CURRENT.set(previous);
     }
 
-    // 自身免疫与攻击者无法造成伤害是两种不同情况。
+    private boolean accessoryAttack;
+
+    // 饰品受击先于免疫和外部取消；与苦旅受击惩罚独立。
+
     public boolean prepareAttack(float amount) {
+        if (!accessoryAttack
+                && !execution
+                && !floralTransfer
+                && !roseDamage
+                && !com.thelongtravail.valley.AzraelExecution.active()
+                && amount > 0
+                && Float.isFinite(amount)
+                && target.isAlive()
+                && !target.isSpectator()) {
+            accessoryAttack = true;
+            CombatConsequences.received(target, source);
+        }
         if (execution) return true;
         if (roseDamage) return true;
         if (!immunityEvaluated) {
             immunityEvaluated = true;
+            maidImmune =
+                    com.thelongtravail.compat.maid.MaidAccessories.immune(target, source, amount);
             if (target instanceof ServerPlayer player) {
                 icarusImmune = com.thelongtravail.farreach.FarReachCombat.immune(player, source);
                 ItemStack diary = TravailCurios.stack(player);
-                boolean ekiActive = com.thelongtravail.abyss.RainState.ekiState(player, diary)
-                        != com.thelongtravail.abyss.RainState.EkiState.INACTIVE;
-                boolean witness = !diary.isEmpty() && LongTravailData.hasWitness(diary, TravailAspect.ABYSS);
-                if (ekiActive && !witness) skipReceivedPenalty = com.thelongtravail.config.RainConfig.MALICE_SKIP.get();
-                boolean ekiEligible = ekiActive && witness && amount > 0 && !source.is(DamageTypes.GENERIC_KILL)
-                        && !com.thelongtravail.config.RainConfig.IMMUNITY_EXCLUSIONS.get().contains(
-                            source.typeHolder().unwrapKey().map(k -> k.location().toString()).orElse(""));
+                boolean ekiActive =
+                        com.thelongtravail.abyss.RainState.ekiState(player, diary)
+                                != com.thelongtravail.abyss.RainState.EkiState.INACTIVE;
+                boolean witness =
+                        !diary.isEmpty() && LongTravailData.hasWitness(diary, TravailAspect.ABYSS);
+                if (ekiActive && !witness)
+                    skipReceivedPenalty = com.thelongtravail.config.RainConfig.MALICE_SKIP.get();
+                boolean ekiEligible =
+                        ekiActive
+                                && witness
+                                && amount > 0
+                                && !source.is(DamageTypes.GENERIC_KILL)
+                                && !com.thelongtravail.config.RainConfig.IMMUNITY_EXCLUSIONS
+                                        .get()
+                                        .contains(
+                                                source.typeHolder()
+                                                        .unwrapKey()
+                                                        .map(k -> k.location().toString())
+                                                        .orElse(""));
                 if (ekiEligible) {
-                    ekiImmune = player.getRandom().nextDouble() < com.thelongtravail.config.RainConfig.IMMUNITY.get();
-                    if (ekiImmune) skipReceivedPenalty = com.thelongtravail.config.RainConfig.IMMUNE_SKIP.get();
+                    ekiImmune =
+                            player.getRandom().nextDouble()
+                                    < com.thelongtravail.config.RainConfig.IMMUNITY.get();
+                    if (ekiImmune)
+                        skipReceivedPenalty =
+                                com.thelongtravail.config.RainConfig.IMMUNE_SKIP.get();
                 }
-                if (!ekiImmune && (!ekiEligible || com.thelongtravail.config.RainConfig.FALLBACK.get())
-                        && !diary.isEmpty() && LongTravailData.hasWitness(diary, TravailAspect.ABYSS)) {
-                    victimInternallyImmune = CombatRules.abyssEnvironmentDamage(source)
-                            || (amount > 0 && !source.is(DamageTypes.GENERIC_KILL)
-                            && (player.isInFluidType() || player.isInWaterOrBubble() || player.isInLava())
-                            && player.getRandom().nextDouble() < TravailConfig.ABYSS_CANCEL_CHANCE.get());
+                if (!ekiImmune
+                        && (!ekiEligible || com.thelongtravail.config.RainConfig.FALLBACK.get())
+                        && !diary.isEmpty()
+                        && LongTravailData.hasWitness(diary, TravailAspect.ABYSS)) {
+                    victimInternallyImmune =
+                            CombatRules.abyssEnvironmentDamage(source)
+                                    || (amount > 0
+                                            && !source.is(DamageTypes.GENERIC_KILL)
+                                            && (player.isInFluidType()
+                                                    || player.isInWaterOrBubble()
+                                                    || player.isInLava())
+                                            && player.getRandom().nextDouble()
+                                                    < TravailConfig.ABYSS_CANCEL_CHANCE.get());
                 }
             }
             if (attacker != null) {
                 ItemStack diary = TravailCurios.stack(attacker);
-                attackerOutputBlocked = !diary.isEmpty() && !LongTravailData.hasWitness(diary, TravailAspect.BOUNDLESS)
-                        && TravailEvents.isFlyingAttack(attacker, source);
+                attackerOutputBlocked =
+                        ModeEffectRules.diaryApplies(attacker)
+                                && !diary.isEmpty()
+                                && !LongTravailData.hasWitness(diary, TravailAspect.BOUNDLESS)
+                                && TravailEvents.isFlyingAttack(attacker, source);
             }
         }
         if (!feedbackHandled) {
             feedbackHandled = true;
-            if (!icarusImmune && !victimInternallyImmune && !skipReceivedPenalty && receivedTrigger == TravailConfig.ReceivedTrigger.ATTACK_ATTEMPT
-                    && target instanceof ServerPlayer player) ReceivedMalice.trigger(player, source);
+            if (!icarusImmune
+                    && !victimInternallyImmune
+                    && !skipReceivedPenalty
+                    && receivedTrigger == TravailConfig.ReceivedTrigger.ATTACK_ATTEMPT
+                    && target instanceof ServerPlayer player)
+                ReceivedMalice.trigger(player, source);
         }
         return !blocked();
     }
 
-    public boolean blocked() { return attackerOutputBlocked || victimInternallyImmune || ekiImmune || icarusImmune; }
+    public boolean blocked() {
+        return maidImmune
+                || attackerOutputBlocked
+                || victimInternallyImmune
+                || ekiImmune
+                || icarusImmune;
+    }
+
     // 分担使用同一次攻击的增伤快照，两条伤害分支各应用一次。
-    public double transferableBonus() { return ekiDamageBonus + floralBonus + icarusDamageBonus + swordLanternBonus; }
-    public double outgoingBonus() { return transferableBonus() + witherBonus; }
-    public boolean penetrating() { return penetrating; }
-    public boolean overridesCancellation() { return protection == TravailConfig.FluidProtection.ENFORCED; }
-    public static void observeCancellation(net.minecraftforge.eventbus.api.Event event, boolean cancelled) {
-        CombatContext context = event instanceof net.minecraftforge.event.entity.living.LivingHurtEvent hurt
-                ? current(hurt.getEntity(), hurt.getSource())
-                : event instanceof net.minecraftforge.event.entity.living.LivingDamageEvent damage
-                ? current(damage.getEntity(), damage.getSource()) : null;
-        if (context != null && cancelled && context.protection == TravailConfig.FluidProtection.RESPECT_CANCELLATION)
+    public double transferableBonus() {
+        return ekiDamageBonus + floralBonus + icarusDamageBonus + swordLanternBonus + maidBonus;
+    }
+
+    public double outgoingBonus() {
+        return transferableBonus() + witherBonus;
+    }
+
+    public boolean penetrating() {
+        return penetrating;
+    }
+
+    public boolean overridesCancellation() {
+        return protection == TravailConfig.FluidProtection.ENFORCED;
+    }
+
+    public static void observeCancellation(
+            net.minecraftforge.eventbus.api.Event event, boolean cancelled) {
+        CombatContext context =
+                event instanceof net.minecraftforge.event.entity.living.LivingHurtEvent hurt
+                        ? current(hurt.getEntity(), hurt.getSource())
+                        : event
+                                        instanceof
+                                        net.minecraftforge.event.entity.living.LivingDamageEvent
+                                                        damage
+                                ? current(damage.getEntity(), damage.getSource())
+                                : null;
+        if (context != null
+                && cancelled
+                && context.protection == TravailConfig.FluidProtection.RESPECT_CANCELLATION)
             context.externallyCancelled = true;
     }
 
@@ -189,8 +316,16 @@ public final class CombatContext implements AutoCloseable {
     public float finishDamage(float external) {
         if (execution) return external;
         if (roseDamage) return multiply(protectedDamage, 1 + witherBonus);
-        float amount = blocked() || externallyCancelled ? 0 : penetrating && hurtEvaluated ? protect(external) : external;
-        if (!penetrating) amount = com.thelongtravail.flourishing.FloralCombat.reduce(target, source, amount);
+        float amount =
+                blocked() || externallyCancelled
+                        ? 0
+                        : penetrating && hurtEvaluated ? protect(external) : external;
+        if (!penetrating) {
+            amount = com.thelongtravail.flourishing.FloralCombat.reduce(target, source, amount);
+            amount =
+                    com.thelongtravail.compat.maid.MaidAccessories.reduce(
+                            target, source, amount, floralPoison);
+        }
         return amount > 0 ? multiply(amount, 1 + outgoingBonus()) : amount;
     }
 
@@ -201,8 +336,10 @@ public final class CombatContext implements AutoCloseable {
     }
 
     private float internalAmount(float amount) {
-        return CombatRules.internalAmount(target,attacker,roseDamage,source,amount);
+        return CombatRules.internalAmount(target, attacker, roseDamage, source, amount);
     }
 
-    private static float multiply(float amount,double multiplier){return CombatRules.multiply(amount,multiplier);}
+    private static float multiply(float amount, double multiplier) {
+        return CombatRules.multiply(amount, multiplier);
+    }
 }

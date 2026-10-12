@@ -6,7 +6,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.38'
 }
 
-version = '0.1.1'
+version = '0.1.1-fix'
 group = 'com.thelongtravail'
 
 base {
@@ -58,17 +58,16 @@ repositories {
     }
     maven {
         url = 'https://api.modrinth.com/maven'
-        content { includeModule('maven.modrinth', 'embeddium') }
+        content {
+            includeModule('maven.modrinth', 'embeddium')
+            includeModule('maven.modrinth', 'jade')
+            includeModule('maven.modrinth', 'R0bDWFAW')
+        }
     }
 }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.20.1-47.4.20'
-    compileOnly fg.deobf('top.theillusivec4.caelus:caelus-forge:3.2.0+1.20.1')
-    // 固定为 Embeddium 0.3.31 的 Minecraft 1.20.1 正式版。
-    compileOnly fg.deobf('maven.modrinth:embeddium:UTbfe5d1')
-    compileOnly fg.deobf('mezz.jei:jei-1.20.1-common-api:15.20.0.132')
-    compileOnly fg.deobf('mezz.jei:jei-1.20.1-forge-api:15.20.0.132')
     implementation fg.deobf('top.theillusivec4.curios:curios-forge:5.14.1+1.20.1')
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     compileOnly annotationProcessor('io.github.llamalad7:mixinextras-common:0.4.1')
@@ -77,9 +76,12 @@ dependencies {
     }
 }
 
+apply from: 'gradle/optional-compat.gradle'
+
 mixin {
     add sourceSets.main, 'mixins.the_long_travail.refmap.json'
     config 'mixins.the_long_travail.json'
+    config 'mixins.the_long_travail.compat.json'
 }
 
 jar {
@@ -92,7 +94,7 @@ jar {
             'Implementation-Title': project.name,
             'Implementation-Version': project.jar.archiveVersion,
             'Implementation-Vendor': 'the_long_travail',
-            'MixinConfigs': 'mixins.the_long_travail.json'
+            'MixinConfigs': 'mixins.the_long_travail.json,mixins.the_long_travail.compat.json'
         ])
     }
 }

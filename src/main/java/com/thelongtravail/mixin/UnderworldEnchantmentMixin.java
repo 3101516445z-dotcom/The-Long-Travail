@@ -9,8 +9,21 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(DamageEnchantment.class)
 public abstract class UnderworldEnchantmentMixin {
-    @WrapOperation(method="doPostAttack",at=@At(value="INVOKE",target="Lnet/minecraft/world/entity/LivingEntity;getMobType()Lnet/minecraft/world/entity/MobType;"))
-    private MobType travail$undead(LivingEntity target,Operation<MobType> original,LivingEntity attacker,Entity victim,int level) {
-        return attacker!=target&&UnderworldItems.seesUndead(attacker)?MobType.UNDEAD:original.call(target);
+    @WrapOperation(
+            method = "doPostAttack",
+            at =
+                    @At(
+                            value = "INVOKE",
+                            target =
+                                    "Lnet/minecraft/world/entity/LivingEntity;getMobType()Lnet/minecraft/world/entity/MobType;"))
+    private MobType travail$undead(
+            LivingEntity target,
+            Operation<MobType> original,
+            LivingEntity attacker,
+            Entity victim,
+            int level) {
+        return attacker != target && UnderworldItems.seesUndead(attacker)
+                ? MobType.UNDEAD
+                : original.call(target);
     }
 }

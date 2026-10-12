@@ -9,11 +9,18 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 
 public final class TrueDamage {
-    public static final ResourceKey<DamageType> FLUID = ResourceKey.create(Registries.DAMAGE_TYPE,
-            ResourceLocation.fromNamespaceAndPath(TheLongTravail.MODID, "fluid_erosion"));
+    public static final ResourceKey<DamageType> FLUID =
+            ResourceKey.create(
+                    Registries.DAMAGE_TYPE,
+                    ResourceLocation.fromNamespaceAndPath(TheLongTravail.MODID, "fluid_erosion"));
 
     public static void hurtFluid(ServerPlayer player, float amount) {
-        DamageSource source = new DamageSource(player.serverLevel().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(FLUID));
+        DamageSource source =
+                new DamageSource(
+                        player.serverLevel()
+                                .registryAccess()
+                                .registryOrThrow(Registries.DAMAGE_TYPE)
+                                .getHolderOrThrow(FLUID));
         player.hurt(source, amount);
     }
 

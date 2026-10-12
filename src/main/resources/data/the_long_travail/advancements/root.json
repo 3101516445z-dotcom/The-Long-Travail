@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "the_long_travail:the_long_travail"
+    },
+    "title": {
+      "translate": "advancement.the_long_travail.root.title"
+    },
+    "description": {
+      "translate": "advancement.the_long_travail.root.description"
+    },
+    "background": "the_long_travail:textures/gui/advancements/paper.png",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "wear_long_travail": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}
