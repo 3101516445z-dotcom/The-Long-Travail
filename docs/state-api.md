@@ -1,4 +1,4 @@
-# 恶意与见证状态查询接口
+# 状态查询与旅程写入接口
 
 通过 `com.thelongtravail.api.TravailStateApi` 可以查询玩家的恶意与见证状态，用于物品或模组联动，无需自行读取 NBT 或扫描饰品栏。
 
@@ -56,3 +56,13 @@ if (current.hasWitness(TravailAspect.ABYSS) && current.hasMalice(TravailAspect.D
 `TravailStateApi.inspectDiary(stack)` 返回同一种快照，仅检查这件物品，并不表示任何玩家已经装备它。适合预览与配方逻辑。空物品、`null` 和非苦旅物品均返回 `INACTIVE`。
 
 快照的 `diaryPresent()` 表示查询来源包含苦旅：对 `snapshot(player)` 是已装备；对 `inspectDiary(stack)` 仅代表物品类型正确。运行前应完成模组注册；作为外部模组集成时应声明依赖或做好可选依赖隔离。
+
+## 服务端旅程写入
+
+外部只读查询继续使用 `com.thelongtravail.api.TravailStateApi`。服务端写入使用 `TravailJourneyApi`，提供 `completeRequirement`、`completeRandomRequirement`、`grantWitness`、`resetAspect`、`resetJourney`、`setOverride`、`setAllOverrides`、`clearOverride`、`clearAllOverrides`。接口只操作首个已装备日记，须在服务端线程调用，不自动消耗调用方物品。返回值通过 `changed()` 判定是否修改、通过 `accepted()` 判定操作是否有效，重复覆盖和清除属于有效操作。
+
+`RequirementRef` 区分群系和结构；`AspectJourneyKey` 包含整本身份、主题和轮次。延迟授予见证须保存原身份，不能执行时重新取身份。死者之书账本使用同样的身份，旧账本仅匹配旧主题轮次，不会恢复精粹开启的新轮次。未知或损坏的主题身份不会回退到旧格式。新数据不支持降级到旧版模组；客户端与服务端须使用相同模组版本。
+
+结果对象提供变更与重置主题、前后有效状态位、前后身份、探索与展示变化。自然到访保留原有多主题完成和受控查询续接；外部写入进度会取消旧查询与路引任务。来源或覆盖变化只更新状态修订，不取消探索确认。底层 `JourneyOperations` 和 NBT 入口供模组内部集成使用，外部集成应使用上述 API。
+
+`TravailJourneyApi.identity(player, aspect)` 获取当前主题身份，未装备有效且已初始化的苦旅或身份数据异常时可能返回 `null`。使用 `grantWitness` 前应检查身份，并保存发起操作时的身份供延迟回调使用。

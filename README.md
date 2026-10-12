@@ -1,6 +1,6 @@
 # The Long Travail / 苦旅
 
-由 **Phoebe_Real** 制作的 Minecraft Forge 模组。模组围绕不可轻易卸下的核心饰品“苦旅”展开：玩家需要背负六种恶意踏上旅程，探索随机生成的群系与结构条件，并将恶意永久反转为见证。
+由 **Phoebe_Real** 制作的 Minecraft Forge 模组。模组围绕不可轻易卸下的核心饰品“苦旅”展开：玩家需要背负六种恶意踏上旅程，探索随机生成的群系与结构条件，并将恶意反转为见证。见证会持续保留，直到使用全修或对应主题精粹重置旅程。
 
 ## 环境要求
 
@@ -21,13 +21,17 @@
 - 通过旅行日记查看旅程记录，用六种解密之石揭开各篇章的反转条件。
 - 活用“归乡”、“全修”、“路引”调整“苦旅”的状态，以控制游玩难度。
 - 收集六大类主题物品，体验多种多样的功能组合，考虑恶意与见证的取舍，提升游戏趣味性。
-- 高度自定义的配置，可以按自己的玩法调整模组的实现和功能，兼容性高。
+- 为在线主人的女仆搭配主题饰品。
+- 使用六种主题精粹推进或重置对应旅程。
+- 通过配置调整恶意、见证、物品效果和探索条件。
 
 ## 可选联动
 
-| 模组 | 核对版本 | 联动内容 |
+| 模组 | 参考版本 | 联动内容 |
 | --- | --- | --- |
-| JEI | 15.20.0.132 | 花饰合成与选花、配花、洗花展示；阅读日记时隐藏 JEI 覆盖层。 |
+| JEI | 15.20.0.132 | 花饰合成与选花、配花、洗花展示；紫水晶母岩精粹来源页；阅读日记时隐藏 JEI 覆盖层。 |
+| Jade | 11.13.3 | 将苦旅掉落物的长说明替换为拾取查看提示。 |
+| Touhou Little Maid / 车万女仆 | 1.5.3（Forge 1.20.1） | 女仆原生饰品栏支持部分主题饰品，读取在线主人的苦旅状态。 |
 | Caelus | 3.2.0+1.20.1 | 让 Caelus 识别**伊卡洛斯**提供的飞行能力，并遵守禁飞限制。 |
 | Embeddium | 0.3.31+mc1.20.1 | 适配的**剑与灯**动态照明。 |
 | Sounds | 2.2.1+1.20.1+forge | 按苦旅规则过滤效果变化通知音，不屏蔽普通喝药或装备音效。 |
@@ -36,11 +40,17 @@
 | Modern UI | 3.12.0.1 | 适配名称和日记文字的字体渲染 |
 | Enigmatic Legacy | 2.30.1 | 使用**死者苏生**时，避免消耗绑定的重生锚 |
 
-这些联动模组均为可选，不安装也可以游玩苦旅。光影方面，**剑与灯**曾在 Embeddium 0.3.31、Oculus 1.8.0 与 Complementary Reimagined r5.8.1 的独立测试环境中验证，其他组合的显示效果可能不同。
+表中版本供依赖和联动参考，不代表全部组合均已完成整合包内验收。这些联动模组均为可选，不安装也可以游玩苦旅。光影方面，**剑与灯**曾在 Embeddium 0.3.31、Oculus 1.8.0 与 Complementary Reimagined r5.8.1 的独立测试环境中验证，其他组合的显示效果可能不同。
+
+神化的铁砧改动另有兼容处理，协调等级限制并保留苦旅的费用封顶；女仆联动还包含万法皆通、爱恋及性格收纳时的生命值校正。
+
+### 女仆饰品使用
+
+允许被女仆兼容使用的饰品须放入女仆的原生饰品栏，普通背包、手持和女仆 Curios 饰品栏不生效。苦旅本体不能作为女仆饰品。需要恶意或见证状态时，读取在线主人已佩戴的苦旅。
 
 ## 配置与常见操作
 
-配置位于 `config/the_long_travail/`，首次启动时自动生成。各主题设置放在 `aspects/` 下，战利品统一在 `general.toml` 中调整，详见 [配置说明](docs/configuration-controls.md)。
+配置位于 `config/the_long_travail/`，首次启动时自动生成。各主题设置放在 `aspects/` 下，饰品与道具奖励在 `general.toml` 中调整；材料与精粹来源由战利品数据表及注入规则定义，详见 [配置说明](docs/configuration-controls.md)。
 
 苦旅造成的僵硬和视觉剥夺不能靠负面效果免疫或净化解除，但可以喝牛奶解除。管理员也可使用以下命令清除自身状态：
 
@@ -51,26 +61,42 @@
 
 普通 `/effect` 命令只能添加或移除这两个状态的图标，不会改变实际限制。
 
+## 反转调试指令
+
+以下指令需要 2 级权限，并在旅行日记槽位佩戴苦旅：
+
+- `/the_long_travail reverse`：将六项全部强制设为见证，相当于依次执行 `reverse 1` 至 `reverse 6`。
+- `/the_long_travail reverse <编号>`：正数 `1` 至 `6` 强制设为对应见证，负数 `-1` 至 `-6` 强制设为对应恶意；`0` 无效。
+- `/the_long_travail reverse clear`：清除全部调试覆盖，恢复按照真实旅程进度判定。
+- `/the_long_travail reverse clear <编号>`：清除对应编号的调试覆盖；`0` 表示全部。
+
+调试指令不会补完或清空真实旅程进度；全反转不是将六项当前状态逐个取反。
+
+## 版本与升级
+
+当前源码版本为 **0.1.1-fix**，发布状态与各版本变化见 [更新日志](CHANGELOG.md)。更新后生成或重置的旅程数据不支持降级到旧版模组。
+
 ## 源码构建
 
-使用 Gradle Wrapper 构建正式包：
+在项目根目录使用 Gradle Wrapper 构建正式包：
+
+Windows：
 
 ```text
 gradlew.bat jarJar
 ```
 
-首次构建需要联网，Gradle 会自动下载依赖；缓存齐全后可追加 `--offline`。成品位于 `build/libs/`，请选择不带 `-slim` 后缀的 JAR。
+Linux / macOS：
 
-Caelus、Embeddium 和 JEI API 仅用于编译，不打包进成品，也不会自动加载到开发运行环境。MixinExtras 随正式包内嵌，Curios 需另行安装。具体版本及仓库地址见 `build.gradle`。
-
-`tools/` 提供算法、资源检查和服务端回归测试。常用检查命令：
-
-```text
-gradlew.bat -I tools/audit.init.gradle auditStandalone
-node tools/verify-diary-resources.cjs
+```sh
+./gradlew jarJar
 ```
 
-服务端测试还需准备 EULA 文件，部分兼容测试需要额外的模组依赖。其他模组接入苦旅时，可参考 [状态查询 API](docs/state-api.md)。
+首次构建需要联网，Gradle 会自动下载依赖；缓存齐全后可追加 `--offline`。成品位于 `build/libs/`，请选择不带 `-slim` 后缀的 JAR。
+
+Caelus、Embeddium、Jade、JEI 和女仆 API 仅用于编译，不打包进成品，也不会自动加载到开发运行环境。女仆 API 固定为 Forge 1.20.1 的 1.5.3 版本，由 Gradle 自动下载；需要本地替代时使用 `-PmaidApiJar=/absolute/path/to/touhoulittlemaid.jar`。MixinExtras 随正式包内嵌，Curios 需另行安装。具体版本及仓库地址见 `build.gradle` 和 `gradle/optional-compat.gradle`。
+
+其他模组接入苦旅时，可参考 [状态查询与旅程写入 API](docs/state-api.md) 和 [饰品佩戴与恢复校验](docs/accessory-equipment.md)。
 
 ## 许可证
 
