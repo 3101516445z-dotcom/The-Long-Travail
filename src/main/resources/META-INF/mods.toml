@@ -4,7 +4,7 @@ license="MPL-2.0"
 
 [[mods]]
 modId="the_long_travail"
-version="0.1.1-fix"
+version="0.1.2"
 displayName="The Long Travail / 苦旅"
 authors="Phoebe_Real"
 description='''
@@ -15,7 +15,7 @@ mixinConfigs="mixins.the_long_travail.json,mixins.the_long_travail.compat.json"
 [[dependencies.the_long_travail]]
 modId="forge"
 mandatory=true
-versionRange="[47.4.20,)"
+versionRange="[47.4.10,)"
 ordering="NONE"
 side="BOTH"
 

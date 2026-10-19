@@ -1,6 +1,5 @@
 package com.thelongtravail.data;
 
-// 区分本模组上次写入的速度和其他模组新提供的速度。
 public final class FlightSpeedAdjustment {
     public record Result(float baseline, float applied) {}
 

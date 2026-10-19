@@ -8,20 +8,16 @@ import net.minecraft.world.effect.*;
 import net.minecraftforge.registries.ForgeRegistries;
 import java.util.*;
 
-// 状态归服务端线程管理；外部添加或移除效果时放弃对该效果的所有权。
 public final class EffectChanges {
-    private static final Map<ServerPlayer, Map<MobEffect, MobEffectInstance>> OWNED =
-            new WeakHashMap<>();
+    private static final Map<ServerPlayer, Map<MobEffect, MobEffectInstance>> OWNED = new WeakHashMap<>();
     private static final Map<ServerPlayer, Diagnostic> DIAGNOSTICS = new WeakHashMap<>();
 
     private record Context(ServerPlayer player, MobEffect effect) {}
 
     private static final ThreadLocal<Context> CONTEXT = new ThreadLocal<>();
     private static long serial;
-    private static final Map<ServerPlayer, Map<MobEffect, MobEffectInstance>> EXPIRING_MALICE =
-            new WeakHashMap<>();
-    private static final ResourceLocation CONTROL =
-            new ResourceLocation("the_long_travail", "control");
+    private static final Map<ServerPlayer, Map<MobEffect, MobEffectInstance>> EXPIRING_MALICE = new WeakHashMap<>();
+    private static final ResourceLocation CONTROL = new ResourceLocation("the_long_travail", "control");
 
     private static final class Diagnostic {
         long until, next;
@@ -51,8 +47,7 @@ public final class EffectChanges {
 
     private static void notice(ServerPlayer player, ResourceLocation id, EffectNotice.Kind kind) {
         if (id != null)
-            TravailNetwork.sendEffectNotice(
-                    player, new EffectNotice(id, kind, ++serial, player.level().getGameTime()));
+            TravailNetwork.sendEffectNotice(player, new EffectNotice(id, kind, ++serial, player.level().getGameTime()));
     }
 
     public static boolean add(ServerPlayer player, MobEffectInstance incoming) {
@@ -72,13 +67,11 @@ public final class EffectChanges {
         var after = player.getEffect(effect);
         if (added && after != null) {
             count(player, "automatic-add", effect);
-            // 不能仅因隐藏效果链发生变化，就接管已存在的无关效果。
             if (before == null || wasOwned) {
                 var map = OWNED.computeIfAbsent(player, p -> new HashMap<>());
                 if (map.size() < 256 || map.containsKey(effect)) map.put(effect, after);
             }
-            if (before == null)
-                notice(player, ForgeRegistries.MOB_EFFECTS.getKey(effect), EffectNotice.Kind.GAIN);
+            if (before == null) notice(player, ForgeRegistries.MOB_EFFECTS.getKey(effect), EffectNotice.Kind.GAIN);
         }
         return added;
     }
@@ -95,10 +88,7 @@ public final class EffectChanges {
             else CONTEXT.set(old);
         }
         boolean gone = present && removed && !player.hasEffect(effect);
-        count(
-                player,
-                gone ? (malice ? "malice-remove" : "automatic-clear") : "remove-failed",
-                effect);
+        count(player, gone ? (malice ? "malice-remove" : "automatic-clear") : "remove-failed", effect);
         if (gone) {
             externalChange(player, effect);
             notice(
@@ -109,18 +99,14 @@ public final class EffectChanges {
         return gone;
     }
 
-    // 先直接移除一次，失败则将剩余时间设为一刻，不循环重试。
     private static boolean forceRemove(ServerPlayer player, MobEffect effect) {
         if (!player.hasEffect(effect)) return false;
         MobEffectInstance removed = player.removeEffectNoUpdate(effect);
         if (removed != null) {
-            ((com.thelongtravail.mixin.EffectRemovalInvoker) player)
-                    .travail$onEffectRemoved(removed);
+            ((com.thelongtravail.mixin.EffectRemovalInvoker) player).travail$onEffectRemoved(removed);
         }
         MobEffectInstance remaining = player.getEffect(effect);
         if (remaining == null) return true;
-        // 直接修改当前实例，包括无限持续效果，并丢弃隐藏的后备效果，
-        // 防止当前效果到期后由较弱或更持久的效果接替。
         var access = (com.thelongtravail.mixin.EffectDurationAccessor) remaining;
         access.travail$hiddenEffect(null);
         access.travail$duration(1);
@@ -137,7 +123,7 @@ public final class EffectChanges {
             if (owned.isEmpty()) OWNED.remove(player);
         }
         count(player, "malice-expiry-fallback", effect);
-        return false; // 安排到期不代表已成功移除。
+        return false;
     }
 
     private static void checkMaliceExpiry(ServerPlayer player) {
@@ -147,8 +133,7 @@ public final class EffectChanges {
                 .removeIf(
                         entry -> {
                             var current = player.getEffect(entry.getKey());
-                            if (current == entry.getValue() && current.getDuration() <= 1)
-                                return false;
+                            if (current == entry.getValue() && current.getDuration() <= 1) return false;
                             if (current == null && entry.getValue().getDuration() == 0) {
                                 count(player, "malice-remove", entry.getKey());
                                 notice(
@@ -181,10 +166,7 @@ public final class EffectChanges {
                 var current = player.getEffect(entry.getKey());
                 if (current != entry.getValue()) {
                     if (current == null && entry.getValue().getDuration() == 0) {
-                        notice(
-                                player,
-                                ForgeRegistries.MOB_EFFECTS.getKey(entry.getKey()),
-                                EffectNotice.Kind.EXPIRE);
+                        notice(player, ForgeRegistries.MOB_EFFECTS.getKey(entry.getKey()), EffectNotice.Kind.EXPIRE);
                         count(player, "automatic-expire", entry.getKey());
                     }
                     iterator.remove();
@@ -196,8 +178,7 @@ public final class EffectChanges {
         if (d == null) return;
         long now = player.level().getGameTime();
         if (now >= d.next) {
-            TheLongTravail.LOGGER.info(
-                    "Travail effect diagnostic [server {}]: {}", player.getUUID(), d.counts);
+            TheLongTravail.LOGGER.info("Travail effect diagnostic [server {}]: {}", player.getUUID(), d.counts);
             d.counts.clear();
             d.next = now + 100;
         }

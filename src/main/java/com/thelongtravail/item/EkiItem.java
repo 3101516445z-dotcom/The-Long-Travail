@@ -20,14 +20,12 @@ public final class EkiItem extends Item {
     }
 
     @Override
-    public void inventoryTick(
-            ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
         if (entity instanceof ServerPlayer p) RainState.inventoryTick(p, slot);
     }
 
     @Override
-    public void appendHoverText(
-            ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
-        RainTooltips.eki(lines);
+    public void appendHoverText(ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
+        ItemDescription.summary(lines);
     }
 }

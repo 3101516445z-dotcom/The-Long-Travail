@@ -10,29 +10,27 @@ public final class JourneyDetectionConfig {
     static void define(ForgeConfigSpec.Builder b) {
         HORIZONTAL =
                 b.comment(
-                                "结构水平到访容差，单位：方块。只补查已加载的邻近区块。",
-                                "Horizontal structure visit tolerance in blocks; neighboring checks use loaded chunks only.")
+                                "结构到访判定的水平容差，单位：方块；仅补查已加载的邻近区块。",
+                                "Horizontal tolerance for structure visit checks, in blocks. Additional checks use only neighboring chunks that are already loaded.")
                         .defineInRange("journeyDetection.structureHorizontalTolerance", 4, 0, 16);
         VERTICAL =
-                b.comment("结构垂直到访容差，单位：方块。", "Vertical structure visit tolerance in blocks.")
+                b.comment("结构到访判定的垂直容差，单位：方块。", "Vertical tolerance for structure visit checks, in blocks.")
                         .defineInRange("journeyDetection.structureVerticalTolerance", 4, 0, 16);
         BIOME_RADIUS =
                 b.comment(
-                                "群系四方向采样距离，单位：方块；0仅检查当前位置。",
-                                "Cardinal biome sample distance in blocks; 0 checks only the current position.")
+                                "向四个水平方向采样群系的距离，单位：方块；0 表示只检查当前位置。",
+                                "Distance to sample biomes in the four cardinal directions, in blocks; 0 checks only the current position.")
                         .defineInRange("journeyDetection.biomeSampleRadius", 4, 0, 8);
         PIECE_ONLY =
                 b.comment(
-                                "这些结构按部件范围加容差判定；其他结构按整体范围加容差判定。",
-                                "These structure IDs use piece bounds plus tolerance; others use whole structure bounds plus tolerance.")
+                                "列表中的结构按各部件的范围加容差判定到访；其他结构按整体范围加容差判定。",
+                                "For listed structures, visit checks use individual piece bounds plus tolerance. Other structures use the overall bounds plus tolerance.")
                         .defineListAllowEmpty(
                                 "journeyDetection.pieceOnlyStructures",
                                 List.of(),
                                 v ->
                                         v instanceof String s
-                                                && net.minecraft.resources.ResourceLocation
-                                                                .tryParse(s)
-                                                        != null);
+                                                && net.minecraft.resources.ResourceLocation.tryParse(s) != null);
     }
 
     private JourneyDetectionConfig() {}

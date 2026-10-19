@@ -8,7 +8,6 @@ import net.minecraft.world.level.*;
 import net.minecraft.world.phys.Vec3;
 import java.util.*;
 
-// 只在逻辑服务端线程使用。组锁定与区域冻结严格分开。
 public final class TimeStopManager {
     public static final class Field {
         public final long id, start;
@@ -19,14 +18,7 @@ public final class TimeStopManager {
         final Set<Long> chunks;
         Group group;
 
-        Field(
-                long id,
-                long start,
-                long end,
-                Vec3 center,
-                double radius,
-                Set<UUID> allies,
-                Group group) {
+        Field(long id, long start, long end, Vec3 center, double radius, Set<UUID> allies, Group group) {
             this.id = id;
             this.start = start;
             this.end = end;
@@ -85,8 +77,7 @@ public final class TimeStopManager {
     }
 
     public static boolean locked(UUID player) {
-        for (var m : WORLDS.values())
-            for (var g : m.groups) if (g.members.containsKey(player)) return true;
+        for (var m : WORLDS.values()) for (var g : m.groups) if (g.members.containsKey(player)) return true;
         return false;
     }
 
@@ -98,17 +89,14 @@ public final class TimeStopManager {
         var candidates = manager.index.get(ChunkPos.asLong(p.getX() >> 4, p.getZ() >> 4));
         if (candidates == null) return false;
         for (Field f : candidates) {
-            double x = p.getX() + .5 - f.center.x,
-                    y = p.getY() + .5 - f.center.y,
-                    z = p.getZ() + .5 - f.center.z;
+            double x = p.getX() + .5 - f.center.x, y = p.getY() + .5 - f.center.y, z = p.getZ() + .5 - f.center.z;
             if (x * x + y * y + z * z <= f.radius * f.radius) return true;
         }
         return false;
     }
 
     public static boolean frozen(Entity e) {
-        if (e.level().isClientSide)
-            return com.thelongtravail.network.TimeStopPacket.clientFrozen.test(e);
+        if (e.level().isClientSide) return com.thelongtravail.network.TimeStopPacket.clientFrozen.test(e);
         if (!(e.level() instanceof ServerLevel s)) return false;
         var manager = WORLDS.get(s);
         if (manager == null || manager.fields.isEmpty()) return false;
@@ -122,8 +110,7 @@ public final class TimeStopManager {
     }
 
     private List<Field> at(Vec3 p) {
-        return index.getOrDefault(
-                ChunkPos.asLong((int) Math.floor(p.x / 16), (int) Math.floor(p.z / 16)), List.of());
+        return index.getOrDefault(ChunkPos.asLong((int) Math.floor(p.x / 16), (int) Math.floor(p.z / 16)), List.of());
     }
 
     private Collection<Field> along(Vec3 p, Vec3 delta) {
@@ -143,19 +130,14 @@ public final class TimeStopManager {
     }
 
     public static Vec3 clip(Entity e, Vec3 delta) {
-        if (e.level().isClientSide)
-            return com.thelongtravail.network.TimeStopPacket.clientClip.apply(e, delta);
+        if (e.level().isClientSide) return com.thelongtravail.network.TimeStopPacket.clientClip.apply(e, delta);
         if (!(e.level() instanceof ServerLevel s)) return delta;
         var manager = WORLDS.get(s);
         if (manager == null || manager.fields.isEmpty()) return delta;
         double t = 1;
         for (Field f : manager.along(e.position(), delta))
             if (!TimeStopExemptions.exempt(e, f.allies))
-                t =
-                        Math.min(
-                                t,
-                                TimeStopGeometry.entryInside(
-                                        e.position(), delta, f.center, f.radius));
+                t = Math.min(t, TimeStopGeometry.entryInside(e.position(), delta, f.center, f.radius));
         return t < 1 ? delta.scale(t) : delta;
     }
 
@@ -166,31 +148,17 @@ public final class TimeStopManager {
                 level.getGameTime(),
                 p.position(),
                 BoundlessItemsConfig.get("star.radius"),
-                BoundlessItemsConfig.ticks(
-                        witness ? "star.witnessDuration" : "star.maliceDuration"),
-                TimeStopExemptions.snapshot(p));
+                BoundlessItemsConfig.ticks(witness ? "star.witnessDuration" : "star.maliceDuration"),
+                TimeStopExemptions.snapshot(p).orElse(null));
     }
 
     public boolean start(
-            ServerPlayer p,
-            boolean witness,
-            long now,
-            Vec3 center,
-            double radius,
-            int duration,
-            Set<UUID> allies) {
+            ServerPlayer p, boolean witness, long now, Vec3 center, double radius, int duration, Set<UUID> allies) {
         return startCaster(p, witness, now, center, radius, duration, allies);
     }
 
     public boolean startCaster(
-            LivingEntity p,
-            boolean witness,
-            long now,
-            Vec3 center,
-            double radius,
-            int duration,
-            Set<UUID> allies) {
-        // 与客户端协议和原版可用坐标范围一致，必须在修改现有区域之前拒绝非法输入。
+            LivingEntity p, boolean witness, long now, Vec3 center, double radius, int duration, Set<UUID> allies) {
         if (p == null
                 || p.level() != level
                 || center == null
@@ -202,17 +170,14 @@ public final class TimeStopManager {
                 || radius > com.thelongtravail.network.TimeStopPacket.MAX_RADIUS
                 || duration <= 0
                 || allies == null
-                || allies.size() > com.thelongtravail.network.TimeStopPacket.MAX_ALLIES)
-            return false;
+                || allies.size() > com.thelongtravail.network.TimeStopPacket.MAX_ALLIES) return false;
         for (UUID ally : allies) if (ally == null) return false;
         expire(now);
         if (locked(com.thelongtravail.compat.maid.MaidAccessories.casterId(p))) return false;
         Set<Long> covered = TimeStopGeometry.chunks(center, radius);
         if (covered.stream()
-                .anyMatch(
-                        c ->
-                                index.getOrDefault(c, List.of()).size()
-                                        >= BoundlessItemsConfig.PER_CHUNK.get())) return false;
+                .anyMatch(c -> index.getOrDefault(c, List.of()).size() >= BoundlessItemsConfig.PER_CHUNK.get()))
+            return false;
         Set<Group> joining = Collections.newSetFromMap(new IdentityHashMap<>());
         for (Field f : fields.values())
             if (TimeStopGeometry.overlaps(center, radius, f.center, f.radius)) joining.add(f.group);
@@ -232,14 +197,11 @@ public final class TimeStopManager {
         int cooldown = witness ? BoundlessItemsConfig.ticks("star.witnessCooldown") : 0;
         merged.members.put(com.thelongtravail.compat.maid.MaidAccessories.casterId(p), cooldown);
         com.thelongtravail.compat.maid.MaidAccessories.starCooldown(p, cooldown);
-        // 提前写入离线可保存的冷却；组锁期间不会递减。
         if (cooldown > 0)
             p.getPersistentData()
                     .putInt(
                             StarVoiceState.COOLDOWN,
-                            Math.max(
-                                    cooldown,
-                                    p.getPersistentData().getInt(StarVoiceState.COOLDOWN)));
+                            Math.max(cooldown, p.getPersistentData().getInt(StarVoiceState.COOLDOWN)));
         Field f =
                 new Field(
                         nextId++,
@@ -263,8 +225,7 @@ public final class TimeStopManager {
     private void rebuild() {
         revision++;
         index.clear();
-        for (Field f : fields.values())
-            for (long c : f.chunks) index.computeIfAbsent(c, k -> new ArrayList<>()).add(f);
+        for (Field f : fields.values()) for (long c : f.chunks) index.computeIfAbsent(c, k -> new ArrayList<>()).add(f);
         coverage = Set.copyOf(index.keySet());
     }
 
@@ -290,10 +251,7 @@ public final class TimeStopManager {
                             p.getPersistentData()
                                     .putInt(
                                             StarVoiceState.COOLDOWN,
-                                            Math.max(
-                                                    cooldown,
-                                                    p.getPersistentData()
-                                                            .getInt(StarVoiceState.COOLDOWN)));
+                                            Math.max(cooldown, p.getPersistentData().getInt(StarVoiceState.COOLDOWN)));
                         else OFFLINE_COOLDOWNS.merge(uuid, cooldown, Math::max);
                     });
             i.remove();

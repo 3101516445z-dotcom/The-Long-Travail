@@ -6,7 +6,6 @@ import net.minecraft.world.item.Item;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 
-// 槽位操作与完整背包恢复共用装备校验，避免两条路径的前置条件不一致。
 public final class AccessoryEquipRules {
     public static boolean hasEquipped(Player player, String slot, Item item) {
         var scope = AccessoryRestore.current(player);
@@ -18,9 +17,7 @@ public final class AccessoryEquipRules {
                                         .anyMatch(
                                                 r ->
                                                         !r.slotContext().cosmetic()
-                                                                && r.slotContext()
-                                                                        .identifier()
-                                                                        .equals(slot)))
+                                                                && r.slotContext().identifier().equals(slot)))
                 .orElse(false);
     }
 
@@ -40,19 +37,11 @@ public final class AccessoryEquipRules {
                 .map(
                         inv ->
                                 inv.findCurios(item).stream()
-                                        .filter(
-                                                r ->
-                                                        includeCosmetics
-                                                                || !r.slotContext().cosmetic())
+                                        .filter(r -> includeCosmetics || !r.slotContext().cosmetic())
                                         .noneMatch(
                                                 r ->
-                                                        !r.slotContext()
-                                                                        .identifier()
-                                                                        .equals(
-                                                                                context
-                                                                                        .identifier())
-                                                                || r.slotContext().index()
-                                                                        != context.index()))
+                                                        !r.slotContext().identifier().equals(context.identifier())
+                                                                || r.slotContext().index() != context.index()))
                 .orElse(false);
     }
 

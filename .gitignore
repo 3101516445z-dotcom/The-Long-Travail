@@ -1,13 +1,14 @@
-# Gradle
+# Gradle 缓存与构建产物
 .gradle/
 build/
 
-# Minecraft development runtime
-run/
+# Minecraft 开发运行目录
+/run/
+/run-server/
 logs/
 crash-reports/
 
-# IDEs and editors
+# IDE 与编辑器本机配置
 .idea/
 .vscode/
 .classpath
@@ -17,45 +18,46 @@ crash-reports/
 *.ipr
 *.iws
 
-# Java build output
+# Java 编译产物
 out/
 bin/
 *.class
+hs_err_pid*.log
+replay_pid*.log
 
-# Operating system files
+# 操作系统临时文件
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# Temporary files and logs
+# 临时文件与日志
 *.log
 *.tmp
 *.bak
 *~
 
-# 本地备份与开发资料
-/backups/
+# 本地验证产物、历史归档与开发工具
+/outputs/
 /local-archive/
 /待删除/
-/历史对照/
-/测试运行归档/
-/历史发布资料/
-
-# 开发工具与测试仅本地保留
 /tools/
 
-# 公开配置、接口与饰品接入说明；机制文档的公开范围另行确认
+# 本机环境配置；共享的 gradle.properties 仍需提交
+/.env
+/.env.*
+!/.env.example
+!/.env.template
+/local.properties
+
+# 文档按受众区分；对外文档可被 Git 跟踪，本地规则不发布
 /docs/*
-!/docs/configuration-controls.md
-!/docs/state-api.md
-!/docs/accessory-equipment.md
+!/docs/README.md
+!/docs/开发者查阅/
+!/docs/开发者查阅/**
+!/docs/玩家查阅/
+!/docs/玩家查阅/**
+/docs/本地开发复用/
+/docs/待手动删除/
 
-# 制作人个人参考约定，仅本地保留
-/docs/wording-conventions.md
-/docs/tooltip-color-conventions.md
-/docs/aspect-name-themes.md
-
-# 更新日志编写规则、模板与草稿仅在本地保留
-/更新日志/README.md
-/更新日志/模板.md
-/更新日志/未发布.md
+# 发布包保存在仓库外，避免重复加入源码仓库
+/releases/

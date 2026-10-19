@@ -38,13 +38,9 @@ public final class UnderworldStorage {
                                                         for (var items :
                                                                 java.util.List.of(
                                                                         handler.getStacks(),
-                                                                        handler
-                                                                                .getCosmeticStacks()))
-                                                            for (int slot = 0;
-                                                                    slot < items.getSlots();
-                                                                    slot++)
-                                                                ledger.reconcile(
-                                                                        items.getStackInSlot(slot));
+                                                                        handler.getCosmeticStacks()))
+                                                            for (int slot = 0; slot < items.getSlots(); slot++)
+                                                                ledger.reconcile(items.getStackInSlot(slot));
                                                     }));
             ledger.reconcileTag(player.getPersistentData(), 0);
         } finally {
@@ -60,13 +56,11 @@ public final class UnderworldStorage {
         sweep(server, null);
     }
 
-    // 已在同一同步事务中完成校正的玩家不重复遍历；不建立跨事件缓存。
     static void sweep(MinecraftServer server, ServerPlayer alreadyReconciled) {
         Counter.STORAGE_SWEEPS.add(1);
         var ledger = UnderworldLedger.get(server);
         ledger.recordSize();
-        for (ServerPlayer player : server.getPlayerList().getPlayers())
-            if (player != alreadyReconciled) player(player);
+        for (ServerPlayer player : server.getPlayerList().getPlayers()) if (player != alreadyReconciled) player(player);
         long started = HotPathMetrics.start();
         try {
             for (var level : server.getAllLevels())

@@ -8,7 +8,74 @@ public final class BoundlessItemsConfig {
     public static ForgeConfigSpec.IntValue PER_CHUNK;
 
     public static void define(ForgeConfigSpec.Builder b) {
-        n(b, "dream.duration", 10, .05, 3600, "入梦持续时间，单位：秒。\nDream duration, in seconds.");
+        LorentzGeometryConfig.define(b);
+        n(b, "prince.stepHeight", 1, 0, 4, "小王子提供的最低跨步高度，单位：方块。\nLittle Prince: minimum step height, in blocks.");
+        n(
+                b,
+                "prince.poppyChance",
+                .002,
+                0,
+                1,
+                "小王子：玩家破坏虞美人时，触发掉落的概率。\nLittle Prince: drop chance when a player breaks a poppy.");
+        n(
+                b,
+                "prince.roseChance",
+                .005,
+                0,
+                1,
+                "小王子：玩家破坏玫瑰丛时，触发掉落的概率；每株只判定一次。\nLittle Prince: drop chance when a player breaks a rose bush, rolled once per plant.");
+        n(b, "lorentz.pierce", 3, 0, 127, "洛伦兹幻想：箭矢额外获得的穿透等级。\nLorentz Fantasy: additional arrow piercing levels.");
+        n(
+                b,
+                "lorentz.critical",
+                .10,
+                0,
+                1,
+                "洛伦兹幻想：恶意状态下，通用必杀概率的增加量。\nLorentz Fantasy: amount added to the general critical-hit chance while Malice is active.");
+        n(
+                b,
+                "lorentz.damage",
+                .25,
+                0,
+                100,
+                "洛伦兹幻想：恶意状态下，投射物伤害的加成比例。\nLorentz Fantasy: fractional projectile damage bonus while Malice is active.");
+        n(
+                b,
+                "lorentz.headshot",
+                .25,
+                0,
+                100,
+                "洛伦兹幻想：恶意状态下，箭矢爆头的额外伤害加成比例，与普通伤害加成相加。\nLorentz Fantasy: additional fractional damage bonus for arrow headshots while Malice is active; adds to the normal damage bonus.");
+        n(
+                b,
+                "lorentz.headTolerance",
+                .12,
+                0,
+                1,
+                "爆头判定向眼睛下方延伸的距离，占实体身高的比例。\nHeadshot tolerance below eye level, as a fraction of the entity's height.");
+        n(
+                b,
+                "lorentz.voidRatio",
+                .02,
+                0,
+                1,
+                "见证状态下，虚空伤害占命中时目标当前生命值的比例。\nVoid damage with Witness, as a fraction of the target's current health at the time of impact.");
+        n(
+                b,
+                "lorentz.interval",
+                .5,
+                .05,
+                3600,
+                "同一射手对同一目标进行见证判定的间隔，单位：秒。\nInterval between Witness rolls for the same shooter and target, in seconds.");
+        n(
+                b,
+                "lorentz.arrowLifetime",
+                60,
+                1,
+                3600,
+                "无重力箭矢的有效飞行时间上限，单位：秒；时停期间暂停计时。\nMaximum effective flight time for gravity-free arrows, in seconds. The timer pauses during a time stop.");
+
+        n(b, "dream.duration", 10, .05, 3600, "入梦的持续时间，单位：秒。\nDream duration, in seconds.");
         n(
                 b,
                 "dream.cooldown",
@@ -29,7 +96,7 @@ public final class BoundlessItemsConfig {
                 .2,
                 0,
                 3600,
-                "无垠之恶意每次受击判定后的隐藏冷却，单位：秒；无论是否触发时停均生效。\nHidden cooldown after each Malice attack-received roll, in seconds, whether or not it succeeds.");
+                "无垠之恶意每次受击判定后的隐藏冷却时间，单位：秒；无论是否触发时停，均进入此冷却。\nHidden cooldown after each on-hit roll for Boundless Malice, in seconds. Applies whether or not a time stop is triggered.");
         n(
                 b,
                 "star.witnessChance",
@@ -64,7 +131,7 @@ public final class BoundlessItemsConfig {
                 5,
                 0,
                 86400,
-                "见证时停结束后的额外判定冷却，单位：秒。\n时停发生合并时，从整个时停组结束后开始计时。离线时暂停。\nAdditional roll cooldown starting when the group containing the time stop triggered by Boundless Witness ends, in seconds. Paused while offline.");
+                "见证时停结束后的额外判定冷却，单位：秒。\n时停发生合并时，从整个时停组结束后开始计时。离线时暂停。\nAdditional roll cooldown after a Witness time stop ends, in seconds. If it merges with other time stops, the cooldown starts when the entire group ends. Paused while offline.");
         n(
                 b,
                 "star.radius",
@@ -81,12 +148,11 @@ public final class BoundlessItemsConfig {
                 "时停组的最长持续时间，单位：秒。\n从组内最早一次时停的开始时间算起，合并其他时停不会重新计时。\n相互合并的时停区域按同一时停组处理。\nMaximum duration of a time-stop group, in seconds, measured from the earliest start time in the group. Merging other time stops does not restart this timer. Merged time-stop areas are treated as one group.");
         PER_CHUNK =
                 b.comment(
-                                "每区块最多同时覆盖的时停数量。数量统计不扩大实际球形范围。\nMaximum number of time stops covering a chunk at the same time. Counting them by chunk does not enlarge their actual spherical areas.")
+                                "每个区块最多同时覆盖的时停数量。区块只用于计数，不会扩大时停的实际球形范围。\nMaximum number of time stops that may cover a chunk at once. Chunks are used only for counting; the actual spherical areas are unchanged.")
                         .defineInRange("items.boundless.star.maxFieldsPerChunk", 2, 1, 16);
     }
 
-    private static void n(
-            ForgeConfigSpec.Builder b, String k, double d, double lo, double hi, String text) {
+    private static void n(ForgeConfigSpec.Builder b, String k, double d, double lo, double hi, String text) {
         NUMBERS.put(k, b.comment(text).defineInRange("items.boundless." + k, d, lo, hi));
     }
 

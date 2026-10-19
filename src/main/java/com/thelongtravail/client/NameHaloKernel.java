@@ -4,9 +4,7 @@ import com.thelongtravail.config.TravailClientConfig.HaloQuality;
 
 public final class NameHaloKernel {
     private static final NameHaloKernel[] KERNELS =
-            java.util.Arrays.stream(HaloQuality.values())
-                    .map(NameHaloKernel::new)
-                    .toArray(NameHaloKernel[]::new);
+            java.util.Arrays.stream(HaloQuality.values()).map(NameHaloKernel::new).toArray(NameHaloKernel[]::new);
     private final float[][] x, y;
     private final float[] opacity;
     public final int samplesPerRing;
@@ -34,7 +32,7 @@ public final class NameHaloKernel {
 
     public int alpha(int color, int ring) {
         int alpha = color >>> 24;
-        if (alpha < 4) alpha = 255; // Font 的隐式不透明颜色约定。
+        if (alpha < 4) alpha = 255; // Font 会将这种颜色值视为完全不透明。
         return Math.round(alpha * opacity[ring]);
     }
 

@@ -49,9 +49,7 @@ public final class AzraelState {
                                         .anyMatch(
                                                 r ->
                                                         !r.slotContext().cosmetic()
-                                                                && r.slotContext()
-                                                                        .identifier()
-                                                                        .equals("head")))
+                                                                && r.slotContext().identifier().equals("head")))
                 .orElse(false);
     }
 
@@ -60,8 +58,7 @@ public final class AzraelState {
             forget(player);
             return null;
         }
-        boolean witness =
-                LongTravailData.hasWitness(TravailCurios.stack(player), TravailAspect.DEEP_VALLEY);
+        boolean witness = LongTravailData.hasWitness(TravailCurios.stack(player), TravailAspect.DEEP_VALLEY);
         State state = STATES.get(player);
         if (state == null || state.witness != witness) {
             forget(player);
@@ -72,13 +69,12 @@ public final class AzraelState {
     }
 
     public static void received(ServerPlayer player, DamageSource source) {
-        if (AzraelExecution.active() || source.getEntity() == null || source.getEntity() == player)
-            return;
+        if (AzraelExecution.active() || source.getEntity() == null || source.getEntity() == player) return;
         State state = state(player);
         if (state != null && !state.witness) state.armed = true;
     }
 
-    // 0=未触发，1=目标，2=自己。始终只消耗一个随机数。
+    // 返回值：0 表示未触发，1 表示处决目标，2 表示反噬自身；每次只消耗一个随机数。
     public static int witnessOutcome(double roll, double target, double self) {
         double sum = Math.max(1, target + self);
         return roll < target / sum ? 1 : roll < (target + self) / sum ? 2 : 0;
@@ -89,30 +85,20 @@ public final class AzraelState {
         if (AzraelExecution.active()
                 || player == victim
                 || victim.isSpectator()
-                || victim instanceof Player p
-                        && (!player.canHarmPlayer(p) || !player.server.isPvpAllowed())) return;
+                || victim instanceof Player p && (!player.canHarmPlayer(p) || !player.server.isPvpAllowed())) return;
         State state = state(player);
         if (state == null) return;
         int outcome;
         if (state.witness)
             outcome =
-                    witnessOutcome(
-                            player.getRandom().nextDouble(),
-                            AzraelConfig.TARGET.get(),
-                            AzraelConfig.SELF.get());
+                    witnessOutcome(player.getRandom().nextDouble(), AzraelConfig.TARGET.get(), AzraelConfig.SELF.get());
         else {
             if (!state.armed) return;
             state.armed = false;
             outcome = player.getRandom().nextDouble() < AzraelConfig.MALICE.get() ? 1 : 0;
         }
         if (outcome != 0)
-            REQUESTS.add(
-                    new Request(
-                            player,
-                            victim.getUUID(),
-                            state,
-                            outcome == 2,
-                            player.level().dimension()));
+            REQUESTS.add(new Request(player, victim.getUUID(), state, outcome == 2, player.level().dimension()));
     }
 
     public static void forget(ServerPlayer player) {
@@ -137,8 +123,7 @@ public final class AzraelState {
 
     @SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase == TickEvent.Phase.END && event.player instanceof ServerPlayer player)
-            state(player);
+        if (event.phase == TickEvent.Phase.END && event.player instanceof ServerPlayer player) state(player);
     }
 
     @SubscribeEvent

@@ -23,8 +23,6 @@ public abstract class TimeStopEntityRenderMixin {
             MultiBufferSource buffers,
             int light,
             Operation<Void> original) {
-        // 冻结在最后完成的游戏刻姿态，避免 partialTick 每刻从零重播旧动画区间。
-        // 只影响本次实体渲染；不改实体动画数据、全局时钟或玩家视角。
         float animationTick = TimeStopManager.frozen(entity) ? 1.0F : partialTick;
         original.call(entity, x, y, z, yaw, animationTick, pose, buffers, light);
     }

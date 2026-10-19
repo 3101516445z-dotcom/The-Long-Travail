@@ -7,7 +7,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 public final class FrozenContainers {
-    // 方块工作台菜单通常持有 ContainerLevelAccess 而非 BlockEntity 容器。
     private static final ClassValue<java.util.List<java.lang.reflect.Field>> SOURCES =
             new ClassValue<>() {
                 @Override
@@ -18,9 +17,7 @@ public final class FrozenContainers {
                             c = c.getSuperclass())
                         for (var f : c.getDeclaredFields())
                             if (!java.lang.reflect.Modifier.isStatic(f.getModifiers())
-                                    && f.getType()
-                                            == net.minecraft.world.inventory.ContainerLevelAccess
-                                                    .class) {
+                                    && f.getType() == net.minecraft.world.inventory.ContainerLevelAccess.class) {
                                 if (f.trySetAccessible()) out.add(f);
                             }
                     return java.util.List.copyOf(out);

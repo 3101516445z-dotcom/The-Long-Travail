@@ -10,6 +10,10 @@
 *.toml text eol=lf
 *.mcmeta text eol=lf
 *.md text eol=lf
+*.txt text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.xml text eol=lf
 *.py text eol=lf
 *.cjs text eol=lf
 *.vsh text eol=lf

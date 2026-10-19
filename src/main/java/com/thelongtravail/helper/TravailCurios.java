@@ -14,10 +14,8 @@ import java.util.function.IntConsumer;
 import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 public final class TravailCurios {
-    private static final UUID EXTRA_CURIO_SLOTS =
-            UUID.fromString("b241372a-b39e-479d-b497-f46f92ee55fa");
+    private static final UUID EXTRA_CURIO_SLOTS = UUID.fromString("b241372a-b39e-479d-b497-f46f92ee55fa");
 
-    // 槽位加成由单一所有者管理；普通 NBT 刷新不能撤销已占用的槽位。
     public static void syncExtraSlots(ServerPlayer player, int desired) {
         CuriosApi.getCuriosInventory(player)
                 .ifPresent(
@@ -28,16 +26,12 @@ public final class TravailCurios {
                                                     reconcileExtraSlots(
                                                             slots,
                                                             desired,
-                                                            count ->
-                                                                    evacuateAddedCurioSlots(
-                                                                            player, count));
+                                                            count -> evacuateAddedCurioSlots(player, count));
                                                 }));
     }
 
-    public static void reconcileExtraSlots(
-            ICurioStacksHandler slots, int desired, IntConsumer evacuate) {
+    public static void reconcileExtraSlots(ICurioStacksHandler slots, int desired, IntConsumer evacuate) {
         var current = slots.getModifiers().get(EXTRA_CURIO_SLOTS);
-        // 迁移旧临时修饰符，避免下一刻被缓存的移除操作撤销。
         slots.getCachedModifiers().removeIf(modifier -> EXTRA_CURIO_SLOTS.equals(modifier.getId()));
         int applied = current == null ? 0 : Math.max(0, (int) current.getAmount());
         if (current != null
@@ -76,19 +70,12 @@ public final class TravailCurios {
                                         .ifPresent(
                                                 stacksHandler -> {
                                                     var stacks = stacksHandler.getStacks();
-                                                    int firstAddedSlot =
-                                                            Math.max(
-                                                                    0,
-                                                                    stacks.getSlots() - addedSlots);
-                                                    for (int slot = firstAddedSlot;
-                                                            slot < stacks.getSlots();
-                                                            slot++) {
-                                                        ItemStack contained =
-                                                                stacks.getStackInSlot(slot);
+                                                    int firstAddedSlot = Math.max(0, stacks.getSlots() - addedSlots);
+                                                    for (int slot = firstAddedSlot; slot < stacks.getSlots(); slot++) {
+                                                        ItemStack contained = stacks.getStackInSlot(slot);
                                                         if (contained.isEmpty()) continue;
                                                         ItemStack moving = contained.copy();
-                                                        stacks.setStackInSlot(
-                                                                slot, ItemStack.EMPTY);
+                                                        stacks.setStackInSlot(slot, ItemStack.EMPTY);
                                                         returnToInventoryOrDrop(player, moving);
                                                     }
                                                 }));
@@ -96,13 +83,7 @@ public final class TravailCurios {
 
     // Inventory.add 在创造模式下可能静默丢弃溢出物品，返还装备时不能使用。
     public static void returnToInventoryOrDrop(Player player, ItemStack stack) {
-        ItemStack remainder =
-                net.minecraftforge.items.ItemHandlerHelper.insertItemStacked(
-                        new net.minecraftforge.items.wrapper.PlayerMainInvWrapper(
-                                player.getInventory()),
-                        stack,
-                        false);
-        if (!remainder.isEmpty()) player.drop(remainder, false);
+        com.thelongtravail.common.ItemDelivery.give(player, stack);
     }
 
     private TravailCurios() {}

@@ -7,8 +7,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 
-// 服务端单独以时间戳记录诅咒状态，不依赖药水效果实例，避免其他模组的效果免疫阻止诅咒生效。
-// 其他模组即使拒绝或移除效果实例，诅咒状态仍然有效；效果实例仅用于显示原版 HUD 图标。
 public final class VisualDeprivation {
     public enum ClearReason {
         COMMAND,
@@ -35,7 +33,6 @@ public final class VisualDeprivation {
         data.putLong(TOTAL, ticks);
         TravailNetwork.sendVisualDeprivation(player, ticks, ticks);
         MobEffect effect = ModRegistry.VISUAL_DEPRIVATION.get();
-        // 每次刷新用于显示的效果以覆盖完整持续时间，原版会保留现有实例并延长持续时间。
         EffectChanges.add(player, new MobEffectInstance(effect, ticks));
         com.thelongtravail.TheLongTravail.LOGGER.debug(
                 "Visual deprivation started for {} ({} ticks, effect applied: {})",
@@ -53,14 +50,12 @@ public final class VisualDeprivation {
         forget(player);
         MobEffect effect = ModRegistry.VISUAL_DEPRIVATION.get();
         if (player.hasEffect(effect)) EffectChanges.remove(player, effect, false);
-        // 主动清除时，即使服务端标签已不存在，也要清除客户端残留状态。
         TravailNetwork.sendVisualDeprivation(
                 player,
                 0,
                 0,
                 switch (reason) {
-                    case EXPIRED, DEATH, RESPAWN, DIMENSION_CHANGE, DIARY_RESET, NO_ACTIVE_STATE ->
-                            true;
+                    case EXPIRED, DEATH, RESPAWN, DIMENSION_CHANGE, DIARY_RESET, NO_ACTIVE_STATE -> true;
                     default -> false;
                 });
         if (had) {
@@ -86,13 +81,11 @@ public final class VisualDeprivation {
     public static void tick(ServerPlayer player) {
         if (!player.getPersistentData().contains(UNTIL)) return;
         int left = remaining(player);
-        if (!com.thelongtravail.config.ModeEffectRules.diaryApplies(player))
-            clear(player, ClearReason.NO_ACTIVE_STATE);
+        if (!com.thelongtravail.config.ModeEffectRules.diaryApplies(player)) clear(player, ClearReason.NO_ACTIVE_STATE);
         else if (left == 0) clear(player, ClearReason.EXPIRED);
         else TravailNetwork.sendVisualProgress(player, left);
     }
 
-    // 重新向刚加入的客户端同步尚未结束的状态，保证重新登录后视觉效果仍持续。
     public static void resend(ServerPlayer player) {
         CompoundTag data = player.getPersistentData();
         int left = remaining(player);
@@ -104,7 +97,6 @@ public final class VisualDeprivation {
         TravailNetwork.sendVisualDeprivation(player, left, Math.max(left, total));
     }
 
-    // 时停期间推迟权威截止时间，与冻结的显示效果保持一致。
     public static void pause(ServerPlayer player) {
         var data = player.getPersistentData();
         if (data.contains(UNTIL)) data.putLong(UNTIL, data.getLong(UNTIL) + 1);

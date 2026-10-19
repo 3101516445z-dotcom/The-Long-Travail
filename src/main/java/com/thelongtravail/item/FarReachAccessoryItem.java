@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public final class FarReachAccessoryItem extends Item implements ICurioItem {
-    public static final String LOCKED_KEY = "tooltip.the_long_travail.far_items.locked";
     private final boolean gold;
 
     public FarReachAccessoryItem(boolean gold) {
@@ -29,14 +28,12 @@ public final class FarReachAccessoryItem extends Item implements ICurioItem {
 
     @Override
     public boolean canEquip(SlotContext c, ItemStack s) {
-        return !c.cosmetic()
-                && c.identifier().equals(gold ? "charm" : "back")
-                && DependentAccessories.unique(c, this);
+        return !c.cosmetic() && c.identifier().equals(gold ? "charm" : "back") && DependentAccessories.unique(c, this);
     }
 
     @Override
     public boolean canEquipFromUse(SlotContext c, ItemStack s) {
-        return true;
+        return gold || !c.entity().isShiftKeyDown();
     }
 
     @Override
@@ -44,10 +41,23 @@ public final class FarReachAccessoryItem extends Item implements ICurioItem {
         return true;
     }
 
+    @Override
+    public net.minecraft.world.InteractionResultHolder<ItemStack> use(
+            Level level, net.minecraft.world.entity.player.Player player, net.minecraft.world.InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        if (gold || !player.isShiftKeyDown()) return net.minecraft.world.InteractionResultHolder.pass(stack);
+        if (!level.isClientSide) {
+            boolean enabled = com.thelongtravail.farreach.IcarusFlight.toggle(stack);
+            player.displayClientMessage(
+                    com.thelongtravail.helper.ActionMessages.text(
+                            "message.the_long_travail.icarus.flight_" + (enabled ? "on" : "off")),
+                    true);
+        }
+        return net.minecraft.world.InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
+    }
+
     private static String n(String k, double scale) {
-        return BigDecimal.valueOf(
-                        TooltipConfigSync.decimal("farItem." + k, FarReachItemsConfig.get(k))
-                                * scale)
+        return BigDecimal.valueOf(TooltipConfigSync.decimal("farItem." + k, FarReachItemsConfig.get(k)) * scale)
                 .stripTrailingZeros()
                 .toPlainString();
     }
@@ -65,49 +75,33 @@ public final class FarReachAccessoryItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(
-            ItemStack stack, Level level, List<Component> out, TooltipFlag flag) {
-        out.add(Component.empty());
-        // 在客户端使用当前查看者展开，不将解锁状态写入物品。
-        out.add(
-                Component.translatable(LOCKED_KEY)
-                        .withStyle(net.minecraft.ChatFormatting.DARK_RED));
+    public void appendHoverText(ItemStack stack, Level level, List<Component> out, TooltipFlag flag) {
+        ItemDescription.summary(out);
+    }
+
+    public void appendDetails(List<Component> out, net.minecraft.world.entity.player.Player viewer, ItemStack stack) {
+        appendDetails(out, viewer, stack, false);
     }
 
     public void appendDetails(
-            List<Component> out, net.minecraft.world.entity.player.Player viewer) {
-        boolean unlocked =
-                viewer != null && !com.thelongtravail.helper.TravailCurios.stack(viewer).isEmpty();
+            List<Component> out, net.minecraft.world.entity.player.Player viewer, ItemStack stack, boolean complete) {
         if (gold) {
-            if (unlocked) {
+            {
                 line(out, "golden_age.dig_unlocked");
                 line(out, "golden_age.dig_result");
-            } else line(out, "golden_age.dig");
+            }
         } else {
             line(out, "icarus.flight");
+            line(out, "icarus.flight_toggle");
+            line(out, "icarus.immunity");
             line(
                     out,
                     "icarus.ignite",
                     TooltipConfigSync.integer(
-                            "farItem.icarus.igniteSeconds",
-                            FarReachItemsConfig.IGNITE_SECONDS.get()));
+                            "farItem.icarus.igniteSeconds", FarReachItemsConfig.IGNITE_SECONDS.get()));
         }
         out.add(Component.empty());
-        if (!unlocked) {
-            out.add(
-                    Component.translatable(LOCKED_KEY)
-                            .withStyle(net.minecraft.ChatFormatting.DARK_RED));
-            out.add(Component.empty());
-            for (int i = 0; i < 3; i++)
-                out.add(
-                        Component.literal(
-                                        (gold ? "Golden Age " : "Icarus ") + "?".repeat(18 - i * 4))
-                                .withStyle(
-                                        s ->
-                                                s.withColor(RainTooltips.BODY_COLOR)
-                                                        .withObfuscated(true)));
-            return;
-        }
+
         if (gold) {
             line(out, "golden_age.malice_heading");
             line(out, "golden_age.convert");

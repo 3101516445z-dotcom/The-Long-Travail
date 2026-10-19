@@ -16,7 +16,6 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-// 伊卡洛斯模型沿用原版动画，同时只显示一对翅膀。
 @Mixin(ElytraLayer.class)
 public abstract class IcarusElytraLayerMixin<T extends LivingEntity, M extends EntityModel<T>>
         extends RenderLayer<T, M> {
@@ -57,12 +56,8 @@ public abstract class IcarusElytraLayerMixin<T extends LivingEntity, M extends E
         travail$wingModel.setupAnim(entity, limbSwing, limbAmount, age, yaw, pitch);
         var consumer =
                 ItemRenderer.getArmorFoilBuffer(
-                        buffers,
-                        RenderType.armorCutoutNoCull(TRAVAIL_ICARUS),
-                        false,
-                        stack.hasFoil());
-        travail$wingModel.renderToBuffer(
-                pose, consumer, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+                        buffers, RenderType.armorCutoutNoCull(TRAVAIL_ICARUS), false, stack.hasFoil());
+        travail$wingModel.renderToBuffer(pose, consumer, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         pose.popPose();
         ci.cancel();
     }

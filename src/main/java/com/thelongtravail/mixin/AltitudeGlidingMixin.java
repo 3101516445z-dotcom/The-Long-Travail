@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Slice;
 
-// 在控制端缩放鞘翅位移，避免物理速度累积衰减。
 @Mixin(LivingEntity.class)
 public abstract class AltitudeGlidingMixin {
     @Unique private float travail$glidingFactor = 1.0F;
@@ -31,13 +30,8 @@ public abstract class AltitudeGlidingMixin {
             require = 1,
             allow = 1)
     private Vec3 travail$scaleGlidingDisplacement(Vec3 displacement) {
-        travail$glidingFactor =
-                (Object) this instanceof Player player ? AltitudePenalty.factor(player) : 1.0F;
-        // 保留 deltaMovement，使重力、转向和烟花加速继续按原版递推。
-        // Entity.move 仍正常处理碰撞并清除受阻方向的速度分量。
-        return travail$glidingFactor < 1.0F
-                ? displacement.scale(travail$glidingFactor)
-                : displacement;
+        travail$glidingFactor = (Object) this instanceof Player player ? AltitudePenalty.factor(player) : 1.0F;
+        return travail$glidingFactor < 1.0F ? displacement.scale(travail$glidingFactor) : displacement;
     }
 
     // 原版撞墙伤害为「水平速度损失 × 10 − 3」。使用移动前的系数缩放速度损失，

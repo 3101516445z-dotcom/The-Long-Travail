@@ -5,7 +5,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.*;
 import java.util.*;
 
-// 按脚部坐标的欧氏距离搜索；每格用实际碰撞面的坐标划分连续空间，而非只检查方块中心。
 public final class RevivalPosition {
     private record Cell(BlockPos pos, double distance) {}
 
@@ -13,9 +12,7 @@ public final class RevivalPosition {
     private final Vec3 origin;
     private final double half, height;
     private final PriorityQueue<Cell> queue =
-            new PriorityQueue<>(
-                    Comparator.comparingDouble(Cell::distance)
-                            .thenComparingLong(c -> c.pos.asLong()));
+            new PriorityQueue<>(Comparator.comparingDouble(Cell::distance).thenComparingLong(c -> c.pos.asLong()));
     private final Set<BlockPos> seen = new HashSet<>();
     private Vec3 best;
     private BlockPos active;
@@ -32,14 +29,11 @@ public final class RevivalPosition {
     }
 
     private AABB body(Vec3 p) {
-        return new AABB(p.x - half, p.y, p.z - half, p.x + half, p.y + height, p.z + half)
-                .deflate(1E-7);
+        return new AABB(p.x - half, p.y, p.z - half, p.x + half, p.y + height, p.z + half).deflate(1E-7);
     }
 
     private void load(AABB box) {
-        for (int x = net.minecraft.util.Mth.floor(box.minX) >> 4;
-                x <= net.minecraft.util.Mth.floor(box.maxX) >> 4;
-                x++)
+        for (int x = net.minecraft.util.Mth.floor(box.minX) >> 4; x <= net.minecraft.util.Mth.floor(box.maxX) >> 4; x++)
             for (int z = net.minecraft.util.Mth.floor(box.minZ) >> 4;
                     z <= net.minecraft.util.Mth.floor(box.maxZ) >> 4;
                     z++) level.getChunk(x, z);
@@ -64,7 +58,6 @@ public final class RevivalPosition {
         queue.add(new Cell(p, origin.distanceToSqr(x, y, z)));
     }
 
-    // 北、东、南、西、上、下；斜向先按其包含的最高优先方向，再按坐标稳定排序。
     public static int direction(Vec3 v) {
         return direction(v.x, v.y, v.z);
     }
@@ -112,11 +105,9 @@ public final class RevivalPosition {
                 }
                 continue;
             }
-            if (best != null && queue.peek().distance > origin.distanceToSqr(best) + 1E-9)
-                return true;
+            if (best != null && queue.peek().distance > origin.distanceToSqr(best) + 1E-9) return true;
             Cell c = queue.remove();
             BlockPos p = c.pos;
-            // 分批加载必要区块，不把未加载区块误认为空气。
             level.getChunk(p.getX() >> 4, p.getZ() >> 4);
             Coordinates xs = new Coordinates(), ys = new Coordinates(), zs = new Coordinates();
             add(xs, origin.x, p.getX());
@@ -144,12 +135,9 @@ public final class RevivalPosition {
             ix = iy = iz = 0;
         }
         return active == null
-                && (queue.isEmpty()
-                        || best != null
-                                && queue.peek().distance > origin.distanceToSqr(best) + 1E-9);
+                && (queue.isEmpty() || best != null && queue.peek().distance > origin.distanceToSqr(best) + 1E-9);
     }
 
-    // 每个候选格独立收集；排序与去重遵守 Double.compare，不缓存世界碰撞结果。
     private static final class Coordinates {
         private double[] values = new double[8];
         private int size;
@@ -163,8 +151,7 @@ public final class RevivalPosition {
             Arrays.sort(values, 0, size);
             int count = 0;
             for (int i = 0; i < size; i++)
-                if (count == 0 || Double.compare(values[i], values[count - 1]) != 0)
-                    values[count++] = values[i];
+                if (count == 0 || Double.compare(values[i], values[count - 1]) != 0) values[count++] = values[i];
             return Arrays.copyOf(values, count);
         }
     }

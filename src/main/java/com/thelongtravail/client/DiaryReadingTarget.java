@@ -10,12 +10,10 @@ import top.theillusivec4.curios.api.CuriosApi;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-// 阅读身份只读；槽位同步产生的新 ItemStack 不代表新旅程。
 public final class DiaryReadingTarget implements Supplier<ItemStack> {
     public record Location(Object owner, String kind, String slot, int index) {}
 
-    public record Observation(
-            Location location, Supplier<ItemStack> source, ItemStack stack, double x, double y) {}
+    public record Observation(Location location, Supplier<ItemStack> source, ItemStack stack, double x, double y) {}
 
     private final Observation origin;
     private final ItemStack initial;
@@ -36,6 +34,7 @@ public final class DiaryReadingTarget implements Supplier<ItemStack> {
     }
 
     private boolean accepts(ItemStack stack) {
+        if (!initial.is(ModRegistry.LONG_TRAVAIL.get())) return ItemStack.matches(initial, stack);
         if (!stack.is(ModRegistry.LONG_TRAVAIL.get())) return false;
         UUID current = journey(stack);
         if (journey != null) return journey.equals(current);
@@ -55,7 +54,6 @@ public final class DiaryReadingTarget implements Supplier<ItemStack> {
             if (!origin.location().equals(observation.location())) return false;
             return accepts(observation.stack()) && accepts(origin.source().get());
         }
-        // 无槽位的配方/预览没有可靠的位置身份，要求鼠标保持在原位置。
         if (observation.location() != null
                 || Math.abs(origin.x() - observation.x()) >= .5
                 || Math.abs(origin.y() - observation.y()) >= .5
@@ -77,17 +75,13 @@ public final class DiaryReadingTarget implements Supplier<ItemStack> {
             if (curios.isPresent())
                 for (var entry : curios.get().getCurios().entrySet()) {
                     for (boolean cosmetic : new boolean[] {false, true}) {
-                        var stacks =
-                                cosmetic
-                                        ? entry.getValue().getCosmeticStacks()
-                                        : entry.getValue().getStacks();
+                        var stacks = cosmetic ? entry.getValue().getCosmeticStacks() : entry.getValue().getStacks();
                         for (int i = 0; i < stacks.getSlots(); i++)
                             if (stacks.getStackInSlot(i) == stack) {
                                 String id = entry.getKey();
                                 int index = i;
                                 return new Observation(
-                                        new Location(
-                                                player, cosmetic ? "cosmetic" : "curios", id, i),
+                                        new Location(player, cosmetic ? "cosmetic" : "curios", id, i),
                                         () ->
                                                 CuriosApi.getCuriosInventory(player)
                                                         .resolve()
@@ -96,15 +90,10 @@ public final class DiaryReadingTarget implements Supplier<ItemStack> {
                                                                 h -> {
                                                                     var current =
                                                                             cosmetic
-                                                                                    ? h
-                                                                                            .getCosmeticStacks()
+                                                                                    ? h.getCosmeticStacks()
                                                                                     : h.getStacks();
-                                                                    return index
-                                                                                    < current
-                                                                                            .getSlots()
-                                                                            ? current
-                                                                                    .getStackInSlot(
-                                                                                            index)
+                                                                    return index < current.getSlots()
+                                                                            ? current.getStackInSlot(index)
                                                                             : ItemStack.EMPTY;
                                                                 })
                                                         .orElse(ItemStack.EMPTY),
@@ -122,10 +111,7 @@ public final class DiaryReadingTarget implements Supplier<ItemStack> {
                     int index = i;
                     return new Observation(
                             new Location(menu, "menu", "", index),
-                            () ->
-                                    index < menu.slots.size()
-                                            ? menu.slots.get(index).getItem()
-                                            : ItemStack.EMPTY,
+                            () -> index < menu.slots.size() ? menu.slots.get(index).getItem() : ItemStack.EMPTY,
                             stack,
                             x,
                             y);
@@ -137,11 +123,7 @@ public final class DiaryReadingTarget implements Supplier<ItemStack> {
                 if (inventory.getItem(i) == stack) {
                     int index = i;
                     return new Observation(
-                            new Location(inventory, "inventory", "", i),
-                            () -> inventory.getItem(index),
-                            stack,
-                            x,
-                            y);
+                            new Location(inventory, "inventory", "", i), () -> inventory.getItem(index), stack, x, y);
                 }
         }
         return new Observation(null, () -> stack, stack, x, y);

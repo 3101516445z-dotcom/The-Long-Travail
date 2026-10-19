@@ -6,15 +6,13 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.item.ItemStack;
 import java.util.*;
 
-// 只追踪曾被绑定的实体；离线或放在箱中的饰品取出后也能识别已确认的死亡。
 public final class AffectionDeaths extends SavedData {
     private final Set<UUID> watched = new HashSet<>(), dead = new HashSet<>();
 
     public static AffectionDeaths get(MinecraftServer server) {
         return server.overworld()
                 .getDataStorage()
-                .computeIfAbsent(
-                        AffectionDeaths::load, AffectionDeaths::new, "the_long_travail_affection");
+                .computeIfAbsent(AffectionDeaths::load, AffectionDeaths::new, "the_long_travail_affection");
     }
 
     private static AffectionDeaths load(CompoundTag tag) {

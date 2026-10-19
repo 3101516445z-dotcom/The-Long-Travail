@@ -1,8 +1,7 @@
 package com.thelongtravail.config;
 
 public final class ConfigFilesDescription {
-    public static void describe(
-            net.minecraftforge.common.ForgeConfigSpec.Builder builder, String file) {
+    public static void describe(net.minecraftforge.common.ForgeConfigSpec.Builder builder, String file) {
         if (file.startsWith("aspects/")) {
             section(builder, "travail", header(file));
             section(
@@ -20,6 +19,14 @@ public final class ConfigFilesDescription {
             if (file.endsWith("abyss.toml")) {
                 section(
                         builder,
+                        "items.perfect_fluid",
+                        "完美流体：用于复制物品，默认不设黑名单。\nPerfect Fluid: duplicates items. The blacklist is empty by default.");
+                section(
+                        builder,
+                        "items.midnight_lafite",
+                        "午夜拉菲：手饰，基础效果独立；夜间伤害与免疫依赖归墟状态。\nMidnight Lafite: hands accessory with independent base effects; nighttime damage and immunity depend on Abyss state.");
+                section(
+                        builder,
                         "items",
                         "归墟主题关联物品；按物品ID分别管理。\nItems associated with Abyss, configured separately by item ID.");
                 section(
@@ -29,7 +36,7 @@ public final class ConfigFilesDescription {
                 section(
                         builder,
                         "items.eki.carrying",
-                        "以下携带位置设置仅适用于玩家。多个位置同时携带时，效果不叠加。\n女仆只检查原生饰品栏，不受这些携带位置开关影响。\nThese carrying locations apply only to players. Multiple copies do not stack.\nMaids check only native bauble slots, independently of these carrying switches.");
+                        "以下开关为駅的旧版兼容限制，与 general.toml 的 carrying 统一位置开关同时生效。仅适用于玩家，多个位置不叠加。\n女仆只检查原生饰品栏，不受这些携带位置开关影响。\nLegacy Eki restrictions apply together with the shared carrying switches in general.toml; both must allow the location. These restrictions apply only to players, and carrying multiple copies does not stack their effects.\nMaids are checked only for accessories in their native bauble slots and are not affected by these location switches.");
                 section(
                         builder,
                         "items.tokaido",
@@ -52,11 +59,19 @@ public final class ConfigFilesDescription {
                         "items.icarus",
                         "伊卡洛斯：背饰。鞘翅飞行、命中点燃、基础免疫、按世界时间计算的太阳增伤、见证魔法免疫。\nIcarus: back accessory. Elytra flight, ignition on hit, base immunities, sunlight damage bonuses based on world time, and magic immunity with Witness.");
             } else if (file.endsWith("deep_valley.toml")) {
-                section(builder, "items", "幽谷主题关联饰品。\nAccessories associated with Deep Valley.");
+                section(builder, "items", "幽谷主题关联物品。\nItems associated with Deep Valley.");
+                section(
+                        builder,
+                        "items.phosphophyllite",
+                        "磷叶石：需同时佩戴苦旅的通用饰品，支持女仆。按比例增加各项属性，受击触发方式与苦旅一致；有效溢出治疗转化为伤害吸收量。\nPhosphophyllite: a general-purpose curio that requires The Long Travail and supports maids. Applies multiplicative attribute bonuses, follows the diary's on-hit trigger mode, and converts effective overhealing into absorption.");
+                section(
+                        builder,
+                        "items.underground_velvet",
+                        "地下丝绒：右键消耗1个，基础奖励8个同种矿石或锭；恶意抽取箱子条目，见证增加15级。\nUnderground Velvet: consume one for eight matching ores or ingots; Malice samples chest entries, Witness grants 15 levels.");
                 section(
                         builder,
                         "items.azrael",
-                        "死告天使：玩家需同时佩戴苦旅。同类只生效一件。\n见证状态下，每次实际造成伤害只判定一次。处决目标与处决佩戴者不会同时发生。\nAzrael: head accessory requiring The Long Travail. Only one copy takes effect. With Witness, each instance of actual damage dealt makes one roll with mutually exclusive outcomes.");
+                        "死告天使：玩家需同时佩戴苦旅。同类只生效一件。\n见证状态下，每次实际造成伤害只判定一次。处决目标与处决佩戴者不会同时发生。\nAzrael: a head accessory that requires The Long Travail. Only one copy takes effect. With Witness, each instance of actual damage dealt makes one roll; executing the target and executing the wearer cannot occur on the same roll.");
                 section(
                         builder,
                         "travail.visualDeprivation",
@@ -65,16 +80,16 @@ public final class ConfigFilesDescription {
                 section(builder, "items", "繁茂主题关联饰品。\nAccessories associated with Flourishing.");
                 section(
                         builder,
-                        "items.spring_game",
-                        "春日的游戏：一朵永久主花、两朵可清洗配花。\nSpringtime Game: one permanent primary flower and two secondary flowers that can be washed off.");
+                        "items.spring_corner",
+                        "春日一隅：一朵永久主花、两朵可清洗配花。\nA Corner of Spring: one permanent primary flower and two secondary flowers that can be washed off.");
                 section(
                         builder,
-                        "items.spring_game.flowers",
+                        "items.spring_corner.flowers",
                         "按花朵分别调整适配和数值。禁用适配不会删除旧物品中的花朵。\nConfigure support and values separately for each flower. Disabling support does not remove flowers from existing items.");
                 section(
                         builder,
                         "items.affection",
-                        "喜欢的心情：伙伴绑定、生命值相关加成与防御减免前的伤害分担。\nAffection: binding, health-based bonuses, and damage sharing before defensive reductions.");
+                        "喜欢的心情：伙伴绑定与生命值相关加成。\nAffection: binding and health-based bonuses.");
             } else if (file.endsWith("underworld.toml"))
                 section(
                         builder,
@@ -99,10 +114,7 @@ public final class ConfigFilesDescription {
                     builder,
                     "receivedMalice",
                     "六类主题共用的受击恶意触发规则。\nOn-hit Malice trigger rules shared by all six themes.");
-            section(
-                    builder,
-                    "effectLimits",
-                    "跨主题的自动效果尝试次数限制。\nCross-theme limits on automatic effect attempts.");
+            section(builder, "effectLimits", "跨主题的自动效果尝试次数限制。\nCross-theme limits on automatic effect attempts.");
             section(
                     builder,
                     "rewardDelivery",
@@ -114,10 +126,7 @@ public final class ConfigFilesDescription {
                     builder,
                     "items.wayguide",
                     "路引：查找当前苦旅尚未完成的探索条件。\nWayguide: locate unfinished exploration requirements for the current Long Travail.");
-            section(
-                    builder,
-                    "items.wayguide.search",
-                    "搜索范围与实际时间上限。\nSearch range and real-time timeout.");
+            section(builder, "items.wayguide.search", "搜索范围与实际时间上限。\nSearch range and real-time timeout.");
             section(builder, "items.wayguide.sampling", "群系采样精度。\nBiome sampling precision.");
             section(
                     builder,
@@ -139,9 +148,7 @@ public final class ConfigFilesDescription {
     }
 
     private static void section(
-            net.minecraftforge.common.ForgeConfigSpec.Builder builder,
-            String path,
-            String comment) {
+            net.minecraftforge.common.ForgeConfigSpec.Builder builder, String path, String comment) {
         builder.comment(comment).push(path).pop(path.split("\\.").length);
     }
 
@@ -165,20 +172,12 @@ public final class ConfigFilesDescription {
                         : "";
         String notes = "";
         if (file.equals("general.toml"))
-            notes +=
-                    "\n探索条件的抽取数量仅影响新生成的旅程。\nExploration draw counts affect only newly generated journeys.";
+            notes += "\n探索条件的抽取数量仅影响新生成的旅程。\nExploration draw counts affect only newly generated journeys.";
         if (file.startsWith("aspects/"))
-            notes +=
-                    "\n探索条件池仅影响新生成的旅程。\nExploration requirement pools affect only newly generated journeys.";
+            notes += "\n探索条件池仅影响新生成的旅程。\nExploration requirement pools affect only newly generated journeys.";
         if (file.equals("aspects/abyss.toml"))
-            notes +=
-                    "\n技能时长和冷却的修改仅影响之后释放的技能。\nSkill duration and cooldown changes affect only future casts.";
-        return "The Long Travail / 苦旅 — "
-                + file
-                + "\n"
-                + purpose
-                + (scope.isEmpty() ? "" : "\n" + scope)
-                + notes;
+            notes += "\n技能时长和冷却的修改仅影响之后释放的技能。\nSkill duration and cooldown changes affect only future casts.";
+        return "The Long Travail / 苦旅 — " + file + "\n" + purpose + (scope.isEmpty() ? "" : "\n" + scope) + notes;
     }
 
     public static final String GUIDE =
@@ -188,7 +187,8 @@ public final class ConfigFilesDescription {
             实际配置位于同目录的 TOML 文件；旧版根目录配置不再读取。
 
             文件分组
-            general.toml：跨主题公共规则、探索抽取数量和统一战利品。
+            general.toml：跨主题公共规则、探索抽取数量、统一战利品及 carrying 携带位置开关。
+            駅、巴别塔与小王子共用携带服务；駅和巴别塔的旧位置开关作为兼容限制，与全局开关同时生效。
             utility_items.toml：路引等通用功能物品。
             client.toml：仅影响本客户端的显示偏好。
             aspects/：六个主题及其关联物品。各主题保留独立的探索条件池。

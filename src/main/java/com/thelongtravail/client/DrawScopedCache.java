@@ -2,7 +2,6 @@ package com.thelongtravail.client;
 
 import java.util.IdentityHashMap;
 
-// 缓存仅在单次绘制中有效；只使用一个图集时，无需分配映射表或创建回调。
 public abstract class DrawScopedCache<K, V> {
     private K first;
     private V firstValue;

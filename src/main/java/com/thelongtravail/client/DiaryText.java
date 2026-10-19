@@ -5,7 +5,6 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.FormattedCharSink;
 import java.util.ArrayList;
 
-// 仅移除材质标记，保留文本视觉顺序、索引和样式。
 public final class DiaryText {
     public interface Unmarked extends FormattedCharSequence {}
 
@@ -13,15 +12,13 @@ public final class DiaryText {
         return (Unmarked)
                 sink ->
                         text.accept(
-                                (index, style, codePoint) ->
-                                        sink.accept(index, style.withInsertion(null), codePoint));
+                                (index, style, codePoint) -> sink.accept(index, style.withInsertion(null), codePoint));
     }
 
     public static FormattedCharSequence forDraw(FormattedCharSequence text, boolean repeated) {
         return repeated ? prepare(text) : lazyUnmarked(text);
     }
 
-    // 多次绘制光晕时复用文本遍历和样式转换结果；只绘制一次时按需处理。
     public static FormattedCharSequence prepare(FormattedCharSequence text) {
         var glyphs = new ArrayList<Glyph>();
         text.accept(
@@ -44,8 +41,7 @@ public final class DiaryText {
 
     private record Prepared(Glyph[] glyphs) implements Unmarked {
         public boolean accept(FormattedCharSink sink) {
-            for (Glyph glyph : glyphs)
-                if (!sink.accept(glyph.index(), glyph.style(), glyph.codePoint())) return false;
+            for (Glyph glyph : glyphs) if (!sink.accept(glyph.index(), glyph.style(), glyph.codePoint())) return false;
             return true;
         }
     }

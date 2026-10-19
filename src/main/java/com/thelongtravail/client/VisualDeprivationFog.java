@@ -3,7 +3,6 @@ package com.thelongtravail.client;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ViewportEvent;
 
-// 可选的视距适配器，不扩大流体或其他模组已设置的雾中视距。
 public final class VisualDeprivationFog {
     public static void renderFog(ViewportEvent.RenderFog event) {
         var player = Minecraft.getInstance().player;
@@ -12,8 +11,7 @@ public final class VisualDeprivationFog {
         float envelope = VisualDeprivationClient.envelope(player, partial);
         if (envelope <= 0) return;
         var style = VisualDeprivationClient.style(partial);
-        float blend =
-                envelope * style.distanceEnabled() * VisualDeprivationClient.pulse(partial, style);
+        float blend = envelope * style.distanceEnabled() * VisualDeprivationClient.pulse(partial, style);
         if (blend <= 0) return;
         float far = event.getFarPlaneDistance(), near = event.getNearPlaneDistance();
         float targetFar = Math.min(far, style.distanceEnd());
@@ -30,11 +28,7 @@ public final class VisualDeprivationFog {
         float envelope = VisualDeprivationClient.envelope(player, partial);
         if (envelope <= 0) return;
         var style = VisualDeprivationClient.style(partial);
-        float remaining =
-                1
-                        - envelope
-                                * style.distanceEnabled()
-                                * VisualDeprivationClient.pulse(partial, style);
+        float remaining = 1 - envelope * style.distanceEnabled() * VisualDeprivationClient.pulse(partial, style);
         event.setRed(event.getRed() * remaining);
         event.setGreen(event.getGreen() * remaining);
         event.setBlue(event.getBlue() * remaining);

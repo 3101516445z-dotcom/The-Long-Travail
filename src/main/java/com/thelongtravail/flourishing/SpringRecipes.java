@@ -40,7 +40,7 @@ public final class SpringRecipes {
     }
 
     public static ItemStack crown(Flower f) {
-        ItemStack s = new ItemStack(ModRegistry.SPRING_GAME.get());
+        ItemStack s = new ItemStack(ModRegistry.SPRING_CORNER.get());
         FlowerData.write(s, List.of(f));
         return s;
     }
@@ -90,7 +90,7 @@ public final class SpringRecipes {
             for (int i = 0; i < c.getContainerSize(); i++) {
                 ItemStack s = c.getItem(i);
                 if (s.isEmpty()) continue;
-                if (s.is(ModRegistry.SPRING_GAME.get())) {
+                if (s.is(ModRegistry.SPRING_CORNER.get())) {
                     if (!crown.isEmpty()) return null;
                     crown = s;
                 } else {
@@ -112,9 +112,7 @@ public final class SpringRecipes {
             var flowers = FlowerData.read(in.crown);
             return in.wash
                     ? flowers.size() > 1
-                    : enabled(in.flower, level)
-                            && flowers.size() < 3
-                            && !flowers.contains(in.flower);
+                    : enabled(in.flower, level) && flowers.size() < 3 && !flowers.contains(in.flower);
         }
 
         @Override
@@ -146,8 +144,7 @@ public final class SpringRecipes {
 
         @Override
         public NonNullList<ItemStack> getRemainingItems(CraftingContainer c) {
-            NonNullList<ItemStack> result =
-                    NonNullList.withSize(c.getContainerSize(), ItemStack.EMPTY);
+            NonNullList<ItemStack> result = NonNullList.withSize(c.getContainerSize(), ItemStack.EMPTY);
             for (int i = 0; i < c.getContainerSize(); i++)
                 if (c.getItem(i).is(Items.WATER_BUCKET)) result.set(i, new ItemStack(Items.BUCKET));
             return result;

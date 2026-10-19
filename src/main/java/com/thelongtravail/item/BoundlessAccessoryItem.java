@@ -44,12 +44,6 @@ public final class BoundlessAccessoryItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack s, Level l, List<Component> lines, TooltipFlag f) {
-        lines.addAll(
-                com.thelongtravail.boundless.BoundlessTooltips.forViewer(
-                        dream,
-                        l == null || l.isClientSide
-                                ? com.thelongtravail.boundless.BoundlessTooltips.viewer.get()
-                                : null,
-                        com.thelongtravail.boundless.BoundlessTooltips.dreamKey.get()));
+        ItemDescription.summary(lines);
     }
 }

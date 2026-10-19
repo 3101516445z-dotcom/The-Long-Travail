@@ -9,7 +9,6 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-// 服务端线程缓存，在注册表可用后及配置重载后重建。
 public final class RuntimePools {
     public record Snapshot(
             WeightedTable<EffectEntry> far,
@@ -47,11 +46,8 @@ public final class RuntimePools {
                 new Snapshot(
                         new WeightedTable<>(far, EffectEntry::weight),
                         new WeightedTable<>(valley, EffectEntry::weight),
-                        new WeightedTable<>(
-                                rewards(TravailConfig.FISH_SPECIAL_ITEMS.get()),
-                                RewardEntry::weight),
-                        new WeightedTable<>(
-                                rewards(TravailConfig.PHANTOM_DROPS.get()), RewardEntry::weight),
+                        new WeightedTable<>(rewards(TravailConfig.FISH_SPECIAL_ITEMS.get()), RewardEntry::weight),
+                        new WeightedTable<>(rewards(TravailConfig.PHANTOM_DROPS.get()), RewardEntry::weight),
                         new WeightedTable<>(
                                 parse(
                                         TravailConfig.FISH_ENTITIES.get(),
@@ -71,14 +67,12 @@ public final class RuntimePools {
             String text = value.trim();
             ResourceLocation id = text.contains(":") ? ResourceLocation.tryParse(text) : null;
             if (id == null) {
-                TheLongTravail.LOGGER.warn(
-                        "Ignoring invalid Far Reach level bonus blacklist ID: {}", value);
+                TheLongTravail.LOGGER.warn("Ignoring invalid Far Reach level bonus blacklist ID: {}", value);
                 continue;
             }
             result.add(id);
             if (!ForgeRegistries.MOB_EFFECTS.containsKey(id)) {
-                TheLongTravail.LOGGER.warn(
-                        "Far Reach level bonus blacklist effect is not installed: {}", id);
+                TheLongTravail.LOGGER.warn("Far Reach level bonus blacklist effect is not installed: {}", id);
             }
         }
         return Set.copyOf(result);
@@ -101,11 +95,7 @@ public final class RuntimePools {
     }
 
     private static List<RewardEntry> rewards(List<? extends String> source) {
-        return parse(
-                source,
-                RewardEntry::parse,
-                e -> ForgeRegistries.ITEMS.containsKey(e.id()),
-                RewardEntry::id);
+        return parse(source, RewardEntry::parse, e -> ForgeRegistries.ITEMS.containsKey(e.id()), RewardEntry::id);
     }
 
     private static <T> List<T> parse(
@@ -117,8 +107,7 @@ public final class RuntimePools {
         for (String text : source) {
             T entry = parser.apply(text);
             if (entry == null || !valid.test(entry)) {
-                TheLongTravail.LOGGER.warn(
-                        "Ignoring invalid/unavailable random pool entry: {}", text);
+                TheLongTravail.LOGGER.warn("Ignoring invalid/unavailable random pool entry: {}", text);
             } else if (entries.putIfAbsent(id.apply(entry), entry) != null) {
                 TheLongTravail.LOGGER.warn("Ignoring duplicate random pool target: {}", text);
             }

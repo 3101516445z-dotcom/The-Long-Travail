@@ -22,8 +22,7 @@ public abstract class TimeStopPistonMixin {
         boolean extend = event == 0;
         PistonStructureResolver resolver = new PistonStructureResolver(l, p, face, extend);
         resolver.resolve();
-        boolean blocked =
-                TimeStopManager.frozen(l, p) || TimeStopManager.frozen(l, p.relative(face));
+        boolean blocked = TimeStopManager.frozen(l, p) || TimeStopManager.frozen(l, p.relative(face));
         Direction move = extend ? face : face.getOpposite();
         for (BlockPos q : resolver.getToPush())
             blocked |= TimeStopManager.frozen(l, q) || TimeStopManager.frozen(l, q.relative(move));
@@ -37,34 +36,24 @@ public abstract class TimeStopPistonMixin {
                 for (BlockPos q : resolver.getToPush()) gates.add(q.relative(move));
                 gates.addAll(resolver.getToDestroy());
                 FrozenBlockEvents.get(server)
-                        .hold(
-                                new net.minecraft.world.level.BlockEventData(
-                                        p, state.getBlock(), event, data),
-                                gates);
+                        .hold(new net.minecraft.world.level.BlockEventData(p, state.getBlock(), event, data), gates);
             }
             ci.setReturnValue(false);
         }
     }
 
     @Inject(method = "moveBlocks", at = @At("HEAD"), cancellable = true)
-    private void travail$move(
-            Level l,
-            BlockPos p,
-            Direction face,
-            boolean extend,
-            CallbackInfoReturnable<Boolean> ci) {
+    private void travail$move(Level l, BlockPos p, Direction face, boolean extend, CallbackInfoReturnable<Boolean> ci) {
         PistonStructureResolver resolver = new PistonStructureResolver(l, p, face, extend);
         resolver.resolve();
-        boolean blocked =
-                TimeStopManager.frozen(l, p) || TimeStopManager.frozen(l, p.relative(face));
+        boolean blocked = TimeStopManager.frozen(l, p) || TimeStopManager.frozen(l, p.relative(face));
         Direction move = extend ? face : face.getOpposite();
         for (BlockPos q : resolver.getToPush())
             blocked |= TimeStopManager.frozen(l, q) || TimeStopManager.frozen(l, q.relative(move));
         for (BlockPos q : resolver.getToDestroy()) blocked |= TimeStopManager.frozen(l, q);
         if (blocked) {
             if (l instanceof net.minecraft.server.level.ServerLevel s)
-                FrozenBlockTasks.get(s)
-                        .neighbor(s, p, l.getBlockState(p).getBlock(), p.relative(face));
+                FrozenBlockTasks.get(s).neighbor(s, p, l.getBlockState(p).getBlock(), p.relative(face));
             ci.setReturnValue(false);
         }
     }

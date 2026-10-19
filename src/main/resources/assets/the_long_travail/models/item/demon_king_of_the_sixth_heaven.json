@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "the_long_travail:item/demon_king_of_the_sixth_heaven"
+  }
+}

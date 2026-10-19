@@ -10,9 +10,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.item.ItemStack;
 
-// 保留 Hurt 阶段实时读取，不把跨事件的装备状态提前缓存。
 final class CombatRules {
-    // 恶意放大与见证抵消共用相同环境伤害范围。
     static boolean abyssEnvironmentDamage(DamageSource source) {
         return source.is(DamageTypes.IN_WALL)
                 || source.is(DamageTypes.CRAMMING)
@@ -21,24 +19,19 @@ final class CombatRules {
     }
 
     static float internalAmount(
-            LivingEntity target,
-            ServerPlayer attacker,
-            boolean roseDamage,
-            DamageSource source,
-            float amount) {
+            LivingEntity target, ServerPlayer attacker, boolean roseDamage, DamageSource source, float amount) {
         if (!(amount > 0)) return 0;
         if (roseDamage) return amount;
+        amount = multiply(amount, 1 + com.thelongtravail.valley.Phosphophyllite.damageBonus(target));
         if (target instanceof ServerPlayer player) {
             ItemStack diary = TravailCurios.stack(player);
             if (ModeEffectRules.diaryApplies(player) && !diary.isEmpty()) {
                 if (!LongTravailData.hasWitness(diary, TravailAspect.FLOURISHING)
                         && player.getHealth()
-                                > player.getMaxHealth()
-                                        * TravailConfig.FLOURISHING_HEALTH_THRESHOLD.get()) {
+                                > player.getMaxHealth() * TravailConfig.FLOURISHING_HEALTH_THRESHOLD.get()) {
                     amount = multiply(amount, TravailConfig.FLOURISHING_DAMAGE_MULTIPLIER.get());
                 }
-                if (!LongTravailData.hasWitness(diary, TravailAspect.ABYSS)
-                        && abyssEnvironmentDamage(source)) {
+                if (!LongTravailData.hasWitness(diary, TravailAspect.ABYSS) && abyssEnvironmentDamage(source)) {
                     amount = multiply(amount, TravailConfig.ABYSS_ENVIRONMENT_MULTIPLIER.get());
                 }
             }

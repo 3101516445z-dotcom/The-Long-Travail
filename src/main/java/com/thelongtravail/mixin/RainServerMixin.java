@@ -17,8 +17,7 @@ public abstract class RainServerMixin {
     @Inject(method = "advanceWeatherCycle", at = @At("HEAD"))
     private void travail$weather(CallbackInfo ci) {
         ServerLevel level = (ServerLevel) (Object) this;
-        travail$freezeWeatherCycle =
-                level.dimension().equals(Level.OVERWORLD) && RainWeather.get(level).advance(level);
+        travail$freezeWeatherCycle = level.dimension().equals(Level.OVERWORLD) && RainWeather.get(level).advance(level);
     }
 
     @com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation(
@@ -30,12 +29,9 @@ public abstract class RainServerMixin {
                                     "Lnet/minecraft/world/level/GameRules;getBoolean(Lnet/minecraft/world/level/GameRules$Key;)Z"))
     private boolean travail$pauseNaturalCycle(
             net.minecraft.world.level.GameRules rules,
-            net.minecraft.world.level.GameRules.Key<
-                            net.minecraft.world.level.GameRules.BooleanValue>
-                    key,
+            net.minecraft.world.level.GameRules.Key<net.minecraft.world.level.GameRules.BooleanValue> key,
             Operation<Boolean> original) {
-        return !(travail$freezeWeatherCycle
-                        && key == net.minecraft.world.level.GameRules.RULE_WEATHER_CYCLE)
+        return !(travail$freezeWeatherCycle && key == net.minecraft.world.level.GameRules.RULE_WEATHER_CYCLE)
                 && original.call(rules, key);
     }
 

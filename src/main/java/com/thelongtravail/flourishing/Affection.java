@@ -14,8 +14,7 @@ import java.util.*;
 public final class Affection {
     public static final String TARGET = "BoundEntity", OWNER = "BoundOwner";
 
-    private record Check(
-            UUID target, LivingEntity entity, ItemStack stack, long tick, boolean valid) {}
+    private record Check(UUID target, LivingEntity entity, ItemStack stack, long tick, boolean valid) {}
 
     private static final Map<ServerPlayer, Check> CHECKS = new WeakHashMap<>();
     private static final Map<UUID, UUID> ACTIVE = new HashMap<>();
@@ -36,8 +35,7 @@ public final class Affection {
         Set<UUID> visited = new HashSet<>();
         for (int i = 0; i < 16 && e != null && visited.add(e.getUUID()); i++) {
             if (e instanceof ServerPlayer p) return p;
-            if (e instanceof net.minecraft.world.entity.projectile.Projectile projectile)
-                e = projectile.getOwner();
+            if (e instanceof net.minecraft.world.entity.projectile.Projectile projectile) e = projectile.getOwner();
             else if (e instanceof OwnableEntity owned) e = owned.getOwner();
             else return null;
         }
@@ -45,11 +43,8 @@ public final class Affection {
     }
 
     public static ItemStack equipped(Player p, boolean spring) {
-        var item = spring ? ModRegistry.SPRING_GAME.get() : ModRegistry.AFFECTION.get();
-        var slots =
-                spring
-                        ? FlourishingItemsConfig.SPRING_SLOTS.get()
-                        : FlourishingItemsConfig.AFFECTION_SLOTS.get();
+        var item = spring ? ModRegistry.SPRING_CORNER.get() : ModRegistry.AFFECTION.get();
+        var slots = spring ? FlourishingItemsConfig.SPRING_SLOTS.get() : FlourishingItemsConfig.AFFECTION_SLOTS.get();
         return CuriosApi.getCuriosInventory(p)
                 .map(
                         inv ->
@@ -57,9 +52,7 @@ public final class Affection {
                                         .filter(
                                                 r ->
                                                         !r.slotContext().cosmetic()
-                                                                && slots.contains(
-                                                                        r.slotContext()
-                                                                                .identifier()))
+                                                                && slots.contains(r.slotContext().identifier()))
                                         .map(r -> r.stack())
                                         .filter(s -> spring || ownerAllowed(s, p))
                                         .findFirst()
@@ -68,9 +61,7 @@ public final class Affection {
     }
 
     public static boolean ownerAllowed(ItemStack s, Player p) {
-        return !s.hasTag()
-                || !s.getTag().hasUUID(OWNER)
-                || s.getTag().getUUID(OWNER).equals(p.getUUID());
+        return !s.hasTag() || !s.getTag().hasUUID(OWNER) || s.getTag().getUUID(OWNER).equals(p.getUUID());
     }
 
     public static void clear(ItemStack s) {
@@ -87,21 +78,18 @@ public final class Affection {
             if (s.getTag().getUUID(TARGET).equals(target.getUUID())) {
                 clear(s);
                 p.displayClientMessage(
-                        com.thelongtravail.helper.ActionMessages.text(
-                                "message.the_long_travail.affection.cleared"),
+                        com.thelongtravail.helper.ActionMessages.text("message.the_long_travail.affection.cleared"),
                         true);
             } else
                 p.displayClientMessage(
-                        com.thelongtravail.helper.ActionMessages.text(
-                                "message.the_long_travail.affection.faithful"),
+                        com.thelongtravail.helper.ActionMessages.text("message.the_long_travail.affection.faithful"),
                         true);
         } else if (target.isAlive()
                 && !(target instanceof Player)
                 && p.getUUID().equals(owner(target))
                 && !FlourishingItemsConfig.BLACKLIST
                         .get()
-                        .contains(
-                                ForgeRegistries.ENTITY_TYPES.getKey(target.getType()).toString())) {
+                        .contains(ForgeRegistries.ENTITY_TYPES.getKey(target.getType()).toString())) {
             s.getOrCreateTag().putUUID(TARGET, target.getUUID());
             s.getOrCreateTag().putUUID(OWNER, p.getUUID());
             s.getOrCreateTag().putString("BoundName", target.getName().getString());
@@ -112,9 +100,7 @@ public final class Affection {
                     true);
         } else
             p.displayClientMessage(
-                    com.thelongtravail.helper.ActionMessages.text(
-                            "message.the_long_travail.affection.invalid"),
-                    true);
+                    com.thelongtravail.helper.ActionMessages.text("message.the_long_travail.affection.invalid"), true);
         if (p instanceof ServerPlayer server) {
             reset(server);
             target(server);
@@ -125,11 +111,7 @@ public final class Affection {
     public static LivingEntity target(ServerPlayer p) {
         ItemStack s = equipped(p, false);
         if (!s.isEmpty()) AffectionDeaths.get(p.server).clean(s);
-        if (!p.isAlive()
-                || p.isSpectator()
-                || s.isEmpty()
-                || !s.hasTag()
-                || !s.getTag().hasUUID(TARGET)) {
+        if (!p.isAlive() || p.isSpectator() || s.isEmpty() || !s.hasTag() || !s.getTag().hasUUID(TARGET)) {
             reset(p);
             return null;
         }
@@ -145,11 +127,7 @@ public final class Affection {
         }
         long now = p.level().getGameTime();
         Check c = CHECKS.get(p);
-        if (c == null
-                || c.entity != living
-                || c.stack != s
-                || !c.target.equals(id)
-                || now - c.tick >= 20) {
+        if (c == null || c.entity != living || c.stack != s || !c.target.equals(id) || now - c.tick >= 20) {
             reset(p);
             c =
                     new Check(
@@ -161,9 +139,7 @@ public final class Affection {
                                     && !FlourishingItemsConfig.BLACKLIST
                                             .get()
                                             .contains(
-                                                    ForgeRegistries.ENTITY_TYPES
-                                                            .getKey(living.getType())
-                                                            .toString()));
+                                                    ForgeRegistries.ENTITY_TYPES.getKey(living.getType()).toString()));
             CHECKS.put(p, c);
         }
         double range = FlourishingItemsConfig.get("affection.range");

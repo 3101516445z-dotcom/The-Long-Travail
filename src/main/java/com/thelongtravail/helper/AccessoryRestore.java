@@ -6,7 +6,6 @@ import net.minecraft.world.item.*;
 import top.theillusivec4.curios.api.SlotContext;
 import java.util.*;
 
-// 在 Curios 提交新槽位表之前，临时提供待恢复背包的查询视图。
 public final class AccessoryRestore implements AutoCloseable {
     private static final ThreadLocal<AccessoryRestore> CURRENT = new ThreadLocal<>();
 
@@ -24,13 +23,10 @@ public final class AccessoryRestore implements AutoCloseable {
             for (Tag entry : root.getList("Curios", Tag.TAG_COMPOUND)) {
                 CompoundTag slot = (CompoundTag) entry;
                 for (Tag item :
-                        slot.getCompound("StacksHandler")
-                                .getCompound("Stacks")
-                                .getList("Items", Tag.TAG_COMPOUND)) {
+                        slot.getCompound("StacksHandler").getCompound("Stacks").getList("Items", Tag.TAG_COMPOUND)) {
                     ItemStack stack = ItemStack.of((CompoundTag) item);
                     if (!stack.isEmpty())
-                        equipped.computeIfAbsent(
-                                        slot.getString("Identifier"), key -> new HashSet<>())
+                        equipped.computeIfAbsent(slot.getString("Identifier"), key -> new HashSet<>())
                                 .add(stack.getItem());
                 }
             }
@@ -46,7 +42,6 @@ public final class AccessoryRestore implements AutoCloseable {
         return equipped.getOrDefault(slot, Set.of()).contains(item);
     }
 
-    // 槽位、主人、消耗状态与前置条件全部校验通过后才能调用。
     boolean unique(SlotContext context, Item item) {
         var position = new Position(context.identifier(), context.index(), context.cosmetic());
         var first = accepted.putIfAbsent(item, position);

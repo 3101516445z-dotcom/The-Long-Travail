@@ -3,7 +3,6 @@ package com.thelongtravail.data;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 
-// 引路只取水平方向；目标的高度不会使路引向地下飞行。
 public final class WayguideGeometry {
     public static Vec3 destination(Vec3 feet, BlockPos target) {
         double dx = target.getX() + 0.5 - feet.x, dz = target.getZ() + 0.5 - feet.z;
@@ -12,7 +11,6 @@ public final class WayguideGeometry {
         return new Vec3(feet.x + dx * scale, feet.y + 3.0, feet.z + dz * scale);
     }
 
-    // 不分配遍历列表，按方形螺旋从中心向外枚举网格。
     public static final class Spiral {
         private final int radius;
         private int x, z, dx, dz = -1;

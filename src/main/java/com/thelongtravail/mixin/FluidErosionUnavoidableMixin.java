@@ -9,7 +9,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.ForgeHooks;
 import org.spongepowered.asm.mixin.Mixin;
 
-// 规则包围事件分发执行，不依赖监听器的注册顺序。
 @Mixin(value = ForgeHooks.class, remap = false)
 public abstract class FluidErosionUnavoidableMixin {
     @com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation(
@@ -38,7 +37,6 @@ public abstract class FluidErosionUnavoidableMixin {
     @WrapMethod(method = "onLivingAttack", remap = false)
     private static boolean travail$livingAttack(
             LivingEntity entity, DamageSource source, float amount, Operation<Boolean> original) {
-        // Player.hurt 已分发攻击事件；LivingEntity.hurt 则通过此处分发。
         if (entity instanceof Player) return original.call(entity, source, amount);
         return travail$attack(entity, source, amount, original);
     }
@@ -58,13 +56,7 @@ public abstract class FluidErosionUnavoidableMixin {
         CombatContext context = CombatContext.current(entity, source);
         if (context == null) return original.call(entity, source, amount);
         if (context.blocked()) return 0;
-        return context.finishHurt(
-                original.call(
-                        entity,
-                        source,
-                        context.prepareHurt(
-                                com.thelongtravail.flourishing.FloralCombat.split(
-                                        entity, source, amount))));
+        return context.finishHurt(original.call(entity, source, context.prepareHurt(amount)));
     }
 
     @WrapMethod(method = "onLivingDamage", remap = false)

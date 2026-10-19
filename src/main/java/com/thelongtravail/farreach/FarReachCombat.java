@@ -9,7 +9,6 @@ import net.minecraft.tags.*;
 import net.minecraft.world.damagesource.*;
 
 public final class FarReachCombat {
-    // 有明确归属的攻击实际扣除生命值或伤害吸收量时，仅调用一次。
     public static void ignite(net.minecraft.world.entity.LivingEntity target, DamageSource source) {
         if (!com.thelongtravail.config.ModeEffectRules.ICARUS_FIRE.applies(target)
                 || target.level().isClientSide
@@ -24,9 +23,7 @@ public final class FarReachCombat {
     public static double bonus(ServerPlayer p) {
         if (!FarReachEquipment.equipped(p, false)) return 0;
         if (TravailStateApi.hasFarReachWitness(p))
-            return IcarusEnvironment.openSky(p)
-                    ? FarReachItemsConfig.get("icarus.witnessBonus")
-                    : 0;
+            return IcarusEnvironment.openSky(p) ? FarReachItemsConfig.get("icarus.witnessBonus") : 0;
         if (!TravailStateApi.hasFarReachMalice(p)) return 0;
         double sun = IcarusEnvironment.sunlight(p.level().getDayTime());
         return sun == 0
@@ -49,10 +46,8 @@ public final class FarReachCombat {
             if (id != null
                     && (tag
                             ? source.is(TagKey.create(Registries.DAMAGE_TYPE, id))
-                            : source.typeHolder()
-                                    .unwrapKey()
-                                    .map(k -> k.location().equals(id))
-                                    .orElse(false))) return true;
+                            : source.typeHolder().unwrapKey().map(k -> k.location().equals(id)).orElse(false)))
+                return true;
         }
         return false;
     }

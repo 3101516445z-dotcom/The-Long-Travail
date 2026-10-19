@@ -22,8 +22,7 @@ import java.util.*;
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
 public final class FloralEvents {
     @SubscribeEvent(priority = net.minecraftforge.eventbus.api.EventPriority.HIGHEST)
-    public static void interact(
-            net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract e) {
+    public static void interact(net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract e) {
         if (e.getItemStack().is(com.thelongtravail.registry.ModRegistry.AFFECTION.get())
                 && e.getTarget() instanceof LivingEntity target) {
             e.setCancellationResult(Affection.bind(e.getItemStack(), e.getEntity(), target));
@@ -36,11 +35,9 @@ public final class FloralEvents {
             SPEED = UUID.fromString("52bb64ee-8834-4703-9e01-43f2f7aac3d3"),
             SWIM = UUID.fromString("52bb64ee-8834-4703-9e01-43f2f7aac3d4");
     private static final Map<ServerPlayer, State> STATES = new WeakHashMap<>();
-    private static final Map<LivingEntity, Map<String, Long>> TARGET_COOLDOWNS =
-            new WeakHashMap<>();
+    private static final Map<LivingEntity, Map<String, Long>> TARGET_COOLDOWNS = new WeakHashMap<>();
 
-    private record PendingDeath(
-            LivingEntity victim, ServerPlayer killer, double healing, LivingDeathEvent event) {}
+    private record PendingDeath(LivingEntity victim, ServerPlayer killer, double healing, LivingDeathEvent event) {}
 
     private static final Map<LivingEntity, PendingDeath> PENDING_DEATHS = new IdentityHashMap<>();
 
@@ -85,28 +82,24 @@ public final class FloralEvents {
     @SubscribeEvent
     public static void tick(TickEvent.PlayerTickEvent e) {
         if (e.phase != TickEvent.Phase.END || !(e.player instanceof ServerPlayer p)) return;
-        ItemStack crown =
-                p.isAlive() && !p.isSpectator() ? Affection.equipped(p, true) : ItemStack.EMPTY;
+        ItemStack crown = p.isAlive() && !p.isSpectator() ? Affection.equipped(p, true) : ItemStack.EMPTY;
+        FloralPassives.tick(p, crown);
         State s = STATES.computeIfAbsent(p, k -> new State());
         attribute(p, Attributes.MAX_HEALTH, HEALTH, FloralCombat.value(crown, Flower.PEONY));
-        attribute(
-                p, Attributes.ATTACK_SPEED, ATTACK, FloralCombat.value(crown, Flower.ORANGE_TULIP));
-        attribute(
-                p, ForgeMod.SWIM_SPEED.get(), SWIM, FloralCombat.value(crown, Flower.BLUE_ORCHID));
+        attribute(p, Attributes.ATTACK_SPEED, ATTACK, FloralCombat.value(crown, Flower.ORANGE_TULIP));
+        attribute(p, ForgeMod.SWIM_SPEED.get(), SWIM, FloralCombat.value(crown, Flower.BLUE_ORCHID));
         double speed = FloralCombat.value(crown, Flower.PINK_PETALS);
         if (FlowerData.active(crown, Flower.SUNFLOWER) && FloralCombat.sunny(p))
             speed += FlourishingItemsConfig.extra(Flower.SUNFLOWER, "speedBonus");
         LivingEntity pet = p.isSpectator() ? null : Affection.target(p);
-        if (pet != null)
-            speed += FlourishingItemsConfig.get("affection.playerSpeedBonus") * Affection.lost(pet);
+        if (pet != null) speed += FlourishingItemsConfig.get("affection.playerSpeedBonus") * Affection.lost(pet);
         attribute(p, Attributes.MOVEMENT_SPEED, SPEED, speed);
         if (FlowerData.active(crown, Flower.OXEYE_DAISY)) {
             if (++s.heal
                     >= FlourishingItemsConfig.ticks(
                             FlourishingItemsConfig.extra(Flower.OXEYE_DAISY, "intervalSeconds"))) {
                 s.heal = 0;
-                if (p.getHealth() < p.getMaxHealth())
-                    p.heal((float) FlourishingItemsConfig.value(Flower.OXEYE_DAISY));
+                if (p.getHealth() < p.getMaxHealth()) p.heal((float) FlourishingItemsConfig.value(Flower.OXEYE_DAISY));
             }
         } else s.heal = 0;
     }
@@ -120,10 +113,7 @@ public final class FloralEvents {
         if (value > 0)
             instance.addTransientModifier(
                     new AttributeModifier(
-                            id,
-                            "Flourishing accessory",
-                            value,
-                            AttributeModifier.Operation.MULTIPLY_TOTAL));
+                            id, "Flourishing accessory", value, AttributeModifier.Operation.MULTIPLY_TOTAL));
         if (a == Attributes.MAX_HEALTH && old != null && p.getHealth() > p.getMaxHealth())
             p.setHealth(p.getMaxHealth());
     }
@@ -133,15 +123,11 @@ public final class FloralEvents {
         if (e.getEntity() instanceof ServerPlayer p && e.getAmount() > 0)
             e.setAmount(
                     FloralCombat.safe(
-                            e.getAmount()
-                                    * (1
-                                            + FloralCombat.value(
-                                                    Affection.equipped(p, true),
-                                                    Flower.PINK_TULIP))));
+                            e.getAmount() * (1 + FloralCombat.value(Affection.equipped(p, true), Flower.PINK_TULIP))));
     }
 
-    public static void successful(LivingEntity victim, DamageSource source, boolean transfer) {
-        if (transfer || FloralCombat.rose(source)) return;
+    public static void successful(LivingEntity victim, DamageSource source) {
+        if (FloralCombat.rose(source)) return;
         ServerPlayer p = Affection.attacker(source.getEntity());
         if (p == null) p = Affection.attacker(source.getDirectEntity());
         if (p != null && p != victim) {
@@ -152,6 +138,7 @@ public final class FloralEvents {
     }
 
     public static void received(LivingEntity victim, DamageSource source) {
+        if (com.thelongtravail.combat.InsightRetaliation.isRetaliation(source)) return;
         if (victim instanceof ServerPlayer player
                 && source.getDirectEntity() instanceof LivingEntity attacker
                 && attacker != player
@@ -161,8 +148,7 @@ public final class FloralEvents {
             ItemStack crown = Affection.equipped(player, true);
             State state = STATES.computeIfAbsent(player, k -> new State());
             long now = player.level().getGameTime();
-            if (FlowerData.active(crown, Flower.ROSE_BUSH)
-                    && ready(now, state.rose, Flower.ROSE_BUSH)) {
+            if (FlowerData.active(crown, Flower.ROSE_BUSH) && ready(now, state.rose, Flower.ROSE_BUSH)) {
                 state.rose = now;
                 FloralCombat.roseHit(player, attacker);
             }
@@ -171,39 +157,29 @@ public final class FloralEvents {
 
     private static boolean ready(long now, long last, Flower f) {
         return last == Long.MIN_VALUE
-                || now - last
-                        >= FlourishingItemsConfig.ticks(
-                                FlourishingItemsConfig.extra(f, "cooldownSeconds"));
+                || now - last >= FlourishingItemsConfig.ticks(FlourishingItemsConfig.extra(f, "cooldownSeconds"));
     }
 
-    private static void apply(
-            ServerPlayer p, LivingEntity victim, ItemStack crown, Flower f, MobEffect effect) {
-        if (!com.thelongtravail.config.ModeEffectRules.FLOWER_EFFECTS.applies(victim)
-                || !FlowerData.active(crown, f)) return;
+    private static void apply(ServerPlayer p, LivingEntity victim, ItemStack crown, Flower f, MobEffect effect) {
+        if (!com.thelongtravail.config.ModeEffectRules.FLOWER_EFFECTS.applies(victim) || !FlowerData.active(crown, f))
+            return;
         long now = p.level().getGameTime();
         var cooldowns = TARGET_COOLDOWNS.computeIfAbsent(victim, k -> new HashMap<>());
         cooldowns.entrySet().removeIf(e -> e.getValue() <= now);
         String key = p.getUUID() + ":" + f.id;
         if (cooldowns.containsKey(key)) return;
         if (cooldowns.size() >= 256) return;
-        cooldowns.put(
-                key,
-                now
-                        + FlourishingItemsConfig.ticks(
-                                FlourishingItemsConfig.extra(f, "cooldownSeconds")));
+        cooldowns.put(key, now + FlourishingItemsConfig.ticks(FlourishingItemsConfig.extra(f, "cooldownSeconds")));
         victim.addEffect(
                 new MobEffectInstance(
                         effect,
-                        FlourishingItemsConfig.ticks(
-                                FlourishingItemsConfig.extra(f, "durationSeconds")),
+                        FlourishingItemsConfig.ticks(FlourishingItemsConfig.extra(f, "durationSeconds")),
                         (int) FlourishingItemsConfig.value(f) - 1),
                 p);
     }
 
-    public static MobEffectInstance extendedEffect(
-            LivingEntity target, MobEffectInstance incoming, Entity source) {
-        if (target.level().isClientSide
-                || !com.thelongtravail.config.ModeEffectRules.FLOWER_EFFECTS.applies(target))
+    public static MobEffectInstance extendedEffect(LivingEntity target, MobEffectInstance incoming, Entity source) {
+        if (target.level().isClientSide || !com.thelongtravail.config.ModeEffectRules.FLOWER_EFFECTS.applies(target))
             return incoming;
         ServerPlayer p = Affection.attacker(source);
         if (p == null) return incoming;
@@ -214,14 +190,9 @@ public final class FloralEvents {
                 && effect != MobEffects.WEAKNESS) return incoming;
         double bonus = FloralCombat.value(Affection.equipped(p, true), Flower.LILAC);
         if (bonus <= 0 || incoming.isInfiniteDuration()) return incoming;
-        // 外部法术可能向多个目标复用同一实例，不能改写调用者的数据。
         var copy = new MobEffectInstance(incoming);
         ((EffectDurationAccessor) copy)
-                .travail$duration(
-                        (int)
-                                Math.min(
-                                        Integer.MAX_VALUE,
-                                        Math.ceil(incoming.getDuration() * (1 + bonus))));
+                .travail$duration((int) Math.min(Integer.MAX_VALUE, Math.ceil(incoming.getDuration() * (1 + bonus))));
         return copy;
     }
 
@@ -231,9 +202,7 @@ public final class FloralEvents {
         ServerPlayer p = Affection.attacker(e.getSource().getEntity());
         if (p == null) p = Affection.attacker(e.getSource().getDirectEntity());
         double healing =
-                p != null
-                                && e.getEntity() instanceof Enemy
-                                && !FloralCombat.transfer(e.getEntity(), e.getSource())
+                p != null && e.getEntity() instanceof Enemy
                         ? FloralCombat.value(Affection.equipped(p, true), Flower.PITCHER_PLANT)
                         : 0;
         PENDING_DEATHS.put(e.getEntity(), new PendingDeath(e.getEntity(), p, healing, e));
@@ -271,9 +240,8 @@ public final class FloralEvents {
                                 if (s.is(com.thelongtravail.registry.ModRegistry.AFFECTION.get())
                                         && s.hasTag()
                                         && s.getTag().hasUUID(Affection.TARGET)
-                                        && s.getTag()
-                                                .getUUID(Affection.TARGET)
-                                                .equals(dead.getUUID())) Affection.clear(s);
+                                        && s.getTag().getUUID(Affection.TARGET).equals(dead.getUUID()))
+                                    Affection.clear(s);
                             };
                     for (int i = 0; i < holder.getInventory().getContainerSize(); i++)
                         clear.accept(holder.getInventory().getItem(i));
@@ -282,10 +250,7 @@ public final class FloralEvents {
                     top.theillusivec4.curios.api.CuriosApi.getCuriosInventory(holder)
                             .ifPresent(
                                     inv ->
-                                            inv.findCurios(
-                                                            com.thelongtravail.registry.ModRegistry
-                                                                    .AFFECTION
-                                                                    .get())
+                                            inv.findCurios(com.thelongtravail.registry.ModRegistry.AFFECTION.get())
                                                     .forEach(r -> clear.accept(r.stack())));
                 }
             }
@@ -300,12 +265,8 @@ public final class FloralEvents {
     }
 
     public static void food(
-            net.minecraft.world.food.FoodData data,
-            ItemStack stack,
-            LivingEntity entity,
-            Runnable original) {
-        if (!(entity instanceof ServerPlayer p)
-                || !FlowerData.active(Affection.equipped(p, true), Flower.DANDELION)) {
+            net.minecraft.world.food.FoodData data, ItemStack stack, LivingEntity entity, Runnable original) {
+        if (!(entity instanceof ServerPlayer p) || !FlowerData.active(Affection.equipped(p, true), Flower.DANDELION)) {
             original.run();
             return;
         }
@@ -325,12 +286,9 @@ public final class FloralEvents {
                         (props.getNutrition()
                                 * props.getSaturationModifier()
                                 * 2
-                                * (1
-                                        + FlourishingItemsConfig.extra(
-                                                Flower.DANDELION, "saturationBonus")));
+                                * (1 + FlourishingItemsConfig.extra(Flower.DANDELION, "saturationBonus")));
         if (food > 0) data.eat(food, saturation / (2 * food));
         else if (saturation > 0)
-            data.setSaturation(
-                    Math.min(data.getFoodLevel(), data.getSaturationLevel() + saturation));
+            data.setSaturation(Math.min(data.getFoodLevel(), data.getSaturationLevel() + saturation));
     }
 }

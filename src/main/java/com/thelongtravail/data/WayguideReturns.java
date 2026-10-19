@@ -10,7 +10,6 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.PlayerMainInvWrapper;
 import java.util.*;
 
-// 离线、死亡或掉落被取消时保留返还记录；不加载玩家或区块。
 public final class WayguideReturns extends SavedData {
     private record Return(UUID owner, ItemStack item, boolean ready) {}
 
@@ -29,10 +28,7 @@ public final class WayguideReturns extends SavedData {
     private boolean draining, budgetInitialized;
     private int budgetTick, attempts, checks;
     private long order;
-    private static final int GLOBAL_LIMIT = 16,
-            PLAYER_LIMIT = 4,
-            CHECK_LIMIT = 32,
-            RETRY_TICKS = 20;
+    private static final int GLOBAL_LIMIT = 16, PLAYER_LIMIT = 4, CHECK_LIMIT = 32, RETRY_TICKS = 20;
     private long nextWarning;
 
     public static WayguideReturns get(MinecraftServer server) {
@@ -40,20 +36,16 @@ public final class WayguideReturns extends SavedData {
                 server.overworld()
                         .getDataStorage()
                         .computeIfAbsent(
-                                WayguideReturns::load,
-                                WayguideReturns::new,
-                                "the_long_travail_wayguide_returns");
+                                WayguideReturns::load, WayguideReturns::new, "the_long_travail_wayguide_returns");
         if (data.server == null) {
             data.server = server;
-            // 加载时只遍历在线玩家一次，不遍历所有离线返还记录。
             for (var player : server.getPlayerList().getPlayers()) data.activate(player);
         }
         return data;
     }
 
     public void enqueue(UUID entity, UUID owner, ItemStack item) {
-        if (!entity.equals(inFlight) && !pending.containsKey(entity))
-            put(entity, new Return(owner, item.copy(), true));
+        if (!entity.equals(inFlight) && !pending.containsKey(entity)) put(entity, new Return(owner, item.copy(), true));
     }
 
     public void hold(UUID entity, UUID owner, ItemStack item) {
@@ -86,13 +78,10 @@ public final class WayguideReturns extends SavedData {
 
     private void put(UUID entity, Return job) {
         var old = pending.put(entity, job);
-        // 剩余数量更新不改变队列位置或重试时间。
         if (old == null || old.ready != job.ready || !old.owner.equals(job.owner)) {
             unindex(entity, old);
             if (job.ready) {
-                readyByOwner
-                        .computeIfAbsent(job.owner, unused -> new LinkedHashSet<>())
-                        .add(entity);
+                readyByOwner.computeIfAbsent(job.owner, unused -> new LinkedHashSet<>()).add(entity);
                 if (server != null) schedule(job.owner, now());
             }
         }
@@ -126,7 +115,6 @@ public final class WayguideReturns extends SavedData {
         queue.add(wake);
     }
 
-    // 登录、重生和换维度只唤醒调度；执行时重新获取当前玩家对象。
     public void activate(ServerPlayer player) {
         online.add(player.getUUID());
         schedule(player.getUUID(), server == null ? player.serverLevel().getGameTime() : now());
@@ -140,7 +128,6 @@ public final class WayguideReturns extends SavedData {
     public void deliver(ServerPlayer player) {
         if (server == null) server = player.server;
         activate(player);
-        // 优先使用在线玩家列表中的当前实例；没有对应实例时，仅对传入玩家回退到原对象。
         drain(
                 now(),
                 server.getTickCount(),
@@ -151,14 +138,10 @@ public final class WayguideReturns extends SavedData {
     }
 
     public void tick(MinecraftServer server) {
-        drain(
-                server.overworld().getGameTime(),
-                server.getTickCount(),
-                server.getPlayerList()::getPlayer);
+        drain(server.overworld().getGameTime(), server.getTickCount(), server.getPlayerList()::getPlayer);
     }
 
-    private void drain(
-            long now, int tick, java.util.function.Function<UUID, ServerPlayer> players) {
+    private void drain(long now, int tick, java.util.function.Function<UUID, ServerPlayer> players) {
         if (draining) return;
         draining = true;
         try {
@@ -168,10 +151,7 @@ public final class WayguideReturns extends SavedData {
                 attempts = checks = 0;
                 playerAttempts.clear();
             }
-            while (attempts < GLOBAL_LIMIT
-                    && checks < CHECK_LIMIT
-                    && !queue.isEmpty()
-                    && queue.first().due <= now) {
+            while (attempts < GLOBAL_LIMIT && checks < CHECK_LIMIT && !queue.isEmpty() && queue.first().due <= now) {
                 Wake wake = queue.pollFirst();
                 scheduled.remove(wake.owner);
                 checks++;
@@ -204,7 +184,6 @@ public final class WayguideReturns extends SavedData {
                 } finally {
                     processing = null;
                     inFlight = null;
-                    // 每轮一条，失败记录移到本玩家末尾，并延后该玩家的重试。
                     var remaining = readyByOwner.get(wake.owner);
                     if (remaining != null && remaining.remove(key)) remaining.add(key);
                     schedule(wake.owner, now + (success ? 0 : RETRY_TICKS));
@@ -224,13 +203,7 @@ public final class WayguideReturns extends SavedData {
         else put(key, new Return(job.owner, remainder, true));
         player.inventoryMenu.broadcastChanges();
         if (remainder.isEmpty()) return true;
-        var drop =
-                new ItemEntity(
-                        player.level(),
-                        player.getX(),
-                        player.getY() + 0.5,
-                        player.getZ(),
-                        remainder.copy());
+        var drop = new ItemEntity(player.level(), player.getX(), player.getY() + 0.5, player.getZ(), remainder.copy());
         drop.setNoPickUpDelay();
         drop.setTarget(player.getUUID());
         if (!player.serverLevel().addFreshEntity(drop)) return false;
@@ -245,7 +218,6 @@ public final class WayguideReturns extends SavedData {
             var tag = list.getCompound(i);
             var item = ItemStack.of(tag.getCompound("Item"));
             if (tag.hasUUID("Entity") && tag.hasUUID("Owner") && !item.isEmpty())
-                // 搜索任务不跨重启恢复；所有托管记录在加载后转为可返还。
                 data.put(tag.getUUID("Entity"), new Return(tag.getUUID("Owner"), item, true));
         }
         return data;

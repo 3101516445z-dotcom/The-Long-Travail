@@ -9,7 +9,7 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import top.theillusivec4.curios.api.SlotContext;
 import java.util.List;
 
-public final class TokaidoItem extends Item implements ICurioItem {
+public final class TokaidoItem extends Item implements ICurioItem, ItemDescription {
     public TokaidoItem() {
         super(new Properties().stacksTo(1).rarity(Rarity.RARE));
     }
@@ -32,8 +32,7 @@ public final class TokaidoItem extends Item implements ICurioItem {
     @Override
     public boolean canEquip(SlotContext context, ItemStack stack) {
         var slots =
-                context.entity().level().isClientSide
-                                && com.thelongtravail.abyss.RainState.clientSlots != null
+                context.entity().level().isClientSide && com.thelongtravail.abyss.RainState.clientSlots != null
                         ? com.thelongtravail.abyss.RainState.clientSlots
                         : RainConfig.SLOTS.get();
         return slots.contains(context.identifier())
@@ -41,8 +40,12 @@ public final class TokaidoItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(
-            ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
+        ItemDescription.summary(lines);
+    }
+
+    @Override
+    public void appendDetails(ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
         RainTooltips.tokaido(lines);
     }
 }

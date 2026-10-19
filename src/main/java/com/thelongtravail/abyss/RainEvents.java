@@ -37,7 +37,7 @@ public final class RainEvents {
                 progress.heal = 0;
                 if (RainConfig.HEAL.get() > 0 && p.getHealth() < p.getMaxHealth()) {
                     p.heal(RainConfig.HEAL.get().floatValue());
-                    observedPassive = null; // 回血回调可能换装备、改天气，不能跨回调复用。
+                    observedPassive = null; // 治疗回调可能改变装备或天气，回调后不能继续使用原快照。
                 }
             }
             if (++progress.food >= RainConfig.ticks(RainConfig.FOOD_SECONDS.get())) {
@@ -57,19 +57,15 @@ public final class RainEvents {
         float saturation = RainConfig.SATURATION.get().floatValue();
         if (amount > 0) food.eat(amount, saturation / (2 * amount));
         else if (saturation > 0)
-            food.setSaturation(
-                    Math.min(food.getFoodLevel(), food.getSaturationLevel() + saturation));
+            food.setSaturation(Math.min(food.getFoodLevel(), food.getSaturationLevel() + saturation));
     }
 
     public static void cast(ServerPlayer p) {
         if (!RainConfig.SKILL_ENABLED.get()) return;
-        if (!p.isAlive()
-                || p.isSpectator()
-                || p.containerMenu != p.inventoryMenu
-                || !RainState.equipped(p)) return;
+        if (!p.isAlive() || p.isSpectator() || p.containerMenu != p.inventoryMenu || !RainState.equipped(p)) return;
         Progress progress = PLAYERS.computeIfAbsent(p, unused -> new Progress());
         long tick = p.serverLevel().getGameTime();
-        if (progress.castTick == tick) return; // 即使冷却为零，每刻也只接受一次请求。
+        if (progress.castTick == tick) return;
         progress.castTick = tick;
         if (!p.level().dimension().equals(Level.OVERWORLD)) {
             message(p, "dimension");
@@ -86,8 +82,7 @@ public final class RainEvents {
         }
         boolean natural = weather.naturalRain(p.serverLevel());
         weather.start(p.serverLevel(), RainConfig.ticks(RainConfig.DURATION.get()));
-        p.getPersistentData()
-                .putInt(RainState.COOLDOWN_KEY, RainConfig.ticks(RainConfig.COOLDOWN.get()));
+        p.getPersistentData().putInt(RainState.COOLDOWN_KEY, RainConfig.ticks(RainConfig.COOLDOWN.get()));
         message(p, natural ? "natural" : "success");
     }
 
@@ -95,8 +90,7 @@ public final class RainEvents {
         TravailNetwork.sendRainMessage(
                 p,
                 new RainMessagePacket(
-                        "message.the_long_travail.rain." + key,
-                        key.equals("cooldown") ? RainState.cooldown(p) : 0));
+                        "message.the_long_travail.rain." + key, key.equals("cooldown") ? RainState.cooldown(p) : 0));
     }
 
     private static void sync(ServerPlayer p, Progress s, boolean force) {
@@ -109,9 +103,7 @@ public final class RainEvents {
                 dry = RainConfig.DRY_RAIN.get(),
                 snow = RainConfig.SNOW_RAIN.get();
         float speed = RainState.speed(p);
-        boolean fire =
-                RainConfig.FIRE.get()
-                        && (observedPassive != null ? observedPassive : RainState.passive(p));
+        boolean fire = RainConfig.FIRE.get() && (observedPassive != null ? observedPassive : RainState.passive(p));
         var last = s.last;
         if (!force
                 && last != null
@@ -124,15 +116,7 @@ public final class RainEvents {
                 && last.fire() == fire) return;
         RainPacket packet =
                 new RainPacket(
-                        p.getId(),
-                        weather,
-                        dry,
-                        snow,
-                        speed,
-                        fire,
-                        config.eki(),
-                        config.tokaido(),
-                        config.slots());
+                        p.getId(), weather, dry, snow, speed, fire, config.eki(), config.tokaido(), config.slots());
         s.last = packet;
         s.configRevision = config.revision();
         TravailNetwork.sendRain(p, packet);
@@ -146,7 +130,6 @@ public final class RainEvents {
 
     public static void syncWorld(ServerLevel level) {
         for (ServerPlayer p : level.players()) {
-            // 设置天气标志后恢复当前强度，避免仅发送开始或停止事件导致客户端强度突变。
             p.connection.send(
                     new ClientboundGameEventPacket(
                             level.getLevelData().isRaining()
@@ -158,16 +141,14 @@ public final class RainEvents {
                             ClientboundGameEventPacket.RAIN_LEVEL_CHANGE, level.getRainLevel(1)));
             p.connection.send(
                     new ClientboundGameEventPacket(
-                            ClientboundGameEventPacket.THUNDER_LEVEL_CHANGE,
-                            RainWeather.rawThunderLevel(level)));
+                            ClientboundGameEventPacket.THUNDER_LEVEL_CHANGE, RainWeather.rawThunderLevel(level)));
             sync(p, PLAYERS.computeIfAbsent(p, unused -> new Progress()), true);
         }
     }
 
     @SubscribeEvent
     public static void login(PlayerEvent.PlayerLoggedInEvent e) {
-        if (e.getEntity() instanceof ServerPlayer p)
-            sync(p, PLAYERS.computeIfAbsent(p, u -> new Progress()), true);
+        if (e.getEntity() instanceof ServerPlayer p) sync(p, PLAYERS.computeIfAbsent(p, u -> new Progress()), true);
     }
 
     @SubscribeEvent
@@ -180,9 +161,7 @@ public final class RainEvents {
 
     @SubscribeEvent
     public static void clone(PlayerEvent.Clone e) {
-        e.getEntity()
-                .getPersistentData()
-                .putInt(RainState.COOLDOWN_KEY, RainState.cooldown(e.getOriginal()));
+        e.getEntity().getPersistentData().putInt(RainState.COOLDOWN_KEY, RainState.cooldown(e.getOriginal()));
     }
 
     @SubscribeEvent

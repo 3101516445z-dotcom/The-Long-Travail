@@ -1,36 +1,34 @@
 package com.thelongtravail.helper;
 
+import com.thelongtravail.common.ReceivedHitGate;
 import com.thelongtravail.config.TravailConfig;
 import com.thelongtravail.event.TravailEvents;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
-import java.util.Map;
-import java.util.WeakHashMap;
+import net.minecraft.world.entity.LivingEntity;
 
-// 服务端线程状态，由嵌套伤害共用；触发效果前先预留冷却。
 public final class ReceivedMalice {
-    private static final Map<ServerPlayer, Long> LAST = new WeakHashMap<>();
+    private static final ReceivedHitGate GATE = new ReceivedHitGate();
 
     public static void forget(ServerPlayer player) {
-        LAST.remove(player);
+        GATE.forget(player);
     }
 
     public static void clear() {
-        LAST.clear();
+        GATE.clear();
     }
 
-    public static void trigger(ServerPlayer player, DamageSource source) {
-        if (!com.thelongtravail.config.ModeEffectRules.diaryApplies(player)
-                || TravailCurios.stack(player).isEmpty()) return;
-        String id =
-                source.typeHolder().unwrapKey().map(key -> key.location().toString()).orElse("");
-        if (TravailConfig.RECEIVED_EXCLUSIONS.get().contains(id)) return;
-        long now = player.level().getGameTime();
-        Long last = LAST.get(player);
-        int cooldown = TravailConfig.RECEIVED_COOLDOWN.get();
-        if (last != null && now >= last && now - last < cooldown) return;
-        LAST.put(player, now);
-        TravailEvents.processBeingAttacked(player);
+    public static boolean trigger(LivingEntity target, DamageSource source) {
+        if (target instanceof ServerPlayer player) {
+            if (!com.thelongtravail.config.ModeEffectRules.diaryApplies(player)
+                    || TravailCurios.stack(player).isEmpty()) return false;
+        } else if (com.thelongtravail.valley.Phosphophyllite.phase(target) != 2) return false;
+        if (!GATE.acquire(
+                target, source, TravailConfig.RECEIVED_EXCLUSIONS.get(), TravailConfig.RECEIVED_COOLDOWN.get()))
+            return false;
+        if (target instanceof ServerPlayer player) TravailEvents.processBeingAttacked(player);
+        return true;
     }
 
     private ReceivedMalice() {}

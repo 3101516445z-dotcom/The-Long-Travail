@@ -19,7 +19,7 @@ public final class RevelationStoneItem extends Item {
     private final TravailAspect aspect;
 
     public RevelationStoneItem(TravailAspect aspect) {
-        super(new Item.Properties().stacksTo(64));
+        super(new Item.Properties().stacksTo(64).rarity(net.minecraft.world.item.Rarity.UNCOMMON));
         this.aspect = aspect;
     }
 
@@ -29,8 +29,7 @@ public final class RevelationStoneItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(
-            Level level, Player player, InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (player instanceof ServerPlayer serverPlayer) {
             boolean unlocked = PlayerJourneyData.reveal(serverPlayer, aspect);
@@ -44,21 +43,20 @@ public final class RevelationStoneItem extends Item {
                     true);
             if (unlocked) {
                 if (!player.getAbilities().instabuild) stack.shrink(1);
-                TravailNetwork.sendItemSound(
-                        serverPlayer, com.thelongtravail.network.ItemSoundCue.stone(aspect));
+                TravailNetwork.sendItemSound(serverPlayer, com.thelongtravail.network.ItemSoundCue.stone(aspect));
             }
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }
 
     @Override
-    public void appendHoverText(
-            ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(
                 Component.translatable(
                                 "tooltip.the_long_travail.revelation_stone",
                                 Component.translatable("aspect.the_long_travail." + aspect.id())
                                         .withStyle(style -> style.withColor(0xFFD84D)))
                         .withStyle(style -> style.withColor(0xB88750)));
+        tooltip.add(Component.translatable(ItemDescription.CATALOG));
     }
 }

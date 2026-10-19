@@ -6,10 +6,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.resources.ResourceLocation;
 import java.util.*;
 
-// 服务端写入接口；不消耗物品。查询继续使用 TravailStateApi。
 public final class TravailJourneyApi {
-    public static JourneyState.AspectJourneyKey identity(
-            ServerPlayer player, TravailAspect aspect) {
+    public static JourneyState.AspectJourneyKey identity(ServerPlayer player, TravailAspect aspect) {
         return JourneyState.identity(com.thelongtravail.helper.TravailCurios.stack(player), aspect);
     }
 
@@ -25,8 +23,7 @@ public final class TravailJourneyApi {
                 copy -> JourneyOperations.complete(JourneyState.root(copy), aspect, target));
     }
 
-    public static JourneyService.OperationResult completeRandomRequirement(
-            ServerPlayer player, TravailAspect aspect) {
+    public static JourneyService.OperationResult completeRandomRequirement(ServerPlayer player, TravailAspect aspect) {
         return JourneyService.mutate(
                 player,
                 Set.of(aspect),
@@ -34,13 +31,10 @@ public final class TravailJourneyApi {
                 false,
                 JourneyService.QueryPolicy.INVALIDATE,
                 null,
-                copy ->
-                        JourneyOperations.completeRandom(
-                                JourneyState.root(copy), aspect, player.getRandom()));
+                copy -> JourneyOperations.completeRandom(JourneyState.root(copy), aspect, player.getRandom()));
     }
 
-    public static JourneyService.OperationResult resetAspect(
-            ServerPlayer player, TravailAspect aspect) {
+    public static JourneyService.OperationResult resetAspect(ServerPlayer player, TravailAspect aspect) {
         return JourneyService.mutate(
                 player,
                 Set.of(aspect),
@@ -78,8 +72,7 @@ public final class TravailJourneyApi {
         return override(player, Set.of(TravailAspect.values()), value);
     }
 
-    public static JourneyService.OperationResult clearOverride(
-            ServerPlayer player, TravailAspect aspect) {
+    public static JourneyService.OperationResult clearOverride(ServerPlayer player, TravailAspect aspect) {
         return setOverride(player, aspect, JourneyOperations.Override.NATURAL);
     }
 

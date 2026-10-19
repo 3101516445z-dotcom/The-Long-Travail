@@ -17,7 +17,7 @@ public final class TravailMaidPlugin implements ILittleMaid {
                     new IMaidBauble() {
                         @Override
                         public boolean syncClient(EntityMaid maid, ItemStack stack) {
-                            return stack.is(ModRegistry.SWORD_AND_LANTERN.get());
+                            return true;
                         }
 
                         @Override

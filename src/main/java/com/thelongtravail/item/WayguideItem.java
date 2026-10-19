@@ -16,29 +16,27 @@ import java.util.List;
 
 public final class WayguideItem extends Item {
     public WayguideItem() {
-        super(new Properties().rarity(Rarity.RARE));
+        super(new Properties().rarity(Rarity.EPIC));
     }
 
     @Override
     public Component getName(ItemStack stack) {
         return super.getName(stack)
                 .copy()
-                .withStyle(
-                        style -> style.withColor(0xC5AA77).withInsertion("the_long_travail:name"));
+                .withStyle(style -> style.withColor(0xC5AA77).withInsertion("the_long_travail:name"));
     }
 
     @Override
-    public void appendHoverText(
-            ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         for (int i = 0; i < 3; i++)
             tooltip.add(
                     Component.translatable("tooltip.the_long_travail.wayguide." + i)
                             .withStyle(style -> style.withColor(0xBC995E)));
+        tooltip.add(Component.translatable(ItemDescription.CATALOG));
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(
-            Level level, Player player, InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (player instanceof ServerPlayer serverPlayer && !WayguideSearch.use(serverPlayer, hand))
             return InteractionResultHolder.fail(stack);

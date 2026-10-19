@@ -4,7 +4,6 @@ import java.util.Map;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-// 只迁移完全匹配的旧默认显示名，不覆盖整合包的自定义名称。
 public final class RequirementNames {
     private static final Map<String, String> LEGACY_BIOMES =
             Map.ofEntries(
@@ -47,9 +46,7 @@ public final class RequirementNames {
 
     public static String resolve(boolean structures, ResourceLocation id, String configured) {
         String key = translationKey(structures, id.toString(), configured);
-        return key == null
-                ? configured
-                : Component.translatableWithFallback(key, id.toString()).getString();
+        return key == null ? configured : Component.translatableWithFallback(key, id.toString()).getString();
     }
 
     public static String translationKey(boolean structures, String id, String configured) {

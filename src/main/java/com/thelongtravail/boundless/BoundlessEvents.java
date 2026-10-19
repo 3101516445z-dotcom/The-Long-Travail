@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 public final class BoundlessEvents {
     @SubscribeEvent
     public static void tick(TickEvent.ServerTickEvent e) {
+        if (e.phase == TickEvent.Phase.END) DreamLandingSearch.tick(e.getServer());
         for (var l : e.getServer().getAllLevels()) {
             TimeStopManager.get(l).tick(e.phase == TickEvent.Phase.END);
             FrozenBlockEvents.get(l).tick(l);
@@ -24,26 +25,23 @@ public final class BoundlessEvents {
                 }
                 if (e.getServer().getTickCount() % 20 == 0)
                     com.thelongtravail.network.BoundlessPacket.sendDream(p, DreamState.active(p));
-                if (p.containerMenu != p.inventoryMenu && FrozenContainers.frozen(p.containerMenu))
-                    p.closeContainer();
+                if (p.containerMenu != p.inventoryMenu && FrozenContainers.frozen(p.containerMenu)) p.closeContainer();
             }
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void interact(PlayerInteractEvent e) {
         boolean block =
-                e instanceof PlayerInteractEvent.LeftClickBlock
-                        || e instanceof PlayerInteractEvent.RightClickBlock;
+                e instanceof PlayerInteractEvent.LeftClickBlock || e instanceof PlayerInteractEvent.RightClickBlock;
         if (e.isCancelable()
-                && (TimeStopManager.frozen(e.getEntity())
-                        || block && TimeStopManager.frozen(e.getLevel(), e.getPos())))
+                && (TimeStopManager.frozen(e.getEntity()) || block && TimeStopManager.frozen(e.getLevel(), e.getPos())))
             e.setCanceled(true);
     }
 
     @SubscribeEvent
     public static void spawned(net.minecraftforge.event.entity.EntityJoinLevelEvent e) {
-        if (!(e.getLevel() instanceof net.minecraft.server.level.ServerLevel level)
-                || !TimeStopManager.active(level)) return;
+        if (!(e.getLevel() instanceof net.minecraft.server.level.ServerLevel level) || !TimeStopManager.active(level))
+            return;
         var entity = e.getEntity();
         if (entity instanceof net.minecraft.world.entity.projectile.Projectile
                 || entity instanceof net.minecraft.world.entity.OwnableEntity
@@ -51,8 +49,7 @@ public final class BoundlessEvents {
                 || entity instanceof net.minecraft.world.entity.projectile.EvokerFangs
                 || entity instanceof net.minecraft.world.entity.LightningBolt
                 || entity instanceof net.minecraft.world.entity.player.Player
-                || TimeStopManager.fields(level).stream()
-                        .anyMatch(f -> f.allies.contains(entity.getUUID())))
+                || TimeStopManager.fields(level).stream().anyMatch(f -> f.allies.contains(entity.getUUID())))
             TimeStopManager.get(level).dirty = true;
     }
 
@@ -77,6 +74,7 @@ public final class BoundlessEvents {
         if (e.getEntity() instanceof ServerPlayer p) {
             com.thelongtravail.network.TimeStopSync.forget(p);
             DreamState.finish(p);
+            DreamLandingSearch.cancel(p);
         }
     }
 
@@ -97,21 +95,20 @@ public final class BoundlessEvents {
                     StarVoiceState.COOLDOWN,
                     StarVoiceState.INTERVAL,
                     StarVoiceState.RECEIVED_INTERVAL
-                })
-            e.getEntity()
-                    .getPersistentData()
-                    .putInt(key, e.getOriginal().getPersistentData().getInt(key));
+                }) e.getEntity().getPersistentData().putInt(key, e.getOriginal().getPersistentData().getInt(key));
     }
 
     @SubscribeEvent
     public static void stopping(ServerStoppingEvent e) {
         for (ServerPlayer p : e.getServer().getPlayerList().getPlayers()) DreamState.finish(p);
+        DreamLandingSearch.clear();
         TimeStopManager.stopping(e.getServer());
         for (var l : e.getServer().getAllLevels()) FrozenBlockEvents.get(l).tick(l);
     }
 
     @SubscribeEvent
     public static void stopped(ServerStoppedEvent e) {
+        DreamLandingSearch.clear();
         TimeStopManager.clear();
         FrozenEntityClock.clear();
     }

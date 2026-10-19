@@ -5,7 +5,6 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-// 手持与掉落状态只提供视觉照明，不赋予饰品的战斗能力。
 public final class LanternSources {
     private static final String DISABLED = "LanternLightDisabled";
 
@@ -32,9 +31,7 @@ public final class LanternSources {
                                                 .anyMatch(
                                                         r ->
                                                                 !r.slotContext().cosmetic()
-                                                                        && r.slotContext()
-                                                                                .identifier()
-                                                                                .equals("belt")
+                                                                        && r.slotContext().identifier().equals("belt")
                                                                         && enabled(r.stack())))
                         .orElse(false);
     }

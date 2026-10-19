@@ -13,8 +13,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.item.ItemStack;
 
 public final class GravestoneStorage {
-    private static final java.util.Queue<BlockEntity> LOADED =
-            new java.util.concurrent.ConcurrentLinkedQueue<>();
+    private static final java.util.Queue<BlockEntity> LOADED = new java.util.concurrent.ConcurrentLinkedQueue<>();
 
     public static void loaded(BlockEntity blockEntity) {
         LOADED.add(blockEntity);
@@ -38,17 +37,13 @@ public final class GravestoneStorage {
         long started = HotPathMetrics.start();
         try {
             var ledger = UnderworldLedger.get(blockEntity.getLevel().getServer());
-            String key =
-                    blockEntity.getLevel().dimension().location()
-                            + "|"
-                            + blockEntity.getBlockPos().asLong();
+            String key = blockEntity.getLevel().dimension().location() + "|" + blockEntity.getBlockPos().asLong();
             Iterable<?> items = GravestoneAccess.items(blockEntity);
             if (items == null) return;
             boolean relevant = false;
             for (Object entry : items) {
                 if (!(entry instanceof ItemStack stack))
-                    throw new IllegalStateException(
-                            "Gravestone getAllItems returned a non-ItemStack entry");
+                    throw new IllegalStateException("Gravestone getAllItems returned a non-ItemStack entry");
                 relevant |= stack.hasTag() && stack.getTag().hasUUID(UnderworldLedger.BOOK_ID);
                 ledger.reconcile(stack);
             }
@@ -66,13 +61,11 @@ public final class GravestoneStorage {
             var level =
                     server.getLevel(
                             ResourceKey.create(
-                                    Registries.DIMENSION,
-                                    new ResourceLocation(key.substring(0, separator))));
+                                    Registries.DIMENSION, new ResourceLocation(key.substring(0, separator))));
             BlockPos position = BlockPos.of(Long.parseLong(key.substring(separator + 1)));
             if (level == null || !level.hasChunkAt(position)) continue;
             var blockEntity = level.getBlockEntity(position);
-            if (blockEntity != null
-                    && blockEntity.getClass().getName().equals(GravestoneAccess.TILE))
+            if (blockEntity != null && blockEntity.getClass().getName().equals(GravestoneAccess.TILE))
                 grave(blockEntity);
             else {
                 ledger.graves.remove(key);

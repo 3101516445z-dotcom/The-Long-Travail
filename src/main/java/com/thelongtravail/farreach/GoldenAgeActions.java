@@ -65,7 +65,6 @@ public final class GoldenAgeActions {
                 && !TimeStopManager.frozen(player)) register(event.getEntity(), player);
     }
 
-    // 仅在手动丢弃通过权限检查后调用。
     public static void register(ItemEntity item, ServerPlayer player) {
         if (item.getItem().is(Items.GOLD_BLOCK)) {
             item.getPersistentData().putUUID(OWNER, player.getUUID());
@@ -77,7 +76,6 @@ public final class GoldenAgeActions {
         return item.getItem().is(Items.GOLD_BLOCK) && item.getPersistentData().hasUUID(OWNER);
     }
 
-    // 在 Forge 完成 RightClickBlock 事件分发后调用，确保后执行的保护监听器也已处理。
     public static void dig(PlayerInteractEvent.RightClickBlock event) {
         Player p = event.getEntity();
         if (event.isCanceled()
@@ -90,9 +88,7 @@ public final class GoldenAgeActions {
                 || !p.mayBuild()
                 || !p.level().mayInteract(p, event.getPos())) return;
         var block = p.level().getBlockState(event.getPos());
-        if (!block.is(Blocks.SAND) && !block.is(Blocks.RED_SAND) && !block.is(Blocks.GRAVEL))
-            return;
-        // 两端均拦截符合条件的交互，包括冷却期间的交互，避免继续触发副手操作。
+        if (!block.is(Blocks.SAND) && !block.is(Blocks.RED_SAND) && !block.is(Blocks.GRAVEL)) return;
         event.setCanceled(true);
         event.setCancellationResult(InteractionResult.sidedSuccess(p.level().isClientSide));
         if (!(p instanceof ServerPlayer player)) return;
@@ -100,15 +96,11 @@ public final class GoldenAgeActions {
         if (now < DIG_COOLDOWNS.getOrDefault(p, Long.MIN_VALUE)) return;
         DIG_COOLDOWNS.put(p, now + FarReachItemsConfig.ticks("golden_age.digCooldown"));
         TravailCurios.returnToInventoryOrDrop(
-                player,
-                new ItemStack(player.getRandom().nextBoolean() ? Items.GOLD_NUGGET : Items.FLINT));
+                player, new ItemStack(player.getRandom().nextBoolean() ? Items.GOLD_NUGGET : Items.FLINT));
     }
 
     public static void tick(ItemEntity item) {
-        if (item.level().isClientSide
-                || !item.isAlive()
-                || !pending(item)
-                || TimeStopManager.frozen(item)) return;
+        if (item.level().isClientSide || !item.isAlive() || !pending(item) || TimeStopManager.frozen(item)) return;
         UUID owner = item.getPersistentData().getUUID(OWNER);
         if (!PROCESSING.add(owner)) return;
         try {
@@ -132,8 +124,7 @@ public final class GoldenAgeActions {
         if (!(owner instanceof ServerPlayer player)
                 || !FarReachEquipment.equipped(player, true)
                 || TimeStopManager.frozen(player)
-                || item.distanceToSqr(player)
-                        > Math.pow(FarReachItemsConfig.get("golden_age.range"), 2)) return;
+                || item.distanceToSqr(player) > Math.pow(FarReachItemsConfig.get("golden_age.range"), 2)) return;
         boolean witness = TravailStateApi.hasFarReachWitness(player);
         if (!witness && !TravailStateApi.hasFarReachMalice(player)) return;
         long now = item.level().getGameTime();
@@ -145,16 +136,12 @@ public final class GoldenAgeActions {
         int available = (int) FarReachItemsConfig.get("golden_age.batchSize") - batch.used;
         if (available <= 0) return;
         if (witness && batch.foods == null) batch.foods = GoldenAgePools.foods(player);
-        if (!witness && batch.enchantments == null)
-            batch.enchantments = GoldenAgePools.enchantments();
+        if (!witness && batch.enchantments == null) batch.enchantments = GoldenAgePools.enchantments();
         if (witness ? batch.foods.isEmpty() : batch.enchantments.isEmpty()) return;
-        // 模组回调中的重载仅使下一批次重新获取物品池，当前批次继续使用不可变快照。
         List<ItemStack> foods = batch.foods;
         List<Enchantment> enchantments = batch.enchantments;
         int count = Math.min(available, item.getItem().getCount());
-        for (int i = 0;
-                i < count && batch.used < (int) FarReachItemsConfig.get("golden_age.batchSize");
-                i++) {
+        for (int i = 0; i < count && batch.used < (int) FarReachItemsConfig.get("golden_age.batchSize"); i++) {
             ItemStack output;
             if (player.getRandom().nextBoolean())
                 output =
@@ -162,16 +149,12 @@ public final class GoldenAgeActions {
                                 ? foods.get(player.getRandom().nextInt(foods.size())).copy()
                                 : EnchantedBookItem.createForEnchantment(
                                         new EnchantmentInstance(
-                                                enchantments.get(
-                                                        player.getRandom()
-                                                                .nextInt(enchantments.size())),
-                                                1));
+                                                enchantments.get(player.getRandom().nextInt(enchantments.size())), 1));
             else output = new ItemStack(witness ? Items.HONEY_BLOCK : Items.LAPIS_BLOCK);
-            ItemEntity result =
-                    new ItemEntity(item.level(), item.getX(), item.getY(), item.getZ(), output);
+            ItemEntity result = new ItemEntity(item.level(), item.getX(), item.getY(), item.getZ(), output);
             result.setDeltaMovement(item.getDeltaMovement());
             result.setDefaultPickUpDelay();
-            batch.used++; // 生成失败也占用本刻的处理额度，但不消耗原料。
+            batch.used++;
             if (!item.level().addFreshEntity(result)) break;
             ItemStack remainder = item.getItem().copy();
             remainder.shrink(1);
@@ -184,6 +167,7 @@ public final class GoldenAgeActions {
     }
 
     public static void reload() {
+        GoldenAgePools.clear();
         for (Batch batch : BATCHES.values()) {
             batch.foods = null;
             batch.enchantments = null;

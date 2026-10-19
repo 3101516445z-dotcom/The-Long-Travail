@@ -2,7 +2,6 @@ package com.thelongtravail.network;
 
 import com.thelongtravail.TravailAspect;
 
-// 仅在服务端物品操作成功后发送给客户端，不引用客户端类。
 public enum ItemSoundCue {
     HOMECOMING,
     RENEWAL,

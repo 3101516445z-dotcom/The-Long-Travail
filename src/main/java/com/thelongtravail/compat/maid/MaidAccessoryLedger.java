@@ -5,20 +5,15 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.saveddata.SavedData;
 import java.util.*;
 
-// 饰品身份在女仆与照片、胶片之间转换时保留，不修改实体自身的 UUID。
 public final class MaidAccessoryLedger extends SavedData {
     private final Map<UUID, CompoundTag> entries = new HashMap<>();
 
     public static MaidAccessoryLedger get(MinecraftServer server) {
         return server.overworld()
                 .getDataStorage()
-                .computeIfAbsent(
-                        MaidAccessoryLedger::load,
-                        MaidAccessoryLedger::new,
-                        "travail_maid_accessories");
+                .computeIfAbsent(MaidAccessoryLedger::load, MaidAccessoryLedger::new, "travail_maid_accessories");
     }
 
-    // 仅查询已有记录，不创建记录，也不将存档标记为需要保存。
     public CompoundTag find(UUID id) {
         return entries.get(id);
     }

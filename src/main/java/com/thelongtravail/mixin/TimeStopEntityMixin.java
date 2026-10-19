@@ -8,8 +8,7 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Entity.class)
-public abstract class TimeStopEntityMixin
-        implements com.thelongtravail.boundless.FrozenEntityClock.Clock {
+public abstract class TimeStopEntityMixin implements com.thelongtravail.boundless.FrozenEntityClock.Clock {
     @org.spongepowered.asm.mixin.Unique private long travail$clockTick;
     @org.spongepowered.asm.mixin.Unique private boolean travail$clockSet;
 
@@ -24,9 +23,7 @@ public abstract class TimeStopEntityMixin
     @org.spongepowered.asm.mixin.Unique private Vec3 travail$entryVelocity;
     @org.spongepowered.asm.mixin.Unique private long travail$entryTick;
 
-    @com.llamalad7.mixinextras.injector.ModifyReturnValue(
-            method = "getDeltaMovement",
-            at = @At("RETURN"))
+    @com.llamalad7.mixinextras.injector.ModifyReturnValue(method = "getDeltaMovement", at = @At("RETURN"))
     private Vec3 travail$projectileTrajectory(Vec3 velocity) {
         Entity e = (Entity) (Object) this;
         if (!(e instanceof net.minecraft.world.entity.projectile.Projectile)) return velocity;
@@ -42,13 +39,10 @@ public abstract class TimeStopEntityMixin
         return allowed;
     }
 
-    @Inject(
-            method = "setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V",
-            at = @At("HEAD"),
-            cancellable = true)
+    @Inject(method = "setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V", at = @At("HEAD"), cancellable = true)
     private void travail$preserveProjectile(Vec3 velocity, CallbackInfo ci) {
-        if (travail$entryVelocity != null
-                && travail$entryTick == ((Entity) (Object) this).level().getGameTime()) ci.cancel();
+        if (travail$entryVelocity != null && travail$entryTick == ((Entity) (Object) this).level().getGameTime())
+            ci.cancel();
     }
 
     @org.spongepowered.asm.mixin.Unique private boolean travail$positionGuard;
@@ -86,12 +80,8 @@ public abstract class TimeStopEntityMixin
         return TimeStopManager.clip((Entity) (Object) this, delta);
     }
 
-    @Inject(
-            method = "push(Lnet/minecraft/world/entity/Entity;)V",
-            at = @At("HEAD"),
-            cancellable = true)
+    @Inject(method = "push(Lnet/minecraft/world/entity/Entity;)V", at = @At("HEAD"), cancellable = true)
     private void travail$freezePush(Entity other, CallbackInfo ci) {
-        if (TimeStopManager.frozen((Entity) (Object) this) || TimeStopManager.frozen(other))
-            ci.cancel();
+        if (TimeStopManager.frozen((Entity) (Object) this) || TimeStopManager.frozen(other)) ci.cancel();
     }
 }

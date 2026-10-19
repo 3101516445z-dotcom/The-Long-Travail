@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Set;
 
 // 通过字节码检查可选联动所需的类和方法；依赖缺失或接口不匹配时，按各联动的规则跳过或中止启动。
-// 仅用于可选联动的 Mixin 配置；针对原版、Forge 和必需依赖的注入由核心配置管理。
 public final class OptionalCompatPlugin implements IMixinConfigPlugin {
     private Boolean soundsSupported;
 
@@ -20,16 +19,43 @@ public final class OptionalCompatPlugin implements IMixinConfigPlugin {
     }
 
     public boolean shouldApplyMixin(String target, String mixin) {
+        if (mixin.endsWith("DummyDamageMixin")) {
+            try {
+                ClassNode node = MixinService.getService().getBytecodeProvider().getClassNode(target);
+                var method =
+                        node.methods.stream()
+                                .filter(
+                                        m ->
+                                                m.name.equals("onActuallyDamagedOrTrueDamageDetected")
+                                                        && m.desc.equals(
+                                                                "(FLnet/minecraft/world/damagesource/DamageSource;)V"))
+                                .findFirst()
+                                .orElse(null);
+                int writes = 0;
+                if (method != null)
+                    for (var instruction : method.instructions) {
+                        if (instruction instanceof org.objectweb.asm.tree.FieldInsnNode field
+                                && field.getOpcode() == Opcodes.PUTFIELD
+                                && field.owner.equals(target.replace('.', '/'))
+                                && field.name.equals("totalDamageTakenInCombat")
+                                && field.desc.equals("F")) writes++;
+                    }
+                if (writes != 1) warn(target, "unsupported dummy damage accounting; damage adapter disabled");
+                return writes == 1;
+            } catch (ClassNotFoundException absent) {
+                return false;
+            } catch (java.io.IOException failure) {
+                warn(target, failure.getMessage());
+                return false;
+            }
+        }
         if (mixin.endsWith("MaidPersonalityStorageMixin")) {
             try {
-                ClassNode node =
-                        MixinService.getService().getBytecodeProvider().getClassNode(target);
+                ClassNode node = MixinService.getService().getBytecodeProvider().getClassNode(target);
                 var contracts =
                         java.util.Map.of(
-                                "stamp",
-                                        "(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/nbt/CompoundTag;)V",
-                                "buildRequest",
-                                        "(Lnet/minecraft/nbt/CompoundTag;J)Lnet/minecraft/nbt/CompoundTag;",
+                                "stamp", "(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/nbt/CompoundTag;)V",
+                                "buildRequest", "(Lnet/minecraft/nbt/CompoundTag;J)Lnet/minecraft/nbt/CompoundTag;",
                                 "resolveRelease",
                                         "(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/nbt/CompoundTag;J)V",
                                 "superviseHealthFix",
@@ -41,21 +67,12 @@ public final class OptionalCompatPlugin implements IMixinConfigPlugin {
                                                 node.methods.stream()
                                                         .anyMatch(
                                                                 method ->
-                                                                        method.name.equals(
-                                                                                        contract
-                                                                                                .getKey())
-                                                                                && method.desc
-                                                                                        .equals(
-                                                                                                contract
-                                                                                                        .getValue())
-                                                                                && (method.access
-                                                                                                & Opcodes
-                                                                                                        .ACC_STATIC)
+                                                                        method.name.equals(contract.getKey())
+                                                                                && method.desc.equals(
+                                                                                        contract.getValue())
+                                                                                && (method.access & Opcodes.ACC_STATIC)
                                                                                         != 0));
-                if (!supported)
-                    warn(
-                            target,
-                            "unsupported Personality storage API; dynamic-health adapter disabled");
+                if (!supported) warn(target, "unsupported Personality storage API; dynamic-health adapter disabled");
                 return supported;
             } catch (ClassNotFoundException absent) {
                 return false;
@@ -64,7 +81,7 @@ public final class OptionalCompatPlugin implements IMixinConfigPlugin {
                 return false;
             }
         }
-        if (mixin.endsWith("MaidSwimMixin")) {
+        if (mixin.endsWith("MaidSwimMixin") || mixin.endsWith("MaidRelicSlotMixin")) {
             try {
                 MixinService.getService().getBytecodeProvider().getClassNode(target);
                 return true;
@@ -78,8 +95,7 @@ public final class OptionalCompatPlugin implements IMixinConfigPlugin {
         if (mixin.endsWith("IcarusCaelusApiMixin")) return caelus(target);
         if (mixin.endsWith("LanternEmbeddiumLightMixin")) {
             try {
-                ClassNode node =
-                        MixinService.getService().getBytecodeProvider().getClassNode(target);
+                ClassNode node = MixinService.getService().getBytecodeProvider().getClassNode(target);
                 boolean supported =
                         node.methods.stream()
                                 .anyMatch(
@@ -97,32 +113,22 @@ public final class OptionalCompatPlugin implements IMixinConfigPlugin {
             }
         }
         boolean jei = mixin.endsWith("JeiReadingOverlayMixin");
-        boolean sounds =
-                mixin.endsWith("SoundsPotionCompatMixin")
-                        || mixin.endsWith("ConfiguredSoundInvoker");
+        boolean sounds = mixin.endsWith("SoundsPotionCompatMixin") || mixin.endsWith("ConfiguredSoundInvoker");
         if (!jei && !sounds) return true;
         if (sounds && soundsSupported != null) return soundsSupported;
         try {
             ClassNode node =
                     MixinService.getService()
                             .getBytecodeProvider()
-                            .getClassNode(
-                                    sounds
-                                            ? "dev.imb11.sounds.sound.events.PotionEventHelper"
-                                            : target);
+                            .getClassNode(sounds ? "dev.imb11.sounds.sound.events.PotionEventHelper" : target);
             boolean supported;
             if (jei) {
                 supported =
-                        List.of("onDrawBackgroundPost", "onDrawForeground", "onDrawScreenPost")
-                                .stream()
+                        List.of("onDrawBackgroundPost", "onDrawForeground", "onDrawScreenPost").stream()
                                 .allMatch(
                                         name ->
                                                 node.methods.stream()
-                                                        .anyMatch(
-                                                                m ->
-                                                                        m.name.equals(name)
-                                                                                && m.desc.endsWith(
-                                                                                        ")V")));
+                                                        .anyMatch(m -> m.name.equals(name) && m.desc.endsWith(")V")));
             } else {
                 supported =
                         node.fields.stream()
@@ -131,15 +137,13 @@ public final class OptionalCompatPlugin implements IMixinConfigPlugin {
                                                         f.name.equals("previousEffects")
                                                                 && f.desc.equals(
                                                                         "Ljava/util/concurrent/atomic/AtomicReference;")
-                                                                && (f.access & Opcodes.ACC_STATIC)
-                                                                        != 0)
+                                                                && (f.access & Opcodes.ACC_STATIC) != 0)
                                 && node.methods.stream()
                                         .anyMatch(
                                                 m ->
                                                         m.name.equals("listenForEffectChanges")
                                                                 && m.desc.endsWith(")V")
-                                                                && (m.access & Opcodes.ACC_STATIC)
-                                                                        != 0
+                                                                && (m.access & Opcodes.ACC_STATIC) != 0
                                                                 && soundLayout(m));
                 ClassNode sound =
                         MixinService.getService()
@@ -191,8 +195,7 @@ public final class OptionalCompatPlugin implements IMixinConfigPlugin {
             var death =
                     MixinService.getService()
                             .getBytecodeProvider()
-                            .getClassNode(
-                                    com.thelongtravail.compat.gravestone.GravestoneAccess.DEATH);
+                            .getClassNode(com.thelongtravail.compat.gravestone.GravestoneAccess.DEATH);
             if (publicInstance(
                             tile,
                             com.thelongtravail.compat.gravestone.GravestoneAccess.GET_DEATH,
@@ -204,8 +207,7 @@ public final class OptionalCompatPlugin implements IMixinConfigPlugin {
                     && publicInstance(
                             death,
                             com.thelongtravail.compat.gravestone.GravestoneAccess.GET_ITEMS,
-                            com.thelongtravail.compat.gravestone.GravestoneAccess.GET_ITEMS_DESC))
-                return true;
+                            com.thelongtravail.compat.gravestone.GravestoneAccess.GET_ITEMS_DESC)) return true;
         } catch (ClassNotFoundException | java.io.IOException failure) {
             throw new IllegalStateException(
                     "Incomplete Gravestone API; item reconciliation cannot be verified", failure);
@@ -237,17 +239,10 @@ public final class OptionalCompatPlugin implements IMixinConfigPlugin {
                                                     .anyMatch(
                                                             field ->
                                                                     field.name.equals(name)
-                                                                            && field.desc.equals(
-                                                                                    descriptor)
-                                                                            && (field.access
-                                                                                            & Opcodes
-                                                                                                    .ACC_ENUM)
-                                                                                    != 0));
+                                                                            && field.desc.equals(descriptor)
+                                                                            && (field.access & Opcodes.ACC_ENUM) != 0));
             if (fields
-                    && publicInstance(
-                            node,
-                            "canFallFly",
-                            "(Lnet/minecraft/world/entity/LivingEntity;)" + descriptor))
+                    && publicInstance(node, "canFallFly", "(Lnet/minecraft/world/entity/LivingEntity;)" + descriptor))
                 return true;
         } catch (ClassNotFoundException | java.io.IOException failure) {
             throw new IllegalStateException("Incomplete Caelus flight API", failure);
@@ -261,8 +256,7 @@ public final class OptionalCompatPlugin implements IMixinConfigPlugin {
         for (var insn : method.instructions)
             if (insn instanceof org.objectweb.asm.tree.MethodInsnNode call) {
                 if (call.owner.equals("net/minecraft/core/Registry")
-                        && call.desc.equals(
-                                "(Lnet/minecraft/resources/ResourceLocation;)Ljava/lang/Object;"))
+                        && call.desc.equals("(Lnet/minecraft/resources/ResourceLocation;)Ljava/lang/Object;"))
                     lookups++;
                 if (call.owner.equals("dev/imb11/sounds/api/config/ConfiguredSound")
                         && call.name.equals("playSound")
@@ -290,22 +284,17 @@ public final class OptionalCompatPlugin implements IMixinConfigPlugin {
     public void postApply(String target, ClassNode node, String mixin, IMixinInfo info) {
         if (mixin.endsWith("ConfiguredSoundInvoker")) {
             boolean bridge =
-                    node.interfaces.contains(
-                                    "com/thelongtravail/compat/mixin/sounds/ConfiguredSoundInvoker")
+                    node.interfaces.contains("com/thelongtravail/compat/mixin/sounds/ConfiguredSoundInvoker")
                             && node.methods.stream()
                                     .anyMatch(
                                             m ->
                                                     m.name.equals("travail$playSound")
                                                             && m.desc.equals("()V")
                                                             && (m.access & Opcodes.ACC_PUBLIC) != 0
-                                                            && (m.access
-                                                                            & (Opcodes.ACC_STATIC
-                                                                                    | Opcodes
-                                                                                            .ACC_ABSTRACT))
+                                                            && (m.access & (Opcodes.ACC_STATIC | Opcodes.ACC_ABSTRACT))
                                                                     == 0);
             if (!bridge)
-                throw new IllegalStateException(
-                        "Sounds playSound invoker bridge was not generated for " + target);
+                throw new IllegalStateException("Sounds playSound invoker bridge was not generated for " + target);
             org.slf4j.LoggerFactory.getLogger("the_long_travail.compat")
                     .info("Sounds playSound invoker bridge verified");
             return;
@@ -316,8 +305,7 @@ public final class OptionalCompatPlugin implements IMixinConfigPlugin {
             if (method.name.equals("listenForEffectChanges"))
                 for (var insn : method.instructions)
                     if (insn instanceof org.objectweb.asm.tree.MethodInsnNode call) {
-                        if (call.name.contains("travail$removed")
-                                || call.name.contains("travail$added")) captures++;
+                        if (call.name.contains("travail$removed") || call.name.contains("travail$added")) captures++;
                         if (call.name.contains("travail$sound")) plays++;
                     }
         boolean enabled = captures == 2 && plays == 4;

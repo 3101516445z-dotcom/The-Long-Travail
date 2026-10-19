@@ -46,8 +46,6 @@ public final class UnderworldAccessoryItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack s, Level l, List<Component> lines, TooltipFlag f) {
-        lines.add(
-                Component.translatable("tooltip.the_long_travail.underworld_items.locked")
-                        .withStyle(net.minecraft.ChatFormatting.DARK_RED));
+        ItemDescription.summary(lines);
     }
 }

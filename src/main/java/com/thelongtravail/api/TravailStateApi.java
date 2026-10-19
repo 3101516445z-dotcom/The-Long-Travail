@@ -9,8 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
-// 供外部模组或脚本查询状态，不修改数据。查询玩家时只读取 Curios 中首本已装备的苦旅，忽略背包中的苦旅。
-// 须在对应逻辑端的游戏线程中调用；以服务端状态为准，客户端仅读取同步副本。
+// 须在相应逻辑端的游戏线程中调用；以服务端状态为准，客户端仅读取同步副本。
 // MALICE 和 WITNESS 分别表示恶意与见证状态，不代表对应的条件效果当前正在生效。
 public final class TravailStateApi {
     public enum AspectState {
@@ -83,15 +82,12 @@ public final class TravailStateApi {
         return hasWitness(player, TravailAspect.BOUNDLESS);
     }
 
-    // 一次装备查询即可读取多个状态；状态变更后须重新获取快照。
     public static Snapshot snapshot(@Nullable Player player) {
         return inspectDiary(equipped(player));
     }
 
-    // 仅读取物品保存的状态，不保证该物品已被装备。
     public static Snapshot inspectDiary(@Nullable ItemStack diary) {
-        if (diary == null || diary.isEmpty() || !diary.is(ModRegistry.LONG_TRAVAIL.get()))
-            return Snapshot.ABSENT;
+        if (diary == null || diary.isEmpty() || !diary.is(ModRegistry.LONG_TRAVAIL.get())) return Snapshot.ABSENT;
         int witnesses = 0;
         for (TravailAspect aspect : TravailAspect.values()) {
             if (LongTravailData.hasWitness(diary, aspect)) witnesses |= aspect.mask();
@@ -99,7 +95,6 @@ public final class TravailStateApi {
         return new Snapshot(true, LongTravailData.isInitialized(diary), witnesses);
     }
 
-    // 不可变快照，不持有 ItemStack 或 Player 引用，也不写入 NBT。
     public static final class Snapshot {
         private static final Snapshot ABSENT = new Snapshot(false, false, 0);
         private final boolean diaryPresent, initialized;

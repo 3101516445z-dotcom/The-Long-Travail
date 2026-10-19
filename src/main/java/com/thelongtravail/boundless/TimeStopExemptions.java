@@ -6,23 +6,27 @@ import net.minecraft.world.entity.projectile.Projectile;
 import java.util.*;
 
 public final class TimeStopExemptions {
-    public static Set<UUID> snapshot(ServerPlayer p) {
+    // 无法确认关系时返回空 Optional；调用者须在创建区域和设置释放冷却前取消本次操作。
+    public static Optional<Set<UUID>> snapshot(ServerPlayer p) {
         Set<UUID> out = new HashSet<>();
         out.add(p.getUUID());
         for (ServerPlayer other : p.server.getPlayerList().getPlayers()) {
             boolean same = p.getTeam() != null && p.getTeam().isAlliedTo(other.getTeam());
-            if (!same)
-                same =
-                        com.thelongtravail.compat.ftbteams.FtbTeamsCompat.timeStopTeammates(
-                                p, other);
+            if (!same) {
+                var relation = com.thelongtravail.compat.ftbteams.FtbTeamsCompat.relationship(p, other);
+                if (relation == com.thelongtravail.compat.ftbteams.FtbTeamsCompat.Relationship.UNAVAILABLE)
+                    return Optional.empty();
+                same = relation == com.thelongtravail.compat.ftbteams.FtbTeamsCompat.Relationship.SAME;
+            }
             if (same) out.add(other.getUUID());
         }
-        com.thelongtravail.compat.ftbteams.FtbTeamsCompat.addTimeStopMembers(p, out);
-        return Set.copyOf(out);
+        var members = com.thelongtravail.compat.ftbteams.FtbTeamsCompat.timeStopMembers(p);
+        if (members.isEmpty()) return Optional.empty();
+        out.addAll(members.get());
+        return Optional.of(Set.copyOf(out));
     }
 
     public static UUID owner(Entity e) {
-        // 高频普通实体和链首终点不需要循环检测集合；真实归属链仍保留 UUID 去重和 16 层上限。
         if (e == null) return null;
         if (e instanceof net.minecraft.world.entity.player.Player) return e.getUUID();
         if (e instanceof net.minecraft.world.entity.animal.allay.Allay allay)
@@ -38,8 +42,7 @@ public final class TimeStopExemptions {
             if (e instanceof net.minecraft.world.entity.player.Player) return e.getUUID();
             if (e instanceof net.minecraft.world.entity.animal.allay.Allay allay)
                 return allay.getBrain()
-                        .getMemory(
-                                net.minecraft.world.entity.ai.memory.MemoryModuleType.LIKED_PLAYER)
+                        .getMemory(net.minecraft.world.entity.ai.memory.MemoryModuleType.LIKED_PLAYER)
                         .orElse(null);
             if (e instanceof net.minecraft.world.entity.projectile.EvokerFangs fangs) {
                 e = fangs.getOwner();
@@ -52,8 +55,7 @@ public final class TimeStopExemptions {
             if (e instanceof Projectile shot) {
                 Entity next = shot.getOwner();
                 if (next == null)
-                    return ((com.thelongtravail.mixin.TimeStopProjectileAccessor) (Object) shot)
-                            .travail$ownerUUID();
+                    return ((com.thelongtravail.mixin.TimeStopProjectileAccessor) (Object) shot).travail$ownerUUID();
                 e = next;
                 continue;
             }

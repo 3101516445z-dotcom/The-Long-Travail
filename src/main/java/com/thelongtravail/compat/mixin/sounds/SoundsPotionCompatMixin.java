@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-// 针对 Sounds 2.2.1，捕获每个差异 ID 并过滤对应通知，避免重复保存快照。
 @Pseudo
 @Mixin(targets = "dev.imb11.sounds.sound.events.PotionEventHelper", remap = false)
 public abstract class SoundsPotionCompatMixin {
@@ -63,7 +62,6 @@ public abstract class SoundsPotionCompatMixin {
             remap = false,
             require = 0)
     private static void travail$sound(@Coerce Object sound) {
-        EffectSounds.notification(
-                travail$effect, travail$gain, ((ConfiguredSoundInvoker) sound)::travail$playSound);
+        EffectSounds.notification(travail$effect, travail$gain, ((ConfiguredSoundInvoker) sound)::travail$playSound);
     }
 }

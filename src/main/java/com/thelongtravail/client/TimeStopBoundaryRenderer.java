@@ -10,7 +10,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import java.util.*;
 
-// 缓存单位球网格以绘制双面球面或线框边界，显示档位不影响玩法判定。
 @Mod.EventBusSubscriber(modid = "the_long_travail", value = Dist.CLIENT)
 public final class TimeStopBoundaryRenderer extends RenderType {
     private TimeStopBoundaryRenderer() {
@@ -51,8 +50,7 @@ public final class TimeStopBoundaryRenderer extends RenderType {
                     false,
                     true,
                     CompositeState.builder()
-                            .setShaderState(
-                                    new ShaderStateShard(GameRenderer::getPositionColorShader))
+                            .setShaderState(new ShaderStateShard(GameRenderer::getPositionColorShader))
                             .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                             .setCullState(NO_CULL)
                             .setWriteMaskState(COLOR_WRITE)
@@ -65,15 +63,13 @@ public final class TimeStopBoundaryRenderer extends RenderType {
     private static final Map<MeshKey, Vec3[]> WORLD_MESHES = new HashMap<>();
 
     private static Vec3[] sphere() {
-        // 共用相邻经纬顶点，不留缝隙；两极使用退化四边形闭合。
         int rows = 32, columns = 64;
         Vec3[] vertices = new Vec3[rows * columns * 4];
         int n = 0;
         for (int row = 0; row < rows; row++)
             for (int col = 0; col < columns; col++) {
                 double a = Math.PI * row / rows, b = Math.PI * (row + 1) / rows;
-                double c = 2 * Math.PI * col / columns,
-                        d = 2 * Math.PI * ((col + 1) % columns) / columns;
+                double c = 2 * Math.PI * col / columns, d = 2 * Math.PI * ((col + 1) % columns) / columns;
                 vertices[n++] = point(a, c);
                 vertices[n++] = point(b, c);
                 vertices[n++] = point(b, d);
@@ -87,8 +83,7 @@ public final class TimeStopBoundaryRenderer extends RenderType {
                 key,
                 k -> {
                     Vec3[] mesh = new Vec3[SPHERE.length];
-                    for (int i = 0; i < mesh.length; i++)
-                        mesh[i] = k.center.add(SPHERE[i].scale(k.radius));
+                    for (int i = 0; i < mesh.length; i++) mesh[i] = k.center.add(SPHERE[i].scale(k.radius));
                     return mesh;
                 });
     }
@@ -100,10 +95,7 @@ public final class TimeStopBoundaryRenderer extends RenderType {
         for (int latitude = 1; latitude < 12; latitude++) {
             double a = Math.PI * latitude / 12;
             for (int i = 0; i < n; i++)
-                SEGMENTS.add(
-                        new Vec3[] {
-                            point(a, 2 * Math.PI * i / n), point(a, 2 * Math.PI * (i + 1) / n)
-                        });
+                SEGMENTS.add(new Vec3[] {point(a, 2 * Math.PI * i / n), point(a, 2 * Math.PI * (i + 1) / n)});
         }
         for (int longitude = 0; longitude < 12; longitude++)
             for (int i = 0; i < n; i++)
@@ -145,7 +137,6 @@ public final class TimeStopBoundaryRenderer extends RenderType {
         int level = com.thelongtravail.config.TravailClientConfig.TIME_STOP_BOUNDARY_LEVEL.get();
         var type = level == 2 ? BOUNDARY : GLASS;
         var out = buffers.getBuffer(type);
-        // 友方区域先画、危险区域后画；相交位置按危险色绘制，不写入深度缓冲。
         var sorted = new ArrayList<>(TimeStopClient.fields);
         sorted.sort(Comparator.comparing(f -> !f.allies().contains(mc.player.getUUID())));
         for (var f : sorted) {
@@ -163,11 +154,9 @@ public final class TimeStopBoundaryRenderer extends RenderType {
                 continue;
             }
             for (Vec3[] s : SEGMENTS) {
-                Vec3 a = f.center().add(s[0].scale(f.radius())),
-                        b = f.center().add(s[1].scale(f.radius()));
+                Vec3 a = f.center().add(s[0].scale(f.radius())), b = f.center().add(s[1].scale(f.radius()));
                 boolean danger =
-                        !f.allies().contains(mc.player.getUUID())
-                                || TimeStopClient.boundaryDanger(a.add(b).scale(.5));
+                        !f.allies().contains(mc.player.getUUID()) || TimeStopClient.boundaryDanger(a.add(b).scale(.5));
                 int color = danger ? DANGER_COLOR : EXEMPT_COLOR;
                 Vec3 normal = b.subtract(a).normalize();
                 vertex(out, pose, a, normal, color);
@@ -195,16 +184,10 @@ public final class TimeStopBoundaryRenderer extends RenderType {
             double facing =
                     distance < 1e-8
                             ? 1
-                            : Math.min(
-                                    1,
-                                    Math.abs(
-                                            (dx * normal.x + dy * normal.y + dz * normal.z)
-                                                    / distance));
-            // 正面通透、掠射轮廓更明显；使用共享顶点法线使表面连续，球内也能看见。
+                            : Math.min(1, Math.abs((dx * normal.x + dy * normal.y + dz * normal.z) / distance));
             double rim = Math.pow(1 - facing, 2);
             int alpha = (int) ((danger ? 25 : 15) + rim * (danger ? 185 : 175));
-            double highlight =
-                    Math.pow(Math.max(0, normal.x * .3 + normal.y * .8 + normal.z * .52), 24) * .12;
+            double highlight = Math.pow(Math.max(0, normal.x * .3 + normal.y * .8 + normal.z * .52), 24) * .12;
             flat(out, pose, p, tint(color, highlight), alpha);
         }
     }
@@ -216,8 +199,7 @@ public final class TimeStopBoundaryRenderer extends RenderType {
                 | (int) (b + (255 - b) * white);
     }
 
-    private static void flat(
-            VertexConsumer out, PoseStack.Pose pose, Vec3 p, int color, int alpha) {
+    private static void flat(VertexConsumer out, PoseStack.Pose pose, Vec3 p, int color, int alpha) {
         out.vertex(pose.pose(), (float) p.x, (float) p.y, (float) p.z)
                 .color((color >> 16) & 255, (color >> 8) & 255, color & 255, alpha)
                 .endVertex();

@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-// 先于可选字体替换执行；递归调用不再携带材质标记。
 @Mixin(value = Font.class, priority = 3000)
 public abstract class DiaryFontMixin {
     @Inject(
@@ -33,18 +32,7 @@ public abstract class DiaryFontMixin {
             int background,
             int light,
             CallbackInfoReturnable<Integer> cir) {
-        travail$draw(
-                text.getVisualOrderText(),
-                x,
-                y,
-                color,
-                shadow,
-                pose,
-                buffers,
-                mode,
-                background,
-                light,
-                cir);
+        travail$draw(text.getVisualOrderText(), x, y, color, shadow, pose, buffers, mode, background, light, cir);
     }
 
     @Inject(
@@ -83,8 +71,7 @@ public abstract class DiaryFontMixin {
         if (material < 0) return;
         var quality =
                 (material >= 3
-                                ? com.thelongtravail.config.TravailClientConfig
-                                        .ASPECT_NAME_HALO_QUALITY
+                                ? com.thelongtravail.config.TravailClientConfig.ASPECT_NAME_HALO_QUALITY
                                 : com.thelongtravail.config.TravailClientConfig.NAME_HALO_QUALITY)
                         .get();
         NameHaloKernel kernel = NameHaloKernel.of(quality);
@@ -94,10 +81,8 @@ public abstract class DiaryFontMixin {
                         && (kernel.alpha(color, 0) >= 4 || kernel.alpha(color, 1) >= 4);
         FormattedCharSequence cleanText = DiaryText.forDraw(text, halo);
         if (halo) {
-            MultiBufferSource haloBuffers =
-                    DiaryFontEffects.buffers(buffers, material == 0 ? 2 : material + 6, x, 1);
+            MultiBufferSource haloBuffers = DiaryFontEffects.buffers(buffers, material == 0 ? 2 : material + 6, x, 1);
             Matrix4f haloPose = new Matrix4f();
-            // 对称柔光核合批至同一渲染类型；主字形覆盖内部，着色器仅使外围光晕产生波动。
             for (int ring = 0; ring < 2; ring++) {
                 int haloAlpha = kernel.alpha(color, ring);
                 if (haloAlpha < 4) continue;
@@ -105,17 +90,7 @@ public abstract class DiaryFontMixin {
                 for (int sample = 0; sample < kernel.samplesPerRing; sample++) {
                     haloPose.set(pose).translate(kernel.x(ring, sample), kernel.y(ring, sample), 0);
                     ((Font) (Object) this)
-                            .drawInBatch(
-                                    cleanText,
-                                    x,
-                                    y,
-                                    haloColor,
-                                    false,
-                                    haloPose,
-                                    haloBuffers,
-                                    mode,
-                                    0,
-                                    light);
+                            .drawInBatch(cleanText, x, y, haloColor, false, haloPose, haloBuffers, mode, 0, light);
                 }
             }
         }
@@ -129,10 +104,7 @@ public abstract class DiaryFontMixin {
                                 shadow,
                                 pose,
                                 DiaryFontEffects.buffers(
-                                        buffers,
-                                        material,
-                                        x,
-                                        material == 1 ? DiaryFontEffects.sweepWidth(text) : 1),
+                                        buffers, material, x, material == 1 ? DiaryFontEffects.sweepWidth(text) : 1),
                                 mode,
                                 background,
                                 light));

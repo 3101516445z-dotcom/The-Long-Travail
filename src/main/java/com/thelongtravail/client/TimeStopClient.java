@@ -31,11 +31,7 @@ public final class TimeStopClient {
 
     public static boolean frozen(Entity e) {
         return valid(e.level())
-                && fields.stream()
-                        .anyMatch(
-                                f ->
-                                        f.contains(e.position())
-                                                && !TimeStopExemptions.exempt(e, f.allies()));
+                && fields.stream().anyMatch(f -> f.contains(e.position()) && !TimeStopExemptions.exempt(e, f.allies()));
     }
 
     private static Vec3 clip(Entity e, Vec3 delta) {
@@ -43,11 +39,7 @@ public final class TimeStopClient {
         double t = 1;
         for (var f : fields)
             if (!TimeStopExemptions.exempt(e, f.allies()))
-                t =
-                        Math.min(
-                                t,
-                                TimeStopGeometry.entryInside(
-                                        e.position(), delta, f.center(), f.radius()));
+                t = Math.min(t, TimeStopGeometry.entryInside(e.position(), delta, f.center(), f.radius()));
         return t < 1 ? delta.scale(t) : delta;
     }
 
@@ -61,8 +53,7 @@ public final class TimeStopClient {
         var player = Minecraft.getInstance().player;
         return player != null
                 && com.thelongtravail.config.ModeEffectRules.STAR_FREEZE.applies(player)
-                && fields.stream()
-                        .anyMatch(f -> !f.allies().contains(player.getUUID()) && f.contains(p));
+                && fields.stream().anyMatch(f -> !f.allies().contains(player.getUUID()) && f.contains(p));
     }
 
     private TimeStopClient() {}

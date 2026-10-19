@@ -22,8 +22,7 @@ public abstract class TimeStopScheduledMixin<T> implements ScheduledTickOwner {
             at =
                     @At(
                             value = "INVOKE",
-                            target =
-                                    "Ljava/util/function/BiConsumer;accept(Ljava/lang/Object;Ljava/lang/Object;)V"))
+                            target = "Ljava/util/function/BiConsumer;accept(Ljava/lang/Object;Ljava/lang/Object;)V"))
     private void travail$execute(
             java.util.function.BiConsumer<?, ?> callback,
             Object pos,
@@ -46,8 +45,7 @@ public abstract class TimeStopScheduledMixin<T> implements ScheduledTickOwner {
     private void travail$hold(ScheduledTick<T> t, CallbackInfo ci) {
         if (!TimeStopManager.active(travail$world)) return;
         ServerLevel l = travail$level();
-        if (l != null && FrozenBlockTasks.get(l).hold(l, t, l.getFluidTicks() == (Object) this))
-            ci.cancel();
+        if (l != null && FrozenBlockTasks.get(l).hold(l, t, l.getFluidTicks() == (Object) this)) ci.cancel();
     }
 
     @Inject(method = "hasScheduledTick", at = @At("RETURN"), cancellable = true)

@@ -3,7 +3,6 @@ package com.thelongtravail.data;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.concurrent.atomic.LongAccumulator;
 
-// 仅通过 JVM 测试参数启用；默认不计数、不输出日志。
 @net.minecraftforge.fml.common.Mod.EventBusSubscriber(modid = "the_long_travail")
 public final class HotPathMetrics {
     private static final boolean ENABLED = Boolean.getBoolean("travail.hotpath.metrics");
@@ -17,6 +16,8 @@ public final class HotPathMetrics {
         NBT_STEPS,
         NBT_SYNC_NODES,
         LIGHT_CANDIDATES,
+        EXECUTION_SECTION_BATCHES,
+        EXECUTION_SECTION_VISITS,
         EXECUTION_INFINITE,
         EXECUTION_GENERIC,
         EXECUTION_DIRECT,
@@ -61,7 +62,6 @@ public final class HotPathMetrics {
         }
     }
 
-    // 最大值独立于累计计数，避免将单批峰值误读为总耗时；关闭时不读取时钟、不累计。
     public enum Peak {
         FROZEN_QUEUE_SIZE,
         RELEASE_CANDIDATES_PER_BATCH,

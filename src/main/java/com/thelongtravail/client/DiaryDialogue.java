@@ -8,16 +8,9 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public final class DiaryDialogue {
-    private record Key(
-            String prefix,
-            int count,
-            String arguments,
-            int width,
-            Object language,
-            long generation) {}
+    private record Key(String prefix, int count, String arguments, int width, Object language, long generation) {}
 
-    private static final java.util.Map<Key, List<Component>> CACHE =
-            new java.util.LinkedHashMap<>();
+    private static final java.util.Map<Key, List<Component>> CACHE = new java.util.LinkedHashMap<>();
 
     public static void clear() {
         CACHE.clear();
@@ -25,8 +18,7 @@ public final class DiaryDialogue {
 
     private DiaryDialogue() {}
 
-    public static void decorate(
-            List<Component> tooltip, String prefix, int count, boolean usePlayerName) {
+    public static void decorate(List<Component> tooltip, String prefix, int count, boolean usePlayerName) {
         int first = -1;
         for (int index = 0; index < tooltip.size(); index++) {
             if (tooltip.get(index).getContents()
@@ -39,27 +31,18 @@ public final class DiaryDialogue {
         if (first < 0 || first + count > tooltip.size()) return;
         for (int index = 0; index < count; index++) {
             if (!(tooltip.get(first + index).getContents()
-                            instanceof
-                            net.minecraft.network.chat.contents.TranslatableContents text)
+                            instanceof net.minecraft.network.chat.contents.TranslatableContents text)
                     || !text.getKey().equals(prefix + index)) return;
         }
         Minecraft client = Minecraft.getInstance();
-        String name =
-                client.player != null
-                        ? client.player.getGameProfile().getName()
-                        : client.getUser().getName();
+        String name = client.player != null ? client.player.getGameProfile().getName() : client.getUser().getName();
         List<Component> rendered = new ArrayList<>();
-        append(
-                rendered,
-                prefix,
-                count,
-                usePlayerName ? new Object[] {Component.literal(name)} : new Object[0]);
+        append(rendered, prefix, count, usePlayerName ? new Object[] {Component.literal(name)} : new Object[0]);
         tooltip.subList(first, first + count).clear();
         tooltip.addAll(first, rendered);
     }
 
-    public static void append(
-            List<Component> tooltip, String prefix, int count, Object... arguments) {
+    public static void append(List<Component> tooltip, String prefix, int count, Object... arguments) {
         Minecraft client = Minecraft.getInstance();
         int width = Math.min(260, Math.max(100, client.getWindow().getGuiScaledWidth() - 40));
         Key key =
@@ -78,8 +61,7 @@ public final class DiaryDialogue {
         List<net.minecraft.network.chat.MutableComponent> rows = new ArrayList<>();
         for (int index = 0; index < count; index++) {
             Component sentence =
-                    Component.translatable(prefix + index, arguments)
-                            .withStyle(style -> style.withColor(0xBC995E));
+                    Component.translatable(prefix + index, arguments).withStyle(style -> style.withColor(0xBC995E));
             for (var line : client.font.getSplitter().splitLines(sentence, width, Style.EMPTY)) {
                 var row = Component.empty();
                 line.visit(
@@ -94,9 +76,7 @@ public final class DiaryDialogue {
         int sweepWidth = Math.max(1, rows.stream().mapToInt(client.font::width).max().orElse(1));
         List<Component> rendered = new ArrayList<>();
         for (var row : rows)
-            rendered.add(
-                    row.withStyle(
-                            style -> style.withInsertion("the_long_travail:prose:" + sweepWidth)));
+            rendered.add(row.withStyle(style -> style.withInsertion("the_long_travail:prose:" + sweepWidth)));
         if (CACHE.size() >= 8) CACHE.remove(CACHE.keySet().iterator().next());
         CACHE.put(key, List.copyOf(rendered));
         rendered.forEach(row -> tooltip.add(row.copy()));

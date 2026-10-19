@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " F ",
+    "FCF",
+    " F "
+  ],
+  "key": {
+    "F": {
+      "item": "the_long_travail:mistletoe"
+    },
+    "C": {
+      "item": "the_long_travail:spring_corner"
+    }
+  },
+  "result": {
+    "item": "the_long_travail:everlasting_flower",
+    "count": 1
+  }
+}

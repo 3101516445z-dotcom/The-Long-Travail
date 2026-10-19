@@ -39,7 +39,6 @@ public final class NbtReconcileCursor {
         this.root = root;
     }
 
-    // 返回是否仍有工作；一次调用最多访问或推进一个节点。
     public boolean step(UnderworldLedger ledger) {
         com.thelongtravail.data.HotPathMetrics.Counter.NBT_STEPS.add(1);
         Tag current = root.get();
@@ -54,11 +53,9 @@ public final class NbtReconcileCursor {
             started = false;
             return true;
         }
-        // 数字、字符串、数组及只含标量的同质列表不可能包含物品身份或日记节点。
         if (!(f.tag instanceof CompoundTag)
                 && (!(f.tag instanceof ListTag list)
-                        || list.getElementType() != Tag.TAG_COMPOUND
-                                && list.getElementType() != Tag.TAG_LIST)) {
+                        || list.getElementType() != Tag.TAG_COMPOUND && list.getElementType() != Tag.TAG_LIST)) {
             stack.pop();
             return !stack.isEmpty();
         }
@@ -76,8 +73,7 @@ public final class NbtReconcileCursor {
             if (f.tag instanceof CompoundTag c && f.keys.hasNext()) {
                 String key = f.keys.next();
                 Tag child = c.get(key);
-                if (child instanceof CompoundTag || child instanceof ListTag)
-                    stack.push(new Frame(child, f, key, 0));
+                if (child instanceof CompoundTag || child instanceof ListTag) stack.push(new Frame(child, f, key, 0));
             } else if (f.tag instanceof ListTag l && f.nextIndex < l.size()) {
                 int index = f.nextIndex++;
                 stack.push(new Frame(l.get(index), f, null, index));

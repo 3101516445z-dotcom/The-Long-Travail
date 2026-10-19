@@ -6,10 +6,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import java.util.UUID;
 
-// 只读格式解析；兼容身份不写入日记，也不产生随机数。
 public final class JourneyState {
-    public static final ResourceLocation BOOK_SOURCE =
-            new ResourceLocation("the_long_travail", "book_of_the_dead");
+    public static final ResourceLocation BOOK_SOURCE = new ResourceLocation("the_long_travail", "book_of_the_dead");
 
     public enum Format {
         LEGACY,
@@ -36,8 +34,7 @@ public final class JourneyState {
             if (root.contains(field) && !root.contains(field, Tag.TAG_INT)) return false;
         for (String field : new String[] {"StateRevision", "RequirementsRevision"})
             if (root.contains(field) && !root.contains(field, Tag.TAG_LONG)) return false;
-        if (root.contains("Initialized") && !root.contains("Initialized", Tag.TAG_BYTE))
-            return false;
+        if (root.contains("Initialized") && !root.contains("Initialized", Tag.TAG_BYTE)) return false;
         return (!root.contains("Version") || root.contains("Version", Tag.TAG_INT))
                 && root.getInt("Version") >= 0
                 && root.getInt("Version") <= 2;
@@ -50,8 +47,7 @@ public final class JourneyState {
     }
 
     public static boolean validLists(CompoundTag theme) {
-        for (String name :
-                new String[] {"Biomes", "Structures", "CompletedBiomes", "CompletedStructures"}) {
+        for (String name : new String[] {"Biomes", "Structures", "CompletedBiomes", "CompletedStructures"}) {
             if (!theme.contains(name) && name.startsWith("Completed")) continue;
             if (!theme.contains(name, Tag.TAG_LIST)) return false;
             ListTag list = (ListTag) theme.get(name);
@@ -60,8 +56,7 @@ public final class JourneyState {
             for (int i = 0; i < list.size(); i++) {
                 String stored = list.getString(i);
                 ResourceLocation id = ResourceLocation.tryParse(stored);
-                if (id == null || !id.toString().equals(stored) || !unique.add(stored))
-                    return false;
+                if (id == null || !id.toString().equals(stored) || !unique.add(stored)) return false;
             }
         }
         for (String name : new String[] {"Biomes", "Structures"})
@@ -73,8 +68,7 @@ public final class JourneyState {
     public static Format format(CompoundTag root, TravailAspect aspect) {
         if (!supported(root)) return Format.UNSUPPORTED;
         if (!root.getBoolean("Initialized")) return Format.UNINITIALIZED;
-        if (!root.hasUUID("JourneyId") || !root.contains("Requirements", Tag.TAG_COMPOUND))
-            return Format.CORRUPT;
+        if (!root.hasUUID("JourneyId") || !root.contains("Requirements", Tag.TAG_COMPOUND)) return Format.CORRUPT;
         CompoundTag requirements = root.getCompound("Requirements");
         if (!requirements.contains(aspect.id(), Tag.TAG_COMPOUND)) return Format.CORRUPT;
         CompoundTag theme = requirements.getCompound(aspect.id());
@@ -85,14 +79,13 @@ public final class JourneyState {
             if (!theme.hasUUID("Epoch")
                     || !theme.contains("ConditionVersion", Tag.TAG_INT)
                     || theme.getInt("ConditionVersion") != 2) return Format.CORRUPT;
-            if (!validStatus(theme.getString("BiomesStatus"))
-                    || !validStatus(theme.getString("StructuresStatus"))) return Format.CORRUPT;
+            if (!validStatus(theme.getString("BiomesStatus")) || !validStatus(theme.getString("StructuresStatus")))
+                return Format.CORRUPT;
             return validSources(theme) ? Format.CURRENT : Format.CORRUPT;
         }
         if (theme.contains("Epoch") || theme.contains("ConditionVersion")) return Format.CORRUPT;
         if (root.getInt("Version") >= 2
-                && (!validStatus(theme.getString("BiomesStatus"))
-                        || !validStatus(theme.getString("StructuresStatus"))))
+                && (!validStatus(theme.getString("BiomesStatus")) || !validStatus(theme.getString("StructuresStatus"))))
             return Format.CORRUPT;
         return validSources(theme) ? Format.LEGACY : Format.CORRUPT;
     }
@@ -116,9 +109,7 @@ public final class JourneyState {
                 aspect,
                 format == Format.LEGACY
                         ? journey
-                        : root.getCompound("Requirements")
-                                .getCompound(aspect.id())
-                                .getUUID("Epoch"));
+                        : root.getCompound("Requirements").getCompound(aspect.id()).getUUID("Epoch"));
     }
 
     public static AspectJourneyKey identity(ItemStack stack, TravailAspect aspect) {
@@ -131,8 +122,7 @@ public final class JourneyState {
         CompoundTag theme = root.getCompound("Requirements").getCompound(aspect.id());
         if (!validLists(theme)) return false;
         return format == Format.LEGACY && root.getInt("Version") < 2
-                || validStatus(theme.getString("BiomesStatus"))
-                        && validStatus(theme.getString("StructuresStatus"));
+                || validStatus(theme.getString("BiomesStatus")) && validStatus(theme.getString("StructuresStatus"));
     }
 
     private static boolean validStatus(String status) {
@@ -146,13 +136,10 @@ public final class JourneyState {
     }
 
     public static int effectiveMask(CompoundTag root) {
-        return (root.getInt("Witnesses") | root.getInt("ForcedWitnesses"))
-                & ~root.getInt("ForcedMalices")
-                & 63;
+        return (root.getInt("Witnesses") | root.getInt("ForcedWitnesses")) & ~root.getInt("ForcedMalices") & 63;
     }
 
-    public static boolean hasSource(
-            ItemStack diary, TravailAspect aspect, ResourceLocation source) {
+    public static boolean hasSource(ItemStack diary, TravailAspect aspect, ResourceLocation source) {
         CompoundTag root = root(diary);
         return root.getCompound("Requirements")
                         .getCompound(aspect.id())

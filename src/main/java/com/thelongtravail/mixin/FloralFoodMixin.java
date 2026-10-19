@@ -14,9 +14,7 @@ public abstract class FloralFoodMixin {
             method =
                     "eat(Lnet/minecraft/world/item/Item;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/LivingEntity;)V",
             remap = false)
-    private void travail$food(
-            Item item, ItemStack stack, LivingEntity entity, Operation<Void> original) {
-        FloralEvents.food(
-                (FoodData) (Object) this, stack, entity, () -> original.call(item, stack, entity));
+    private void travail$food(Item item, ItemStack stack, LivingEntity entity, Operation<Void> original) {
+        FloralEvents.food((FoodData) (Object) this, stack, entity, () -> original.call(item, stack, entity));
     }
 }

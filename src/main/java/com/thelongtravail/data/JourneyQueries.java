@@ -10,7 +10,6 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.item.ItemStack;
 import com.thelongtravail.network.TravailNetwork;
 
-// 每 20 游戏刻调用一次；即使玩家静止，也能在下一轮检查到刚加载的邻近数据。
 public final class JourneyQueries {
     private static final Map<ServerPlayer, State> STATES = new WeakHashMap<>();
 
@@ -56,8 +55,7 @@ public final class JourneyQueries {
             state.biome = JourneySpatial.biomeAt(level, state.pos);
             if (state.biome != null && !state.biome.equals(state.discovered)) {
                 state.discovered = state.biome;
-                if (PlayerJourneyData.discoverBiome(player, state.biome))
-                    TravailNetwork.sendJourney(player);
+                if (PlayerJourneyData.discoverBiome(player, state.biome)) TravailNetwork.sendJourney(player);
             }
         }
         if (stack.isEmpty() || !LongTravailData.isInitialized(stack)) {
@@ -71,9 +69,7 @@ public final class JourneyQueries {
             var before = LongTravailData.queryIdentity(stack);
             boolean progressChanged = false;
             if (state.biome != null && !state.biomeRequirements.isEmpty())
-                for (var id :
-                        JourneySpatial.biomes(
-                                level, state.pos, state.biome, state.biomeRequirements))
+                for (var id : JourneySpatial.biomes(level, state.pos, state.biome, state.biomeRequirements))
                     progressChanged |= LongTravailData.visitBiome(stack, id);
             JourneyVisits.rebase(player, before, stack);
             before = LongTravailData.queryIdentity(stack);
@@ -85,7 +81,6 @@ public final class JourneyQueries {
         }
     }
 
-    // 仅查询已加载的数据，未就绪的部分由 JourneyVisits 稍后确认。
     private static List<ResourceLocation> structuresAt(
             ServerLevel level, BlockPos pos, Map<Structure, ResourceLocation> targets) {
         return JourneyVisits.loadedAt(level, pos, targets);

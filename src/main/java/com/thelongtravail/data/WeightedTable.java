@@ -13,8 +13,7 @@ public final class WeightedTable<T> {
         entries = List.copyOf(source);
         cumulative = new long[entries.size()];
         long sum = 0;
-        for (int i = 0; i < entries.size(); i++)
-            cumulative[i] = sum += Math.max(0, weight.applyAsInt(entries.get(i)));
+        for (int i = 0; i < entries.size(); i++) cumulative[i] = sum += Math.max(0, weight.applyAsInt(entries.get(i)));
         total = sum;
     }
 

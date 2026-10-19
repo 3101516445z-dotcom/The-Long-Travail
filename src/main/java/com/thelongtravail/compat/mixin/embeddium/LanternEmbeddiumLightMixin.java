@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-// 在原有环境光遮蔽或平面光照计算后，逐顶点合并亮度，不依赖 Sodium 内部光照数据的位布局。
 @Pseudo
 @Mixin(
         targets = {
@@ -34,9 +33,6 @@ public abstract class LanternEmbeddiumLightMixin {
         for (int i = 0; i < 4; i++)
             out.lm[i] =
                     lights.merge(
-                            pos.getX() + quad.getX(i),
-                            pos.getY() + quad.getY(i),
-                            pos.getZ() + quad.getZ(i),
-                            out.lm[i]);
+                            pos.getX() + quad.getX(i), pos.getY() + quad.getY(i), pos.getZ() + quad.getZ(i), out.lm[i]);
     }
 }

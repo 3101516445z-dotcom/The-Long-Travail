@@ -12,7 +12,6 @@ import java.util.*;
 import java.util.function.*;
 
 public record TimeStopPacket(ResourceLocation dimension, List<View> fields) {
-    // 管理器输入校验与解码器共用这些边界，避免服务端接受客户端无法读取的数据。
     public static final int MAX_FIELDS = 4096, MAX_ALLIES = 4096;
     public static final double MAX_RADIUS = 128;
 
@@ -43,8 +42,7 @@ public record TimeStopPacket(ResourceLocation dimension, List<View> fields) {
     public static TimeStopPacket decode(FriendlyByteBuf buffer) {
         ResourceLocation dimension = buffer.readResourceLocation();
         int count = buffer.readVarInt();
-        if (count < 0 || count > MAX_FIELDS)
-            throw new IllegalArgumentException("time stop field count");
+        if (count < 0 || count > MAX_FIELDS) throw new IllegalArgumentException("time stop field count");
         List<View> fields = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             long id = buffer.readLong();

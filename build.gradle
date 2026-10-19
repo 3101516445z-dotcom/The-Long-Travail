@@ -6,11 +6,11 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.38'
 }
 
-version = '0.1.1-fix'
+version = '0.1.2'
 group = 'com.thelongtravail'
 
 base {
-    archivesName = 'the_long_travail'
+    archivesName = 'The_Long_Travail'
 }
 
 java {
@@ -67,7 +67,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.20.1-47.4.20'
+    minecraft 'net.minecraftforge:forge:1.20.1-47.4.10'
     implementation fg.deobf('top.theillusivec4.curios:curios-forge:5.14.1+1.20.1')
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     compileOnly annotationProcessor('io.github.llamalad7:mixinextras-common:0.4.1')

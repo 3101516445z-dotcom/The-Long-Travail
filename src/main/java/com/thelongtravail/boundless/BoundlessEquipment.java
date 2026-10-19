@@ -23,8 +23,7 @@ public final class BoundlessEquipment {
                                                                 && (dream
                                                                         || r.slotContext()
                                                                                 .identifier()
-                                                                                .equals(
-                                                                                        "necklace"))))
+                                                                                .equals("necklace"))))
                 .orElse(false);
     }
 

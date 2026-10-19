@@ -1,6 +1,5 @@
 package com.thelongtravail.client;
 
-// 逻辑到期与短暂的视觉退场分别处理。
 public final class VisualDeprivationTimeline {
     private Object owner;
     private double clock, lastSample, episodeStart, riseStart, riseLength, end, fallLength;
@@ -10,7 +9,6 @@ public final class VisualDeprivationTimeline {
     private boolean releasing;
     private double progressFrom, progressTo, progressAt;
 
-    // 仅插值到服务端已确认的进度，停止收到数据包时不继续预测到期时间。
     private double effectTime(double localTime) {
         double blend = Math.max(0, Math.min(1, localTime - progressAt));
         return progressFrom + (progressTo - progressFrom) * blend;
@@ -108,8 +106,7 @@ public final class VisualDeprivationTimeline {
 
     private float value(double time) {
         if (owner == null) return 0;
-        if (releasing)
-            return riseFrom * (1 - smooth((time - riseStart) / Math.max(0.0001, riseLength)));
+        if (releasing) return riseFrom * (1 - smooth((time - riseStart) / Math.max(0.0001, riseLength)));
         time = effectTime(time);
         if (time >= end) return 0;
         float in = riseLength <= 0 ? 1 : smooth((time - riseStart) / riseLength);
@@ -137,11 +134,7 @@ public final class VisualDeprivationTimeline {
     }
 
     public int remaining() {
-        return releasing
-                ? 0
-                : (int)
-                        Math.max(
-                                0, Math.min(Integer.MAX_VALUE, Math.ceil(end - effectTime(clock))));
+        return releasing ? 0 : (int) Math.max(0, Math.min(Integer.MAX_VALUE, Math.ceil(end - effectTime(clock))));
     }
 
     public int total() {

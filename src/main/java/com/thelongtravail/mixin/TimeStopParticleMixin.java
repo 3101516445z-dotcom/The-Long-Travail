@@ -11,9 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class TimeStopParticleMixin {
     @Inject(method = "tickParticle", at = @At("HEAD"), cancellable = true)
     private void travail$particle(Particle p, CallbackInfo ci) {
-        if (TimeStopClient.fields.isEmpty() || !TimeStopClient.valid(Minecraft.getInstance().level))
-            return;
-        // 仅启动提示继续播放，不豁免世界中的其他末地烛粒子。
+        if (TimeStopClient.fields.isEmpty() || !TimeStopClient.valid(Minecraft.getInstance().level)) return;
         if (com.thelongtravail.client.TimeStopCue.exempt(p)) return;
         var a = (TimeStopParticleAccessor) p;
         double x = a.travail$x(), y = a.travail$y(), z = a.travail$z();

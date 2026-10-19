@@ -13,19 +13,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LevelRenderer.class)
 public abstract class LanternLevelLightMixin {
-    // 方块实体渲染器使用此重载；其他模组提前返回时可能绕过内层注入，须在外层再次合并亮度。
-    // 合并只取最大值，重复执行不会叠加亮度或使结果变暗。
     @ModifyReturnValue(
-            method =
-                    "getLightColor(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;)I",
+            method = "getLightColor(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;)I",
             at = @At("RETURN"))
-    private static int travail$blockEntityLantern(
-            int original, BlockAndTintGetter level, BlockPos pos) {
-        if ((original & 255) >= 240 || LanternLightingClient.lightingSnapshot().isEmpty())
-            return original;
+    private static int travail$blockEntityLantern(int original, BlockAndTintGetter level, BlockPos pos) {
+        if ((original & 255) >= 240 || LanternLightingClient.lightingSnapshot().isEmpty()) return original;
         if (level.getBlockState(pos).isSolidRender(level, pos)) return original;
-        return LanternLightingClient.light(
-                pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5, original);
+        return LanternLightingClient.light(pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5, original);
     }
 
     @Inject(
@@ -34,16 +28,10 @@ public abstract class LanternLevelLightMixin {
             at = @At("RETURN"),
             cancellable = true)
     private static void travail$lanternLight(
-            BlockAndTintGetter level,
-            BlockState state,
-            BlockPos pos,
-            CallbackInfoReturnable<Integer> cir) {
+            BlockAndTintGetter level, BlockState state, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
         if (!state.isSolidRender(level, pos))
             cir.setReturnValue(
                     LanternLightingClient.light(
-                            pos.getX() + .5,
-                            pos.getY() + .5,
-                            pos.getZ() + .5,
-                            cir.getReturnValueI()));
+                            pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5, cir.getReturnValueI()));
     }
 }

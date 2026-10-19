@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " F ",
+    "FCF",
+    " F "
+  ],
+  "key": {
+    "F": {
+      "tag": "minecraft:flowers"
+    },
+    "C": {
+      "item": "the_long_travail:flourishing_stone"
+    }
+  },
+  "result": {
+    "item": "the_long_travail:mistletoe",
+    "count": 1
+  }
+}

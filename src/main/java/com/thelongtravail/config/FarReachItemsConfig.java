@@ -13,6 +13,7 @@ public final class FarReachItemsConfig {
             EXTRA_IMMUNITIES;
 
     public static void define(ForgeConfigSpec.Builder b) {
+        FarReachRelicsConfig.define(b);
         n(
                 b,
                 "golden_age.digCooldown",
@@ -76,21 +77,21 @@ public final class FarReachItemsConfig {
         n(
                 b,
                 "icarus.malicePeak",
-                .5,
+                .4,
                 0,
                 1000,
-                "穷遐之恶意生效时，未同时满足露天和晴天条件的环境中，正午时的伤害加成比例；0.5表示提高50%。夜晚不提供此项加成。\nNoon damage bonus with Far Reach Malice active when the open-sky and clear-weather conditions are not both met; 0.5 means +50%. This bonus is zero at night.");
+                "穷遐之恶意生效时，未同时满足露天和晴天条件的环境中，正午时的伤害加成比例；0.4表示提高40%。夜晚不提供此项加成。\nNoon damage bonus with Far Reach Malice active when the open-sky and clear-weather conditions are not both met; 0.4 means +40%. This bonus is zero at night.");
         n(
                 b,
                 "icarus.sunnyPeak",
-                1,
+                .6,
                 0,
                 1000,
-                "穷遐之恶意生效时，露天且晴天条件下的正午伤害加成比例；\n1表示提高100%。\n末地始终视为晴天，下界始终不视为晴天；\n昼夜均按世界时间判断。\nNoon damage bonus with Far Reach Malice active under open sky in clear weather; 1 means +100%. The End always counts as clear weather, and the Nether never does. Day and night are determined by world time in all dimensions.");
+                "穷遐之恶意生效时，露天且晴天条件下的正午伤害加成比例；\n0.6表示提高60%。\n末地始终视为晴天，下界始终不视为晴天；\n昼夜均按世界时间判断。\nNoon damage bonus with Far Reach Malice active under open sky in clear weather; 0.6 means +60%. The End always counts as clear weather, and the Nether never does. Day and night are determined by world time in all dimensions.");
         n(
                 b,
                 "icarus.witnessBonus",
-                .5,
+                .15,
                 0,
                 1000,
                 "见证分支露天时的固定增伤比例，不受时间与天气限制。\nFixed damage bonus under open sky with Witness active, regardless of time or weather.");
@@ -102,25 +103,18 @@ public final class FarReachItemsConfig {
                                 List.of(),
                                 v ->
                                         v instanceof String s
-                                                && ResourceLocation.tryParse(
-                                                                s.startsWith("#")
-                                                                        ? s.substring(1)
-                                                                        : s)
+                                                && ResourceLocation.tryParse(s.startsWith("#") ? s.substring(1) : s)
                                                         != null);
     }
 
-    private static void n(
-            ForgeConfigSpec.Builder b, String k, double d, double min, double max, String comment) {
+    private static void n(ForgeConfigSpec.Builder b, String k, double d, double min, double max, String comment) {
         NUMBERS.put(k, b.comment(comment).defineInRange("items." + k, d, min, max));
     }
 
     private static ForgeConfigSpec.ConfigValue<List<? extends String>> ids(
             ForgeConfigSpec.Builder b, String k, String comment) {
         return b.comment(comment)
-                .defineListAllowEmpty(
-                        k,
-                        List.of(),
-                        v -> v instanceof String s && ResourceLocation.tryParse(s) != null);
+                .defineListAllowEmpty(k, List.of(), v -> v instanceof String s && ResourceLocation.tryParse(s) != null);
     }
 
     public static double get(String key) {

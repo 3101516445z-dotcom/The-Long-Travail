@@ -41,9 +41,7 @@ public final class BoundlessClient {
                 || !mc.player.isAlive()
                 || TimeStopManager.frozen(mc.player)
                 || !DREAM.isActiveAndMatches(key)) return false;
-        if (!dreaming && (mc.player.isSpectator() || !BoundlessEquipment.equipped(mc.player, true)))
-            return false;
-        // 冷却期间也向服务端发送请求，使提示显示服务端确认的剩余时间。
+        if (!dreaming && (mc.player.isSpectator() || !BoundlessEquipment.equipped(mc.player, true))) return false;
         handledDreamKey = key;
         TravailNetwork.requestDream();
         return true;
@@ -55,19 +53,14 @@ public final class BoundlessClient {
             SkillCooldownNotice.show(packet.key(), packet.cooldownTicks(), true);
     }
 
-    @Mod.EventBusSubscriber(
-            modid = TheLongTravail.MODID,
-            value = Dist.CLIENT,
-            bus = Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(modid = TheLongTravail.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static final class Registration {
         @SubscribeEvent
         public static void keys(RegisterKeyMappingsEvent e) {
             e.register(DREAM);
             BoundlessPacket.Message.receiver = BoundlessClient::message;
-            com.thelongtravail.boundless.BoundlessTooltips.viewer =
-                    () -> Minecraft.getInstance().player;
-            com.thelongtravail.boundless.BoundlessTooltips.dreamKey =
-                    () -> DREAM.getTranslatedKeyMessage();
+            com.thelongtravail.boundless.BoundlessTooltips.viewer = () -> Minecraft.getInstance().player;
+            com.thelongtravail.boundless.BoundlessTooltips.dreamKey = () -> ThemeTooltips.keyName(DREAM);
             BoundlessPacket.receiver =
                     p -> {
                         dreaming = p.active();

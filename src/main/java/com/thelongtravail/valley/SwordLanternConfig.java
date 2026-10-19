@@ -3,7 +3,15 @@ package com.thelongtravail.valley;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public final class SwordLanternConfig {
-    public static ForgeConfigSpec.DoubleValue MEMORY, TIMEOUT, DURATION, BONUS, HEALTH;
+    public static ForgeConfigSpec.DoubleValue MEMORY,
+            TIMEOUT,
+            DURATION,
+            HEALTH,
+            CROWD_BONUS,
+            UNDEAD_BONUS,
+            ALONE_BONUS,
+            PROLONGED_BONUS,
+            LOW_HEALTH_BONUS;
 
     public static void define(ForgeConfigSpec.Builder b) {
         b.push("items.swordAndLantern");
@@ -19,15 +27,35 @@ public final class SwordLanternConfig {
                 b.comment(
                                 "持续战斗时间超过此值时，获得久战伤害加成，单位：秒。卸下饰品后，持续战斗计时重置。\nContinuous combat must last longer than this duration to grant the prolonged-combat damage bonus, in seconds. Unequipping the accessory resets the timer.")
                         .defineInRange("prolongedCombatSeconds", 300D, 0D, 1_000_000D);
-        BONUS =
-                b.comment(
-                                "每项条件的增伤比例，五项相加；0.10表示10%。\nFractional damage bonus per condition. All five bonuses add together; 0.10 means 10%.")
-                        .defineInRange("bonusPerCondition", .10D, 0D, 100D);
+        CROWD_BONUS = bonus(b, "crowdBonus", .25, "敌人超过10个", "More than 10 enemies");
+        UNDEAD_BONUS = bonus(b, "undeadBonus", .08, "存在亡灵敌人", "Undead enemy present");
+        ALONE_BONUS = bonus(b, "aloneBonus", .05, "独行", "Fighting alone");
+        PROLONGED_BONUS = bonus(b, "prolongedBonus", .25, "持续战斗超过阈值", "Prolonged combat");
+        LOW_HEALTH_BONUS = bonus(b, "lowHealthBonus", .20, "生命低于阈值", "Low health");
         HEALTH =
                 b.comment(
                                 "佩戴者当前生命值占最大生命值的比例低于此值时，获得伤害加成；计算时不计入吸收生命值。\nGrants a damage bonus while the wearer's current health as a fraction of maximum health is below this value. Absorption is not included.")
                         .defineInRange("lowHealthThreshold", .50D, 0D, 1D);
         b.pop(2);
+    }
+
+    private static ForgeConfigSpec.DoubleValue bonus(
+            ForgeConfigSpec.Builder b, String key, double value, String condition, String englishCondition) {
+        return b.comment(
+                        condition
+                                + "时，造成的伤害增加的比例；各项加成相加。\n"
+                                + englishCondition
+                                + ": fractional damage bonus while this condition is met; adds to the bonuses from other conditions.")
+                .defineInRange(key, value, 0D, 100D);
+    }
+
+    public static double damageBonus(
+            boolean crowd, boolean undead, boolean alone, boolean prolonged, boolean lowHealth) {
+        return (crowd ? CROWD_BONUS.get() : 0)
+                + (undead ? UNDEAD_BONUS.get() : 0)
+                + (alone ? ALONE_BONUS.get() : 0)
+                + (prolonged ? PROLONGED_BONUS.get() : 0)
+                + (lowHealth ? LOW_HEALTH_BONUS.get() : 0);
     }
 
     public static long ticks(ForgeConfigSpec.DoubleValue value) {

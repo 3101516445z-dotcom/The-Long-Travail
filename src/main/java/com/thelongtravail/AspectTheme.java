@@ -3,7 +3,6 @@ package com.thelongtravail;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
-// 日记配色与物品名称材质共用主题定义，可在独立服务端安全引用。
 public enum AspectTheme {
     FLOURISHING(0x487846, 0x355B32),
     ABYSS(0x397F8A, 0x285C65),
@@ -16,12 +15,7 @@ public enum AspectTheme {
     private static final AspectTheme[] THEMES = values();
 
     AspectTheme(int accent, int ink) {
-        this(
-                accent,
-                ink,
-                mix(accent, 0x000000, .25F),
-                mix(accent, 0xFFFFFF, .28F),
-                mix(accent, 0xFFFFFF, .72F));
+        this(accent, ink, mix(accent, 0x000000, .25F), mix(accent, 0xFFFFFF, .28F), mix(accent, 0xFFFFFF, .72F));
     }
 
     AspectTheme(int accent, int ink, int dark, int main, int highlight) {

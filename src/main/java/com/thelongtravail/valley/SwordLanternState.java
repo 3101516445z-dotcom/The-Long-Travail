@@ -9,7 +9,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import top.theillusivec4.curios.api.CuriosApi;
 import java.util.*;
 
-// 仅服务端运行；关系和状态不写入物品或玩家存档。
 public final class SwordLanternState {
     public static final double RANGE_SQR = 64 * 64;
     private static final Map<UUID, State> STATES = new HashMap<>();
@@ -30,9 +29,7 @@ public final class SwordLanternState {
                                                 .anyMatch(
                                                         r ->
                                                                 !r.slotContext().cosmetic()
-                                                                        && r.slotContext()
-                                                                                .identifier()
-                                                                                .equals("belt")))
+                                                                        && r.slotContext().identifier().equals("belt")))
                         .orElse(false);
     }
 
@@ -43,10 +40,8 @@ public final class SwordLanternState {
     }
 
     private static boolean friendly(ServerPlayer p, LivingEntity e) {
-        if (e == p
-                || e instanceof Player other && teammates(p, other)
-                || p.isAlliedTo(e)
-                || e.isAlliedTo(p)) return true;
+        if (e == p || e instanceof Player other && teammates(p, other) || p.isAlliedTo(e) || e.isAlliedTo(p))
+            return true;
         UUID owner = TimeStopExemptions.owner(e);
         if (p.getUUID().equals(owner)) return true;
         ServerPlayer master = owner == null ? null : p.server.getPlayerList().getPlayer(owner);
@@ -67,9 +62,7 @@ public final class SwordLanternState {
                 && e.isAttackable()
                 && !friendly(p, e)
                 && (!(e instanceof Player other)
-                        || !other.isCreative()
-                                && p.server.isPvpAllowed()
-                                && p.canHarmPlayer(other));
+                        || !other.isCreative() && p.server.isPvpAllowed() && p.canHarmPlayer(other));
     }
 
     private static State update(ServerPlayer p) {
@@ -84,18 +77,13 @@ public final class SwordLanternState {
                 .removeIf(
                         entry -> {
                             Entity e = p.serverLevel().getEntity(entry.getKey());
-                            return now - entry.getValue()
-                                            >= SwordLanternConfig.ticks(SwordLanternConfig.MEMORY)
+                            return now - entry.getValue() >= SwordLanternConfig.ticks(SwordLanternConfig.MEMORY)
                                     || !(e instanceof LivingEntity living)
                                     || !eligible(p, living);
                         });
         if (s.scan == Long.MIN_VALUE || now - s.scan >= 10) {
             s.nearby =
-                    p.level()
-                            .getEntitiesOfClass(
-                                    LivingEntity.class,
-                                    p.getBoundingBox().inflate(64),
-                                    e -> nearby(p, e));
+                    p.level().getEntitiesOfClass(LivingEntity.class, p.getBoundingBox().inflate(64), e -> nearby(p, e));
             s.scan = now;
         }
         return s;
@@ -103,9 +91,7 @@ public final class SwordLanternState {
 
     private static boolean enemy(ServerPlayer p, State s, LivingEntity e, LivingEntity pending) {
         return eligible(p, e)
-                && (e == pending
-                        || e instanceof Mob mob && mob.getTarget() == p
-                        || s.enemies.containsKey(e.getUUID()));
+                && (e == pending || e instanceof Mob mob && mob.getTarget() == p || s.enemies.containsKey(e.getUUID()));
     }
 
     public static double bonus(ServerPlayer p, LivingEntity pending) {
@@ -117,44 +103,33 @@ public final class SwordLanternState {
         Set<UUID> seen = new HashSet<>();
         int enemies = 0;
         boolean undead = false, alone = true;
-        List<LivingEntity> candidates = new ArrayList<>(s.nearby);
-        // 玩家关系及到达范围即时检查，不等待下一次环境扫描。
+        List<LivingEntity> nearbySnapshot = s.nearby;
+        List<LivingEntity> candidates = new ArrayList<>();
         candidates.addAll(p.serverLevel().players());
         for (UUID id : s.enemies.keySet()) {
             Entity e = p.serverLevel().getEntity(id);
             if (e instanceof LivingEntity living) candidates.add(living);
         }
         if (pending != null) candidates.add(pending);
-        for (LivingEntity e : candidates) {
+        for (LivingEntity e : com.google.common.collect.Iterables.concat(nearbySnapshot, candidates)) {
             if (!seen.add(e.getUUID()) || !nearby(p, e)) continue;
             boolean hostile = enemy(p, s, e, pending);
             if (hostile) {
                 enemies++;
                 undead |=
-                        (e == pending
-                                        ? com.thelongtravail.underworld.UnderworldItems.attackType(
-                                                p, e)
-                                        : e.getMobType())
+                        (e == pending ? com.thelongtravail.underworld.UnderworldItems.attackType(p, e) : e.getMobType())
                                 == MobType.UNDEAD;
             }
             if (e instanceof Player && !hostile
-                    || !(e instanceof Player) && p.getUUID().equals(TimeStopExemptions.owner(e)))
-                alone = false;
+                    || !(e instanceof Player) && p.getUUID().equals(TimeStopExemptions.owner(e))) alone = false;
         }
-        int conditions =
-                (enemies > 10 ? 1 : 0)
-                        + (undead ? 1 : 0)
-                        + (alone ? 1 : 0)
-                        + (s.start >= 0
-                                        && p.level().getGameTime() - s.start
-                                                > SwordLanternConfig.ticks(
-                                                        SwordLanternConfig.DURATION)
-                                ? 1
-                                : 0)
-                        + (p.getHealth() < p.getMaxHealth() * SwordLanternConfig.HEALTH.get()
-                                ? 1
-                                : 0);
-        return conditions * SwordLanternConfig.BONUS.get();
+        return SwordLanternConfig.damageBonus(
+                enemies > 10,
+                undead,
+                alone,
+                s.start >= 0
+                        && p.level().getGameTime() - s.start > SwordLanternConfig.ticks(SwordLanternConfig.DURATION),
+                p.getHealth() < p.getMaxHealth() * SwordLanternConfig.HEALTH.get());
     }
 
     public static void confirmed(LivingEntity victim, DamageSource source) {
@@ -163,13 +138,11 @@ public final class SwordLanternState {
     }
 
     public static void received(LivingEntity victim, DamageSource source) {
-        if (victim instanceof ServerPlayer p
-                && source.getEntity() instanceof LivingEntity cause
-                && cause != victim) record(p, cause);
+        if (victim instanceof ServerPlayer p && source.getEntity() instanceof LivingEntity cause && cause != victim)
+            record(p, cause);
     }
 
     private static void record(ServerPlayer p, LivingEntity other) {
-        // 致死一击也刷新久战，但死亡目标不会继续留在有效敌人集合中。
         if (!equipped(p)
                 || other == p
                 || other.level() != p.level()
@@ -177,9 +150,7 @@ public final class SwordLanternState {
                 || other.isSpectator()
                 || friendly(p, other)
                 || other instanceof Player target
-                        && (!p.server.isPvpAllowed()
-                                || target.isCreative()
-                                || !p.canHarmPlayer(target))) return;
+                        && (!p.server.isPvpAllowed() || target.isCreative() || !p.canHarmPlayer(target))) return;
         State s = update(p);
         long now = p.level().getGameTime();
         if (s.start < 0) s.start = now;

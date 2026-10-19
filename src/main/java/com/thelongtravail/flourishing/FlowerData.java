@@ -28,7 +28,6 @@ public final class FlowerData {
         if (!FlourishingItemsConfig.ENABLED.get(f).get() || !stack.hasTag()) {
             return false;
         }
-        // 与 read 一致：只接受前三种有效且不重复的花，不为单项查询创建列表。
         long seen = 0;
         int count = 0;
         for (Tag tag : stack.getTag().getList(KEY, Tag.TAG_STRING)) {

@@ -13,19 +13,14 @@ public final class FarReachEquipment {
                                 inv ->
                                         inv
                                                 .findCurios(
-                                                        gold
-                                                                ? ModRegistry.GOLDEN_AGE.get()
-                                                                : ModRegistry.ICARUS.get())
+                                                        gold ? ModRegistry.GOLDEN_AGE.get() : ModRegistry.ICARUS.get())
                                                 .stream()
                                                 .anyMatch(
                                                         r ->
                                                                 !r.slotContext().cosmetic()
                                                                         && r.slotContext()
                                                                                 .identifier()
-                                                                                .equals(
-                                                                                        gold
-                                                                                                ? "charm"
-                                                                                                : "back")))
+                                                                                .equals(gold ? "charm" : "back")))
                         .orElse(false);
     }
 

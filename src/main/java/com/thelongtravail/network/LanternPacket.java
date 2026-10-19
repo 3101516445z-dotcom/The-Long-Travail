@@ -7,7 +7,6 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-// 仅同步装备生效状态；位置由原有实体同步与客户端插值提供。
 public record LanternPacket(ResourceLocation dimension, UUID player, boolean active) {
     public static Consumer<LanternPacket> receiver = p -> {};
 

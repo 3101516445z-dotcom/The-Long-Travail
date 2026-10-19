@@ -49,13 +49,13 @@ public final class DreamState {
         p.getPersistentData().putInt(COOLDOWN, BoundlessItemsConfig.ticks("dream.cooldown"));
         BoundlessPacket.sendDream(p, true);
         message(p, "success");
+        if (n.getInt("left") > 0 && n.getInt("left") <= 100) message(p, "countdown");
     }
 
     public static void tick(ServerPlayer p) {
         int oldCooldown = p.getPersistentData().getInt(COOLDOWN);
         StarVoiceState.decrement(p, COOLDOWN);
-        if (oldCooldown > 0 && p.getPersistentData().getInt(COOLDOWN) == 0)
-            BoundlessPacket.sendDream(p, active(p));
+        if (oldCooldown > 0 && p.getPersistentData().getInt(COOLDOWN) == 0) BoundlessPacket.sendDream(p, active(p));
         if (!active(p)) return;
         CompoundTag n = p.getPersistentData().getCompound(RECORD);
         if (n.getBoolean("exiting")) {
@@ -76,19 +76,18 @@ public final class DreamState {
         int left = n.getInt("left") - 1;
         n.putInt("left", left);
         if (left <= 0) finish(p, true);
+        else if (left <= 100 && left % 20 == 0) message(p, "countdown");
     }
 
-    private static boolean safe(ServerPlayer p, Vec3 v) {
+    static boolean safe(ServerPlayer p, Vec3 v) {
         BlockPos b = BlockPos.containing(v);
         var l = p.serverLevel();
         var box = p.getDimensions(Pose.STANDING).makeBoundingBox(v);
-        if (!l.hasChunkAt(b)
+        if (!chunksLoaded(p, v)
                 || !l.getWorldBorder().isWithinBounds(b)
                 || v.y < l.getMinBuildHeight()
                 || v.y + 2 >= l.getMaxBuildHeight()
                 || !l.noCollision(null, box)) return false;
-        // 观察者经常略微悬空；允许5格内自然落地，落地伤害仍按原版计算。
-        // 略微扩大检测范围，确保恰好相距 5 格的支撑面也能被碰撞检测识别。
         double search = 5.0001;
         double drop =
                 net.minecraft.world.phys.shapes.Shapes.collide(
@@ -102,8 +101,7 @@ public final class DreamState {
         for (BlockPos at :
                 BlockPos.betweenClosed(
                         BlockPos.containing(path.minX, path.minY - 1e-7, path.minZ),
-                        BlockPos.containing(
-                                path.maxX - 1e-7, path.maxY - 1e-7, path.maxZ - 1e-7))) {
+                        BlockPos.containing(path.maxX - 1e-7, path.maxY - 1e-7, path.maxZ - 1e-7))) {
             var block = l.getBlockState(at);
             if (!l.getFluidState(at).isEmpty()
                     || block.is(net.minecraft.tags.BlockTags.FIRE)
@@ -114,9 +112,17 @@ public final class DreamState {
                     || block.is(net.minecraft.world.level.block.Blocks.SWEET_BERRY_BUSH)
                     || block.is(net.minecraft.tags.BlockTags.CAMPFIRES)
                             && block.hasProperty(net.minecraft.world.level.block.CampfireBlock.LIT)
-                            && block.getValue(net.minecraft.world.level.block.CampfireBlock.LIT))
-                return false;
+                            && block.getValue(net.minecraft.world.level.block.CampfireBlock.LIT)) return false;
         }
+        return true;
+    }
+
+    private static boolean chunksLoaded(ServerPlayer p, Vec3 v) {
+        var box = p.getDimensions(Pose.STANDING).makeBoundingBox(v);
+        for (int x = net.minecraft.util.Mth.floor(box.minX) >> 4; x <= net.minecraft.util.Mth.floor(box.maxX) >> 4; x++)
+            for (int z = net.minecraft.util.Mth.floor(box.minZ) >> 4;
+                    z <= net.minecraft.util.Mth.floor(box.maxZ) >> 4;
+                    z++) if (!p.serverLevel().hasChunk(x, z)) return false;
         return true;
     }
 
@@ -128,9 +134,7 @@ public final class DreamState {
                     for (int x = -r; x <= r; x++)
                         for (int z = -r; z <= r; z++) {
                             if (Math.max(Math.abs(x), Math.abs(z)) != r) continue;
-                            Vec3 v =
-                                    Vec3.atBottomCenterOf(
-                                            BlockPos.containing(anchor).offset(x, dy * sign, z));
+                            Vec3 v = Vec3.atBottomCenterOf(BlockPos.containing(anchor).offset(x, dy * sign, z));
                             if (safe(p, v)) return v;
                         }
         return null;
@@ -146,13 +150,10 @@ public final class DreamState {
                     if (!l.getWorldBorder().isWithinBounds(column)) continue;
                     int height =
                             l.getHeight(
-                                    net.minecraft.world.level.levelgen.Heightmap.Types
-                                            .MOTION_BLOCKING_NO_LEAVES,
+                                    net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                                     column.getX(),
                                     column.getZ());
-                    Vec3 candidate =
-                            Vec3.atBottomCenterOf(
-                                    new BlockPos(column.getX(), height, column.getZ()));
+                    Vec3 candidate = Vec3.atBottomCenterOf(new BlockPos(column.getX(), height, column.getZ()));
                     if (safe(p, candidate)) return candidate;
                 }
         return null;
@@ -168,6 +169,7 @@ public final class DreamState {
 
     public static void finish(ServerPlayer p, boolean notify) {
         if (!active(p)) {
+            DreamLandingSearch.cancel(p);
             BoundlessPacket.sendDream(p, false);
             return;
         }
@@ -177,7 +179,6 @@ public final class DreamState {
         n.putBoolean("exiting", true);
         n.putBoolean("notifyWake", notify || n.getBoolean("notifyWake"));
         try {
-            // 拒绝恢复后每秒重试；重复按键不会反复执行落点搜索。
             if (!firstAttempt && p.isSpectator() && n.getInt("retryDelay") > 0) return;
             n.putInt("retryDelay", 20);
             // 外部修改游戏模式时只撤销托管标记，不覆盖管理员的选择。
@@ -186,41 +187,46 @@ public final class DreamState {
                 Vec3 landing = p.position();
                 if (!safe(p, landing)) {
                     Vec3 anchor =
-                            n.getString("dimension")
-                                            .equals(p.level().dimension().location().toString())
+                            n.getString("dimension").equals(p.level().dimension().location().toString())
                                     ? new Vec3(n.getDouble("x"), n.getDouble("y"), n.getDouble("z"))
                                     : Vec3.atBottomCenterOf(p.serverLevel().getSharedSpawnPos());
-                    Vec3 found = safe(p, anchor) ? anchor : near(p, anchor, 8);
-                    if (found == null) found = surface(p, anchor);
-                    if (found == null) {
-                        Vec3 spawn = Vec3.atBottomCenterOf(p.serverLevel().getSharedSpawnPos());
-                        found = near(p, spawn, 8);
-                        if (found == null) found = surface(p, spawn);
+                    if (n.getString("dimension").equals(p.level().dimension().location().toString())) {
+                        Vec3 found = safe(p, anchor) ? anchor : DreamLandingSearch.result(p, n, anchor);
+                        if (found == null) {
+                            n.putInt("retryDelay", 1);
+                            return;
+                        }
+                        landing = found;
+                    } else {
+                        DreamLandingSearch.cancel(p);
+                        Vec3 found = safe(p, anchor) ? anchor : near(p, anchor, 8);
+                        if (found == null) found = surface(p, anchor);
+                        if (found == null) {
+                            Vec3 spawn = Vec3.atBottomCenterOf(p.serverLevel().getSharedSpawnPos());
+                            found = near(p, spawn, 8);
+                            if (found == null) found = surface(p, spawn);
+                        }
+                        landing = found == null ? anchor : found;
                     }
-                    landing = found == null ? anchor : found;
                 }
-                p.teleportTo(
-                        p.serverLevel(), landing.x, landing.y, landing.z, p.getYRot(), p.getXRot());
+                p.teleportTo(p.serverLevel(), landing.x, landing.y, landing.z, p.getYRot(), p.getXRot());
                 p.fallDistance = 0;
                 p.setGameMode(GameType.byId(n.getInt("mode")));
                 if (p.isSpectator()) {
                     if (firstAttempt)
                         com.thelongtravail.TheLongTravail.LOGGER.warn(
-                                "Dream exit mode restoration rejected for {}; keeping recovery record",
-                                p.getUUID());
+                                "Dream exit mode restoration rejected for {}; keeping recovery record", p.getUUID());
                     return;
                 }
             }
-            // 落点处理与模式恢复完成后才删除记录；外部接管模式仍按原规则结束托管。
+            DreamLandingSearch.cancel(p);
             p.getPersistentData().remove(RECORD);
             BoundlessPacket.sendDream(p, false);
             if (n.getBoolean("notifyWake")) message(p, "wake");
         } catch (RuntimeException failure) {
             if (firstAttempt)
                 com.thelongtravail.TheLongTravail.LOGGER.warn(
-                        "Dream exit failed for {}; keeping recovery record for retry",
-                        p.getUUID(),
-                        failure);
+                        "Dream exit failed for {}; keeping recovery record for retry", p.getUUID(), failure);
         } finally {
             FINISHING.remove(p);
         }

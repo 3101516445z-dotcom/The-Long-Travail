@@ -12,7 +12,6 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-// 只更新本模组当前的快捷栏提示，保留原有显示时长和淡出过程。
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID, value = Dist.CLIENT)
 public final class SkillCooldownNotice {
     private static Component displayed;
@@ -25,8 +24,7 @@ public final class SkillCooldownNotice {
         if (mc.player == null) return;
         clear();
         if (remainingTicks <= 0) {
-            mc.player.displayClientMessage(
-                    com.thelongtravail.helper.ActionMessages.text(translationKey), true);
+            mc.player.displayClientMessage(com.thelongtravail.helper.ActionMessages.text(translationKey), true);
             return;
         }
         key = translationKey;
@@ -41,11 +39,12 @@ public final class SkillCooldownNotice {
         var duration =
                 Component.translatable("message.the_long_travail.cooldown.seconds", seconds)
                         .withStyle(style -> style.withColor(RainTooltips.ACCENT_COLOR));
+        if (key.equals("message.the_long_travail.dream.countdown"))
+            return Component.translatable(key, duration).withStyle(style -> style.withColor(RainTooltips.BODY_COLOR));
         var remaining =
                 Component.translatable("message.the_long_travail.cooldown.remaining", duration)
                         .withStyle(style -> style.withColor(RainTooltips.STATE_CONDITION_COLOR));
-        return Component.translatable(key, remaining)
-                .withStyle(style -> style.withColor(RainTooltips.BODY_COLOR));
+        return Component.translatable(key, remaining).withStyle(style -> style.withColor(RainTooltips.BODY_COLOR));
     }
 
     @SubscribeEvent

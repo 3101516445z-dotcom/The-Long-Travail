@@ -19,24 +19,21 @@ public final class RenewalItem extends Item {
     public Component getName(ItemStack stack) {
         return super.getName(stack)
                 .copy()
-                .withStyle(
-                        style -> style.withColor(0xC5AA77).withInsertion("the_long_travail:name"));
+                .withStyle(style -> style.withColor(0xC5AA77).withInsertion("the_long_travail:name"));
     }
 
     @Override
-    public void appendHoverText(
-            ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         for (int index = 0; index < 3; index++)
             tooltip.add(
                     Component.translatable("tooltip.the_long_travail.renewal.prose." + index)
                             .withStyle(style -> style.withColor(0xBC995E)));
+        tooltip.add(Component.translatable(ItemDescription.CATALOG));
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(
-            Level level, Player player, InteractionHand hand) {
-        if (player.getCooldowns().isOnCooldown(this))
-            return InteractionResultHolder.fail(player.getItemInHand(hand));
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        if (player.getCooldowns().isOnCooldown(this)) return InteractionResultHolder.fail(player.getItemInHand(hand));
         if (player instanceof ServerPlayer serverPlayer) {
             var result = com.thelongtravail.data.JourneyService.resetJourney(serverPlayer, hand);
             if (!result.changed()) {
@@ -44,14 +41,10 @@ public final class RenewalItem extends Item {
                     return unavailable(player, hand);
                 player.displayClientMessage(
                         com.thelongtravail.helper.ActionMessages.text(
-                                result.status()
-                                                == com.thelongtravail.data.JourneyOperations.Status
-                                                        .INVALID_POOL
+                                result.status() == com.thelongtravail.data.JourneyOperations.Status.INVALID_POOL
                                         ? "message.the_long_travail.journey.invalid_pool"
                                         : "message.the_long_travail.journey."
-                                                + result.status()
-                                                        .name()
-                                                        .toLowerCase(java.util.Locale.ROOT)),
+                                                + result.status().name().toLowerCase(java.util.Locale.ROOT)),
                         true);
                 return InteractionResultHolder.fail(player.getItemInHand(hand));
             }
@@ -59,18 +52,14 @@ public final class RenewalItem extends Item {
             com.thelongtravail.network.TravailNetwork.sendItemSound(
                     serverPlayer, com.thelongtravail.network.ItemSoundCue.RENEWAL);
             player.displayClientMessage(
-                    com.thelongtravail.helper.ActionMessages.text(
-                            "message.the_long_travail.renewal.success"),
-                    true);
+                    com.thelongtravail.helper.ActionMessages.text("message.the_long_travail.renewal.success"), true);
         }
         return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), level.isClientSide);
     }
 
     private InteractionResultHolder<ItemStack> unavailable(Player player, InteractionHand hand) {
         player.displayClientMessage(
-                com.thelongtravail.helper.ActionMessages.text(
-                        "message.the_long_travail.homecoming.unavailable"),
-                true);
+                com.thelongtravail.helper.ActionMessages.text("message.the_long_travail.homecoming.unavailable"), true);
         return InteractionResultHolder.fail(player.getItemInHand(hand));
     }
 }

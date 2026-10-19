@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SCS",
+    "SXS",
+    "SCS"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:string"
+    },
+    "C": {
+      "item": "minecraft:sculk"
+    },
+    "X": {
+      "item": "minecraft:sculk_shrieker"
+    }
+  },
+  "result": {
+    "item": "the_long_travail:underground_velvet",
+    "count": 1
+  }
+}

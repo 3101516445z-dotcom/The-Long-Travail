@@ -7,7 +7,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import java.util.ArrayDeque;
 
-// 仅在本地播放无位置的原版界面音效，不广播到世界，也不预测物品使用结果。
 public final class DiaryActionSounds {
     private record Delayed(Object player, Object level, long due) {}
 
@@ -22,9 +21,7 @@ public final class DiaryActionSounds {
     }
 
     private static void play(SoundEvent event, float volume, float pitch) {
-        Minecraft.getInstance()
-                .getSoundManager()
-                .play(SimpleSoundInstance.forUI(event, pitch, volume));
+        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(event, pitch, volume));
     }
 
     public static void open() {

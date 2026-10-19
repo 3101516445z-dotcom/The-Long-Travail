@@ -10,7 +10,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.damagesource.DamageSource;
 import java.util.*;
 
-// 仅服务端运行；关系和状态不写入物品或玩家存档。
 public final class MaidLanternCombat {
     public static final double RANGE_SQR = 64 * 64;
     private static final Map<UUID, State> STATES = new HashMap<>();
@@ -49,8 +48,7 @@ public final class MaidLanternCombat {
         return nearby(p, e)
                 && e.isAttackable()
                 && !friendly(p, e)
-                && (!(e instanceof Player other)
-                        || !other.isCreative() && MaidAccessoryRuntime.canHarm(p, other));
+                && (!(e instanceof Player other) || !other.isCreative() && MaidAccessoryRuntime.canHarm(p, other));
     }
 
     private static State update(EntityMaid p) {
@@ -64,21 +62,14 @@ public final class MaidLanternCombat {
                 .entrySet()
                 .removeIf(
                         entry -> {
-                            Entity e =
-                                    ((net.minecraft.server.level.ServerLevel) p.level())
-                                            .getEntity(entry.getKey());
-                            return now - entry.getValue()
-                                            >= SwordLanternConfig.ticks(SwordLanternConfig.MEMORY)
+                            Entity e = ((net.minecraft.server.level.ServerLevel) p.level()).getEntity(entry.getKey());
+                            return now - entry.getValue() >= SwordLanternConfig.ticks(SwordLanternConfig.MEMORY)
                                     || !(e instanceof LivingEntity living)
                                     || !eligible(p, living);
                         });
         if (s.scan == Long.MIN_VALUE || now - s.scan >= 10) {
             s.nearby =
-                    p.level()
-                            .getEntitiesOfClass(
-                                    LivingEntity.class,
-                                    p.getBoundingBox().inflate(64),
-                                    e -> nearby(p, e));
+                    p.level().getEntitiesOfClass(LivingEntity.class, p.getBoundingBox().inflate(64), e -> nearby(p, e));
             s.scan = now;
         }
         return s;
@@ -86,9 +77,7 @@ public final class MaidLanternCombat {
 
     private static boolean enemy(EntityMaid p, State s, LivingEntity e, LivingEntity pending) {
         return eligible(p, e)
-                && (e == pending
-                        || e instanceof Mob mob && mob.getTarget() == p
-                        || s.enemies.containsKey(e.getUUID()));
+                && (e == pending || e instanceof Mob mob && mob.getTarget() == p || s.enemies.containsKey(e.getUUID()));
     }
 
     public static double bonus(EntityMaid p, LivingEntity pending) {
@@ -100,24 +89,21 @@ public final class MaidLanternCombat {
         Set<UUID> seen = new HashSet<>();
         int enemies = 0;
         boolean undead = false, alone = true;
-        List<LivingEntity> candidates = new ArrayList<>(s.nearby);
-        // 玩家关系及到达范围即时检查，不等待下一次环境扫描。
+        List<LivingEntity> nearbySnapshot = s.nearby;
+        List<LivingEntity> candidates = new ArrayList<>();
         candidates.addAll(((net.minecraft.server.level.ServerLevel) p.level()).players());
         for (UUID id : s.enemies.keySet()) {
             Entity e = ((net.minecraft.server.level.ServerLevel) p.level()).getEntity(id);
             if (e instanceof LivingEntity living) candidates.add(living);
         }
         if (pending != null) candidates.add(pending);
-        for (LivingEntity e : candidates) {
+        for (LivingEntity e : com.google.common.collect.Iterables.concat(nearbySnapshot, candidates)) {
             if (!seen.add(e.getUUID()) || !nearby(p, e)) continue;
             boolean hostile = enemy(p, s, e, pending);
             if (hostile) {
                 enemies++;
                 undead |=
-                        (e == pending
-                                        ? com.thelongtravail.underworld.UnderworldItems.attackType(
-                                                p, e)
-                                        : e.getMobType())
+                        (e == pending ? com.thelongtravail.underworld.UnderworldItems.attackType(p, e) : e.getMobType())
                                 == MobType.UNDEAD;
             }
             if (e instanceof Player && !hostile
@@ -125,20 +111,13 @@ public final class MaidLanternCombat {
                             && Objects.equals(p.getOwnerUUID(), TimeStopExemptions.owner(e))
                             && p.getOwnerUUID() != null) alone = false;
         }
-        int conditions =
-                (enemies > 10 ? 1 : 0)
-                        + (undead ? 1 : 0)
-                        + (alone ? 1 : 0)
-                        + (s.start >= 0
-                                        && p.level().getGameTime() - s.start
-                                                > SwordLanternConfig.ticks(
-                                                        SwordLanternConfig.DURATION)
-                                ? 1
-                                : 0)
-                        + (p.getHealth() < p.getMaxHealth() * SwordLanternConfig.HEALTH.get()
-                                ? 1
-                                : 0);
-        return conditions * SwordLanternConfig.BONUS.get();
+        return SwordLanternConfig.damageBonus(
+                enemies > 10,
+                undead,
+                alone,
+                s.start >= 0
+                        && p.level().getGameTime() - s.start > SwordLanternConfig.ticks(SwordLanternConfig.DURATION),
+                p.getHealth() < p.getMaxHealth() * SwordLanternConfig.HEALTH.get());
     }
 
     public static void confirmed(LivingEntity victim, EntityMaid attacker) {
@@ -146,21 +125,18 @@ public final class MaidLanternCombat {
     }
 
     public static void received(LivingEntity victim, DamageSource source) {
-        if (victim instanceof EntityMaid maid
-                && source.getEntity() instanceof LivingEntity cause
-                && cause != maid) record(maid, cause);
+        if (victim instanceof EntityMaid maid && source.getEntity() instanceof LivingEntity cause && cause != maid)
+            record(maid, cause);
     }
 
     private static void record(EntityMaid p, LivingEntity other) {
-        // 致死一击也刷新久战，但死亡目标不会继续留在有效敌人集合中。
         if (!equipped(p)
                 || other == p
                 || other.level() != p.level()
                 || p.distanceToSqr(other) > RANGE_SQR
                 || other.isSpectator()
                 || friendly(p, other)
-                || other instanceof Player target
-                        && (target.isCreative() || !MaidAccessoryRuntime.canHarm(p, target)))
+                || other instanceof Player target && (target.isCreative() || !MaidAccessoryRuntime.canHarm(p, target)))
             return;
         State s = update(p);
         long now = p.level().getGameTime();

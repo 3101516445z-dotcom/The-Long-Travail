@@ -4,7 +4,6 @@ import net.minecraft.core.SectionPos;
 import net.minecraft.util.Mth;
 import java.util.*;
 
-// 调度状态仅由渲染线程维护，不持有客户端世界引用。
 public final class LanternRebuildScheduler {
     public static final long INTERVAL_NANOS = 33_000_000L;
 
@@ -31,8 +30,7 @@ public final class LanternRebuildScheduler {
         Set<Long> sections() {
             Set<Long> result = new HashSet<>();
             for (int x = x0; x <= x1; x++)
-                for (int y = y0; y <= y1; y++)
-                    for (int z = z0; z <= z1; z++) result.add(SectionPos.asLong(x, y, z));
+                for (int y = y0; y <= y1; y++) for (int z = z0; z <= z1; z++) result.add(SectionPos.asLong(x, y, z));
             return Set.copyOf(result);
         }
     }
@@ -48,7 +46,6 @@ public final class LanternRebuildScheduler {
     }
 
     public Batch update(long now, Map<UUID, LanternLighting.Source> current) {
-        // 出现、消失与移动共用提交间隔；跳过的变化不延长截止时间，避免连续变化导致一直无法提交。
         if (published && now - lastRebuild < INTERVAL_NANOS) return null;
         boolean membership = !previous.keySet().equals(current.keySet());
         boolean moved = membership;
@@ -56,9 +53,7 @@ public final class LanternRebuildScheduler {
             for (var entry : current.entrySet()) {
                 var a = entry.getValue();
                 var b = previous.get(entry.getKey());
-                if (Math.abs(a.x() - b.x()) > .08
-                        || Math.abs(a.y() - b.y()) > .08
-                        || Math.abs(a.z() - b.z()) > .08) {
+                if (Math.abs(a.x() - b.x()) > .08 || Math.abs(a.y() - b.y()) > .08 || Math.abs(a.z() - b.z()) > .08) {
                     moved = true;
                     break;
                 }
@@ -66,7 +61,6 @@ public final class LanternRebuildScheduler {
         if (!moved) return null;
         Set<Long> dirty = new HashSet<>();
         int changedSources = 0;
-        // 始终清理上次实际发布的范围；中途出现又消失但未发布的光源无需重建。
         for (UUID id : previous.keySet())
             if (!Objects.equals(previous.get(id), current.get(id))) {
                 changedSources++;

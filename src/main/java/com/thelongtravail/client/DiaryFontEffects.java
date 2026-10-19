@@ -15,11 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.io.IOException;
 
-// 替换文本材质时保留当前字体的图集、排版和渲染状态。
-@Mod.EventBusSubscriber(
-        modid = TheLongTravail.MODID,
-        value = Dist.CLIENT,
-        bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = TheLongTravail.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class DiaryFontEffects {
     private static ShaderInstance shader;
     private static long resourceGeneration;
@@ -28,8 +24,7 @@ public final class DiaryFontEffects {
         return resourceGeneration;
     }
 
-    private static final com.thelongtravail.AspectTheme[] THEMES =
-            com.thelongtravail.AspectTheme.values();
+    private static final com.thelongtravail.AspectTheme[] THEMES = com.thelongtravail.AspectTheme.values();
     private static final boolean[] loggedMaterials = new boolean[3 + 2 * THEMES.length];
     private static final long EPOCH = System.nanoTime();
 
@@ -49,8 +44,7 @@ public final class DiaryFontEffects {
                 });
     }
 
-    private static final ThreadLocal<MaterialProbe> PROBE =
-            ThreadLocal.withInitial(MaterialProbe::new);
+    private static final ThreadLocal<MaterialProbe> PROBE = ThreadLocal.withInitial(MaterialProbe::new);
 
     private static final class MaterialProbe implements net.minecraft.util.FormattedCharSink {
         int material;
@@ -62,9 +56,7 @@ public final class DiaryFontEffects {
             int current =
                     "the_long_travail:name".equals(marker)
                             ? 0
-                            : marker != null && marker.startsWith("the_long_travail:prose:")
-                                    ? 1
-                                    : -1;
+                            : marker != null && marker.startsWith("the_long_travail:prose:") ? 1 : -1;
             var theme = com.thelongtravail.AspectTheme.fromMarker(marker);
             if (theme != null) current = theme.material();
             if (current < 0 || (material >= 0 && material != current)) {
@@ -98,11 +90,7 @@ public final class DiaryFontEffects {
                     String marker = style.getInsertion();
                     if (marker != null && marker.startsWith("the_long_travail:prose:")) {
                         try {
-                            width[0] =
-                                    Math.max(
-                                            1,
-                                            Float.parseFloat(
-                                                    marker.substring(marker.lastIndexOf(':') + 1)));
+                            width[0] = Math.max(1, Float.parseFloat(marker.substring(marker.lastIndexOf(':') + 1)));
                         } catch (NumberFormatException ignored) {
                         }
                         return false;
@@ -112,8 +100,7 @@ public final class DiaryFontEffects {
         return width[0];
     }
 
-    public static MultiBufferSource buffers(
-            MultiBufferSource original, int material, float originX, float sweepWidth) {
+    public static MultiBufferSource buffers(MultiBufferSource original, int material, float originX, float sweepWidth) {
         return new MaterialBuffers(original, material, originX, sweepWidth);
     }
 
@@ -123,8 +110,7 @@ public final class DiaryFontEffects {
         private final int material;
         private final float originX, sweepWidth;
 
-        private MaterialBuffers(
-                MultiBufferSource original, int material, float originX, float sweepWidth) {
+        private MaterialBuffers(MultiBufferSource original, int material, float originX, float sweepWidth) {
             this.original = original;
             this.material = material;
             this.originX = originX;
@@ -159,8 +145,6 @@ public final class DiaryFontEffects {
         if (shader == null) return;
         ShaderInstance originalShader = RenderSystem.getShader();
         String name = originalShader == null ? "" : originalShader.getName();
-        // Modern UI 的 SDF 填充使用距离场，位图和强度图集分别读取 alpha 与红色通道。
-        // 描边和非文本缓冲区继续使用原渲染管线。
         if (name.contains("stroke") || name.contains("background")) return;
         int atlas = name.contains("sdf") ? 2 : name.contains("intensity") ? 1 : 0;
         if (!loggedMaterials[material]) {
@@ -189,17 +173,13 @@ public final class DiaryFontEffects {
             setPalette("ThemeDark", theme.dark);
             setPalette("ThemeMain", theme.main);
             setPalette("ThemeHighlight", theme.highlight);
-            shader.safeGetUniform("Barren")
-                    .set(theme == com.thelongtravail.AspectTheme.FAR_REACH ? 1F : 0F);
+            shader.safeGetUniform("Barren").set(theme == com.thelongtravail.AspectTheme.FAR_REACH ? 1F : 0F);
         }
     }
 
     private static void setPalette(String uniform, int color) {
         shader.safeGetUniform(uniform)
-                .set(
-                        ((color >> 16) & 255) / 255F,
-                        ((color >> 8) & 255) / 255F,
-                        (color & 255) / 255F);
+                .set(((color >> 16) & 255) / 255F, ((color >> 8) & 255) / 255F, (color & 255) / 255F);
     }
 
     private DiaryFontEffects() {}

@@ -6,10 +6,7 @@ import java.math.BigDecimal;
 
 public final class FlowerDescriptions {
     public static String number(double n) {
-        return BigDecimal.valueOf(n)
-                .setScale(2, java.math.RoundingMode.HALF_UP)
-                .stripTrailingZeros()
-                .toPlainString();
+        return BigDecimal.valueOf(n).setScale(2, java.math.RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
     }
 
     public static String percent(double n) {
@@ -28,21 +25,13 @@ public final class FlowerDescriptions {
                                                 ? "level"
                                                 : "bonus"));
         return switch (f) {
+            case CHORUS_FLOWER, FLOWERING_AZALEA, FLOWERING_AZALEA_LEAVES -> FloralText.text(key, number(v));
             case DANDELION ->
-                    FloralText.text(
-                            key,
-                            percent(v),
-                            percent(FlourishingItemsConfig.shown(root + "saturationBonus")));
+                    FloralText.text(key, percent(v), percent(FlourishingItemsConfig.shown(root + "saturationBonus")));
             case RED_TULIP, WHITE_TULIP ->
-                    FloralText.text(
-                            key,
-                            percent(FlourishingItemsConfig.shown(root + "healthThreshold")),
-                            percent(v));
+                    FloralText.text(key, percent(FlourishingItemsConfig.shown(root + "healthThreshold")), percent(v));
             case OXEYE_DAISY ->
-                    FloralText.text(
-                            key,
-                            number(FlourishingItemsConfig.shown(root + "intervalSeconds")),
-                            number(v));
+                    FloralText.text(key, number(FlourishingItemsConfig.shown(root + "intervalSeconds")), number(v));
             case LILY_OF_THE_VALLEY, WITHER_ROSE ->
                     FloralText.text(
                             key,
@@ -50,15 +39,9 @@ public final class FlowerDescriptions {
                             number(FlourishingItemsConfig.shown(root + "durationSeconds")),
                             number(FlourishingItemsConfig.shown(root + "cooldownSeconds")));
             case SUNFLOWER ->
-                    FloralText.text(
-                            key,
-                            percent(FlourishingItemsConfig.shown(root + "speedBonus")),
-                            percent(v));
+                    FloralText.text(key, percent(FlourishingItemsConfig.shown(root + "speedBonus")), percent(v));
             case ROSE_BUSH, PITCHER_PLANT ->
-                    FloralText.text(
-                            key,
-                            percent(v),
-                            number(FlourishingItemsConfig.shown(root + "cooldownSeconds")));
+                    FloralText.text(key, percent(v), number(FlourishingItemsConfig.shown(root + "cooldownSeconds")));
             default -> FloralText.text(key, percent(v));
         };
     }

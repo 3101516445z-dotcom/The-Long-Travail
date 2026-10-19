@@ -5,12 +5,6 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.List;
 
 public final class RainConfig {
-    public enum Weather {
-        RAIN_OR_THUNDER,
-        THUNDER_ONLY,
-        ANY_WEATHER
-    }
-
     public enum Repeat {
         REFRESH,
         REJECT
@@ -44,7 +38,6 @@ public final class RainConfig {
             DRY_RAIN,
             SNOW_RAIN,
             SKILL_ENABLED;
-    public static ForgeConfigSpec.EnumValue<Weather> EKI_WEATHER, TOKAIDO_WEATHER;
     public static ForgeConfigSpec.EnumValue<Repeat> REPEAT;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> IMMUNITY_EXCLUSIONS, SLOTS;
 
@@ -54,10 +47,10 @@ public final class RainConfig {
                 number(
                         b,
                         "items.eki.damageBonus",
-                        .5,
+                        .4,
                         0,
                         1000,
-                        "最终有效伤害的增加比例；0.5表示增加50%，0表示无加成。\nFractional increase in final effective damage; 0.5 means +50%, and 0 means no bonus.");
+                        "最终有效伤害的增加比例；0.4 表示提高 40%，0 表示不提供加成。\nFractional increase in final effective damage; 0.4 means a 40% increase, and 0 disables the bonus.");
         SPEED =
                 number(
                         b,
@@ -73,7 +66,7 @@ public final class RainConfig {
                         .75,
                         0,
                         1,
-                        "拥有归墟之见证时，駅单独判定的免伤概率。\nEki's separate chance to negate damage while Abyss Witness is active.");
+                        "归墟之见证生效时，駅额外取消伤害的概率。\nAdditional chance for Eki to negate damage while Abyss Witness is active.");
         MALICE_SKIP =
                 flag(
                         b,
@@ -91,16 +84,11 @@ public final class RainConfig {
                         b,
                         "items.eki.fallbackToAbyss",
                         true,
-                        "駅免伤失败后，继续按归墟之见证原有的条件判定免伤。\nIf Eki fails to negate damage, continue checking Abyss Witness's original immunity conditions.");
+                        "駅未能取消伤害时，继续按归墟之见证原有的免伤条件判定。\nIf Eki does not negate the damage, check the normal immunity conditions for Abyss Witness.");
         IMMUNITY_EXCLUSIONS =
                 b.comment(
                                 "只排除駅额外免伤的伤害类型ID；minecraft:generic_kill始终排除。\nDamage type IDs excluded only from Eki's additional damage immunity; minecraft:generic_kill is always excluded.")
-                        .defineListAllowEmpty(
-                                "items.eki.immunityExclusions", List.of(), RainConfig::id);
-        EKI_WEATHER =
-                b.comment(
-                                "天气要求；ANY_WEATHER仍只在主世界生效。\nWeather requirement; even ANY_WEATHER applies only in the Overworld.")
-                        .defineEnum("items.eki.weather", Weather.RAIN_OR_THUNDER);
+                        .defineListAllowEmpty("items.eki.immunityExclusions", List.of(), RainConfig::id);
         EKI_LOCAL =
                 flag(
                         b,
@@ -151,10 +139,6 @@ public final class RainConfig {
                                         v instanceof String s
                                                 && s.length() <= MAX_SLOT_LENGTH
                                                 && s.matches("[a-z0-9_/-]+"));
-        TOKAIDO_WEATHER =
-                b.comment(
-                                "天气要求；ANY_WEATHER仍只在主世界生效。\nWeather requirement; even ANY_WEATHER applies only in the Overworld.")
-                        .defineEnum("items.tokaido.weather", Weather.RAIN_OR_THUNDER);
         TOKAIDO_LOCAL =
                 flag(
                         b,
@@ -200,7 +184,7 @@ public final class RainConfig {
                         .5,
                         0,
                         20,
-                        "每次恢复的饱和度点数，不是饱和度倍率。\nSaturation points restored each time, not a saturation multiplier.");
+                        "每次恢复的饱和度点数，不是饱和度倍率。\nSaturation points restored per application, not a saturation multiplier.");
         FOOD_SECONDS =
                 number(
                         b,
@@ -264,12 +248,7 @@ public final class RainConfig {
     }
 
     private static ForgeConfigSpec.DoubleValue number(
-            ForgeConfigSpec.Builder b,
-            String key,
-            double value,
-            double min,
-            double max,
-            String comment) {
+            ForgeConfigSpec.Builder b, String key, double value, double min, double max, String comment) {
         return b.comment(comment).defineInRange(key, value, min, max);
     }
 

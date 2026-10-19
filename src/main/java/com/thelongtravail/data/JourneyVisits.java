@@ -14,12 +14,10 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-// 记录观察位置后异步确认，所有世界访问均在服务端线程执行，不阻塞等待异步结果。
 public final class JourneyVisits {
     private static final int MAX_PENDING = 256, MAX_PER_PLAYER = 16, STEPS_PER_TICK = 256;
     private static final long TIMEOUT_NANOS = 30_000_000_000L, TICK_BUDGET_NANOS = 1_000_000L;
-    private static final TicketType<UUID> TICKET =
-            TicketType.create("travail_journey_visit", UUID::compareTo);
+    private static final TicketType<UUID> TICKET = TicketType.create("travail_journey_visit", UUID::compareTo);
     private static final Deque<Observation> PENDING = new ArrayDeque<>();
     private static Request inFlight;
 
@@ -40,8 +38,7 @@ public final class JourneyVisits {
         Identity identity;
         boolean references;
 
-        Observation(
-                ServerPlayer player, ItemStack stack, Map<Structure, ResourceLocation> targets) {
+        Observation(ServerPlayer player, ItemStack stack, Map<Structure, ResourceLocation> targets) {
             this.player = player;
             level = player.serverLevel();
             position = player.blockPosition().immutable();
@@ -77,15 +74,12 @@ public final class JourneyVisits {
             this.observation = observation;
             this.references = references;
             position = new ChunkPos(packed);
-            ChunkStatus status =
-                    references ? ChunkStatus.STRUCTURE_REFERENCES : ChunkStatus.STRUCTURE_STARTS;
+            ChunkStatus status = references ? ChunkStatus.STRUCTURE_REFERENCES : ChunkStatus.STRUCTURE_STARTS;
             distance = 33 - ChunkLevel.byStatus(status);
             var chunks = observation.level.getChunkSource();
             chunks.addRegionTicket(TICKET, position, distance, ticket);
             try {
-                future =
-                        ((ChunkFutureInvoker) chunks)
-                                .travail$requestChunk(position.x, position.z, status, true);
+                future = ((ChunkFutureInvoker) chunks).travail$requestChunk(position.x, position.z, status, true);
                 HotPathMetrics.Counter.JOURNEY_REQUESTS.add(1);
             } catch (RuntimeException failure) {
                 release();
@@ -96,10 +90,7 @@ public final class JourneyVisits {
         void release() {
             if (released) return;
             released = true;
-            observation
-                    .level
-                    .getChunkSource()
-                    .removeRegionTicket(TICKET, position, distance, ticket);
+            observation.level.getChunkSource().removeRegionTicket(TICKET, position, distance, ticket);
         }
     }
 
@@ -107,9 +98,7 @@ public final class JourneyVisits {
             ServerPlayer player, ItemStack stack, Map<Structure, ResourceLocation> targets) {
         if (targets.isEmpty()) return List.of();
         List<ResourceLocation> found =
-                new ArrayList<>(
-                        JourneySpatial.loadedAt(
-                                player.serverLevel(), player.blockPosition(), targets));
+                new ArrayList<>(JourneySpatial.loadedAt(player.serverLevel(), player.blockPosition(), targets));
         if (found.size() == targets.size()) return found;
         Map<Structure, ResourceLocation> unresolved = new LinkedHashMap<>(targets);
         unresolved.values().removeIf(found::contains);
@@ -118,12 +107,10 @@ public final class JourneyVisits {
                 observation
                         .level
                         .getChunkSource()
-                        .getChunkNow(
-                                observation.position.getX() >> 4, observation.position.getZ() >> 4);
+                        .getChunkNow(observation.position.getX() >> 4, observation.position.getZ() >> 4);
         if (chunk == null) observation.references = true;
         else references(observation, chunk, found);
         if (observation.pending()) {
-            // 相同位置和需求版本只保留一条记录；容量不足时释放被移除记录的区块票据，不取消原版共享的异步请求。
             boolean duplicate =
                     PENDING.stream()
                             .anyMatch(
@@ -133,8 +120,7 @@ public final class JourneyVisits {
                                                     && old.position.equals(observation.position)
                                                     && old.identity.equals(observation.identity));
             if (!duplicate) {
-                if (PENDING.stream().filter(old -> old.player == player).count()
-                        >= MAX_PER_PLAYER) {
+                if (PENDING.stream().filter(old -> old.player == player).count() >= MAX_PER_PLAYER) {
                     for (var old : PENDING)
                         if (old.player == player) {
                             remove(old);
@@ -153,16 +139,10 @@ public final class JourneyVisits {
         return JourneySpatial.loadedAt(level, position, targets);
     }
 
-    private static void references(
-            Observation observation, ChunkAccess origin, List<ResourceLocation> found) {
+    private static void references(Observation observation, ChunkAccess origin, List<ResourceLocation> found) {
         observation.references = false;
         inspectReferences(
-                observation.level,
-                observation.position,
-                observation.targets,
-                origin,
-                observation.missing,
-                found);
+                observation.level, observation.position, observation.targets, origin, observation.missing, found);
     }
 
     private static void inspectReferences(
@@ -177,9 +157,7 @@ public final class JourneyVisits {
             var starts = refs.get(target.getKey());
             if (starts == null) continue;
             for (long packed : starts) {
-                var chunk =
-                        level.getChunkSource()
-                                .getChunkNow(ChunkPos.getX(packed), ChunkPos.getZ(packed));
+                var chunk = level.getChunkSource().getChunkNow(ChunkPos.getX(packed), ChunkPos.getZ(packed));
                 if (chunk == null) {
                     if (missing != null)
                         missing.computeIfAbsent(packed, ignored -> new LinkedHashMap<>())
@@ -190,32 +168,25 @@ public final class JourneyVisits {
                 }
             }
         }
-        // 若已通过加载完成的起点确认同一结构，就不再为其他起点重复申请区块。
         if (missing != null && !found.isEmpty()) {
             missing.values().forEach(values -> values.values().removeIf(found::contains));
             missing.values().removeIf(Map::isEmpty);
         }
     }
 
-    static boolean matches(
-            ServerLevel level, BlockPos position, ChunkAccess chunk, Structure type) {
+    static boolean matches(ServerLevel level, BlockPos position, ChunkAccess chunk, Structure type) {
         var start = chunk.getStartForStructure(type);
         return JourneySpatial.matches(
                 start,
-                level.registryAccess()
-                        .registryOrThrow(net.minecraft.core.registries.Registries.STRUCTURE)
-                        .getKey(type),
+                level.registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.STRUCTURE).getKey(type),
                 position);
     }
 
-    // 仅本模块确认的进度变化可以更新待处理任务的版本，外部修改仍使原任务失效。
-    public static void rebase(
-            ServerPlayer player, LongTravailData.RequirementIdentity before, ItemStack after) {
+    public static void rebase(ServerPlayer player, LongTravailData.RequirementIdentity before, ItemStack after) {
         Identity old = new Identity(before.journey(), before.revision());
         Identity next = Identity.of(after);
         for (Observation observation : PENDING)
-            if (observation.player == player && observation.identity.equals(old))
-                observation.identity = next;
+            if (observation.player == player && observation.identity.equals(old)) observation.identity = next;
     }
 
     private static void complete(Request request) {
@@ -236,8 +207,7 @@ public final class JourneyVisits {
         ItemStack diary = TravailCurios.stack(observation.player);
         var before = LongTravailData.queryIdentity(diary);
         for (ResourceLocation id : found)
-            if (LongTravailData.visitStructure(diary, id))
-                HotPathMetrics.Counter.JOURNEY_CONFIRMED.add(1);
+            if (LongTravailData.visitStructure(diary, id)) HotPathMetrics.Counter.JOURNEY_CONFIRMED.add(1);
         rebase(observation.player, before, diary);
         if (!observation.pending()) remove(observation);
     }
@@ -252,9 +222,7 @@ public final class JourneyVisits {
             } catch (RuntimeException failure) {
                 remove(finished.observation);
                 TheLongTravail.LOGGER.warn(
-                        "Structure visit confirmation failed at {}",
-                        finished.observation.position,
-                        failure);
+                        "Structure visit confirmation failed at {}", finished.observation.position, failure);
             } finally {
                 finished.release();
             }
@@ -279,17 +247,15 @@ public final class JourneyVisits {
                 inFlight = new Request(observation, chunk, observation.references);
             } catch (RuntimeException failure) {
                 remove(observation);
-                TheLongTravail.LOGGER.warn(
-                        "Unable to request structure visit chunk {}", chunk, failure);
+                TheLongTravail.LOGGER.warn("Unable to request structure visit chunk {}", chunk, failure);
             }
-            // 提交请求后立即轮换到下一名观察者，避免包含多个起点的任务独占在途名额。
             break;
         }
     }
 
     private static void cancelRequest(Observation observation) {
         if (inFlight != null && inFlight.observation == observation) inFlight.release();
-        // 未完成的共享请求仍占用在途名额，避免取消和重试导致生成请求无限累积。
+        // 尚未完成的共享请求仍占用在途名额，避免反复取消、重试导致区块生成请求无限累积。
     }
 
     private static void remove(Observation observation) {
@@ -298,8 +264,7 @@ public final class JourneyVisits {
     }
 
     public static void forget(ServerPlayer player) {
-        for (Observation observation : List.copyOf(PENDING))
-            if (observation.player == player) remove(observation);
+        for (Observation observation : List.copyOf(PENDING)) if (observation.player == player) remove(observation);
     }
 
     public static void clear() {

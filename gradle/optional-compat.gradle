@@ -1,14 +1,14 @@
-// Optional APIs used only by com.thelongtravail.compat; never bundled or required at runtime.
+// 可选联动的编译依赖；不内嵌到正式包，也不自动加入开发运行环境。
 dependencies {
     compileOnly fg.deobf('top.theillusivec4.caelus:caelus-forge:3.2.0+1.20.1')
-    compileOnly fg.deobf('maven.modrinth:embeddium:UTbfe5d1') // 0.3.31 for 1.20.1
-    compileOnly fg.deobf('maven.modrinth:jade:xJQHCmWJ') // 11.13.3 Forge
+    compileOnly fg.deobf('maven.modrinth:embeddium:UTbfe5d1') // Minecraft 1.20.1 的 0.3.31 版本。
+    compileOnly fg.deobf('maven.modrinth:jade:xJQHCmWJ') // Forge 的 11.13.3 版本。
     compileOnly fg.deobf('mezz.jei:jei-1.20.1-common-api:15.20.0.132')
     compileOnly fg.deobf('mezz.jei:jei-1.20.1-forge-api:15.20.0.132')
 }
 
-// Fixed Forge 1.20.1 / 1.5.3 artifact; compile-only, never bundled.
-// An explicit local override is available for offline development.
+// 固定使用 Minecraft 1.20.1 Forge 的女仆 1.5.3；默认通过 Maven 获取。
+// 离线开发可用 -PmaidApiJar 指定本地 JAR，不在仓库中保存机器专用路径。
 def maidApiRepo = layout.buildDirectory.dir('optional-api').get().asFile
 maidApiRepo.mkdirs()
 repositories { flatDir { dirs maidApiRepo } }

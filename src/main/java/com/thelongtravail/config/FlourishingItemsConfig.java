@@ -8,17 +8,13 @@ import java.util.*;
 
 public final class FlourishingItemsConfig {
     public static final Map<String, ForgeConfigSpec.DoubleValue> NUMBERS = new LinkedHashMap<>();
-    public static final Map<Flower, ForgeConfigSpec.BooleanValue> ENABLED =
-            new EnumMap<>(Flower.class);
-    public static ForgeConfigSpec.BooleanValue SHARING;
-    public static ForgeConfigSpec.ConfigValue<List<? extends String>> SPRING_SLOTS,
-            AFFECTION_SLOTS,
-            BLACKLIST,
-            EXCLUSIONS;
+    public static final Map<Flower, ForgeConfigSpec.BooleanValue> ENABLED = new EnumMap<>(Flower.class);
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> SPRING_SLOTS, AFFECTION_SLOTS, BLACKLIST;
 
     public static void define(ForgeConfigSpec.Builder b) {
+        FlourishingGrowthConfig.define(b);
         for (Flower f : Flower.values()) {
-            String p = "items.spring_game.flowers." + f.id;
+            String p = "items.spring_corner.flowers." + f.id;
             ENABLED.put(
                     f,
                     b.comment(
@@ -37,7 +33,7 @@ public final class FlourishingItemsConfig {
                     p + "." + value,
                     f.initial,
                     value.equals("level") ? 1 : 0,
-                    value.equals("level") ? 256 : reduction(f) ? 1 : 1000,
+                    value.equals("level") ? 256 : f == Flower.CHERRY_LEAVES ? .9 : reduction(f) ? 1 : 1000,
                     value.equals("level")
                             ? "效果等级；1表示Ⅰ级，小数向下取整。\nEffect level; 1 means level I. Fractional values are rounded down."
                             : value.equals("healing")
@@ -77,14 +73,7 @@ public final class FlourishingItemsConfig {
                 1000000,
                 "生命值恢复间隔，单位：秒；恢复不受饱食度限制。\nInterval between health restorations, in seconds; restoration is not restricted by hunger level.");
         for (String id : List.of("lily_of_the_valley", "wither_rose")) {
-            extra(
-                    b,
-                    id,
-                    "durationSeconds",
-                    4,
-                    .05,
-                    1000000,
-                    "效果持续时间，单位：秒。\nEffect duration, in seconds.");
+            extra(b, id, "durationSeconds", 4, .05, 1000000, "效果持续时间，单位：秒。\nEffect duration, in seconds.");
             extra(
                     b,
                     id,
@@ -121,24 +110,31 @@ public final class FlourishingItemsConfig {
         affinity(
                 b,
                 "servantDamageBonus",
-                1.5,
+                1.0,
                 0,
                 1000,
                 "绑定的伙伴生物可获得的最大伤害加成比例；实际加成随佩戴者已损失生命值占最大生命值的比例线性提高。\nMaximum fractional damage bonus for the bound companion. The actual bonus scales linearly with the fraction of the wearer's maximum health that is missing.");
         affinity(
                 b,
                 "servantDamageReduction",
-                .7,
+                .5,
                 0,
                 1,
                 "绑定的伙伴生物可获得的最大伤害减免比例；实际减免随佩戴者已损失生命值占最大生命值的比例线性提高。\nMaximum fractional damage reduction for the bound companion. The actual reduction scales linearly with the fraction of the wearer's maximum health that is missing.");
         affinity(
                 b,
                 "playerDamageBonus",
-                .5,
+                .4,
                 0,
                 1000,
                 "佩戴者可获得的最大伤害加成比例；实际加成随绑定的伙伴生物已损失生命值占最大生命值的比例线性提高。\nMaximum fractional damage bonus for the wearer. The actual bonus scales linearly with the fraction of the bound companion's maximum health that is missing.");
+        affinity(
+                b,
+                "playerDamageReduction",
+                .3,
+                0,
+                1,
+                "佩戴者可获得的最大伤害减免比例；实际减免随绑定的伙伴生物已损失生命值占最大生命值的比例线性提高。\nMaximum fractional damage reduction for the wearer. The actual reduction scales linearly with the fraction of the bound companion's maximum health that is missing.");
         affinity(
                 b,
                 "playerSpeedBonus",
@@ -152,27 +148,8 @@ public final class FlourishingItemsConfig {
                 32,
                 0,
                 1024,
-                "生效距离，单位：方块；双方必须同维度。\nEffective distance, in blocks; both must be in the same dimension.");
-        affinity(
-                b,
-                "shareFraction",
-                .5,
-                0,
-                1,
-                "佩戴者受到的伤害中，交由绑定的伙伴生物分担的比例；在计算佩戴者的防御减免前分出。\nFraction of incoming damage transferred from the wearer to the bound companion before the wearer's defensive reductions are calculated.");
-        affinity(
-                b,
-                "servantShareMultiplier",
-                .5,
-                0,
-                1,
-                "伙伴生物分担的伤害所乘的倍率；0.5表示将分担伤害减半，再计算伙伴生物自身的防御减免。\nMultiplier applied to the companion's share of damage; 0.5 halves the shared damage before the companion's own defensive reductions are calculated.");
-        SHARING =
-                b.comment(
-                                "是否启用伤害分担；关闭后仍提供双方加成。",
-                                "Enable damage sharing; bonuses for both parties remain active when disabled.")
-                        .define("items.affection.sharing", true);
-        SPRING_SLOTS = slots(b, "spring_game", "head");
+                "生效距离，单位：方块；双方须处于同一维度。\nMaximum distance at which the effects apply, in blocks. Both entities must be in the same dimension.");
+        SPRING_SLOTS = slots(b, "spring_corner", "head");
         AFFECTION_SLOTS = slots(b, "affection", "body");
         BLACKLIST =
                 ids(
@@ -180,44 +157,38 @@ public final class FlourishingItemsConfig {
                         "items.affection.entityBlacklist",
                         List.of(),
                         "禁止绑定的实体类型ID。只使用原版所有权接口识别从属。\nEntity type IDs that cannot be bound. Companions are identified using only vanilla ownership interfaces.");
-        EXCLUSIONS =
-                ids(
-                        b,
-                        "items.affection.sharingExclusions",
-                        List.of(
-                                "minecraft:generic_kill",
-                                "minecraft:out_of_world",
-                                "the_long_travail:fluid_erosion",
-                                "the_long_travail:rose_retaliation"),
-                        "不参与伤害分担的伤害类型ID；直接处死始终排除。\nDamage type IDs excluded from damage sharing; direct killing is always excluded.");
     }
 
     private static boolean reduction(Flower f) {
         return f == Flower.ALLIUM
                 || f == Flower.AZURE_BLUET
                 || f == Flower.WHITE_TULIP
-                || f == Flower.TORCHFLOWER;
+                || f == Flower.TORCHFLOWER
+                || f == Flower.SPORE_BLOSSOM
+                || f == Flower.FLOWERING_AZALEA;
     }
 
     private static String primaryComment(Flower f) {
+        if (f == Flower.CHORUS_FLOWER)
+            return "方块交互距离和近战攻击距离增加的格数；0 表示不提供此项效果。\nAdditional block interaction reach and melee attack reach, in blocks; 0 disables this effect.";
+        if (f == Flower.FLOWERING_AZALEA_LEAVES)
+            return "护甲韧性增加的点数；0表示不提供此项效果。\nAdditional armor toughness points; 0 disables this effect.";
+        if (f == Flower.FLOWERING_AZALEA)
+            return "击退抗性的增加量；0.2表示增加20个百分点，0表示不提供此项效果。\nAdded knockback resistance; 0.2 adds 20 percentage points, and 0 disables this effect.";
         String meaning =
                 switch (f) {
                     case DANDELION ->
                             "食物恢复的饱食度提高的比例；不足1点的部分会保留，并在之后进食时累计计算。\nFractional increase in hunger restored by food. Fractions below 1 point are retained and accumulated across later meals.";
-                    case POPPY, RED_TULIP, SUNFLOWER ->
-                            "造成的伤害提高的比例。\nFractional increase in damage dealt.";
+                    case POPPY, RED_TULIP, SUNFLOWER -> "造成的伤害提高的比例。\nFractional increase in damage dealt.";
                     case BLUE_ORCHID -> "水中移动速度的增加比例。\nFractional increase in swimming speed.";
                     case ALLIUM ->
                             "中毒伤害的减免比例；不影响其他魔法伤害。\nFractional reduction in Poison damage; does not affect other magic damage.";
                     case AZURE_BLUET -> "摔落伤害的减免比例。\nFractional reduction in fall damage.";
                     case ORANGE_TULIP -> "攻击速度的增加比例。\nFractional increase in attack speed.";
                     case WHITE_TULIP -> "受到的伤害降低的比例。\nFractional reduction in damage taken.";
-                    case PINK_TULIP ->
-                            "佩戴者受到的治疗量提高的比例。\nFractional increase in healing received by the wearer.";
-                    case CORNFLOWER ->
-                            "造成的投射物伤害增加比例。\nFractional increase in projectile damage dealt.";
-                    case TORCHFLOWER ->
-                            "火焰、燃烧和熔岩伤害的减免比例。\nFractional reduction in fire, burning, and lava damage.";
+                    case PINK_TULIP -> "佩戴者受到的治疗量提高的比例。\nFractional increase in healing received by the wearer.";
+                    case CORNFLOWER -> "造成的投射物伤害增加比例。\nFractional increase in projectile damage dealt.";
+                    case TORCHFLOWER -> "火焰、燃烧和熔岩伤害的减免比例。\nFractional reduction in fire, burning, and lava damage.";
                     case LILAC ->
                             "施加的中毒、凋零、缓慢和虚弱效果持续时间延长的比例。\nFractional increase in the duration of Poison, Wither, Slowness, and Weakness effects applied.";
                     case ROSE_BUSH ->
@@ -225,49 +196,28 @@ public final class FlourishingItemsConfig {
                     case PEONY -> "最大生命值的增加比例。\nFractional increase in maximum health.";
                     case PITCHER_PLANT ->
                             "每次击杀敌对生物时，恢复量占佩戴者最大生命值的比例。\nHealth restored per hostile mob killed, as a fraction of the wearer's maximum health.";
+                    case CHERRY_LEAVES ->
+                            "重力降低的比例；不直接免除摔落伤害。\nFractional gravity reduction; does not directly prevent fall damage.";
+                    case SPORE_BLOSSOM ->
+                            "新施加的有限时长负面效果持续时间缩短的比例；不影响瞬间或无限持续效果。\nFractional duration reduction for newly applied finite harmful effects; excludes instant and infinite effects.";
                     case PINK_PETALS -> "移动速度的增加比例。\nFractional increase in movement speed.";
                     default -> "效果比例。\nEffect fraction.";
                 };
-        return meaning.replace("\n", "0.1表示10%，0表示不提供此项效果。\n")
-                + " 0.1 means 10%; 0 disables this effect.";
+        return meaning.replace("\n", "0.1表示10%，0表示不提供此项效果。\n") + " 0.1 means 10%; 0 disables this effect.";
     }
 
     private static void number(
-            ForgeConfigSpec.Builder b,
-            String key,
-            String path,
-            double v,
-            double min,
-            double max,
-            String comment) {
+            ForgeConfigSpec.Builder b, String key, String path, double v, double min, double max, String comment) {
         NUMBERS.put(key, b.comment(comment).defineInRange(path, v, min, max));
     }
 
     private static void extra(
-            ForgeConfigSpec.Builder b,
-            String id,
-            String key,
-            double v,
-            double min,
-            double max,
-            String comment) {
-        number(
-                b,
-                "flowers." + id + "." + key,
-                "items.spring_game.flowers." + id + "." + key,
-                v,
-                min,
-                max,
-                comment);
+            ForgeConfigSpec.Builder b, String id, String key, double v, double min, double max, String comment) {
+        number(b, "flowers." + id + "." + key, "items.spring_corner.flowers." + id + "." + key, v, min, max, comment);
     }
 
     private static void affinity(
-            ForgeConfigSpec.Builder b,
-            String key,
-            double v,
-            double min,
-            double max,
-            String comment) {
+            ForgeConfigSpec.Builder b, String key, double v, double min, double max, String comment) {
         number(b, "affection." + key, "items.affection." + key, v, min, max, comment);
     }
 
@@ -285,10 +235,7 @@ public final class FlourishingItemsConfig {
     private static ForgeConfigSpec.ConfigValue<List<? extends String>> ids(
             ForgeConfigSpec.Builder b, String key, List<String> values, String comment) {
         return b.comment(comment)
-                .defineListAllowEmpty(
-                        key,
-                        values,
-                        v -> v instanceof String s && ResourceLocation.tryParse(s) != null);
+                .defineListAllowEmpty(key, values, v -> v instanceof String s && ResourceLocation.tryParse(s) != null);
     }
 
     public static double get(String key) {
@@ -302,9 +249,7 @@ public final class FlourishingItemsConfig {
                         + "."
                         + (f == Flower.OXEYE_DAISY
                                 ? "healing"
-                                : f == Flower.LILY_OF_THE_VALLEY || f == Flower.WITHER_ROSE
-                                        ? "level"
-                                        : "bonus"));
+                                : f == Flower.LILY_OF_THE_VALLEY || f == Flower.WITHER_ROSE ? "level" : "bonus"));
     }
 
     public static double extra(Flower f, String key) {
@@ -316,8 +261,7 @@ public final class FlourishingItemsConfig {
     }
 
     public static boolean shownEnabled(Flower f) {
-        return TooltipConfigSync.decimal("floral.enabled." + f.id, ENABLED.get(f).get() ? 1 : 0)
-                > 0;
+        return TooltipConfigSync.decimal("floral.enabled." + f.id, ENABLED.get(f).get() ? 1 : 0) > 0;
     }
 
     public static int ticks(double seconds) {

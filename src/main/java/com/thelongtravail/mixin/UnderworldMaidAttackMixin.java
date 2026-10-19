@@ -17,9 +17,7 @@ public abstract class UnderworldMaidAttackMixin {
                             target =
                                     "Lnet/minecraft/world/entity/LivingEntity;getMobType()Lnet/minecraft/world/entity/MobType;"))
     private MobType travail$undead(LivingEntity target, Operation<MobType> original) {
-        return target != (Object) this
-                        && com.thelongtravail.compat.maid.MaidAccessories.seesUndead(
-                                (Mob) (Object) this)
+        return target != (Object) this && com.thelongtravail.compat.maid.MaidAccessories.seesUndead((Mob) (Object) this)
                 ? MobType.UNDEAD
                 : original.call(target);
     }

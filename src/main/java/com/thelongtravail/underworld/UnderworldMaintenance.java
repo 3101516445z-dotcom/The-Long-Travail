@@ -7,7 +7,6 @@ import top.theillusivec4.curios.api.CuriosApi;
 import java.util.*;
 import java.util.function.Supplier;
 
-// 深层扫描共用处理额度，复活和反序列化等须立即完成的校正仍由 UnderworldStorage 同步执行。
 public final class UnderworldMaintenance {
     private static final Map<UUID, Deque<NbtReconcileCursor>> SCANS = new LinkedHashMap<>();
     private static final Deque<UUID> ORDER = new ArrayDeque<>();
@@ -22,8 +21,7 @@ public final class UnderworldMaintenance {
         ORDER.remove(id);
     }
 
-    private static void item(
-            UnderworldLedger ledger, Deque<NbtReconcileCursor> work, Supplier<ItemStack> source) {
+    private static void item(UnderworldLedger ledger, Deque<NbtReconcileCursor> work, Supplier<ItemStack> source) {
         ItemStack stack = source.get();
         if (ledger.consumed(stack)) {
             stack.setCount(0);
@@ -36,66 +34,31 @@ public final class UnderworldMaintenance {
     public static void request(ServerPlayer player) {
         var ledger = UnderworldLedger.get(player.server);
         if (!ledger.hasChanges()) return;
-        // 顶层资格每秒仍立即核对，深层遍历不会因下一次请求而被反复重置。
-        var work =
-                SCANS.containsKey(player.getUUID()) ? null : new ArrayDeque<NbtReconcileCursor>();
+        var work = SCANS.containsKey(player.getUUID()) ? null : new ArrayDeque<NbtReconcileCursor>();
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
             int slot = i;
             item(ledger, work, () -> player.getInventory().getItem(slot));
         }
-        CuriosApi.getCuriosInventory(player)
-                .ifPresent(
-                        inv ->
-                                inv.getCurios()
-                                        .forEach(
-                                                (id, handler) -> {
-                                                    for (boolean cosmetic :
-                                                            new boolean[] {false, true}) {
-                                                        var items =
-                                                                cosmetic
-                                                                        ? handler
-                                                                                .getCosmeticStacks()
-                                                                        : handler.getStacks();
-                                                        for (int i = 0; i < items.getSlots(); i++) {
-                                                            int slot = i;
-                                                            item(
-                                                                    ledger,
-                                                                    work,
-                                                                    () ->
-                                                                            CuriosApi
-                                                                                    .getCuriosInventory(
-                                                                                            player)
-                                                                                    .map(
-                                                                                            current ->
-                                                                                                    current.getStacksHandler(
-                                                                                                                    id)
-                                                                                                            .map(
-                                                                                                                    h -> {
-                                                                                                                        var
-                                                                                                                                stacks =
-                                                                                                                                        cosmetic
-                                                                                                                                                ? h
-                                                                                                                                                        .getCosmeticStacks()
-                                                                                                                                                : h
-                                                                                                                                                        .getStacks();
-                                                                                                                        return slot
-                                                                                                                                        < stacks
-                                                                                                                                                .getSlots()
-                                                                                                                                ? stacks
-                                                                                                                                        .getStackInSlot(
-                                                                                                                                                slot)
-                                                                                                                                : ItemStack
-                                                                                                                                        .EMPTY;
-                                                                                                                    })
-                                                                                                            .orElse(
-                                                                                                                    ItemStack
-                                                                                                                            .EMPTY))
-                                                                                    .orElse(
-                                                                                            ItemStack
-                                                                                                    .EMPTY));
-                                                        }
-                                                    }
-                                                }));
+        CuriosApi.getCuriosInventory(player).ifPresent(inv ->
+            inv.getCurios().forEach((id, handler) -> {
+                for (boolean cosmetic : new boolean[] {false, true}) {
+                    var items = cosmetic ? handler.getCosmeticStacks() : handler.getStacks();
+                    for (int i = 0; i < items.getSlots(); i++) {
+                        int slot = i;
+                        item(ledger, work, () ->
+                            CuriosApi.getCuriosInventory(player)
+                                .map(current -> current.getStacksHandler(id)
+                                    .map(h -> {
+                                        var stacks = cosmetic ? h.getCosmeticStacks() : h.getStacks();
+                                        return slot < stacks.getSlots()
+                                            ? stacks.getStackInSlot(slot)
+                                            : ItemStack.EMPTY;
+                                    })
+                                    .orElse(ItemStack.EMPTY))
+                                .orElse(ItemStack.EMPTY));
+                    }
+                }
+            }));
         if (work == null) return;
         work.add(new NbtReconcileCursor(player::getPersistentData));
         SCANS.put(player.getUUID(), work);
@@ -115,10 +78,7 @@ public final class UnderworldMaintenance {
                 SCANS.remove(id);
                 continue;
             }
-            for (int n = 0;
-                    n < 64 && budget > 0 && !work.isEmpty() && System.nanoTime() < deadline;
-                    n++, budget--) {
-                // 根节点也轮换：持续替换的物品不能阻塞其他槽位和玩家持久数据。
+            for (int n = 0; n < 64 && budget > 0 && !work.isEmpty() && System.nanoTime() < deadline; n++, budget--) {
                 var cursor = work.removeFirst();
                 if (cursor.step(ledger)) work.addLast(cursor);
             }

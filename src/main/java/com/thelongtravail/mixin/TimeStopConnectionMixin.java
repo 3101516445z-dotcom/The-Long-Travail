@@ -23,9 +23,7 @@ public abstract class TimeStopConnectionMixin {
         if (!packet.hasPosition() || TimeStopManager.frozen(player)) return packet;
         var desired =
                 new net.minecraft.world.phys.Vec3(
-                        packet.getX(player.getX()),
-                        packet.getY(player.getY()),
-                        packet.getZ(player.getZ()));
+                        packet.getX(player.getX()), packet.getY(player.getY()), packet.getZ(player.getZ()));
         var delta = desired.subtract(player.position());
         var allowed = TimeStopManager.clip(player, delta);
         if (allowed.equals(delta)) return packet;
@@ -61,8 +59,7 @@ public abstract class TimeStopConnectionMixin {
         net.minecraft.network.protocol.PacketUtils.ensureRunningOnSameThread(
                 p, (ServerGamePacketListenerImpl) (Object) this, player.serverLevel());
         if (TimeStopManager.frozen(player)
-                || player.getVehicle() != null && TimeStopManager.frozen(player.getVehicle()))
-            ci.cancel();
+                || player.getVehicle() != null && TimeStopManager.frozen(player.getVehicle())) ci.cancel();
     }
 
     @Inject(method = "handleUseItem", at = @At("HEAD"), cancellable = true)
@@ -79,11 +76,8 @@ public abstract class TimeStopConnectionMixin {
         if (TimeStopManager.frozen(player)
                 || TimeStopManager.frozen(player.level(), p.getHitResult().getBlockPos())
                 || TimeStopManager.frozen(
-                        player.level(),
-                        p.getHitResult().getBlockPos().relative(p.getHitResult().getDirection()))) {
-            player.connection.send(
-                    new ClientboundBlockUpdatePacket(
-                            player.level(), p.getHitResult().getBlockPos()));
+                        player.level(), p.getHitResult().getBlockPos().relative(p.getHitResult().getDirection()))) {
+            player.connection.send(new ClientboundBlockUpdatePacket(player.level(), p.getHitResult().getBlockPos()));
             ci.cancel();
         }
     }
@@ -114,8 +108,7 @@ public abstract class TimeStopConnectionMixin {
                     public void onInteraction(net.minecraft.world.InteractionHand hand) {}
 
                     public void onInteraction(
-                            net.minecraft.world.InteractionHand hand,
-                            net.minecraft.world.phys.Vec3 pos) {}
+                            net.minecraft.world.InteractionHand hand, net.minecraft.world.phys.Vec3 pos) {}
 
                     public void onAttack() {
                         attack[0] = true;
@@ -133,8 +126,7 @@ public abstract class TimeStopConnectionMixin {
                 p, (ServerGamePacketListenerImpl) (Object) this, player.serverLevel());
         if (TimeStopManager.frozen(player)
                 || player.containerMenu != player.inventoryMenu
-                        && com.thelongtravail.boundless.FrozenContainers.frozen(
-                                player.containerMenu)) {
+                        && com.thelongtravail.boundless.FrozenContainers.frozen(player.containerMenu)) {
             player.containerMenu.sendAllDataToRemote();
             ci.cancel();
         }
@@ -146,8 +138,7 @@ public abstract class TimeStopConnectionMixin {
                 p, (ServerGamePacketListenerImpl) (Object) this, player.serverLevel());
         if (TimeStopManager.frozen(player)
                 || player.containerMenu != player.inventoryMenu
-                        && com.thelongtravail.boundless.FrozenContainers.frozen(
-                                player.containerMenu)) ci.cancel();
+                        && com.thelongtravail.boundless.FrozenContainers.frozen(player.containerMenu)) ci.cancel();
     }
 
     @Inject(method = "handlePlayerCommand", at = @At("HEAD"), cancellable = true)

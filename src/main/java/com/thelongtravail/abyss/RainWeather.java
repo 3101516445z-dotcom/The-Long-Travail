@@ -7,7 +7,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.ServerLevelData;
 
-// 每个主世界统一保存天气托管状态，玩家仅保存冷却，不持有天气快照。
 public final class RainWeather extends SavedData {
     private int remaining, clearTime, rainTime, thunderTime;
     private boolean raining, thundering;
@@ -59,8 +58,7 @@ public final class RainWeather extends SavedData {
     }
 
     public void start(ServerLevel level, int ticks) {
-        if (!level.dimension().equals(Level.OVERWORLD))
-            throw new IllegalArgumentException("Overworld weather only");
+        if (!level.dimension().equals(Level.OVERWORLD)) throw new IllegalArgumentException("Overworld weather only");
         ServerLevelData d = (ServerLevelData) level.getLevelData();
         if (!active()) {
             clearTime = d.getClearWeatherTime();
@@ -86,7 +84,6 @@ public final class RainWeather extends SavedData {
         d.setThunderTime(remaining);
     }
 
-    // 仅暂停自然天气计时，天气强度仍由原版更新和同步。
     public boolean advance(ServerLevel level) {
         if (!active()) return false;
         if (!RainConfig.SKILL_ENABLED.get()) {
@@ -109,7 +106,6 @@ public final class RainWeather extends SavedData {
         d.setThunderTime(thunderTime);
         d.setRaining(raining);
         d.setThundering(thundering);
-        // 保留当前视觉强度，由原版按恢复后的天气标志逐渐过渡。
         setDirty();
         RainEvents.syncWorld(level);
     }
@@ -130,12 +126,10 @@ public final class RainWeather extends SavedData {
     }
 
     public static boolean dry(Level level) {
-        return active(level)
-                && (level.isClientSide ? RainState.clientDry : RainConfig.DRY_RAIN.get());
+        return active(level) && (level.isClientSide ? RainState.clientDry : RainConfig.DRY_RAIN.get());
     }
 
     public static boolean snow(Level level) {
-        return active(level)
-                && (level.isClientSide ? RainState.clientSnow : RainConfig.SNOW_RAIN.get());
+        return active(level) && (level.isClientSide ? RainState.clientSnow : RainConfig.SNOW_RAIN.get());
     }
 }

@@ -3,7 +3,6 @@ package com.thelongtravail.compat.caelus;
 import net.minecraft.world.entity.LivingEntity;
 import top.theillusivec4.caelus.api.CaelusApi;
 
-// 入口不要求 Caelus；仅在检测到它后加载内部 API 调用类。
 public final class IcarusCaelusCompat {
     private IcarusCaelusCompat() {}
 

@@ -47,16 +47,14 @@ public final class TravailConfig {
     public static final Map<String, ForgeConfigSpec> SPECS;
     public static final ForgeConfigSpec.BooleanValue GIVE_STARTER_ITEM;
     public static final ForgeConfigSpec.BooleanValue MUTE_BENEFICIAL_EFFECT_GAIN_SOUNDS;
-    public static final Map<TravailAspect, ForgeConfigSpec.ConfigValue<List<? extends String>>>
-            BIOME_POOLS = new EnumMap<>(TravailAspect.class);
-    public static final Map<TravailAspect, ForgeConfigSpec.ConfigValue<List<? extends String>>>
-            STRUCTURE_POOLS = new EnumMap<>(TravailAspect.class);
+    public static final Map<TravailAspect, ForgeConfigSpec.ConfigValue<List<? extends String>>> BIOME_POOLS =
+            new EnumMap<>(TravailAspect.class);
+    public static final Map<TravailAspect, ForgeConfigSpec.ConfigValue<List<? extends String>>> STRUCTURE_POOLS =
+            new EnumMap<>(TravailAspect.class);
 
     public static final ForgeConfigSpec.IntValue BIOME_DRAW_COUNT;
     public static final ForgeConfigSpec.IntValue STRUCTURE_DRAW_COUNT;
-    public static final ForgeConfigSpec.IntValue WAYGUIDE_RADIUS,
-            WAYGUIDE_BIOME_SPACING,
-            WAYGUIDE_HEIGHT_SPACING;
+    public static final ForgeConfigSpec.IntValue WAYGUIDE_RADIUS, WAYGUIDE_BIOME_SPACING, WAYGUIDE_HEIGHT_SPACING;
     public static final ForgeConfigSpec.IntValue WAYGUIDE_GUIDE_DURATION_SECONDS;
     public static final ForgeConfigSpec.IntValue WAYGUIDE_SAMPLES_PER_TICK,
             WAYGUIDE_MAX_SAMPLES,
@@ -78,8 +76,7 @@ public final class TravailConfig {
     public static final ForgeConfigSpec.DoubleValue FAR_ATTACK_CLEAR_CHANCE;
     public static final ForgeConfigSpec.DoubleValue FAR_ATTACK_COOLDOWN_SECONDS;
     public static final ForgeConfigSpec.IntValue FAR_WITNESS_LEVEL_BONUS;
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>>
-            FAR_WITNESS_LEVEL_BLACKLIST;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> FAR_WITNESS_LEVEL_BLACKLIST;
     public static final ForgeConfigSpec.IntValue FAR_WITNESS_FALLBACK_MAX_LEVEL;
     public static final ForgeConfigSpec.DoubleValue FAR_WITNESS_INTERVAL_SECONDS;
     public static final ForgeConfigSpec.IntValue FAR_WITNESS_ACTION_COUNT;
@@ -108,10 +105,8 @@ public final class TravailConfig {
     public static final ForgeConfigSpec.IntValue PHANTOM_RANGE;
     public static final ForgeConfigSpec.DoubleValue PHANTOM_CHECK_INTERVAL_SECONDS;
 
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>>
-            FAR_REACH_POSITIVE_EFFECTS;
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>>
-            DEEP_VALLEY_POSITIVE_EFFECTS;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> FAR_REACH_POSITIVE_EFFECTS;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> DEEP_VALLEY_POSITIVE_EFFECTS;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> FISH_SPECIAL_ITEMS;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> FISH_ENTITIES;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> PHANTOM_DROPS;
@@ -130,8 +125,8 @@ public final class TravailConfig {
                         .define("compatibility.muteBeneficialEffectGainSounds", true);
         GIVE_STARTER_ITEM =
                 builder.comment(
-                                "玩家首次进入世界时是否赠送一个“苦旅”；每名玩家最多赠送一次。",
-                                "Give a player one The Long Travail item when they first enter the world; at most once per player.")
+                                "玩家首次进入世界时，是否赠送一本苦旅；每名玩家最多领取一次。",
+                                "Give each player a copy of The Long Travail when they first enter the world, at most once per player.")
                         .define("starter.giveStarterItem", true);
         BIOME_DRAW_COUNT =
                 integer(
@@ -155,9 +150,7 @@ public final class TravailConfig {
                 builder.comment(
                                 "受击恶意的触发方式：ATTACK_ATTEMPT 表示受到攻击时触发；\nHEALTH_LOSS 表示实际生命值减少后才触发，不含吸收生命值的损失。",
                                 "Trigger mode for on-hit Malice: ATTACK_ATTEMPT triggers when attacked; HEALTH_LOSS triggers only after actual health loss, excluding absorption loss.")
-                        .defineEnum(
-                                "receivedMalice.receivedMaliceTrigger",
-                                ReceivedTrigger.ATTACK_ATTEMPT);
+                        .defineEnum("receivedMalice.receivedMaliceTrigger", ReceivedTrigger.ATTACK_ATTEMPT);
         RECEIVED_COOLDOWN =
                 integer(
                         builder,
@@ -185,13 +178,9 @@ public final class TravailConfig {
                                 List.of(),
                                 value ->
                                         value instanceof String id
-                                                && net.minecraft.resources.ResourceLocation
-                                                                .tryParse(id)
-                                                        != null);
+                                                && net.minecraft.resources.ResourceLocation.tryParse(id) != null);
 
-        builder =
-                builders.computeIfAbsent(
-                        "utility_items.toml", key -> new ForgeConfigSpec.Builder());
+        builder = builders.computeIfAbsent("utility_items.toml", key -> new ForgeConfigSpec.Builder());
         WAYGUIDE_GUIDE_DURATION_SECONDS =
                 integer(
                         builder,
@@ -235,8 +224,8 @@ public final class TravailConfig {
                         32,
                         4,
                         256,
-                        "群系的垂直采样间距，单位：方块；始终额外检查玩家所在高度。",
-                        "Vertical biome sample spacing, in blocks. The player's height is always checked in addition.");
+                        "群系采样的垂直间距，单位：方块；无论间距如何，都会额外检查玩家所在高度。",
+                        "Vertical spacing between biome samples, in blocks. The player's height is always checked as well.");
         WAYGUIDE_SAMPLES_PER_TICK =
                 integer(
                         builder,
@@ -308,9 +297,7 @@ public final class TravailConfig {
                         "LIMIT模式下，每次奖励最多发放的物品堆数。",
                         "Maximum item stacks delivered per reward in LIMIT mode.");
 
-        builder =
-                builders.computeIfAbsent(
-                        "aspects/flourishing.toml", key -> new ForgeConfigSpec.Builder());
+        builder = builders.computeIfAbsent("aspects/flourishing.toml", key -> new ForgeConfigSpec.Builder());
         MAX_HEALING_BONUS =
                 integer(
                         builder,
@@ -368,9 +355,7 @@ public final class TravailConfig {
                         "minecraft:savanna|@biome.minecraft.savanna|1"),
                 List.of());
 
-        builder =
-                builders.computeIfAbsent(
-                        "aspects/abyss.toml", key -> new ForgeConfigSpec.Builder());
+        builder = builders.computeIfAbsent("aspects/abyss.toml", key -> new ForgeConfigSpec.Builder());
         ABYSS_FLUID_DAMAGE =
                 decimal(
                         builder,
@@ -378,8 +363,8 @@ public final class TravailConfig {
                         1.0D,
                         0.0D,
                         1_000_000.0D,
-                        "每次流体伤害造成的真实伤害值。",
-                        "True damage dealt by each fluid damage trigger.");
+                        "每次流体侵蚀造成的真实伤害值。",
+                        "True damage dealt by each fluid erosion trigger.");
         ABYSS_FLUID_INTERVAL_SECONDS =
                 decimal(
                         builder,
@@ -414,24 +399,19 @@ public final class TravailConfig {
                         0.50D,
                         0.0D,
                         1.0D,
-                        "归墟之见证在流体中取消伤害的概率。",
-                        "Abyss Witness chance to negate damage while in fluid.");
+                        "归墟之见证生效时，身处流体中取消伤害的概率。",
+                        "Chance for Abyss Witness to negate damage while the player is in fluid.");
         FLUID_EROSION_UNAVOIDABLE =
                 builder.comment(
                                 "是否防止流体真实伤害在攻击、受伤和伤害结算事件中被取消或降为零，并保留苦旅自身倍率计算后的伤害下限。\nPrevent fluid true damage from being canceled or reduced to zero in attack, hurt, and damage-calculation events, and preserve a damage floor after The Long Travail's own multipliers are applied.",
                                 "仍遵守苦旅自身的免伤和输出限制，不绕过伤害事件之前的无敌判定、图腾或死亡事件。关闭后仍保留流体伤害原有的护甲等穿透规则。",
-                                "Still follows The Long Travail's own damage immunity and output limits. Does not bypass invulnerability checks before damage events, totems, or death events. Disabling this preserves fluid damage's existing armor and other bypass rules.",
-                                "Respects Travail immunity/output restrictions; does not bypass earlier entity checks, totems or death events. Damage-type bypass tags remain when disabled.")
+                                "Still follows The Long Travail's own damage immunity and output limits. Does not bypass invulnerability checks before damage events, totems, or death events. Disabling this preserves fluid damage's existing armor and other bypass rules.")
                         .define("travail.malice.fluidErosionUnavoidable", true);
         FLUID_PROTECTION =
                 builder.comment(
                                 "ENFORCED：防止事件取消伤害，并保留伤害下限。\nRESPECT_CANCELLATION：允许事件取消伤害；伤害未被取消时，保留下限。\nSTANDARD：允许事件取消伤害或降低伤害。\nENFORCED: prevent events from canceling damage and preserve a damage floor.\nRESPECT_CANCELLATION: allow events to cancel damage; preserve the floor if damage is not canceled.\nSTANDARD: allow events to cancel or reduce damage.",
-                                "fluidErosionUnavoidable=false 时，始终使用 STANDARD。\n所有模式均保留流体伤害原有的护甲和吸收生命值穿透规则。\nWhen fluidErosionUnavoidable=false, STANDARD is always used. All modes retain fluid damage's existing armor and absorption bypass rules.",
-                                "ENFORCED prevents event cancellation and enforces the damage floor. RESPECT_CANCELLATION allows cancellation, but retains the floor if not cancelled. STANDARD allows cancellation or damage reduction.",
-                                "When fluidErosionUnavoidable=false, STANDARD always applies. All modes retain the original armor and absorption bypass rules.")
-                        .defineEnum(
-                                "travail.malice.fluidErosionProtectionMode",
-                                FluidProtection.ENFORCED);
+                                "fluidErosionUnavoidable=false 时，始终使用 STANDARD。\n所有模式均保留流体伤害原有的护甲和吸收生命值穿透规则。\nWhen fluidErosionUnavoidable=false, STANDARD is always used. All modes retain fluid damage's existing armor and absorption bypass rules.")
+                        .defineEnum("travail.malice.fluidErosionProtectionMode", FluidProtection.ENFORCED);
         defineRequirements(
                 builder,
                 TravailAspect.ABYSS,
@@ -447,9 +427,7 @@ public final class TravailConfig {
                         "minecraft:deep_frozen_ocean|@biome.minecraft.deep_frozen_ocean|1"),
                 List.of());
 
-        builder =
-                builders.computeIfAbsent(
-                        "aspects/far_reach.toml", key -> new ForgeConfigSpec.Builder());
+        builder = builders.computeIfAbsent("aspects/far_reach.toml", key -> new ForgeConfigSpec.Builder());
         FAR_ALL_CLEAR_CHANCE =
                 decimal(
                         builder,
@@ -544,13 +522,9 @@ public final class TravailConfig {
         FAR_REACH_POSITIVE_EFFECTS =
                 builder.comment("格式：效果ID|最高等级|权重", "Format: effect_id|max_level|weight")
                         .defineListAllowEmpty(
-                                "travail.witness.positiveEffects",
-                                defaultEffects(),
-                                TravailConfig::validEffectEntry);
+                                "travail.witness.positiveEffects", defaultEffects(), TravailConfig::validEffectEntry);
 
-        builder =
-                builders.computeIfAbsent(
-                        "aspects/deep_valley.toml", key -> new ForgeConfigSpec.Builder());
+        builder = builders.computeIfAbsent("aspects/deep_valley.toml", key -> new ForgeConfigSpec.Builder());
         VALLEY_VISUAL_DEPRIVATION_CHANCE =
                 decimal(
                         builder,
@@ -664,13 +638,9 @@ public final class TravailConfig {
         DEEP_VALLEY_POSITIVE_EFFECTS =
                 builder.comment("格式：效果ID|最高等级|权重", "Format: effect_id|max_level|weight")
                         .defineListAllowEmpty(
-                                "travail.witness.positiveEffects",
-                                defaultEffects(),
-                                TravailConfig::validEffectEntry);
+                                "travail.witness.positiveEffects", defaultEffects(), TravailConfig::validEffectEntry);
 
-        builder =
-                builders.computeIfAbsent(
-                        "aspects/underworld.toml", key -> new ForgeConfigSpec.Builder());
+        builder = builders.computeIfAbsent("aspects/underworld.toml", key -> new ForgeConfigSpec.Builder());
         UNDERWORLD_DAMAGE_REDUCTION =
                 decimal(
                         builder,
@@ -771,9 +741,7 @@ public final class TravailConfig {
                                         "minecraft:turtle|1"),
                                 TravailConfig::validWeightedEntry);
 
-        builder =
-                builders.computeIfAbsent(
-                        "aspects/boundless.toml", key -> new ForgeConfigSpec.Builder());
+        builder = builders.computeIfAbsent("aspects/boundless.toml", key -> new ForgeConfigSpec.Builder());
         BOUNDLESS_HEIGHT_THRESHOLD =
                 decimal(
                         builder,
@@ -781,8 +749,8 @@ public final class TravailConfig {
                         100.0D,
                         0.0D,
                         1_000_000.0D,
-                        "玩家Y坐标高于此值时，降低移动速度。\nReduce movement speed when the player's Y coordinate is above this value.",
-                        "Y-coordinate threshold above which the speed penalty applies.");
+                        "玩家的 Y 坐标高于此值时，降低移动速度。",
+                        "Reduce movement speed when the player's Y coordinate exceeds this threshold.");
         BOUNDLESS_SPEED_REDUCTION =
                 decimal(
                         builder,
@@ -850,62 +818,43 @@ public final class TravailConfig {
                                 defaultRewardItems(),
                                 TravailConfig::validRewardEntry);
 
-        builder =
-                builders.computeIfAbsent(
-                        "aspects/deep_valley.toml", key -> new ForgeConfigSpec.Builder());
+        builder = builders.computeIfAbsent("aspects/deep_valley.toml", key -> new ForgeConfigSpec.Builder());
         VISUAL_DARKENING =
                 builder.comment(
                                 "世界画面的整体变暗比例；0表示不变暗，1表示全黑。",
                                 "Overall world darkening fraction; 0 leaves the view unchanged, and 1 makes it completely black.")
-                        .defineInRange(
-                                "travail.visualDeprivation.worldDarkening", 0.65D, 0.0D, 1.0D);
+                        .defineInRange("travail.visualDeprivation.worldDarkening", 0.65D, 0.0D, 1.0D);
         VISUAL_OPACITY =
-                builder.comment(
-                                "屏幕外围的遮蔽强度；0表示关闭外围遮蔽。",
-                                "Strength of the peripheral screen mask; 0 disables it.")
-                        .defineInRange(
-                                "travail.visualDeprivation.peripheralOpacity", 0.98D, 0.0D, 1.0D);
+                builder.comment("屏幕外围的遮蔽强度；0表示关闭外围遮蔽。", "Strength of the peripheral screen mask; 0 disables it.")
+                        .defineInRange("travail.visualDeprivation.peripheralOpacity", 0.98D, 0.0D, 1.0D);
         VISUAL_RADIUS =
                 builder.comment(
                                 "屏幕中央清晰区域的椭圆半径；1表示横向和纵向均延伸至屏幕边缘，不改变实际视野角度（FOV）。",
                                 "Elliptical radius of the clear central area. 1 reaches the screen edges horizontally and vertically. Does not change the actual field of view (FOV).")
                         .defineInRange("travail.visualDeprivation.clearRadius", 0.45D, 0.0D, 2.0D);
         VISUAL_SOFTNESS =
-                builder.comment(
-                                "外围遮蔽边缘的过渡宽度。",
-                                "Transition width at the edge of the peripheral mask.")
-                        .defineInRange(
-                                "travail.visualDeprivation.edgeSoftness", 0.45D, 0.01D, 2.0D);
+                builder.comment("外围遮蔽边缘的过渡宽度。", "Transition width at the edge of the peripheral mask.")
+                        .defineInRange("travail.visualDeprivation.edgeSoftness", 0.45D, 0.01D, 2.0D);
         VISUAL_DISTANCE_START =
                 builder.comment(
                                 "距离雾的起始距离，单位：方块；自动限制为不超过结束距离。",
                                 "Distance at which the distance veil starts, in blocks, automatically capped at its end distance.")
-                        .defineInRange(
-                                "travail.visualDeprivation.distanceVeilStart",
-                                1.25D,
-                                0.0D,
-                                1024.0D);
+                        .defineInRange("travail.visualDeprivation.distanceVeilStart", 1.25D, 0.0D, 1024.0D);
         VISUAL_DISTANCE_END =
                 builder.comment(
                                 "距离雾的结束距离，单位：方块；使用光影包时，显示效果可能不同。",
                                 "Distance at which the distance veil ends, in blocks. Shader packs may change its appearance.")
-                        .defineInRange(
-                                "travail.visualDeprivation.distanceVeilEnd", 5.0D, 0.1D, 4096.0D);
+                        .defineInRange("travail.visualDeprivation.distanceVeilEnd", 5.0D, 0.1D, 4096.0D);
         VISUAL_PULSE_PERIOD =
-                builder.comment(
-                                "视觉强度的波动周期，单位：秒。",
-                                "Period of visual intensity fluctuations, in seconds.")
-                        .defineInRange(
-                                "travail.visualDeprivation.pulsePeriodSeconds", 4.0D, 0.1D, 120.0D);
+                builder.comment("视觉强度的波动周期，单位：秒。", "Period of visual intensity fluctuations, in seconds.")
+                        .defineInRange("travail.visualDeprivation.pulsePeriodSeconds", 4.0D, 0.1D, 120.0D);
         VISUAL_PULSE_DEPTH =
                 builder.comment(
                                 "视觉强度的波动幅度；0表示不波动，0.2表示在80%至100%强度之间波动。",
                                 "Amplitude of visual intensity fluctuations; 0 disables fluctuations, and 0.2 varies intensity between 80% and 100%.")
                         .defineInRange("travail.visualDeprivation.pulseDepth", 0.0D, 0.0D, 1.0D);
         VISUAL_DISTANCE_ENABLED =
-                builder.comment(
-                                "启用距离雾；关闭后仍保留屏幕遮蔽。",
-                                "Enable the distance veil. Disabling it preserves screen masking.")
+                builder.comment("启用距离雾；关闭后仍保留屏幕遮蔽。", "Enable the distance veil. Disabling it preserves screen masking.")
                         .define("travail.visualDeprivation.distanceVeilEnabled", true);
         VISUAL_PULSE_RADIUS =
                 builder.comment(
@@ -923,12 +872,14 @@ public final class TravailConfig {
                                 "Time for the visual mask to fade after Visual Deprivation is actively removed, for example by drinking milk, in game ticks. The status effect itself is removed immediately.")
                         .defineInRange("travail.visualDeprivation.clearFadeOutTicks", 4, 0, 100);
 
+        CarryingConfig.define(builders.get("general.toml"));
         BoundlessItemsConfig.define(builders.get("aspects/boundless.toml"));
         RainConfig.define(builders.get("aspects/abyss.toml"));
+        AbyssItemsConfig.define(builders.get("aspects/abyss.toml"));
         UnderworldItemsConfig.define(builders.get("aspects/underworld.toml"));
         AzraelConfig.define(builders.get("aspects/deep_valley.toml"));
-        com.thelongtravail.valley.SwordLanternConfig.define(
-                builders.get("aspects/deep_valley.toml"));
+        DeepValleyItemsConfig.define(builders.get("aspects/deep_valley.toml"));
+        com.thelongtravail.valley.SwordLanternConfig.define(builders.get("aspects/deep_valley.toml"));
         FlourishingItemsConfig.define(builders.get("aspects/flourishing.toml"));
         FarReachItemsConfig.define(builders.get("aspects/far_reach.toml"));
         ModeEffectRules.define(builders);
@@ -942,10 +893,7 @@ public final class TravailConfig {
     }
 
     private static void defineRequirements(
-            ForgeConfigSpec.Builder builder,
-            TravailAspect aspect,
-            List<String> biomes,
-            List<String> structures) {
+            ForgeConfigSpec.Builder builder, TravailAspect aspect, List<String> biomes, List<String> structures) {
         BIOME_POOLS.put(
                 aspect,
                 builder.comment(
@@ -954,9 +902,7 @@ public final class TravailConfig {
                                 "Format: biome_id|display_name|positive_integer_weight. Example: minecraft:plains|Plains|1.",
                                 "See Configuration Guide.txt in the parent directory for details.")
                         .defineListAllowEmpty(
-                                "travail.requirements.biomes",
-                                biomes,
-                                TravailConfig::validRequirementEntry));
+                                "travail.requirements.biomes", biomes, TravailConfig::validRequirementEntry));
         STRUCTURE_POOLS.put(
                 aspect,
                 builder.comment(
@@ -965,9 +911,7 @@ public final class TravailConfig {
                                 "Format: structure_id|display_name|positive_integer_weight. Example: minecraft:stronghold|Stronghold|1.",
                                 "See Configuration Guide.txt in the parent directory for details.")
                         .defineListAllowEmpty(
-                                "travail.requirements.structures",
-                                structures,
-                                TravailConfig::validRequirementEntry));
+                                "travail.requirements.structures", structures, TravailConfig::validRequirementEntry));
     }
 
     private static List<String> defaultEffects() {

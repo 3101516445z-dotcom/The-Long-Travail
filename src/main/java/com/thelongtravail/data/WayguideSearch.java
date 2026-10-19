@@ -35,7 +35,6 @@ import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-// 仅在服务端游戏线程工作；全服共享采样、时间和候选区块读取预算。
 public final class WayguideSearch {
     private record Journey(UUID id, long revision) {
         static Journey of(ItemStack diary) {
@@ -47,11 +46,7 @@ public final class WayguideSearch {
     private record Target(ResourceLocation id, BlockPos pos) {}
 
     private record Cached(
-            Journey journey,
-            ResourceKey<Level> dimension,
-            BlockPos origin,
-            Target target,
-            long expires) {}
+            Journey journey, ResourceKey<Level> dimension, BlockPos origin, Target target, long expires) {}
 
     private static final Map<UUID, Task> TASKS = new HashMap<>();
     private static final Map<UUID, Cached> CACHE = new HashMap<>();
@@ -59,8 +54,7 @@ public final class WayguideSearch {
     private static final List<ChunkRequest> REQUESTS = new ArrayList<>();
     private static final TicketType<UUID> SEARCH_TICKET =
             TicketType.create("the_long_travail_wayguide", UUID::compareTo);
-    private static final int TICKET_DISTANCE =
-            33 - ChunkLevel.byStatus(ChunkStatus.STRUCTURE_STARTS);
+    private static final int TICKET_DISTANCE = 33 - ChunkLevel.byStatus(ChunkStatus.STRUCTURE_STARTS);
 
     public static void clear() {
         for (Task task : List.copyOf(TASKS.values())) cancel(task, null);
@@ -92,16 +86,12 @@ public final class WayguideSearch {
         ItemStack diary = TravailCurios.stack(player);
         if (diary.isEmpty()) return fail(player, "unavailable");
         if (!LongTravailData.tryInitialize(diary, player)) return fail(player, "invalid");
-        // 不在右键路径中同步读取结构区块；普通到访检测由原有玩家周期任务负责。
         if (TASKS.containsKey(player.getUUID())) return fail(player, "busy");
         if (player.getCooldowns().isOnCooldown(ModRegistry.WAYGUIDE.get())) return false;
-        // 脚下群系只读已加载区块；既不触发加载，也不等待原来的整组结构到访查询。
         var loaded =
                 player.serverLevel()
                         .getChunkSource()
-                        .getChunkNow(
-                                player.blockPosition().getX() >> 4,
-                                player.blockPosition().getZ() >> 4);
+                        .getChunkNow(player.blockPosition().getX() >> 4, player.blockPosition().getZ() >> 4);
         if (loaded != null)
             loaded.getNoiseBiome(
                             QuartPos.fromBlock(player.getBlockX()),
@@ -124,10 +114,7 @@ public final class WayguideSearch {
         if (!cacheHit) CACHE.remove(player.getUUID());
         long accepted = System.nanoTime();
         Scanner scanner =
-                cacheHit
-                        ? new CachedScanner(
-                                player.serverLevel(), player.blockPosition(), cached.target)
-                        : null;
+                cacheHit ? new CachedScanner(player.serverLevel(), player.blockPosition(), cached.target) : null;
         ItemStack held = player.getItemInHand(hand);
         if (!held.is(ModRegistry.WAYGUIDE.get()) || held.isEmpty()) return false;
         var entity = ModRegistry.WAYGUIDE_ENTITY.get().create(player.serverLevel());
@@ -145,7 +132,6 @@ public final class WayguideSearch {
         return true;
     }
 
-    // 每次推进一个目标或放置项；不在右键路径读取生成器放置数据。
     private static final class Preparation {
         final ServerLevel level;
         ItemStack diary;
@@ -189,15 +175,12 @@ public final class WayguideSearch {
                 }
             } else if (phase == 2) {
                 if (placements.hasNext()) {
-                    groups.computeIfAbsent(placements.next(), p -> new ArrayList<>())
-                            .add(structure);
+                    groups.computeIfAbsent(placements.next(), p -> new ArrayList<>()).add(structure);
                 } else if (targets.hasNext()) {
                     structure =
                             level.registryAccess()
                                     .registryOrThrow(Registries.STRUCTURE)
-                                    .getHolder(
-                                            ResourceKey.create(
-                                                    Registries.STRUCTURE, targets.next()))
+                                    .getHolder(ResourceKey.create(Registries.STRUCTURE, targets.next()))
                                     .orElse(null);
                     if (structure != null)
                         placements =
@@ -214,12 +197,7 @@ public final class WayguideSearch {
             } else if (cursors.hasNext()) {
                 var entry = cursors.next();
                 structureScanner.placements.add(
-                        new PlacementCursor(
-                                level,
-                                origin,
-                                structureScanner.radius,
-                                entry.getKey(),
-                                entry.getValue()));
+                        new PlacementCursor(level, origin, structureScanner.radius, entry.getKey(), entry.getValue()));
             } else {
                 result = structureScanner;
                 finished = true;
@@ -240,20 +218,14 @@ public final class WayguideSearch {
         final long startTick;
         int samples;
 
-        Task(
-                ServerPlayer player,
-                ItemStack diary,
-                Scanner scanner,
-                WayguideEntity entity,
-                long accepted) {
+        Task(ServerPlayer player, ItemStack diary, Scanner scanner, WayguideEntity entity, long accepted) {
             this.player = player;
             this.entity = entity;
             this.journey = Journey.of(diary);
             this.dimension = player.level().dimension();
             this.origin = player.blockPosition().immutable();
             this.scanner = scanner;
-            if (scanner == null)
-                this.preparation = new Preparation(player.serverLevel(), diary, origin);
+            if (scanner == null) this.preparation = new Preparation(player.serverLevel(), diary, origin);
             this.maxSamples = TravailConfig.WAYGUIDE_MAX_SAMPLES.get();
             this.started = accepted;
             this.timeout = TravailConfig.WAYGUIDE_TIMEOUT_SECONDS.get() * 1_000_000_000L;
@@ -270,7 +242,6 @@ public final class WayguideSearch {
                             && journey.equals(Journey.of(diary))
                             && !entity.isRemoved()
                             && origin.distSqr(player.blockPosition()) <= 128.0 * 128.0;
-            // 同旅程的 NBT/装备副本替换不应中断搜索，也不能继续读取脱离槽位的旧对象。
             if (valid && preparation != null) preparation.diary = diary;
             return valid;
         }
@@ -278,7 +249,7 @@ public final class WayguideSearch {
 
     public static void tick() {
         LoadBudget loads = new LoadBudget();
-        // 仅释放自身的区块票据，不取消原版共享的异步请求，待请求完成或失败后再释放全服在途名额。
+        // 只释放自身持有的区块票据，不取消原版共享的异步请求；等请求完成或失败后，再释放全服共用的在途请求名额。
         REQUESTS.removeIf(ChunkRequest::poll);
         if (QUEUE.isEmpty()) return;
         int budget = TravailConfig.WAYGUIDE_SAMPLES_PER_TICK.get();
@@ -318,11 +289,8 @@ public final class WayguideSearch {
                     if (blocked >= QUEUE.size()) break;
                     continue;
                 }
-                // 每轮至多 32 次采样，使多人搜索轮流取得全服预算。
                 for (int i = 0; i < 32 && budget > 0 && loads.take(); i++) {
-                    if (task.scanner.target != null
-                            || task.samples >= task.maxSamples
-                            || task.scanner.finished) break;
+                    if (task.scanner.target != null || task.samples >= task.maxSamples || task.scanner.finished) break;
                     if (!task.scanner.step(loads)) break;
                     progressed = true;
                     task.samples++;
@@ -335,9 +303,7 @@ public final class WayguideSearch {
                     cancel(task, "timeout");
                     continue;
                 }
-                if ((task.scanner.target != null
-                                || task.scanner.finished
-                                || task.samples >= task.maxSamples)
+                if ((task.scanner.target != null || task.scanner.finished || task.samples >= task.maxSamples)
                         && task.player.level().getGameTime() - task.startTick < 20) {
                     QUEUE.addLast(id);
                     blocked++;
@@ -345,7 +311,6 @@ public final class WayguideSearch {
                     continue;
                 }
                 if (task.scanner.target != null) {
-                    // 搜索和悬停会持续多个游戏刻，发射前须重新检查可能缩小的世界边界。
                     if (!task.scanner.within(task.scanner.target.pos)) {
                         TASKS.remove(id);
                         cancel(task, "not_found");
@@ -372,8 +337,7 @@ public final class WayguideSearch {
                                         task.dimension,
                                         task.origin,
                                         task.scanner.target,
-                                        task.player.level().getGameTime()
-                                                + TravailConfig.WAYGUIDE_CACHE_TICKS.get()));
+                                        task.player.level().getGameTime() + TravailConfig.WAYGUIDE_CACHE_TICKS.get()));
                     } else cancel(task, "cancelled");
                     TASKS.remove(id);
                 } else if (task.scanner.finished || task.samples >= task.maxSamples) {
@@ -387,8 +351,7 @@ public final class WayguideSearch {
             } catch (RuntimeException error) {
                 TASKS.remove(id);
                 cancel(task, "error");
-                TheLongTravail.LOGGER.error(
-                        "Wayguide search failed in {}", task.dimension.location(), error);
+                TheLongTravail.LOGGER.error("Wayguide search failed in {}", task.dimension.location(), error);
             }
         }
     }
@@ -406,17 +369,13 @@ public final class WayguideSearch {
 
     private static void message(ServerPlayer player, String key) {
         player.displayClientMessage(
-                com.thelongtravail.helper.ActionMessages.text(
-                        "message.the_long_travail.wayguide." + key),
-                true);
+                com.thelongtravail.helper.ActionMessages.text("message.the_long_travail.wayguide." + key), true);
     }
 
     private static final class LoadBudget {
         int remaining = 1;
-        // 等待、校验和准备也计工作次数；即使时钟粒度很粗，也不会无限空转。
         int operations = Math.max(4096, TravailConfig.WAYGUIDE_SAMPLES_PER_TICK.get() * 2);
-        final long deadline =
-                System.nanoTime() + TravailConfig.WAYGUIDE_SEARCH_MILLIS.get() * 1_000_000L;
+        final long deadline = System.nanoTime() + TravailConfig.WAYGUIDE_SEARCH_MILLIS.get() * 1_000_000L;
 
         boolean take() {
             return operations-- > 0 && System.nanoTime() < deadline;
@@ -441,10 +400,7 @@ public final class WayguideSearch {
         void close() {}
 
         boolean within(BlockPos pos) {
-            return Math.hypot(
-                                    (double) pos.getX() - origin.getX(),
-                                    (double) pos.getZ() - origin.getZ())
-                            <= radius
+            return Math.hypot((double) pos.getX() - origin.getX(), (double) pos.getZ() - origin.getZ()) <= radius
                     && level.getWorldBorder().isWithinBounds(pos);
         }
     }
@@ -478,8 +434,7 @@ public final class WayguideSearch {
             try {
                 future =
                         ((ChunkFutureInvoker) level.getChunkSource())
-                                .travail$requestChunk(
-                                        pos.x, pos.z, ChunkStatus.STRUCTURE_STARTS, true);
+                                .travail$requestChunk(pos.x, pos.z, ChunkStatus.STRUCTURE_STARTS, true);
             } catch (RuntimeException error) {
                 release();
                 throw error;
@@ -497,7 +452,7 @@ public final class WayguideSearch {
             release();
         }
 
-        // 由服务端 tick 观察结果，异步完成线程不修改请求集合或票据。
+        // 由服务端游戏刻检查结果；异步任务完成时所在的线程不修改请求集合或区块票据。
         boolean poll() {
             if (!future.isDone()) {
                 long now = System.nanoTime();
@@ -516,10 +471,7 @@ public final class WayguideSearch {
             if (completion.equals("pending")) {
                 try {
                     var result = future.getNow(null);
-                    completion =
-                            result == null
-                                    ? "empty"
-                                    : result.left().isPresent() ? "success" : "loading_failure";
+                    completion = result == null ? "empty" : result.left().isPresent() ? "success" : "loading_failure";
                     if (!completion.equals("success"))
                         TheLongTravail.LOGGER.warn(
                                 "Wayguide chunk request completed: dimension={}, chunk={}, outcome={}, ownerCancelled={}",
@@ -531,9 +483,7 @@ public final class WayguideSearch {
                     completion =
                             future.isCancelled()
                                     ? "cancelled"
-                                    : future.isCompletedExceptionally()
-                                            ? "exceptional"
-                                            : "invalid_result";
+                                    : future.isCompletedExceptionally() ? "exceptional" : "invalid_result";
                     TheLongTravail.LOGGER.warn(
                             "Wayguide chunk request completed: dimension={}, chunk={}, outcome={}, ownerCancelled={}",
                             level.dimension().location(),
@@ -560,7 +510,6 @@ public final class WayguideSearch {
             this.biomes = Set.copyOf(biomes);
             spacing = TravailConfig.WAYGUIDE_BIOME_SPACING.get();
             grid = new WayguideGeometry.Spiral((radius + spacing - 1) / spacing);
-            // 包含玩家高度及整个维度的高度层，地下目标与地表目标同样参与搜索。
             Set<Integer> ys = new LinkedHashSet<>();
             int min = level.getMinBuildHeight(), max = level.getMaxBuildHeight() - 1;
             ys.add(Math.max(min, Math.min(max, origin.getY())));
@@ -587,8 +536,7 @@ public final class WayguideSearch {
                                         QuartPos.fromBlock(pos.getY()),
                                         QuartPos.fromBlock(z),
                                         level.getChunkSource().randomState().sampler());
-                if (biomes.contains(biome))
-                    target = new Target(biome.unwrapKey().orElseThrow().location(), pos);
+                if (biomes.contains(biome)) target = new Target(biome.unwrapKey().orElseThrow().location(), pos);
             }
             if (++height >= heights.length) {
                 height = 0;
@@ -621,7 +569,6 @@ public final class WayguideSearch {
             }
             if (chunk == null) {
                 if (!pending.ready(budget)) {
-                    // 原版异步结果未就绪时仍轮换任务；仅在排序尚未完成时保留当前游标，以保持候选顺序。
                     if (pending.ringFuture != null && !pending.ringFuture.isDone()) {
                         placements.addLast(pending);
                         pending = null;
@@ -637,15 +584,14 @@ public final class WayguideSearch {
             }
             BlockPos locatePos = pending.placement.getLocatePos(chunk);
             if (((StructureRingsAccessor) level.getChunkSource().getGeneratorState())
-                    .travail$ringPositions().values().stream().anyMatch(f -> !f.isDone()))
-                return false;
+                    .travail$ringPositions().values().stream().anyMatch(f -> !f.isDone())) return false;
             if (within(locatePos)
                     && pending.placement.isStructureChunk(
                             level.getChunkSource().getGeneratorState(), chunk.x, chunk.z)) {
                 if (request == null) {
                     if (budget.remaining == 0 || !REQUESTS.isEmpty()) return false;
                     budget.remaining--;
-                    // 全服最多一个在途请求，每刻最多启动一次；绝不在搜索循环等待 I/O 或生成。
+                    // 全服最多保留一个在途请求，每游戏刻最多启动一次；搜索循环中不等待 I/O 或区块生成。
                     request = new ChunkRequest(level, chunk);
                     REQUESTS.add(request);
                 }
@@ -657,9 +603,7 @@ public final class WayguideSearch {
                     for (Holder<Structure> holder : pending.structures) {
                         var start = access.getStartForStructure(holder.value());
                         if (start != null && start.isValid()) {
-                            target =
-                                    new Target(
-                                            holder.unwrapKey().orElseThrow().location(), locatePos);
+                            target = new Target(holder.unwrapKey().orElseThrow().location(), locatePos);
                             break;
                         }
                     }
@@ -702,10 +646,7 @@ public final class WayguideSearch {
             this.structures = List.copyOf(structures);
             this.origin = origin;
             int cx = origin.getX() >> 4, cz = origin.getZ() >> 4;
-            spacing =
-                    placement instanceof RandomSpreadStructurePlacement random
-                            ? random.spacing()
-                            : 1;
+            spacing = placement instanceof RandomSpreadStructurePlacement random ? random.spacing() : 1;
             baseX = Math.floorDiv(cx, spacing);
             baseZ = Math.floorDiv(cz, spacing);
             grid = new WayguideGeometry.Spiral((radius + 15) / 16 / spacing + 2);
@@ -724,26 +665,17 @@ public final class WayguideSearch {
             if (rings == null) {
                 rings = ringFuture.getNow(List.of());
                 sortedRings =
-                        new PriorityQueue<>(
-                                Comparator.comparingDouble(Ring::distance)
-                                        .thenComparingInt(Ring::order));
+                        new PriorityQueue<>(Comparator.comparingDouble(Ring::distance).thenComparingInt(Ring::order));
             }
             for (int i = 0; i < 32 && ringIndex < rings.size() && budget.take(); i++) {
                 var pos = rings.get(ringIndex);
-                sortedRings.add(
-                        new Ring(
-                                pos,
-                                ringIndex++,
-                                pos.getMiddleBlockPosition(origin.getY()).distSqr(origin)));
+                sortedRings.add(new Ring(pos, ringIndex++, pos.getMiddleBlockPosition(origin.getY()).distSqr(origin)));
             }
             return ringIndex == rings.size();
         }
 
         ChunkPos next() {
-            if (rings != null)
-                return sortedRings == null || sortedRings.isEmpty()
-                        ? null
-                        : sortedRings.remove().pos();
+            if (rings != null) return sortedRings == null || sortedRings.isEmpty() ? null : sortedRings.remove().pos();
             if (grid.finished()) return null;
             int x = (baseX + grid.x()) * spacing, z = (baseZ + grid.z()) * spacing;
             grid.advance();

@@ -22,7 +22,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import java.util.UUID;
 
-// 搜索时跟随头顶；成功后飞向目标，失败则返还唯一一份托管物品。
 public final class WayguideEntity extends Entity implements ItemSupplier {
     private static final EntityDataAccessor<ItemStack> ITEM =
             SynchedEntityData.defineId(WayguideEntity.class, EntityDataSerializers.ITEM_STACK);
@@ -51,7 +50,7 @@ public final class WayguideEntity extends Entity implements ItemSupplier {
         entityData.set(OWNER, player.getId());
         entityData.set(SEARCHING, true);
         setPos(player.getX(), player.getY() + 3, player.getZ());
-        // addFreshEntity 成功且手持物品扣除后，由调用方确认托管。
+        // 调用方须先确认 addFreshEntity 成功并扣除手持物品，再确认托管。
         returnItem = false;
     }
 
@@ -126,8 +125,7 @@ public final class WayguideEntity extends Entity implements ItemSupplier {
     }
 
     @Override
-    public void lerpTo(
-            double x, double y, double z, float yaw, float pitch, int steps, boolean teleport) {
+    public void lerpTo(double x, double y, double z, float yaw, float pitch, int steps, boolean teleport) {
         lerpTarget = new Vec3(x, y, z);
         lerpSteps = Math.max(1, steps);
     }
@@ -138,17 +136,12 @@ public final class WayguideEntity extends Entity implements ItemSupplier {
         if (level().isClientSide) {
             Entity player = searching() ? level().getEntity(entityData.get(OWNER)) : null;
             if (player != null) {
-                // 起伏在客户端计算，服务器只同步跟随位置。
-                setPos(
-                        player.getX(),
-                        player.getY() + 3 + Math.sin(tickCount * 0.22) * 0.22,
-                        player.getZ());
+                setPos(player.getX(), player.getY() + 3 + Math.sin(tickCount * 0.22) * 0.22, player.getZ());
             } else if (lerpSteps > 0) {
                 setPos(position().lerp(lerpTarget, 1.0 / lerpSteps));
                 lerpSteps--;
             }
-            if (tickCount % 2 == 0)
-                level().addParticle(ParticleTypes.ENCHANT, getX(), getY(), getZ(), 0, 0.05, 0);
+            if (tickCount % 2 == 0) level().addParticle(ParticleTypes.ENCHANT, getX(), getY(), getZ(), 0, 0.05, 0);
             return;
         }
         if (searching()) {
@@ -156,22 +149,17 @@ public final class WayguideEntity extends Entity implements ItemSupplier {
                 refund(
                         searchOwner != null
                                 ? searchOwner
-                                : ((ServerLevel) level())
-                                        .getServer()
-                                        .getPlayerList()
-                                        .getPlayer(owner));
+                                : ((ServerLevel) level()).getServer().getPlayerList().getPlayer(owner));
                 return;
             }
-            if (searchOwner != null)
-                setPos(searchOwner.getX(), searchOwner.getY() + 3, searchOwner.getZ());
+            if (searchOwner != null) setPos(searchOwner.getX(), searchOwner.getY() + 3, searchOwner.getZ());
             return;
         }
         age++;
         Vec3 motion = destination.subtract(position()).scale(0.16);
         setDeltaMovement(motion);
         setPos(position().add(motion));
-        int durationTicks =
-                com.thelongtravail.config.TravailConfig.WAYGUIDE_GUIDE_DURATION_SECONDS.get() * 20;
+        int durationTicks = com.thelongtravail.config.TravailConfig.WAYGUIDE_GUIDE_DURATION_SECONDS.get() * 20;
         if (age >= durationTicks && (age - durationTicks) % 20 == 0) {
             if (!returnItem) {
                 discard();
@@ -201,8 +189,7 @@ public final class WayguideEntity extends Entity implements ItemSupplier {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        destination =
-                new Vec3(tag.getDouble("GuideX"), tag.getDouble("GuideY"), tag.getDouble("GuideZ"));
+        destination = new Vec3(tag.getDouble("GuideX"), tag.getDouble("GuideY"), tag.getDouble("GuideZ"));
         age = tag.getInt("GuideAge");
         returnItem = tag.getBoolean("ReturnItem");
         escrowed = tag.getBoolean("Escrowed");

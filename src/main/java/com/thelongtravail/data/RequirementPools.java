@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-// 服务端线程快照；无效配置只诊断一次，不在每个玩家 tick 重复报告。
 public final class RequirementPools {
     public enum Status {
         DISABLED,
@@ -50,8 +49,7 @@ public final class RequirementPools {
         var registries = player.serverLevel().registryAccess();
         var biomes = registries.registryOrThrow(Registries.BIOME);
         var structures = registries.registryOrThrow(Registries.STRUCTURE);
-        if (snapshot != null && biomeRegistry == biomes && structureRegistry == structures)
-            return snapshot;
+        if (snapshot != null && biomeRegistry == biomes && structureRegistry == structures) return snapshot;
         Map<TravailAspect, AspectPools> result = new EnumMap<>(TravailAspect.class);
         boolean valid = true;
         for (TravailAspect aspect : TravailAspect.values()) {
@@ -68,9 +66,7 @@ public final class RequirementPools {
                             structures::containsKey,
                             message -> warn(aspect, "structures", message));
             result.put(aspect, new AspectPools(biomePool, structurePool));
-            valid &=
-                    biomePool.status() != Status.INVALID
-                            && structurePool.status() != Status.INVALID;
+            valid &= biomePool.status() != Status.INVALID && structurePool.status() != Status.INVALID;
         }
         biomeRegistry = biomes;
         structureRegistry = structures;

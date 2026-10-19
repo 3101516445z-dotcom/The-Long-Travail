@@ -12,8 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(EntityRenderer.class)
 public abstract class LanternEntityLightMixin {
     @Inject(method = "getPackedLightCoords", at = @At("RETURN"), cancellable = true)
-    private void travail$entityLantern(
-            Entity e, float partial, CallbackInfoReturnable<Integer> cir) {
+    private void travail$entityLantern(Entity e, float partial, CallbackInfoReturnable<Integer> cir) {
         cir.setReturnValue(
                 LanternLightingClient.light(
                         Mth.lerp(partial, e.xo, e.getX()),

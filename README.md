@@ -5,7 +5,7 @@
 ## 环境要求
 
 - Minecraft 1.20.1
-- Forge 47.4.20 或更高的 47.x 版本
+- Forge 47.4.10 或更高的 47.x 版本
 - Java 17
 - Curios 5.14.1 或更高的兼容版本（必需）
 
@@ -23,13 +23,15 @@
 - 收集六大类主题物品，体验多种多样的功能组合，考虑恶意与见证的取舍，提升游戏趣味性。
 - 为在线主人的女仆搭配主题饰品。
 - 使用六种主题精粹推进或重置对应旅程。
+- 默认长按 [Alt] 打开物品图鉴「拾遗」，查阅物品效果、操作与当前配置数值。
+- 使用见切、必杀、霸主三项战斗属性搭配不同饰品。
 - 通过配置调整恶意、见证、物品效果和探索条件。
 
 ## 可选联动
 
 | 模组 | 参考版本 | 联动内容 |
 | --- | --- | --- |
-| JEI | 15.20.0.132 | 花饰合成与选花、配花、洗花展示；紫水晶母岩精粹来源页；阅读日记时隐藏 JEI 覆盖层。 |
+| JEI | 15.20.0.132 | 花饰配方、完美流体示例及方块掉落来源展示；阅读札记或拾遗时隐藏覆盖层。 |
 | Jade | 11.13.3 | 将苦旅掉落物的长说明替换为拾取查看提示。 |
 | Touhou Little Maid / 车万女仆 | 1.5.3（Forge 1.20.1） | 女仆原生饰品栏支持部分主题饰品，读取在线主人的苦旅状态。 |
 | Caelus | 3.2.0+1.20.1 | 让 Caelus 识别**伊卡洛斯**提供的飞行能力，并遵守禁飞限制。 |
@@ -39,6 +41,9 @@
 | Gravestone | 1.20.1-1.0.35 | 在墓碑保存和恢复物品时，校正**死者之书**及日记相关数据 |
 | Modern UI | 3.12.0.1 | 适配名称和日记文字的字体渲染 |
 | Enigmatic Legacy | 2.30.1 | 使用**死者苏生**时，避免消耗绑定的重生锚 |
+| Apothic Attributes | 1.3.7 | 将必杀与霸主按百分比显示，补充属性详情。 |
+| Sophisticated Backpacks / 精妙背包 | 按接口匹配 | 完美流体独立复制背包库存、升级、设置及嵌套内容。 |
+| MmmMmmMmmMmm / 试验假人 | 按接口匹配 | 使用假人记录的有效伤害触发本模组的伤害后效果。 |
 
 表中版本供依赖和联动参考，不代表全部组合均已完成整合包内验收。这些联动模组均为可选，不安装也可以游玩苦旅。光影方面，**剑与灯**曾在 Embeddium 0.3.31、Oculus 1.8.0 与 Complementary Reimagined r5.8.1 的独立测试环境中验证，其他组合的显示效果可能不同。
 
@@ -50,7 +55,7 @@
 
 ## 配置与常见操作
 
-配置位于 `config/the_long_travail/`，首次启动时自动生成。各主题设置放在 `aspects/` 下，饰品与道具奖励在 `general.toml` 中调整；材料与精粹来源由战利品数据表及注入规则定义，详见 [配置说明](docs/configuration-controls.md)。
+配置位于 `config/the_long_travail/`，首次启动时自动生成。各主题设置放在 `aspects/` 下，饰品与道具奖励在 `general.toml` 中调整；材料与精粹来源由战利品数据表及注入规则定义，详见 [配置说明](docs/玩家查阅/configuration-controls.md)。
 
 苦旅造成的僵硬和视觉剥夺不能靠负面效果免疫或净化解除，但可以喝牛奶解除。管理员也可使用以下命令清除自身状态：
 
@@ -74,30 +79,39 @@
 
 ## 版本与升级
 
-当前源码版本为 **0.1.1-fix**，发布状态与各版本变化见 [更新日志](CHANGELOG.md)。更新后生成或重置的旅程数据不支持降级到旧版模组。
+当前源码版本为 **0.1.2**，发布状态与各版本变化见 [更新日志](CHANGELOG.md)。更新后生成或重置的旅程数据不支持降级到旧版模组。
+
+- [中文 0.1.2 更新日志](docs/玩家查阅/更新日志zh/0.1.2.md)
+- [English changelog for 0.1.2](docs/玩家查阅/更新日志en/0.1.2.md)
+
+## 开发文档
+
+[文档入口](docs/README.md)提供玩家使用说明、配置说明和开发接入文档。第三方模组可查阅公开 API、饰品接入和联动边界；内部类仍以当前源码为准。
 
 ## 源码构建
 
-在项目根目录使用 Gradle Wrapper 构建正式包：
+使用 JDK 17 或兼容的构建环境，在项目根目录通过仓库附带的 Gradle Wrapper 构建。当前 Wrapper 固定为 Gradle 8.8，源码编译目标为 Java 17。
 
 Windows：
 
 ```text
-gradlew.bat jarJar
+.\gradlew.bat build jarJar
 ```
 
 Linux / macOS：
 
 ```sh
-./gradlew jarJar
+./gradlew build jarJar
 ```
 
-首次构建需要联网，Gradle 会自动下载依赖；缓存齐全后可追加 `--offline`。成品位于 `build/libs/`，请选择不带 `-slim` 后缀的 JAR。
+首次构建需要联网，Gradle 会自动下载依赖；缓存齐全后可追加 `--offline`。当前正式包为 `build/libs/The_Long_Travail-0.1.2.jar`，带 `-slim` 后缀的包不包含内嵌依赖，不用于直接安装。无需复制本机整合包的 `mods`、`config`、`run` 或本地测试工具来完成普通源码构建。
 
 Caelus、Embeddium、Jade、JEI 和女仆 API 仅用于编译，不打包进成品，也不会自动加载到开发运行环境。女仆 API 固定为 Forge 1.20.1 的 1.5.3 版本，由 Gradle 自动下载；需要本地替代时使用 `-PmaidApiJar=/absolute/path/to/touhoulittlemaid.jar`。MixinExtras 随正式包内嵌，Curios 需另行安装。具体版本及仓库地址见 `build.gradle` 和 `gradle/optional-compat.gradle`。
 
-其他模组接入苦旅时，可参考 [状态查询与旅程写入 API](docs/state-api.md) 和 [饰品佩戴与恢复校验](docs/accessory-equipment.md)。
+其他模组接入苦旅时，可参考 [状态查询与旅程写入 API](docs/开发者查阅/state-api.md) 和 [饰品佩戴与恢复校验](docs/开发者查阅/accessory-equipment.md)。
 
 ## 许可证
 
 本项目的源代码、资源与文档均采用 [Mozilla Public License 2.0](LICENSE) 许可。
+
+仓库附带的 Gradle Wrapper 保留其原有 Apache-2.0 许可声明；第三方依赖保留各自的许可证。

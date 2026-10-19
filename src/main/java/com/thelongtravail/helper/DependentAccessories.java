@@ -13,23 +13,34 @@ import top.theillusivec4.curios.api.SlotContext;
 import java.util.*;
 import java.util.function.*;
 
-// 前置条件以槽位操作完成后的实际装备为准，不保存玩家或 ItemStack 引用。
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
 public final class DependentAccessories {
-    private record Rule(
-            Supplier<Item> item,
-            Predicate<ServerPlayer> requirement,
-            Consumer<ServerPlayer> cleanup) {}
+    private record Rule(Supplier<Item> item, Predicate<ServerPlayer> requirement, Consumer<ServerPlayer> cleanup) {}
 
     private record Position(String slot, int index, Item item) {}
 
     private static final List<Rule> RULES = new ArrayList<>();
-    private static final Set<ServerPlayer> CHECKING =
-            Collections.newSetFromMap(new IdentityHashMap<>());
+    private static final Set<ServerPlayer> CHECKING = Collections.newSetFromMap(new IdentityHashMap<>());
 
     static {
+        register(
+                ModRegistry.DEMON_KING,
+                p -> !TravailCurios.stack(p).isEmpty(),
+                com.thelongtravail.underworld.UnderworldRelics::refresh);
+        register(
+                ModRegistry.SOUL_BANNER,
+                p -> !TravailCurios.stack(p).isEmpty(),
+                com.thelongtravail.underworld.UnderworldRelics::refresh);
+        register(
+                ModRegistry.PHOSPHOPHYLLITE,
+                p -> !TravailCurios.stack(p).isEmpty(),
+                com.thelongtravail.valley.Phosphophyllite::tick);
         register(ModRegistry.THOUSAND_YEARS, p -> !TravailCurios.stack(p).isEmpty(), p -> {});
         register(ModRegistry.BOOK_OF_DEAD, p -> !TravailCurios.stack(p).isEmpty(), p -> {});
+        register(
+                ModRegistry.LORENTZ_FANTASY,
+                p -> !TravailCurios.stack(p).isEmpty(),
+                com.thelongtravail.boundless.LorentzFantasy::refresh);
         register(ModRegistry.STAR_VOICE, p -> !TravailCurios.stack(p).isEmpty(), p -> {});
         register(
                 ModRegistry.AZRAEL,
@@ -38,13 +49,10 @@ public final class DependentAccessories {
     }
 
     public static void register(
-            Supplier<Item> item,
-            Predicate<ServerPlayer> requirement,
-            Consumer<ServerPlayer> cleanup) {
+            Supplier<Item> item, Predicate<ServerPlayer> requirement, Consumer<ServerPlayer> cleanup) {
         RULES.add(new Rule(item, requirement, cleanup));
     }
 
-    // 当前槽位的同类替换允许通过；不同物品互不排斥。
     public static boolean unique(SlotContext context, Item item) {
         return AccessoryEquipRules.unique(context, item);
     }
@@ -91,8 +99,7 @@ public final class DependentAccessories {
 
     @SubscribeEvent
     public static void tick(TickEvent.PlayerTickEvent event) {
-        if (event.phase == TickEvent.Phase.END && event.player instanceof ServerPlayer player)
-            reconcile(player);
+        if (event.phase == TickEvent.Phase.END && event.player instanceof ServerPlayer player) reconcile(player);
     }
 
     private DependentAccessories() {}

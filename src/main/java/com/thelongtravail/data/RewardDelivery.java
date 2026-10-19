@@ -15,7 +15,6 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.phys.Vec3;
 import java.util.ArrayDeque;
 
-// 所有维度共用由主世界保存的持久化队列，不主动加载目标区块。
 public final class RewardDelivery extends SavedData {
     private static final String NAME = "the_long_travail_rewards";
     private final ArrayDeque<Job> jobs = new ArrayDeque<>();
@@ -39,12 +38,9 @@ public final class RewardDelivery extends SavedData {
     }
 
     public static RewardDelivery get(MinecraftServer server) {
-        return server.overworld()
-                .getDataStorage()
-                .computeIfAbsent(RewardDelivery::load, RewardDelivery::new, NAME);
+        return server.overworld().getDataStorage().computeIfAbsent(RewardDelivery::load, RewardDelivery::new, NAME);
     }
 
-    // 造成伤害前预留名额，防止嵌套死亡监听器抢占。
     public Reservation reserve() {
         if (jobs.size() + reserved >= TravailConfig.REWARD_QUEUE_CAPACITY.get()) return null;
         reserved++;
@@ -64,7 +60,6 @@ public final class RewardDelivery extends SavedData {
                                             count,
                                             (long) Math.max(1, item.getMaxStackSize())
                                                     * TravailConfig.REWARD_LIMIT.get());
-                // 仅合并目的地和物品数据均相同的记录，且每条记录都须遵守数量上限。
                 Job tail = jobs.peekLast();
                 if (tail != null
                         && tail.dimension.equals(level.dimension())
@@ -109,10 +104,7 @@ public final class RewardDelivery extends SavedData {
                     int count = Math.min(job.count, Math.max(1, job.template.getMaxStackSize()));
                     ItemStack stack = job.template.copy();
                     stack.setCount(count);
-                    ItemEntity entity =
-                            new ItemEntity(
-                                    level, job.position.x, job.position.y, job.position.z, stack);
-                    // 生成失败或被取消也消耗尝试额度，但不能丢弃奖励。
+                    ItemEntity entity = new ItemEntity(level, job.position.x, job.position.y, job.position.z, stack);
                     budget--;
                     if (level.addFreshEntity(entity)) {
                         job.count -= count;
@@ -149,12 +141,10 @@ public final class RewardDelivery extends SavedData {
                     || !Double.isFinite(pos.x)
                     || !Double.isFinite(pos.y)
                     || !Double.isFinite(pos.z)) {
-                com.thelongtravail.TheLongTravail.LOGGER.warn(
-                        "Ignoring invalid saved reward record {}", i);
+                com.thelongtravail.TheLongTravail.LOGGER.warn("Ignoring invalid saved reward record {}", i);
                 continue;
             }
-            queue.jobs.addLast(
-                    new Job(ResourceKey.create(Registries.DIMENSION, id), pos, item, count));
+            queue.jobs.addLast(new Job(ResourceKey.create(Registries.DIMENSION, id), pos, item, count));
         }
         return queue;
     }

@@ -6,13 +6,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.ForgeConfigSpec;
 import java.util.Map;
 
-// 只控制负面效果是否作用于特殊模式玩家，不改变日记状态和饰品资格。
 public enum ModeEffectRules {
-    DIARY(
-            "general.toml",
-            "malice.affectCreativeAndSpectator",
-            "苦旅的恶意惩罚",
-            "Malice penalties from The Long Travail"),
+    DIARY("general.toml", "malice.affectCreativeAndSpectator", "苦旅的恶意惩罚", "Malice penalties from The Long Travail"),
+    PHOSPHOPHYLLITE_DAMAGE(
+            "aspects/deep_valley.toml",
+            "items.phosphophyllite.damageAffectsCreativeAndSpectator",
+            "磷叶石的受伤倍率",
+            "Phosphophyllite incoming damage multiplier"),
     AZRAEL_SELF(
             "aspects/deep_valley.toml",
             "items.azrael.selfExecutionAffectsCreativeAndSpectator",
@@ -30,14 +30,17 @@ public enum ModeEffectRules {
             "Star Voice freezing players within its area"),
     FLOWER_EFFECTS(
             "aspects/flourishing.toml",
-            "items.spring_game.harmfulEffectsAffectCreativeAndSpectator",
-            "春日的游戏施加的中毒、凋零及丁香对负面效果的延长",
-            "Poison, Wither, and harmful-effect extensions from Springtime Game"),
+            "items.spring_corner.harmfulEffectsAffectCreativeAndSpectator",
+            "春日一隅施加的中毒、凋零及丁香对负面效果的延长",
+            "Poison, Wither, and harmful-effect extensions from A Corner of Spring"),
     FLOWER_THORNS(
             "aspects/flourishing.toml",
-            "items.spring_game.retaliationAffectsCreativeAndSpectator",
-            "春日的游戏中玫瑰丛的反伤",
-            "Rose Bush retaliation from Springtime Game"),
+            "items.spring_corner.retaliationAffectsCreativeAndSpectator",
+            "春日一隅中玫瑰丛的反伤",
+            "Rose Bush retaliation from A Corner of Spring"),
+    LAFITE_NAUSEA(
+            "aspects/abyss.toml", "items.midnight_lafite.nauseaExtensionAffectsCreativeAndSpectator",
+            "午夜拉菲的反胃时长延长", "Nausea extension from Midnight Lafite"),
     ICARUS_FIRE(
             "aspects/far_reach.toml",
             "items.icarus.ignitionAffectsCreativeAndSpectator",
@@ -60,15 +63,14 @@ public enum ModeEffectRules {
                     builders.get(rule.file)
                             .comment(
                                     rule.description
-                                            + "是否作用于创造模式或观察者模式玩家。\nfalse：豁免（默认）；true：不豁免。\n不改变其他生效条件。",
+                                            + "是否对创造模式或观察者模式的玩家生效。\nfalse：不对这些玩家生效（默认）；true：对这些玩家生效。\n其他生效条件保持不变。",
                                     rule.descriptionEnglish
-                                            + ": whether this affects Creative or Spectator players.\nfalse: exempt (default); true: not exempt.\nOther activation conditions still apply.")
+                                            + ": apply this effect to players in Creative or Spectator mode.\nfalse: these players are exempt (default); true: the effect also applies to them.\nAll other activation conditions still apply.")
                             .define(rule.key, false);
     }
 
     public boolean applies(Entity target) {
-        if (!(target instanceof Player player) || !player.isCreative() && !player.isSpectator())
-            return true;
+        if (!(target instanceof Player player) || !player.isCreative() && !player.isSpectator()) return true;
         return player.level().isClientSide
                 ? TooltipConfigSync.integer("mode." + name(), config.get() ? 1 : 0) != 0
                 : config.get();

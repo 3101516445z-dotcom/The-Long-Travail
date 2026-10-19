@@ -27,7 +27,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import java.util.*;
 
-// 只合并客户端展示；服务器仍使用真实配方。每行输入、材料和输出按索引联动。
 @JeiPlugin
 public final class FloralJeiPlugin implements IModPlugin {
     public static final RecipeType<ChangeDisplay> TYPE =
@@ -62,8 +61,7 @@ public final class FloralJeiPlugin implements IModPlugin {
         snapshots.clear();
         active = null;
         r.addItemStackInfo(
-                new ItemStack(ModRegistry.SPRING_GAME.get()),
-                FloralText.text("jei.the_long_travail.flowers"));
+                new ItemStack(ModRegistry.SPRING_CORNER.get()), Component.translatable("jei.the_long_travail.flowers"));
     }
 
     @Override
@@ -100,9 +98,8 @@ public final class FloralJeiPlugin implements IModPlugin {
     }
 
     private void refresh() {
-        if (runtime == null
-                || Minecraft.getInstance().level == null
-                || revision == TooltipConfigSync.revision()) return;
+        if (runtime == null || Minecraft.getInstance().level == null || revision == TooltipConfigSync.revision())
+            return;
         revision = TooltipConfigSync.revision();
         var manager = runtime.getRecipeManager();
         var originals =
@@ -116,20 +113,17 @@ public final class FloralJeiPlugin implements IModPlugin {
         for (Flower f : Flower.values())
             if (f.craftable() && FlourishingItemsConfig.shownEnabled(f)) mask |= 1 << f.ordinal();
         if (active != null) {
-            if (active.crown() != null)
-                manager.hideRecipes(RecipeTypes.CRAFTING, List.of(active.crown()));
+            if (active.crown() != null) manager.hideRecipes(RecipeTypes.CRAFTING, List.of(active.crown()));
             manager.hideRecipes(TYPE, active.changes());
         }
         Snapshot next = snapshots.get(mask);
         if (next == null) {
             next = FloralRecipeDisplays.build(mask);
             snapshots.put(mask, next);
-            if (next.crown() != null)
-                manager.addRecipes(RecipeTypes.CRAFTING, List.of(next.crown()));
+            if (next.crown() != null) manager.addRecipes(RecipeTypes.CRAFTING, List.of(next.crown()));
             manager.addRecipes(TYPE, next.changes());
         }
-        if (next.crown() != null)
-            manager.unhideRecipes(RecipeTypes.CRAFTING, List.of(next.crown()));
+        if (next.crown() != null) manager.unhideRecipes(RecipeTypes.CRAFTING, List.of(next.crown()));
         manager.unhideRecipes(TYPE, next.changes());
         active = next;
     }
@@ -138,15 +132,10 @@ public final class FloralJeiPlugin implements IModPlugin {
         @Override
         public void setRecipe(IRecipeLayoutBuilder b, ICraftingGridHelper grid, IFocusGroup focus) {
             var inputs =
-                    new ArrayList<>(
-                            recipe.getIngredients().stream()
-                                    .map(i -> Arrays.asList(i.getItems()))
-                                    .toList());
+                    new ArrayList<>(recipe.getIngredients().stream().map(i -> Arrays.asList(i.getItems())).toList());
             inputs.set(4, recipe.flowers.stream().map(f -> new ItemStack(f.item())).toList());
             var slots = grid.createAndSetInputs(b, inputs, 3, 3);
-            var output =
-                    grid.createAndSetOutputs(
-                            b, recipe.flowers.stream().map(SpringRecipes::crown).toList());
+            var output = grid.createAndSetOutputs(b, recipe.flowers.stream().map(SpringRecipes::crown).toList());
             b.createFocusLink(slots.get(4), output);
         }
 
@@ -185,7 +174,7 @@ public final class FloralJeiPlugin implements IModPlugin {
 
         @Override
         public IDrawable getIcon() {
-            return gui.createDrawableItemStack(new ItemStack(ModRegistry.SPRING_GAME.get()));
+            return gui.createDrawableItemStack(new ItemStack(ModRegistry.SPRING_CORNER.get()));
         }
 
         @Override
@@ -201,41 +190,29 @@ public final class FloralJeiPlugin implements IModPlugin {
         @Override
         public void setRecipe(IRecipeLayoutBuilder b, ChangeDisplay d, IFocusGroup focus) {
             var input = b.addInputSlot(1, 1).addItemStacks(d.inputs()).setStandardSlotBackground();
-            var material =
-                    b.addInputSlot(36, 1).addItemStacks(d.materials()).setStandardSlotBackground();
-            var output =
-                    b.addOutputSlot(96, 1).addItemStacks(d.outputs()).setOutputSlotBackground();
+            var material = b.addInputSlot(36, 1).addItemStacks(d.materials()).setStandardSlotBackground();
+            var output = b.addOutputSlot(96, 1).addItemStacks(d.outputs()).setOutputSlotBackground();
             b.createFocusLink(input, material, output);
             if (d.operation().equals("wash"))
-                b.addOutputSlot(126, 1)
-                        .addItemStack(new ItemStack(Items.BUCKET))
-                        .setStandardSlotBackground();
+                b.addOutputSlot(126, 1).addItemStack(new ItemStack(Items.BUCKET)).setStandardSlotBackground();
             b.setShapeless();
         }
 
         @Override
-        public void draw(
-                ChangeDisplay d, IRecipeSlotsView slots, GuiGraphics g, double x, double y) {
+        public void draw(ChangeDisplay d, IRecipeSlotsView slots, GuiGraphics g, double x, double y) {
             gui.getRecipePlusSign().draw(g, 22, 4);
             gui.getRecipeArrow().draw(g, 62, 1);
         }
 
         @Override
         public void createRecipeExtras(
-                mezz.jei.api.gui.widgets.IRecipeExtrasBuilder builder,
-                ChangeDisplay d,
-                IFocusGroup focus) {
-            builder.addText(
-                            Component.translatable("jei.the_long_travail." + d.operation()),
-                            150,
-                            10)
+                mezz.jei.api.gui.widgets.IRecipeExtrasBuilder builder, ChangeDisplay d, IFocusGroup focus) {
+            builder.addText(Component.translatable("jei.the_long_travail." + d.operation()), 150, 10)
                     .setPosition(0, 29);
             if (d.operation().equals("add"))
-                builder.addText(Component.translatable("jei.the_long_travail.limits"), 150, 10)
-                        .setPosition(0, 41);
+                builder.addText(Component.translatable("jei.the_long_travail.limits"), 150, 10).setPosition(0, 41);
         }
 
-        // 每个配置快照使用独立索引，旧快照隐藏后不会因查询旧材料而重新出现。
         @Override
         public ResourceLocation getRegistryName(ChangeDisplay d) {
             return null;

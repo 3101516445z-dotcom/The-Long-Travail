@@ -19,18 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-// 以模态阅读层绘制，原背包或容器仍为当前活动界面。
 public final class TravelDiaryScreen extends Screen {
     private static final ResourceLocation BACKGROUND = texture("diary_base");
     private static final ResourceLocation BOOKMARK = texture("diary_bookmark");
     private static final int WIDTH = 524, HEIGHT = 360, BOOK_X = 40, BOOK_WIDTH = 480;
     private static final int HEADER_Y = 74, HEADER_RULE_Y = HEADER_Y + 17;
-    private static final int RIGHT_X = 302,
-            RIGHT_WIDTH = 179,
-            BODY_TOP = HEADER_RULE_Y + 21,
-            BODY_BOTTOM = 300;
-    private static final int LINE_HEIGHT = 15,
-            VISIBLE_LINES = (BODY_BOTTOM - BODY_TOP) / LINE_HEIGHT;
+    private static final int RIGHT_X = 302, RIGHT_WIDTH = 179, BODY_TOP = HEADER_RULE_Y + 21, BODY_BOTTOM = 300;
+    private static final int LINE_HEIGHT = 15, VISIBLE_LINES = (BODY_BOTTOM - BODY_TOP) / LINE_HEIGHT;
     private static final int INK = 0xFF493626, MUTED_INK = 0xFF80664C;
     private static TravailAspect lastSelected = TravailAspect.FLOURISHING;
 
@@ -130,19 +125,11 @@ public final class TravelDiaryScreen extends Screen {
             int index = aspect.ordinal();
             boolean hovered = overBookmark(localX, localY, index);
             float target = aspect == selected ? (hovered ? 10 : 8) : hovered ? 4 : 0;
-            bookmarkExtensions[index] =
-                    BookmarkAnimation.approach(bookmarkExtensions[index], target, elapsed);
+            bookmarkExtensions[index] = BookmarkAnimation.approach(bookmarkExtensions[index], target, elapsed);
             float x = 14 - bookmarkExtensions[index];
             int y = bookmarkY(index);
-            int color =
-                    com.thelongtravail.AspectTheme.forAspect(TravailAspect.values()[index])
-                            .bookAccent;
-            graphics.setColor(
-                    ((color >> 16) & 255) / 255F,
-                    ((color >> 8) & 255) / 255F,
-                    (color & 255) / 255F,
-                    1);
-            // 仅采样布纹区域，保留生成素材的透明边距。
+            int color = com.thelongtravail.AspectTheme.forAspect(TravailAspect.values()[index]).bookAccent;
+            graphics.setColor(((color >> 16) & 255) / 255F, ((color >> 8) & 255) / 255F, (color & 255) / 255F, 1);
             graphics.pose().pushPose();
             graphics.pose().translate(x, y, 0);
             graphics.blit(BOOKMARK, 0, 0, 88, 27, 150, 140, 1870, 430, 2172, 724);
@@ -166,9 +153,7 @@ public final class TravelDiaryScreen extends Screen {
                                 Component.translatable("aspect.the_long_travail." + aspect.id()),
                                 Component.translatable(
                                         "state.the_long_travail."
-                                                + (LongTravailData.hasWitness(diary, aspect)
-                                                        ? "witness"
-                                                        : "malice"))),
+                                                + (LongTravailData.hasWitness(diary, aspect) ? "witness" : "malice"))),
                         mouseX,
                         mouseY);
                 break;
@@ -207,13 +192,7 @@ public final class TravelDiaryScreen extends Screen {
     }
 
     private void updateLayout() {
-        bookScale =
-                0.8F
-                        * Math.max(
-                                0.1F,
-                                Math.min(
-                                        1.25F,
-                                        Math.min((width - 12F) / WIDTH, (height - 12F) / HEIGHT)));
+        bookScale = 0.8F * Math.max(0.1F, Math.min(1.25F, Math.min((width - 12F) / WIDTH, (height - 12F) / HEIGHT)));
         bookLeft = (width - Math.round(WIDTH * bookScale)) / 2;
         bookTop = (height - Math.round(HEIGHT * bookScale)) / 2;
     }
@@ -223,13 +202,11 @@ public final class TravelDiaryScreen extends Screen {
     }
 
     private boolean overBookmark(double x, double y, int index) {
-        // 固定命中区域同时覆盖收起和展开位置，避免悬停状态反复切换。
         return inside(x, y, 4, bookmarkY(index), 57, bookmarkY(index) + 28);
     }
 
     private void renderIdentity(GuiGraphics graphics) {
         float titleScale = 2.6F;
-        // 默认文字可见高度约八像素，第九像素用于行距。
         float inkHeight = font.lineHeight - 1F;
         float titleInkCenter = inkHeight / 2F;
         float titleY = (40 + HEADER_RULE_Y) / 2F - titleInkCenter * titleScale + 3F;
@@ -239,11 +216,9 @@ public final class TravelDiaryScreen extends Screen {
                 text(
                         "bookmark_hint",
                         Component.translatable("aspect.the_long_travail." + selected.id()),
-                        Component.translatable(
-                                "state.the_long_travail." + (completed() ? "witness" : "malice")));
+                        Component.translatable("state.the_long_travail." + (completed() ? "witness" : "malice")));
         float aspectScale = Math.min(1.8F, 164F / Math.max(1, font.width(aspectName)));
         float proseScale = 1.2F;
-        // 左页散文缓存仅受页面和字体变化影响，不随攻击冷却 NBT 失效。
         LayoutKey currentProseKey =
                 new LayoutKey(
                         selected,
@@ -262,7 +237,6 @@ public final class TravelDiaryScreen extends Screen {
             float nextLineY = 0;
             String[] paragraphs = DiaryPageProse.text(selected, completed()).split("\n");
             float availableHeight = 310 - (HEADER_RULE_Y + 12 + inkHeight * aspectScale) - 6;
-            // 长译文先缩小并重新换行，避免仅挤压行距造成字形重叠。
             for (int step = 0; step <= 8; step++) {
                 proseScale = 1.2F - step * 0.05F;
                 proseLines.clear();
@@ -273,18 +247,14 @@ public final class TravelDiaryScreen extends Screen {
                         nextLineY += 10;
                         continue;
                     }
-                    for (var wrapped :
-                            font.split(Component.literal(line), (int) (164 / proseScale))) {
+                    for (var wrapped : font.split(Component.literal(line), (int) (164 / proseScale))) {
                         proseLines.add(wrapped);
                         lineOffsets.add(nextLineY);
                         nextLineY += 15;
                     }
                 }
                 float last = lineOffsets.isEmpty() ? 0 : lineOffsets.get(lineOffsets.size() - 1);
-                float fit =
-                        Math.min(
-                                1F,
-                                (availableHeight - inkHeight * proseScale) / Math.max(1F, last));
+                float fit = Math.min(1F, (availableHeight - inkHeight * proseScale) / Math.max(1F, last));
                 if (15 * fit >= (font.lineHeight + 1) * proseScale) break;
             }
             if (proseLines.isEmpty()) {
@@ -312,15 +282,11 @@ public final class TravelDiaryScreen extends Screen {
         List<FormattedCharSequence> proseLines = cachedProse;
         proseScale = cachedProseScale;
         List<Float> lineOffsets = cachedOffsets;
-        // 副标题跨页固定，仅将其下方正文居中。
         float headingY = HEADER_RULE_Y + 12;
         float areaTop = headingY + inkHeight * aspectScale;
         float areaBottom = 310;
         float lastOffset = lineOffsets.get(lineOffsets.size() - 1);
-        float spacingFactor =
-                Math.min(
-                        1F,
-                        (areaBottom - areaTop - inkHeight * proseScale) / Math.max(1F, lastOffset));
+        float spacingFactor = Math.min(1F, (areaBottom - areaTop - inkHeight * proseScale) / Math.max(1F, lastOffset));
         float proseHeight = lastOffset * spacingFactor + inkHeight * proseScale;
         drawScaledCentered(
                 graphics,
@@ -329,7 +295,6 @@ public final class TravelDiaryScreen extends Screen {
                 headingY,
                 aspectScale,
                 0xFF000000 | com.thelongtravail.AspectTheme.forAspect(selected).bookInk);
-        // 略微上移视觉中心，为纸张底部纹理留出空间。
         float proseY = (areaTop + areaBottom - proseHeight) / 2F - 3F;
         graphics.pose().pushPose();
         graphics.pose().translate(169, proseY, 0);
@@ -337,11 +302,7 @@ public final class TravelDiaryScreen extends Screen {
         for (int i = 0; i < proseLines.size(); i++) {
             var line = proseLines.get(i);
             graphics.pose().pushPose();
-            graphics.pose()
-                    .translate(
-                            cachedCenters.get(i),
-                            lineOffsets.get(i) * spacingFactor / proseScale,
-                            0);
+            graphics.pose().translate(cachedCenters.get(i), lineOffsets.get(i) * spacingFactor / proseScale, 0);
             graphics.drawString(font, line, 0, 0, INK, false);
             graphics.pose().popPose();
         }
@@ -349,32 +310,15 @@ public final class TravelDiaryScreen extends Screen {
     }
 
     private void renderTabs(GuiGraphics graphics, float x, float y) {
-        tab(
-                graphics,
-                text("effects"),
-                305,
-                HEADER_Y,
-                73,
-                !journeyPage,
-                inside(x, y, 302, 68, 381, 94));
+        tab(graphics, text("effects"), 305, HEADER_Y, 73, !journeyPage, inside(x, y, 302, 68, 381, 94));
         if (hasJourney()) {
             Component title =
-                    text(
-                            com.thelongtravail.network.JourneySync.isRevealed(selected)
-                                    ? "journey"
-                                    : "journey_locked");
+                    text(com.thelongtravail.network.JourneySync.isRevealed(selected) ? "journey" : "journey_locked");
             tab(graphics, title, 391, HEADER_Y, 93, journeyPage, inside(x, y, 387, 68, 490, 94));
         }
     }
 
-    private void tab(
-            GuiGraphics graphics,
-            Component title,
-            int x,
-            int y,
-            int width,
-            boolean active,
-            boolean hovered) {
+    private void tab(GuiGraphics graphics, Component title, int x, int y, int width, boolean active, boolean hovered) {
         if (hovered) graphics.fill(x - 2, y - 4, x + width + 2, y + 16, 0x14755A38);
         drawCentered(graphics, title, x + width / 2, y, active ? INK : MUTED_INK);
         if (active) graphics.fill(x, y + 17, x + width, y + 18, 0xFF96764E);
@@ -385,8 +329,7 @@ public final class TravelDiaryScreen extends Screen {
         LongTravailData.RequirementIdentity requirements = LongTravailData.queryIdentity(diary);
         if (!key.equals(contentKey)
                 || !requirements.equals(cachedRequirements)
-                || cachedStateRevision
-                        != com.thelongtravail.data.JourneyState.stateRevision(diary)) {
+                || cachedStateRevision != com.thelongtravail.data.JourneyState.stateRevision(diary)) {
             cachedStateRevision = com.thelongtravail.data.JourneyState.stateRevision(diary);
             cachedContent = List.copyOf(buildContent());
             cachedRequirements = requirements;
@@ -404,19 +347,11 @@ public final class TravelDiaryScreen extends Screen {
             }
             for (FormattedCharSequence line :
                     font.split(LongTravailItem.aspectEffect(selected, completed()), RIGHT_WIDTH))
-                lines.add(
-                        new PageLine(
-                                line, INK, font.width(line) == 0 ? LINE_HEIGHT / 2 : LINE_HEIGHT));
+                lines.add(new PageLine(line, INK, font.width(line) == 0 ? LINE_HEIGHT / 2 : LINE_HEIGHT));
         } else if (!com.thelongtravail.network.JourneySync.isRevealed(selected)) {
-            append(
-                    lines,
-                    Component.translatable("tooltip.the_long_travail.revelation.hidden"),
-                    MUTED_INK);
+            append(lines, Component.translatable("tooltip.the_long_travail.revelation.hidden"), MUTED_INK);
         } else if (!LongTravailData.isInitialized(diary)) {
-            append(
-                    lines,
-                    Component.translatable("tooltip.the_long_travail.revelation.not_started"),
-                    MUTED_INK);
+            append(lines, Component.translatable("tooltip.the_long_travail.revelation.not_started"), MUTED_INK);
         } else if (selected == TravailAspect.UNDERWORLD
                 && diary.hasTag()
                 && com.thelongtravail.data.JourneyState.hasSource(
@@ -435,18 +370,13 @@ public final class TravelDiaryScreen extends Screen {
         var entries = LongTravailData.requirementsForDisplay(diary, selected, structures);
         long done = entries.stream().filter(LongTravailData.RequirementStatus::completed).count();
         float headingScale = 1.15F;
-        for (var line :
-                font.split(text(heading, done, entries.size()), (int) (RIGHT_WIDTH / headingScale)))
+        for (var line : font.split(text(heading, done, entries.size()), (int) (RIGHT_WIDTH / headingScale)))
             lines.add(new PageLine(line, INK, 18, headingScale));
         lines.add(new PageLine(FormattedCharSequence.EMPTY, INK, 4));
         if (entries.isEmpty())
-            append(
-                    lines,
-                    Component.translatable("tooltip.the_long_travail.revelation.none"),
-                    MUTED_INK);
+            append(lines, Component.translatable("tooltip.the_long_travail.revelation.none"), MUTED_INK);
         for (var entry : entries) {
-            String name =
-                    TooltipConfigSync.requirementDisplayName(selected, structures, entry.id());
+            String name = TooltipConfigSync.requirementDisplayName(selected, structures, entry.id());
             append(
                     lines,
                     Component.literal((entry.completed() ? "✓ " : "○ ") + name),
@@ -455,8 +385,7 @@ public final class TravelDiaryScreen extends Screen {
     }
 
     private void append(List<PageLine> lines, Component component, int color) {
-        for (FormattedCharSequence line : font.split(component, RIGHT_WIDTH))
-            lines.add(new PageLine(line, color));
+        for (FormattedCharSequence line : font.split(component, RIGHT_WIDTH)) lines.add(new PageLine(line, color));
     }
 
     private void renderContent(GuiGraphics graphics) {
@@ -465,8 +394,7 @@ public final class TravelDiaryScreen extends Screen {
         int contentHeight = lines.stream().mapToInt(PageLine::height).sum();
         maxScroll = lines.size();
         int lastPageHeight = 0;
-        while (maxScroll > 0
-                && lastPageHeight + lines.get(maxScroll - 1).height() <= viewportHeight) {
+        while (maxScroll > 0 && lastPageHeight + lines.get(maxScroll - 1).height() <= viewportHeight) {
             lastPageHeight += lines.get(--maxScroll).height();
         }
         scroll = Math.min(scroll, maxScroll);
@@ -496,9 +424,7 @@ public final class TravelDiaryScreen extends Screen {
             int maxOffset = lines.subList(0, maxScroll).stream().mapToInt(PageLine::height).sum();
             int thumbY = BODY_TOP + (trackHeight - thumbHeight) * offset / maxOffset;
             graphics.fill(trackX, thumbY, trackX + 2, thumbY + thumbHeight, 0xB0755A38);
-            Component position =
-                    Component.translatable(
-                            "gui.the_long_travail.diary.scroll", scroll + 1, maxScroll + 1);
+            Component position = Component.translatable("gui.the_long_travail.diary.scroll", scroll + 1, maxScroll + 1);
             graphics.drawString(font, position, RIGHT_X, 311, MUTED_INK, false);
         }
     }
@@ -506,7 +432,6 @@ public final class TravelDiaryScreen extends Screen {
     private void renderClose(GuiGraphics graphics, float x, float y) {
         boolean hover = inside(x, y, 469, 43, 496, 67);
         if (hover) graphics.fill(470, 44, 495, 66, 0x28755A38);
-        // 用几何图形绘制叉号，避免依赖字体是否包含该字形。
         int color = hover ? 0xFF713D2A : MUTED_INK;
         for (int i = 0; i < 9; i++) {
             graphics.fill(477 + i, 50 + i, 479 + i, 52 + i, color);
@@ -514,8 +439,7 @@ public final class TravelDiaryScreen extends Screen {
         }
     }
 
-    private void drawCentered(
-            GuiGraphics graphics, Component value, int centerX, int y, int color) {
+    private void drawCentered(GuiGraphics graphics, Component value, int centerX, int y, int color) {
         graphics.drawString(font, value, centerX - font.width(value) / 2, y, color, false);
     }
 
@@ -579,11 +503,10 @@ public final class TravelDiaryScreen extends Screen {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE || keyCode == GLFW.GLFW_KEY_BACKSPACE) onClose();
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE) onClose();
         else if (keyCode == GLFW.GLFW_KEY_DOWN) scroll = Math.min(maxScroll, scroll + 1);
         else if (keyCode == GLFW.GLFW_KEY_UP) scroll = Math.max(0, scroll - 1);
-        else if (keyCode == GLFW.GLFW_KEY_PAGE_DOWN)
-            scroll = Math.min(maxScroll, scroll + VISIBLE_LINES);
+        else if (keyCode == GLFW.GLFW_KEY_PAGE_DOWN) scroll = Math.min(maxScroll, scroll + VISIBLE_LINES);
         else if (keyCode == GLFW.GLFW_KEY_PAGE_UP) scroll = Math.max(0, scroll - VISIBLE_LINES);
         return true;
     }

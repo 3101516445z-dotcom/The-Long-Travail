@@ -27,9 +27,7 @@ public record BoundlessPacket(boolean active, int cooldown) {
         TravailNetwork.sendBoundless(
                 p,
                 new BoundlessPacket(
-                        active,
-                        p.getPersistentData()
-                                .getInt(com.thelongtravail.boundless.DreamState.COOLDOWN)));
+                        active, p.getPersistentData().getInt(com.thelongtravail.boundless.DreamState.COOLDOWN)));
     }
 
     public record Message(String key, int cooldownTicks) {
@@ -68,17 +66,14 @@ public record BoundlessPacket(boolean active, int cooldown) {
             var connection = c.getNetworkManager();
             c.enqueueWork(
                     () -> {
-                        // 固定接收时的发送者，避免重生后把旧请求交给新实例；只在服务端执行时校验在线状态。
+                        // 保留接收请求时的发送者实例，避免重生后将旧请求交给新实例；在线状态在服务端实际执行时校验。
                         if (sender == null
                                 || !connection.isConnected()
                                 || sender.isRemoved()
                                 || sender.connection == null
                                 || sender.connection != connection.getPacketListener()
                                 || sender.connection.player != sender
-                                || sender.serverLevel()
-                                                .getServer()
-                                                .getPlayerList()
-                                                .getPlayer(sender.getUUID())
+                                || sender.serverLevel().getServer().getPlayerList().getPlayer(sender.getUUID())
                                         != sender) return;
                         com.thelongtravail.boundless.DreamState.cast(sender);
                     });

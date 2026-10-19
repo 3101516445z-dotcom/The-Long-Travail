@@ -6,11 +6,13 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixins.the_long_travail.refmap.json",
   "mixins": [
+    "dummmmmmy.DummyDamageMixin",
     "caelus.IcarusCaelusApiMixin",
     "gravestone.BookGravestoneMixin",
     "gravestone.BookBlockEntityMixin",
     "maid.MaidSwimMixin",
-    "maid.MaidPersonalityStorageMixin"
+    "maid.MaidPersonalityStorageMixin",
+    "maid.MaidRelicSlotMixin"
   ],
   "client": [
     "maid.MaidTooltipMixin",

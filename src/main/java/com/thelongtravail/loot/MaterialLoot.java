@@ -11,7 +11,6 @@ import net.minecraft.world.level.storage.loot.entries.LootTableReference;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
-// 材料子表与特殊来源的同池精粹规则分开登记，均独立于可配置的饰品奖励。
 public final class MaterialLoot {
     public static final String POOL = "the_long_travail:materials";
     private static final Map<ResourceLocation, ResourceLocation> TABLES =
@@ -26,8 +25,7 @@ public final class MaterialLoot {
                     source("blocks/budding_amethyst"), material("essences/blocks/budding_amethyst"),
                     source("chests/buried_treasure"), material("essences/chests/buried_treasure"),
                     source("chests/jungle_temple"), material("essences/chests/jungle_temple"),
-                    source("chests/stronghold_library"),
-                            material("essences/chests/stronghold_library"));
+                    source("chests/stronghold_library"), material("essences/chests/stronghold_library"));
 
     private record SpecialReward(ResourceLocation item, double percent) {}
 
@@ -50,127 +48,29 @@ public final class MaterialLoot {
         return ResourceLocation.fromNamespaceAndPath("minecraft", path);
     }
 
-    private static Map.Entry<ResourceLocation, SpecialReward> special(
-            String path, String aspect, double percent) {
+    private static Map.Entry<ResourceLocation, SpecialReward> special(String path, String aspect, double percent) {
         return Map.entry(
                 source(path),
                 new SpecialReward(
-                        ResourceLocation.fromNamespaceAndPath(
-                                "the_long_travail", aspect + "_essence"),
-                        percent));
+                        ResourceLocation.fromNamespaceAndPath("the_long_travail", aspect + "_essence"), percent));
     }
 
-    // 特殊来源与原奖励同池抽取，按目标概率缩放权重，保留原物品的函数和相对比例。
     private static void injectSpecial(LootTable table, SpecialReward rule) {
-        var gson = Deserializers.createLootTableSerializer().create();
-        var json = gson.toJsonTree(table, LootTable.class).getAsJsonObject();
-        var pools = json.getAsJsonArray("pools");
-        if (pools == null || pools.size() != 1 || !empty(json, "functions")) {
-            unsupported(table);
-            return;
-        }
-        var pool = pools.get(0).getAsJsonObject();
-        // 其他模组通过构建器创建的池可能没有名称，无法安全按名称替换。
-        if (!pool.has("name") || pool.get("name").isJsonNull()) {
-            TheLongTravail.LOGGER.warn("特殊来源表 {} 包含无名称奖励池，保留该表并跳过精粹注入", table.getLootTableId());
-            return;
-        }
-        if (!number(pool, "rolls", 1)
-                || !number(pool, "bonus_rolls", 0)
-                || !empty(pool, "conditions")
-                || !empty(pool, "functions")) {
-            unsupported(table);
-            return;
-        }
-        var entries = pool.getAsJsonArray("entries");
-        if (entries == null || entries.isEmpty()) {
-            unsupported(table);
-            return;
-        }
-        int percent = (int) Math.round(rule.percent() * 2);
-        int divisor = percent, denominator = 200;
-        while (denominator != 0) {
-            int remainder = divisor % denominator;
-            divisor = denominator;
-            denominator = remainder;
-        }
-        int nativeWeight = (200 - percent) / divisor;
-        int essenceWeight = percent / divisor;
-        long total = 0;
-        for (var element : entries) {
-            var entry = element.getAsJsonObject();
-            String type = entry.get("type").getAsString();
-            if (!(type.equals("minecraft:item")
-                            || type.equals("minecraft:loot_table")
-                            || type.equals("minecraft:empty"))
-                    || !empty(entry, "conditions")
-                    || !number(entry, "quality", 0)) {
-                unsupported(table);
-                return;
-            }
-            int weight = entry.has("weight") ? entry.get("weight").getAsInt() : 1;
-            if (weight <= 0) {
-                unsupported(table);
-                return;
-            }
-            total += weight;
-        }
-        if (total <= 0 || total > Integer.MAX_VALUE / (nativeWeight + essenceWeight)) {
-            unsupported(table);
-            return;
-        }
-        for (var element : entries) {
-            var entry = element.getAsJsonObject();
-            entry.addProperty(
-                    "weight",
-                    (entry.has("weight") ? entry.get("weight").getAsInt() : 1) * nativeWeight);
-        }
-        var reward = new JsonObject();
-        reward.addProperty("type", "minecraft:item");
-        reward.addProperty("name", rule.item().toString());
-        reward.addProperty("weight", total * essenceWeight);
-        entries.add(reward);
-        String oldName = pool.get("name").getAsString();
-        var builder =
-                LootPool.lootPool()
-                        .name(POOL)
-                        .setRolls(ConstantValue.exactly(1))
-                        .setBonusRolls(ConstantValue.exactly(0));
-        for (var element : entries)
-            builder.add(new LoadedEntry(gson.fromJson(element, LootPoolEntryContainer.class)));
-        var replacement = builder.build();
-        table.removePool(oldName);
-        table.addPool(replacement);
+        var rewards = new java.util.ArrayList<SingleRollLootInjector.Reward>();
+        rewards.add(new SingleRollLootInjector.Reward(rule.item(), rule.percent() / 100));
+        if (source("gameplay/fishing/treasure").equals(table.getLootTableId()))
+            rewards.add(
+                    new SingleRollLootInjector.Reward(
+                            sourceItem("perfect_fluid"), UnifiedLoot.fluidFishingChance * 20));
+        if (table.getLootTableId().getPath().startsWith("archaeology/"))
+            rewards.add(new SingleRollLootInjector.Reward(sourceItem("don_quixote"), .05));
+        if (source("archaeology/trail_ruins_rare").equals(table.getLootTableId()))
+            rewards.add(new SingleRollLootInjector.Reward(sourceItem("phosphophyllite"), .05));
+        if (!SingleRollLootInjector.inject(table, POOL, rewards)) unsupported(table);
     }
 
-    private static final class LoadedEntry extends LootPoolEntryContainer.Builder<LoadedEntry> {
-        private final LootPoolEntryContainer entry;
-
-        private LoadedEntry(LootPoolEntryContainer entry) {
-            this.entry = entry;
-        }
-
-        @Override
-        protected LoadedEntry getThis() {
-            return this;
-        }
-
-        @Override
-        public LootPoolEntryContainer build() {
-            return entry;
-        }
-    }
-
-    private static boolean empty(JsonObject json, String key) {
-        return !json.has(key) || json.getAsJsonArray(key).isEmpty();
-    }
-
-    private static boolean number(JsonObject json, String key, int expected) {
-        if (!json.has(key)) return expected == 0;
-        var value = json.get(key);
-        return value.isJsonPrimitive()
-                && value.getAsJsonPrimitive().isNumber()
-                && value.getAsDouble() == expected;
+    private static ResourceLocation sourceItem(String path) {
+        return new ResourceLocation("the_long_travail", path);
     }
 
     private static void unsupported(LootTable table) {

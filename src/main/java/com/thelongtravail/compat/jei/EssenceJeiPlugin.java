@@ -3,6 +3,11 @@ package com.thelongtravail.compat.jei;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.registry.ModRegistry;
 import java.util.List;
+import java.util.function.Supplier;
+import java.math.BigDecimal;
+import com.thelongtravail.config.BoundlessItemsConfig;
+import com.thelongtravail.network.TooltipConfigSync;
+import net.minecraft.world.item.Item;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -20,10 +25,18 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 
-// 独立展示母岩破坏来源，不依赖 ALI 或其方块分类开关。
 @JeiPlugin
 public final class EssenceJeiPlugin implements IModPlugin {
-    private record BlockDrop() {}
+    private record BlockDrop(Item block, Supplier<Item> result, String description, String chanceKey) {
+        Component text() {
+            if (chanceKey == null) return Component.translatable(description);
+            double chance =
+                    TooltipConfigSync.decimal("boundlessItem." + chanceKey, BoundlessItemsConfig.get(chanceKey));
+            String percent =
+                    BigDecimal.valueOf(chance).multiply(BigDecimal.valueOf(100)).stripTrailingZeros().toPlainString();
+            return Component.translatable(description, percent);
+        }
+    }
 
     private static final RecipeType<BlockDrop> TYPE =
             RecipeType.create("the_long_travail", "essence_block_drop", BlockDrop.class);
@@ -40,7 +53,24 @@ public final class EssenceJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        registration.addRecipes(TYPE, List.of(new BlockDrop()));
+        registration.addRecipes(
+                TYPE,
+                List.of(
+                        new BlockDrop(
+                                Items.BUDDING_AMETHYST,
+                                () -> ModRegistry.ESSENCES.get(TravailAspect.DEEP_VALLEY.ordinal()).get(),
+                                "jei.the_long_travail.block_drop.description",
+                                null),
+                        new BlockDrop(
+                                Items.POPPY,
+                                ModRegistry.LITTLE_PRINCE::get,
+                                "jei.the_long_travail.block_drop.prince_poppy",
+                                "prince.poppyChance"),
+                        new BlockDrop(
+                                Items.ROSE_BUSH,
+                                ModRegistry.LITTLE_PRINCE::get,
+                                "jei.the_long_travail.block_drop.prince_rose",
+                                "prince.roseChance")));
     }
 
     private static final class Category implements IRecipeCategory<BlockDrop> {
@@ -77,36 +107,20 @@ public final class EssenceJeiPlugin implements IModPlugin {
 
         @Override
         public void setRecipe(IRecipeLayoutBuilder builder, BlockDrop recipe, IFocusGroup focuses) {
-            builder.addInputSlot(20, 2)
-                    .addItemStack(Items.BUDDING_AMETHYST.getDefaultInstance())
-                    .setStandardSlotBackground();
+            builder.addInputSlot(20, 2).addItemStack(recipe.block().getDefaultInstance()).setStandardSlotBackground();
             builder.addOutputSlot(106, 2)
-                    .addItemStack(
-                            ModRegistry.ESSENCES
-                                    .get(TravailAspect.DEEP_VALLEY.ordinal())
-                                    .get()
-                                    .getDefaultInstance())
+                    .addItemStack(recipe.result().get().getDefaultInstance())
                     .setOutputSlotBackground();
         }
 
         @Override
-        public void draw(
-                BlockDrop recipe,
-                IRecipeSlotsView slots,
-                GuiGraphics graphics,
-                double mouseX,
-                double mouseY) {
+        public void draw(BlockDrop recipe, IRecipeSlotsView slots, GuiGraphics graphics, double mouseX, double mouseY) {
             gui.getRecipeArrow().draw(graphics, 65, 2);
         }
 
         @Override
-        public void createRecipeExtras(
-                IRecipeExtrasBuilder builder, BlockDrop recipe, IFocusGroup focuses) {
-            builder.addText(
-                            Component.translatable("jei.the_long_travail.block_drop.description"),
-                            150,
-                            60)
-                    .setPosition(0, 29);
+        public void createRecipeExtras(IRecipeExtrasBuilder builder, BlockDrop recipe, IFocusGroup focuses) {
+            builder.addText(recipe.text(), 150, 60).setPosition(0, 29);
         }
     }
 }

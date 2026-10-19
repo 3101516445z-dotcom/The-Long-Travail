@@ -6,8 +6,7 @@ import java.util.*;
 
 // 快照构建后只读，可供网格构建线程安全使用；查询时按实际采样位置选择区段。
 public final class LanternLightSnapshot {
-    public static final LanternLightSnapshot EMPTY =
-            new LanternLightSnapshot(new LanternLighting.Source[0]);
+    public static final LanternLightSnapshot EMPTY = new LanternLightSnapshot(new LanternLighting.Source[0]);
     private static final LanternLighting.Source[] NONE = new LanternLighting.Source[0];
     private final LanternLighting.Source[] all;
     private final Set<LanternLighting.Source> unique;
@@ -28,30 +27,20 @@ public final class LanternLightSnapshot {
         this.sections = sections;
     }
 
-    static LanternLightSnapshot update(
-            LanternLightSnapshot previous, LanternLighting.Source[] sources) {
-        // 少量光源直接沿用全量路径，避免为普通场景增加差集判断。
-        if (sources.length < 8 || previous.unique.size() < 8)
-            return new LanternLightSnapshot(sources);
+    static LanternLightSnapshot update(LanternLightSnapshot previous, LanternLighting.Source[] sources) {
+        if (sources.length < 8 || previous.unique.size() < 8) return new LanternLightSnapshot(sources);
         var all = sources.clone();
-        // 全部来源仍保留重复项；唯一坐标存在就保留照明，不因移除一个重合来源而熄灯。
         Set<LanternLighting.Source> unique = new LinkedHashSet<>(Arrays.asList(all));
-        if (unique.equals(previous.unique))
-            return new LanternLightSnapshot(all, unique, previous.sections.clone());
-        // 大范围变化继续全量构建，避免密集桶中的逐项删除退化为平方级工作量。
+        if (unique.equals(previous.unique)) return new LanternLightSnapshot(all, unique, previous.sections.clone());
         int limit = (unique.size() + previous.unique.size()) / 4, changes = 0;
-        for (var source : previous.unique)
-            if (!unique.contains(source) && ++changes >= limit) break;
+        for (var source : previous.unique) if (!unique.contains(source) && ++changes >= limit) break;
         if (changes < limit)
-            for (var source : unique)
-                if (!previous.unique.contains(source) && ++changes >= limit) break;
-        if (unique.size() < 8 || changes >= limit)
-            return new LanternLightSnapshot(all, unique, build(unique));
+            for (var source : unique) if (!previous.unique.contains(source) && ++changes >= limit) break;
+        if (unique.size() < 8 || changes >= limit) return new LanternLightSnapshot(all, unique, build(unique));
         var sections = previous.sections.clone();
         var changed = new Long2ObjectOpenHashMap<List<LanternLighting.Source>>();
         for (var source : previous.unique)
-            if (!unique.contains(source))
-                forEachSection(source, key -> mutable(changed, sections, key).remove(source));
+            if (!unique.contains(source)) forEachSection(source, key -> mutable(changed, sections, key).remove(source));
         for (var source : unique)
             if (!previous.unique.contains(source))
                 forEachSection(source, key -> mutable(changed, sections, key).add(source));
@@ -61,31 +50,25 @@ public final class LanternLightSnapshot {
                             if (entry.getValue().isEmpty()) sections.remove(entry.getLongKey());
                             else
                                 sections.put(
-                                        entry.getLongKey(),
-                                        entry.getValue().toArray(LanternLighting.Source[]::new));
+                                        entry.getLongKey(), entry.getValue().toArray(LanternLighting.Source[]::new));
                         });
         return new LanternLightSnapshot(all, unique, sections);
     }
 
-    private static Long2ObjectOpenHashMap<LanternLighting.Source[]> build(
-            Set<LanternLighting.Source> unique) {
+    private static Long2ObjectOpenHashMap<LanternLighting.Source[]> build(Set<LanternLighting.Source> unique) {
         var sections = new Long2ObjectOpenHashMap<LanternLighting.Source[]>();
         var building = new Long2ObjectOpenHashMap<List<LanternLighting.Source>>();
         double radius = LanternLighting.RADIUS + 1;
         for (var source : unique)
             for (int x = section(source.x() - radius); x <= section(source.x() + radius); x++)
                 for (int y = section(source.y() - radius); y <= section(source.y() + radius); y++)
-                    for (int z = section(source.z() - radius);
-                            z <= section(source.z() + radius);
-                            z++)
-                        building.computeIfAbsent(SectionPos.asLong(x, y, z), k -> new ArrayList<>())
-                                .add(source);
+                    for (int z = section(source.z() - radius); z <= section(source.z() + radius); z++)
+                        building.computeIfAbsent(SectionPos.asLong(x, y, z), k -> new ArrayList<>()).add(source);
         building.long2ObjectEntrySet()
                 .forEach(
                         entry ->
                                 sections.put(
-                                        entry.getLongKey(),
-                                        entry.getValue().toArray(LanternLighting.Source[]::new)));
+                                        entry.getLongKey(), entry.getValue().toArray(LanternLighting.Source[]::new)));
         return sections;
     }
 
@@ -101,8 +84,7 @@ public final class LanternLightSnapshot {
                 });
     }
 
-    private static void forEachSection(
-            LanternLighting.Source source, java.util.function.LongConsumer action) {
+    private static void forEachSection(LanternLighting.Source source, java.util.function.LongConsumer action) {
         double radius = LanternLighting.RADIUS + 1;
         for (int x = section(source.x() - radius); x <= section(source.x() + radius); x++)
             for (int y = section(source.y() - radius); y <= section(source.y() + radius); y++)
@@ -125,8 +107,7 @@ public final class LanternLightSnapshot {
     public int merge(double x, double y, double z, int packed) {
         if ((packed & 255) >= 240 || all.length == 0) return packed;
         var nearby = sections.get(SectionPos.asLong(section(x), section(y), section(z)));
-        com.thelongtravail.data.HotPathMetrics.Counter.LIGHT_CANDIDATES.add(
-                nearby == null ? 0 : nearby.length);
+        com.thelongtravail.data.HotPathMetrics.Counter.LIGHT_CANDIDATES.add(nearby == null ? 0 : nearby.length);
         return LanternLighting.merge(nearby == null ? NONE : nearby, x, y, z, packed);
     }
 }

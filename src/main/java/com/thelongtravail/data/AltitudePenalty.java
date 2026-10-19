@@ -8,9 +8,7 @@ import com.thelongtravail.network.TooltipConfigSync;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-// 高空减速在读取速度时计算，不写入属性修饰符，避免被其他模组抵消或重算属性时移除。
 public final class AltitudePenalty {
-    // 缓存由各 Player 实例持有，避免全局玩家引用和共享缓存锁。
     public interface Cache {
         float travail$altitudeFactor();
 
@@ -27,7 +25,6 @@ public final class AltitudePenalty {
         return player.level().isClientSide ? TooltipConfigSync.revision() : serverRevision;
     }
 
-    // 移速乘数；1.0 表示无惩罚。
     public static float factor(Player player) {
         if (player == null || !ModeEffectRules.diaryApplies(player)) return 1.0F;
         return player instanceof Cache cache ? cache.travail$altitudeFactor() : compute(player);

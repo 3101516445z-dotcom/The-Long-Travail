@@ -73,14 +73,12 @@ public final class EffectSounds {
     }
 
     public static void notification(ResourceLocation id, boolean gain, Runnable configuredSound) {
-        if (!Boolean.getBoolean("the_long_travail.soundsAdapterVerified")
-                || !syncOwner()
-                || id == null) {
+        if (!Boolean.getBoolean("the_long_travail.soundsAdapterVerified") || !syncOwner() || id == null) {
             configuredSound.run();
             return;
         }
-        // 在实际播放时过滤，包括队列溢出路径。延迟通知须读取当前装备和同步配置，
-        // 不能使用两刻前捕获的过期状态。
+        // 在实际播放音效时检查规则，包括队列溢出时的播放路径。延迟通知须读取当前装备和同步后的配置，
+        // 不能使用两个游戏刻前记录的过期状态。
         POLICY.notification(
                 id.toString(),
                 gain,
@@ -88,15 +86,10 @@ public final class EffectSounds {
                     boolean enabled =
                             TooltipConfigSync.integer(
                                             "general.muteBeneficialEffectGainSounds",
-                                            TravailConfig.MUTE_BENEFICIAL_EFFECT_GAIN_SOUNDS.get()
-                                                    ? 1
-                                                    : 0)
+                                            TravailConfig.MUTE_BENEFICIAL_EFFECT_GAIN_SOUNDS.get() ? 1 : 0)
                                     != 0;
                     if (WitnessSoundRule.muteGain(
-                            Minecraft.getInstance().player,
-                            ForgeRegistries.MOB_EFFECTS.getValue(id),
-                            gain,
-                            enabled)) {
+                            Minecraft.getInstance().player, ForgeRegistries.MOB_EFFECTS.getValue(id), gain, enabled)) {
                         count("quiet-witness-beneficial-gain", id.toString());
                         return false;
                     }
