@@ -36,14 +36,19 @@ function argumentSlots(text) {
     return [...slots].sort((a, b) => a - b);
 }
 
-function verifyLocales(chinese, english) {
-    assert.deepEqual(chinese.keys, english.keys, 'Locale keys and grouping order must match');
-    for (const key of chinese.keys) {
-        assert.deepEqual(
-            argumentSlots(chinese.values[key]),
-            argumentSlots(english.values[key]),
-            `${key}: localized argument slots must match`
-        );
+// 第一个 locale 为参照，其余 locale 的键、顺序与占位参数槽位都必须与之一致。
+function verifyLocales(...localized) {
+    assert(localized.length >= 2, 'at least two locales are required');
+    const [reference, ...others] = localized;
+    for (const other of others) {
+        assert.deepEqual(reference.keys, other.keys, 'Locale keys and grouping order must match');
+        for (const key of reference.keys) {
+            assert.deepEqual(
+                argumentSlots(reference.values[key]),
+                argumentSlots(other.values[key]),
+                `${key}: localized argument slots must match`
+            );
+        }
     }
 }
 

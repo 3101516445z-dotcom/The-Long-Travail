@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { readGroups, generate } = require('./generate-language-files.cjs');
+const { readGroups, generate, locales } = require('./generate-language-files.cjs');
 const temporaryRoot = path.resolve(__dirname, '../build/tmp/language-tests');
 fs.mkdirSync(temporaryRoot, { recursive: true });
 const root = fs.mkdtempSync(path.join(temporaryRoot, 'case-'));
@@ -11,7 +11,7 @@ let passed = 0;
 function reset() {
     fs.mkdirSync(source, { recursive: true });
     fs.writeFileSync(path.join(source, 'groups.json'), '["common","aspects/abyss"]');
-    for (const locale of ['zh_cn', 'en_us']) {
+    for (const locale of locales) {
         fs.mkdirSync(path.join(source, locale, 'aspects'), { recursive: true });
         fs.writeFileSync(path.join(source, locale, 'common.json'), '{"key":"%1$s %%"}');
         fs.writeFileSync(path.join(source, locale, 'aspects/abyss.json'), '{"other":"text"}');
@@ -36,7 +36,7 @@ try {
     passed++;
     reject(() => put('zh_cn/common.json', '{"key":"a","key":"b"}'), /duplicate/);
     reject(() => {
-        for (const l of ['zh_cn', 'en_us']) put(`${l}/aspects/abyss.json`, '{"key":"text"}');
+        for (const l of locales) put(`${l}/aspects/abyss.json`, '{"key":"text"}');
     }, /duplicate key/);
     reject(() => put('zh_cn/common.json', '{"key":"text",}'), /JSON|property/i);
     reject(() => put('zh_cn/common.json', '{"key":3}'), /must contain text/);

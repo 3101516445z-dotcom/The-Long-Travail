@@ -3,7 +3,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { readLocale, verifyLocales } = require('./verify-language-files.cjs');
 
-const locales = ['zh_cn', 'en_us'];
+// 首个 locale（zh_cn）作为键与顺序的参照；其余 locale 必须与它完全对齐。
+const locales = ['zh_cn', 'en_us', 'zh_tw', 'zh_hk', 'lzh'];
 
 function filesUnder(directory) {
     return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
@@ -60,7 +61,7 @@ function generate(root, output) {
     return merged;
 }
 
-module.exports = { readGroups, generate };
+module.exports = { readGroups, generate, locales };
 if (require.main === module) {
     const root = process.argv[2] || path.resolve(__dirname, '../src/main/lang');
     const output = process.argv[3] || path.resolve(__dirname, '../build/generated/resources/language');

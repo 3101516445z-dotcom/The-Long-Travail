@@ -43,6 +43,7 @@ desktop.ini
 /tools/*
 !/tools/generate-language-files.cjs
 !/tools/verify-language-files.cjs
+!/tools/verify-locale.cjs
 !/tools/test-language-generation.cjs
 
 # 本机环境配置；共享的 gradle.properties 仍需提交
