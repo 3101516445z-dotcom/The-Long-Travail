@@ -71,3 +71,15 @@
 `diagnostics/RuntimeDiagnostics` 由 JVM 参数 `-Dthelongtravail.diagnostics=true` 启用，通过 `snapshot()` 返回各指标的 `count`、`total`、`max`、`last`。`*_NS` 为纳秒，`REPLAY_WAIT_TICKS` 为游戏刻，节点、库存和队列指标按对应计数解释；此接口不自动输出停服日志。
 
 `data/HotPathMetrics` 使用独立参数 `-Dtravail.hotpath.metrics=true`，在服务端停止时输出累计统计与峰值。两套开关互不替代，均须在启动前设置。
+
+## 配置加载与重载
+
+配置仍由 `ForgeConfigSpec` 定义并注册到 Forge。`config/ManagedConfig` 通过独立 `ConfigFileTypeHandler` 管理本模组文件，不改写其他模组的处理器。`ConfigRecovery` 在升级迁移前解析和恢复文件；`ConfigValidation` 校验普通配置项并转换合法数字字符串；`ConfigWatcher` 监听创建、修改和删除事件，等待保存事件短暂停顿后再读取。
+
+读取必须先进入独立候选配置，校验后发布新配置、清理 spec 缓存并发送 Forge 重载事件，使现有运行时缓存及客户端说明同步继续生效。运行中非法普通值沿用有效值；无法解析的文件整体拒绝。不要直接对正在使用的文件配置调用 `load()`，也不要通过保存动作覆盖尚未处理的磁盘修改。
+
+自动纠正已有值或恢复损坏文件前，将原始字节与处理说明保存到 `config/the_long_travail/invalid/<时间与唯一编号>/`；备份成功且原文件未被再次修改后才替换。保留主题相对路径，不自动清理备份。启动时仅恢复损坏文件；有效配置历史仅在本次运行内保留。
+
+配置诊断统一通过 `ConfigProblems.report` 输出。`ConfigDiagnostics` 最多记住 1,024 条不同错误，按写入顺序淘汰；详细警告使用滚动 60 秒窗口，最多 20 条。限流部分从首条被省略的警告起约每分钟汇总一次，由配置监听线程在空闲时继续刷新，停服时输出剩余汇总。汇总最多列出 16 个文件，超出时提示另有文件；计数为被省略的报告次数，已淘汰错误再次出现也会计入。去重记录不按时间清空，与配置有效值和磁盘备份独立。
+
+新增配置优先通过既有 spec 注册；动态嵌套结构须独立校验，不能只用整组类型判断代替内部字段校验。共享战利品的逐表处理见[战利品接入](loot-integration.md#配置错误处理)。`gradlew.bat testConfigRecovery testConfigDiagnostics` 检查解析、文件恢复与诊断容量、限流和并发行为；完整监听与注册表行为需隔离 Forge 验证。

@@ -32,5 +32,6 @@
   "tooltip.the_long_travail.summary.list_separator": "，",
   "tooltip.the_long_travail.summary.bound": "§6已绑定§r：%s",
   "tooltip.the_long_travail.summary.enabled": "§a启用§r",
-  "tooltip.the_long_travail.summary.disabled": "§c禁用§r"
+  "tooltip.the_long_travail.summary.disabled": "§c禁用§r",
+  "message.the_long_travail.config_recovery": "苦旅检测到配置问题，已使用可用设置或停用对应奖励。请查看日志；如发生自动修正，原文件保存在 config/the_long_travail/invalid。"
 }

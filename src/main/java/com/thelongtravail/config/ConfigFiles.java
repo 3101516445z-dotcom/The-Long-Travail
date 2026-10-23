@@ -1,12 +1,13 @@
 package com.thelongtravail.config;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public final class ConfigFiles {
     private static final String DIRECTORY = "the_long_travail";
@@ -14,49 +15,53 @@ public final class ConfigFiles {
     public static void register(FMLJavaModLoadingContext context) {
         context.getModEventBus().addListener(ConfigFiles::afterConfigLoading);
         context.getModEventBus().addListener(PerfectFluidCompatDefaults::loaded);
+        context.getModEventBus()
+                .addListener(
+                        (net.minecraftforge.fml.event.config.ModConfigEvent.Loading event) -> {
+                            if (event.getConfig() instanceof ManagedConfig config) config.watch();
+                        });
         Path configDirectory = FMLPaths.CONFIGDIR.get();
         try {
-            ConfigUpgrade.boundless(configDirectory);
             writeGuides(configDirectory.resolve(DIRECTORY));
             for (var entry : TravailConfig.SPECS.entrySet()) {
-                prepare(configDirectory, entry.getKey(), entry.getValue());
-                context.registerConfig(
-                        ModConfig.Type.COMMON, entry.getValue(), DIRECTORY + "/" + entry.getKey());
+                register(
+                        context,
+                        ModConfig.Type.COMMON,
+                        entry.getKey(),
+                        entry.getValue(),
+                        configDirectory);
             }
-            prepare(configDirectory, "client.toml", TravailClientConfig.SPEC);
-            context.registerConfig(
-                    ModConfig.Type.CLIENT, TravailClientConfig.SPEC, DIRECTORY + "/client.toml");
+            register(
+                    context,
+                    ModConfig.Type.CLIENT,
+                    "client.toml",
+                    TravailClientConfig.SPEC,
+                    configDirectory);
         } catch (IOException | RuntimeException failure) {
             throw new IllegalStateException(
                     "苦旅配置读取失败。请检查 config/the_long_travail 和日志，修复后重启。", failure);
         }
     }
 
-    private static void prepare(Path directory, String file, ForgeConfigSpec spec)
-            throws IOException {
-        Path path = directory.resolve(DIRECTORY).resolve(file);
-        var config = ConfigFileIO.read(path);
-        spec.correct(config);
-        ConfigFileIO.write(path, config);
+    private static void register(
+            FMLJavaModLoadingContext context,
+            ModConfig.Type type,
+            String file,
+            ForgeConfigSpec spec,
+            Path directory) {
+        context.getContainer()
+                .addConfig(
+                        new ManagedConfig(
+                                type,
+                                spec,
+                                context.getContainer(),
+                                file,
+                                directory.resolve(DIRECTORY)));
     }
 
     private static void afterConfigLoading(
             net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) {
-        event.enqueueWork(
-                () -> {
-                    try {
-                        PerfectFluidCompatDefaults.initialize();
-                        Path directory = FMLPaths.CONFIGDIR.get().resolve(DIRECTORY);
-                        for (String file : TravailConfig.SPECS.keySet()) {
-                            Path path = directory.resolve(file);
-                            ConfigFileIO.write(path, ConfigFileIO.read(path));
-                        }
-                        Path client = directory.resolve("client.toml");
-                        ConfigFileIO.write(client, ConfigFileIO.read(client));
-                    } catch (IOException failure) {
-                        throw new IllegalStateException("苦旅配置排版保存失败。", failure);
-                    }
-                });
+        event.enqueueWork(PerfectFluidCompatDefaults::initialize);
     }
 
     public static void writeGuides(Path directory) throws IOException {

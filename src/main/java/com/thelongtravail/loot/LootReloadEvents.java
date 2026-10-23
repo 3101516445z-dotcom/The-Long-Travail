@@ -18,6 +18,7 @@ public final class LootReloadEvents {
     @SubscribeEvent
     public static void stopped(net.minecraftforge.event.server.ServerStoppedEvent event) {
         LootItemCollector.clearCache();
+        UnifiedLoot.reset();
     }
 
     private LootReloadEvents() {}

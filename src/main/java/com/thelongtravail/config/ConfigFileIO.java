@@ -1,27 +1,44 @@
 package com.thelongtravail.config;
 
 import com.electronwill.nightconfig.core.CommentedConfig;
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
+import com.electronwill.nightconfig.toml.TomlParser;
 import com.electronwill.nightconfig.toml.TomlWriter;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 
 public final class ConfigFileIO {
     public static CommentedConfig read(Path path) {
-        CommentedConfig result =
-                CommentedConfig.of(
-                        java.util.LinkedHashMap::new,
-                        com.electronwill.nightconfig.toml.TomlFormat.instance());
-        if (Files.exists(path)) {
-            try (CommentedFileConfig file =
-                    CommentedFileConfig.builder(path).preserveInsertionOrder().sync().build()) {
-                file.load();
-                result.putAll(file);
-                result.putAllComments(file);
-            }
+        try {
+            return parse(Files.exists(path) ? Files.readAllBytes(path) : new byte[0]);
+        } catch (IOException failure) {
+            throw new java.io.UncheckedIOException("Cannot read " + path, failure);
         }
-        return result;
+    }
+
+    static CommentedConfig parse(byte[] bytes) {
+        try {
+            String text =
+                    StandardCharsets.UTF_8
+                            .newDecoder()
+                            .decode(java.nio.ByteBuffer.wrap(bytes))
+                            .toString();
+            if (text.startsWith("\uFEFF")) text = text.substring(1);
+            CommentedConfig config =
+                    CommentedConfig.of(
+                            java.util.LinkedHashMap::new,
+                            com.electronwill.nightconfig.toml.TomlFormat.instance());
+            new TomlParser()
+                    .parse(
+                            new java.io.StringReader(text),
+                            config,
+                            com.electronwill.nightconfig.core.io.ParsingMode.REPLACE);
+            return config;
+        } catch (java.nio.charset.CharacterCodingException failure) {
+            throw new com.electronwill.nightconfig.core.io.ParsingException(
+                    "Configuration must use UTF-8 encoding", failure);
+        }
     }
 
     public static void write(Path path, CommentedConfig config) throws IOException {
@@ -31,8 +48,9 @@ public final class ConfigFileIO {
         var output = new java.io.StringWriter();
         writer.write(ConfigLayout.arrange(path, config), output);
         String text = output.toString();
-        if (Files.exists(path) && Files.readString(path, StandardCharsets.UTF_8).equals(text))
-            return;
+        if (Files.exists(path)
+                && java.util.Arrays.equals(
+                        Files.readAllBytes(path), text.getBytes(StandardCharsets.UTF_8))) return;
         Files.createDirectories(path.getParent());
         Path temporary =
                 Files.createTempFile(path.getParent(), path.getFileName().toString(), ".tmp");

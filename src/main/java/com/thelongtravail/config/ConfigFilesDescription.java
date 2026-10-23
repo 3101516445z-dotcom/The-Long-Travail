@@ -227,6 +227,24 @@ public final class ConfigFilesDescription {
             主题文件：恶意、见证、其他主题规则、探索条件池、关联物品。
             upgrades 和带有初始化记录说明的字段由模组维护，请勿手动修改。
 
+            配置写错时如何处理
+            使用 UTF-8 编码，可保留文件开头的 UTF-8 BOM。数值推荐直接填写，如 chance = 0.07；合法的数字字符串也会自动转换。
+
+            启动时：缺值、括号或引号未闭合、重复键、编码损坏等导致文件无法解析时，先保存原件，再恢复该文件的默认设置，其他配置文件不变。
+            普通配置项类型错误或超出范围时，只将该项改回默认值；正常补充缺失项不产生错误备份。
+
+            运行时：无法解析的文件保留原处，继续使用已加载的配置，等待修正后保存。
+            普通配置项的非法值沿用本次运行的有效值，其他合法修改继续生效。
+
+            战利品：按整张表校验。某表的概率、物品 ID、权重或数量有误时，沿用该表本次运行的有效规则；没有旧规则则暂停该表的苦旅奖励。
+            其他有效表和完美流体钓鱼概率独立处理。合法删除、概率为 0 或物品列表为空会停止对应奖励。
+
+            原件与修复：恢复损坏文件或自动纠正已有值前，原始内容会保存到 invalid/<时间与唯一编号>/，保留主题子目录，并附 errors.txt 说明原因。
+            原件保存失败时不覆盖配置。备份不自动删除，也不会在重启后自动恢复；需要旧设置时，从原件中取回并修正后填入当前 TOML 文件。
+
+            日志与提醒：单人玩家或服务器管理员会收到一次汇总提醒。重复警告会被抑制，每 60 秒最多输出 20 条详细警告，其余约每分钟汇总数量和涉及文件，停服时补齐剩余汇总。
+            按日志或 errors.txt 定位问题，修正当前配置并保存；共享战利品还需执行 /reload 或重启。
+
             探索条件池
             群系格式：群系ID|显示名称|权重
             结构格式：结构ID|显示名称|权重
@@ -285,6 +303,24 @@ public final class ConfigFilesDescription {
             general.toml: starter items, exploration rules, Malice, carrying and limits, compatibility, loot, internal upgrade records.
             Theme files: Malice, Witness, other theme rules, exploration pools, associated items.
             The mod maintains upgrades and fields described as initialization records. Do not edit them manually.
+
+            Handling configuration errors
+            Use UTF-8; a leading UTF-8 BOM is accepted. Prefer plain numbers, such as chance = 0.07. Valid numeric strings are also converted automatically.
+
+            At startup: if missing values, unclosed brackets or quotes, duplicate keys, or damaged encoding prevent parsing, the original file is preserved before restoring that file's defaults. Other configuration files are unchanged.
+            Ordinary settings with invalid types or out-of-range values use their defaults individually. Filling in missing settings normally creates no error backup.
+
+            During play: files that cannot be parsed remain on disk for repair, while the loaded configuration stays active. Save the corrected file to retry.
+            Invalid ordinary values retain their effective values from this session; other valid edits still apply.
+
+            Loot: each table is validated as a whole. Invalid chances, item IDs, weights or quantities retain that table's effective rules from this session; without previous rules, its added rewards are disabled.
+            Other valid tables and Perfect Fluid's fishing chance are handled independently. Valid deletions, zero chance and empty item lists stop the affected rewards.
+
+            Originals and repair: before restoring a damaged file or correcting existing values, the original contents are saved under invalid/<timestamp-and-unique-id>/ with theme subdirectories preserved and an errors.txt report.
+            If preserving the original fails, the configuration is not overwritten. Backups are not deleted or restored automatically; recover any wanted settings from the original, correct them, and put them into the current TOML file.
+
+            Logs and notices: single-player users or server administrators receive one summary notice. Duplicate warnings are suppressed. At most 20 detailed warnings are logged per 60 seconds; omitted counts and affected files are summarized about once a minute, with any pending summary flushed when the server stops.
+            Locate the issue using the log or errors.txt, then correct and save the current configuration. Unified loot also needs /reload or a restart.
 
             Exploration pools
             Format: biome_id|display_name|weight or structure_id|display_name|weight.

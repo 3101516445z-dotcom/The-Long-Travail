@@ -32,5 +32,6 @@
   "tooltip.the_long_travail.summary.list_separator": ", ",
   "tooltip.the_long_travail.summary.bound": "§6Bound to§r: %s",
   "tooltip.the_long_travail.summary.enabled": "§aEnabled§r",
-  "tooltip.the_long_travail.summary.disabled": "§cDisabled§r"
+  "tooltip.the_long_travail.summary.disabled": "§cDisabled§r",
+  "message.the_long_travail.config_recovery": "The Long Travail found configuration issues and used fallback settings or disabled affected rewards. Check the log; originals from automatic corrections are saved in config/the_long_travail/invalid."
 }

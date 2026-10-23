@@ -114,3 +114,5 @@ reobf { jarJar {} }
 apply from: 'gradle/language.gradle'
 
 apply from: 'gradle/compat-checks.gradle'
+
+apply from: 'gradle/config-checks.gradle'

@@ -1,0 +1,17 @@
+tasks.register('testConfigRecovery', JavaExec) {
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.thelongtravail.config.ConfigRecoveryTest'
+    args layout.buildDirectory.get().asFile.absolutePath
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('testConfigRecovery')
+    dependsOn tasks.named('testConfigDiagnostics')
+}
+
+tasks.register('testConfigDiagnostics', JavaExec) {
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.thelongtravail.config.ConfigDiagnosticsTest'
+}
