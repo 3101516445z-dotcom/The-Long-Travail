@@ -65,3 +65,9 @@
 授权变化、修复或强制重同步时发送 `PrinceFlightPacket`，活跃授权还会每 20 游戏刻重同步；同一游戏刻的重复更新合并发送。客户端 `PrinceFlightPermission` 校验玩家实体 ID、UUID 和维度，活跃时补回 `mayfly`，不把 `flying` 强制设为 true。
 
 撤权时，非创造/旁观玩家的 `mayfly`、`flying` 均被清除；未区分外部授权来源，联动须验证更新和撤权时序。客户端更换玩家实例、死亡或换维度会清理授权；服务端保留重同步与生命周期清理。跨步修饰由 `LittlePrince` 独立维护。
+
+## 运行诊断
+
+`diagnostics/RuntimeDiagnostics` 由 JVM 参数 `-Dthelongtravail.diagnostics=true` 启用，通过 `snapshot()` 返回各指标的 `count`、`total`、`max`、`last`。`*_NS` 为纳秒，`REPLAY_WAIT_TICKS` 为游戏刻，节点、库存和队列指标按对应计数解释；此接口不自动输出停服日志。
+
+`data/HotPathMetrics` 使用独立参数 `-Dtravail.hotpath.metrics=true`，在服务端停止时输出累计统计与峰值。两套开关互不替代，均须在启动前设置。

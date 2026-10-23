@@ -36,7 +36,7 @@
 
 - 核心 Mixin：`src/main/resources/mixins.the_long_travail.json`。
 - 可选 Mixin：`src/main/resources/mixins.the_long_travail.compat.json`，包根为 `com.thelongtravail.compat.mixin`。
-- 可选目标的字节码检查：`compat/OptionalCompatPlugin.java`；保留原有缺失跳过、版本不支持拒绝加载等安全策略。
+- 可选目标的字节码检查：`compat/OptionalCompatPlugin.java`，缺失目标时跳过；Gravestone、Caelus 的契约不匹配仍会抛出异常并阻止启动。神化铁砧的契约检查由下述独立插件负责，不匹配时同样抛出异常。
 - 核心铁砧 Mixin 的神化协调入口：`apotheosis/AnvilCompatPlugin.java`，由核心 Mixin 配置注册；确认神化已提供无限等级阈值时，仅跳过重复的等级限制注入，保留费用封顶和免费取出。
 - 可选编译依赖：`gradle/optional-compat.gradle`，由主 `build.gradle` 引入，均为 `compileOnly`。
 - 两份 Mixin 配置均由 Gradle 开发运行与成品 JAR Manifest 注册，移动类时必须同步配置和 refmap。
@@ -67,7 +67,7 @@
 
 通用 ItemStack/NBT 副本不能自动复制由 UUID 引用的外部库存。`compat/fluid/FluidCopyGraph` 统一管理精妙背包、RS 物品/流体盘、RS Integration 共振存储盘及万界归墟盘。每次复制使用独立的“库存系统 + 原 UUID → 新 UUID”映射，保留复制品内部的重复引用/循环关系；通过队列处理外部库存，避免交替嵌套递归溢出。
 
-预览仅处理物品数据、预留身份，不读写外部库存。原版背包合成和工作台在领取/quickMoveStack 交付前准备并提交副本；失败（含 Shift 无法移入背包）时撤销新增库存，恢复材料、菜单和玩家物品栏。每次连续合成使用独立上下文，不依赖领取后的 ItemCraftedEvent，不关闭精妙背包 UUID 去重。
+预览仅处理物品数据、预留身份，不读写外部库存。原版背包合成和工作台在领取/quickMoveStack 交付前准备并提交副本；失败（含 Shift 无法移入背包）时回滚新增库存，并尝试恢复材料、菜单和玩家物品栏；单项恢复失败会记录到原异常并继续其余恢复，不保证第三方存储异常时全部恢复成功。每次连续合成使用独立上下文，不依赖领取后的 ItemCraftedEvent，不关闭精妙背包 UUID 去重。
 
 RS 用整数 Quantity 保存条目数量；复制物品身份时以 Count=1 序列化，再恢复真实数量。RS 标准盘通过原库存的工厂重建，共振盘保留能力数据；万界归墟盘单独重建 UnifiedDiskCore、文件记录及 RS 代理，不能只复制其引用 NBT。缺失库存、未知 RS 库存实现、统一盘错误世界/格式、隔离条目、备份进行中、容量截断或写入失败均拒绝复制，不降级为共享或空库存。
 
