@@ -47,6 +47,11 @@ try {
         put('zh_cn/common.json', '{"a":"a","b":"b"}');
         put('en_us/common.json', '{"b":"b","a":"a"}');
     }, /grouping order/);
+    for (const locale of locales.slice(2)) {
+        reject(() => put(`${locale}/common.json`, '{}'), /grouping order/);
+        reject(() => put(`${locale}/common.json`, '{"key":"%2$s"}'), /argument slots/);
+        reject(() => put(`${locale}/common.json`, '{"key":"§a%1$s %%§r"}'), /color codes/);
+    }
     reject(() => put('groups.json', '["common","common"]'), /duplicate groups/);
     reject(() => put('groups.json', '["../escape"]'), /Invalid group/);
     reject(() => fs.unlinkSync(path.join(source, 'en_us/common.json')), /ENOENT/);

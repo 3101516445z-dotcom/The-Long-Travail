@@ -4,7 +4,7 @@
   "attribute.name.the_long_travail.overlord": "霸主",
   "attribute.name.the_long_travail.insight.desc": "受有源之傷，減見切之數，並以見切反擊其源。",
   "attribute.name.the_long_travail.critical_chance.desc": "傷敵之後，依機率倍其傷。",
-  "attribute.name.the_long_travail.overlord.desc": "所受之傷，不過命數乘霸主者，皆免。",
+  "attribute.name.the_long_travail.overlord.desc": "所受之傷，不過最大生命值乘霸主者，皆免。",
   "command.the_long_travail.execute.result": "處決之果：死 %s，強終 %s，未竟 %s，越 %s，異 %s。",
   "biome.the_long_travail.warm_deep_ocean": "深海",
   "effect.the_long_travail.stiff": "僵",
@@ -31,6 +31,6 @@
   "tooltip.the_long_travail.summary.none": "無",
   "tooltip.the_long_travail.summary.list_separator": "，",
   "tooltip.the_long_travail.summary.bound": "§6已繫§r：%s",
-  "tooltip.the_long_travail.summary.enabled": "§a啟§r",
-  "tooltip.the_long_travail.summary.disabled": "§c止§r"
+  "tooltip.the_long_travail.summary.enabled": "§a啟用§r",
+  "tooltip.the_long_travail.summary.disabled": "§c禁用§r"
 }

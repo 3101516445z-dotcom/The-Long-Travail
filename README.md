@@ -99,7 +99,7 @@
 
 ## 源码构建
 
-准备 JDK 17 和 Node.js 18 或更新版本，在项目根目录通过仓库附带的 Gradle Wrapper 构建。Node.js 用于合并和校验中英文语言文件，无需安装 npm 依赖。当前 Wrapper 固定为 Gradle 8.8，源码编译目标为 Java 17。
+准备 JDK 17 和 Node.js 18 或更新版本，在项目根目录通过仓库附带的 Gradle Wrapper 构建。Node.js 用于合并和校验全部五种语言文件，无需安装 npm 依赖。当前 Wrapper 固定为 Gradle 8.8，源码编译目标为 Java 17。
 
 Gradle 默认调用 PATH 中的 `node`；需要指定程序时，可在构建命令后追加 `-PnodeExecutable="Node.js 可执行文件的绝对路径"`。语言源文件位于 `src/main/lang/`，构建所需的三个生成与验证脚本位于 `tools/`，均须随源码保留；不要手动编辑 `build/` 下的生成语言文件。
 

@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { readLocale, verifyLocales } = require('./verify-language-files.cjs');
+const { readLocale, verifyLocales, verifyColors } = require('./verify-language-files.cjs');
 
 // 首个 locale（zh_cn）作为键与顺序的参照；其余 locale 必须与它完全对齐。
 const locales = ['zh_cn', 'en_us', 'zh_tw', 'zh_hk', 'lzh'];
@@ -35,7 +35,10 @@ function readGroups(root) {
             const label = `${locale}/${group}.json`;
             return readLocale(fs.readFileSync(path.join(root, label), 'utf8'), label);
         });
-        try { verifyLocales(...pair); } catch (error) {
+        try {
+            verifyLocales(...pair);
+            for (const translated of pair.slice(2)) verifyColors(pair[0], translated);
+        } catch (error) {
             throw new Error(`${group}: ${error.message}`, { cause: error });
         }
         for (const key of pair[0].keys) {

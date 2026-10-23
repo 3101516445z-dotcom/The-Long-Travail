@@ -52,6 +52,13 @@ function verifyLocales(...localized) {
     }
 }
 
+function verifyColors(reference, other) {
+    const colors = text => (text.match(/§[0-9a-fk-or]/gi) || []).map(code => code.toLowerCase()).sort();
+    for (const key of reference.keys) {
+        assert.deepEqual(colors(reference.values[key]), colors(other.values[key]), `${key}: color codes must match`);
+    }
+}
+
 function selfTest() {
     assert.throws(() => readLocale('{"key":"first","key":"last"}', 'fixture'), /duplicate/);
     assert.throws(() => readLocale('{"key":{}}', 'fixture'), /must contain text/);
@@ -78,5 +85,5 @@ function verify() {
     console.log(`PASS: ${Object.keys(merged.zh_cn).length} language keys, groups and arguments.`);
 }
 
-module.exports = { verify, readLocale, verifyLocales, argumentSlots };
+module.exports = { verify, readLocale, verifyLocales, verifyColors, argumentSlots };
 if (require.main === module) verify();
