@@ -29,15 +29,18 @@ public final class Mistletoe {
             net.minecraft.resources.ResourceLocation table,
             net.minecraft.world.phys.Vec3 position) {}
 
-    private static final java.util.Map<LivingEntity, Expiry> PENDING = new java.util.WeakHashMap<>();
+    private static final java.util.Map<LivingEntity, Expiry> PENDING =
+            new java.util.WeakHashMap<>();
     private static final ThreadLocal<LivingEntity> SETTLING = new ThreadLocal<>();
     private static final UUID SPEED = UUID.fromString("4e429a52-f0ae-41db-8bc8-e54e3689ada1");
 
     @SubscribeEvent
-    public static void interact(net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract event) {
+    public static void interact(
+            net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract event) {
         if (!event.getItemStack().is(ModRegistry.MISTLETOE.get())) return;
         Entity target = event.getTarget();
-        if (target instanceof net.minecraftforge.entity.PartEntity<?> part) target = part.getParent();
+        if (target instanceof net.minecraftforge.entity.PartEntity<?> part)
+            target = part.getParent();
         if (!(target instanceof LivingEntity living)) return;
         InteractionResult result = apply(event.getItemStack(), event.getEntity(), living);
         if (result != InteractionResult.PASS) {
@@ -50,31 +53,42 @@ public final class Mistletoe {
         var effect = entity.getEffect(ModRegistry.MISTLETOE_EFFECT.get());
         return effect == null
                 ? 0
-                : Math.max(0, Math.min(FlourishingGrowthConfig.MAX_LEVEL.get(), effect.getAmplifier() + 1));
+                : Math.max(
+                        0,
+                        Math.min(
+                                FlourishingGrowthConfig.MAX_LEVEL.get(),
+                                effect.getAmplifier() + 1));
     }
 
     public static InteractionResult apply(ItemStack stack, Player player, LivingEntity target) {
         if (target instanceof Player) {
             if (!player.level().isClientSide)
                 player.displayClientMessage(
-                        Component.translatable("message.the_long_travail.mistletoe.player_target"), true);
+                        Component.translatable("message.the_long_travail.mistletoe.player_target"),
+                        true);
             return InteractionResult.FAIL;
         }
-        if (!target.isAlive() || target.isSpectator() || target instanceof ArmorStand) return InteractionResult.PASS;
+        if (!target.isAlive() || target.isSpectator() || target instanceof ArmorStand)
+            return InteractionResult.PASS;
         if (player.level().isClientSide) return InteractionResult.SUCCESS;
         int next = Math.min(FlourishingGrowthConfig.MAX_LEVEL.get(), level(target) + 1);
         var old = target.getEffect(ModRegistry.MISTLETOE_EFFECT.get());
-        int added = FlourishingItemsConfig.ticks(FlourishingGrowthConfig.mistletoe("durationSeconds"));
+        int added =
+                FlourishingItemsConfig.ticks(FlourishingGrowthConfig.mistletoe("durationSeconds"));
         int duration =
                 old != null && old.isInfiniteDuration()
                         ? -1
                         : (int)
                                 Math.min(
                                         Integer.MAX_VALUE,
-                                        (long) added + (old == null ? 0 : Math.max(0, old.getDuration())));
+                                        (long) added
+                                                + (old == null
+                                                        ? 0
+                                                        : Math.max(0, old.getDuration())));
         var effect = new MobEffectInstance(ModRegistry.MISTLETOE_EFFECT.get(), duration, next - 1);
         if (!target.addEffect(effect, player)) {
-            player.displayClientMessage(Component.translatable("message.the_long_travail.mistletoe.rejected"), true);
+            player.displayClientMessage(
+                    Component.translatable("message.the_long_travail.mistletoe.rejected"), true);
             return InteractionResult.FAIL;
         }
         var actual = target.getEffect(effect.getEffect());
@@ -100,11 +114,18 @@ public final class Mistletoe {
     public static double reduction(LivingEntity entity) {
         return SETTLING.get() == entity
                 ? 0
-                : Math.min(1, level(entity) * FlourishingGrowthConfig.mistletoe("damageReductionPerLevel"));
+                : Math.min(
+                        1,
+                        level(entity)
+                                * FlourishingGrowthConfig.mistletoe("damageReductionPerLevel"));
     }
 
     private static void syncSpeed(LivingEntity entity) {
-        setSpeed(entity, SPEED, level(entity) * FlourishingGrowthConfig.mistletoe("speedBonusPerLevel"), "Mistletoe");
+        setSpeed(
+                entity,
+                SPEED,
+                level(entity) * FlourishingGrowthConfig.mistletoe("speedBonusPerLevel"),
+                "Mistletoe");
     }
 
     public static void setSpeed(LivingEntity entity, UUID id, double value, String name) {
@@ -115,7 +136,8 @@ public final class Mistletoe {
         if (old != null) attribute.removeModifier(id);
         if (value > 0)
             attribute.addTransientModifier(
-                    new AttributeModifier(id, name, value, AttributeModifier.Operation.MULTIPLY_TOTAL));
+                    new AttributeModifier(
+                            id, name, value, AttributeModifier.Operation.MULTIPLY_TOTAL));
     }
 
     @SubscribeEvent
@@ -131,11 +153,12 @@ public final class Mistletoe {
                 || effect.getEffect() != ModRegistry.MISTLETOE_EFFECT.get()
                 || !entity.isAlive()
                 || !(entity.level() instanceof ServerLevel level)) return;
-        // 这里只记录到期信息；等原版迭代器完成删除后，再在 tickEffects 末尾结算，避免在 Expired 事件中修改效果映射。
+        // 先记录到期信息，等原版遍历结束后再结算，避免在效果到期事件中修改正在遍历的映射。
         PENDING.putIfAbsent(
                 entity,
                 new Expiry(
-                        Math.min(FlourishingGrowthConfig.MAX_LEVEL.get(), effect.getAmplifier() + 1),
+                        Math.min(
+                                FlourishingGrowthConfig.MAX_LEVEL.get(), effect.getAmplifier() + 1),
                         entity.getMaxHealth(),
                         lootTable(entity),
                         entity.position()));
@@ -146,7 +169,8 @@ public final class Mistletoe {
         try {
             return entity.getLootTable();
         } catch (RuntimeException failure) {
-            TheLongTravail.LOGGER.warn("Mistletoe loot lookup failed for {}", entity.getUUID(), failure);
+            TheLongTravail.LOGGER.warn(
+                    "Mistletoe loot lookup failed for {}", entity.getUUID(), failure);
             return null;
         }
     }
@@ -157,7 +181,8 @@ public final class Mistletoe {
 
     public static void afterEffects(LivingEntity entity) {
         Expiry expiry = PENDING.remove(entity);
-        if (expiry == null || !entity.isAlive() || !(entity.level() instanceof ServerLevel level)) return;
+        if (expiry == null || !entity.isAlive() || !(entity.level() instanceof ServerLevel level))
+            return;
         int rank = expiry.rank();
         var table = expiry.table();
         var position = expiry.position();
@@ -166,10 +191,14 @@ public final class Mistletoe {
                 (float)
                         Math.min(
                                 Float.MAX_VALUE,
-                                expiry.maxHealth() * rank * FlourishingGrowthConfig.mistletoe("expiryDamagePerLevel"));
+                                expiry.maxHealth()
+                                        * rank
+                                        * FlourishingGrowthConfig.mistletoe(
+                                                "expiryDamagePerLevel"));
         boolean reward =
                 entity.getRandom().nextDouble()
-                        < Math.min(1, rank * FlourishingGrowthConfig.mistletoe("lootChancePerLevel"));
+                        < Math.min(
+                                1, rank * FlourishingGrowthConfig.mistletoe("lootChancePerLevel"));
         if (damage > 0) {
             LivingEntity previous = SETTLING.get();
             SETTLING.set(entity);
@@ -180,7 +209,8 @@ public final class Mistletoe {
                 else SETTLING.set(previous);
             }
         }
-        if (!reward || table == null || !level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) return;
+        if (!reward || table == null || !level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT))
+            return;
         try {
             var result = LootItemCollector.collectCached(table, level.getServer().getLootData());
             for (var item : result.items()) {
@@ -192,7 +222,9 @@ public final class Mistletoe {
             }
         } catch (RuntimeException failure) {
             TheLongTravail.LOGGER.warn(
-                    "Mistletoe loot generation failed; not retried for {}", entity.getUUID(), failure);
+                    "Mistletoe loot generation failed; not retried for {}",
+                    entity.getUUID(),
+                    failure);
         }
     }
 

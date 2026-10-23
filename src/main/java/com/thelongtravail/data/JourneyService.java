@@ -55,54 +55,82 @@ public final class JourneyService {
             QueryPolicy queries,
             InteractionHand hand,
             Function<ItemStack, JourneyOperations.Status> action) {
-        if (!player.server.isSameThread()) throw new IllegalStateException("Journey writes require the server thread");
+        if (!player.server.isSameThread())
+            throw new IllegalStateException("Journey writes require the server thread");
         if (!ACTIVE.add(player.getUUID())) return failure(JourneyOperations.Status.BUSY);
         try {
             var found = TravailCurios.find(player);
             if (found.isEmpty()) return failure(JourneyOperations.Status.NO_DIARY);
             var inventory = CuriosApi.getCuriosInventory(player).resolve();
-            var handler = inventory.flatMap(value -> value.getStacksHandler(found.get().slotContext().identifier()));
+            var handler =
+                    inventory.flatMap(
+                            value ->
+                                    value.getStacksHandler(found.get().slotContext().identifier()));
             if (handler.isEmpty()) return failure(JourneyOperations.Status.NO_DIARY);
             int index = found.get().slotContext().index();
             var slots = handler.get().getStacks();
             ItemStack original = slots.getStackInSlot(index);
-            if (!original.is(ModRegistry.LONG_TRAVAIL.get())) return failure(JourneyOperations.Status.NO_DIARY);
-            if (!JourneyState.validStorage(original) || !JourneyState.supported(JourneyState.root(original)))
+            if (!original.is(ModRegistry.LONG_TRAVAIL.get()))
+                return failure(JourneyOperations.Status.NO_DIARY);
+            if (!JourneyState.validStorage(original)
+                    || !JourneyState.supported(JourneyState.root(original)))
                 return failure(JourneyOperations.Status.INVALID_DATA);
             ItemStack baseline = original.copy(), replacement = original.copy();
             if (!replacement.hasTag()
-                    || !replacement.getTag().contains("LongTravail", net.minecraft.nbt.Tag.TAG_COMPOUND))
-                replacement.getOrCreateTag().put("LongTravail", new net.minecraft.nbt.CompoundTag());
+                    || !replacement
+                            .getTag()
+                            .contains("LongTravail", net.minecraft.nbt.Tag.TAG_COMPOUND))
+                replacement
+                        .getOrCreateTag()
+                        .put("LongTravail", new net.minecraft.nbt.CompoundTag());
             ItemStack used = hand == null ? ItemStack.EMPTY : player.getItemInHand(hand);
             ItemStack usedBaseline = used.copy();
             if (hand != null && used.isEmpty()) return failure(JourneyOperations.Status.STALE);
             int before = JourneyState.effectiveMask(JourneyState.root(original));
             var status = action.apply(replacement);
             if (status == JourneyOperations.Status.NO_CHANGE) {
-                var keys = new EnumMap<TravailAspect, JourneyState.AspectJourneyKey>(TravailAspect.class);
+                var keys =
+                        new EnumMap<TravailAspect, JourneyState.AspectJourneyKey>(
+                                TravailAspect.class);
                 for (TravailAspect aspect : aspects) {
                     var key = JourneyState.identity(original, aspect);
                     if (key != null) keys.put(aspect, key);
                 }
                 return new OperationResult(
-                        status, Set.of(), Set.of(), before, before, false, QueryPolicy.KEEP, keys, keys, false, false);
+                        status,
+                        Set.of(),
+                        Set.of(),
+                        before,
+                        before,
+                        false,
+                        QueryPolicy.KEEP,
+                        keys,
+                        keys,
+                        false,
+                        false);
             }
             if (status != JourneyOperations.Status.SUCCESS) return failure(status);
             var currentInventory = CuriosApi.getCuriosInventory(player).resolve();
             var currentHandler =
-                    currentInventory.flatMap(value -> value.getStacksHandler(found.get().slotContext().identifier()));
+                    currentInventory.flatMap(
+                            value ->
+                                    value.getStacksHandler(found.get().slotContext().identifier()));
             if (currentHandler.isEmpty()
                     || currentHandler.get().getStacks() != slots
                     || TravailCurios.stack(player) != original
                     || slots.getStackInSlot(index) != original
                     || !ItemStack.matches(original, baseline)
-                    || hand != null && (player.getItemInHand(hand) != used || !ItemStack.matches(used, usedBaseline)))
+                    || hand != null
+                            && (player.getItemInHand(hand) != used
+                                    || !ItemStack.matches(used, usedBaseline)))
                 return failure(JourneyOperations.Status.STALE);
             int after = JourneyState.effectiveMask(JourneyState.root(replacement));
             var beforeRoot = JourneyState.root(baseline);
             var afterRoot = JourneyState.root(replacement);
-            var beforeKeys = new EnumMap<TravailAspect, JourneyState.AspectJourneyKey>(TravailAspect.class);
-            var afterKeys = new EnumMap<TravailAspect, JourneyState.AspectJourneyKey>(TravailAspect.class);
+            var beforeKeys =
+                    new EnumMap<TravailAspect, JourneyState.AspectJourneyKey>(TravailAspect.class);
+            var afterKeys =
+                    new EnumMap<TravailAspect, JourneyState.AspectJourneyKey>(TravailAspect.class);
             Set<TravailAspect> changed = EnumSet.noneOf(TravailAspect.class);
             for (TravailAspect aspect : aspects) {
                 var previous = JourneyState.identity(beforeRoot, aspect);
@@ -111,7 +139,8 @@ public final class JourneyService {
                 if (next != null) afterKeys.put(aspect, next);
                 boolean flagsChanged = false;
                 for (String key : new String[] {"Witnesses", "ForcedWitnesses", "ForcedMalices"})
-                    flagsChanged |= ((beforeRoot.getInt(key) ^ afterRoot.getInt(key)) & aspect.mask()) != 0;
+                    flagsChanged |=
+                            ((beforeRoot.getInt(key) ^ afterRoot.getInt(key)) & aspect.mask()) != 0;
                 if (whole
                         || resets.contains(aspect)
                         || flagsChanged
@@ -121,8 +150,10 @@ public final class JourneyService {
                         || !beforeRoot
                                 .getCompound("Requirements")
                                 .getCompound(aspect.id())
-                                .equals(afterRoot.getCompound("Requirements").getCompound(aspect.id())))
-                    changed.add(aspect);
+                                .equals(
+                                        afterRoot
+                                                .getCompound("Requirements")
+                                                .getCompound(aspect.id()))) changed.add(aspect);
             }
             if (queries == QueryPolicy.KEEP) {
                 original.setTag(replacement.getTag());
@@ -144,7 +175,9 @@ public final class JourneyService {
                             whole
                                     || beforeRoot.getLong("RequirementsRevision")
                                             != afterRoot.getLong("RequirementsRevision"),
-                            whole || beforeRoot.getLong("StateRevision") != afterRoot.getLong("StateRevision"));
+                            whole
+                                    || beforeRoot.getLong("StateRevision")
+                                            != afterRoot.getLong("StateRevision"));
             if (whole) TravailEvents.onDiaryReset(player, replacement);
             else TravailEvents.onJourneyChanged(player, replacement, result);
             player.getInventory().setChanged();
@@ -157,7 +190,17 @@ public final class JourneyService {
 
     private static OperationResult failure(JourneyOperations.Status status) {
         return new OperationResult(
-                status, Set.of(), Set.of(), 0, 0, false, QueryPolicy.KEEP, Map.of(), Map.of(), false, false);
+                status,
+                Set.of(),
+                Set.of(),
+                0,
+                0,
+                false,
+                QueryPolicy.KEEP,
+                Map.of(),
+                Map.of(),
+                false,
+                false);
     }
 
     public static OperationResult resetJourney(ServerPlayer player, InteractionHand hand) {
@@ -183,7 +226,8 @@ public final class JourneyService {
                 });
     }
 
-    public static OperationResult essence(ServerPlayer player, TravailAspect aspect, InteractionHand hand) {
+    public static OperationResult essence(
+            ServerPlayer player, TravailAspect aspect, InteractionHand hand) {
         boolean reset = LongTravailData.hasWitness(TravailCurios.stack(player), aspect);
         return mutate(
                 player,
@@ -194,7 +238,8 @@ public final class JourneyService {
                 hand,
                 copy ->
                         reset
-                                ? JourneyOperations.resetAspect(JourneyState.root(copy), aspect, player)
+                                ? JourneyOperations.resetAspect(
+                                        JourneyState.root(copy), aspect, player)
                                 : JourneyOperations.completeRandom(
                                         JourneyState.root(copy), aspect, player.getRandom()));
     }

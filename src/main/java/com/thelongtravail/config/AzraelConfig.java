@@ -15,11 +15,11 @@ public final class AzraelConfig {
                         .defineInRange("items.azrael.executionWatchSeconds", 300, 10, 3600);
         MALICE =
                 b.comment(
-                                "幽谷之恶意生效时，受击可获得一次处决判定机会，自身造成的攻击除外。\n此值为接下来首次实际造成伤害时，处决目标的概率。\n处决判定次数和处决概率均不可累计；\n0.025表示2.5%。\nWith Deep Valley Malice active, the chance to execute the next target the wearer actually damages after being attacked by a source other than themselves. Neither execution attempts nor execution chance can accumulate; 0.025 means 2.5%.")
+                                "幽谷之恶意生效时，受击可获得一次处决判定机会，自身造成的攻击除外。\n此值为接下来首次实际造成伤害时，处决目标的概率。\n处决判定次数和处决概率均不可累计；\n0.025表示2.5%。\nWith Deep Valley Malice active, being attacked grants one execution attempt, except for attacks from the wearer.\nThis is the chance to execute the first target the wearer actually damages afterward.\nNeither execution attempts nor execution chance can accumulate.\n0.025 means 2.5%.")
                         .defineInRange("items.azrael.maliceChance", .025, 0, 1);
         TARGET =
                 b.comment(
-                                "幽谷之见证生效时，每次判定中处决目标的概率。\n处决目标与处决佩戴者不会在同一次判定中同时发生；\n两项概率之和超过1时，按原比例缩放至合计1。\nWith Deep Valley Witness active, the chance to execute the target on each roll. Executing the target and executing the wearer are mutually exclusive outcomes of the same roll. If their chances total more than 1, they are scaled proportionally to total 1.")
+                                "幽谷之见证生效时，每次判定中处决目标的概率。\n处决目标与处决佩戴者不会在同一次判定中同时发生；\n两项概率之和超过1时，按原比例缩放至合计1。\nWith Deep Valley Witness active, the chance to execute the target on each roll.\nExecuting the target and executing the wearer are mutually exclusive outcomes of the same roll.\nIf their chances total more than 1, they are scaled proportionally to total 1.")
                         .defineInRange("items.azrael.targetChance", .005, 0, 1);
         SELF =
                 b.comment(

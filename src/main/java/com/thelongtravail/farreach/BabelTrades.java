@@ -10,7 +10,8 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.trading.*;
 import java.util.*;
 
-@net.minecraftforge.fml.common.Mod.EventBusSubscriber(modid = com.thelongtravail.TheLongTravail.MODID)
+@net.minecraftforge.fml.common.Mod.EventBusSubscriber(
+        modid = com.thelongtravail.TheLongTravail.MODID)
 public final class BabelTrades {
     public static final VillagerTrades.ItemListing LISTING = (entity, random) -> createOffer();
 
@@ -26,7 +27,8 @@ public final class BabelTrades {
 
     @net.minecraftforge.eventbus.api.SubscribeEvent
     public static void register(net.minecraftforge.event.village.VillagerTradesEvent event) {
-        if (event.getType() == VillagerProfession.LEATHERWORKER && !event.getTrades().get(5).contains(LISTING))
+        if (event.getType() == VillagerProfession.LEATHERWORKER
+                && !event.getTrades().get(5).contains(LISTING))
             event.getTrades().get(5).add(LISTING);
     }
 
@@ -45,7 +47,8 @@ public final class BabelTrades {
 
     public static boolean nearby(Villager v) {
         double r = FarReachRelicsConfig.value("babel.restockRange");
-        return v.level().players().stream().anyMatch(p -> p.distanceToSqr(v) <= r * r && eligible(v, p));
+        return v.level().players().stream()
+                .anyMatch(p -> p.distanceToSqr(v) <= r * r && eligible(v, p));
     }
 
     @net.minecraftforge.eventbus.api.SubscribeEvent
@@ -91,15 +94,26 @@ public final class BabelTrades {
         if (eligible(v, p)) {
             Map<MerchantOffer, Integer> applied = new IdentityHashMap<>();
             for (var o : v.getOffers()) {
-                if (fixed(o) || com.thelongtravail.flourishing.MistletoeTrades.fixed(o)) continue;
+                if (fixed(o)
+                        || com.thelongtravail.flourishing.MistletoeTrades.fixed(o)
+                        || com.thelongtravail.loot.ArchaeologyTrades.fixed(o)) continue;
                 int price = o.getCostA().getCount(),
-                        desired = Math.max(1, (int) Math.ceil(price * FarReachRelicsConfig.value("babel.priceFactor")));
+                        desired =
+                                Math.max(
+                                        1,
+                                        (int)
+                                                Math.ceil(
+                                                        price
+                                                                * FarReachRelicsConfig.value(
+                                                                        "babel.priceFactor")));
                 int raw =
                         o.getBaseCostA().getCount()
                                 + Math.max(
                                         0,
                                         net.minecraft.util.Mth.floor(
-                                                o.getBaseCostA().getCount() * o.getDemand() * o.getPriceMultiplier()))
+                                                o.getBaseCostA().getCount()
+                                                        * o.getDemand()
+                                                        * o.getPriceMultiplier()))
                                 + o.getSpecialPriceDiff();
                 int delta = desired - raw;
                 o.addToSpecialPriceDiff(delta);
@@ -107,7 +121,8 @@ public final class BabelTrades {
             }
             DISCOUNTS.put(v, applied);
         }
-        return before.entrySet().stream().anyMatch(e -> e.getValue() != e.getKey().getCostA().getCount());
+        return before.entrySet().stream()
+                .anyMatch(e -> e.getValue() != e.getKey().getCostA().getCount());
     }
 
     public static void sync(Villager v) {

@@ -9,7 +9,13 @@ public final class BoundlessItemsConfig {
 
     public static void define(ForgeConfigSpec.Builder b) {
         LorentzGeometryConfig.define(b);
-        n(b, "prince.stepHeight", 1, 0, 4, "小王子提供的最低跨步高度，单位：方块。\nLittle Prince: minimum step height, in blocks.");
+        n(
+                b,
+                "prince.stepHeight",
+                1,
+                0,
+                4,
+                "小王子提供的最低跨步高度，单位：方块。\nLittle Prince: minimum step height, in blocks.");
         n(
                 b,
                 "prince.poppyChance",
@@ -24,7 +30,13 @@ public final class BoundlessItemsConfig {
                 0,
                 1,
                 "小王子：玩家破坏玫瑰丛时，触发掉落的概率；每株只判定一次。\nLittle Prince: drop chance when a player breaks a rose bush, rolled once per plant.");
-        n(b, "lorentz.pierce", 3, 0, 127, "洛伦兹幻想：箭矢额外获得的穿透等级。\nLorentz Fantasy: additional arrow piercing levels.");
+        n(
+                b,
+                "lorentz.pierce",
+                3,
+                0,
+                127,
+                "洛伦兹幻想：箭矢额外获得的穿透等级。\nLorentz Fantasy: additional arrow piercing levels.");
         n(
                 b,
                 "lorentz.critical",
@@ -131,7 +143,7 @@ public final class BoundlessItemsConfig {
                 5,
                 0,
                 86400,
-                "见证时停结束后的额外判定冷却，单位：秒。\n时停发生合并时，从整个时停组结束后开始计时。离线时暂停。\nAdditional roll cooldown after a Witness time stop ends, in seconds. If it merges with other time stops, the cooldown starts when the entire group ends. Paused while offline.");
+                "见证时停结束后的额外判定冷却，单位：秒。\n时停发生合并时，从整个时停组结束后开始计时。离线时暂停。\nAdditional roll cooldown after a Witness time stop ends, in seconds.\nIf it merges with other time stops, the cooldown starts when the entire group ends. Paused while offline.");
         n(
                 b,
                 "star.radius",
@@ -145,14 +157,15 @@ public final class BoundlessItemsConfig {
                 15,
                 .05,
                 3600,
-                "时停组的最长持续时间，单位：秒。\n从组内最早一次时停的开始时间算起，合并其他时停不会重新计时。\n相互合并的时停区域按同一时停组处理。\nMaximum duration of a time-stop group, in seconds, measured from the earliest start time in the group. Merging other time stops does not restart this timer. Merged time-stop areas are treated as one group.");
+                "时停组的最长持续时间，单位：秒。\n从组内最早一次时停的开始时间算起，合并其他时停不会重新计时。\n相互合并的时停区域按同一时停组处理。\nMaximum duration of a time-stop group, in seconds.\nMeasured from the earliest start time in the group. Merging other time stops does not restart this timer.\nMerged time-stop areas are treated as one group.");
         PER_CHUNK =
                 b.comment(
                                 "每个区块最多同时覆盖的时停数量。区块只用于计数，不会扩大时停的实际球形范围。\nMaximum number of time stops that may cover a chunk at once. Chunks are used only for counting; the actual spherical areas are unchanged.")
                         .defineInRange("items.boundless.star.maxFieldsPerChunk", 2, 1, 16);
     }
 
-    private static void n(ForgeConfigSpec.Builder b, String k, double d, double lo, double hi, String text) {
+    private static void n(
+            ForgeConfigSpec.Builder b, String k, double d, double lo, double hi, String text) {
         NUMBERS.put(k, b.comment(text).defineInRange("items.boundless." + k, d, lo, hi));
     }
 

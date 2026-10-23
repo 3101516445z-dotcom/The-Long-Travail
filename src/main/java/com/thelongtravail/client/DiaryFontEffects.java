@@ -15,7 +15,10 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.io.IOException;
 
-@Mod.EventBusSubscriber(modid = TheLongTravail.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(
+        modid = TheLongTravail.MODID,
+        value = Dist.CLIENT,
+        bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class DiaryFontEffects {
     private static ShaderInstance shader;
     private static long resourceGeneration;
@@ -24,8 +27,13 @@ public final class DiaryFontEffects {
         return resourceGeneration;
     }
 
-    private static final com.thelongtravail.AspectTheme[] THEMES = com.thelongtravail.AspectTheme.values();
-    private static final boolean[] loggedMaterials = new boolean[3 + 2 * THEMES.length];
+    private static final com.thelongtravail.AspectTheme[] THEMES =
+            com.thelongtravail.AspectTheme.values();
+    public static final int AFFIX_DIARY = 15,
+            AFFIX_ASPECT = 16,
+            AFFIX_DIARY_HALO = 17,
+            AFFIX_ASPECT_HALO = 18;
+    private static final boolean[] loggedMaterials = new boolean[AFFIX_ASPECT_HALO + 1];
     private static final long EPOCH = System.nanoTime();
 
     @SubscribeEvent
@@ -44,7 +52,8 @@ public final class DiaryFontEffects {
                 });
     }
 
-    private static final ThreadLocal<MaterialProbe> PROBE = ThreadLocal.withInitial(MaterialProbe::new);
+    private static final ThreadLocal<MaterialProbe> PROBE =
+            ThreadLocal.withInitial(MaterialProbe::new);
 
     private static final class MaterialProbe implements net.minecraft.util.FormattedCharSink {
         int material;
@@ -56,9 +65,13 @@ public final class DiaryFontEffects {
             int current =
                     "the_long_travail:name".equals(marker)
                             ? 0
-                            : marker != null && marker.startsWith("the_long_travail:prose:") ? 1 : -1;
+                            : marker != null && marker.startsWith("the_long_travail:prose:")
+                                    ? 1
+                                    : -1;
             var theme = com.thelongtravail.AspectTheme.fromMarker(marker);
             if (theme != null) current = theme.material();
+            if ("the_long_travail:apotheosis:name".equals(marker)) current = AFFIX_DIARY;
+            if ("the_long_travail:apotheosis:aspect".equals(marker)) current = AFFIX_ASPECT;
             if (current < 0 || (material >= 0 && material != current)) {
                 mixed = true;
                 return false;
@@ -90,7 +103,14 @@ public final class DiaryFontEffects {
                     String marker = style.getInsertion();
                     if (marker != null && marker.startsWith("the_long_travail:prose:")) {
                         try {
-                            width[0] = Math.max(1, Float.parseFloat(marker.substring(marker.lastIndexOf(':') + 1)));
+                            width[0] =
+                                    Math.max(
+                                            1,
+                                            Float.parseFloat(
+                                                    marker.substring(marker.lastIndexOf(':') + 1)));
+
+                            if (marker.startsWith("the_long_travail:prose:flavor:"))
+                                width[0] = -width[0];
                         } catch (NumberFormatException ignored) {
                         }
                         return false;
@@ -100,7 +120,8 @@ public final class DiaryFontEffects {
         return width[0];
     }
 
-    public static MultiBufferSource buffers(MultiBufferSource original, int material, float originX, float sweepWidth) {
+    public static MultiBufferSource buffers(
+            MultiBufferSource original, int material, float originX, float sweepWidth) {
         return new MaterialBuffers(original, material, originX, sweepWidth);
     }
 
@@ -110,7 +131,8 @@ public final class DiaryFontEffects {
         private final int material;
         private final float originX, sweepWidth;
 
-        private MaterialBuffers(MultiBufferSource original, int material, float originX, float sweepWidth) {
+        private MaterialBuffers(
+                MultiBufferSource original, int material, float originX, float sweepWidth) {
             this.original = original;
             this.material = material;
             this.originX = originX;
@@ -151,14 +173,16 @@ public final class DiaryFontEffects {
             loggedMaterials[material] = true;
             TheLongTravail.LOGGER.info(
                     "Diary text material active: {}, original shader: {}, atlas: {}",
-                    material == 0
-                            ? "name"
-                            : material == 1
-                                    ? "prose"
-                                    : material == 2
-                                            ? "rippling halo"
-                                            : THEMES[(material - 3) % THEMES.length].name()
-                                                    + (material >= 9 ? " halo" : ""),
+                    material >= AFFIX_DIARY
+                            ? "affix " + material
+                            : material == 0
+                                    ? "name"
+                                    : material == 1
+                                            ? "prose"
+                                            : material == 2
+                                                    ? "rippling halo"
+                                                    : THEMES[(material - 3) % THEMES.length].name()
+                                                            + (material >= 9 ? " halo" : ""),
                     name,
                     atlas);
         }
@@ -168,18 +192,22 @@ public final class DiaryFontEffects {
         shader.safeGetUniform("AtlasMode").set((float) atlas);
         shader.safeGetUniform("OriginX").set(originX);
         shader.safeGetUniform("SweepWidth").set(sweepWidth);
-        if (material >= 3) {
+        if (material >= 3 && material < AFFIX_DIARY) {
             var theme = THEMES[(material - 3) % THEMES.length];
             setPalette("ThemeDark", theme.dark);
             setPalette("ThemeMain", theme.main);
             setPalette("ThemeHighlight", theme.highlight);
-            shader.safeGetUniform("Barren").set(theme == com.thelongtravail.AspectTheme.FAR_REACH ? 1F : 0F);
+            shader.safeGetUniform("Barren")
+                    .set(theme == com.thelongtravail.AspectTheme.FAR_REACH ? 1F : 0F);
         }
     }
 
     private static void setPalette(String uniform, int color) {
         shader.safeGetUniform(uniform)
-                .set(((color >> 16) & 255) / 255F, ((color >> 8) & 255) / 255F, (color & 255) / 255F);
+                .set(
+                        ((color >> 16) & 255) / 255F,
+                        ((color >> 8) & 255) / 255F,
+                        (color & 255) / 255F);
     }
 
     private DiaryFontEffects() {}

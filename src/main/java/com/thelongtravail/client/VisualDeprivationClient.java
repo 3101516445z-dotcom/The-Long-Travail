@@ -34,7 +34,8 @@ public final class VisualDeprivationClient {
         if (owner != player || level != minecraft.level) reset();
         owner = player;
         level = minecraft.level;
-        boolean wasVisible = TIMELINE.sample(minecraft.getFrameTime()) > 0 || TIMELINE.remaining() > 0;
+        boolean wasVisible =
+                TIMELINE.sample(minecraft.getFrameTime()) > 0 || TIMELINE.remaining() > 0;
         if (remaining <= 0 && (immediate || !wasVisible)) {
             reset();
             return;
@@ -69,7 +70,8 @@ public final class VisualDeprivationClient {
         TIMELINE.tick(mc.player);
         updateStyle();
         previousPhase = phase;
-        if (target != null) phase += (float) (Math.PI * 2 / (Math.max(0.1F, style(0).pulsePeriod()) * 20));
+        if (target != null)
+            phase += (float) (Math.PI * 2 / (Math.max(0.1F, style(0).pulsePeriod()) * 20));
         if (phase > Math.PI * 2) {
             phase -= (float) (Math.PI * 2);
             previousPhase -= (float) (Math.PI * 2);
@@ -93,7 +95,8 @@ public final class VisualDeprivationClient {
 
     public static float pulse(float partial, VisualDeprivationStyle style) {
         return style.pulse(
-                previousPhase + (phase - previousPhase) * partial, TravailClientConfig.REDUCE_VISUAL_MOTION.get());
+                previousPhase + (phase - previousPhase) * partial,
+                TravailClientConfig.REDUCE_VISUAL_MOTION.get());
     }
 
     public static void reset() {
@@ -105,7 +108,8 @@ public final class VisualDeprivationClient {
     }
 
     public static float envelope(LocalPlayer player, float partialTick) {
-        if (player == null || !player.isAlive() || player != Minecraft.getInstance().player) return 0;
+        if (player == null || !player.isAlive() || player != Minecraft.getInstance().player)
+            return 0;
         return TIMELINE.sample(partialTick);
     }
 
@@ -123,12 +127,16 @@ public final class VisualDeprivationClient {
                 decimal("visual.peripheralOpacity", TravailConfig.VISUAL_OPACITY.get()),
                 decimal("visual.clearRadius", TravailConfig.VISUAL_RADIUS.get()),
                 decimal("visual.edgeSoftness", TravailConfig.VISUAL_SOFTNESS.get()),
-                decimal("visual.distanceVeilEnabled", TravailConfig.VISUAL_DISTANCE_ENABLED.get() ? 1 : 0),
+                decimal(
+                        "visual.distanceVeilEnabled",
+                        TravailConfig.VISUAL_DISTANCE_ENABLED.get() ? 1 : 0),
                 decimal("visual.distanceVeilStart", TravailConfig.VISUAL_DISTANCE_START.get()),
                 decimal("visual.distanceVeilEnd", TravailConfig.VISUAL_DISTANCE_END.get()),
                 decimal("visual.pulsePeriodSeconds", TravailConfig.VISUAL_PULSE_PERIOD.get()),
                 decimal("visual.pulseDepth", TravailConfig.VISUAL_PULSE_DEPTH.get()),
-                decimal("visual.pulseAffectsRadius", TravailConfig.VISUAL_PULSE_RADIUS.get() ? 1 : 0));
+                decimal(
+                        "visual.pulseAffectsRadius",
+                        TravailConfig.VISUAL_PULSE_RADIUS.get() ? 1 : 0));
     }
 
     private VisualDeprivationClient() {}

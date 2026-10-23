@@ -11,7 +11,8 @@ public final class VisualDeprivationFog {
         float envelope = VisualDeprivationClient.envelope(player, partial);
         if (envelope <= 0) return;
         var style = VisualDeprivationClient.style(partial);
-        float blend = envelope * style.distanceEnabled() * VisualDeprivationClient.pulse(partial, style);
+        float blend =
+                envelope * style.distanceEnabled() * VisualDeprivationClient.pulse(partial, style);
         if (blend <= 0) return;
         float far = event.getFarPlaneDistance(), near = event.getNearPlaneDistance();
         float targetFar = Math.min(far, style.distanceEnd());
@@ -28,7 +29,11 @@ public final class VisualDeprivationFog {
         float envelope = VisualDeprivationClient.envelope(player, partial);
         if (envelope <= 0) return;
         var style = VisualDeprivationClient.style(partial);
-        float remaining = 1 - envelope * style.distanceEnabled() * VisualDeprivationClient.pulse(partial, style);
+        float remaining =
+                1
+                        - envelope
+                                * style.distanceEnabled()
+                                * VisualDeprivationClient.pulse(partial, style);
         event.setRed(event.getRed() * remaining);
         event.setGreen(event.getGreen() * remaining);
         event.setBlue(event.getBlue() * remaining);

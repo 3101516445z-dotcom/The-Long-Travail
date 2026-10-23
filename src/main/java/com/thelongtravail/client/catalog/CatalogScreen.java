@@ -14,15 +14,27 @@ import static com.thelongtravail.client.catalog.CatalogEntries.*;
 public final class CatalogScreen extends Screen {
     private final CatalogSession session;
     // 鼠标、页面和渲染变换均使用拾遗局部坐标；避让边界也须使用同一坐标系。
-    private final net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner tooltipPositioner =
-            (screenWidth, screenHeight, x, y, tooltipWidth, tooltipHeight) ->
-                    net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner.INSTANCE
-                            .positionTooltip(width, height, x, y, tooltipWidth, tooltipHeight);
+    private final net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner
+            tooltipPositioner =
+                    (screenWidth, screenHeight, x, y, tooltipWidth, tooltipHeight) ->
+                            net.minecraft.client.gui.screens.inventory.tooltip
+                                    .DefaultTooltipPositioner.INSTANCE
+                                    .positionTooltip(
+                                            width, height, x, y, tooltipWidth, tooltipHeight);
     private EditBox search;
     private String query = "", selectedId = "";
     private List<Entry> results = List.of();
     private final List<Card> cards = new ArrayList<>();
-    private int left, top, pw, ph, bodyTop, bodyBottom, contentHeight, columnWidth, essenceY, themeY;
+    private int left,
+            top,
+            pw,
+            ph,
+            bodyTop,
+            bodyBottom,
+            contentHeight,
+            columnWidth,
+            essenceY,
+            themeY;
     private double scroll, grab;
     private int resultFirst, resultSelected;
     private boolean dropdown, dragging;
@@ -91,13 +103,20 @@ public final class CatalogScreen extends Screen {
         List<Entry> aids = all().stream().filter(e -> e.category() == Category.AID).toList();
         int aidWidth = (available - 12) / 3;
         for (int i = 0; i < aids.size(); i++)
-            cards.add(new Card(aids.get(i), i * (aidWidth + 6) + (aidWidth - size) / 2, 22, size, size));
+            cards.add(
+                    new Card(
+                            aids.get(i),
+                            i * (aidWidth + 6) + (aidWidth - size) / 2,
+                            22,
+                            size,
+                            size));
         for (Entry e : all())
             if (e.category() == Category.STONE)
                 cards.add(
                         new Card(
                                 e,
-                                e.theme().ordinal() * (columnWidth + gap) + (columnWidth - size) / 2,
+                                e.theme().ordinal() * (columnWidth + gap)
+                                        + (columnWidth - size) / 2,
                                 96,
                                 size,
                                 size));
@@ -108,7 +127,8 @@ public final class CatalogScreen extends Screen {
                 cards.add(
                         new Card(
                                 e,
-                                e.theme().ordinal() * (columnWidth + gap) + (columnWidth - size) / 2,
+                                e.theme().ordinal() * (columnWidth + gap)
+                                        + (columnWidth - size) / 2,
                                 essenceY,
                                 size,
                                 size));
@@ -117,7 +137,10 @@ public final class CatalogScreen extends Screen {
                         .map(
                                 aspect ->
                                         all().stream()
-                                                .filter(e -> e.category() == Category.THEME && e.theme() == aspect)
+                                                .filter(
+                                                        e ->
+                                                                e.category() == Category.THEME
+                                                                        && e.theme() == aspect)
                                                 .toList())
                         .toList();
         int maxRows = columns.stream().mapToInt(List::size).max().orElse(0);
@@ -168,12 +191,22 @@ public final class CatalogScreen extends Screen {
     }
 
     private int thumbY() {
-        return bodyTop + (int) (scroll / Math.max(1, maxScroll()) * (bodyBottom - bodyTop - thumbHeight()));
+        return bodyTop
+                + (int)
+                        (scroll
+                                / Math.max(1, maxScroll())
+                                * (bodyBottom - bodyTop - thumbHeight()));
     }
 
     private boolean overDropdown(double x, double y) {
         return dropdown
-                && in(x, y, search.getX() - 8, top + 53, 196, Math.max(1, Math.min(5, results.size())) * 32 + 6);
+                && in(
+                        x,
+                        y,
+                        search.getX() - 8,
+                        top + 53,
+                        196,
+                        Math.max(1, Math.min(5, results.size())) * 32 + 6);
     }
 
     private void section(GuiGraphics g, String label, int y) {
@@ -188,14 +221,22 @@ public final class CatalogScreen extends Screen {
         g.pose().pushPose();
         g.pose().translate(left + 30, top + 28, 0);
         g.pose().scale(1.6f, 1.6f, 1);
-        g.drawString(font, ui("title").copy().withStyle(s -> s.withBold(true)), 0, 0, 0xC5A879, false);
+        g.drawString(
+                font, ui("title").copy().withStyle(s -> s.withBold(true)), 0, 0, 0xC5A879, false);
         g.pose().popPose();
         g.drawString(font, ui("subtitle"), left + 31, top + 51, 0x85735C, false);
         rect(g, search.getX() - 8, top + 23, 196, 26, 0xFF201B18);
-        outline(g, search.getX() - 8, top + 23, 196, 26, search.isFocused() ? 0xFF9E7B50 : 0xFF584330);
+        outline(
+                g,
+                search.getX() - 8,
+                top + 23,
+                196,
+                26,
+                search.isFocused() ? 0xFF9E7B50 : 0xFF584330);
         rect(g, search.getX() - 7, top + 24, 194, 1, 0xFF171310);
         search.render(g, mx, my, partial);
-        if (!query.isEmpty()) g.drawString(font, "×", search.getX() + 178, top + 23 + (26 - 8) / 2, 0xB49A74, false);
+        if (!query.isEmpty())
+            g.drawString(font, "×", search.getX() + 178, top + 23 + (26 - 8) / 2, 0xB49A74, false);
         CatalogFrame.close(g, railX() + 2, top + 32, in(mx, my, railX() - 6, top + 24, 17, 17));
         rect(g, left + 29, top + 68, pw - 58, 1, 0xFF5D4934);
         session.scissor(g, left + 27, bodyTop, left + pw - 43, bodyBottom);
@@ -203,7 +244,8 @@ public final class CatalogScreen extends Screen {
         section(g, Category.STONE.label(), 76);
         section(g, Category.ESSENCE.label(), 150);
         for (TravailAspect aspect : TravailAspect.values()) {
-            int x = left + 29 + aspect.ordinal() * (columnWidth + 6), y = bodyTop + themeY - 10 - (int) scroll;
+            int x = left + 29 + aspect.ordinal() * (columnWidth + 6),
+                    y = bodyTop + themeY - 10 - (int) scroll;
             rect(g, x, y, columnWidth, contentHeight - themeY + 10, 0xFF231E1B);
             outline(g, x, y, columnWidth, contentHeight - themeY + 10, 0xFF4D3B2D);
             rect(g, x + columnWidth / 2, y - 8, 1, 8, 0xFF80613F);
@@ -218,7 +260,8 @@ public final class CatalogScreen extends Screen {
                             && my >= bodyTop + (scroll >= essenceY + 50 ? 18 : 0)
                             && my < bodyBottom
                             && in(mx, my, x, y, c.w, c.h);
-            boolean flash = c.entry.id().equals(selectedId) && System.currentTimeMillis() < highlightUntil;
+            boolean flash =
+                    c.entry.id().equals(selectedId) && System.currentTimeMillis() < highlightUntil;
             if (over) hover = c;
             boolean essence = c.entry.category() == Category.ESSENCE;
             rect(g, x, y, c.w, c.h, over ? 0xFF33271E : 0xFF1D1917);
@@ -240,7 +283,12 @@ public final class CatalogScreen extends Screen {
             if (essence) {
                 int cx = x + c.w / 2;
                 diamond(g, cx, y - 2, 0xFFC09A61);
-                g.drawCenteredString(font, Component.literal(themeName(c.entry.theme())), cx, y + c.h + 8, 0xC5AB80);
+                g.drawCenteredString(
+                        font,
+                        Component.literal(themeName(c.entry.theme())),
+                        cx,
+                        y + c.h + 8,
+                        0xC5AB80);
             }
         }
         g.disableScissor();
@@ -251,13 +299,26 @@ public final class CatalogScreen extends Screen {
             rect(g, left + 27, bodyTop, pw - 70, 18, 0xFF27211E);
             for (TravailAspect a : TravailAspect.values()) {
                 int x = left + 29 + a.ordinal() * (columnWidth + 6);
-                g.drawCenteredString(font, Component.literal(themeName(a)), x + columnWidth / 2, bodyTop + 3, 0xC5AB80);
+                g.drawCenteredString(
+                        font,
+                        Component.literal(themeName(a)),
+                        x + columnWidth / 2,
+                        bodyTop + 3,
+                        0xC5AB80);
                 rect(g, x, bodyTop + 16, columnWidth, 1, 0xFF6A5034);
             }
             g.flush();
             g.pose().popPose();
         }
-        fadeEdges(g, left + 27, bodyTop, left + pw - 43, bodyBottom, 8, scroll > 0, scroll < maxScroll());
+        fadeEdges(
+                g,
+                left + 27,
+                bodyTop,
+                left + pw - 43,
+                bodyBottom,
+                8,
+                scroll > 0,
+                scroll < maxScroll());
         int rx = railX(), ty = thumbY(), th = thumbHeight();
         rect(g, rx, bodyTop, 5, bodyBottom - bodyTop, 0xFF151211);
         rect(g, rx + 2, bodyTop, 1, bodyBottom - bodyTop, 0xFF4A3829);
@@ -271,7 +332,8 @@ public final class CatalogScreen extends Screen {
         rect(g, left + 29, fy - 7, pw - 58, 1, 0xFF493A2B);
         emblem(g, left + pw / 2, fy + 4, 0xFF806341);
         g.drawString(font, ui("browse"), left + 33, fy, 0x9E886C, false);
-        g.drawString(font, ui("exit"), left + pw - 33 - font.width(ui("exit")), fy, 0x9E886C, false);
+        g.drawString(
+                font, ui("exit"), left + pw - 33 - font.width(ui("exit")), fy, 0x9E886C, false);
         if (dropdown) renderResults(g, mx, my);
         else marqueeId = "";
         if (!dropdown && hover != null) {
@@ -279,7 +341,12 @@ public final class CatalogScreen extends Screen {
                     List.of(
                             hover.entry.stack().getHoverName(),
                             ui("view_details").copy().withStyle(s -> s.withColor(0xB49A74)));
-            g.renderTooltip(font, tip.stream().map(Component::getVisualOrderText).toList(), tooltipPositioner, mx, my);
+            g.renderTooltip(
+                    font,
+                    tip.stream().map(Component::getVisualOrderText).toList(),
+                    tooltipPositioner,
+                    mx,
+                    my);
         }
     }
 
@@ -290,7 +357,8 @@ public final class CatalogScreen extends Screen {
         rect(g, x + 3, y + 4, 196, n * 32 + 6, 0xA0000000);
         rect(g, x, y, 196, n * 32 + 6, 0xFF201B18);
         outline(g, x, y, 196, n * 32 + 6, 0xFF97744C);
-        if (results.isEmpty()) g.drawString(font, ui("no_results"), x + 12, y + 13, 0xA28B6D, false);
+        if (results.isEmpty())
+            g.drawString(font, ui("no_results"), x + 12, y + 13, 0xA28B6D, false);
         int active = resultSelected;
         for (int i = 0; i < Math.min(5, results.size() - resultFirst); i++)
             if (in(mx, my, x + 1, y + 3 + i * 32, 194, 32)) active = resultFirst + i;
@@ -308,18 +376,31 @@ public final class CatalogScreen extends Screen {
             if (index == active) rect(g, x + 2, ry, 192, 31, 0xFF392B20);
             g.renderItem(e.stack(), x + 8, ry + 8);
             drawResultName(g, e.stack().getHoverName(), x + 31, ry + 5, 154, index == active);
-            g.drawString(font, font.plainSubstrByWidth(e.subtitle(), 154), x + 31, ry + 18, 0x8F7B61, false);
+            g.drawString(
+                    font,
+                    font.plainSubstrByWidth(e.subtitle(), 154),
+                    x + 31,
+                    ry + 18,
+                    0x8F7B61,
+                    false);
             if (i > 0) rect(g, x + 7, ry, 181, 1, 0xFF423225);
         }
         if (results.size() > 5) {
             int h = Math.max(8, 160 * 5 / results.size());
-            rect(g, x + 192, y + 3 + resultFirst * (160 - h) / Math.max(1, results.size() - 5), 2, h, 0xFFAD8957);
+            rect(
+                    g,
+                    x + 192,
+                    y + 3 + resultFirst * (160 - h) / Math.max(1, results.size() - 5),
+                    2,
+                    h,
+                    0xFFAD8957);
         }
         g.flush();
         g.pose().popPose();
     }
 
-    private void drawResultName(GuiGraphics g, Component name, int x, int y, int width, boolean active) {
+    private void drawResultName(
+            GuiGraphics g, Component name, int x, int y, int width, boolean active) {
         int textWidth = font.width(name), period = textWidth + 24;
         double offset = 0;
         if (active && textWidth > width) {
@@ -330,15 +411,23 @@ public final class CatalogScreen extends Screen {
         g.flush();
         session.scissor(g, x, y - 1, x + width, y + font.lineHeight + 2);
         g.drawString(font, name, x - (int) offset, y, 0xD8C09A, false);
-        if (active && textWidth > width) g.drawString(font, name, x - (int) offset + period, y, 0xD8C09A, false);
+        if (active && textWidth > width)
+            g.drawString(font, name, x - (int) offset + period, y, 0xD8C09A, false);
         g.flush();
         g.disableScissor();
         if (textWidth > width) {
             int background = active ? 0x392B20 : 0x201B18;
             for (int i = 0; i < 7; i++) {
                 int alpha = (7 - i) * 255 / 7;
-                if (offset > 0) rect(g, x + i, y - 1, 1, font.lineHeight + 2, (alpha << 24) | background);
-                rect(g, x + width - 1 - i, y - 1, 1, font.lineHeight + 2, (alpha << 24) | background);
+                if (offset > 0)
+                    rect(g, x + i, y - 1, 1, font.lineHeight + 2, (alpha << 24) | background);
+                rect(
+                        g,
+                        x + width - 1 - i,
+                        y - 1,
+                        1,
+                        font.lineHeight + 2,
+                        (alpha << 24) | background);
             }
         }
     }
@@ -374,7 +463,12 @@ public final class CatalogScreen extends Screen {
             if (y >= thumbY() && y <= thumbY() + thumbHeight()) {
                 dragging = true;
                 grab = y - thumbY();
-            } else scroll = Mth.clamp(scroll + (y < thumbY() ? -1 : 1) * (bodyBottom - bodyTop), 0, maxScroll());
+            } else
+                scroll =
+                        Mth.clamp(
+                                scroll + (y < thumbY() ? -1 : 1) * (bodyBottom - bodyTop),
+                                0,
+                                maxScroll());
             return true;
         }
         if (y >= bodyTop + (scroll >= essenceY + 50 ? 18 : 0) && y < bodyBottom)
@@ -402,7 +496,9 @@ public final class CatalogScreen extends Screen {
         if (dragging)
             scroll =
                     Mth.clamp(
-                            (y - bodyTop - grab) / Math.max(1, bodyBottom - bodyTop - thumbHeight()) * maxScroll(),
+                            (y - bodyTop - grab)
+                                    / Math.max(1, bodyBottom - bodyTop - thumbHeight())
+                                    * maxScroll(),
                             0,
                             maxScroll());
         else if (search.isFocused()) search.mouseDragged(x, y, button, dx, dy);
@@ -429,8 +525,12 @@ public final class CatalogScreen extends Screen {
         if (dropdown && !results.isEmpty()) {
             if (key == GLFW.GLFW_KEY_DOWN || key == GLFW.GLFW_KEY_UP) {
                 resultSelected =
-                        Mth.clamp(resultSelected + (key == GLFW.GLFW_KEY_DOWN ? 1 : -1), 0, results.size() - 1);
-                resultFirst = Mth.clamp(resultFirst, Math.max(0, resultSelected - 4), resultSelected);
+                        Mth.clamp(
+                                resultSelected + (key == GLFW.GLFW_KEY_DOWN ? 1 : -1),
+                                0,
+                                results.size() - 1);
+                resultFirst =
+                        Mth.clamp(resultFirst, Math.max(0, resultSelected - 4), resultSelected);
                 return true;
             }
             if (key == GLFW.GLFW_KEY_ENTER || key == GLFW.GLFW_KEY_KP_ENTER) {

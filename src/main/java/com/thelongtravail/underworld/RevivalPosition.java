@@ -12,7 +12,9 @@ public final class RevivalPosition {
     private final Vec3 origin;
     private final double half, height;
     private final PriorityQueue<Cell> queue =
-            new PriorityQueue<>(Comparator.comparingDouble(Cell::distance).thenComparingLong(c -> c.pos.asLong()));
+            new PriorityQueue<>(
+                    Comparator.comparingDouble(Cell::distance)
+                            .thenComparingLong(c -> c.pos.asLong()));
     private final Set<BlockPos> seen = new HashSet<>();
     private Vec3 best;
     private BlockPos active;
@@ -29,11 +31,14 @@ public final class RevivalPosition {
     }
 
     private AABB body(Vec3 p) {
-        return new AABB(p.x - half, p.y, p.z - half, p.x + half, p.y + height, p.z + half).deflate(1E-7);
+        return new AABB(p.x - half, p.y, p.z - half, p.x + half, p.y + height, p.z + half)
+                .deflate(1E-7);
     }
 
     private void load(AABB box) {
-        for (int x = net.minecraft.util.Mth.floor(box.minX) >> 4; x <= net.minecraft.util.Mth.floor(box.maxX) >> 4; x++)
+        for (int x = net.minecraft.util.Mth.floor(box.minX) >> 4;
+                x <= net.minecraft.util.Mth.floor(box.maxX) >> 4;
+                x++)
             for (int z = net.minecraft.util.Mth.floor(box.minZ) >> 4;
                     z <= net.minecraft.util.Mth.floor(box.maxZ) >> 4;
                     z++) level.getChunk(x, z);
@@ -105,7 +110,8 @@ public final class RevivalPosition {
                 }
                 continue;
             }
-            if (best != null && queue.peek().distance > origin.distanceToSqr(best) + 1E-9) return true;
+            if (best != null && queue.peek().distance > origin.distanceToSqr(best) + 1E-9)
+                return true;
             Cell c = queue.remove();
             BlockPos p = c.pos;
             level.getChunk(p.getX() >> 4, p.getZ() >> 4);
@@ -135,7 +141,9 @@ public final class RevivalPosition {
             ix = iy = iz = 0;
         }
         return active == null
-                && (queue.isEmpty() || best != null && queue.peek().distance > origin.distanceToSqr(best) + 1E-9);
+                && (queue.isEmpty()
+                        || best != null
+                                && queue.peek().distance > origin.distanceToSqr(best) + 1E-9);
     }
 
     private static final class Coordinates {
@@ -151,7 +159,8 @@ public final class RevivalPosition {
             Arrays.sort(values, 0, size);
             int count = 0;
             for (int i = 0; i < size; i++)
-                if (count == 0 || Double.compare(values[i], values[count - 1]) != 0) values[count++] = values[i];
+                if (count == 0 || Double.compare(values[i], values[count - 1]) != 0)
+                    values[count++] = values[i];
             return Arrays.copyOf(values, count);
         }
     }

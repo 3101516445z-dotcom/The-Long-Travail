@@ -28,7 +28,8 @@ public final class CatalogDetailScreen extends Screen {
 
     private record Row(FormattedCharSequence text, int y) {}
 
-    public CatalogDetailScreen(CatalogSession session, ItemStack stack, List<Component> paragraphs) {
+    public CatalogDetailScreen(
+            CatalogSession session, ItemStack stack, List<Component> paragraphs) {
         super(stack.getHoverName());
         this.session = session;
         this.fromParent = session.parent() != null;
@@ -60,7 +61,10 @@ public final class CatalogDetailScreen extends Screen {
             y += Math.round((SENTENCE_STEP - WRAPPED_LINE_STEP) * bodyTextScale);
         }
         contentHeight =
-                rows.isEmpty() ? 0 : rows.get(rows.size() - 1).y + (int) Math.ceil(font.lineHeight * bodyTextScale);
+                rows.isEmpty()
+                        ? 0
+                        : rows.get(rows.size() - 1).y
+                                + (int) Math.ceil(font.lineHeight * bodyTextScale);
         scroll = Mth.clamp(scroll, 0, maxScroll());
     }
 
@@ -81,7 +85,8 @@ public final class CatalogDetailScreen extends Screen {
         float guard = Math.max(1F, lineHeight * .25F);
         float opacity = 1;
         if (scroll > 0) opacity = Math.min(opacity, (y - bodyTop) / guard);
-        if (scroll < maxScroll()) opacity = Math.min(opacity, (bodyBottom - y - lineHeight) / guard);
+        if (scroll < maxScroll())
+            opacity = Math.min(opacity, (bodyBottom - y - lineHeight) / guard);
         opacity = Mth.clamp(opacity, 0, 1);
         return Math.round(opacity * opacity * (3 - 2 * opacity) * 255);
     }
@@ -107,11 +112,15 @@ public final class CatalogDetailScreen extends Screen {
     }
 
     private int thumbHeight() {
-        return Math.min(viewport(), Math.max(26, viewport() * viewport() / Math.max(1, contentHeight)));
+        return Math.min(
+                viewport(), Math.max(26, viewport() * viewport() / Math.max(1, contentHeight)));
     }
 
     private int thumbY() {
-        return bodyTop + (int) Math.round(scroll / Math.max(1, maxScroll()) * (viewport() - thumbHeight()));
+        return bodyTop
+                + (int)
+                        Math.round(
+                                scroll / Math.max(1, maxScroll()) * (viewport() - thumbHeight()));
     }
 
     @Override
@@ -148,7 +157,8 @@ public final class CatalogDetailScreen extends Screen {
         g.pose().scale(labelScale, labelScale, 1);
         g.drawString(
                 font,
-                Component.translatable("gui.the_long_travail.catalog.title").withStyle(style -> style.withBold(true)),
+                Component.translatable("gui.the_long_travail.catalog.title")
+                        .withStyle(style -> style.withBold(true)),
                 0,
                 0,
                 0xB49A74,
@@ -172,7 +182,10 @@ public final class CatalogDetailScreen extends Screen {
             rect(g, closeX + 7 - i, top + 30 + i, 1, 1, 0xFF17120F);
         }
         for (int i = 0; i < 7; i++) {
-            int copper = closeHover ? (i < 3 ? 0xFFE2C18A : 0xFFC09960) : (i < 3 ? 0xFFB29365 : 0xFF8E6C43);
+            int copper =
+                    closeHover
+                            ? (i < 3 ? 0xFFE2C18A : 0xFFC09960)
+                            : (i < 3 ? 0xFFB29365 : 0xFF8E6C43);
             rect(g, closeX + i, top + 29 + i, 1, 1, copper);
             rect(g, closeX + 6 - i, top + 29 + i, 1, 1, copper);
         }
@@ -189,7 +202,13 @@ public final class CatalogDetailScreen extends Screen {
                 g.pose().pushPose();
                 g.pose().translate(left + 34, y, 0);
                 g.pose().scale(bodyTextScale, bodyTextScale, 1);
-                g.drawString(font, row.text, 0, 0, (alpha << 24) | (CatalogTextStyle.BODY & 0xFFFFFF), false);
+                g.drawString(
+                        font,
+                        row.text,
+                        0,
+                        0,
+                        (alpha << 24) | (CatalogTextStyle.BODY & 0xFFFFFF),
+                        false);
                 g.pose().popPose();
             }
         }
@@ -224,7 +243,12 @@ public final class CatalogDetailScreen extends Screen {
         rect(g, left + 29, footerY - 7, panelWidth - 58, 1, 0xFF493A2B);
         emblem(g, left + panelWidth / 2, footerY + 4, 0xFF806341);
         g.drawString(
-                font, Component.translatable("gui.the_long_travail.catalog.read"), left + 33, footerY, 0x9E886C, false);
+                font,
+                Component.translatable("gui.the_long_travail.catalog.read"),
+                left + 33,
+                footerY,
+                0x9E886C,
+                false);
         boolean backHover = overBack(mouseX, mouseY);
         if (backHover) outline(g, backLeft(), footerY - 4, backWidth(), 17, 0xFF806341);
         g.drawString(
@@ -235,12 +259,15 @@ public final class CatalogDetailScreen extends Screen {
                 backHover ? 0xE2C18A : 0xB49A74,
                 false);
         String back = escapeHint().getString();
-        g.drawString(font, back, left + panelWidth - 33 - font.width(back), footerY, 0x9E886C, false);
+        g.drawString(
+                font, back, left + panelWidth - 33 - font.width(back), footerY, 0x9E886C, false);
     }
 
     private Component escapeHint() {
         return Component.translatable(
-                fromParent ? "gui.the_long_travail.catalog.escape_back" : "gui.the_long_travail.catalog.exit");
+                fromParent
+                        ? "gui.the_long_travail.catalog.escape_back"
+                        : "gui.the_long_travail.catalog.exit");
     }
 
     private void dismiss() {
@@ -253,7 +280,8 @@ public final class CatalogDetailScreen extends Screen {
     }
 
     private int backWidth() {
-        return Math.max(62, font.width(Component.translatable("gui.the_long_travail.catalog.back")) + 6);
+        return Math.max(
+                62, font.width(Component.translatable("gui.the_long_travail.catalog.back")) + 6);
     }
 
     private int backLeft() {
@@ -261,7 +289,10 @@ public final class CatalogDetailScreen extends Screen {
     }
 
     private boolean overBack(double x, double y) {
-        return x >= backLeft() && x <= backRight() && y >= top + panelHeight - 33 && y <= top + panelHeight - 17;
+        return x >= backLeft()
+                && x <= backRight()
+                && y >= top + panelHeight - 33
+                && y <= top + panelHeight - 17;
     }
 
     @Override
@@ -285,11 +316,18 @@ public final class CatalogDetailScreen extends Screen {
             session.back();
             return true;
         }
-        if (maxScroll() > 0 && x >= railX() - 4 && x <= railX() + 9 && y >= bodyTop && y <= bodyBottom) {
+        if (maxScroll() > 0
+                && x >= railX() - 4
+                && x <= railX() + 9
+                && y >= bodyTop
+                && y <= bodyBottom) {
             if (y >= thumbY() && y <= thumbY() + thumbHeight()) {
                 dragging = true;
                 grabOffset = y - thumbY();
-            } else scroll = Mth.clamp(scroll + (y < thumbY() ? -viewport() : viewport()), 0, maxScroll());
+            } else
+                scroll =
+                        Mth.clamp(
+                                scroll + (y < thumbY() ? -viewport() : viewport()), 0, maxScroll());
             return true;
         }
         return false;
@@ -300,7 +338,9 @@ public final class CatalogDetailScreen extends Screen {
         if (!dragging) return false;
         scroll =
                 Mth.clamp(
-                        (y - bodyTop - grabOffset) / Math.max(1, viewport() - thumbHeight()) * maxScroll(),
+                        (y - bodyTop - grabOffset)
+                                / Math.max(1, viewport() - thumbHeight())
+                                * maxScroll(),
                         0,
                         maxScroll());
         return true;

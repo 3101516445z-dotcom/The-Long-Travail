@@ -25,7 +25,8 @@ public final class MaterialLoot {
                     source("blocks/budding_amethyst"), material("essences/blocks/budding_amethyst"),
                     source("chests/buried_treasure"), material("essences/chests/buried_treasure"),
                     source("chests/jungle_temple"), material("essences/chests/jungle_temple"),
-                    source("chests/stronghold_library"), material("essences/chests/stronghold_library"));
+                    source("chests/stronghold_library"),
+                            material("essences/chests/stronghold_library"));
 
     private record SpecialReward(ResourceLocation item, double percent) {}
 
@@ -48,11 +49,14 @@ public final class MaterialLoot {
         return ResourceLocation.fromNamespaceAndPath("minecraft", path);
     }
 
-    private static Map.Entry<ResourceLocation, SpecialReward> special(String path, String aspect, double percent) {
+    private static Map.Entry<ResourceLocation, SpecialReward> special(
+            String path, String aspect, double percent) {
         return Map.entry(
                 source(path),
                 new SpecialReward(
-                        ResourceLocation.fromNamespaceAndPath("the_long_travail", aspect + "_essence"), percent));
+                        ResourceLocation.fromNamespaceAndPath(
+                                "the_long_travail", aspect + "_essence"),
+                        percent));
     }
 
     private static void injectSpecial(LootTable table, SpecialReward rule) {

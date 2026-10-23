@@ -11,7 +11,8 @@ public final class AttributeDamage {
     public static final TagKey<DamageType> BYPASSES =
             TagKey.create(
                     Registries.DAMAGE_TYPE,
-                    ResourceLocation.fromNamespaceAndPath("the_long_travail", "bypasses_combat_attributes"));
+                    ResourceLocation.fromNamespaceAndPath(
+                            "the_long_travail", "bypasses_combat_attributes"));
     private final LivingEntity target;
     private final DamageSource source;
     private final boolean excluded;
@@ -21,10 +22,14 @@ public final class AttributeDamage {
     private float threshold;
     private float defendedAmount;
 
-    public AttributeDamage(LivingEntity target, DamageSource source, boolean execution, boolean settled) {
+    public AttributeDamage(
+            LivingEntity target, DamageSource source, boolean execution, boolean settled) {
         this.target = target;
         this.source = source;
-        this.excluded = execution || source.is(BYPASSES) || source.is(com.thelongtravail.helper.TrueDamage.FLUID);
+        this.excluded =
+                execution
+                        || source.is(BYPASSES)
+                        || source.is(com.thelongtravail.helper.TrueDamage.FLUID);
         this.settled = settled;
     }
 
@@ -39,9 +44,13 @@ public final class AttributeDamage {
             com.thelongtravail.underworld.UnderworldRelics.refresh(actor);
         double max = target.getMaxHealth();
         // 使用与原版伤害相同的 float 精度，确保伤害恰好等于小数阈值时仍能免疫。
-        threshold = Double.isFinite(max) && max > 0 ? (float) (max * CombatAttributes.overlord(target)) : 0;
+        threshold =
+                Double.isFinite(max) && max > 0
+                        ? (float) (max * CombatAttributes.overlord(target))
+                        : 0;
         if (!settled) {
-            if (source.getEntity() != null && source.getEntity() != target) insight = CombatAttributes.insight(target);
+            if (source.getEntity() != null && source.getEntity() != target)
+                insight = CombatAttributes.insight(target);
             if (!com.thelongtravail.boundless.LorentzFantasy.secondary(source)
                     && source.getEntity() instanceof LivingEntity attacker
                     && attacker != target) chance = CombatAttributes.criticalChance(attacker);

@@ -21,7 +21,8 @@ public final class UnderworldMaintenance {
         ORDER.remove(id);
     }
 
-    private static void item(UnderworldLedger ledger, Deque<NbtReconcileCursor> work, Supplier<ItemStack> source) {
+    private static void item(
+            UnderworldLedger ledger, Deque<NbtReconcileCursor> work, Supplier<ItemStack> source) {
         ItemStack stack = source.get();
         if (ledger.consumed(stack)) {
             stack.setCount(0);
@@ -34,7 +35,8 @@ public final class UnderworldMaintenance {
     public static void request(ServerPlayer player) {
         var ledger = UnderworldLedger.get(player.server);
         if (!ledger.hasChanges()) return;
-        var work = SCANS.containsKey(player.getUUID()) ? null : new ArrayDeque<NbtReconcileCursor>();
+        var work =
+                SCANS.containsKey(player.getUUID()) ? null : new ArrayDeque<NbtReconcileCursor>();
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
             int slot = i;
             item(ledger, work, () -> player.getInventory().getItem(slot));
@@ -78,7 +80,9 @@ public final class UnderworldMaintenance {
                 SCANS.remove(id);
                 continue;
             }
-            for (int n = 0; n < 64 && budget > 0 && !work.isEmpty() && System.nanoTime() < deadline; n++, budget--) {
+            for (int n = 0;
+                    n < 64 && budget > 0 && !work.isEmpty() && System.nanoTime() < deadline;
+                    n++, budget--) {
                 var cursor = work.removeFirst();
                 if (cursor.step(ledger)) work.addLast(cursor);
             }

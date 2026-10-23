@@ -24,7 +24,8 @@ public final class SkillCooldownNotice {
         if (mc.player == null) return;
         clear();
         if (remainingTicks <= 0) {
-            mc.player.displayClientMessage(com.thelongtravail.helper.ActionMessages.text(translationKey), true);
+            mc.player.displayClientMessage(
+                    com.thelongtravail.helper.ActionMessages.text(translationKey), true);
             return;
         }
         key = translationKey;
@@ -40,11 +41,13 @@ public final class SkillCooldownNotice {
                 Component.translatable("message.the_long_travail.cooldown.seconds", seconds)
                         .withStyle(style -> style.withColor(RainTooltips.ACCENT_COLOR));
         if (key.equals("message.the_long_travail.dream.countdown"))
-            return Component.translatable(key, duration).withStyle(style -> style.withColor(RainTooltips.BODY_COLOR));
+            return Component.translatable(key, duration)
+                    .withStyle(style -> style.withColor(RainTooltips.BODY_COLOR));
         var remaining =
                 Component.translatable("message.the_long_travail.cooldown.remaining", duration)
                         .withStyle(style -> style.withColor(RainTooltips.STATE_CONDITION_COLOR));
-        return Component.translatable(key, remaining).withStyle(style -> style.withColor(RainTooltips.BODY_COLOR));
+        return Component.translatable(key, remaining)
+                .withStyle(style -> style.withColor(RainTooltips.BODY_COLOR));
     }
 
     @SubscribeEvent

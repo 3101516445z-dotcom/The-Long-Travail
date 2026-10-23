@@ -93,7 +93,8 @@ public final class BookRevival {
                 || AzraelExecution.matches(p, s)
                 || s.is(AzraelExecution.TYPE)
                 || s.is(AzraelExecution.SELF)
-                || s.is(DamageTypes.GENERIC_KILL) && (!(raw >= 0) || raw >= UnderworldItemsConfig.KILL_THRESHOLD.get());
+                || s.is(DamageTypes.GENERIC_KILL)
+                        && (!(raw >= 0) || raw >= UnderworldItemsConfig.KILL_THRESHOLD.get());
     }
 
     public static AutoCloseable beginDeath(ServerPlayer p, DamageSource source) {
@@ -101,8 +102,10 @@ public final class BookRevival {
         Hit h = HIT.get();
         ItemStack book = UnderworldItems.equipped(p, false), diary = TravailCurios.stack(p);
         boolean matching = h != null && h.player == p && h.source == source;
-        boolean eligible = !book.isEmpty() && !p.isSpectator() && !excluded(p, source, matching ? h.input : 0);
-        var journey = com.thelongtravail.data.JourneyState.identity(diary, TravailAspect.UNDERWORLD);
+        boolean eligible =
+                !book.isEmpty() && !p.isSpectator() && !excluded(p, source, matching ? h.input : 0);
+        var journey =
+                com.thelongtravail.data.JourneyState.identity(diary, TravailAspect.UNDERWORLD);
         boolean witness =
                 eligible
                         && matching
@@ -150,7 +153,8 @@ public final class BookRevival {
         ledger.deaths.put(p.getUUID(), n);
         ledger.setDirty();
         // 先发送复活资格，再发送原版死亡通知，避免立即重生早于资格同步。
-        UnderworldPacket.send(p, n.getUUID("Death"), ledger.canRevive(n.getBoolean("Hardcore"), d.book));
+        UnderworldPacket.send(
+                p, n.getUUID("Death"), ledger.canRevive(n.getBoolean("Hardcore"), d.book));
     }
 
     public static void finished(ServerPlayer p) {
@@ -180,10 +184,13 @@ public final class BookRevival {
                 || !n.getBoolean("Ready")
                 || !n.getUUID("Death").equals(id)
                 || SEARCHES.containsKey(p.getUUID())) return;
-        if (!UnderworldLedger.get(p.server).canRevive(n.getBoolean("Hardcore"), n.getUUID("Book"))) return;
+        if (!UnderworldLedger.get(p.server).canRevive(n.getBoolean("Hardcore"), n.getUUID("Book")))
+            return;
         ServerLevel level =
                 p.server.getLevel(
-                        ResourceKey.create(Registries.DIMENSION, new ResourceLocation(n.getString("Dimension"))));
+                        ResourceKey.create(
+                                Registries.DIMENSION,
+                                new ResourceLocation(n.getString("Dimension"))));
         if (level == null) return;
         Vec3 pos = new Vec3(n.getDouble("X"), n.getDouble("Y"), n.getDouble("Z"));
         SEARCHES.put(
@@ -204,7 +211,9 @@ public final class BookRevival {
                 || !ledger.canRevive(n.getBoolean("Hardcore"), n.getUUID("Book"))) return;
         ServerLevel level =
                 p.server.getLevel(
-                        ResourceKey.create(Registries.DIMENSION, new ResourceLocation(n.getString("Dimension"))));
+                        ResourceKey.create(
+                                Registries.DIMENSION,
+                                new ResourceLocation(n.getString("Dimension"))));
         if (level == null) return;
         n.putBoolean("Ready", false);
         ledger.setDirty();
@@ -226,7 +235,8 @@ public final class BookRevival {
                 UnderworldStorage.sweep(p.server, fresh);
             }
             fresh.connection.teleport(pos.x, pos.y, pos.z, n.getFloat("Yaw"), n.getFloat("Pitch"));
-            ((SpawnProtectionAccess) fresh).travail$protection(UnderworldItemsConfig.PROTECTION.get());
+            ((SpawnProtectionAccess) fresh)
+                    .travail$protection(UnderworldItemsConfig.PROTECTION.get());
             ledger.deaths.remove(p.getUUID());
             ledger.setDirty();
             UnderworldPacket.send(fresh, n.getUUID("Death"), false);
@@ -251,7 +261,8 @@ public final class BookRevival {
             if (search.search.step(256)) {
                 SEARCHES.remove(player);
                 if (search.search.result() != null) {
-                    if (search.search.clear(search.search.result())) revive(p, n, search.search.result());
+                    if (search.search.clear(search.search.result()))
+                        revive(p, n, search.search.result());
                     else request(p, search.death);
                 }
             }
@@ -260,8 +271,9 @@ public final class BookRevival {
 
     @SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent e) {
-        if (e.phase == TickEvent.Phase.END && e.player instanceof ServerPlayer p && p.tickCount % 20 == 0)
-            UnderworldMaintenance.request(p);
+        if (e.phase == TickEvent.Phase.END
+                && e.player instanceof ServerPlayer p
+                && p.tickCount % 20 == 0) UnderworldMaintenance.request(p);
     }
 
     @SubscribeEvent
@@ -272,7 +284,8 @@ public final class BookRevival {
                 UnderworldPacket.send(
                         p,
                         n.getUUID("Death"),
-                        UnderworldLedger.get(p.server).canRevive(n.getBoolean("Hardcore"), n.getUUID("Book")));
+                        UnderworldLedger.get(p.server)
+                                .canRevive(n.getBoolean("Hardcore"), n.getUUID("Book")));
             else if (n != null) {
                 UnderworldLedger.get(p.server).deaths.remove(p.getUUID());
                 UnderworldLedger.get(p.server).setDirty();

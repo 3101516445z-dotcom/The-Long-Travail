@@ -73,7 +73,9 @@ public final class EffectSounds {
     }
 
     public static void notification(ResourceLocation id, boolean gain, Runnable configuredSound) {
-        if (!Boolean.getBoolean("the_long_travail.soundsAdapterVerified") || !syncOwner() || id == null) {
+        if (!Boolean.getBoolean("the_long_travail.soundsAdapterVerified")
+                || !syncOwner()
+                || id == null) {
             configuredSound.run();
             return;
         }
@@ -86,10 +88,15 @@ public final class EffectSounds {
                     boolean enabled =
                             TooltipConfigSync.integer(
                                             "general.muteBeneficialEffectGainSounds",
-                                            TravailConfig.MUTE_BENEFICIAL_EFFECT_GAIN_SOUNDS.get() ? 1 : 0)
+                                            TravailConfig.MUTE_BENEFICIAL_EFFECT_GAIN_SOUNDS.get()
+                                                    ? 1
+                                                    : 0)
                                     != 0;
                     if (WitnessSoundRule.muteGain(
-                            Minecraft.getInstance().player, ForgeRegistries.MOB_EFFECTS.getValue(id), gain, enabled)) {
+                            Minecraft.getInstance().player,
+                            ForgeRegistries.MOB_EFFECTS.getValue(id),
+                            gain,
+                            enabled)) {
                         count("quiet-witness-beneficial-gain", id.toString());
                         return false;
                     }

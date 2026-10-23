@@ -29,7 +29,9 @@ public final class TimeStopGeometry {
         if (x * x + y * y + z * z <= r * r) return 0;
         if (a < 1e-12) return 1;
         // |q×delta|² 形式避免远距离下 b² 与 4ac 两个巨大近等数相减。
-        double cx = y * delta.z - z * delta.y, cy = z * delta.x - x * delta.z, cz = x * delta.y - y * delta.x;
+        double cx = y * delta.z - z * delta.y,
+                cy = z * delta.x - x * delta.z,
+                cz = x * delta.y - y * delta.x;
         double disc = a * r * r - (cx * cx + cy * cy + cz * cz);
         if (disc < 0) return 1;
         double t = (-(x * delta.x + y * delta.y + z * delta.z) - Math.sqrt(disc)) / a;
@@ -41,7 +43,9 @@ public final class TimeStopGeometry {
         if (entry <= 0 || entry >= 1) return entry;
         double lengthSquared = delta.lengthSqr();
         double closest =
-                -((from.x - center.x) * delta.x + (from.y - center.y) * delta.y + (from.z - center.z) * delta.z)
+                -((from.x - center.x) * delta.x
+                                + (from.y - center.y) * delta.y
+                                + (from.z - center.z) * delta.z)
                         / lengthSquared;
         double inset = 1e-7 / Math.max(1, Math.sqrt(lengthSquared));
         return Math.min(1, Math.min(entry + inset, Math.max(entry, closest)));

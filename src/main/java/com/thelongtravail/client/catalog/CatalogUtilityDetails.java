@@ -51,7 +51,11 @@ public final class CatalogUtilityDetails {
             boolean condition = id.equals("essence") && (row == 3 || row == 8);
             result.add(
                     line.withStyle(
-                            style -> style.withColor(condition ? CatalogTextStyle.CONDITION : CatalogTextStyle.BODY)));
+                            style ->
+                                    style.withColor(
+                                            condition
+                                                    ? CatalogTextStyle.CONDITION
+                                                    : CatalogTextStyle.BODY)));
         }
         return List.copyOf(result);
     }

@@ -13,5 +13,6 @@ import java.util.concurrent.CompletableFuture;
 @Mixin(ChunkGeneratorStructureState.class)
 public interface StructureRingsAccessor {
     @Accessor("ringPositions")
-    Map<ConcentricRingsStructurePlacement, CompletableFuture<List<ChunkPos>>> travail$ringPositions();
+    Map<ConcentricRingsStructurePlacement, CompletableFuture<List<ChunkPos>>>
+            travail$ringPositions();
 }

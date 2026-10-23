@@ -38,7 +38,9 @@ public final class RewardDelivery extends SavedData {
     }
 
     public static RewardDelivery get(MinecraftServer server) {
-        return server.overworld().getDataStorage().computeIfAbsent(RewardDelivery::load, RewardDelivery::new, NAME);
+        return server.overworld()
+                .getDataStorage()
+                .computeIfAbsent(RewardDelivery::load, RewardDelivery::new, NAME);
     }
 
     public Reservation reserve() {
@@ -104,7 +106,9 @@ public final class RewardDelivery extends SavedData {
                     int count = Math.min(job.count, Math.max(1, job.template.getMaxStackSize()));
                     ItemStack stack = job.template.copy();
                     stack.setCount(count);
-                    ItemEntity entity = new ItemEntity(level, job.position.x, job.position.y, job.position.z, stack);
+                    ItemEntity entity =
+                            new ItemEntity(
+                                    level, job.position.x, job.position.y, job.position.z, stack);
                     budget--;
                     if (level.addFreshEntity(entity)) {
                         job.count -= count;
@@ -141,10 +145,12 @@ public final class RewardDelivery extends SavedData {
                     || !Double.isFinite(pos.x)
                     || !Double.isFinite(pos.y)
                     || !Double.isFinite(pos.z)) {
-                com.thelongtravail.TheLongTravail.LOGGER.warn("Ignoring invalid saved reward record {}", i);
+                com.thelongtravail.TheLongTravail.LOGGER.warn(
+                        "Ignoring invalid saved reward record {}", i);
                 continue;
             }
-            queue.jobs.addLast(new Job(ResourceKey.create(Registries.DIMENSION, id), pos, item, count));
+            queue.jobs.addLast(
+                    new Job(ResourceKey.create(Registries.DIMENSION, id), pos, item, count));
         }
         return queue;
     }

@@ -24,12 +24,14 @@ public class AbyssItem extends Item implements ItemDescription {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
+    public void appendHoverText(
+            ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
         ItemDescription.summary(lines);
     }
 
     @Override
-    public void appendDetails(ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
+    public void appendDetails(
+            ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
         lines.addAll(AbyssItemText.details(accessory));
     }
 
@@ -40,7 +42,9 @@ public class AbyssItem extends Item implements ItemDescription {
 
         @Override
         public boolean canEquip(SlotContext c, ItemStack stack) {
-            return !c.cosmetic() && c.identifier().equals("hands") && AccessoryEquipRules.unique(c, this);
+            return !c.cosmetic()
+                    && c.identifier().equals("hands")
+                    && AccessoryEquipRules.unique(c, this);
         }
 
         @Override

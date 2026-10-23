@@ -16,8 +16,8 @@ public abstract class ExecutionManagerMixin<T extends EntityAccess> implements E
         var found = ((ExecutionStorage) sectionStorage).travail$present(targets);
         for (Entity e : targets)
             if (((ExecutionStorage) visibleEntityStorage).travail$contains(e)
-                    || (knownUuids.contains(e.getUUID()) && visibleEntityStorage.getEntity(e.getUUID()) == null))
-                found.add(e);
+                    || (knownUuids.contains(e.getUUID())
+                            && visibleEntityStorage.getEntity(e.getUUID()) == null)) found.add(e);
         return found;
     }
 
@@ -30,7 +30,8 @@ public abstract class ExecutionManagerMixin<T extends EntityAccess> implements E
     public boolean travail$containsKnown(Entity e) {
         return ((ExecutionStorage) visibleEntityStorage).travail$contains(e)
                 || ((ExecutionStorage) sectionStorage).travail$containsKnown(e)
-                || (knownUuids.contains(e.getUUID()) && visibleEntityStorage.getEntity(e.getUUID()) == null);
+                || (knownUuids.contains(e.getUUID())
+                        && visibleEntityStorage.getEntity(e.getUUID()) == null);
     }
 
     public void travail$erase(Entity e) {
@@ -42,6 +43,7 @@ public abstract class ExecutionManagerMixin<T extends EntityAccess> implements E
     public boolean travail$contains(Entity e) {
         return ((ExecutionStorage) visibleEntityStorage).travail$contains(e)
                 || ((ExecutionStorage) sectionStorage).travail$contains(e)
-                || (knownUuids.contains(e.getUUID()) && visibleEntityStorage.getEntity(e.getUUID()) == null);
+                || (knownUuids.contains(e.getUUID())
+                        && visibleEntityStorage.getEntity(e.getUUID()) == null);
     }
 }

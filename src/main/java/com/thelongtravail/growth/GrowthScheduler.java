@@ -20,12 +20,22 @@ import java.util.*;
 
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
 public final class GrowthScheduler {
-    public static final TagKey<Block> INCLUDE = tag("growth_include"), EXCLUDE = tag("growth_exclude");
-    private static final int SCANS = 2048, CALLS = 128, TREES = 1, MAX_SOURCES = 1024, MAX_RECENT = 65536;
+    public static final TagKey<Block> INCLUDE = tag("growth_include"),
+            EXCLUDE = tag("growth_exclude");
+    private static final int SCANS = 2048,
+            CALLS = 128,
+            TREES = 1,
+            MAX_SOURCES = 1024,
+            MAX_RECENT = 65536;
 
     public record Policy(int radius, int height, int interval) {
         public Policy {
-            if (radius < 1 || radius > 32 || height < 0 || height > 16 || interval < 1 || interval > 1200000)
+            if (radius < 1
+                    || radius > 32
+                    || height < 0
+                    || height > 16
+                    || interval < 1
+                    || interval > 1200000)
                 throw new IllegalArgumentException("Invalid growth policy");
         }
     }
@@ -155,7 +165,9 @@ public final class GrowthScheduler {
             for (int n = 0; n < allowance && calls > 0; n++) {
                 scans--;
                 int k = Math.floorMod(source.cursor++, total);
-                int dx = k % side - p.radius, dz = k / side % side - p.radius, dy = k / (side * side) - p.height;
+                int dx = k % side - p.radius,
+                        dz = k / side % side - p.radius,
+                        dy = k / (side * side) - p.height;
                 if (dx * dx + dz * dz > p.radius * p.radius) continue;
                 BlockPos pos = center.offset(dx, dy, dz);
                 if (!level.hasChunkAt(pos) || TimeStopManager.frozen(level, pos)) continue;
@@ -226,7 +238,8 @@ public final class GrowthScheduler {
                     adapter.getClass().getName(),
                     level.dimension().location(),
                     pos,
-                    net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(level.getBlockState(pos).getBlock()),
+                    net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(
+                            level.getBlockState(pos).getBlock()),
                     failure);
         }
     }

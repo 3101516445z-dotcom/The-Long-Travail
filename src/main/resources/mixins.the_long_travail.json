@@ -6,6 +6,9 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixins.the_long_travail.refmap.json",
   "mixins": [
+    "FluidCraftingGridAccessor",
+    "FluidCraftingClickMixin",
+    "FluidCraftingQuickMoveMixin",
     "IcarusPlayerFlightMixin",
     "IcarusLivingFlightMixin",
     "GoldenAgeItemMixin",
@@ -20,6 +23,7 @@
     "RainBiomeMixin",
     "RainCommandMixin",
     "AltitudeSpeedMixin",
+    "AltitudeFlightMixin",
     "AltitudeGlidingMixin",
     "StiffSpeedMixin",
     "FluidAbsorptionMixin",
@@ -87,6 +91,7 @@
     "UnderworldStackMixin",
     "DroppedItemIndexMixin",
     "CuriosRestoreMixin",
+    "CurioFlowerRemovalMixin",
     "LafiteInstantEffectMixin",
     "DamageReplayMixin",
     "MistletoeExpiryMixin",
@@ -113,6 +118,7 @@
     "LorentzArrowAccessor"
   ],
   "client": [
+    "AltitudeLocalFlightMixin",
     "ExecutionRenderMixin",
     "ExecutionClientLevelMixin",
     "ThemeTooltipMixin",

@@ -11,7 +11,10 @@ import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = TheLongTravail.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(
+        modid = TheLongTravail.MODID,
+        bus = Mod.EventBusSubscriber.Bus.MOD,
+        value = Dist.CLIENT)
 public final class CatalogSearchNames implements ResourceManagerReloadListener {
     private static volatile Map<String, List<String>> names = Map.of();
 
@@ -31,12 +34,17 @@ public final class CatalogSearchNames implements ResourceManagerReloadListener {
             Map<String, String> translations = new HashMap<>();
             for (var resource :
                     resources.getResourceStack(
-                            new ResourceLocation(TheLongTravail.MODID, "lang/" + language + ".json"))) {
+                            new ResourceLocation(
+                                    TheLongTravail.MODID, "lang/" + language + ".json"))) {
                 try (var reader = resource.openAsReader()) {
                     JsonParser.parseReader(reader)
                             .getAsJsonObject()
                             .entrySet()
-                            .forEach(entry -> translations.put(entry.getKey(), entry.getValue().getAsString()));
+                            .forEach(
+                                    entry ->
+                                            translations.put(
+                                                    entry.getKey(),
+                                                    entry.getValue().getAsString()));
                 } catch (Exception failure) {
                     TheLongTravail.LOGGER.warn(
                             "Unable to index catalogue language {} from {}",
@@ -45,7 +53,9 @@ public final class CatalogSearchNames implements ResourceManagerReloadListener {
                             failure);
                 }
             }
-            translations.forEach((key, value) -> result.computeIfAbsent(key, ignored -> new ArrayList<>()).add(value));
+            translations.forEach(
+                    (key, value) ->
+                            result.computeIfAbsent(key, ignored -> new ArrayList<>()).add(value));
         }
         result.replaceAll((key, values) -> List.copyOf(values));
         names = Map.copyOf(result);

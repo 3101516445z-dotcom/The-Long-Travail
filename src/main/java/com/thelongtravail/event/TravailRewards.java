@@ -21,7 +21,8 @@ final class TravailRewards {
     static void onFishing(ItemFishedEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         ItemStack travail = TravailCurios.stack(player);
-        if (travail.isEmpty() || !LongTravailData.hasWitness(travail, TravailAspect.UNDERWORLD)) return;
+        if (travail.isEmpty() || !LongTravailData.hasWitness(travail, TravailAspect.UNDERWORLD))
+            return;
         double entityChance = TravailConfig.FISH_ENTITY_CHANCE.get();
         double itemChance = TravailConfig.FISH_SPECIAL_CHANCE.get();
         double total = entityChance + itemChance;
@@ -46,8 +47,13 @@ final class TravailRewards {
                 player.serverLevel()
                         .getEntitiesOfClass(
                                 Phantom.class,
-                                new net.minecraft.world.phys.AABB(player.position(), player.position()).inflate(range),
-                                candidate -> candidate.isAlive() && candidate.distanceToSqr(player) <= rangeSquared)) {
+                                new net.minecraft.world.phys.AABB(
+                                                player.position(), player.position())
+                                        .inflate(range),
+                                candidate ->
+                                        candidate.isAlive()
+                                                && candidate.distanceToSqr(player)
+                                                        <= rangeSquared)) {
             if (!phantom.isAlive()) continue;
             if (attempts++ >= TravailConfig.PHANTOM_MAX_KILLS.get()) break;
             try (var reservation = queue.reserve()) {
@@ -69,7 +75,8 @@ final class TravailRewards {
 
     static void spawnFishingReward(ServerPlayer player, ItemFishedEvent event) {
         Vec3 position = event.getHookEntity().position();
-        spawnRewardAt(player.serverLevel(), position, RuntimePools.current().fish(), player.getRandom());
+        spawnRewardAt(
+                player.serverLevel(), position, RuntimePools.current().fish(), player.getRandom());
     }
 
     static void spawnFishingEntity(ServerPlayer player, ItemFishedEvent event) {
@@ -85,7 +92,10 @@ final class TravailRewards {
     }
 
     static void spawnRewardAt(
-            ServerLevel level, Vec3 position, WeightedTable<RewardEntry> configured, RandomSource random) {
+            ServerLevel level,
+            Vec3 position,
+            WeightedTable<RewardEntry> configured,
+            RandomSource random) {
         RewardDelivery queue = RewardDelivery.get(level.getServer());
         try (var reservation = queue.reserve()) {
             if (reservation == null) {
@@ -106,7 +116,8 @@ final class TravailRewards {
         if (selected == null) return;
         Item item = ForgeRegistries.ITEMS.getValue(selected.id());
         if (item == null) return;
-        int count = selected.minCount() + random.nextInt(selected.maxCount() - selected.minCount() + 1);
+        int count =
+                selected.minCount() + random.nextInt(selected.maxCount() - selected.minCount() + 1);
         reservation.submit(level, position, new ItemStack(item), count);
     }
 

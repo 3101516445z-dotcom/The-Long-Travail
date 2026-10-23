@@ -36,7 +36,10 @@ public final class UnderworldRelicText {
         out.add(
                 Component.translatable("tooltip.the_long_travail.thousand_years.malice_title")
                         .withStyle(s -> s.withColor(0xC9B8FF)));
-        if (banner) out.add(Component.translatable(p + "banner.malice", pct("banner.maliceCriticalPerSoul")));
+        if (banner)
+            out.add(
+                    Component.translatable(
+                            p + "banner.malice", pct("banner.maliceCriticalPerSoul")));
         else {
             out.add(Component.translatable(p + "king.burning", pct("king.burningBonus")));
             out.add(Component.translatable(p + "king.heal", pct("king.lifesteal")));
@@ -52,7 +55,9 @@ public final class UnderworldRelicText {
                             p + "banner.insight",
                             number(shown("banner.insightPerSoul")),
                             number(shown("banner.insightCap"))));
-            out.add(Component.translatable(p + "banner.witness", pct("banner.witnessCriticalPerSoul")));
+            out.add(
+                    Component.translatable(
+                            p + "banner.witness", pct("banner.witnessCriticalPerSoul")));
         } else {
             out.add(Component.translatable(p + "king.overlord", number(shown("king.overlord"))));
             out.add(Component.translatable(p + "king.environment", pct("king.environmentBonus")));

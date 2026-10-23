@@ -28,20 +28,23 @@ public final class AttributeModifierSet {
         }
     }
 
-    public static void reconcile(LivingEntity entity, ResourceLocation source, double amount, Set<String> excluded) {
+    public static void reconcile(
+            LivingEntity entity, ResourceLocation source, double amount, Set<String> excluded) {
         Map<Attribute, Modifier> desired = new IdentityHashMap<>();
         if (Double.isFinite(amount) && amount != 0) {
             Modifier wanted = new Modifier(amount, AttributeModifier.Operation.MULTIPLY_TOTAL);
             for (Attribute attribute : ForgeRegistries.ATTRIBUTES.getValues()) {
                 var key = ForgeRegistries.ATTRIBUTES.getKey(attribute);
-                if (key != null && !excluded.contains(key.toString()) && entity.getAttribute(attribute) != null)
-                    desired.put(attribute, wanted);
+                if (key != null
+                        && !excluded.contains(key.toString())
+                        && entity.getAttribute(attribute) != null) desired.put(attribute, wanted);
             }
         }
         reconcile(entity, source, desired);
     }
 
-    public static void reconcile(LivingEntity entity, ResourceLocation source, Map<Attribute, Modifier> desired) {
+    public static void reconcile(
+            LivingEntity entity, ResourceLocation source, Map<Attribute, Modifier> desired) {
         UUID id = sourceId(source);
         boolean healthReduced = false;
         for (Attribute attribute : ForgeRegistries.ATTRIBUTES.getValues()) {
@@ -58,10 +61,13 @@ public final class AttributeModifierSet {
             if (old != null) instance.removeModifier(id);
             if (wanted != null)
                 instance.addTransientModifier(
-                        new AttributeModifier(id, source.toString(), wanted.amount(), wanted.operation()));
-            if (attribute == Attributes.MAX_HEALTH && instance.getValue() < before) healthReduced = true;
+                        new AttributeModifier(
+                                id, source.toString(), wanted.amount(), wanted.operation()));
+            if (attribute == Attributes.MAX_HEALTH && instance.getValue() < before)
+                healthReduced = true;
         }
-        if (healthReduced && entity.getHealth() > entity.getMaxHealth()) entity.setHealth(entity.getMaxHealth());
+        if (healthReduced && entity.getHealth() > entity.getMaxHealth())
+            entity.setHealth(entity.getMaxHealth());
     }
 
     public static void clear(LivingEntity entity, ResourceLocation source) {

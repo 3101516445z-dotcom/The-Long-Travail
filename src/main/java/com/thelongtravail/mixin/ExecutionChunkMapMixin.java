@@ -24,7 +24,8 @@ public abstract class ExecutionChunkMapMixin implements ExecutionStorage {
             try {
                 a.travail$serverEntity().removePairing(viewer.getPlayer());
             } catch (RuntimeException ex) {
-                TheLongTravail.LOGGER.warn("Execution tracking callback failed for {}", e.getUUID(), ex);
+                TheLongTravail.LOGGER.warn(
+                        "Execution tracking callback failed for {}", e.getUUID(), ex);
             }
         }
         a.travail$seenBy().clear();

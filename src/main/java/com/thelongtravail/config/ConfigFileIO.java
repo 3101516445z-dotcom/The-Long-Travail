@@ -11,9 +11,11 @@ public final class ConfigFileIO {
     public static CommentedConfig read(Path path) {
         CommentedConfig result =
                 CommentedConfig.of(
-                        java.util.LinkedHashMap::new, com.electronwill.nightconfig.toml.TomlFormat.instance());
+                        java.util.LinkedHashMap::new,
+                        com.electronwill.nightconfig.toml.TomlFormat.instance());
         if (Files.exists(path)) {
-            try (CommentedFileConfig file = CommentedFileConfig.builder(path).preserveInsertionOrder().sync().build()) {
+            try (CommentedFileConfig file =
+                    CommentedFileConfig.builder(path).preserveInsertionOrder().sync().build()) {
                 file.load();
                 result.putAll(file);
                 result.putAllComments(file);
@@ -27,15 +29,21 @@ public final class ConfigFileIO {
         writer.setIndentArrayElementsPredicate(list -> !list.isEmpty());
         writer.setIndent("    ");
         var output = new java.io.StringWriter();
-        writer.write(config, output);
+        writer.write(ConfigLayout.arrange(path, config), output);
         String text = output.toString();
-        if (Files.exists(path) && Files.readString(path, StandardCharsets.UTF_8).equals(text)) return;
+        if (Files.exists(path) && Files.readString(path, StandardCharsets.UTF_8).equals(text))
+            return;
         Files.createDirectories(path.getParent());
-        Path temporary = Files.createTempFile(path.getParent(), path.getFileName().toString(), ".tmp");
+        Path temporary =
+                Files.createTempFile(path.getParent(), path.getFileName().toString(), ".tmp");
         try {
             Files.writeString(temporary, text, StandardCharsets.UTF_8);
             try {
-                Files.move(temporary, path, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+                Files.move(
+                        temporary,
+                        path,
+                        StandardCopyOption.ATOMIC_MOVE,
+                        StandardCopyOption.REPLACE_EXISTING);
             } catch (AtomicMoveNotSupportedException ignored) {
                 Files.move(temporary, path, StandardCopyOption.REPLACE_EXISTING);
             }

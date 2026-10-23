@@ -9,7 +9,9 @@ import java.util.List;
 
 public final class FarRelicText {
     private static String n(String key, double scale) {
-        return BigDecimal.valueOf(TooltipConfigSync.decimal("farItem." + key, FarReachRelicsConfig.value(key)) * scale)
+        return BigDecimal.valueOf(
+                        TooltipConfigSync.decimal("farItem." + key, FarReachRelicsConfig.value(key))
+                                * scale)
                 .stripTrailingZeros()
                 .toPlainString();
     }
@@ -32,7 +34,11 @@ public final class FarRelicText {
             line(out, "don_quixote.size", n("don_quixote.sizeFactor", 100));
             out.add(Component.empty());
             line(out, "golden_age.malice_heading");
-            line(out, "don_quixote.malice", n("don_quixote.healthRatio", 1), n("don_quixote.trueFraction", 100));
+            line(
+                    out,
+                    "don_quixote.malice",
+                    n("don_quixote.healthRatio", 1),
+                    n("don_quixote.trueFraction", 100));
             out.add(Component.empty());
             line(out, "golden_age.witness_heading");
             line(

@@ -12,7 +12,8 @@ public final class ItemDelivery {
             part.setCount(Math.min(left, Math.max(1, part.getMaxStackSize())));
             left -= part.getCount();
             ItemStack remainder =
-                    ItemHandlerHelper.insertItemStacked(new PlayerMainInvWrapper(player.getInventory()), part, false);
+                    ItemHandlerHelper.insertItemStacked(
+                            new PlayerMainInvWrapper(player.getInventory()), part, false);
             if (!remainder.isEmpty()) player.drop(remainder, false);
         }
     }

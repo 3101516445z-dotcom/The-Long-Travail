@@ -9,7 +9,8 @@ public final class FloralText {
             VALUE = RainTooltips.ACCENT_COLOR;
 
     public static Component text(String key, Object... args) {
-        return RainTooltips.coloredLine(Component.translatable(key, args).withStyle(s -> s.withColor(BODY)));
+        return RainTooltips.coloredLine(
+                Component.translatable(key, args).withStyle(s -> s.withColor(BODY)));
     }
 
     public static Component gold(Component text) {

@@ -14,7 +14,8 @@ import java.util.function.IntConsumer;
 import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 public final class TravailCurios {
-    private static final UUID EXTRA_CURIO_SLOTS = UUID.fromString("b241372a-b39e-479d-b497-f46f92ee55fa");
+    private static final UUID EXTRA_CURIO_SLOTS =
+            UUID.fromString("b241372a-b39e-479d-b497-f46f92ee55fa");
 
     public static void syncExtraSlots(ServerPlayer player, int desired) {
         CuriosApi.getCuriosInventory(player)
@@ -26,11 +27,14 @@ public final class TravailCurios {
                                                     reconcileExtraSlots(
                                                             slots,
                                                             desired,
-                                                            count -> evacuateAddedCurioSlots(player, count));
+                                                            count ->
+                                                                    evacuateAddedCurioSlots(
+                                                                            player, count));
                                                 }));
     }
 
-    public static void reconcileExtraSlots(ICurioStacksHandler slots, int desired, IntConsumer evacuate) {
+    public static void reconcileExtraSlots(
+            ICurioStacksHandler slots, int desired, IntConsumer evacuate) {
         var current = slots.getModifiers().get(EXTRA_CURIO_SLOTS);
         slots.getCachedModifiers().removeIf(modifier -> EXTRA_CURIO_SLOTS.equals(modifier.getId()));
         int applied = current == null ? 0 : Math.max(0, (int) current.getAmount());
@@ -70,12 +74,19 @@ public final class TravailCurios {
                                         .ifPresent(
                                                 stacksHandler -> {
                                                     var stacks = stacksHandler.getStacks();
-                                                    int firstAddedSlot = Math.max(0, stacks.getSlots() - addedSlots);
-                                                    for (int slot = firstAddedSlot; slot < stacks.getSlots(); slot++) {
-                                                        ItemStack contained = stacks.getStackInSlot(slot);
+                                                    int firstAddedSlot =
+                                                            Math.max(
+                                                                    0,
+                                                                    stacks.getSlots() - addedSlots);
+                                                    for (int slot = firstAddedSlot;
+                                                            slot < stacks.getSlots();
+                                                            slot++) {
+                                                        ItemStack contained =
+                                                                stacks.getStackInSlot(slot);
                                                         if (contained.isEmpty()) continue;
                                                         ItemStack moving = contained.copy();
-                                                        stacks.setStackInSlot(slot, ItemStack.EMPTY);
+                                                        stacks.setStackInSlot(
+                                                                slot, ItemStack.EMPTY);
                                                         returnToInventoryOrDrop(player, moving);
                                                     }
                                                 }));

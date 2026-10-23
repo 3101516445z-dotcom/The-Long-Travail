@@ -14,8 +14,10 @@ public final class UnderworldLedger extends SavedData {
     public static final int MAX_NBT_DEPTH = 64;
     public static final String BOOK_ID = "TravailBookId";
     private final Set<UUID> spent = new HashSet<>(), witnesses = new HashSet<>();
-    private final Map<JourneyState.AspectJourneyKey, Set<ResourceLocation>> themeWitnesses = new HashMap<>();
-    private final ListTag retainedThemeRecords = new ListTag(), retainedLegacyRecords = new ListTag();
+    private final Map<JourneyState.AspectJourneyKey, Set<ResourceLocation>> themeWitnesses =
+            new HashMap<>();
+    private final ListTag retainedThemeRecords = new ListTag(),
+            retainedLegacyRecords = new ListTag();
     private final CompoundTag quarantined = new CompoundTag();
     private boolean consumptionReliable = true;
     public final Map<UUID, CompoundTag> deaths = new HashMap<>();
@@ -24,7 +26,10 @@ public final class UnderworldLedger extends SavedData {
     public static UnderworldLedger get(MinecraftServer server) {
         return server.overworld()
                 .getDataStorage()
-                .computeIfAbsent(UnderworldLedger::load, UnderworldLedger::new, "the_long_travail_underworld");
+                .computeIfAbsent(
+                        UnderworldLedger::load,
+                        UnderworldLedger::new,
+                        "the_long_travail_underworld");
     }
 
     public static UUID identity(ItemStack s) {
@@ -34,7 +39,9 @@ public final class UnderworldLedger extends SavedData {
     }
 
     public boolean consumed(ItemStack s) {
-        return s.hasTag() && s.getTag().hasUUID(BOOK_ID) && spent.contains(s.getTag().getUUID(BOOK_ID));
+        return s.hasTag()
+                && s.getTag().hasUUID(BOOK_ID)
+                && spent.contains(s.getTag().getUUID(BOOK_ID));
     }
 
     public boolean spent(UUID id) {
@@ -90,19 +97,24 @@ public final class UnderworldLedger extends SavedData {
         if (depth > MAX_NBT_DEPTH || tag == null) return;
         if (!(tag instanceof CompoundTag)
                 && (!(tag instanceof ListTag list)
-                        || list.getElementType() != Tag.TAG_COMPOUND && list.getElementType() != Tag.TAG_LIST)) return;
+                        || list.getElementType() != Tag.TAG_COMPOUND
+                                && list.getElementType() != Tag.TAG_LIST)) return;
         com.thelongtravail.data.HotPathMetrics.Counter.NBT_SYNC_NODES.add(1);
         reconcileNode(tag);
         if (depth == MAX_NBT_DEPTH) return;
-        if (tag instanceof CompoundTag c) for (String key : c.getAllKeys()) reconcileSynchronous(c.get(key), depth + 1);
-        else if (tag instanceof ListTag list) for (Tag child : list) reconcileSynchronous(child, depth + 1);
+        if (tag instanceof CompoundTag c)
+            for (String key : new ArrayList<>(c.getAllKeys()))
+                reconcileSynchronous(c.get(key), depth + 1);
+        else if (tag instanceof ListTag list)
+            for (Tag child : list) reconcileSynchronous(child, depth + 1);
     }
 
     public void reconcileNode(Tag tag) {
         if (tag instanceof CompoundTag c) {
             if (c.getString("id").equals("the_long_travail:book_of_the_dead")) {
                 CompoundTag n = c.getCompound("tag");
-                if (n.hasUUID(BOOK_ID) && spent.contains(n.getUUID(BOOK_ID))) c.putByte("Count", (byte) 0);
+                if (n.hasUUID(BOOK_ID) && spent.contains(n.getUUID(BOOK_ID)))
+                    c.putByte("Count", (byte) 0);
             }
             if (c.contains("LongTravail", Tag.TAG_COMPOUND)) {
                 CompoundTag root = c.getCompound("LongTravail");
@@ -133,7 +145,8 @@ public final class UnderworldLedger extends SavedData {
         d.consumptionReliable = !d.quarantined.contains("Spent");
         for (Tag t : d.records(n, "Spent")) {
             try {
-                if (!(t instanceof StringTag)) throw new IllegalArgumentException("Expected UUID string");
+                if (!(t instanceof StringTag))
+                    throw new IllegalArgumentException("Expected UUID string");
                 d.spent.add(UUID.fromString(t.getAsString()));
             } catch (IllegalArgumentException invalid) {
                 d.quarantine("Spent", t);
@@ -148,7 +161,8 @@ public final class UnderworldLedger extends SavedData {
                 d.witnesses.add(UUID.fromString(t.getAsString()));
             } catch (IllegalArgumentException invalid) {
                 d.retainedLegacyRecords.add(t.copy());
-                com.thelongtravail.TheLongTravail.LOGGER.warn("Ignoring malformed legacy witness: {}", t);
+                com.thelongtravail.TheLongTravail.LOGGER.warn(
+                        "Ignoring malformed legacy witness: {}", t);
             }
         }
         for (Tag t : d.records(n, "ThemeWitnesses")) {
@@ -181,11 +195,13 @@ public final class UnderworldLedger extends SavedData {
             }
         }
         for (Tag t : d.records(n, "Graves")) {
-            if (t instanceof StringTag && validGrave(t.getAsString())) d.graves.add(t.getAsString());
+            if (t instanceof StringTag && validGrave(t.getAsString()))
+                d.graves.add(t.getAsString());
             else d.quarantine("Graves", t);
         }
         for (Tag t : d.records(n, "Deaths")) {
-            if (t instanceof CompoundTag c && validDeath(c)) d.deaths.put(c.getUUID("Player"), c.copy());
+            if (t instanceof CompoundTag c && validDeath(c))
+                d.deaths.put(c.getUUID("Player"), c.copy());
             else d.quarantine("Deaths", t);
         }
         if (!d.consumptionReliable)
@@ -217,7 +233,8 @@ public final class UnderworldLedger extends SavedData {
 
     private static boolean validGrave(String value) {
         int separator = value.lastIndexOf('|');
-        if (separator <= 0 || ResourceLocation.tryParse(value.substring(0, separator)) == null) return false;
+        if (separator <= 0 || ResourceLocation.tryParse(value.substring(0, separator)) == null)
+            return false;
         try {
             Long.parseLong(value.substring(separator + 1));
             return true;
@@ -234,9 +251,11 @@ public final class UnderworldLedger extends SavedData {
                 || entry.getString("Dimension").isEmpty()
                 || ResourceLocation.tryParse(entry.getString("Dimension")) == null) return false;
         for (String key : List.of("X", "Y", "Z"))
-            if (!entry.contains(key, Tag.TAG_ANY_NUMERIC) || !Double.isFinite(entry.getDouble(key))) return false;
+            if (!entry.contains(key, Tag.TAG_ANY_NUMERIC) || !Double.isFinite(entry.getDouble(key)))
+                return false;
         for (String key : List.of("Yaw", "Pitch"))
-            if (!entry.contains(key, Tag.TAG_ANY_NUMERIC) || !Float.isFinite(entry.getFloat(key))) return false;
+            if (!entry.contains(key, Tag.TAG_ANY_NUMERIC) || !Float.isFinite(entry.getFloat(key)))
+                return false;
         for (String key : List.of("Width", "Height"))
             if (entry.contains(key)
                     && (!entry.contains(key, Tag.TAG_ANY_NUMERIC)

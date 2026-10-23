@@ -30,7 +30,8 @@ public final class DonQuixoteState {
                 p,
                 new Guard(
                         target.getUUID(),
-                        p.level().getGameTime() + FarReachRelicsConfig.ticks("don_quixote.duration"),
+                        p.level().getGameTime()
+                                + FarReachRelicsConfig.ticks("don_quixote.duration"),
                         p.level().dimension(),
                         MaidAccessories.quixoteOwner(p)));
     }
@@ -58,7 +59,8 @@ public final class DonQuixoteState {
         Guard guard = GUARDS.get(p);
         if (!DonQuixoteCombat.equipped(p)
                 || DonQuixoteCombat.phase(p) != 2
-                || guard != null && !Objects.equals(guard.owner, MaidAccessories.quixoteOwner(p))) GUARDS.remove(p);
+                || guard != null && !Objects.equals(guard.owner, MaidAccessories.quixoteOwner(p)))
+            GUARDS.remove(p);
     }
 
     public static void forget(LivingEntity e) {
@@ -66,7 +68,9 @@ public final class DonQuixoteState {
     }
 
     private static int cooldown(LivingEntity e) {
-        return e instanceof ServerPlayer ? e.getPersistentData().getInt(COOLDOWN) : MaidAccessories.quixoteCooldown(e);
+        return e instanceof ServerPlayer
+                ? e.getPersistentData().getInt(COOLDOWN)
+                : MaidAccessories.quixoteCooldown(e);
     }
 
     private static void cooldown(LivingEntity e, int ticks) {
@@ -81,7 +85,9 @@ public final class DonQuixoteState {
 
     @SubscribeEvent
     public static void clone(PlayerEvent.Clone e) {
-        e.getEntity().getPersistentData().putInt(COOLDOWN, e.getOriginal().getPersistentData().getInt(COOLDOWN));
+        e.getEntity()
+                .getPersistentData()
+                .putInt(COOLDOWN, e.getOriginal().getPersistentData().getInt(COOLDOWN));
         if (e.getOriginal() instanceof ServerPlayer p) GUARDS.remove(p);
     }
 

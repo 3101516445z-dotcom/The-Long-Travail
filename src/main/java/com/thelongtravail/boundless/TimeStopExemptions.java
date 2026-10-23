@@ -13,10 +13,15 @@ public final class TimeStopExemptions {
         for (ServerPlayer other : p.server.getPlayerList().getPlayers()) {
             boolean same = p.getTeam() != null && p.getTeam().isAlliedTo(other.getTeam());
             if (!same) {
-                var relation = com.thelongtravail.compat.ftbteams.FtbTeamsCompat.relationship(p, other);
-                if (relation == com.thelongtravail.compat.ftbteams.FtbTeamsCompat.Relationship.UNAVAILABLE)
-                    return Optional.empty();
-                same = relation == com.thelongtravail.compat.ftbteams.FtbTeamsCompat.Relationship.SAME;
+                var relation =
+                        com.thelongtravail.compat.ftbteams.FtbTeamsCompat.relationship(p, other);
+                if (relation
+                        == com.thelongtravail.compat.ftbteams.FtbTeamsCompat.Relationship
+                                .UNAVAILABLE) return Optional.empty();
+                same =
+                        relation
+                                == com.thelongtravail.compat.ftbteams.FtbTeamsCompat.Relationship
+                                        .SAME;
             }
             if (same) out.add(other.getUUID());
         }
@@ -42,7 +47,8 @@ public final class TimeStopExemptions {
             if (e instanceof net.minecraft.world.entity.player.Player) return e.getUUID();
             if (e instanceof net.minecraft.world.entity.animal.allay.Allay allay)
                 return allay.getBrain()
-                        .getMemory(net.minecraft.world.entity.ai.memory.MemoryModuleType.LIKED_PLAYER)
+                        .getMemory(
+                                net.minecraft.world.entity.ai.memory.MemoryModuleType.LIKED_PLAYER)
                         .orElse(null);
             if (e instanceof net.minecraft.world.entity.projectile.EvokerFangs fangs) {
                 e = fangs.getOwner();
@@ -55,7 +61,8 @@ public final class TimeStopExemptions {
             if (e instanceof Projectile shot) {
                 Entity next = shot.getOwner();
                 if (next == null)
-                    return ((com.thelongtravail.mixin.TimeStopProjectileAccessor) (Object) shot).travail$ownerUUID();
+                    return ((com.thelongtravail.mixin.TimeStopProjectileAccessor) (Object) shot)
+                            .travail$ownerUUID();
                 e = next;
                 continue;
             }

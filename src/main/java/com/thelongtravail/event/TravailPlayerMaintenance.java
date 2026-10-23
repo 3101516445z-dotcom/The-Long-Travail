@@ -25,7 +25,8 @@ final class TravailPlayerMaintenance {
         if (persisted.getBoolean(STARTER_ITEM_RECEIVED)) return;
 
         ItemStack example = new ItemStack(ModRegistry.LONG_TRAVAIL.get());
-        boolean alreadyOwnsOne = player.getInventory().contains(example) || !TravailCurios.stack(player).isEmpty();
+        boolean alreadyOwnsOne =
+                player.getInventory().contains(example) || !TravailCurios.stack(player).isEmpty();
         if (!alreadyOwnsOne) {
             ItemStack gift = example.copy();
             if (!player.addItem(gift)) player.drop(gift, false);
@@ -36,30 +37,9 @@ final class TravailPlayerMaintenance {
     }
 
     static void updateAltitudePenalty(ServerPlayer player, ItemStack travail) {
-        boolean active =
-                ModeEffectRules.diaryApplies(player)
-                        && !LongTravailData.hasWitness(travail, TravailAspect.BOUNDLESS)
-                        && player.getY() > TravailConfig.BOUNDLESS_HEIGHT_THRESHOLD.get();
-        double reduction = TravailConfig.BOUNDLESS_SPEED_REDUCTION.get();
-        boolean penaltyActive = active && reduction > 0.0D;
-        if (penaltyActive && player.getAbilities().flying) reduceFlyingSpeed(player, reduction);
-        else restoreFlyingSpeed(player);
-    }
-
-    static void reduceFlyingSpeed(ServerPlayer player, double reduction) {
-        CompoundTag data = player.getPersistentData();
-        float current = player.getAbilities().getFlyingSpeed();
-        boolean activeRecord = hasFlightRecord(data);
-        float baseline = activeRecord ? data.getFloat("LongTravailOriginalFlySpeed") : current;
-        float last = activeRecord ? data.getFloat("LongTravailLastFlySpeed") : current;
-        FlightSpeedAdjustment.Result adjustment = FlightSpeedAdjustment.apply(current, baseline, last, reduction);
-        data.putBoolean("LongTravailFlightSlowed", true);
-        data.putFloat("LongTravailOriginalFlySpeed", adjustment.baseline());
-        data.putFloat("LongTravailLastFlySpeed", adjustment.applied());
-        if (!FlightSpeedAdjustment.same(current, adjustment.applied())) {
-            player.getAbilities().setFlyingSpeed(adjustment.applied());
-            player.onUpdateAbilities();
-        }
+        // 只迁移可确认来源的旧记录；新惩罚在读取移动速度时计算，
+        // 使其他模组仍能读取未经修改的能力速度。
+        restoreFlyingSpeed(player);
     }
 
     static void restoreFlyingSpeed(ServerPlayer player) {
@@ -116,7 +96,9 @@ final class TravailPlayerMaintenance {
         if (level <= 16) total = level * level + 6.0D * level;
         else if (level <= 31) total = 2.5D * level * level - 40.5D * level + 360.0D;
         else total = 4.5D * level * level - 162.5D * level + 2220.0D;
-        return total >= Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) Math.max(0.0D, Math.floor(total));
+        return total >= Integer.MAX_VALUE
+                ? Integer.MAX_VALUE
+                : (int) Math.max(0.0D, Math.floor(total));
     }
 
     static void onBreakSpeed(PlayerEvent.BreakSpeed event) {
@@ -126,7 +108,8 @@ final class TravailPlayerMaintenance {
                 && !travail.isEmpty()
                 && !LongTravailData.hasWitness(travail, TravailAspect.ABYSS)) {
             double reduction = TravailConfig.ABYSS_MINING_REDUCTION.get();
-            if (player.level().isClientSide) reduction = TooltipConfigSync.decimal("abyss.miningReduction", reduction);
+            if (player.level().isClientSide)
+                reduction = TooltipConfigSync.decimal("abyss.miningReduction", reduction);
             float multiplier = (float) (1.0D - Math.max(0.0D, Math.min(1.0D, reduction)));
             event.setNewSpeed(event.getNewSpeed() * multiplier);
         }
@@ -140,7 +123,8 @@ final class TravailPlayerMaintenance {
         ItemStack travail = TravailCurios.stack(player);
         if (ModeEffectRules.diaryApplies(player)
                 && !travail.isEmpty()
-                && !LongTravailData.hasWitness(travail, TravailAspect.UNDERWORLD)) event.setAmount(0);
+                && !LongTravailData.hasWitness(travail, TravailAspect.UNDERWORLD))
+            event.setAmount(0);
     }
 
     static void onExperienceLevelChange(PlayerXpEvent.LevelChange event) {
@@ -151,7 +135,8 @@ final class TravailPlayerMaintenance {
         ItemStack travail = TravailCurios.stack(player);
         if (ModeEffectRules.diaryApplies(player)
                 && !travail.isEmpty()
-                && !LongTravailData.hasWitness(travail, TravailAspect.UNDERWORLD)) event.setLevels(0);
+                && !LongTravailData.hasWitness(travail, TravailAspect.UNDERWORLD))
+            event.setLevels(0);
     }
 
     private TravailPlayerMaintenance() {}

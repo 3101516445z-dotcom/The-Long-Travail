@@ -11,8 +11,14 @@ import org.spongepowered.asm.mixin.Mixin;
 public abstract class LafiteInstantEffectMixin {
     @WrapMethod(method = "applyInstantenousEffect")
     private void travail$saturation(
-            Entity source, Entity owner, LivingEntity target, int amplifier, double potency, Operation<Void> original) {
-        if ((Object) this == MobEffects.SATURATION && com.thelongtravail.abyss.MidnightLafite.equipped(target))
+            Entity source,
+            Entity owner,
+            LivingEntity target,
+            int amplifier,
+            double potency,
+            Operation<Void> original) {
+        if ((Object) this == MobEffects.SATURATION
+                && com.thelongtravail.abyss.MidnightLafite.equipped(target))
             amplifier = IncomingEffectLevels.adjusted(target, MobEffects.SATURATION, amplifier);
         original.call(source, owner, target, amplifier, potency);
     }

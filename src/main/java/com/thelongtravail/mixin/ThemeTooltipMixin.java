@@ -14,7 +14,8 @@ import java.util.List;
 @Mixin(ItemStack.class)
 public abstract class ThemeTooltipMixin {
     @Inject(method = "getTooltipLines", at = @At("RETURN"))
-    private void travail$summary(Player viewer, TooltipFlag flag, CallbackInfoReturnable<List<Component>> cir) {
+    private void travail$summary(
+            Player viewer, TooltipFlag flag, CallbackInfoReturnable<List<Component>> cir) {
         ThemeTooltips.finish((ItemStack) (Object) this, viewer, cir.getReturnValue());
     }
 }

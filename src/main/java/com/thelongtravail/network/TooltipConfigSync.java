@@ -12,7 +12,8 @@ import java.util.Map;
 public final class TooltipConfigSync {
     private static volatile Map<String, Double> clientValues = Map.of();
     private static volatile Map<String, List<String>> clientPools = Map.of();
-    private static final Map<String, Map<ResourceLocation, String>> displayNames = new java.util.HashMap<>();
+    private static final Map<String, Map<ResourceLocation, String>> displayNames =
+            new java.util.HashMap<>();
     private static long revision;
 
     public static long revision() {
@@ -45,7 +46,8 @@ public final class TooltipConfigSync {
         revision++;
     }
 
-    public static String requirementDisplayName(TravailAspect aspect, boolean structures, ResourceLocation id) {
+    public static String requirementDisplayName(
+            TravailAspect aspect, boolean structures, ResourceLocation id) {
         String key = aspect.id() + "." + (structures ? "structures" : "biomes");
         String configuredName =
                 displayNames
@@ -84,38 +86,71 @@ public final class TooltipConfigSync {
                 (k, v) -> values.put("deepValleyItem." + k, v.get()));
         for (var rule : com.thelongtravail.config.ModeEffectRules.values())
             values.put("mode." + rule.name(), rule.config.get() ? 1.0 : 0.0);
-        values.put("underworldItem.wither", com.thelongtravail.config.UnderworldItemsConfig.WITHER_BONUS.get());
-        values.put("underworldItem.kill", com.thelongtravail.config.UnderworldItemsConfig.KILL_THRESHOLD.get());
         values.put(
-                "underworldItem.protection", (double) com.thelongtravail.config.UnderworldItemsConfig.PROTECTION.get());
-        values.put("swordLantern.memory", com.thelongtravail.valley.SwordLanternConfig.MEMORY.get());
-        values.put("swordLantern.timeout", com.thelongtravail.valley.SwordLanternConfig.TIMEOUT.get());
-        values.put("swordLantern.duration", com.thelongtravail.valley.SwordLanternConfig.DURATION.get());
-        values.put("swordLantern.crowdBonus", com.thelongtravail.valley.SwordLanternConfig.CROWD_BONUS.get());
-        values.put("swordLantern.undeadBonus", com.thelongtravail.valley.SwordLanternConfig.UNDEAD_BONUS.get());
-        values.put("swordLantern.aloneBonus", com.thelongtravail.valley.SwordLanternConfig.ALONE_BONUS.get());
-        values.put("swordLantern.prolongedBonus", com.thelongtravail.valley.SwordLanternConfig.PROLONGED_BONUS.get());
-        values.put("swordLantern.lowHealthBonus", com.thelongtravail.valley.SwordLanternConfig.LOW_HEALTH_BONUS.get());
-        values.put("swordLantern.health", com.thelongtravail.valley.SwordLanternConfig.HEALTH.get());
+                "underworldItem.wither",
+                com.thelongtravail.config.UnderworldItemsConfig.WITHER_BONUS.get());
+        values.put(
+                "underworldItem.kill",
+                com.thelongtravail.config.UnderworldItemsConfig.KILL_THRESHOLD.get());
+        values.put(
+                "underworldItem.protection",
+                (double) com.thelongtravail.config.UnderworldItemsConfig.PROTECTION.get());
+        values.put(
+                "swordLantern.memory", com.thelongtravail.valley.SwordLanternConfig.MEMORY.get());
+        values.put(
+                "swordLantern.timeout", com.thelongtravail.valley.SwordLanternConfig.TIMEOUT.get());
+        values.put(
+                "swordLantern.duration",
+                com.thelongtravail.valley.SwordLanternConfig.DURATION.get());
+        values.put(
+                "swordLantern.crowdBonus",
+                com.thelongtravail.valley.SwordLanternConfig.CROWD_BONUS.get());
+        values.put(
+                "swordLantern.undeadBonus",
+                com.thelongtravail.valley.SwordLanternConfig.UNDEAD_BONUS.get());
+        values.put(
+                "swordLantern.aloneBonus",
+                com.thelongtravail.valley.SwordLanternConfig.ALONE_BONUS.get());
+        values.put(
+                "swordLantern.prolongedBonus",
+                com.thelongtravail.valley.SwordLanternConfig.PROLONGED_BONUS.get());
+        values.put(
+                "swordLantern.lowHealthBonus",
+                com.thelongtravail.valley.SwordLanternConfig.LOW_HEALTH_BONUS.get());
+        values.put(
+                "swordLantern.health", com.thelongtravail.valley.SwordLanternConfig.HEALTH.get());
         values.put(
                 "farItem.icarus.igniteSeconds",
                 (double) com.thelongtravail.config.FarReachItemsConfig.IGNITE_SECONDS.get());
-        com.thelongtravail.config.FarReachItemsConfig.NUMBERS.forEach((k, v) -> values.put("farItem." + k, v.get()));
+        com.thelongtravail.config.FarReachItemsConfig.NUMBERS.forEach(
+                (k, v) -> values.put("farItem." + k, v.get()));
         com.thelongtravail.config.BoundlessItemsConfig.NUMBERS.forEach(
                 (k, v) -> values.put("boundlessItem." + k, v.get()));
         put(
                 values,
                 "general.muteBeneficialEffectGainSounds",
                 TravailConfig.MUTE_BENEFICIAL_EFFECT_GAIN_SOUNDS.get() ? 1 : 0);
-        put(values, "flourishing.healingReduction", TravailConfig.FLOURISHING_HEALING_REDUCTION.get());
-        put(values, "flourishing.healthThreshold", TravailConfig.FLOURISHING_HEALTH_THRESHOLD.get());
-        put(values, "flourishing.damageMultiplier", TravailConfig.FLOURISHING_DAMAGE_MULTIPLIER.get());
+        put(
+                values,
+                "flourishing.healingReduction",
+                TravailConfig.FLOURISHING_HEALING_REDUCTION.get());
+        put(
+                values,
+                "flourishing.healthThreshold",
+                TravailConfig.FLOURISHING_HEALTH_THRESHOLD.get());
+        put(
+                values,
+                "flourishing.damageMultiplier",
+                TravailConfig.FLOURISHING_DAMAGE_MULTIPLIER.get());
         put(values, "flourishing.bonusPerBiome", TravailConfig.FLOURISHING_BONUS_PER_BIOME.get());
         put(values, "flourishing.maxHealingBonus", TravailConfig.MAX_HEALING_BONUS.get());
         put(values, "abyss.fluidDamage", TravailConfig.ABYSS_FLUID_DAMAGE.get());
         put(values, "abyss.fluidInterval", TravailConfig.ABYSS_FLUID_INTERVAL_SECONDS.get());
         put(values, "abyss.miningReduction", TravailConfig.ABYSS_MINING_REDUCTION.get());
-        put(values, "abyss.environmentMultiplier", TravailConfig.ABYSS_ENVIRONMENT_MULTIPLIER.get());
+        put(
+                values,
+                "abyss.environmentMultiplier",
+                TravailConfig.ABYSS_ENVIRONMENT_MULTIPLIER.get());
         put(values, "abyss.cancelChance", TravailConfig.ABYSS_CANCEL_CHANCE.get());
         put(values, "farReach.clearAllChance", TravailConfig.FAR_ALL_CLEAR_CHANCE.get());
         put(values, "farReach.attackClearChance", TravailConfig.FAR_ATTACK_CLEAR_CHANCE.get());
@@ -123,8 +158,14 @@ public final class TooltipConfigSync {
         put(values, "farReach.levelBonus", TravailConfig.FAR_WITNESS_LEVEL_BONUS.get());
         put(values, "farReach.interval", TravailConfig.FAR_WITNESS_INTERVAL_SECONDS.get());
         put(values, "farReach.actionCount", TravailConfig.FAR_WITNESS_ACTION_COUNT.get());
-        put(values, "farReach.effectDuration", TravailConfig.FAR_WITNESS_POSITIVE_DURATION_SECONDS.get());
-        put(values, "deepValley.visualDeprivationChance", TravailConfig.VALLEY_VISUAL_DEPRIVATION_CHANCE.get());
+        put(
+                values,
+                "farReach.effectDuration",
+                TravailConfig.FAR_WITNESS_POSITIVE_DURATION_SECONDS.get());
+        put(
+                values,
+                "deepValley.visualDeprivationChance",
+                TravailConfig.VALLEY_VISUAL_DEPRIVATION_CHANCE.get());
         put(
                 values,
                 "deepValley.visualDeprivationDuration",
@@ -145,19 +186,34 @@ public final class TooltipConfigSync {
         put(values, "visual.distanceVeilEnd", TravailConfig.VISUAL_DISTANCE_END.get());
         put(values, "visual.pulsePeriodSeconds", TravailConfig.VISUAL_PULSE_PERIOD.get());
         put(values, "visual.pulseDepth", TravailConfig.VISUAL_PULSE_DEPTH.get());
-        put(values, "visual.distanceVeilEnabled", TravailConfig.VISUAL_DISTANCE_ENABLED.get() ? 1 : 0);
+        put(
+                values,
+                "visual.distanceVeilEnabled",
+                TravailConfig.VISUAL_DISTANCE_ENABLED.get() ? 1 : 0);
         put(values, "visual.pulseAffectsRadius", TravailConfig.VISUAL_PULSE_RADIUS.get() ? 1 : 0);
         put(values, "visual.refreshBlendTicks", TravailConfig.VISUAL_REFRESH_TICKS.get());
         put(values, "visual.clearFadeOutTicks", TravailConfig.VISUAL_CLEAR_TICKS.get());
         put(values, "deepValley.stiffChance", TravailConfig.VALLEY_STIFF_CHANCE.get());
         put(values, "deepValley.stiffDuration", TravailConfig.VALLEY_STIFF_DURATION_SECONDS.get());
-        put(values, "deepValley.swiftnessDuration", TravailConfig.VALLEY_SWIFTNESS_DURATION_SECONDS.get());
+        put(
+                values,
+                "deepValley.swiftnessDuration",
+                TravailConfig.VALLEY_SWIFTNESS_DURATION_SECONDS.get());
         put(values, "deepValley.swiftnessLevel", TravailConfig.VALLEY_SWIFTNESS_LEVEL.get());
         put(values, "deepValley.randomEffectCount", TravailConfig.VALLEY_RANDOM_EFFECT_COUNT.get());
-        put(values, "deepValley.randomEffectDuration", TravailConfig.VALLEY_RANDOM_EFFECT_DURATION_SECONDS.get());
-        put(values, "deepValley.witnessAttackCooldown", TravailConfig.VALLEY_WITNESS_ATTACK_COOLDOWN_SECONDS.get());
+        put(
+                values,
+                "deepValley.randomEffectDuration",
+                TravailConfig.VALLEY_RANDOM_EFFECT_DURATION_SECONDS.get());
+        put(
+                values,
+                "deepValley.witnessAttackCooldown",
+                TravailConfig.VALLEY_WITNESS_ATTACK_COOLDOWN_SECONDS.get());
         put(values, "underworld.damageReduction", TravailConfig.UNDERWORLD_DAMAGE_REDUCTION.get());
-        put(values, "underworld.experienceCap", TravailConfig.UNDERWORLD_EXPERIENCE_LEVEL_CAP.get());
+        put(
+                values,
+                "underworld.experienceCap",
+                TravailConfig.UNDERWORLD_EXPERIENCE_LEVEL_CAP.get());
         put(values, "underworld.anvilCap", TravailConfig.UNDERWORLD_ANVIL_LEVEL_CAP.get());
         put(values, "underworld.fortuneBonus", TravailConfig.UNDERWORLD_FORTUNE_BONUS.get());
         put(values, "underworld.lootingBonus", TravailConfig.UNDERWORLD_LOOTING_BONUS.get());
@@ -167,48 +223,73 @@ public final class TooltipConfigSync {
         put(values, "boundless.speedReduction", TravailConfig.BOUNDLESS_SPEED_REDUCTION.get());
         put(values, "boundless.extraSlots", TravailConfig.BOUNDLESS_EXTRA_CURIO_SLOTS.get());
         put(values, "boundless.phantomRange", TravailConfig.PHANTOM_RANGE.get());
-        put(values, "boundless.phantomInterval", TravailConfig.PHANTOM_CHECK_INTERVAL_SECONDS.get());
+        put(
+                values,
+                "boundless.phantomInterval",
+                TravailConfig.PHANTOM_CHECK_INTERVAL_SECONDS.get());
         values.put(
                 "floral.mistletoe.maxLevel",
                 com.thelongtravail.config.FlourishingGrowthConfig.MAX_LEVEL.get().doubleValue());
-        values.put("floral.growth.enabled", com.thelongtravail.config.FlourishingGrowthConfig.GROWTH.get() ? 1D : 0D);
         values.put(
-                "floral.growth.radius", com.thelongtravail.config.FlourishingGrowthConfig.RADIUS.get().doubleValue());
+                "floral.growth.enabled",
+                com.thelongtravail.config.FlourishingGrowthConfig.GROWTH.get() ? 1D : 0D);
         values.put(
-                "floral.growth.height", com.thelongtravail.config.FlourishingGrowthConfig.HEIGHT.get().doubleValue());
+                "floral.growth.radius",
+                com.thelongtravail.config.FlourishingGrowthConfig.RADIUS.get().doubleValue());
+        values.put(
+                "floral.growth.height",
+                com.thelongtravail.config.FlourishingGrowthConfig.HEIGHT.get().doubleValue());
         values.put(
                 "floral.growth.interval",
                 com.thelongtravail.config.FlourishingGrowthConfig.INTERVAL.get().doubleValue());
         values.put(
                 "floral.resistanceLevel",
-                com.thelongtravail.config.FlourishingGrowthConfig.RESISTANCE_LEVEL.get().doubleValue());
+                com.thelongtravail.config.FlourishingGrowthConfig.RESISTANCE_LEVEL
+                        .get()
+                        .doubleValue());
         values.put(
                 "floral.growthDefault",
                 com.thelongtravail.config.FlourishingGrowthConfig.DEFAULT_GROWTH.get() ? 1D : 0D);
-        com.thelongtravail.config.FlourishingItemsConfig.NUMBERS.forEach((k, v) -> values.put("floral." + k, v.get()));
+        com.thelongtravail.config.FlourishingItemsConfig.NUMBERS.forEach(
+                (k, v) -> values.put("floral." + k, v.get()));
         com.thelongtravail.config.FlourishingItemsConfig.ENABLED.forEach(
                 (k, v) -> values.put("floral.enabled." + k.id, v.get() ? 1D : 0D));
         values.put("azrael.malice", com.thelongtravail.config.AzraelConfig.MALICE.get());
         values.put("azrael.target", com.thelongtravail.config.AzraelConfig.targetChance());
         values.put("azrael.self", com.thelongtravail.config.AzraelConfig.selfChance());
-        com.thelongtravail.config.AbyssItemsConfig.NUMBERS.forEach((k, v) -> put(values, "abyssItem." + k, v.get()));
-        put(values, "abyssItem.regenerationLevelBonus", com.thelongtravail.config.AbyssItemsConfig.REGENERATION.get());
-        put(values, "abyssItem.saturationLevelBonus", com.thelongtravail.config.AbyssItemsConfig.SATURATION.get());
+        com.thelongtravail.config.AbyssItemsConfig.NUMBERS.forEach(
+                (k, v) -> put(values, "abyssItem." + k, v.get()));
+        put(
+                values,
+                "abyssItem.regenerationLevelBonus",
+                com.thelongtravail.config.AbyssItemsConfig.REGENERATION.get());
+        put(
+                values,
+                "abyssItem.saturationLevelBonus",
+                com.thelongtravail.config.AbyssItemsConfig.SATURATION.get());
         return values;
     }
 
     static Map<String, List<String>> serverPools() {
         Map<String, List<String>> pools = new LinkedHashMap<>();
         for (TravailAspect aspect : TravailAspect.values()) {
-            pools.put(aspect.id() + ".biomes", List.copyOf(TravailConfig.BIOME_POOLS.get(aspect).get()));
-            pools.put(aspect.id() + ".structures", List.copyOf(TravailConfig.STRUCTURE_POOLS.get(aspect).get()));
+            pools.put(
+                    aspect.id() + ".biomes",
+                    List.copyOf(TravailConfig.BIOME_POOLS.get(aspect).get()));
+            pools.put(
+                    aspect.id() + ".structures",
+                    List.copyOf(TravailConfig.STRUCTURE_POOLS.get(aspect).get()));
         }
         pools.put(
-                "floral.springSlots", List.copyOf(com.thelongtravail.config.FlourishingItemsConfig.SPRING_SLOTS.get()));
+                "floral.springSlots",
+                List.copyOf(com.thelongtravail.config.FlourishingItemsConfig.SPRING_SLOTS.get()));
         pools.put(
                 "floral.affectionSlots",
-                List.copyOf(com.thelongtravail.config.FlourishingItemsConfig.AFFECTION_SLOTS.get()));
-        pools.put("abyss.fluidBlacklist", List.copyOf(com.thelongtravail.config.AbyssItemsConfig.BLACKLIST.get()));
+                List.copyOf(
+                        com.thelongtravail.config.FlourishingItemsConfig.AFFECTION_SLOTS.get()));
+        pools.put(
+                "abyss.fluidBlacklist",
+                List.copyOf(com.thelongtravail.config.AbyssItemsConfig.BLACKLIST.get()));
         return pools;
     }
 

@@ -14,7 +14,9 @@ public final class JourneyDetectionConfig {
                                 "Horizontal tolerance for structure visit checks, in blocks. Additional checks use only neighboring chunks that are already loaded.")
                         .defineInRange("journeyDetection.structureHorizontalTolerance", 4, 0, 16);
         VERTICAL =
-                b.comment("结构到访判定的垂直容差，单位：方块。", "Vertical tolerance for structure visit checks, in blocks.")
+                b.comment(
+                                "结构到访判定的垂直容差，单位：方块。",
+                                "Vertical tolerance for structure visit checks, in blocks.")
                         .defineInRange("journeyDetection.structureVerticalTolerance", 4, 0, 16);
         BIOME_RADIUS =
                 b.comment(
@@ -30,7 +32,9 @@ public final class JourneyDetectionConfig {
                                 List.of(),
                                 v ->
                                         v instanceof String s
-                                                && net.minecraft.resources.ResourceLocation.tryParse(s) != null);
+                                                && net.minecraft.resources.ResourceLocation
+                                                                .tryParse(s)
+                                                        != null);
     }
 
     private JourneyDetectionConfig() {}

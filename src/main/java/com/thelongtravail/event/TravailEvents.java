@@ -106,12 +106,14 @@ public class TravailEvents {
 
     @SubscribeEvent
     public void onEffectRemoved(MobEffectEvent.Remove event) {
-        if (event.getEntity() instanceof ServerPlayer player) EffectChanges.externalChange(player, event.getEffect());
+        if (event.getEntity() instanceof ServerPlayer player)
+            EffectChanges.externalChange(player, event.getEffect());
     }
 
     @SubscribeEvent
     public void onUseItemFinish(LivingEntityUseItemEvent.Finish event) {
-        if (event.getEntity() instanceof ServerPlayer player && event.getItem().is(Items.MILK_BUCKET)) {
+        if (event.getEntity() instanceof ServerPlayer player
+                && event.getItem().is(Items.MILK_BUCKET)) {
             VisualDeprivation.clear(player, VisualDeprivation.ClearReason.MILK);
             StiffState.clear(player);
         }
@@ -119,8 +121,8 @@ public class TravailEvents {
 
     @SubscribeEvent
     public void afterPlayerTick(net.minecraftforge.event.TickEvent.PlayerTickEvent event) {
-        if (event.phase == net.minecraftforge.event.TickEvent.Phase.END && event.player instanceof ServerPlayer player)
-            EffectChanges.tick(player);
+        if (event.phase == net.minecraftforge.event.TickEvent.Phase.END
+                && event.player instanceof ServerPlayer player) EffectChanges.tick(player);
     }
 
     public static void onDiaryReset(ServerPlayer player, ItemStack diary) {
@@ -130,7 +132,8 @@ public class TravailEvents {
         TravailNetwork.sendJourney(player);
     }
 
-    public static void onJourneyChanged(ServerPlayer player, ItemStack diary, JourneyService.OperationResult change) {
+    public static void onJourneyChanged(
+            ServerPlayer player, ItemStack diary, JourneyService.OperationResult change) {
         if (change.queryPolicy() == JourneyService.QueryPolicy.INVALIDATE) {
             JourneyQueries.forget(player);
             WayguideSearch.forget(player);
@@ -139,7 +142,8 @@ public class TravailEvents {
         if ((switched & TravailAspect.DEEP_VALLEY.mask()) != 0
                 || change.resetAspects().contains(TravailAspect.DEEP_VALLEY))
             com.thelongtravail.valley.AzraelState.forget(player);
-        if ((switched & TravailAspect.FAR_REACH.mask()) != 0 || change.resetAspects().contains(TravailAspect.FAR_REACH))
+        if ((switched & TravailAspect.FAR_REACH.mask()) != 0
+                || change.resetAspects().contains(TravailAspect.FAR_REACH))
             CleanseRotation.forget(player);
         if ((switched & TravailAspect.BOUNDLESS.mask()) != 0
                 || change.resetAspects().contains(TravailAspect.BOUNDLESS)) {
@@ -168,7 +172,8 @@ public class TravailEvents {
 
     @SubscribeEvent
     public void onDeath(LivingDeathEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player) resetRuntime(player, VisualDeprivation.ClearReason.DEATH);
+        if (event.getEntity() instanceof ServerPlayer player)
+            resetRuntime(player, VisualDeprivation.ClearReason.DEATH);
     }
 
     @SubscribeEvent
@@ -208,10 +213,14 @@ public class TravailEvents {
         if (ModeEffectRules.diaryApplies(player)
                 && !LongTravailData.hasWitness(travail, TravailAspect.ABYSS)
                 && touchesFluid(player)
-                && isDue(player, TravailConfig.ABYSS_FLUID_INTERVAL_SECONDS.get(), PeriodicSchedule.FLUID)) {
+                && isDue(
+                        player,
+                        TravailConfig.ABYSS_FLUID_INTERVAL_SECONDS.get(),
+                        PeriodicSchedule.FLUID)) {
             TrueDamage.hurtFluid(player, safeFloat(TravailConfig.ABYSS_FLUID_DAMAGE.get()));
         }
-        if (ModeEffectRules.diaryApplies(player) && !LongTravailData.hasWitness(travail, TravailAspect.UNDERWORLD))
+        if (ModeEffectRules.diaryApplies(player)
+                && !LongTravailData.hasWitness(travail, TravailAspect.UNDERWORLD))
             TravailPlayerMaintenance.clampExperience(player);
         if (LongTravailData.hasWitness(travail, TravailAspect.BOUNDLESS)
                 && Math.floorMod(
@@ -219,15 +228,21 @@ public class TravailEvents {
                                 Math.max(
                                         20,
                                         TravailEffectActions.secondsToTicks(
-                                                TravailConfig.PHANTOM_CHECK_INTERVAL_SECONDS.get())))
+                                                TravailConfig.PHANTOM_CHECK_INTERVAL_SECONDS
+                                                        .get())))
                         == 0) TravailRewards.killNearbyPhantoms(player);
         if (LongTravailData.hasWitness(travail, TravailAspect.DEEP_VALLEY)) {
-            if (player.hasEffect(MobEffects.DARKNESS)) EffectChanges.remove(player, MobEffects.DARKNESS, false);
-            if (player.hasEffect(MobEffects.BLINDNESS)) EffectChanges.remove(player, MobEffects.BLINDNESS, false);
+            if (player.hasEffect(MobEffects.DARKNESS))
+                EffectChanges.remove(player, MobEffects.DARKNESS, false);
+            if (player.hasEffect(MobEffects.BLINDNESS))
+                EffectChanges.remove(player, MobEffects.BLINDNESS, false);
         }
 
         if (LongTravailData.hasWitness(travail, TravailAspect.FAR_REACH)
-                && isDue(player, TravailConfig.FAR_WITNESS_INTERVAL_SECONDS.get(), PeriodicSchedule.FAR_REACH)) {
+                && isDue(
+                        player,
+                        TravailConfig.FAR_WITNESS_INTERVAL_SECONDS.get(),
+                        PeriodicSchedule.FAR_REACH)) {
             TravailEffectActions.processFarReachWitness(player);
         }
     }
@@ -295,7 +310,8 @@ public class TravailEvents {
 
     private static boolean isDue(ServerPlayer player, double seconds, int task) {
         int interval = TravailEffectActions.secondsToTicks(seconds);
-        return PeriodicSchedule.due(player.level().getGameTime(), player.getUUID().hashCode(), task, interval);
+        return PeriodicSchedule.due(
+                player.level().getGameTime(), player.getUUID().hashCode(), task, interval);
     }
 
     private static float safeFloat(double value) {

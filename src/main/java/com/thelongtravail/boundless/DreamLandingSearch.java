@@ -16,7 +16,8 @@ import java.util.concurrent.CompletableFuture;
 
 public final class DreamLandingSearch {
     public static final int RADIUS = 16;
-    private static final TicketType<UUID> TICKET = TicketType.create("travail_dream_landing", UUID::compareTo);
+    private static final TicketType<UUID> TICKET =
+            TicketType.create("travail_dream_landing", UUID::compareTo);
     private static final Map<ServerPlayer, Search> SEARCHES = new IdentityHashMap<>();
     private static final Deque<Search> ORDER = new ArrayDeque<>();
     private static Request inFlight;
@@ -35,7 +36,9 @@ public final class DreamLandingSearch {
             var source = search.level.getChunkSource();
             source.addRegionTicket(TICKET, chunk, 0, search.ticket);
             search.pins.add(chunk);
-            future = ((ChunkFutureInvoker) source).travail$requestChunk(chunk.x, chunk.z, ChunkStatus.FULL, true);
+            future =
+                    ((ChunkFutureInvoker) source)
+                            .travail$requestChunk(chunk.x, chunk.z, ChunkStatus.FULL, true);
         }
 
         boolean active() {
@@ -64,7 +67,8 @@ public final class DreamLandingSearch {
             if (!Double.isFinite(anchor.lengthSqr())
                     || Math.abs(anchor.x) > 30_000_000
                     || Math.abs(anchor.z) > 30_000_000
-                    || Math.abs(anchor.y) > 30_000_000) throw new IllegalArgumentException("Invalid dream anchor");
+                    || Math.abs(anchor.y) > 30_000_000)
+                throw new IllegalArgumentException("Invalid dream anchor");
             candidates =
                     new PriorityQueue<>(
                             Comparator.<Vec3>comparingDouble(anchor::distanceToSqr)
@@ -93,7 +97,8 @@ public final class DreamLandingSearch {
         }
 
         void release() {
-            for (var chunk : pins) level.getChunkSource().removeRegionTicket(TICKET, chunk, 0, ticket);
+            for (var chunk : pins)
+                level.getChunkSource().removeRegionTicket(TICKET, chunk, 0, ticket);
             pins.clear();
         }
 
@@ -107,7 +112,8 @@ public final class DreamLandingSearch {
                         cz++) {
                     var chunk = new ChunkPos(cx, cz);
                     if (level.hasChunk(cx, cz)) {
-                        if (pins.add(chunk)) level.getChunkSource().addRegionTicket(TICKET, chunk, 0, ticket);
+                        if (pins.add(chunk))
+                            level.getChunkSource().addRegionTicket(TICKET, chunk, 0, ticket);
                         continue;
                     }
                     int now = level.getServer().getTickCount();
@@ -213,7 +219,9 @@ public final class DreamLandingSearch {
                 } catch (RuntimeException failure) {
                     request.search.retryAfter = server.getTickCount() + 20;
                     com.thelongtravail.TheLongTravail.LOGGER.warn(
-                            "Dream landing chunk request failed at {}; will retry", request.chunk, failure);
+                            "Dream landing chunk request failed at {}; will retry",
+                            request.chunk,
+                            failure);
                 }
         }
         long deadline = System.nanoTime() + 2_000_000L;
@@ -224,14 +232,17 @@ public final class DreamLandingSearch {
                 cancel(search.player);
                 continue;
             }
-            if (TimeStopManager.frozen(search.player) || server.getTickCount() < search.retryAfter) {
+            if (TimeStopManager.frozen(search.player)
+                    || server.getTickCount() < search.retryAfter) {
                 ORDER.addLast(search);
                 if (++blocked >= ORDER.size()) break;
                 continue;
             }
             boolean progressed = false;
             try {
-                for (int i = 0; i < 32 && budget > 0 && !search.done && System.nanoTime() < deadline; i++, budget--) {
+                for (int i = 0;
+                        i < 32 && budget > 0 && !search.done && System.nanoTime() < deadline;
+                        i++, budget--) {
                     if (!search.step()) break;
                     progressed = true;
                 }

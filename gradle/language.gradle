@@ -1,0 +1,31 @@
+def languageSource = layout.projectDirectory.dir('src/main/lang')
+def languageOutput = layout.buildDirectory.dir('generated/resources/language')
+
+def generateLanguageFiles = tasks.register('generateLanguageFiles', Exec) {
+    group = 'build'
+    description = 'Validate language groups and generate the standard Minecraft locale files.'
+    inputs.dir(languageSource)
+    inputs.files('tools/generate-language-files.cjs', 'tools/verify-language-files.cjs')
+    outputs.dir(languageOutput)
+    workingDir project.projectDir
+    commandLine providers.gradleProperty('nodeExecutable').getOrElse('node'),
+            'tools/generate-language-files.cjs', languageSource.asFile.absolutePath,
+            languageOutput.get().asFile.absolutePath
+}
+
+sourceSets.main.resources.srcDir(languageOutput)
+tasks.named('processResources').configure {
+    dependsOn generateLanguageFiles
+    duplicatesStrategy = DuplicatesStrategy.FAIL
+}
+def testLanguageGeneration = tasks.register('testLanguageGeneration', Exec) {
+    group = 'verification'
+    description = 'Check invalid language sources and deterministic generation.'
+    workingDir project.projectDir
+    commandLine providers.gradleProperty('nodeExecutable').getOrElse('node'),
+            'tools/test-language-generation.cjs'
+}
+
+tasks.named('check').configure {
+    dependsOn generateLanguageFiles, testLanguageGeneration
+}

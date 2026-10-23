@@ -17,7 +17,9 @@ public final class FrozenContainers {
                             c = c.getSuperclass())
                         for (var f : c.getDeclaredFields())
                             if (!java.lang.reflect.Modifier.isStatic(f.getModifiers())
-                                    && f.getType() == net.minecraft.world.inventory.ContainerLevelAccess.class) {
+                                    && f.getType()
+                                            == net.minecraft.world.inventory.ContainerLevelAccess
+                                                    .class) {
                                 if (f.trySetAccessible()) out.add(f);
                             }
                     return java.util.List.copyOf(out);

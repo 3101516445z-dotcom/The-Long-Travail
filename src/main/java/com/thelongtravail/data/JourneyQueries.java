@@ -55,7 +55,8 @@ public final class JourneyQueries {
             state.biome = JourneySpatial.biomeAt(level, state.pos);
             if (state.biome != null && !state.biome.equals(state.discovered)) {
                 state.discovered = state.biome;
-                if (PlayerJourneyData.discoverBiome(player, state.biome)) TravailNetwork.sendJourney(player);
+                if (PlayerJourneyData.discoverBiome(player, state.biome))
+                    TravailNetwork.sendJourney(player);
             }
         }
         if (stack.isEmpty() || !LongTravailData.isInitialized(stack)) {
@@ -69,7 +70,9 @@ public final class JourneyQueries {
             var before = LongTravailData.queryIdentity(stack);
             boolean progressChanged = false;
             if (state.biome != null && !state.biomeRequirements.isEmpty())
-                for (var id : JourneySpatial.biomes(level, state.pos, state.biome, state.biomeRequirements))
+                for (var id :
+                        JourneySpatial.biomes(
+                                level, state.pos, state.biome, state.biomeRequirements))
                     progressChanged |= LongTravailData.visitBiome(stack, id);
             JourneyVisits.rebase(player, before, stack);
             before = LongTravailData.queryIdentity(stack);

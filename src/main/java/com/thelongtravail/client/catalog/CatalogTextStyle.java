@@ -155,7 +155,8 @@ public final class CatalogTextStyle {
         }
     }
 
-    private static void highlightTerms(String text, List<Style> original, Style[] result, HighlightState state) {
+    private static void highlightTerms(
+            String text, List<Style> original, Style[] result, HighlightState state) {
         List<TermMatch> matches = new ArrayList<>();
         for (String term : TERMS) {
             var matcher =
@@ -166,7 +167,9 @@ public final class CatalogTextStyle {
                                     Pattern.CASE_INSENSITIVE)
                             .matcher(text);
             while (matcher.find())
-                matches.add(new TermMatch(matcher.start(), matcher.end(), term.toLowerCase(Locale.ROOT)));
+                matches.add(
+                        new TermMatch(
+                                matcher.start(), matcher.end(), term.toLowerCase(Locale.ROOT)));
         }
         matches.sort(
                 Comparator.comparingInt(TermMatch::start)
@@ -176,7 +179,8 @@ public final class CatalogTextStyle {
             if (match.start < cursor) continue;
             state.advance(text, cursor, match.start);
             boolean protectedRange = false;
-            for (int i = match.start; i < match.end; i++) protectedRange |= protectedName(original.get(i));
+            for (int i = match.start; i < match.end; i++)
+                protectedRange |= protectedName(original.get(i));
             if (!protectedRange && !state.seen.contains(match.term) && state.sentenceCount < 2) {
                 paint(result, original, match.start, match.end, GOLD);
                 state.seen.add(match.term);
@@ -198,7 +202,8 @@ public final class CatalogTextStyle {
                             style,
                             (index, current, codePoint) -> {
                                 text.appendCodePoint(codePoint);
-                                for (int n = 0; n < Character.charCount(codePoint); n++) styles.add(current);
+                                for (int n = 0; n < Character.charCount(codePoint); n++)
+                                    styles.add(current);
                                 return true;
                             });
                     return Optional.empty();
@@ -227,9 +232,12 @@ public final class CatalogTextStyle {
     }
 
     private static boolean matchesParameterLine(String text, String key) {
-        String template = plain(Component.translatable("tooltip.the_long_travail." + key, "\u0001"));
+        String template =
+                plain(Component.translatable("tooltip.the_long_travail." + key, "\u0001"));
         int at = template.indexOf('\u0001');
-        return at >= 0 && text.startsWith(template.substring(0, at)) && text.endsWith(template.substring(at + 1));
+        return at >= 0
+                && text.startsWith(template.substring(0, at))
+                && text.endsWith(template.substring(at + 1));
     }
 
     public static List<Component> apply(List<Component> paragraphs) {
@@ -240,9 +248,13 @@ public final class CatalogTextStyle {
             Flat f = flatten(source);
             String text = f.text;
             boolean objectList =
-                    blacklistNamesNext || matchesParameterLine(text, "abyss_items.fluid.blacklist_current");
+                    blacklistNamesNext
+                            || matchesParameterLine(text, "abyss_items.fluid.blacklist_current");
             blacklistNamesNext =
-                    text.equals(plain(Component.translatable("tooltip.the_long_travail.abyss_items.fluid.blacklist")));
+                    text.equals(
+                            plain(
+                                    Component.translatable(
+                                            "tooltip.the_long_travail.abyss_items.fluid.blacklist")));
             if (text.isBlank()) {
                 out.add(Component.literal(text));
                 highlights.reset();
@@ -251,7 +263,9 @@ public final class CatalogTextStyle {
             boolean condition = f.styles.stream().anyMatch(CatalogTextStyle::purple);
             if (condition) {
                 highlights.reset();
-                out.add(Component.literal(text).withStyle(s -> s.withColor(CONDITION).withBold(true)));
+                out.add(
+                        Component.literal(text)
+                                .withStyle(s -> s.withColor(CONDITION).withBold(true)));
                 continue;
             }
             Style[] result = new Style[text.length()];
@@ -261,15 +275,24 @@ public final class CatalogTextStyle {
                 result[i] =
                         protectedName(old)
                                 ? old
-                                : Style.EMPTY.withColor(c == WARNING ? WARNING : c == 0x555555 ? MUTED : BODY);
+                                : Style.EMPTY.withColor(
+                                        c == WARNING ? WARNING : c == 0x555555 ? MUTED : BODY);
             }
-            boolean heading = (text.endsWith("：") || text.endsWith(":")) && !VALUES.matcher(text).find();
+            boolean heading =
+                    (text.endsWith("：") || text.endsWith(":")) && !VALUES.matcher(text).find();
             if (heading) Arrays.fill(result, Style.EMPTY.withColor(GOLD));
             boolean supplement =
-                    text.equals(plain(Component.translatable("tooltip.the_long_travail.star_voice.lock")))
-                            || text.equals(plain(Component.translatable("tooltip.the_long_travail.star_voice.allies")));
+                    text.equals(
+                                    plain(
+                                            Component.translatable(
+                                                    "tooltip.the_long_travail.star_voice.lock")))
+                            || text.equals(
+                                    plain(
+                                            Component.translatable(
+                                                    "tooltip.the_long_travail.star_voice.allies")));
             boolean numbersOnly =
-                    matchesParameterLine(text, "star_voice.range") || matchesParameterLine(text, "star_voice.group");
+                    matchesParameterLine(text, "star_voice.range")
+                            || matchesParameterLine(text, "star_voice.group");
             if (!heading && !supplement && !numbersOnly && !objectList) {
                 highlightTerms(text, f.styles, result, highlights);
             } else if (heading) highlights.sentenceCount = 0;
@@ -293,7 +316,8 @@ public final class CatalogTextStyle {
     }
 
     private static void paint(Style[] result, List<Style> original, int start, int end, int color) {
-        for (int i = start; i < end; i++) if (!protectedName(original.get(i))) result[i] = Style.EMPTY.withColor(color);
+        for (int i = start; i < end; i++)
+            if (!protectedName(original.get(i))) result[i] = Style.EMPTY.withColor(color);
     }
 
     private CatalogTextStyle() {}

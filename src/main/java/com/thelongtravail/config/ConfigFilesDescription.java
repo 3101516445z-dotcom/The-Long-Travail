@@ -1,7 +1,8 @@
 package com.thelongtravail.config;
 
 public final class ConfigFilesDescription {
-    public static void describe(net.minecraftforge.common.ForgeConfigSpec.Builder builder, String file) {
+    public static void describe(
+            net.minecraftforge.common.ForgeConfigSpec.Builder builder, String file) {
         if (file.startsWith("aspects/")) {
             section(builder, "travail", header(file));
             section(
@@ -20,7 +21,7 @@ public final class ConfigFilesDescription {
                 section(
                         builder,
                         "items.perfect_fluid",
-                        "完美流体：用于复制物品，默认不设黑名单。\nPerfect Fluid: duplicates items. The blacklist is empty by default.");
+                        "完美流体：用于复制物品。检测到车万女仆及其性格模组时，分别将初始魂符及已收纳女仆的魂符、怪兽战斗仪加入黑名单一次（不包含空魂符）；之后可自由调整。初始化记录随本配置保存。\nPerfect Fluid: duplicates items. Initial and occupied Soul Spells (excluding empty Soul Spells) and Monster Battle Device are added to the blacklist once when their respective maid mods are detected. The blacklist remains editable; initialization records belong to this configuration.");
                 section(
                         builder,
                         "items.midnight_lafite",
@@ -71,7 +72,7 @@ public final class ConfigFilesDescription {
                 section(
                         builder,
                         "items.azrael",
-                        "死告天使：玩家需同时佩戴苦旅。同类只生效一件。\n见证状态下，每次实际造成伤害只判定一次。处决目标与处决佩戴者不会同时发生。\nAzrael: a head accessory that requires The Long Travail. Only one copy takes effect. With Witness, each instance of actual damage dealt makes one roll; executing the target and executing the wearer cannot occur on the same roll.");
+                        "死告天使：玩家需同时佩戴苦旅。同类只生效一件。\n见证状态下，每次实际造成伤害只判定一次。处决目标与处决佩戴者不会同时发生。\nAzrael: players must also wear The Long Travail. Only one copy takes effect.\nWith Witness, each instance of actual damage dealt makes one roll; executing the target and executing the wearer cannot occur on the same roll.");
                 section(
                         builder,
                         "travail.visualDeprivation",
@@ -105,7 +106,7 @@ public final class ConfigFilesDescription {
             section(
                     builder,
                     "loot",
-                    "苦旅统一战利品：每张表一次抽取，按总概率与物品权重分配。\n修改后/reload或重启生效。\n支持新增完整表ID。\n父子表独立抽取。\nUnified Long Travail loot: one roll per table, using the overall chance and item weights. Changes apply after /reload or a restart. Additional full table IDs are supported. Parent and child tables roll independently.");
+                    "苦旅统一战利品：每张表一次抽取，按总概率与物品权重分配。\n修改后/reload或重启生效。\n支持新增完整表ID。\n父子表独立抽取。\nUnified Long Travail loot: one roll per table, using the overall chance and item weights.\nChanges apply after /reload or a restart.\nAdditional full table IDs are supported.\nParent and child tables roll independently.");
             section(
                     builder,
                     "requirements",
@@ -114,11 +115,24 @@ public final class ConfigFilesDescription {
                     builder,
                     "receivedMalice",
                     "六类主题共用的受击恶意触发规则。\nOn-hit Malice trigger rules shared by all six themes.");
-            section(builder, "effectLimits", "跨主题的自动效果尝试次数限制。\nCross-theme limits on automatic effect attempts.");
+            section(
+                    builder,
+                    "effectLimits",
+                    "跨主题的自动效果尝试次数限制。\nCross-theme limits on automatic effect attempts.");
             section(
                     builder,
                     "rewardDelivery",
                     "全服额外奖励的发放上限；具体奖励池位于对应主题文件中。\nServer-wide extra-reward delivery limits. Reward pools are in the corresponding theme files.");
+            section(builder, "malice", "恶意生效的通用条件。\nShared conditions for Malice effects.");
+            section(
+                    builder,
+                    "carrying",
+                    "统一携带检测：选择可以让相关物品生效的位置。\nShared carrying checks: select the locations where supported items can take effect.");
+            section(builder, "journeyDetection", "探索进度检测。\nExploration progress detection.");
+            section(
+                    builder,
+                    "upgrades",
+                    "内部配置升级记录，由模组维护，请勿修改。\nInternal configuration upgrade records maintained by the mod. Do not edit.");
             section(builder, "compatibility", "其他模组兼容行为。\nCompatibility behavior with other mods.");
         } else if (file.equals("utility_items.toml")) {
             section(builder, "items", header(file));
@@ -126,7 +140,10 @@ public final class ConfigFilesDescription {
                     builder,
                     "items.wayguide",
                     "路引：查找当前苦旅尚未完成的探索条件。\nWayguide: locate unfinished exploration requirements for the current Long Travail.");
-            section(builder, "items.wayguide.search", "搜索范围与实际时间上限。\nSearch range and real-time timeout.");
+            section(
+                    builder,
+                    "items.wayguide.search",
+                    "搜索范围与实际时间上限。\nSearch range and real-time timeout.");
             section(builder, "items.wayguide.sampling", "群系采样精度。\nBiome sampling precision.");
             section(
                     builder,
@@ -148,7 +165,9 @@ public final class ConfigFilesDescription {
     }
 
     private static void section(
-            net.minecraftforge.common.ForgeConfigSpec.Builder builder, String path, String comment) {
+            net.minecraftforge.common.ForgeConfigSpec.Builder builder,
+            String path,
+            String comment) {
         builder.comment(comment).push(path).pop(path.split("\\.").length);
     }
 
@@ -172,12 +191,20 @@ public final class ConfigFilesDescription {
                         : "";
         String notes = "";
         if (file.equals("general.toml"))
-            notes += "\n探索条件的抽取数量仅影响新生成的旅程。\nExploration draw counts affect only newly generated journeys.";
+            notes +=
+                    "\n探索条件的抽取数量仅影响新生成的旅程。\nExploration draw counts affect only newly generated journeys.";
         if (file.startsWith("aspects/"))
-            notes += "\n探索条件池仅影响新生成的旅程。\nExploration requirement pools affect only newly generated journeys.";
+            notes +=
+                    "\n探索条件池仅影响新生成的旅程。\nExploration requirement pools affect only newly generated journeys.";
         if (file.equals("aspects/abyss.toml"))
-            notes += "\n技能时长和冷却的修改仅影响之后释放的技能。\nSkill duration and cooldown changes affect only future casts.";
-        return "The Long Travail / 苦旅 — " + file + "\n" + purpose + (scope.isEmpty() ? "" : "\n" + scope) + notes;
+            notes +=
+                    "\n技能时长和冷却的修改仅影响之后释放的技能。\nSkill duration and cooldown changes affect only future casts.";
+        return "The Long Travail / 苦旅 — "
+                + file
+                + "\n"
+                + purpose
+                + (scope.isEmpty() ? "" : "\n" + scope)
+                + notes;
     }
 
     public static final String GUIDE =
@@ -194,6 +221,11 @@ public final class ConfigFilesDescription {
             aspects/：六个主题及其关联物品。各主题保留独立的探索条件池。
             修改一般配置后会自动重新加载；统一战利品还需执行 /reload 或重启。
             探索池和抽取数量的修改只影响新生成的旅程，不改写已有苦旅。
+
+            阅读顺序
+            general.toml：初始物品、探索规则、恶意、携带检测与限制、兼容、战利品、内部升级记录。
+            主题文件：恶意、见证、其他主题规则、探索条件池、关联物品。
+            upgrades 和带有初始化记录说明的字段由模组维护，请勿手动修改。
 
             探索条件池
             群系格式：群系ID|显示名称|权重
@@ -241,12 +273,18 @@ public final class ConfigFilesDescription {
             Edit the TOML files in this directory. Legacy root-level files are not loaded.
 
             Files
-            general.toml: shared rules, exploration draw counts, and unified loot.
+            general.toml: shared rules, exploration draw counts, unified loot, and carrying location switches.
+            Eki, Babel, and Little Prince share the carrying service. Legacy Eki and Babel location switches also apply alongside the shared switches.
             utility_items.toml: general-purpose items such as the Wayguide.
             client.toml: local display preferences only.
             aspects/: six themes, their associated items, and separate exploration pools.
             Most settings reload after saving; unified loot also needs /reload or a restart.
             Pool and draw-count changes affect new journeys only.
+
+            Reading order
+            general.toml: starter items, exploration rules, Malice, carrying and limits, compatibility, loot, internal upgrade records.
+            Theme files: Malice, Witness, other theme rules, exploration pools, associated items.
+            The mod maintains upgrades and fields described as initialization records. Do not edit them manually.
 
             Exploration pools
             Format: biome_id|display_name|weight or structure_id|display_name|weight.

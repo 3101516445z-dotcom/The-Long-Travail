@@ -18,8 +18,11 @@ public abstract class IcarusLivingFlightMixin {
                             target =
                                     "Lnet/minecraft/world/item/ItemStack;canElytraFly(Lnet/minecraft/world/entity/LivingEntity;)Z",
                             remap = false))
-    private boolean travail$icarusFlight(ItemStack stack, LivingEntity entity, Operation<Boolean> original) {
-        return IcarusFlight.equipped(entity) ? IcarusFlight.allowed(entity) : original.call(stack, entity);
+    private boolean travail$icarusFlight(
+            ItemStack stack, LivingEntity entity, Operation<Boolean> original) {
+        return IcarusFlight.equipped(entity)
+                ? IcarusFlight.allowed(entity)
+                : original.call(stack, entity);
     }
 
     @WrapOperation(
@@ -30,7 +33,8 @@ public abstract class IcarusLivingFlightMixin {
                             target =
                                     "Lnet/minecraft/world/item/ItemStack;elytraFlightTick(Lnet/minecraft/world/entity/LivingEntity;I)Z",
                             remap = false))
-    private boolean travail$icarusTick(ItemStack stack, LivingEntity entity, int ticks, Operation<Boolean> original) {
+    private boolean travail$icarusTick(
+            ItemStack stack, LivingEntity entity, int ticks, Operation<Boolean> original) {
         if (IcarusFlight.equipped(entity)) {
             if (!entity.level().isClientSide && (ticks + 1) % 10 == 0)
                 entity.gameEvent(net.minecraft.world.level.gameevent.GameEvent.ELYTRA_GLIDE);

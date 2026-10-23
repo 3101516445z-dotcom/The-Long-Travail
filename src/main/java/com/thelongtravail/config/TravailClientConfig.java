@@ -16,7 +16,9 @@ public final class TravailClientConfig {
 
         public float opacity(float original) {
             if (samplesPerRing == 8) return original;
-            return samplesPerRing == 0 ? 0 : 1F - (float) Math.pow(1F - original, 8F / samplesPerRing);
+            return samplesPerRing == 0
+                    ? 0
+                    : 1F - (float) Math.pow(1F - original, 8F / samplesPerRing);
         }
     }
 
@@ -45,10 +47,11 @@ public final class TravailClientConfig {
                                 "Disable periodic changes in Visual Deprivation intensity on this client.")
                         .define("visualDeprivation.reduceVisualMotion", false);
         RAIN_MESSAGES =
-                builder.comment("显示东海道技能台词。\nShow Tokaido skill messages.").define("messages.rainSkillMessages", true);
+                builder.comment("显示东海道技能台词。\nShow Tokaido skill messages.")
+                        .define("messages.rainSkillMessages", true);
         TIME_STOP_BOUNDARY_LEVEL =
                 builder.comment(
-                                "时停边界显示档位，仅影响本客户端：1=完整半透明玻璃球面，2=线状球面。\n默认1；改用2可减少绘制开销。两种显示方式均使用亮青绿色表示豁免边界，橙红色表示危险边界。\nTime-stop boundary display mode for this client: 1 = a continuous translucent glass sphere; 2 = a wireframe sphere. Defaults to 1; mode 2 reduces rendering cost. Both modes use bright turquoise for exempt boundaries and orange-red for dangerous boundaries.\nDefault: 1. Mode 2 reduces rendering cost. Both modes use bright cyan-green for exempt boundaries and orange-red for dangerous boundaries.")
+                                "时停边界显示档位，仅影响本客户端：1=完整半透明玻璃球面，2=线状球面。\n默认1；改用2可减少绘制开销。两种显示方式均使用亮青绿色表示豁免边界，橙红色表示危险边界。\nTime-stop boundary display mode for this client: 1 = a continuous translucent glass sphere; 2 = a wireframe sphere.\nDefault: 1. Mode 2 reduces rendering cost. Both modes use bright cyan-green for exempt boundaries and orange-red for dangerous boundaries.")
                         .defineInRange("timeStop.boundaryLevel", 1, 1, 2);
         DREAM_MESSAGES =
                 builder.comment("显示入梦技能台词。", "Show Free and Easy Wandering skill messages.")

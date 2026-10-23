@@ -21,7 +21,8 @@ public abstract class BabelEndermanMixin {
     private void travail$target(LivingEntity target, Operation<Void> original) {
         EnderMan self = (EnderMan) (Object) this;
         if (BabelProtection.protects(self, target)) {
-            if (BabelProtection.protects(self, self.getTarget())) original.call((LivingEntity) null);
+            if (BabelProtection.protects(self, self.getTarget()))
+                original.call((LivingEntity) null);
             return;
         }
         original.call(target);

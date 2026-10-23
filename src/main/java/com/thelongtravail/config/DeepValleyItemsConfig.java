@@ -61,7 +61,9 @@ public final class DeepValleyItemsConfig {
                                 List.of(),
                                 x ->
                                         x instanceof String s
-                                                && net.minecraft.resources.ResourceLocation.tryParse(s) != null);
+                                                && net.minecraft.resources.ResourceLocation
+                                                                .tryParse(s)
+                                                        != null);
         EXTRA_ORES = extraItems(b, "extraOres", "额外矿石物品ID\nAdditional ore item IDs");
         EXTRA_INGOTS = extraItems(b, "extraIngots", "额外锭物品ID\nAdditional ingot item IDs");
         number(
@@ -103,11 +105,19 @@ public final class DeepValleyItemsConfig {
                 .defineListAllowEmpty(
                         "items.underground_velvet." + key,
                         List.of(),
-                        x -> x instanceof String id && net.minecraft.resources.ResourceLocation.tryParse(id) != null);
+                        x ->
+                                x instanceof String id
+                                        && net.minecraft.resources.ResourceLocation.tryParse(id)
+                                                != null);
     }
 
     private static void number(
-            ForgeConfigSpec.Builder b, String key, double value, double min, double max, String description) {
+            ForgeConfigSpec.Builder b,
+            String key,
+            double value,
+            double min,
+            double max,
+            String description) {
         VALUES.put(key, b.comment(description).defineInRange("items." + key, value, min, max));
     }
 
@@ -116,7 +126,8 @@ public final class DeepValleyItemsConfig {
     }
 
     public static double shown(String key) {
-        return com.thelongtravail.network.TooltipConfigSync.decimal("deepValleyItem." + key, get(key));
+        return com.thelongtravail.network.TooltipConfigSync.decimal(
+                "deepValleyItem." + key, get(key));
     }
 
     private DeepValleyItemsConfig() {}

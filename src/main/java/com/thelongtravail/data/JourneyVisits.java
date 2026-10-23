@@ -17,7 +17,8 @@ import java.util.concurrent.CompletableFuture;
 public final class JourneyVisits {
     private static final int MAX_PENDING = 256, MAX_PER_PLAYER = 16, STEPS_PER_TICK = 256;
     private static final long TIMEOUT_NANOS = 30_000_000_000L, TICK_BUDGET_NANOS = 1_000_000L;
-    private static final TicketType<UUID> TICKET = TicketType.create("travail_journey_visit", UUID::compareTo);
+    private static final TicketType<UUID> TICKET =
+            TicketType.create("travail_journey_visit", UUID::compareTo);
     private static final Deque<Observation> PENDING = new ArrayDeque<>();
     private static Request inFlight;
 
@@ -38,7 +39,8 @@ public final class JourneyVisits {
         Identity identity;
         boolean references;
 
-        Observation(ServerPlayer player, ItemStack stack, Map<Structure, ResourceLocation> targets) {
+        Observation(
+                ServerPlayer player, ItemStack stack, Map<Structure, ResourceLocation> targets) {
             this.player = player;
             level = player.serverLevel();
             position = player.blockPosition().immutable();
@@ -74,12 +76,15 @@ public final class JourneyVisits {
             this.observation = observation;
             this.references = references;
             position = new ChunkPos(packed);
-            ChunkStatus status = references ? ChunkStatus.STRUCTURE_REFERENCES : ChunkStatus.STRUCTURE_STARTS;
+            ChunkStatus status =
+                    references ? ChunkStatus.STRUCTURE_REFERENCES : ChunkStatus.STRUCTURE_STARTS;
             distance = 33 - ChunkLevel.byStatus(status);
             var chunks = observation.level.getChunkSource();
             chunks.addRegionTicket(TICKET, position, distance, ticket);
             try {
-                future = ((ChunkFutureInvoker) chunks).travail$requestChunk(position.x, position.z, status, true);
+                future =
+                        ((ChunkFutureInvoker) chunks)
+                                .travail$requestChunk(position.x, position.z, status, true);
                 HotPathMetrics.Counter.JOURNEY_REQUESTS.add(1);
             } catch (RuntimeException failure) {
                 release();
@@ -90,7 +95,10 @@ public final class JourneyVisits {
         void release() {
             if (released) return;
             released = true;
-            observation.level.getChunkSource().removeRegionTicket(TICKET, position, distance, ticket);
+            observation
+                    .level
+                    .getChunkSource()
+                    .removeRegionTicket(TICKET, position, distance, ticket);
         }
     }
 
@@ -98,7 +106,9 @@ public final class JourneyVisits {
             ServerPlayer player, ItemStack stack, Map<Structure, ResourceLocation> targets) {
         if (targets.isEmpty()) return List.of();
         List<ResourceLocation> found =
-                new ArrayList<>(JourneySpatial.loadedAt(player.serverLevel(), player.blockPosition(), targets));
+                new ArrayList<>(
+                        JourneySpatial.loadedAt(
+                                player.serverLevel(), player.blockPosition(), targets));
         if (found.size() == targets.size()) return found;
         Map<Structure, ResourceLocation> unresolved = new LinkedHashMap<>(targets);
         unresolved.values().removeIf(found::contains);
@@ -107,7 +117,8 @@ public final class JourneyVisits {
                 observation
                         .level
                         .getChunkSource()
-                        .getChunkNow(observation.position.getX() >> 4, observation.position.getZ() >> 4);
+                        .getChunkNow(
+                                observation.position.getX() >> 4, observation.position.getZ() >> 4);
         if (chunk == null) observation.references = true;
         else references(observation, chunk, found);
         if (observation.pending()) {
@@ -120,7 +131,8 @@ public final class JourneyVisits {
                                                     && old.position.equals(observation.position)
                                                     && old.identity.equals(observation.identity));
             if (!duplicate) {
-                if (PENDING.stream().filter(old -> old.player == player).count() >= MAX_PER_PLAYER) {
+                if (PENDING.stream().filter(old -> old.player == player).count()
+                        >= MAX_PER_PLAYER) {
                     for (var old : PENDING)
                         if (old.player == player) {
                             remove(old);
@@ -139,10 +151,16 @@ public final class JourneyVisits {
         return JourneySpatial.loadedAt(level, position, targets);
     }
 
-    private static void references(Observation observation, ChunkAccess origin, List<ResourceLocation> found) {
+    private static void references(
+            Observation observation, ChunkAccess origin, List<ResourceLocation> found) {
         observation.references = false;
         inspectReferences(
-                observation.level, observation.position, observation.targets, origin, observation.missing, found);
+                observation.level,
+                observation.position,
+                observation.targets,
+                origin,
+                observation.missing,
+                found);
     }
 
     private static void inspectReferences(
@@ -157,7 +175,9 @@ public final class JourneyVisits {
             var starts = refs.get(target.getKey());
             if (starts == null) continue;
             for (long packed : starts) {
-                var chunk = level.getChunkSource().getChunkNow(ChunkPos.getX(packed), ChunkPos.getZ(packed));
+                var chunk =
+                        level.getChunkSource()
+                                .getChunkNow(ChunkPos.getX(packed), ChunkPos.getZ(packed));
                 if (chunk == null) {
                     if (missing != null)
                         missing.computeIfAbsent(packed, ignored -> new LinkedHashMap<>())
@@ -174,19 +194,24 @@ public final class JourneyVisits {
         }
     }
 
-    static boolean matches(ServerLevel level, BlockPos position, ChunkAccess chunk, Structure type) {
+    static boolean matches(
+            ServerLevel level, BlockPos position, ChunkAccess chunk, Structure type) {
         var start = chunk.getStartForStructure(type);
         return JourneySpatial.matches(
                 start,
-                level.registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.STRUCTURE).getKey(type),
+                level.registryAccess()
+                        .registryOrThrow(net.minecraft.core.registries.Registries.STRUCTURE)
+                        .getKey(type),
                 position);
     }
 
-    public static void rebase(ServerPlayer player, LongTravailData.RequirementIdentity before, ItemStack after) {
+    public static void rebase(
+            ServerPlayer player, LongTravailData.RequirementIdentity before, ItemStack after) {
         Identity old = new Identity(before.journey(), before.revision());
         Identity next = Identity.of(after);
         for (Observation observation : PENDING)
-            if (observation.player == player && observation.identity.equals(old)) observation.identity = next;
+            if (observation.player == player && observation.identity.equals(old))
+                observation.identity = next;
     }
 
     private static void complete(Request request) {
@@ -207,7 +232,8 @@ public final class JourneyVisits {
         ItemStack diary = TravailCurios.stack(observation.player);
         var before = LongTravailData.queryIdentity(diary);
         for (ResourceLocation id : found)
-            if (LongTravailData.visitStructure(diary, id)) HotPathMetrics.Counter.JOURNEY_CONFIRMED.add(1);
+            if (LongTravailData.visitStructure(diary, id))
+                HotPathMetrics.Counter.JOURNEY_CONFIRMED.add(1);
         rebase(observation.player, before, diary);
         if (!observation.pending()) remove(observation);
     }
@@ -222,7 +248,9 @@ public final class JourneyVisits {
             } catch (RuntimeException failure) {
                 remove(finished.observation);
                 TheLongTravail.LOGGER.warn(
-                        "Structure visit confirmation failed at {}", finished.observation.position, failure);
+                        "Structure visit confirmation failed at {}",
+                        finished.observation.position,
+                        failure);
             } finally {
                 finished.release();
             }
@@ -247,7 +275,8 @@ public final class JourneyVisits {
                 inFlight = new Request(observation, chunk, observation.references);
             } catch (RuntimeException failure) {
                 remove(observation);
-                TheLongTravail.LOGGER.warn("Unable to request structure visit chunk {}", chunk, failure);
+                TheLongTravail.LOGGER.warn(
+                        "Unable to request structure visit chunk {}", chunk, failure);
             }
             break;
         }
@@ -264,7 +293,8 @@ public final class JourneyVisits {
     }
 
     public static void forget(ServerPlayer player) {
-        for (Observation observation : List.copyOf(PENDING)) if (observation.player == player) remove(observation);
+        for (Observation observation : List.copyOf(PENDING))
+            if (observation.player == player) remove(observation);
     }
 
     public static void clear() {

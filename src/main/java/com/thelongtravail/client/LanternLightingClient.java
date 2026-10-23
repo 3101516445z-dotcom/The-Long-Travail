@@ -45,20 +45,23 @@ public final class LanternLightingClient {
         if (!event.getLevel().isClientSide) return;
         var entity = event.getEntity();
         if (entity instanceof ItemEntity item) droppedItems.put(item.getUUID(), item);
-        if (com.thelongtravail.compat.maid.MaidAccessories.isMaid(entity)) maids.put(entity.getUUID(), entity);
+        if (com.thelongtravail.compat.maid.MaidAccessories.isMaid(entity))
+            maids.put(entity.getUUID(), entity);
     }
 
     @SubscribeEvent
     public static void left(net.minecraftforge.event.entity.EntityLeaveLevelEvent event) {
         if (event.getLevel().isClientSide && event.getEntity() instanceof ItemEntity item)
             droppedItems.remove(item.getUUID(), item);
-        if (event.getLevel().isClientSide) maids.remove(event.getEntity().getUUID(), event.getEntity());
+        if (event.getLevel().isClientSide)
+            maids.remove(event.getEntity().getUUID(), event.getEntity());
     }
 
     private static void collectDrops(ClientLevel level) {
         droppedLights.clear();
         droppedItems.values().removeIf(item -> item.isRemoved() || item.level() != level);
-        for (var item : droppedItems.values()) if (LanternSources.dropped(item)) droppedLights.add(item);
+        for (var item : droppedItems.values())
+            if (LanternSources.dropped(item)) droppedLights.add(item);
     }
 
     @SubscribeEvent
@@ -68,7 +71,8 @@ public final class LanternLightingClient {
     }
 
     @SubscribeEvent
-    public static void logout(net.minecraftforge.client.event.ClientPlayerNetworkEvent.LoggingOut event) {
+    public static void logout(
+            net.minecraftforge.client.event.ClientPlayerNetworkEvent.LoggingOut event) {
         ACTIVE.clear();
         droppedItems.clear();
         maids.clear();
@@ -101,7 +105,8 @@ public final class LanternLightingClient {
             maids.clear();
             for (var entity : world.entitiesForRendering()) {
                 if (entity instanceof ItemEntity item) droppedItems.put(item.getUUID(), item);
-                if (com.thelongtravail.compat.maid.MaidAccessories.isMaid(entity)) maids.put(entity.getUUID(), entity);
+                if (com.thelongtravail.compat.maid.MaidAccessories.isMaid(entity))
+                    maids.put(entity.getUUID(), entity);
             }
             collectDrops(world);
         }
@@ -112,7 +117,8 @@ public final class LanternLightingClient {
         float partial = mc.isPaused() ? mc.getFrameTime() : event.renderTickTime;
         for (var p : mc.level.players()) {
             Status status = ACTIVE.get(p.getUUID());
-            boolean equipped = status != null && status.dimension.equals(mc.level.dimension().location());
+            boolean equipped =
+                    status != null && status.dimension.equals(mc.level.dimension().location());
             if (!p.isAlive() || p.isSpectator() || !equipped && !LanternSources.held(p)) continue;
             double x = Mth.lerp(partial, p.xo, p.getX()),
                     y = Mth.lerp(partial, p.yo, p.getY()) + p.getBbHeight() * .55,

@@ -41,7 +41,8 @@ public final class SingleRollLootInjector {
         long nativeWeight = 1_000_000;
         List<Long> weights = new ArrayList<>();
         for (var reward : rewards) {
-            if (!Double.isFinite(reward.chance) || reward.chance < 0 || reward.chance > 1) return false;
+            if (!Double.isFinite(reward.chance) || reward.chance < 0 || reward.chance > 1)
+                return false;
             long weight = Math.round(reward.chance * 1_000_000);
             weights.add(weight);
             nativeWeight -= weight;
@@ -61,7 +62,9 @@ public final class SingleRollLootInjector {
         if (nativeWeight > 0)
             for (var element : entries) {
                 var e = element.getAsJsonObject().deepCopy();
-                e.addProperty("weight", (e.has("weight") ? e.get("weight").getAsInt() : 1) * nativeWeight);
+                e.addProperty(
+                        "weight",
+                        (e.has("weight") ? e.get("weight").getAsInt() : 1) * nativeWeight);
                 rebuilt.add(e);
             }
         for (int i = 0; i < rewards.size(); i++)
@@ -77,7 +80,8 @@ public final class SingleRollLootInjector {
                         .name(name)
                         .setRolls(ConstantValue.exactly(1))
                         .setBonusRolls(ConstantValue.exactly(0));
-        for (var element : rebuilt) builder.add(new Loaded(gson.fromJson(element, LootPoolEntryContainer.class)));
+        for (var element : rebuilt)
+            builder.add(new Loaded(gson.fromJson(element, LootPoolEntryContainer.class)));
         LootPool replacement = builder.build();
         table.removePool(pool.get("name").getAsString());
         table.addPool(replacement);

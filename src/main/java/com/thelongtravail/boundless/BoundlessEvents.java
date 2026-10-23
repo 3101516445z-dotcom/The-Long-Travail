@@ -25,23 +25,26 @@ public final class BoundlessEvents {
                 }
                 if (e.getServer().getTickCount() % 20 == 0)
                     com.thelongtravail.network.BoundlessPacket.sendDream(p, DreamState.active(p));
-                if (p.containerMenu != p.inventoryMenu && FrozenContainers.frozen(p.containerMenu)) p.closeContainer();
+                if (p.containerMenu != p.inventoryMenu && FrozenContainers.frozen(p.containerMenu))
+                    p.closeContainer();
             }
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void interact(PlayerInteractEvent e) {
         boolean block =
-                e instanceof PlayerInteractEvent.LeftClickBlock || e instanceof PlayerInteractEvent.RightClickBlock;
+                e instanceof PlayerInteractEvent.LeftClickBlock
+                        || e instanceof PlayerInteractEvent.RightClickBlock;
         if (e.isCancelable()
-                && (TimeStopManager.frozen(e.getEntity()) || block && TimeStopManager.frozen(e.getLevel(), e.getPos())))
+                && (TimeStopManager.frozen(e.getEntity())
+                        || block && TimeStopManager.frozen(e.getLevel(), e.getPos())))
             e.setCanceled(true);
     }
 
     @SubscribeEvent
     public static void spawned(net.minecraftforge.event.entity.EntityJoinLevelEvent e) {
-        if (!(e.getLevel() instanceof net.minecraft.server.level.ServerLevel level) || !TimeStopManager.active(level))
-            return;
+        if (!(e.getLevel() instanceof net.minecraft.server.level.ServerLevel level)
+                || !TimeStopManager.active(level)) return;
         var entity = e.getEntity();
         if (entity instanceof net.minecraft.world.entity.projectile.Projectile
                 || entity instanceof net.minecraft.world.entity.OwnableEntity
@@ -49,7 +52,8 @@ public final class BoundlessEvents {
                 || entity instanceof net.minecraft.world.entity.projectile.EvokerFangs
                 || entity instanceof net.minecraft.world.entity.LightningBolt
                 || entity instanceof net.minecraft.world.entity.player.Player
-                || TimeStopManager.fields(level).stream().anyMatch(f -> f.allies.contains(entity.getUUID())))
+                || TimeStopManager.fields(level).stream()
+                        .anyMatch(f -> f.allies.contains(entity.getUUID())))
             TimeStopManager.get(level).dirty = true;
     }
 
@@ -95,7 +99,10 @@ public final class BoundlessEvents {
                     StarVoiceState.COOLDOWN,
                     StarVoiceState.INTERVAL,
                     StarVoiceState.RECEIVED_INTERVAL
-                }) e.getEntity().getPersistentData().putInt(key, e.getOriginal().getPersistentData().getInt(key));
+                })
+            e.getEntity()
+                    .getPersistentData()
+                    .putInt(key, e.getOriginal().getPersistentData().getInt(key));
     }
 
     @SubscribeEvent

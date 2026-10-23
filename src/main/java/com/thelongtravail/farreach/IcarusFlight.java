@@ -12,7 +12,8 @@ public final class IcarusFlight {
     private IcarusFlight() {}
 
     public static boolean enabled(ItemStack stack) {
-        return stack.is(ModRegistry.ICARUS.get()) && (!stack.hasTag() || !stack.getTag().getBoolean(DISABLED));
+        return stack.is(ModRegistry.ICARUS.get())
+                && (!stack.hasTag() || !stack.getTag().getBoolean(DISABLED));
     }
 
     public static boolean toggle(ItemStack stack) {
@@ -35,7 +36,9 @@ public final class IcarusFlight {
                                                 .anyMatch(
                                                         r ->
                                                                 !r.slotContext().cosmetic()
-                                                                        && r.slotContext().identifier().equals("back")
+                                                                        && r.slotContext()
+                                                                                .identifier()
+                                                                                .equals("back")
                                                                         && enabled(r.stack())))
                         .orElse(false);
     }
@@ -45,7 +48,8 @@ public final class IcarusFlight {
     }
 
     public static ItemStack visibleStack(LivingEntity entity) {
-        if (!(entity instanceof Player player) || !equipped(player) || player.isInvisible()) return ItemStack.EMPTY;
+        if (!(entity instanceof Player player) || !equipped(player) || player.isInvisible())
+            return ItemStack.EMPTY;
         return CuriosApi.getCuriosInventory(player)
                 .map(
                         inv ->
@@ -53,7 +57,9 @@ public final class IcarusFlight {
                                         .filter(
                                                 r ->
                                                         !r.slotContext().cosmetic()
-                                                                && r.slotContext().identifier().equals("back")
+                                                                && r.slotContext()
+                                                                        .identifier()
+                                                                        .equals("back")
                                                                 && r.slotContext().visible()
                                                                 && enabled(r.stack()))
                                         .map(r -> r.stack())

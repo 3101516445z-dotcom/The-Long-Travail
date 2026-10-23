@@ -1,18 +1,18 @@
 # 战利品数据接入说明
 
-适用版本：The Long Travail 0.1.2，Minecraft 1.20.1。
+玩家配置操作见[配置说明](../玩家查阅/configuration-controls.md)。
 
-说明来源表、配置奖励、受限抽样和处决掉落补偿的接入约定。玩家配置操作见[配置说明](../玩家查阅/configuration-controls.md)。
+精粹加入考古、钓鱼宝藏、嗅探兽、村庄英雄赠礼、猪灵交易和猫礼物的原表单轮加权池，保持原奖励相对权重和物品函数，每次只取一个结果。无名称池、多池、多轮或带动态条件／品质的表跳过注入并警告。箱子额外抽取材料池，保留原战利品。
 
-考古、钓鱼宝藏、嗅探兽挖掘、村庄英雄赠礼、猪灵交易和猫的晨间礼物均将精粹作为普通物品条目直接加入原表的单轮加权池。按各来源的目标概率扩大原奖励权重，各原有奖励之间的比例及物品函数保持不变，每次仍只抽取一个结果。若数据包将目标表改为无名称池、多池、多轮或带动态条件／品质的结构，则保留该表、跳过注入并记录警告，避免改变其规则。箱子来源继续额外抽取材料池，保留原有战利品。
-
-箱子与母岩奖励由 `data/the_long_travail/loot_tables/materials/` 下的数据表定义，数据包可覆盖并通过 `/reload` 更新，不使用饰品的 `general.toml` 奖励配置。特殊来源在 `MaterialLoot.SPECIAL_REWARDS` 中直接登记原版表 ID、精粹物品与同池概率。特殊来源应覆盖实际目标表，不能使用不存在的材料子表 ID。JEI 母岩页展示默认规则，不随外部数据包改写自动更新。
+箱子与母岩使用下述材料数据表，可由数据包覆盖并 `/reload`，不走饰品奖励配置。`MaterialLoot.SPECIAL_REWARDS` 登记实际原版表 ID、精粹物品和同池概率，不能填写虚构材料子表。JEI 母岩页仅展示默认规则。
 
 ## 来源与维护位置
 
 - 可配置饰品/道具奖励：`loot/UnifiedLoot` 及 `src/main/resources/the_long_travail/default_loot.json`，按现有 general.toml 配置流程维护。
-- 材料和精粹来源：`loot/MaterialLoot.java` 与 `src/main/resources/data/the_long_travail/loot_tables/materials/`。这一路径独立于 UnifiedLoot，不受饰品奖励的 loot.enabled 控制。
+- 材料和精粹来源：`loot/MaterialLoot.java` 与 `src/main/resources/data/the_long_travail/loot_tables/materials/`。其中材料、精粹及固定考古奖励不受饰品奖励的 `loot.enabled` 控制；完美流体钓鱼是例外，其概率来自 `UnifiedLoot.fluidFishingChance`，受 `loot.enabled` 与 `loot.perfect_fluid.fishingChance` 控制。
 - 注入保留原表，使用唯一池名防重复；材料子表不得再次递归注入。支持数据包覆盖及正常重载，已生成过内容的箱子不会补发。多个奖励属于同一互斥池时不能改成独立池，否则会改变联合概率。
+
+`MaterialLoot.injectSpecial` 还将堂吉诃德加入各考古表，将磷叶石加入稀有古迹废墟表，与精粹共享单轮互斥池。完美流体加入钓鱼宝藏表，配置的无幸运基础概率乘以 20 转为宝藏分支内概率；不能把该换算当作改写数据包后的通用概率公式。新增奖励应合并到同次 `SingleRollLootInjector.inject` 调用，保留整池概率约束。
 
 ## 抽样与注入
 

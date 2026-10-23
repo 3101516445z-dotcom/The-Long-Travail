@@ -14,7 +14,12 @@ import org.spongepowered.asm.mixin.injection.callback.*;
 public abstract class TimeStopFluidMixin {
     @Inject(method = "spreadTo", at = @At("HEAD"), cancellable = true)
     private void travail$spread(
-            LevelAccessor l, BlockPos p, BlockState state, Direction direction, FluidState fluid, CallbackInfo ci) {
+            LevelAccessor l,
+            BlockPos p,
+            BlockState state,
+            Direction direction,
+            FluidState fluid,
+            CallbackInfo ci) {
         if (l instanceof ServerLevel s && TimeStopManager.frozen(s, p)) {
             FrozenBlockTasks.get(s).fluidBoundary(p.relative(direction.getOpposite()), p);
             ci.cancel();
@@ -32,7 +37,8 @@ public abstract class TimeStopFluidMixin {
             FluidState fluid,
             Fluid type,
             CallbackInfoReturnable<Boolean> ci) {
-        if (l instanceof ServerLevel s && (TimeStopManager.frozen(s, from) || TimeStopManager.frozen(s, to))) {
+        if (l instanceof ServerLevel s
+                && (TimeStopManager.frozen(s, from) || TimeStopManager.frozen(s, to))) {
             FrozenBlockTasks.get(s).fluidBoundary(from, to);
             ci.setReturnValue(false);
         }

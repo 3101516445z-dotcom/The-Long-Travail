@@ -60,37 +60,50 @@ public final class TravailClientEvents {
     private static final Set<Integer> consumedKeys = new HashSet<>();
     private static final Set<Integer> consumedButtons = new HashSet<>();
 
-    @Mod.EventBusSubscriber(modid = TheLongTravail.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(
+            modid = TheLongTravail.MODID,
+            value = Dist.CLIENT,
+            bus = Mod.EventBusSubscriber.Bus.MOD)
     public static final class ModBus {
         @SubscribeEvent
         public static void registerEntityRenderers(
                 net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers event) {
             event.registerEntityRenderer(
                     ModRegistry.WAYGUIDE_ENTITY.get(),
-                    context -> new net.minecraft.client.renderer.entity.ThrownItemRenderer<>(context, 1.0F, true));
+                    context ->
+                            new net.minecraft.client.renderer.entity.ThrownItemRenderer<>(
+                                    context, 1.0F, true));
         }
 
         @SubscribeEvent
         public static void setup(net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent event) {
             event.enqueueWork(
                     () -> {
+                        com.thelongtravail.network.PrinceFlightPacket.receiver =
+                                PrinceFlightClient::receive;
                         com.thelongtravail.network.ExecutionTerminationPacket.receiver =
                                 ExecutionTerminationClient::receive;
-                        com.thelongtravail.network.LanternPacket.receiver = LanternLightingClient::receive;
+                        com.thelongtravail.network.LanternPacket.receiver =
+                                LanternLightingClient::receive;
                         com.thelongtravail.network.EffectNotice.receiver = EffectSounds::receive;
-                        com.thelongtravail.network.ItemSoundCue.receiver = DiaryActionSounds::receive;
+                        com.thelongtravail.network.ItemSoundCue.receiver =
+                                DiaryActionSounds::receive;
                         com.thelongtravail.network.StiffPacket.receiver =
                                 packet -> {
                                     var player = Minecraft.getInstance().player;
                                     if (player != null)
-                                        com.thelongtravail.data.StiffState.accept(player, packet.remaining());
+                                        com.thelongtravail.data.StiffState.accept(
+                                                player, packet.remaining());
                                 };
                         com.thelongtravail.network.VisualDeprivationPacket.receiver =
                                 packet -> {
-                                    if (packet.progress()) VisualDeprivationClient.progress(packet.remaining());
+                                    if (packet.progress())
+                                        VisualDeprivationClient.progress(packet.remaining());
                                     else
                                         VisualDeprivationClient.accept(
-                                                packet.remaining(), packet.total(), packet.immediate());
+                                                packet.remaining(),
+                                                packet.total(),
+                                                packet.immediate());
                                 };
                     });
         }
@@ -101,13 +114,17 @@ public final class TravailClientEvents {
         }
 
         @SubscribeEvent
-        public static void registerTooltipComponents(RegisterClientTooltipComponentFactoriesEvent event) {
+        public static void registerTooltipComponents(
+                RegisterClientTooltipComponentFactoriesEvent event) {
             event.register(DiaryProgressTooltip.class, DiaryProgressTooltip.Renderer::new);
             event.register(DiaryHintTooltip.class, DiaryHintTooltip.Renderer::new);
         }
     }
 
-    @Mod.EventBusSubscriber(modid = TheLongTravail.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
+    @Mod.EventBusSubscriber(
+            modid = TheLongTravail.MODID,
+            value = Dist.CLIENT,
+            bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static final class ForgeBus {
         @SubscribeEvent
         public static void tick(net.minecraftforge.event.TickEvent.ClientTickEvent event) {
@@ -118,19 +135,25 @@ public final class TravailClientEvents {
             }
         }
 
-        @SubscribeEvent(priority = net.minecraftforge.eventbus.api.EventPriority.LOWEST, receiveCanceled = true)
-        public static void renderFog(net.minecraftforge.client.event.ViewportEvent.RenderFog event) {
+        @SubscribeEvent(
+                priority = net.minecraftforge.eventbus.api.EventPriority.LOWEST,
+                receiveCanceled = true)
+        public static void renderFog(
+                net.minecraftforge.client.event.ViewportEvent.RenderFog event) {
             VisualDeprivationFog.renderFog(event);
         }
 
         @SubscribeEvent(priority = net.minecraftforge.eventbus.api.EventPriority.LOWEST)
-        public static void fogColor(net.minecraftforge.client.event.ViewportEvent.ComputeFogColor event) {
+        public static void fogColor(
+                net.minecraftforge.client.event.ViewportEvent.ComputeFogColor event) {
             VisualDeprivationFog.color(event);
         }
 
         @SubscribeEvent
-        public static void logout(net.minecraftforge.client.event.ClientPlayerNetworkEvent.LoggingOut event) {
-            if (event.getPlayer() != null) com.thelongtravail.data.StiffState.accept(event.getPlayer(), 0);
+        public static void logout(
+                net.minecraftforge.client.event.ClientPlayerNetworkEvent.LoggingOut event) {
+            if (event.getPlayer() != null)
+                com.thelongtravail.data.StiffState.accept(event.getPlayer(), 0);
             JourneySync.reset();
             DiaryDialogue.clear();
             EffectSounds.clear();
@@ -147,20 +170,25 @@ public final class TravailClientEvents {
         @SubscribeEvent
         public static void tooltipText(ItemTooltipEvent event) {
             if (event.getItemStack().is(ModRegistry.LONG_TRAVAIL.get()))
-                DiaryDialogue.decorate(event.getToolTip(), "tooltip.the_long_travail.dialogue.", 12, true);
+                DiaryDialogue.decorate(
+                        event.getToolTip(), "tooltip.the_long_travail.dialogue.", 10, true);
             else if (event.getItemStack().is(ModRegistry.HOMECOMING.get()))
-                DiaryDialogue.decorate(event.getToolTip(), "tooltip.the_long_travail.homecoming.prose.", 4, false);
+                DiaryDialogue.decorate(
+                        event.getToolTip(), "tooltip.the_long_travail.homecoming.prose.", 4, false);
             else if (event.getItemStack().is(ModRegistry.RENEWAL.get()))
-                DiaryDialogue.decorate(event.getToolTip(), "tooltip.the_long_travail.renewal.prose.", 3, false);
+                DiaryDialogue.decorate(
+                        event.getToolTip(), "tooltip.the_long_travail.renewal.prose.", 3, false);
             else if (event.getItemStack().is(ModRegistry.WAYGUIDE.get()))
-                DiaryDialogue.decorate(event.getToolTip(), "tooltip.the_long_travail.wayguide.", 3, false);
+                DiaryDialogue.decorate(
+                        event.getToolTip(), "tooltip.the_long_travail.wayguide.", 3, false);
 
             if (!event.getItemStack().is(ModRegistry.LONG_TRAVAIL.get())) return;
             event.getToolTip()
                     .replaceAll(
                             line -> {
                                 if (!(line.getContents() instanceof TranslatableContents contents)
-                                        || !contents.getKey().equals("tooltip.the_long_travail.open_diary"))
+                                        || !contents.getKey()
+                                                .equals("tooltip.the_long_travail.open_diary"))
                                     return line;
                                 return Component.translatable(
                                                 "tooltip.the_long_travail.open_diary",
@@ -169,7 +197,9 @@ public final class TravailClientEvents {
                                                         .withStyle(
                                                                 style ->
                                                                         style.withColor(
-                                                                                com.thelongtravail.abyss.RainTooltips
+                                                                                com.thelongtravail
+                                                                                        .abyss
+                                                                                        .RainTooltips
                                                                                         .ACCENT_COLOR)))
                                         .setStyle(line.getStyle());
                             });
@@ -205,7 +235,11 @@ public final class TravailClientEvents {
             event.getGuiGraphics().pose().translate(0, 0, 600);
             renderingReading = true;
             try {
-                reading.render(event.getGuiGraphics(), event.getMouseX(), event.getMouseY(), event.getPartialTick());
+                reading.render(
+                        event.getGuiGraphics(),
+                        event.getMouseX(),
+                        event.getMouseY(),
+                        event.getPartialTick());
             } finally {
                 renderingReading = false;
                 event.getGuiGraphics().pose().popPose();
@@ -218,7 +252,8 @@ public final class TravailClientEvents {
             if (reading != null || mc.screen == null) return;
             hovered =
                     (event.getItemStack().is(ModRegistry.LONG_TRAVAIL.get())
-                                    || com.thelongtravail.client.catalog.CatalogEntries.forStack(event.getItemStack())
+                                    || com.thelongtravail.client.catalog.CatalogEntries.forStack(
+                                                    event.getItemStack())
                                             .isPresent())
                             ? event.getItemStack()
                             : ItemStack.EMPTY;
@@ -226,7 +261,10 @@ public final class TravailClientEvents {
             hoverX = mouseX();
             hoverY = mouseY();
             hoverTime = System.nanoTime();
-            hoveredTarget = hovered.isEmpty() ? null : DiaryReadingTarget.observe(mc.screen, hovered, hoverX, hoverY);
+            hoveredTarget =
+                    hovered.isEmpty()
+                            ? null
+                            : DiaryReadingTarget.observe(mc.screen, hovered, hoverX, hoverY);
             if (!hovered.isEmpty()
                     && ((hovered.is(ModRegistry.LONG_TRAVAIL.get()) && !OPEN_DIARY.isUnbound())
                             || !CatalogSession.OPEN.isUnbound())) {
@@ -256,8 +294,13 @@ public final class TravailClientEvents {
                             elements.set(hintIndices.get(i), Either.right(aligned.get(i)));
                         hintWidth = Math.max(hintWidth, aligned.get(i).width(mc.font));
                     }
-                    double progress = holdScreen == mc.screen && sameHoldTarget() ? holdProgress.fraction() : 0;
-                    elements.add(lastHint + 1, Either.right(new DiaryProgressTooltip(progress, hintWidth)));
+                    double progress =
+                            holdScreen == mc.screen && sameHoldTarget()
+                                    ? holdProgress.fraction()
+                                    : 0;
+                    elements.add(
+                            lastHint + 1,
+                            Either.right(new DiaryProgressTooltip(progress, hintWidth)));
                 }
             }
         }
@@ -269,12 +312,17 @@ public final class TravailClientEvents {
             if (reading != null && owner == event.getScreen()) {
                 event.setCanceled(true);
                 consumedKeys.add(event.getKeyCode());
-                if (firstPress) reading.keyPressed(event.getKeyCode(), event.getScanCode(), event.getModifiers());
+                if (firstPress)
+                    reading.keyPressed(
+                            event.getKeyCode(), event.getScanCode(), event.getModifiers());
             } else if (consumedKeys.contains(event.getKeyCode())) {
                 event.setCanceled(true);
             } else if (firstPress && canRead(event.getScreen()) && !editing(event.getScreen())) {
-                InputConstants.Key key = InputConstants.getKey(event.getKeyCode(), event.getScanCode());
-                boolean diary = hovered.is(ModRegistry.LONG_TRAVAIL.get()) && matchesEntryKey(OPEN_DIARY, key);
+                InputConstants.Key key =
+                        InputConstants.getKey(event.getKeyCode(), event.getScanCode());
+                boolean diary =
+                        hovered.is(ModRegistry.LONG_TRAVAIL.get())
+                                && matchesEntryKey(OPEN_DIARY, key);
                 boolean catalog = matchesEntryKey(CatalogSession.OPEN, key);
                 if (diary || catalog) {
                     beginHold(event.getScreen(), key, diary, catalog);
@@ -307,7 +355,8 @@ public final class TravailClientEvents {
                 reading.mouseClicked(event.getMouseX(), event.getMouseY(), event.getButton());
             } else if (canRead(event.getScreen()) && !editing(event.getScreen())) {
                 boolean diary =
-                        hovered.is(ModRegistry.LONG_TRAVAIL.get()) && OPEN_DIARY.matchesMouse(event.getButton());
+                        hovered.is(ModRegistry.LONG_TRAVAIL.get())
+                                && OPEN_DIARY.matchesMouse(event.getButton());
                 boolean catalog = CatalogSession.OPEN.matchesMouse(event.getButton());
                 if (diary || catalog) {
                     consumedButtons.add(event.getButton());
@@ -326,12 +375,14 @@ public final class TravailClientEvents {
             InputConstants.Key key = InputConstants.Type.MOUSE.getOrCreate(event.getButton());
             diaryInputs.remove(key);
             catalogInputs.remove(key);
-            if (consumedButtons.remove(event.getButton()) || reading != null) event.setCanceled(true);
+            if (consumedButtons.remove(event.getButton()) || reading != null)
+                event.setCanceled(true);
         }
 
         @SubscribeEvent(priority = EventPriority.HIGHEST)
         public static void mouseDragged(ScreenEvent.MouseDragged.Pre event) {
-            if (reading != null || consumedButtons.contains(event.getMouseButton())) event.setCanceled(true);
+            if (reading != null || consumedButtons.contains(event.getMouseButton()))
+                event.setCanceled(true);
         }
 
         @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -357,9 +408,11 @@ public final class TravailClientEvents {
 
     public static Component holdKeyLabel(KeyMapping binding) {
         if (binding.getKeyModifier() == KeyModifier.NONE) {
-            if (binding.getKey().equals(InputConstants.Type.KEYSYM.getOrCreate(GLFW.GLFW_KEY_LEFT_SHIFT)))
+            if (binding.getKey()
+                    .equals(InputConstants.Type.KEYSYM.getOrCreate(GLFW.GLFW_KEY_LEFT_SHIFT)))
                 return Component.literal("Shift");
-            if (binding.getKey().equals(InputConstants.Type.KEYSYM.getOrCreate(GLFW.GLFW_KEY_LEFT_ALT)))
+            if (binding.getKey()
+                    .equals(InputConstants.Type.KEYSYM.getOrCreate(GLFW.GLFW_KEY_LEFT_ALT)))
                 return Component.literal("Alt");
         }
         return binding.getTranslatedKeyMessage();
@@ -367,12 +420,14 @@ public final class TravailClientEvents {
 
     private static boolean matchesEntryKey(KeyMapping binding, InputConstants.Key key) {
         if (binding.isUnbound()) return false;
-        if (binding.getKeyModifier() == KeyModifier.NONE && KeyModifier.isKeyCodeModifier(binding.getKey()))
+        if (binding.getKeyModifier() == KeyModifier.NONE
+                && KeyModifier.isKeyCodeModifier(binding.getKey()))
             return key.equals(binding.getKey()) && binding.getKeyConflictContext().isActive();
         return binding.isActiveAndMatches(key);
     }
 
-    private static void beginHold(Screen screen, InputConstants.Key key, boolean diary, boolean catalog) {
+    private static void beginHold(
+            Screen screen, InputConstants.Key key, boolean diary, boolean catalog) {
         if (holdScreen != screen || !sameHoldTarget()) {
             resetHold();
             holdTarget = new DiaryReadingTarget(hoveredTarget);
@@ -402,13 +457,18 @@ public final class TravailClientEvents {
         double elapsed = Math.min(0.1, (now - holdFrame) / 1_000_000_000.0);
         holdFrame = now;
         boolean valid = canRead(holdScreen) && sameHoldTarget() && !editing(holdScreen);
-        var completed = holdProgress.advance(elapsed, !diaryInputs.isEmpty(), !catalogInputs.isEmpty(), valid);
+        var completed =
+                holdProgress.advance(
+                        elapsed, !diaryInputs.isEmpty(), !catalogInputs.isEmpty(), valid);
         if (completed != null) {
             if (completed == DiaryEntryHold.Entry.DIARY) open(holdScreen);
             else if (hovered.is(ModRegistry.LONG_TRAVAIL.get())) CatalogSession.open(holdScreen);
             else
                 com.thelongtravail.client.catalog.CatalogEntries.forStack(holdTarget.get())
-                        .ifPresent(entry -> CatalogSession.openDetail(holdScreen, entry, holdTarget.get()));
+                        .ifPresent(
+                                entry ->
+                                        CatalogSession.openDetail(
+                                                holdScreen, entry, holdTarget.get()));
             resetHold();
             return;
         }
@@ -437,12 +497,16 @@ public final class TravailClientEvents {
 
     private static double mouseX() {
         Minecraft mc = Minecraft.getInstance();
-        return mc.mouseHandler.xpos() * mc.getWindow().getGuiScaledWidth() / mc.getWindow().getScreenWidth();
+        return mc.mouseHandler.xpos()
+                * mc.getWindow().getGuiScaledWidth()
+                / mc.getWindow().getScreenWidth();
     }
 
     private static double mouseY() {
         Minecraft mc = Minecraft.getInstance();
-        return mc.mouseHandler.ypos() * mc.getWindow().getGuiScaledHeight() / mc.getWindow().getScreenHeight();
+        return mc.mouseHandler.ypos()
+                * mc.getWindow().getGuiScaledHeight()
+                / mc.getWindow().getScreenHeight();
     }
 
     private static void open(Screen screen) {

@@ -88,7 +88,8 @@ public final class MaidAccessoryRuntime {
 
     public static void equipmentChanged(EntityMaid m, ItemStack changed) {
         watch(m);
-        if (changed.is(ModRegistry.DON_QUIXOTE.get())) com.thelongtravail.farreach.DonQuixoteState.forget(m);
+        if (changed.is(ModRegistry.DON_QUIXOTE.get()))
+            com.thelongtravail.farreach.DonQuixoteState.forget(m);
         var s = STATES.get(m);
         if (s != null && changed.is(ModRegistry.AZRAEL.get())) {
             s.armed = false;
@@ -112,7 +113,9 @@ public final class MaidAccessoryRuntime {
     }
 
     public static ItemStack lorentzStack(LivingEntity e) {
-        return e instanceof EntityMaid m ? equipped(m, ModRegistry.LORENTZ_FANTASY.get()) : ItemStack.EMPTY;
+        return e instanceof EntityMaid m
+                ? equipped(m, ModRegistry.LORENTZ_FANTASY.get())
+                : ItemStack.EMPTY;
     }
 
     public static int lorentzPhase(LivingEntity e) {
@@ -162,7 +165,9 @@ public final class MaidAccessoryRuntime {
         var store = MaidAccessoryLedger.get(m.getServer());
         var data =
                 ticks < 0
-                        ? (m.getPersistentData().hasUUID(ID) ? store.find(m.getPersistentData().getUUID(ID)) : null)
+                        ? (m.getPersistentData().hasUUID(ID)
+                                ? store.find(m.getPersistentData().getUUID(ID))
+                                : null)
                         : store.entry(identity(m));
         if (data == null) return 0;
         if (ticks >= 0) {
@@ -201,7 +206,8 @@ public final class MaidAccessoryRuntime {
     }
 
     public static int phosphophyllitePhase(LivingEntity entity) {
-        if (!(entity instanceof EntityMaid maid) || !has(maid, ModRegistry.PHOSPHOPHYLLITE.get())) return 0;
+        if (!(entity instanceof EntityMaid maid) || !has(maid, ModRegistry.PHOSPHOPHYLLITE.get()))
+            return 0;
         return switch (phase(maid, TravailAspect.DEEP_VALLEY)) {
             case MALICE -> 1;
             case WITNESS -> 2;
@@ -256,7 +262,8 @@ public final class MaidAccessoryRuntime {
     }
 
     public static boolean lantern(Entity e) {
-        return e instanceof EntityMaid m && LanternSources.enabled(equipped(m, ModRegistry.SWORD_AND_LANTERN.get()));
+        return e instanceof EntityMaid m
+                && LanternSources.enabled(equipped(m, ModRegistry.SWORD_AND_LANTERN.get()));
     }
 
     public static EntityMaid attacker(Entity source) {
@@ -292,14 +299,16 @@ public final class MaidAccessoryRuntime {
 
     public static Phase eki(EntityMaid m) {
         return has(m, ModRegistry.EKI.get())
-                        && RainState.weather(m, RainConfig.EKI_LOCAL.get(), RainConfig.EKI_SKY.get())
+                        && RainState.weather(
+                                m, RainConfig.EKI_LOCAL.get(), RainConfig.EKI_SKY.get())
                 ? phase(m, TravailAspect.ABYSS)
                 : Phase.INACTIVE;
     }
 
     private static boolean tokaido(EntityMaid m) {
         return has(m, ModRegistry.TOKAIDO.get())
-                && RainState.weather(m, RainConfig.TOKAIDO_LOCAL.get(), RainConfig.TOKAIDO_SKY.get());
+                && RainState.weather(
+                        m, RainConfig.TOKAIDO_LOCAL.get(), RainConfig.TOKAIDO_SKY.get());
     }
 
     public static double bonus(LivingEntity victim, DamageSource source) {
@@ -307,9 +316,12 @@ public final class MaidAccessoryRuntime {
         if (m == null || m == victim || m.level().isClientSide) return 0;
         var crown = crown(m);
         double value = FloralCombat.value(crown, Flower.POPPY);
-        if (m.getHealth() < m.getMaxHealth() * FlourishingItemsConfig.extra(Flower.RED_TULIP, "healthThreshold"))
+        if (m.getHealth()
+                < m.getMaxHealth()
+                        * FlourishingItemsConfig.extra(Flower.RED_TULIP, "healthThreshold"))
             value += FloralCombat.value(crown, Flower.RED_TULIP);
-        if (source.is(DamageTypeTags.IS_PROJECTILE)) value += FloralCombat.value(crown, Flower.CORNFLOWER);
+        if (source.is(DamageTypeTags.IS_PROJECTILE))
+            value += FloralCombat.value(crown, Flower.CORNFLOWER);
         if (sunny(m)) value += FloralCombat.value(crown, Flower.SUNFLOWER);
         if (eki(m) == Phase.MALICE) value += RainConfig.DAMAGE.get();
         if (has(m, ModRegistry.ICARUS.get())) {
@@ -320,11 +332,14 @@ public final class MaidAccessoryRuntime {
                 value +=
                         IcarusEnvironment.sunlight(m.level().getDayTime())
                                 * FarReachItemsConfig.get(
-                                        IcarusEnvironment.sunny(m.level()) && IcarusEnvironment.openSky(m)
+                                        IcarusEnvironment.sunny(m.level())
+                                                        && IcarusEnvironment.openSky(m)
                                                 ? "icarus.sunnyPeak"
                                                 : "icarus.malicePeak");
         }
-        return value + MaidLanternCombat.bonus(m, victim) + com.thelongtravail.abyss.MidnightLafite.bonus(m);
+        return value
+                + MaidLanternCombat.bonus(m, victim)
+                + com.thelongtravail.abyss.MidnightLafite.bonus(m);
     }
 
     public static boolean seesUndead(LivingEntity e) {
@@ -339,23 +354,29 @@ public final class MaidAccessoryRuntime {
                 || !has(m, ModRegistry.THOUSAND_YEARS.get())
                 || phase(m, TravailAspect.UNDERWORLD) != Phase.MALICE) return 0;
         var wither = victim.getEffect(MobEffects.WITHER);
-        return wither == null ? 0 : ((double) wither.getAmplifier() + 1) * UnderworldItemsConfig.WITHER_BONUS.get();
+        return wither == null
+                ? 0
+                : ((double) wither.getAmplifier() + 1) * UnderworldItemsConfig.WITHER_BONUS.get();
     }
 
     public static boolean immune(LivingEntity victim, DamageSource source, float amount) {
         if (!(victim instanceof EntityMaid m) || m.level().isClientSide) return false;
         if (has(m, ModRegistry.ICARUS.get())) {
-            if (source.is(DamageTypeTags.IS_FALL) || source.is(DamageTypes.FLY_INTO_WALL)) return true;
+            if (source.is(DamageTypeTags.IS_FALL) || source.is(DamageTypes.FLY_INTO_WALL))
+                return true;
             if (phase(m, TravailAspect.FAR_REACH) == Phase.WITNESS) {
-                if (source.is(DamageTypes.MAGIC) || source.is(DamageTypes.INDIRECT_MAGIC)) return true;
+                if (source.is(DamageTypes.MAGIC) || source.is(DamageTypes.INDIRECT_MAGIC))
+                    return true;
                 for (String entry : FarReachItemsConfig.EXTRA_IMMUNITIES.get()) {
                     boolean tag = entry.startsWith("#");
                     var id = ResourceLocation.tryParse(tag ? entry.substring(1) : entry);
                     if (id != null
                             && (tag
                                     ? source.is(TagKey.create(Registries.DAMAGE_TYPE, id))
-                                    : source.typeHolder().unwrapKey().map(k -> k.location().equals(id)).orElse(false)))
-                        return true;
+                                    : source.typeHolder()
+                                            .unwrapKey()
+                                            .map(k -> k.location().equals(id))
+                                            .orElse(false))) return true;
                 }
             }
         }
@@ -365,18 +386,27 @@ public final class MaidAccessoryRuntime {
                 && eki(m) == Phase.WITNESS
                 && !RainConfig.IMMUNITY_EXCLUSIONS
                         .get()
-                        .contains(source.typeHolder().unwrapKey().map(k -> k.location().toString()).orElse(""))
+                        .contains(
+                                source.typeHolder()
+                                        .unwrapKey()
+                                        .map(k -> k.location().toString())
+                                        .orElse(""))
                 && m.getRandom().nextDouble() < RainConfig.IMMUNITY.get();
     }
 
-    public static float reduce(LivingEntity victim, DamageSource source, float amount, boolean poison) {
+    public static float reduce(
+            LivingEntity victim, DamageSource source, float amount, boolean poison) {
         if (!(victim instanceof EntityMaid m) || FloralCombat.rose(source)) return amount;
         var crown = crown(m);
         double multiplier = 1;
         if (poison) multiplier *= 1 - FloralCombat.value(crown, Flower.ALLIUM);
-        if (source.is(DamageTypeTags.IS_FALL)) multiplier *= 1 - FloralCombat.value(crown, Flower.AZURE_BLUET);
-        if (source.is(DamageTypeTags.IS_FIRE)) multiplier *= 1 - FloralCombat.value(crown, Flower.TORCHFLOWER);
-        if (m.getHealth() < m.getMaxHealth() * FlourishingItemsConfig.extra(Flower.WHITE_TULIP, "healthThreshold"))
+        if (source.is(DamageTypeTags.IS_FALL))
+            multiplier *= 1 - FloralCombat.value(crown, Flower.AZURE_BLUET);
+        if (source.is(DamageTypeTags.IS_FIRE))
+            multiplier *= 1 - FloralCombat.value(crown, Flower.TORCHFLOWER);
+        if (m.getHealth()
+                < m.getMaxHealth()
+                        * FlourishingItemsConfig.extra(Flower.WHITE_TULIP, "healthThreshold"))
             multiplier *= 1 - FloralCombat.value(crown, Flower.WHITE_TULIP);
         return FloralCombat.safe(amount * multiplier);
     }
@@ -384,7 +414,10 @@ public final class MaidAccessoryRuntime {
     private static State state(EntityMaid m) {
         watch(m);
         var s = STATES.get(m);
-        var phase = has(m, ModRegistry.AZRAEL.get()) ? phase(m, TravailAspect.DEEP_VALLEY) : Phase.INACTIVE;
+        var phase =
+                has(m, ModRegistry.AZRAEL.get())
+                        ? phase(m, TravailAspect.DEEP_VALLEY)
+                        : Phase.INACTIVE;
         boolean changedOwner = !Objects.equals(s.owner, m.getOwnerUUID());
         if (phase != s.azrael || changedOwner) {
             s.armed = false;
@@ -399,7 +432,8 @@ public final class MaidAccessoryRuntime {
     public static void received(LivingEntity victim, DamageSource source) {
         var cause = attacker(source);
         if (victim instanceof EntityMaid m) {
-            Entity entity = source.getEntity() != null ? source.getEntity() : source.getDirectEntity();
+            Entity entity =
+                    source.getEntity() != null ? source.getEntity() : source.getDirectEntity();
             if (entity != null && entity != m && cause != m) {
                 var s = state(m);
                 if (s.azrael == Phase.MALICE) s.armed = true;
@@ -432,7 +466,9 @@ public final class MaidAccessoryRuntime {
         if (s.azrael == Phase.WITNESS)
             outcome =
                     AzraelState.witnessOutcome(
-                            m.getRandom().nextDouble(), AzraelConfig.TARGET.get(), AzraelConfig.SELF.get());
+                            m.getRandom().nextDouble(),
+                            AzraelConfig.TARGET.get(),
+                            AzraelConfig.SELF.get());
         else if (s.azrael == Phase.MALICE && s.armed) {
             s.armed = false;
             outcome = m.getRandom().nextDouble() < AzraelConfig.MALICE.get() ? 1 : 0;
@@ -466,10 +502,12 @@ public final class MaidAccessoryRuntime {
         if (!witness && tag.getInt("StarReceivedInterval") > 0) return;
         tag.putInt(
                 witness ? "StarInterval" : "StarReceivedInterval",
-                BoundlessItemsConfig.ticks(witness ? "star.witnessInterval" : "star.maliceInterval"));
+                BoundlessItemsConfig.ticks(
+                        witness ? "star.witnessInterval" : "star.maliceInterval"));
         MaidAccessoryLedger.get(m.getServer()).setDirty();
         if (m.getRandom().nextDouble()
-                >= BoundlessItemsConfig.get(witness ? "star.witnessChance" : "star.maliceChance")) return;
+                >= BoundlessItemsConfig.get(witness ? "star.witnessChance" : "star.maliceChance"))
+            return;
         var p = owner(m);
         if (p == null) return;
         var snapshot = TimeStopExemptions.snapshot(p);
@@ -483,7 +521,8 @@ public final class MaidAccessoryRuntime {
                         m.level().getGameTime(),
                         m.position(),
                         BoundlessItemsConfig.get("star.radius"),
-                        BoundlessItemsConfig.ticks(witness ? "star.witnessDuration" : "star.maliceDuration"),
+                        BoundlessItemsConfig.ticks(
+                                witness ? "star.witnessDuration" : "star.maliceDuration"),
                         allies);
     }
 
@@ -519,33 +558,44 @@ public final class MaidAccessoryRuntime {
                                 defender);
                 other.hurt(
                         damage,
-                        FloralCombat.safe(defender.getMaxHealth() * FlourishingItemsConfig.value(Flower.ROSE_BUSH)));
+                        FloralCombat.safe(
+                                defender.getMaxHealth()
+                                        * FlourishingItemsConfig.value(Flower.ROSE_BUSH)));
             }
         }
     }
 
     private static boolean ready(long now, long last, Flower flower) {
         return last == Long.MIN_VALUE
-                || now - last >= FlourishingItemsConfig.ticks(FlourishingItemsConfig.extra(flower, "cooldownSeconds"));
+                || now - last
+                        >= FlourishingItemsConfig.ticks(
+                                FlourishingItemsConfig.extra(flower, "cooldownSeconds"));
     }
 
     private static void apply(EntityMaid m, LivingEntity victim, Flower flower, MobEffect effect) {
-        if (!ModeEffectRules.FLOWER_EFFECTS.applies(victim) || !FlowerData.active(crown(m), flower)) return;
+        if (!ModeEffectRules.FLOWER_EFFECTS.applies(victim) || !FlowerData.active(crown(m), flower))
+            return;
         long now = m.level().getGameTime();
         var times = EFFECT_TIMES.computeIfAbsent(victim, k -> new HashMap<>());
         times.entrySet().removeIf(e -> e.getValue() <= now);
         String key = identity(m) + ":" + flower.id;
         if (times.containsKey(key) || times.size() >= 256) return;
-        times.put(key, now + FlourishingItemsConfig.ticks(FlourishingItemsConfig.extra(flower, "cooldownSeconds")));
+        times.put(
+                key,
+                now
+                        + FlourishingItemsConfig.ticks(
+                                FlourishingItemsConfig.extra(flower, "cooldownSeconds")));
         victim.addEffect(
                 new MobEffectInstance(
                         effect,
-                        FlourishingItemsConfig.ticks(FlourishingItemsConfig.extra(flower, "durationSeconds")),
+                        FlourishingItemsConfig.ticks(
+                                FlourishingItemsConfig.extra(flower, "durationSeconds")),
                         (int) FlourishingItemsConfig.value(flower) - 1),
                 m);
     }
 
-    public static MobEffectInstance extend(LivingEntity target, MobEffectInstance effect, Entity source) {
+    public static MobEffectInstance extend(
+            LivingEntity target, MobEffectInstance effect, Entity source) {
         var m = attacker(source);
         if (m == null
                 || target.level().isClientSide
@@ -560,7 +610,11 @@ public final class MaidAccessoryRuntime {
         if (value <= 0) return effect;
         var copy = new MobEffectInstance(effect);
         ((com.thelongtravail.mixin.EffectDurationAccessor) copy)
-                .travail$duration((int) Math.min(Integer.MAX_VALUE, Math.ceil(effect.getDuration() * (1 + value))));
+                .travail$duration(
+                        (int)
+                                Math.min(
+                                        Integer.MAX_VALUE,
+                                        Math.ceil(effect.getDuration() * (1 + value))));
         return copy;
     }
 
@@ -573,7 +627,10 @@ public final class MaidAccessoryRuntime {
         if (value > 0)
             instance.addTransientModifier(
                     new AttributeModifier(
-                            id, "Travail maid bauble", value, AttributeModifier.Operation.MULTIPLY_TOTAL));
+                            id,
+                            "Travail maid bauble",
+                            value,
+                            AttributeModifier.Operation.MULTIPLY_TOTAL));
         if (attribute == Attributes.MAX_HEALTH && old != null)
             com.thelongtravail.compat.maidspell.MaidSpellHealth.clampAfterModifierRemoval(m);
     }
@@ -589,8 +646,10 @@ public final class MaidAccessoryRuntime {
         var crown = crown(m);
         com.thelongtravail.flourishing.FloralPassives.tick(m, crown);
         attribute(m, Attributes.MAX_HEALTH, HEALTH, FloralCombat.value(crown, Flower.PEONY));
-        attribute(m, Attributes.ATTACK_SPEED, ATTACK, FloralCombat.value(crown, Flower.ORANGE_TULIP));
-        attribute(m, ForgeMod.SWIM_SPEED.get(), SWIM, FloralCombat.value(crown, Flower.BLUE_ORCHID));
+        attribute(
+                m, Attributes.ATTACK_SPEED, ATTACK, FloralCombat.value(crown, Flower.ORANGE_TULIP));
+        attribute(
+                m, ForgeMod.SWIM_SPEED.get(), SWIM, FloralCombat.value(crown, Flower.BLUE_ORCHID));
         attribute(
                 m,
                 Attributes.MOVEMENT_SPEED,
@@ -599,18 +658,25 @@ public final class MaidAccessoryRuntime {
                         + (FlowerData.active(crown, Flower.SUNFLOWER) && sunny(m)
                                 ? FlourishingItemsConfig.extra(Flower.SUNFLOWER, "speedBonus")
                                 : 0));
-        attribute(m, Attributes.MOVEMENT_SPEED, EKI_SPEED, eki(m) == Phase.MALICE ? RainConfig.SPEED.get() : 0);
+        attribute(
+                m,
+                Attributes.MOVEMENT_SPEED,
+                EKI_SPEED,
+                eki(m) == Phase.MALICE ? RainConfig.SPEED.get() : 0);
         if (!has(m, ModRegistry.SWORD_AND_LANTERN.get())) MaidLanternCombat.forget(m);
         else
-            for (var effect : new MobEffect[] {MobEffects.BLINDNESS, MobEffects.DARKNESS, MobEffects.CONFUSION})
-                if (m.hasEffect(effect)) m.removeEffect(effect);
+            for (var effect :
+                    new MobEffect[] {
+                        MobEffects.BLINDNESS, MobEffects.DARKNESS, MobEffects.CONFUSION
+                    }) if (m.hasEffect(effect)) m.removeEffect(effect);
         if (TimeStopManager.frozen(m)) return;
         if (FlowerData.active(crown, Flower.OXEYE_DAISY)) {
             if (++s.heal
                     >= FlourishingItemsConfig.ticks(
                             FlourishingItemsConfig.extra(Flower.OXEYE_DAISY, "intervalSeconds"))) {
                 s.heal = 0;
-                if (m.getHealth() < m.getMaxHealth()) m.heal((float) FlourishingItemsConfig.value(Flower.OXEYE_DAISY));
+                if (m.getHealth() < m.getMaxHealth())
+                    m.heal((float) FlourishingItemsConfig.value(Flower.OXEYE_DAISY));
             }
         } else s.heal = 0;
         if (tokaido(m)) {
@@ -641,15 +707,19 @@ public final class MaidAccessoryRuntime {
         if (dirty) cooldownLedger.setDirty();
     }
 
-    private static List<SyncBaubleMessage> lanternChanges(EntityMaid m, CompoundTag previous, CompoundTag current) {
+    private static List<SyncBaubleMessage> lanternChanges(
+            EntityMaid m, CompoundTag previous, CompoundTag current) {
         return MaidBaubleSync.changes(m, previous, current);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void denyCurios(CurioEquipEvent e) {
         if (e.getEntity() instanceof EntityMaid
-                && "the_long_travail".equals(ForgeRegistries.ITEMS.getKey(e.getStack().getItem()).getNamespace()))
-            e.setResult(Event.Result.DENY);
+                && "the_long_travail"
+                        .equals(
+                                ForgeRegistries.ITEMS
+                                        .getKey(e.getStack().getItem())
+                                        .getNamespace())) e.setResult(Event.Result.DENY);
     }
 
     @SubscribeEvent
@@ -684,15 +754,18 @@ public final class MaidAccessoryRuntime {
     @SubscribeEvent
     public void heal(LivingHealEvent e) {
         if (e.getEntity() instanceof EntityMaid m && !m.level().isClientSide && e.getAmount() > 0)
-            e.setAmount(FloralCombat.safe(e.getAmount() * (1 + FloralCombat.value(crown(m), Flower.PINK_TULIP))));
+            e.setAmount(
+                    FloralCombat.safe(
+                            e.getAmount() * (1 + FloralCombat.value(crown(m), Flower.PINK_TULIP))));
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void effect(MobEffectEvent.Applicable e) {
         if (e.getEntity() instanceof EntityMaid m && has(m, ModRegistry.SWORD_AND_LANTERN.get())) {
             var effect = e.getEffectInstance().getEffect();
-            if (effect == MobEffects.DARKNESS || effect == MobEffects.BLINDNESS || effect == MobEffects.CONFUSION)
-                e.setResult(Event.Result.DENY);
+            if (effect == MobEffects.DARKNESS
+                    || effect == MobEffects.BLINDNESS
+                    || effect == MobEffects.CONFUSION) e.setResult(Event.Result.DENY);
         }
     }
 
@@ -705,7 +778,8 @@ public final class MaidAccessoryRuntime {
         if (value <= 0) return;
         PENDING.add(
                 () -> {
-                    if (e.isCanceled() || e.getEntity().isAlive() || !m.isAlive() || m.isRemoved()) return;
+                    if (e.isCanceled() || e.getEntity().isAlive() || !m.isAlive() || m.isRemoved())
+                        return;
                     var s = state(m);
                     long now = m.level().getGameTime();
                     if (ready(now, s.kill, Flower.PITCHER_PLANT)) {

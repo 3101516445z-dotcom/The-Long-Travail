@@ -33,9 +33,19 @@ public final class FrozenBlockTasks extends SavedData {
     }
 
     private record Task(
-            boolean fluid, ResourceLocation type, BlockPos pos, long remaining, TickPriority priority, long order) {}
+            boolean fluid,
+            ResourceLocation type,
+            BlockPos pos,
+            long remaining,
+            TickPriority priority,
+            long order) {}
 
-    private record Shape(net.minecraft.core.Direction face, BlockPos pos, BlockPos source, int flags, int recursion) {}
+    private record Shape(
+            net.minecraft.core.Direction face,
+            BlockPos pos,
+            BlockPos source,
+            int flags,
+            int recursion) {}
 
     private final IndexedFrozenQueue<ShapeKey, Shape> shapes =
             new IndexedFrozenQueue<>(t -> Set.of(ChunkPos.asLong(t.pos)));
@@ -44,7 +54,8 @@ public final class FrozenBlockTasks extends SavedData {
 
     private final IndexedFrozenQueue<EdgeKey, FluidEdge> fluidEdges =
             new IndexedFrozenQueue<>(
-                    t -> new HashSet<>(List.of(ChunkPos.asLong(t.from), ChunkPos.asLong(t.to))), (old, newer) -> old);
+                    t -> new HashSet<>(List.of(ChunkPos.asLong(t.from), ChunkPos.asLong(t.to))),
+                    (old, newer) -> old);
 
     private record Neighbor(
             BlockPos pos,
@@ -60,7 +71,8 @@ public final class FrozenBlockTasks extends SavedData {
 
     public static FrozenBlockTasks get(ServerLevel l) {
         return l.getDataStorage()
-                .computeIfAbsent(FrozenBlockTasks::load, FrozenBlockTasks::new, "travail_frozen_tasks");
+                .computeIfAbsent(
+                        FrozenBlockTasks::load, FrozenBlockTasks::new, "travail_frozen_tasks");
     }
 
     private static TaskKey key(boolean fluid, ResourceLocation type, BlockPos p) {
@@ -71,8 +83,10 @@ public final class FrozenBlockTasks extends SavedData {
         if (!TimeStopManager.frozen(l, tick.pos())) return false;
         ResourceLocation id =
                 fluid
-                        ? BuiltInRegistries.FLUID.getKey((net.minecraft.world.level.material.Fluid) tick.type())
-                        : BuiltInRegistries.BLOCK.getKey((net.minecraft.world.level.block.Block) tick.type());
+                        ? BuiltInRegistries.FLUID.getKey(
+                                (net.minecraft.world.level.material.Fluid) tick.type())
+                        : BuiltInRegistries.BLOCK.getKey(
+                                (net.minecraft.world.level.block.Block) tick.type());
         TaskKey taskKey = key(fluid, id, tick.pos());
         if (!tasks.containsKey(taskKey))
             tasks.put(
@@ -91,8 +105,10 @@ public final class FrozenBlockTasks extends SavedData {
     public boolean held(BlockPos p, Object type, boolean fluid) {
         ResourceLocation id =
                 fluid
-                        ? BuiltInRegistries.FLUID.getKey((net.minecraft.world.level.material.Fluid) type)
-                        : BuiltInRegistries.BLOCK.getKey((net.minecraft.world.level.block.Block) type);
+                        ? BuiltInRegistries.FLUID.getKey(
+                                (net.minecraft.world.level.material.Fluid) type)
+                        : BuiltInRegistries.BLOCK.getKey(
+                                (net.minecraft.world.level.block.Block) type);
         return tasks.containsKey(key(fluid, id, p));
     }
 
@@ -128,8 +144,15 @@ public final class FrozenBlockTasks extends SavedData {
         }
     }
 
-    public void neighbor(ServerLevel l, BlockPos p, net.minecraft.world.level.block.Block b, BlockPos from) {
-        Neighbor n = new Neighbor(p.immutable(), from.immutable(), BuiltInRegistries.BLOCK.getKey(b), null, false);
+    public void neighbor(
+            ServerLevel l, BlockPos p, net.minecraft.world.level.block.Block b, BlockPos from) {
+        Neighbor n =
+                new Neighbor(
+                        p.immutable(),
+                        from.immutable(),
+                        BuiltInRegistries.BLOCK.getKey(b),
+                        null,
+                        false);
         neighbors.put(new NeighborKey(p.asLong(), from.asLong(), n.block), n);
         setDirty();
     }
@@ -141,12 +164,22 @@ public final class FrozenBlockTasks extends SavedData {
             BlockPos from,
             boolean moving) {
         Neighbor n =
-                new Neighbor(p.immutable(), from.immutable(), BuiltInRegistries.BLOCK.getKey(block), state, moving);
+                new Neighbor(
+                        p.immutable(),
+                        from.immutable(),
+                        BuiltInRegistries.BLOCK.getKey(block),
+                        state,
+                        moving);
         neighbors.put(new NeighborKey(p.asLong(), from.asLong(), n.block), n);
         setDirty();
     }
 
-    public void shape(net.minecraft.core.Direction face, BlockPos pos, BlockPos source, int flags, int recursion) {
+    public void shape(
+            net.minecraft.core.Direction face,
+            BlockPos pos,
+            BlockPos source,
+            int flags,
+            int recursion) {
         shapes.put(
                 new ShapeKey(pos.asLong(), face),
                 new Shape(face, pos.immutable(), source.immutable(), flags, recursion));
@@ -155,7 +188,8 @@ public final class FrozenBlockTasks extends SavedData {
 
     public void fluidBoundary(BlockPos from, BlockPos to) {
         EdgeKey edgeKey = new EdgeKey(from.asLong(), to.asLong());
-        if (!fluidEdges.containsKey(edgeKey)) fluidEdges.put(edgeKey, new FluidEdge(from.immutable(), to.immutable()));
+        if (!fluidEdges.containsKey(edgeKey))
+            fluidEdges.put(edgeKey, new FluidEdge(from.immutable(), to.immutable()));
         setDirty();
     }
 
@@ -179,7 +213,8 @@ public final class FrozenBlockTasks extends SavedData {
         Set<Long> loadedChunks = new HashSet<>();
         waitingChunks.removeIf(
                 chunk -> {
-                    if (!level.hasChunkAt(new BlockPos(ChunkPos.getX(chunk) << 4, 0, ChunkPos.getZ(chunk) << 4)))
+                    if (!level.hasChunkAt(
+                            new BlockPos(ChunkPos.getX(chunk) << 4, 0, ChunkPos.getZ(chunk) << 4)))
                         return false;
                     loadedChunks.add(chunk);
                     return true;
@@ -199,7 +234,8 @@ public final class FrozenBlockTasks extends SavedData {
     }
 
     private void releaseTasks(ServerLevel level) {
-        var ready = tasks.release(t -> !TimeStopManager.frozen(level, t.pos) && loaded(level, t.pos));
+        var ready =
+                tasks.release(t -> !TimeStopManager.frozen(level, t.pos) && loaded(level, t.pos));
         if (!ready.isEmpty()) setDirty();
         Counter.RELEASE_TASKS.add(ready.size());
         ready.execute(
@@ -239,12 +275,14 @@ public final class FrozenBlockTasks extends SavedData {
                 edge -> {
                     var state = level.getFluidState(edge.from);
                     if (!state.isEmpty())
-                        level.scheduleTick(edge.from, state.getType(), state.getType().getTickDelay(level));
+                        level.scheduleTick(
+                                edge.from, state.getType(), state.getType().getTickDelay(level));
                 });
     }
 
     private void releaseShapes(ServerLevel level) {
-        var ready = shapes.release(t -> !TimeStopManager.frozen(level, t.pos) && loaded(level, t.pos));
+        var ready =
+                shapes.release(t -> !TimeStopManager.frozen(level, t.pos) && loaded(level, t.pos));
         if (!ready.isEmpty()) setDirty();
         Counter.RELEASE_SHAPES.add(ready.size());
         ready.execute(
@@ -259,14 +297,18 @@ public final class FrozenBlockTasks extends SavedData {
     }
 
     private void releaseNeighbors(ServerLevel level) {
-        var ready = neighbors.release(t -> !TimeStopManager.frozen(level, t.pos) && loaded(level, t.pos));
+        var ready =
+                neighbors.release(
+                        t -> !TimeStopManager.frozen(level, t.pos) && loaded(level, t.pos));
         if (!ready.isEmpty()) setDirty();
         Counter.RELEASE_NEIGHBORS.add(ready.size());
         ready.execute(
                 neighbor -> {
                     if (neighbor.state == null)
                         level.neighborChanged(
-                                neighbor.pos, BuiltInRegistries.BLOCK.get(neighbor.block), neighbor.source);
+                                neighbor.pos,
+                                BuiltInRegistries.BLOCK.get(neighbor.block),
+                                neighbor.source);
                     else
                         level.neighborChanged(
                                 neighbor.state,
@@ -349,11 +391,14 @@ public final class FrozenBlockTasks extends SavedData {
                             new ResourceLocation(tag.getString("block")),
                             tag.contains("state", Tag.TAG_COMPOUND)
                                     ? NbtUtils.readBlockState(
-                                            BuiltInRegistries.BLOCK.asLookup(), tag.getCompound("state"))
+                                            BuiltInRegistries.BLOCK.asLookup(),
+                                            tag.getCompound("state"))
                                     : null,
                             tag.getBoolean("moving"));
             out.neighbors.put(
-                    new NeighborKey(neighbor.pos.asLong(), neighbor.source.asLong(), neighbor.block), neighbor);
+                    new NeighborKey(
+                            neighbor.pos.asLong(), neighbor.source.asLong(), neighbor.block),
+                    neighbor);
         }
         for (Tag raw : root.getList("shapes", Tag.TAG_COMPOUND)) {
             CompoundTag tag = (CompoundTag) raw;
@@ -368,7 +413,8 @@ public final class FrozenBlockTasks extends SavedData {
         }
         for (Tag raw : root.getList("fluidEdges", Tag.TAG_COMPOUND)) {
             CompoundTag tag = (CompoundTag) raw;
-            FluidEdge edge = new FluidEdge(BlockPos.of(tag.getLong("from")), BlockPos.of(tag.getLong("to")));
+            FluidEdge edge =
+                    new FluidEdge(BlockPos.of(tag.getLong("from")), BlockPos.of(tag.getLong("to")));
             out.fluidEdges.put(new EdgeKey(edge.from.asLong(), edge.to.asLong()), edge);
         }
         return out;

@@ -10,7 +10,8 @@ public final class TravailAdvancements {
 
     public static void onDiaryEquipped(ServerPlayer player) {
         var advancement = player.server.getAdvancements().getAdvancement(ROOT);
-        if (advancement != null && !player.getAdvancements().getOrStartProgress(advancement).isDone()) {
+        if (advancement != null
+                && !player.getAdvancements().getOrStartProgress(advancement).isDone()) {
             player.getAdvancements().award(advancement, "wear_long_travail");
         }
     }

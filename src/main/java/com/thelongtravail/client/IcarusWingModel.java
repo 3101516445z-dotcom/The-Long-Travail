@@ -21,10 +21,15 @@ public final class IcarusWingModel<T extends LivingEntity> extends ElytraModel<T
         super(root);
         left = root.getChild("left_wing");
         right = root.getChild("right_wing");
-        try (var stream = Minecraft.getInstance().getResourceManager().getResourceOrThrow(texture).open();
+        try (var stream =
+                        Minecraft.getInstance()
+                                .getResourceManager()
+                                .getResourceOrThrow(texture)
+                                .open();
                 var pixels = NativeImage.read(stream)) {
             for (int y = 0; y < 20; y++)
-                for (int x = 0; x < 10; x++) solid[y][x] = ((pixels.getPixelRGBA(36 + x, 2 + y) >>> 24) & 255) > 0;
+                for (int x = 0; x < 10; x++)
+                    solid[y][x] = ((pixels.getPixelRGBA(36 + x, 2 + y) >>> 24) & 255) > 0;
         } catch (java.io.IOException e) {
             throw new IllegalStateException("Cannot load Icarus wing outline", e);
         }
@@ -36,7 +41,14 @@ public final class IcarusWingModel<T extends LivingEntity> extends ElytraModel<T
 
     @Override
     public void renderToBuffer(
-            PoseStack pose, VertexConsumer out, int light, int overlay, float r, float g, float b, float a) {
+            PoseStack pose,
+            VertexConsumer out,
+            int light,
+            int overlay,
+            float r,
+            float g,
+            float b,
+            float a) {
         wing(pose, out, left, false, light, overlay, r, g, b, a);
         wing(pose, out, right, true, light, overlay, r, g, b, a);
     }
@@ -60,27 +72,27 @@ public final class IcarusWingModel<T extends LivingEntity> extends ElytraModel<T
                     float x0 = x - 10, x1 = x0 + 1, y0 = y, y1 = y + 1, z0 = 0, z1 = .5F;
                     float u = (36 + x + .5F) / 64F, v = (2 + y + .5F) / 32F;
                     quad(
-                            pose, out, mirror, light, overlay, r, g, b, a, u, v, 0, 0, -1, x0, y0, z0, x0, y1, z0, x1,
-                            y1, z0, x1, y0, z0);
+                            pose, out, mirror, light, overlay, r, g, b, a, u, v, 0, 0, -1, x0, y0,
+                            z0, x0, y1, z0, x1, y1, z0, x1, y0, z0);
                     quad(
-                            pose, out, mirror, light, overlay, r, g, b, a, u, v, 0, 0, 1, x1, y0, z1, x1, y1, z1, x0,
-                            y1, z1, x0, y0, z1);
+                            pose, out, mirror, light, overlay, r, g, b, a, u, v, 0, 0, 1, x1, y0,
+                            z1, x1, y1, z1, x0, y1, z1, x0, y0, z1);
                     if (!filled(x - 1, y))
                         quad(
-                                pose, out, mirror, light, overlay, r, g, b, a, u, v, -1, 0, 0, x0, y0, z1, x0, y1, z1,
-                                x0, y1, z0, x0, y0, z0);
+                                pose, out, mirror, light, overlay, r, g, b, a, u, v, -1, 0, 0, x0,
+                                y0, z1, x0, y1, z1, x0, y1, z0, x0, y0, z0);
                     if (!filled(x + 1, y))
                         quad(
-                                pose, out, mirror, light, overlay, r, g, b, a, u, v, 1, 0, 0, x1, y0, z0, x1, y1, z0,
-                                x1, y1, z1, x1, y0, z1);
+                                pose, out, mirror, light, overlay, r, g, b, a, u, v, 1, 0, 0, x1,
+                                y0, z0, x1, y1, z0, x1, y1, z1, x1, y0, z1);
                     if (!filled(x, y - 1))
                         quad(
-                                pose, out, mirror, light, overlay, r, g, b, a, u, v, 0, -1, 0, x0, y0, z1, x0, y0, z0,
-                                x1, y0, z0, x1, y0, z1);
+                                pose, out, mirror, light, overlay, r, g, b, a, u, v, 0, -1, 0, x0,
+                                y0, z1, x0, y0, z0, x1, y0, z0, x1, y0, z1);
                     if (!filled(x, y + 1))
                         quad(
-                                pose, out, mirror, light, overlay, r, g, b, a, u, v, 0, 1, 0, x0, y1, z0, x0, y1, z1,
-                                x1, y1, z1, x1, y1, z0);
+                                pose, out, mirror, light, overlay, r, g, b, a, u, v, 0, 1, 0, x0,
+                                y1, z0, x0, y1, z1, x1, y1, z1, x1, y1, z0);
                 }
         pose.popPose();
     }
@@ -104,7 +116,11 @@ public final class IcarusWingModel<T extends LivingEntity> extends ElytraModel<T
         var p = pose.last();
         for (int i = 0; i < 4; i++) {
             int j = (mirror ? 3 - i : i) * 3;
-            out.vertex(p.pose(), (mirror ? -xyz[j] : xyz[j]) / 16F, xyz[j + 1] / 16F, xyz[j + 2] / 16F)
+            out.vertex(
+                            p.pose(),
+                            (mirror ? -xyz[j] : xyz[j]) / 16F,
+                            xyz[j + 1] / 16F,
+                            xyz[j + 2] / 16F)
                     .color(r, g, b, a)
                     .uv(u, v)
                     .overlayCoords(overlay)

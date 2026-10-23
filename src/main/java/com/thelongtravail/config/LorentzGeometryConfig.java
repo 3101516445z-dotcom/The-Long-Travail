@@ -15,7 +15,9 @@ public final class LorentzGeometryConfig {
                                 List.of(),
                                 v ->
                                         v instanceof String s
-                                                && net.minecraft.resources.ResourceLocation.tryParse(s) != null);
+                                                && net.minecraft.resources.ResourceLocation
+                                                                .tryParse(s)
+                                                        != null);
     }
 
     private LorentzGeometryConfig() {}

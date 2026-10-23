@@ -13,21 +13,31 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class PlayerCombatMixin {
     @WrapOperation(
             method = "actuallyHurt",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;setAbsorptionAmount(F)V"))
+            at =
+                    @At(
+                            value = "INVOKE",
+                            target =
+                                    "Lnet/minecraft/world/entity/player/Player;setAbsorptionAmount(F)V"))
     private void travail$finiteExecutionAbsorption(
-            Player player, float absorption, Operation<Void> original, DamageSource source, float amount) {
+            Player player,
+            float absorption,
+            Operation<Void> original,
+            DamageSource source,
+            float amount) {
         float before = player.getAbsorptionAmount();
         if (!com.thelongtravail.farreach.DonQuixoteCombat.secondary(source))
             original.call(
                     player,
-                    com.thelongtravail.valley.AzraelExecution.matches(player, source) && !Float.isFinite(absorption)
+                    com.thelongtravail.valley.AzraelExecution.matches(player, source)
+                                    && !Float.isFinite(absorption)
                             ? 0F
                             : absorption);
         CombatContext.recordAbsorptionLoss(player, before, player.getAbsorptionAmount());
     }
 
     @WrapMethod(method = "hurt")
-    private boolean travail$damageScope(DamageSource source, float amount, Operation<Boolean> original) {
+    private boolean travail$damageScope(
+            DamageSource source, float amount, Operation<Boolean> original) {
         Player target = (Player) (Object) this;
         if (target.level().isClientSide) return original.call(source, amount);
         if (!CombatContext.acceptsInput(target, source, amount)) return false;
@@ -42,8 +52,12 @@ public abstract class PlayerCombatMixin {
 
     @WrapOperation(
             method = "actuallyHurt",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;setHealth(F)V"))
-    private void travail$recordCommittedDamage(Player target, float health, Operation<Void> original) {
+            at =
+                    @At(
+                            value = "INVOKE",
+                            target = "Lnet/minecraft/world/entity/player/Player;setHealth(F)V"))
+    private void travail$recordCommittedDamage(
+            Player target, float health, Operation<Void> original) {
         float before = target.getHealth();
         if (target instanceof net.minecraft.server.level.ServerPlayer sp)
             com.thelongtravail.underworld.BookRevival.damage(sp, before - health);

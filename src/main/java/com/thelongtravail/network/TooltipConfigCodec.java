@@ -25,7 +25,8 @@ public final class TooltipConfigCodec {
 
     private static int size(int value, int maximum, String label) {
         if (value < 0 || value > maximum)
-            throw new IllegalArgumentException("Tooltip config " + label + " outside 0.." + maximum + ": " + value);
+            throw new IllegalArgumentException(
+                    "Tooltip config " + label + " outside 0.." + maximum + ": " + value);
         return value;
     }
 
@@ -87,14 +88,16 @@ public final class TooltipConfigCodec {
         Map<String, List<String>> pools = new LinkedHashMap<>();
         for (int i = 0; i < poolCount; i++) {
             String key = buffer.readUtf(MAX_KEY);
-            if (pools.containsKey(key)) throw new IllegalArgumentException("Duplicate tooltip pool: " + key);
+            if (pools.containsKey(key))
+                throw new IllegalArgumentException("Duplicate tooltip pool: " + key);
             int entries = size(buffer.readVarInt(), MAX_ENTRIES, key + " entries");
             total = size(total + entries, MAX_TOTAL_ENTRIES, "total entries");
             List<String> list = new ArrayList<>(entries);
             for (int j = 0; j < entries; j++) list.add(buffer.readUtf(MAX_ENTRY));
             pools.put(key, list);
         }
-        if (buffer.isReadable()) throw new IllegalArgumentException("Trailing tooltip config bytes");
+        if (buffer.isReadable())
+            throw new IllegalArgumentException("Trailing tooltip config bytes");
         return new Snapshot(values, pools);
     }
 

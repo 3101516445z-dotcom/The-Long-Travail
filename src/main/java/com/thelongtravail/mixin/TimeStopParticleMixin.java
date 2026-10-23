@@ -11,7 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class TimeStopParticleMixin {
     @Inject(method = "tickParticle", at = @At("HEAD"), cancellable = true)
     private void travail$particle(Particle p, CallbackInfo ci) {
-        if (TimeStopClient.fields.isEmpty() || !TimeStopClient.valid(Minecraft.getInstance().level)) return;
+        if (TimeStopClient.fields.isEmpty() || !TimeStopClient.valid(Minecraft.getInstance().level))
+            return;
         if (com.thelongtravail.client.TimeStopCue.exempt(p)) return;
         var a = (TimeStopParticleAccessor) p;
         double x = a.travail$x(), y = a.travail$y(), z = a.travail$z();

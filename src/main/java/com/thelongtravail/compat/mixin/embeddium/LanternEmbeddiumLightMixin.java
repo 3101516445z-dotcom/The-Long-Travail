@@ -33,6 +33,9 @@ public abstract class LanternEmbeddiumLightMixin {
         for (int i = 0; i < 4; i++)
             out.lm[i] =
                     lights.merge(
-                            pos.getX() + quad.getX(i), pos.getY() + quad.getY(i), pos.getZ() + quad.getZ(i), out.lm[i]);
+                            pos.getX() + quad.getX(i),
+                            pos.getY() + quad.getY(i),
+                            pos.getZ() + quad.getZ(i),
+                            out.lm[i]);
     }
 }

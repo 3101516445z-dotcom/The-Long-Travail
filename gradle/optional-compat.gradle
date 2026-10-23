@@ -1,5 +1,9 @@
 // 可选联动的编译依赖；不内嵌到正式包，也不自动加入开发运行环境。
 dependencies {
+    compileOnly fg.deobf('maven.modrinth:apotheosis:tT3CLYvK') // 1.20.1 / 7.4.8
+    compileOnly fg.deobf('maven.modrinth:placebo:6SkuAGoz') // 8.6.3
+    compileOnly fg.deobf('maven.modrinth:quark:DijQLauD') // 4.0-462
+    compileOnly fg.deobf('maven.modrinth:zeta:mSER3jBI') // 1.0-31
     compileOnly fg.deobf('top.theillusivec4.caelus:caelus-forge:3.2.0+1.20.1')
     compileOnly fg.deobf('maven.modrinth:embeddium:UTbfe5d1') // Minecraft 1.20.1 的 0.3.31 版本。
     compileOnly fg.deobf('maven.modrinth:jade:xJQHCmWJ') // Forge 的 11.13.3 版本。

@@ -21,7 +21,9 @@ public final class DiaryActionSounds {
     }
 
     private static void play(SoundEvent event, float volume, float pitch) {
-        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(event, pitch, volume));
+        Minecraft.getInstance()
+                .getSoundManager()
+                .play(SimpleSoundInstance.forUI(event, pitch, volume));
     }
 
     public static void open() {

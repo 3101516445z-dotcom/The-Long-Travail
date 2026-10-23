@@ -38,13 +38,25 @@ public final class ExecutionWatch {
         long clock, fast, deep, repairs, failures, nanos;
     }
 
-    public record Diagnostics(long polls, long fastChecks, long deepChecks, long repairs, long failures, long nanos) {}
+    public record Diagnostics(
+            long polls,
+            long fastChecks,
+            long deepChecks,
+            long repairs,
+            long failures,
+            long nanos) {}
 
     public static synchronized Diagnostics diagnostics(Level level) {
         var state = WATCHED.get(level);
         return state == null
                 ? new Diagnostics(0, 0, 0, 0, 0, 0)
-                : new Diagnostics(state.clock, state.fast, state.deep, state.repairs, state.failures, state.nanos);
+                : new Diagnostics(
+                        state.clock,
+                        state.fast,
+                        state.deep,
+                        state.repairs,
+                        state.failures,
+                        state.nanos);
     }
 
     public static synchronized void track(LivingEntity entity) {
@@ -75,7 +87,8 @@ public final class ExecutionWatch {
             state = WATCHED.get(level);
             if (state == null) return;
             if (!force) state.clock++;
-            if (state.entries.removeIf(entry -> entry.lease.expired(level.getGameTime()))) state.dirty = true;
+            if (state.entries.removeIf(entry -> entry.lease.expired(level.getGameTime())))
+                state.dirty = true;
             if (state.dirty || state.clock % 100 == 0) {
                 state.entries.removeIf(entry -> entry.entity.get() == null);
                 if (state.entries.isEmpty()) {
@@ -89,7 +102,8 @@ public final class ExecutionWatch {
         }
         long started = System.nanoTime(), now = state.clock;
         try {
-            Set<net.minecraft.world.entity.Entity> deepTargets = Collections.newSetFromMap(new IdentityHashMap<>());
+            Set<net.minecraft.world.entity.Entity> deepTargets =
+                    Collections.newSetFromMap(new IdentityHashMap<>());
             for (var entry : entries) {
                 var entity = entry.entity.get();
                 if ((force || now >= entry.nextProbe && now >= entry.nextDeep)
@@ -103,13 +117,16 @@ public final class ExecutionWatch {
                 try {
                     present = ((ExecutionStorage) level).travail$present(deepTargets);
                 } catch (RuntimeException failure) {
-                    TheLongTravail.LOGGER.warn("Execution batch audit unavailable; using individual checks", failure);
+                    TheLongTravail.LOGGER.warn(
+                            "Execution batch audit unavailable; using individual checks", failure);
                 }
             }
             for (var entry : entries) {
                 if (!force && now < entry.nextProbe) continue;
                 var entity = entry.entity.get();
-                if (entity == null || entity.level() != level || !ExecutionCleanup.quarantined(entity)) continue;
+                if (entity == null
+                        || entity.level() != level
+                        || !ExecutionCleanup.quarantined(entity)) continue;
                 boolean full = force || now >= entry.nextDeep;
                 try {
                     if (!level.isClientSide && FinalExecution.cleanupPending(entity)) {
@@ -123,11 +140,14 @@ public final class ExecutionWatch {
                         } else state.fast++;
                         boolean detached =
                                 full && present != null && deepTargets.contains(entity)
-                                        ? ((com.thelongtravail.mixin.ExecutionRawEntity) entity).travail$reason()
-                                                        == net.minecraft.world.entity.Entity.RemovalReason.KILLED
+                                        ? ((com.thelongtravail.mixin.ExecutionRawEntity) entity)
+                                                                .travail$reason()
+                                                        == net.minecraft.world.entity.Entity
+                                                                .RemovalReason.KILLED
                                                 && !present.contains(entity)
                                         : ExecutionCleanup.detached(entity, full);
-                        if ((level.isClientSide && FinalExecution.cleanupPending(entity)) || !detached) {
+                        if ((level.isClientSide && FinalExecution.cleanupPending(entity))
+                                || !detached) {
                             present = null;
                             ExecutionCleanup.rawDetach(entity, full);
                             entry.lease.restored();
@@ -155,14 +175,16 @@ public final class ExecutionWatch {
                     }
                     entry.failures = 0;
                     entry.quiet = Math.min(5, entry.quiet + 1);
-                    entry.nextProbe = Math.min(entry.nextDeep, now + Math.min(20, 1 << entry.quiet));
+                    entry.nextProbe =
+                            Math.min(entry.nextDeep, now + Math.min(20, 1 << entry.quiet));
                 } catch (RuntimeException ex) {
                     entry.lease.restored();
                     state.failures++;
                     entry.failures++;
                     entry.nextProbe = now + Math.min(200, 1 << Math.min(entry.failures, 8));
                     if (entry.failures == 1 || entry.failures % 200 == 0)
-                        TheLongTravail.LOGGER.warn("Execution repair deferred for " + entity.getUUID(), ex);
+                        TheLongTravail.LOGGER.warn(
+                                "Execution repair deferred for " + entity.getUUID(), ex);
                 }
             }
         } finally {

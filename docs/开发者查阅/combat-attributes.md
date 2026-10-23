@@ -1,14 +1,12 @@
 # 见切、必杀、霸主
 
-适用版本：The Long Travail 0.1.2，Minecraft 1.20.1。
-
-三项都是标准实体属性，默认 0，通过 MOD 总线的 `EntityAttributeModificationEvent` 挂载到具有属性供应器的实体类型。注册位于 `registry/ModAttributes.java`，安全读取接口位于 `combat/CombatAttributes.java`，单次伤害状态位于 `combat/AttributeDamage.java`，结算由 `helper/CombatContext.java` 调度。
+三项均为标准实体属性，默认 0，通过 MOD 总线 `EntityAttributeModificationEvent` 挂载到有属性供应器的实体。入口：注册 `registry/ModAttributes`，读取 `combat/CombatAttributes`，单次伤害状态 `combat/AttributeDamage`，结算调度 `helper/CombatContext`。
 
 | 属性 | 注册 ID | 范围 | 单位 |
 | --- | --- | --- | --- |
 | 见切 | `the_long_travail:insight` | 0 至 Float.MAX_VALUE | 固定伤害点数，允许小数 |
 | 必杀 | `the_long_travail:critical_chance` | 0 至 1 | 概率，0.1 为 10% |
-| 霸主 | `the_long_travail:overlord` | 0 至 1 | 最大生命比例 |
+| 霸主 | `the_long_travail:overlord` | 0 至 Float.MAX_VALUE | 最大生命比例 |
 
 ## 结算约定
 
@@ -37,9 +35,9 @@ double chance = CombatAttributes.criticalChance(entity);
 double overlord = CombatAttributes.overlord(entity);
 ```
 
-读取的是修饰符生效后的值，缺少属性或出现非有限值时返回 0。三项同步客户端。装备建议用固定来源 UUID 的临时 `ADDITION` 修饰符；基础值配置才使用 `setBaseValue`，不要每 tick 覆盖其他来源。
+参数必须是非空 `LivingEntity`。读取的是修饰符生效后的值，缺少属性或出现非有限值时返回 0。三项同步客户端。装备建议用固定来源 UUID 的临时 `ADDITION` 修饰符；基础值配置才使用 `setBaseValue`，不要每 tick 覆盖其他来源。
 
-Apothic Attributes 1.3.7 为可选联动：安装 `attributeslib` 时，必杀和霸主使用其 `PercentBasedAttribute` 进行界面格式化，因此显示为百分比；未安装时回退为原版 `RangedAttribute`，不改变实际取值或模组依赖关系。见切始终按固定数值显示。三个属性的 `.desc` 本地化键兼容 Apothic 的属性详情界面。
+Apothic Attributes 为可选联动，构造入口为 `compat/attributeslib/PercentAttributes.create`：检测到 `attributeslib` 且反射构造成功时，必杀和霸主使用其 `PercentBasedAttribute` 进行界面格式化，因此显示为百分比；未安装或发生反射／链接错误时回退为原版 `RangedAttribute`，不改变实际取值或模组依赖关系。见切始终按固定数值显示。三个属性的 `.desc` 本地化键兼容 Apothic 的属性详情界面。
 
 ```mcfunction
 /attribute @s the_long_travail:insight base set 5
@@ -47,7 +45,7 @@ Apothic Attributes 1.3.7 为可选联动：安装 `attributeslib` 时，必杀�
 /attribute @s the_long_travail:overlord base set 0.1
 ```
 
-磷叶石等全属性倍率自然作用于三项；概率有效值限制在 [0,1]。最大生命与霸主同时 +20% 时阈值变成 1.44 倍。排除属性配置可以填写上述注册 ID。
+全属性倍率作用于三项，仍受表中范围约束；霸主不在 100% 截断。最大生命与霸主各 +20% 时阈值为原来的 1.44 倍。排除属性配置使用上述 ID。
 
 ## 集成验证
 
@@ -70,6 +68,4 @@ Apothic Attributes 1.3.7 为可选联动：安装 `attributeslib` 时，必杀�
 
 ## 玩家与车万女仆
 
-通用属性注册覆盖玩家及具有标准属性供应器的生物。安装车万女仆后，女仆也通过同一事件获得三项属性，基础值均为 0；无需重复注册，也不会在缺少女仆模组时加载其实体类。
-
-玩家和女仆均使用自身的属性值，可通过原版 `/attribute` 指令及标准属性修饰符修改，并随实体 NBT 保存、加载和同步客户端。女仆不自动继承主人属性；饰品资格、冷却和恢复约定见[女仆饰品](optional-compat.md#女仆饰品)。
+女仆通过同一事件获得属性，无需重复注册；缺少女仆模组时不加载其实体类。玩家和女仆均使用自身属性，支持 `/attribute`、标准修饰符、实体 NBT 保存恢复及客户端同步。女仆不继承主人属性；资格、冷却和恢复见[女仆饰品](optional-compat.md#女仆饰品)。

@@ -26,7 +26,8 @@ public abstract class ExecutionTickListMixin implements ExecutionStorage {
 
     public void travail$erase(Entity e) {
         // 不修改正在遍历的映射；旧快照中的实体由服务端游戏刻检查拦截。
-        if (active == iterated && active.get(e.getId()) == e) active = new Int2ObjectLinkedOpenHashMap<>(active);
+        if (active == iterated && active.get(e.getId()) == e)
+            active = new Int2ObjectLinkedOpenHashMap<>(active);
         if (active.get(e.getId()) == e) active.remove(e.getId());
         if (passive != iterated && passive.get(e.getId()) == e) passive.remove(e.getId());
     }

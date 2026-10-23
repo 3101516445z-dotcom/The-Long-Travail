@@ -25,8 +25,10 @@ public final class ReceivedMalice {
                     || TravailCurios.stack(player).isEmpty()) return false;
         } else if (com.thelongtravail.valley.Phosphophyllite.phase(target) != 2) return false;
         if (!GATE.acquire(
-                target, source, TravailConfig.RECEIVED_EXCLUSIONS.get(), TravailConfig.RECEIVED_COOLDOWN.get()))
-            return false;
+                target,
+                source,
+                TravailConfig.RECEIVED_EXCLUSIONS.get(),
+                TravailConfig.RECEIVED_COOLDOWN.get())) return false;
         if (target instanceof ServerPlayer player) TravailEvents.processBeingAttacked(player);
         return true;
     }

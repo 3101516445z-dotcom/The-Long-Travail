@@ -17,8 +17,13 @@ public abstract class LorentzArrowMixin {
                             value = "INVOKE",
                             target =
                                     "Lnet/minecraft/world/entity/Entity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"))
-    private boolean travail$impact(Entity target, DamageSource source, float amount, Operation<Boolean> original) {
+    private boolean travail$impact(
+            Entity target, DamageSource source, float amount, Operation<Boolean> original) {
         return LorentzFantasy.impact(
-                (AbstractArrow) (Object) this, target, source, amount, () -> original.call(target, source, amount));
+                (AbstractArrow) (Object) this,
+                target,
+                source,
+                amount,
+                () -> original.call(target, source, amount));
     }
 }

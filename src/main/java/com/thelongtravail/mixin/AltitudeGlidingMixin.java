@@ -30,8 +30,11 @@ public abstract class AltitudeGlidingMixin {
             require = 1,
             allow = 1)
     private Vec3 travail$scaleGlidingDisplacement(Vec3 displacement) {
-        travail$glidingFactor = (Object) this instanceof Player player ? AltitudePenalty.factor(player) : 1.0F;
-        return travail$glidingFactor < 1.0F ? displacement.scale(travail$glidingFactor) : displacement;
+        travail$glidingFactor =
+                (Object) this instanceof Player player ? AltitudePenalty.factor(player) : 1.0F;
+        return travail$glidingFactor < 1.0F
+                ? displacement.scale(travail$glidingFactor)
+                : displacement;
     }
 
     // 原版撞墙伤害为「水平速度损失 × 10 − 3」。使用移动前的系数缩放速度损失，

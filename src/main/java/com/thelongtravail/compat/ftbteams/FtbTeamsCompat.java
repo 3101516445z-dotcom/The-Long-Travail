@@ -43,13 +43,16 @@ public final class FtbTeamsCompat {
 
         public Object api() throws ReflectiveOperationException {
             return Objects.requireNonNull(
-                    Class.forName(PREFIX + "FTBTeamsAPI").getMethod("api").invoke(null), "FTB Teams API is null");
+                    Class.forName(PREFIX + "FTBTeamsAPI").getMethod("api").invoke(null),
+                    "FTB Teams API is null");
         }
 
-        private Object invoke(String type, Object owner, String name, Class<?>[] parameters, Object... arguments)
+        private Object invoke(
+                String type, Object owner, String name, Class<?>[] parameters, Object... arguments)
                 throws ReflectiveOperationException {
             Class<?> contract = Class.forName(PREFIX + type);
-            if (!contract.isInstance(owner)) throw new IllegalStateException("Invalid FTB Teams " + type);
+            if (!contract.isInstance(owner))
+                throw new IllegalStateException("Invalid FTB Teams " + type);
             return contract.getMethod(name, parameters).invoke(owner, arguments);
         }
 
@@ -66,11 +69,22 @@ public final class FtbTeamsCompat {
 
         public Object same(Object manager, UUID a, UUID b) throws ReflectiveOperationException {
             return invoke(
-                    "TeamManager", manager, "arePlayersInSameTeam", new Class<?>[] {UUID.class, UUID.class}, a, b);
+                    "TeamManager",
+                    manager,
+                    "arePlayersInSameTeam",
+                    new Class<?>[] {UUID.class, UUID.class},
+                    a,
+                    b);
         }
 
-        public Object team(Object manager, ServerPlayer player) throws ReflectiveOperationException {
-            return invoke("TeamManager", manager, "getTeamForPlayer", new Class<?>[] {ServerPlayer.class}, player);
+        public Object team(Object manager, ServerPlayer player)
+                throws ReflectiveOperationException {
+            return invoke(
+                    "TeamManager",
+                    manager,
+                    "getTeamForPlayer",
+                    new Class<?>[] {ServerPlayer.class},
+                    player);
         }
 
         public Object members(Object team) throws ReflectiveOperationException {
@@ -79,13 +93,15 @@ public final class FtbTeamsCompat {
     }
 
     private static boolean bool(Object value) {
-        if (!(value instanceof Boolean result)) throw new IllegalStateException("Invalid FTB Teams boolean result");
+        if (!(value instanceof Boolean result))
+            throw new IllegalStateException("Invalid FTB Teams boolean result");
         return result;
     }
 
     private static Object manager() throws ReflectiveOperationException {
         Object api = Objects.requireNonNull(access.api(), "FTB Teams API is null");
-        if (!bool(access.loaded(api))) throw new IllegalStateException("FTB Teams manager is not loaded");
+        if (!bool(access.loaded(api)))
+            throw new IllegalStateException("FTB Teams manager is not loaded");
         return Objects.requireNonNull(access.manager(api), "FTB Teams manager is null");
     }
 
@@ -95,7 +111,8 @@ public final class FtbTeamsCompat {
             warned = true;
             nextWarning = now + 60_000_000_000L;
             TheLongTravail.LOGGER.warn(
-                    "FTB Teams query unavailable; player targets are excluded and time stop is cancelled", failure);
+                    "FTB Teams query unavailable; player targets are excluded and time stop is cancelled",
+                    failure);
         }
     }
 
@@ -132,7 +149,8 @@ public final class FtbTeamsCompat {
                 throw new IllegalStateException("Invalid FTB Teams member collection");
             Set<UUID> result = new HashSet<>();
             for (Object member : collection) {
-                if (!(member instanceof UUID id)) throw new IllegalStateException("Invalid FTB Teams member UUID");
+                if (!(member instanceof UUID id))
+                    throw new IllegalStateException("Invalid FTB Teams member UUID");
                 result.add(id);
             }
             return Optional.of(Set.copyOf(result));

@@ -28,7 +28,9 @@ public final class FarReachAccessoryItem extends Item implements ICurioItem {
 
     @Override
     public boolean canEquip(SlotContext c, ItemStack s) {
-        return !c.cosmetic() && c.identifier().equals(gold ? "charm" : "back") && DependentAccessories.unique(c, this);
+        return !c.cosmetic()
+                && c.identifier().equals(gold ? "charm" : "back")
+                && DependentAccessories.unique(c, this);
     }
 
     @Override
@@ -43,9 +45,12 @@ public final class FarReachAccessoryItem extends Item implements ICurioItem {
 
     @Override
     public net.minecraft.world.InteractionResultHolder<ItemStack> use(
-            Level level, net.minecraft.world.entity.player.Player player, net.minecraft.world.InteractionHand hand) {
+            Level level,
+            net.minecraft.world.entity.player.Player player,
+            net.minecraft.world.InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (gold || !player.isShiftKeyDown()) return net.minecraft.world.InteractionResultHolder.pass(stack);
+        if (gold || !player.isShiftKeyDown())
+            return net.minecraft.world.InteractionResultHolder.pass(stack);
         if (!level.isClientSide) {
             boolean enabled = com.thelongtravail.farreach.IcarusFlight.toggle(stack);
             player.displayClientMessage(
@@ -57,7 +62,9 @@ public final class FarReachAccessoryItem extends Item implements ICurioItem {
     }
 
     private static String n(String k, double scale) {
-        return BigDecimal.valueOf(TooltipConfigSync.decimal("farItem." + k, FarReachItemsConfig.get(k)) * scale)
+        return BigDecimal.valueOf(
+                        TooltipConfigSync.decimal("farItem." + k, FarReachItemsConfig.get(k))
+                                * scale)
                 .stripTrailingZeros()
                 .toPlainString();
     }
@@ -75,16 +82,21 @@ public final class FarReachAccessoryItem extends Item implements ICurioItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Level level, List<Component> out, TooltipFlag flag) {
+    public void appendHoverText(
+            ItemStack stack, Level level, List<Component> out, TooltipFlag flag) {
         ItemDescription.summary(out);
     }
 
-    public void appendDetails(List<Component> out, net.minecraft.world.entity.player.Player viewer, ItemStack stack) {
+    public void appendDetails(
+            List<Component> out, net.minecraft.world.entity.player.Player viewer, ItemStack stack) {
         appendDetails(out, viewer, stack, false);
     }
 
     public void appendDetails(
-            List<Component> out, net.minecraft.world.entity.player.Player viewer, ItemStack stack, boolean complete) {
+            List<Component> out,
+            net.minecraft.world.entity.player.Player viewer,
+            ItemStack stack,
+            boolean complete) {
         if (gold) {
             {
                 line(out, "golden_age.dig_unlocked");
@@ -98,7 +110,8 @@ public final class FarReachAccessoryItem extends Item implements ICurioItem {
                     out,
                     "icarus.ignite",
                     TooltipConfigSync.integer(
-                            "farItem.icarus.igniteSeconds", FarReachItemsConfig.IGNITE_SECONDS.get()));
+                            "farItem.icarus.igniteSeconds",
+                            FarReachItemsConfig.IGNITE_SECONDS.get()));
         }
         out.add(Component.empty());
 

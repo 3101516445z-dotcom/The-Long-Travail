@@ -1,6 +1,9 @@
 package com.thelongtravail.abyss;
 
 import com.thelongtravail.config.AbyssItemsConfig;
+import com.thelongtravail.compat.fluid.FluidCopyGraph;
+import com.thelongtravail.compat.fluid.FluidCrafting;
+import net.minecraft.nbt.CompoundTag;
 import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.registry.ModRegistry;
 import net.minecraft.core.*;
@@ -31,28 +34,46 @@ public final class PerfectFluidRecipe extends CustomRecipe {
         if (c.getItem(first).is(ModRegistry.PERFECT_FLUID.get())) target = second;
         else if (c.getItem(second).is(ModRegistry.PERFECT_FLUID.get())) target = first;
         else return null;
-        if (c.getItem(target).is(ModRegistry.PERFECT_FLUID.get())) return null;
+        if (PerfectFluidCopies.isProtected(
+                ForgeRegistries.ITEMS.getKey(c.getItem(target).getItem()).toString())) return null;
         return new Input(c.getItem(target), target);
+    }
+
+    private static boolean supported(CraftingContainer c, ItemStack target) {
+        return !FluidCopyGraph.hasReferences(target.save(new CompoundTag()))
+                || FluidCrafting.supported(c);
     }
 
     @Override
     public boolean matches(CraftingContainer c, Level level) {
-        var in = input(c);
-        if (in == null) return false;
-        String id = ForgeRegistries.ITEMS.getKey(in.target.getItem()).toString();
-        return !(level.isClientSide
-                        ? TooltipConfigSync.pool("abyss.fluidBlacklist", AbyssItemsConfig.BLACKLIST.get())
-                        : AbyssItemsConfig.BLACKLIST.get())
-                .contains(id);
+        try {
+            var in = input(c);
+            if (in == null || !supported(c, in.target)) return false;
+            String id = ForgeRegistries.ITEMS.getKey(in.target.getItem()).toString();
+            return !(level.isClientSide
+                            ? TooltipConfigSync.pool(
+                                    "abyss.fluidBlacklist", AbyssItemsConfig.BLACKLIST.get())
+                            : AbyssItemsConfig.BLACKLIST.get())
+                    .contains(id);
+        } catch (RuntimeException failure) {
+            com.thelongtravail.compat.fluid.FluidCopyFailures.report("matching", failure);
+            return false;
+        }
     }
 
     @Override
     public ItemStack assemble(CraftingContainer c, RegistryAccess access) {
-        var in = input(c);
-        if (in == null) return ItemStack.EMPTY;
-        var out = PerfectFluidCopies.copy(in.target);
-        out.setCount(PerfectFluidCopies.returnsOriginal(in.target) ? 1 : 2);
-        return out;
+        try {
+            var in = input(c);
+            if (in == null || !supported(c, in.target)) return ItemStack.EMPTY;
+            var out = PerfectFluidCopies.copy(in.target);
+            out.setCount(PerfectFluidCopies.returnsOriginal(in.target) ? 1 : 2);
+            return out;
+        } catch (RuntimeException unsupported) {
+            // 预览超出限制或遇到不支持的容器时，须取消复制，避免合成界面崩溃或生成不完整的副本。
+            com.thelongtravail.compat.fluid.FluidCopyFailures.report("preview", unsupported);
+            return ItemStack.EMPTY;
+        }
     }
 
     @Override

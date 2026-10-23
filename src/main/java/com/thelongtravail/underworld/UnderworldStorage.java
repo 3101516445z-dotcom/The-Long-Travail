@@ -38,9 +38,13 @@ public final class UnderworldStorage {
                                                         for (var items :
                                                                 java.util.List.of(
                                                                         handler.getStacks(),
-                                                                        handler.getCosmeticStacks()))
-                                                            for (int slot = 0; slot < items.getSlots(); slot++)
-                                                                ledger.reconcile(items.getStackInSlot(slot));
+                                                                        handler
+                                                                                .getCosmeticStacks()))
+                                                            for (int slot = 0;
+                                                                    slot < items.getSlots();
+                                                                    slot++)
+                                                                ledger.reconcile(
+                                                                        items.getStackInSlot(slot));
                                                     }));
             ledger.reconcileTag(player.getPersistentData(), 0);
         } finally {
@@ -60,7 +64,8 @@ public final class UnderworldStorage {
         Counter.STORAGE_SWEEPS.add(1);
         var ledger = UnderworldLedger.get(server);
         ledger.recordSize();
-        for (ServerPlayer player : server.getPlayerList().getPlayers()) if (player != alreadyReconciled) player(player);
+        for (ServerPlayer player : server.getPlayerList().getPlayers())
+            if (player != alreadyReconciled) player(player);
         long started = HotPathMetrics.start();
         try {
             for (var level : server.getAllLevels())

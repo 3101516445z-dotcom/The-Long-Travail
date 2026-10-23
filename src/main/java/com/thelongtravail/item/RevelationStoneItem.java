@@ -29,7 +29,8 @@ public final class RevelationStoneItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> use(
+            Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (player instanceof ServerPlayer serverPlayer) {
             boolean unlocked = PlayerJourneyData.reveal(serverPlayer, aspect);
@@ -43,14 +44,16 @@ public final class RevelationStoneItem extends Item {
                     true);
             if (unlocked) {
                 if (!player.getAbilities().instabuild) stack.shrink(1);
-                TravailNetwork.sendItemSound(serverPlayer, com.thelongtravail.network.ItemSoundCue.stone(aspect));
+                TravailNetwork.sendItemSound(
+                        serverPlayer, com.thelongtravail.network.ItemSoundCue.stone(aspect));
             }
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(
+            ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(
                 Component.translatable(
                                 "tooltip.the_long_travail.revelation_stone",

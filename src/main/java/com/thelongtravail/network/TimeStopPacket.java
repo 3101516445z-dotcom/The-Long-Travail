@@ -42,7 +42,8 @@ public record TimeStopPacket(ResourceLocation dimension, List<View> fields) {
     public static TimeStopPacket decode(FriendlyByteBuf buffer) {
         ResourceLocation dimension = buffer.readResourceLocation();
         int count = buffer.readVarInt();
-        if (count < 0 || count > MAX_FIELDS) throw new IllegalArgumentException("time stop field count");
+        if (count < 0 || count > MAX_FIELDS)
+            throw new IllegalArgumentException("time stop field count");
         List<View> fields = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             long id = buffer.readLong();

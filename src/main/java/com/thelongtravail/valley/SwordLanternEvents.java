@@ -29,8 +29,12 @@ public final class SwordLanternEvents {
             SwordLanternState.tick(p);
             LanternSync.tick(p);
             if (!SwordLanternState.equipped(p)) continue;
-            for (MobEffect effect : new MobEffect[] {MobEffects.BLINDNESS, MobEffects.DARKNESS, MobEffects.CONFUSION})
-                if (p.hasEffect(effect)) com.thelongtravail.data.EffectChanges.remove(p, effect, false);
+            for (MobEffect effect :
+                    new MobEffect[] {
+                        MobEffects.BLINDNESS, MobEffects.DARKNESS, MobEffects.CONFUSION
+                    })
+                if (p.hasEffect(effect))
+                    com.thelongtravail.data.EffectChanges.remove(p, effect, false);
         }
         LanternLight.tick();
     }
@@ -42,7 +46,8 @@ public final class SwordLanternEvents {
 
     @SubscribeEvent
     public static void tracking(PlayerEvent.StartTracking e) {
-        if (e.getEntity() instanceof ServerPlayer viewer && e.getTarget() instanceof ServerPlayer target)
+        if (e.getEntity() instanceof ServerPlayer viewer
+                && e.getTarget() instanceof ServerPlayer target)
             LanternSync.tracking(viewer, target);
     }
 

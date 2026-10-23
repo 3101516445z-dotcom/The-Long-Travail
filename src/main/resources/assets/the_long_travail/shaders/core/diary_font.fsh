@@ -73,6 +73,16 @@ void main() {
     }
     float alpha = coverage * vertexColor.a * ColorModulator.a;
     if (alpha < 0.01) discard;
+    // 名称颜色由神化决定，同时保留原有阴影通道和苦旅的动态光晕。
+    if (Material > 14.5) {
+        if (Material > 16.5) {
+            float ripple = 0.5 + 0.5 * sin(textX * 0.48 - Seconds * 1.5707963);
+            float swell = 0.5 + 0.5 * sin(Seconds * 1.0471976);
+            alpha *= 0.55 + 0.30 * ripple + 0.15 * swell;
+        }
+        fragColor = vec4(vertexColor.rgb * ColorModulator.rgb, alpha);
+        return;
+    }
     float brightness = max(vertexColor.r, max(vertexColor.g, vertexColor.b));
     float shadow = brightness < 0.35 ? 0.25 : 1.0;
     vec3 color;
@@ -91,10 +101,21 @@ void main() {
     } else if (Material < 0.5) {
         color = nameColor();
     } else {
-        // 在文本范围之外重置光带，使其在十秒内完整移入再移出。
-        float center = mix(-0.14, 1.14, fract(Seconds / 10.0));
-        float sheen = 1.0 - smoothstep(0.025, 0.12, abs(textX / max(SweepWidth, 1.0) - center));
+        // 氛围短句使用浅麦金、八秒周期和略窄的扫光；原正文保留原参数。
+        bool flavor = SweepWidth < 0.0;
+        float center = mix(-0.14, 1.14, fract(Seconds / (flavor ? 8.0 : 10.0)));
+        float sheen = 1.0 - smoothstep(flavor ? 0.020 : 0.025, flavor ? 0.096 : 0.12,
+                abs(textX / max(abs(SweepWidth), 1.0) - center));
         vec3 ink = proseColor(Seconds / 8.0 - textX / 110.0);
+        if (flavor) {
+            float stage = fract(Seconds / 8.0 - textX / 110.0) * 3.0;
+            float blend = smoothstep(0.0, 1.0, fract(stage));
+            vec3 low = vec3(165.0, 139.0, 88.0) / 255.0;
+            vec3 main = vec3(196.0, 173.0, 117.0) / 255.0;
+            vec3 high = vec3(224.0, 205.0, 157.0) / 255.0;
+            ink = stage < 1.0 ? mix(low, main, blend)
+                    : stage < 2.0 ? mix(main, high, blend) : mix(high, low, blend);
+        }
         color = mix(ink, min(ink + vec3(0.07, 0.065, 0.05), vec3(1.0)), sheen);
     }
     // 保留字体渲染器的阴影通道，避免将材质标记染色。

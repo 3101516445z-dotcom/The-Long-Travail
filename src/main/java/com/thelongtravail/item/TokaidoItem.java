@@ -32,7 +32,8 @@ public final class TokaidoItem extends Item implements ICurioItem, ItemDescripti
     @Override
     public boolean canEquip(SlotContext context, ItemStack stack) {
         var slots =
-                context.entity().level().isClientSide && com.thelongtravail.abyss.RainState.clientSlots != null
+                context.entity().level().isClientSide
+                                && com.thelongtravail.abyss.RainState.clientSlots != null
                         ? com.thelongtravail.abyss.RainState.clientSlots
                         : RainConfig.SLOTS.get();
         return slots.contains(context.identifier())
@@ -40,12 +41,14 @@ public final class TokaidoItem extends Item implements ICurioItem, ItemDescripti
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
+    public void appendHoverText(
+            ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
         ItemDescription.summary(lines);
     }
 
     @Override
-    public void appendDetails(ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
+    public void appendDetails(
+            ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
         RainTooltips.tokaido(lines);
     }
 }

@@ -27,7 +27,9 @@ import java.util.*;
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
 public final class LorentzFantasy {
     public static final ResourceKey<DamageType> VOID =
-            ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(TheLongTravail.MODID, "lorentz_void"));
+            ResourceKey.create(
+                    Registries.DAMAGE_TYPE,
+                    new ResourceLocation(TheLongTravail.MODID, "lorentz_void"));
     private static final UUID CRITICAL = UUID.fromString("1c32e413-3b0f-41c0-9edf-69b584d01f02");
     private static final String MARK = "TravailLorentz",
             PHASE = "TravailLorentzPhase",
@@ -56,7 +58,9 @@ public final class LorentzFantasy {
                                             .filter(
                                                     r ->
                                                             !r.slotContext().cosmetic()
-                                                                    && r.slotContext().identifier().equals("bracelet"))
+                                                                    && r.slotContext()
+                                                                            .identifier()
+                                                                            .equals("bracelet"))
                                             .findFirst())
                     .map(r -> r.stack())
                     .orElse(ItemStack.EMPTY);
@@ -85,7 +89,10 @@ public final class LorentzFantasy {
         if (amount > 0)
             a.addTransientModifier(
                     new AttributeModifier(
-                            CRITICAL, "Lorentz Malice critical", amount, AttributeModifier.Operation.ADDITION));
+                            CRITICAL,
+                            "Lorentz Malice critical",
+                            amount,
+                            AttributeModifier.Operation.ADDITION));
     }
 
     public static boolean eligibleArrow(AbstractArrow a) {
@@ -102,12 +109,14 @@ public final class LorentzFantasy {
         var tag = a.getPersistentData();
         tag.putBoolean(MARK, true);
         tag.putInt(PHASE, phase(shooter));
-        if (!stack.hasTag() || !stack.getTag().getBoolean("LorentzGravityDisabled")) a.setNoGravity(true);
+        if (!stack.hasTag() || !stack.getTag().getBoolean("LorentzGravityDisabled"))
+            a.setNoGravity(true);
         a.setPierceLevel(
                 (byte)
                         Math.min(
                                 127,
-                                Math.max(0, a.getPierceLevel()) + (int) BoundlessItemsConfig.get("lorentz.pierce")));
+                                Math.max(0, a.getPierceLevel())
+                                        + (int) BoundlessItemsConfig.get("lorentz.pierce")));
         if (shooter instanceof ServerPlayer p && (p.getAbilities().flying || p.isFallFlying()))
             tag.putBoolean("LongTravailFlyingProjectile", true);
         ARROWS.add(a);
@@ -134,7 +143,8 @@ public final class LorentzFantasy {
                 a -> {
                     if (a.isRemoved()) return true;
                     if (a.isNoGravity()
-                            && !((com.thelongtravail.mixin.LorentzArrowAccessor) a).travail$inGround()
+                            && !((com.thelongtravail.mixin.LorentzArrowAccessor) a)
+                                    .travail$inGround()
                             && !TimeStopManager.frozen(a)) {
                         int age = a.getPersistentData().getInt(AGE) + 1;
                         a.getPersistentData().putInt(AGE, age);
@@ -148,7 +158,15 @@ public final class LorentzFantasy {
         if (e.getServer().getTickCount() % 200 == 0)
             COOLDOWNS
                     .values()
-                    .forEach(m -> m.entrySet().removeIf(x -> x.getValue() <= e.getServer().overworld().getGameTime()));
+                    .forEach(
+                            m ->
+                                    m.entrySet()
+                                            .removeIf(
+                                                    x ->
+                                                            x.getValue()
+                                                                    <= e.getServer()
+                                                                            .overworld()
+                                                                            .getGameTime()));
     }
 
     @SubscribeEvent
@@ -181,7 +199,10 @@ public final class LorentzFantasy {
                 || target.isRemoved()
                 || shooter.isAlliedTo(target)
                 || target.isAlliedTo(shooter)) return false;
-        UUID ownerId = shooter instanceof ServerPlayer p ? p.getUUID() : MaidAccessories.lorentzOwner(shooter);
+        UUID ownerId =
+                shooter instanceof ServerPlayer p
+                        ? p.getUUID()
+                        : MaidAccessories.lorentzOwner(shooter);
         ServerPlayer owner =
                 shooter instanceof ServerPlayer p
                         ? p
@@ -191,9 +212,15 @@ public final class LorentzFantasy {
         if (target instanceof Player p)
             return !p.isSpectator()
                     && MaidAccessories.canHarm(shooter, p)
-                    && (owner == null || !com.thelongtravail.compat.ftbteams.FtbTeamsCompat.lanternTeammates(owner, p));
-        if (target instanceof net.minecraft.world.entity.TamableAnimal pet && pet.getOwnerUUID() != null) {
-            UUID petOwner = shooter instanceof ServerPlayer p ? p.getUUID() : MaidAccessories.lorentzOwner(shooter);
+                    && (owner == null
+                            || !com.thelongtravail.compat.ftbteams.FtbTeamsCompat.lanternTeammates(
+                                    owner, p));
+        if (target instanceof net.minecraft.world.entity.TamableAnimal pet
+                && pet.getOwnerUUID() != null) {
+            UUID petOwner =
+                    shooter instanceof ServerPlayer p
+                            ? p.getUUID()
+                            : MaidAccessories.lorentzOwner(shooter);
             if (pet.getOwnerUUID().equals(petOwner)) return false;
         }
         return true;
@@ -202,10 +229,16 @@ public final class LorentzFantasy {
     public static boolean headshot(AbstractArrow arrow, LivingEntity target) {
         double height = Math.max(1e-6, target.getBbHeight());
         double eye = target.getEyeY();
-        var id = net.minecraftforge.registries.ForgeRegistries.ENTITY_TYPES.getKey(target.getType());
-        if (id != null && com.thelongtravail.config.LorentzGeometryConfig.FIX.get().contains(id.toString())) {
+        var id =
+                net.minecraftforge.registries.ForgeRegistries.ENTITY_TYPES.getKey(target.getType());
+        if (id != null
+                && com.thelongtravail.config.LorentzGeometryConfig.FIX
+                        .get()
+                        .contains(id.toString())) {
             double corrected = Math.min(height, target.getType().getDimensions().height);
-            eye = target.getBoundingBox().minY + Math.max(0, Math.min(1, target.getEyeHeight() / height)) * corrected;
+            eye =
+                    target.getBoundingBox().minY
+                            + Math.max(0, Math.min(1, target.getEyeHeight() / height)) * corrected;
             height = corrected;
         }
         Vec3 from = arrow.position(), to = from.add(arrow.getDeltaMovement());
@@ -270,7 +303,11 @@ public final class LorentzFantasy {
             long until = cooldowns.getOrDefault(caster, Long.MIN_VALUE);
             if (now >= until) {
                 cooldowns.put(caster, now + BoundlessItemsConfig.ticks("lorentz.interval"));
-                hurtVoid(shooter, target, entity, health * BoundlessItemsConfig.get("lorentz.voidRatio"));
+                hurtVoid(
+                        shooter,
+                        target,
+                        entity,
+                        health * BoundlessItemsConfig.get("lorentz.voidRatio"));
             }
         }
         return result;
@@ -282,7 +319,8 @@ public final class LorentzFantasy {
 
     // 生命值采样、冷却和受伤状态恢复均以父实体为准。
     // 实际伤害仍传给原命中部位，保留该部位的阶段和受击规则。
-    private static void hurtVoid(LivingEntity shooter, LivingEntity target, Entity hitEntity, double amount) {
+    private static void hurtVoid(
+            LivingEntity shooter, LivingEntity target, Entity hitEntity, double amount) {
         if (!(amount > 0)
                 || !Double.isFinite(amount)
                 || !enemy(shooter, target)
@@ -292,7 +330,10 @@ public final class LorentzFantasy {
                 || livingTarget(hitEntity) != target) return;
         DamageSource source =
                 new DamageSource(
-                        shooter.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(VOID),
+                        shooter.level()
+                                .registryAccess()
+                                .registryOrThrow(Registries.DAMAGE_TYPE)
+                                .getHolderOrThrow(VOID),
                         shooter);
         int invul = target.invulnerableTime;
         var state = (com.thelongtravail.mixin.DamageReplayStateAccessor) target;

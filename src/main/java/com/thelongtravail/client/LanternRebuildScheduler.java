@@ -30,7 +30,8 @@ public final class LanternRebuildScheduler {
         Set<Long> sections() {
             Set<Long> result = new HashSet<>();
             for (int x = x0; x <= x1; x++)
-                for (int y = y0; y <= y1; y++) for (int z = z0; z <= z1; z++) result.add(SectionPos.asLong(x, y, z));
+                for (int y = y0; y <= y1; y++)
+                    for (int z = z0; z <= z1; z++) result.add(SectionPos.asLong(x, y, z));
             return Set.copyOf(result);
         }
     }
@@ -53,7 +54,9 @@ public final class LanternRebuildScheduler {
             for (var entry : current.entrySet()) {
                 var a = entry.getValue();
                 var b = previous.get(entry.getKey());
-                if (Math.abs(a.x() - b.x()) > .08 || Math.abs(a.y() - b.y()) > .08 || Math.abs(a.z() - b.z()) > .08) {
+                if (Math.abs(a.x() - b.x()) > .08
+                        || Math.abs(a.y() - b.y()) > .08
+                        || Math.abs(a.z() - b.z()) > .08) {
                     moved = true;
                     break;
                 }

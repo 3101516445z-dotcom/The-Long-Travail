@@ -55,14 +55,16 @@ public final class NbtReconcileCursor {
         }
         if (!(f.tag instanceof CompoundTag)
                 && (!(f.tag instanceof ListTag list)
-                        || list.getElementType() != Tag.TAG_COMPOUND && list.getElementType() != Tag.TAG_LIST)) {
+                        || list.getElementType() != Tag.TAG_COMPOUND
+                                && list.getElementType() != Tag.TAG_LIST)) {
             stack.pop();
             return !stack.isEmpty();
         }
         if (!f.visited) {
             ledger.reconcileNode(f.tag);
             f.visited = true;
-            if (f.tag instanceof CompoundTag c) f.keys = c.getAllKeys().iterator();
+            // 分步扫描期间键集可能变化；只保存键名快照，子节点仍从当前标签读取。
+            if (f.tag instanceof CompoundTag c) f.keys = new ArrayList<>(c.getAllKeys()).iterator();
             return true;
         }
         if (f.depth >= UnderworldLedger.MAX_NBT_DEPTH) {
@@ -73,7 +75,8 @@ public final class NbtReconcileCursor {
             if (f.tag instanceof CompoundTag c && f.keys.hasNext()) {
                 String key = f.keys.next();
                 Tag child = c.get(key);
-                if (child instanceof CompoundTag || child instanceof ListTag) stack.push(new Frame(child, f, key, 0));
+                if (child instanceof CompoundTag || child instanceof ListTag)
+                    stack.push(new Frame(child, f, key, 0));
             } else if (f.tag instanceof ListTag l && f.nextIndex < l.size()) {
                 int index = f.nextIndex++;
                 stack.push(new Frame(l.get(index), f, null, index));

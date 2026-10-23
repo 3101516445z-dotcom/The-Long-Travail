@@ -17,19 +17,25 @@ import net.minecraft.world.level.storage.loot.parameters.*;
 import java.util.*;
 
 public final class UndergroundVelvet {
-    private static final TagKey<Item> ORES = TagKey.create(Registries.ITEM, new ResourceLocation("forge", "ores"));
-    private static final TagKey<Item> INGOTS = TagKey.create(Registries.ITEM, new ResourceLocation("forge", "ingots"));
+    private static final TagKey<Item> ORES =
+            TagKey.create(Registries.ITEM, new ResourceLocation("forge", "ores"));
+    private static final TagKey<Item> INGOTS =
+            TagKey.create(Registries.ITEM, new ResourceLocation("forge", "ingots"));
     private static long nextWarning;
 
     public static boolean use(ServerPlayer player, ItemStack stack) {
         if (player.getCooldowns().isOnCooldown(stack.getItem())
                 || player.isSpectator()
                 || com.thelongtravail.boundless.TimeStopManager.frozen(player)) return false;
-        boolean ore = player.getRandom().nextDouble() < DeepValleyItemsConfig.get("underground_velvet.oreChance");
+        boolean ore =
+                player.getRandom().nextDouble()
+                        < DeepValleyItemsConfig.get("underground_velvet.oreChance");
         ItemStack base =
                 TagItemSampler.choose(
                         ore ? ORES : INGOTS,
-                        ore ? DeepValleyItemsConfig.EXTRA_ORES.get() : DeepValleyItemsConfig.EXTRA_INGOTS.get(),
+                        ore
+                                ? DeepValleyItemsConfig.EXTRA_ORES.get()
+                                : DeepValleyItemsConfig.EXTRA_INGOTS.get(),
                         player.getRandom(),
                         8);
         if (base.isEmpty()) return failed(player);
@@ -74,15 +80,20 @@ public final class UndergroundVelvet {
         player.getCooldowns()
                 .addCooldown(
                         ModRegistry.UNDERGROUND_VELVET.get(),
-                        (int) Math.ceil(DeepValleyItemsConfig.get("underground_velvet.cooldownTicks")));
+                        (int)
+                                Math.ceil(
+                                        DeepValleyItemsConfig.get(
+                                                "underground_velvet.cooldownTicks")));
         for (ItemStack reward : rewards) ItemDelivery.give(player, reward);
-        if (state.hasWitness(com.thelongtravail.TravailAspect.DEEP_VALLEY)) player.giveExperienceLevels(15);
+        if (state.hasWitness(com.thelongtravail.TravailAspect.DEEP_VALLEY))
+            player.giveExperienceLevels(15);
         return true;
     }
 
     private static boolean failed(ServerPlayer player) {
         player.displayClientMessage(
-                net.minecraft.network.chat.Component.translatable("message.the_long_travail.underground_velvet.failed"),
+                net.minecraft.network.chat.Component.translatable(
+                        "message.the_long_travail.underground_velvet.failed"),
                 true);
         return false;
     }

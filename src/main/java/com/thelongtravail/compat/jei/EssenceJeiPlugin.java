@@ -27,13 +27,18 @@ import net.minecraft.world.item.Items;
 
 @JeiPlugin
 public final class EssenceJeiPlugin implements IModPlugin {
-    private record BlockDrop(Item block, Supplier<Item> result, String description, String chanceKey) {
+    private record BlockDrop(
+            Item block, Supplier<Item> result, String description, String chanceKey) {
         Component text() {
             if (chanceKey == null) return Component.translatable(description);
             double chance =
-                    TooltipConfigSync.decimal("boundlessItem." + chanceKey, BoundlessItemsConfig.get(chanceKey));
+                    TooltipConfigSync.decimal(
+                            "boundlessItem." + chanceKey, BoundlessItemsConfig.get(chanceKey));
             String percent =
-                    BigDecimal.valueOf(chance).multiply(BigDecimal.valueOf(100)).stripTrailingZeros().toPlainString();
+                    BigDecimal.valueOf(chance)
+                            .multiply(BigDecimal.valueOf(100))
+                            .stripTrailingZeros()
+                            .toPlainString();
             return Component.translatable(description, percent);
         }
     }
@@ -58,7 +63,10 @@ public final class EssenceJeiPlugin implements IModPlugin {
                 List.of(
                         new BlockDrop(
                                 Items.BUDDING_AMETHYST,
-                                () -> ModRegistry.ESSENCES.get(TravailAspect.DEEP_VALLEY.ordinal()).get(),
+                                () ->
+                                        ModRegistry.ESSENCES
+                                                .get(TravailAspect.DEEP_VALLEY.ordinal())
+                                                .get(),
                                 "jei.the_long_travail.block_drop.description",
                                 null),
                         new BlockDrop(
@@ -107,19 +115,27 @@ public final class EssenceJeiPlugin implements IModPlugin {
 
         @Override
         public void setRecipe(IRecipeLayoutBuilder builder, BlockDrop recipe, IFocusGroup focuses) {
-            builder.addInputSlot(20, 2).addItemStack(recipe.block().getDefaultInstance()).setStandardSlotBackground();
+            builder.addInputSlot(20, 2)
+                    .addItemStack(recipe.block().getDefaultInstance())
+                    .setStandardSlotBackground();
             builder.addOutputSlot(106, 2)
                     .addItemStack(recipe.result().get().getDefaultInstance())
                     .setOutputSlotBackground();
         }
 
         @Override
-        public void draw(BlockDrop recipe, IRecipeSlotsView slots, GuiGraphics graphics, double mouseX, double mouseY) {
+        public void draw(
+                BlockDrop recipe,
+                IRecipeSlotsView slots,
+                GuiGraphics graphics,
+                double mouseX,
+                double mouseY) {
             gui.getRecipeArrow().draw(graphics, 65, 2);
         }
 
         @Override
-        public void createRecipeExtras(IRecipeExtrasBuilder builder, BlockDrop recipe, IFocusGroup focuses) {
+        public void createRecipeExtras(
+                IRecipeExtrasBuilder builder, BlockDrop recipe, IFocusGroup focuses) {
             builder.addText(recipe.text(), 150, 60).setPosition(0, 29);
         }
     }

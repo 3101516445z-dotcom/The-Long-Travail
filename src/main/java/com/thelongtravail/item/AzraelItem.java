@@ -41,12 +41,14 @@ public final class AzraelItem extends Item implements ICurioItem {
 
     @Override
     public void onUnequip(SlotContext context, ItemStack next, ItemStack stack) {
-        if (!next.is(this) && context.entity() instanceof net.minecraft.server.level.ServerPlayer player)
+        if (!next.is(this)
+                && context.entity() instanceof net.minecraft.server.level.ServerPlayer player)
             com.thelongtravail.valley.AzraelState.forget(player);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
+    public void appendHoverText(
+            ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
         ItemDescription.summary(lines);
     }
 }

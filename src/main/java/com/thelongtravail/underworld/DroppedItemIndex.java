@@ -20,7 +20,9 @@ public final class DroppedItemIndex {
     }
 
     private static boolean present(ServerLevel level, ItemEntity item) {
-        return !item.isRemoved() && item.level() == level && level.getEntity(item.getUUID()) == item;
+        return !item.isRemoved()
+                && item.level() == level
+                && level.getEntity(item.getUUID()) == item;
     }
 
     public static List<ItemEntity> snapshot(ServerLevel level) {
@@ -42,7 +44,8 @@ public final class DroppedItemIndex {
     }
 
     public static void removed(ItemEntity item) {
-        if (!(item.level() instanceof ServerLevel level) || level.getEntity(item.getUUID()) == item) return;
+        if (!(item.level() instanceof ServerLevel level) || level.getEntity(item.getUUID()) == item)
+            return;
         State state = WORLDS.get(level);
         if (state != null) state.items.remove(item);
     }

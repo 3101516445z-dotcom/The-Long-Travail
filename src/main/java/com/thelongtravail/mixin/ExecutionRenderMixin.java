@@ -13,7 +13,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class ExecutionRenderMixin {
     @Inject(method = "shouldRender", at = @At("HEAD"), cancellable = true)
     private void travail$hideRestored(
-            Entity entity, Frustum frustum, double x, double y, double z, CallbackInfoReturnable<Boolean> ci) {
+            Entity entity,
+            Frustum frustum,
+            double x,
+            double y,
+            double z,
+            CallbackInfoReturnable<Boolean> ci) {
         if (ExecutionTerminationClient.suppress(entity)) ci.setReturnValue(false);
     }
 

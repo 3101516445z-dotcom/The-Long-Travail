@@ -28,7 +28,8 @@ public final class WeightedLootSampler {
     private final List<Candidate> candidates = new ArrayList<>();
     private int nodes, skipped;
 
-    private WeightedLootSampler(Function<ResourceLocation, LootTable> resolver, Predicate<Item> excluded) {
+    private WeightedLootSampler(
+            Function<ResourceLocation, LootTable> resolver, Predicate<Item> excluded) {
         this.resolver = resolver;
         this.excluded = excluded;
     }
@@ -40,7 +41,8 @@ public final class WeightedLootSampler {
             int count,
             int fixedCount,
             Predicate<Item> excluded) {
-        if (count < 0 || count > 64 || fixedCount < 0) throw new IllegalArgumentException("Invalid sampling count");
+        if (count < 0 || count > 64 || fixedCount < 0)
+            throw new IllegalArgumentException("Invalid sampling count");
         context.setQueriedLootTableId(id);
         var sampler = new WeightedLootSampler(resolver, excluded);
         sampler.table(id, List.of(), List.of(), null, new HashSet<>(), 0, false);
@@ -79,8 +81,10 @@ public final class WeightedLootSampler {
                         stack -> {
                             if (outputs.size() > 1) return;
                             ItemStack value = stack.copy();
-                            for (var function : selected.candidate.functions) value = function.apply(value, context);
-                            if (!value.isEmpty() && !excluded.test(value.getItem())) outputs.add(value);
+                            for (var function : selected.candidate.functions)
+                                value = function.apply(value, context);
+                            if (!value.isEmpty() && !excluded.test(value.getItem()))
+                                outputs.add(value);
                         },
                         context);
                 if (outputs.size() == 1) {
@@ -130,7 +134,8 @@ public final class WeightedLootSampler {
             var pools = ((ExecutionLootTableAccessor) table).travail$pools();
             if (simple
                     && (pools.size() != 1
-                            || ((ExecutionLootPoolAccessor) pools.get(0)).travail$entries().length != 1)) {
+                            || ((ExecutionLootPoolAccessor) pools.get(0)).travail$entries().length
+                                    != 1)) {
                 skipped++;
                 return;
             }
@@ -148,21 +153,32 @@ public final class WeightedLootSampler {
                     }
                     if (entry.getClass() == LootItem.class) {
                         Item item = ((ExecutionLootItemAccessor) entry).travail$item();
-                        int w = weight == null ? ((LootSingletonAccess) entry).travail$weight() : weight;
+                        int w =
+                                weight == null
+                                        ? ((LootSingletonAccess) entry).travail$weight()
+                                        : weight;
                         if (item != Items.AIR && !excluded.test(item) && w > 0)
                             candidates.add(
-                                    new Candidate((LootItem) entry, w, List.copyOf(gates), List.copyOf(functions)));
+                                    new Candidate(
+                                            (LootItem) entry,
+                                            w,
+                                            List.copyOf(gates),
+                                            List.copyOf(functions)));
                     } else if (entry.getClass() == LootTableReference.class) {
                         var nestedGates = new ArrayList<>(gates);
-                        nestedGates.add(new Gate(entry, ((LootEntryAccess) entry).travail$condition()));
-                        var nestedFunctions = new ArrayList<BiFunction<ItemStack, LootContext, ItemStack>>();
+                        nestedGates.add(
+                                new Gate(entry, ((LootEntryAccess) entry).travail$condition()));
+                        var nestedFunctions =
+                                new ArrayList<BiFunction<ItemStack, LootContext, ItemStack>>();
                         nestedFunctions.add(((LootSingletonAccess) entry).travail$function());
                         nestedFunctions.addAll(functions);
                         table(
                                 ((ExecutionLootReferenceAccessor) entry).travail$name(),
                                 nestedGates,
                                 nestedFunctions,
-                                weight == null ? ((LootSingletonAccess) entry).travail$weight() : weight,
+                                weight == null
+                                        ? ((LootSingletonAccess) entry).travail$weight()
+                                        : weight,
                                 path,
                                 depth + 1,
                                 true);

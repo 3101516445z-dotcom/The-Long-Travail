@@ -32,7 +32,18 @@ public abstract class DiaryFontMixin {
             int background,
             int light,
             CallbackInfoReturnable<Integer> cir) {
-        travail$draw(text.getVisualOrderText(), x, y, color, shadow, pose, buffers, mode, background, light, cir);
+        travail$draw(
+                text.getVisualOrderText(),
+                x,
+                y,
+                color,
+                shadow,
+                pose,
+                buffers,
+                mode,
+                background,
+                light,
+                cir);
     }
 
     @Inject(
@@ -70,8 +81,9 @@ public abstract class DiaryFontMixin {
         int material = DiaryFontEffects.material(text);
         if (material < 0) return;
         var quality =
-                (material >= 3
-                                ? com.thelongtravail.config.TravailClientConfig.ASPECT_NAME_HALO_QUALITY
+                (material >= 3 && material != DiaryFontEffects.AFFIX_DIARY
+                                ? com.thelongtravail.config.TravailClientConfig
+                                        .ASPECT_NAME_HALO_QUALITY
                                 : com.thelongtravail.config.TravailClientConfig.NAME_HALO_QUALITY)
                         .get();
         NameHaloKernel kernel = NameHaloKernel.of(quality);
@@ -81,7 +93,11 @@ public abstract class DiaryFontMixin {
                         && (kernel.alpha(color, 0) >= 4 || kernel.alpha(color, 1) >= 4);
         FormattedCharSequence cleanText = DiaryText.forDraw(text, halo);
         if (halo) {
-            MultiBufferSource haloBuffers = DiaryFontEffects.buffers(buffers, material == 0 ? 2 : material + 6, x, 1);
+            int haloMaterial =
+                    material >= DiaryFontEffects.AFFIX_DIARY
+                            ? material + 2
+                            : material == 0 ? 2 : material + 6;
+            MultiBufferSource haloBuffers = DiaryFontEffects.buffers(buffers, haloMaterial, x, 1);
             Matrix4f haloPose = new Matrix4f();
             for (int ring = 0; ring < 2; ring++) {
                 int haloAlpha = kernel.alpha(color, ring);
@@ -90,7 +106,17 @@ public abstract class DiaryFontMixin {
                 for (int sample = 0; sample < kernel.samplesPerRing; sample++) {
                     haloPose.set(pose).translate(kernel.x(ring, sample), kernel.y(ring, sample), 0);
                     ((Font) (Object) this)
-                            .drawInBatch(cleanText, x, y, haloColor, false, haloPose, haloBuffers, mode, 0, light);
+                            .drawInBatch(
+                                    cleanText,
+                                    x,
+                                    y,
+                                    haloColor,
+                                    false,
+                                    haloPose,
+                                    haloBuffers,
+                                    mode,
+                                    0,
+                                    light);
                 }
             }
         }
@@ -104,7 +130,10 @@ public abstract class DiaryFontMixin {
                                 shadow,
                                 pose,
                                 DiaryFontEffects.buffers(
-                                        buffers, material, x, material == 1 ? DiaryFontEffects.sweepWidth(text) : 1),
+                                        buffers,
+                                        material,
+                                        x,
+                                        material == 1 ? DiaryFontEffects.sweepWidth(text) : 1),
                                 mode,
                                 background,
                                 light));

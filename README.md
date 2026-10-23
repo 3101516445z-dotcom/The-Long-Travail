@@ -42,8 +42,13 @@
 | Modern UI | 3.12.0.1 | 适配名称和日记文字的字体渲染 |
 | Enigmatic Legacy | 2.30.1 | 使用**死者苏生**时，避免消耗绑定的重生锚 |
 | Apothic Attributes | 1.3.7 | 将必杀与霸主按百分比显示，补充属性详情。 |
-| Sophisticated Backpacks / 精妙背包 | 按接口匹配 | 完美流体独立复制背包库存、升级、设置及嵌套内容。 |
-| MmmMmmMmmMmm / 试验假人 | 按接口匹配 | 使用假人记录的有效伤害触发本模组的伤害后效果。 |
+| Apotheosis | 7.4.8 | 协调铁砧等级限制；带品质的名称与光晕跟随品质颜色。 |
+| Quark | 4.0-462 | 允许未附魔的《苦旅》使用符文，并显示对应闪光。 |
+| Applied Energistics 2 | 15.4.11 | 完美流体复制受支持的物品与流体存储元件，保留库存及设置。 |
+| Refined Storage 及已支持附属 | 按接口匹配 | 完美流体复制存储盘，复制后的库存与原件独立。 |
+| Ars Nouveau | 按属性 ID 匹配 | 磷叶石不增幅药水持续时间属性。 |
+| Sophisticated Backpacks | 按接口匹配 | 完美流体独立复制背包库存、升级、设置及嵌套内容。 |
+| MmmMmmMmmMmm | 按接口匹配 | 使用假人记录的有效伤害触发本模组的伤害后效果。 |
 
 表中版本供依赖和联动参考。这些联动模组均为可选，不安装也可以游玩苦旅。光影方面，**剑与灯**曾在 Embeddium 0.3.31、Oculus 1.8.0 与 Complementary Reimagined r5.8.1 的独立测试环境中验证，其他组合的显示效果可能不同。
 
@@ -53,6 +58,10 @@
 
 允许被女仆兼容使用的饰品须放入女仆的原生饰品栏，普通背包、手持和女仆 Curios 饰品栏不生效。苦旅本体不能作为女仆饰品。需要恶意或见证状态时，读取在线主人已佩戴的苦旅。
 
+### 完美流体复制
+
+完美流体的外部库存复制须在原版背包合成栏或工作台完成；支持的类型和限制见[联动说明](docs/开发者查阅/optional-compat.md)。
+
 ## 配置与常见操作
 
 配置位于 `config/the_long_travail/`，首次启动时自动生成。各主题设置放在 `aspects/` 下，饰品与道具奖励在 `general.toml` 中调整；材料与精粹来源由战利品数据表及注入规则定义，详见 [配置说明](docs/玩家查阅/configuration-controls.md)。
@@ -60,8 +69,8 @@
 苦旅造成的僵硬和视觉剥夺不能靠负面效果免疫或净化解除，但可以喝牛奶解除。管理员也可使用以下命令清除自身状态：
 
 ```text
-/the_long_travail stiff clear
-/the_long_travail visual_deprivation clear
+/tlt stiff clear
+/tlt visual_deprivation clear
 ```
 
 普通 `/effect` 命令只能添加或移除这两个状态的图标，不会改变实际限制。
@@ -70,19 +79,19 @@
 
 以下指令需要 2 级权限，并在旅行日记槽位佩戴苦旅：
 
-- `/the_long_travail reverse`：将六项全部强制设为见证，相当于依次执行 `reverse 1` 至 `reverse 6`。
-- `/the_long_travail reverse <编号>`：正数 `1` 至 `6` 强制设为对应见证，负数 `-1` 至 `-6` 强制设为对应恶意；`0` 无效。
-- `/the_long_travail reverse clear`：清除全部调试覆盖，恢复按照真实旅程进度判定。
-- `/the_long_travail reverse clear <编号>`：清除对应编号的调试覆盖；`0` 表示全部。
+- `/tlt reverse`：将六项全部强制设为见证，相当于依次执行 `reverse 1` 至 `reverse 6`。
+- `/tlt reverse <编号>`：正数 `1` 至 `6` 强制设为对应见证，负数 `-1` 至 `-6` 强制设为对应恶意；`0` 无效。
+- `/tlt reverse clear`：清除全部调试覆盖，恢复按照真实旅程进度判定。
+- `/tlt reverse clear <编号>`：清除对应编号的调试覆盖；`0` 表示全部。
 
 调试指令不会补完或清空真实旅程进度；全反转不是将六项当前状态逐个取反。
 
 ## 版本与升级
 
-当前源码版本为 **0.1.2**，发布状态与各版本变化见 [更新日志](CHANGELOG.md)。更新后生成或重置的旅程数据不支持降级到旧版模组。
+当前源码版本为 **0.1.2-fix**，发布状态与各版本变化见 [更新日志](CHANGELOG.md)。更新后生成或重置的旅程数据不支持降级到旧版模组。
 
-- [中文 0.1.2 更新日志](docs/玩家查阅/更新日志zh/0.1.2.md)
-- [English changelog for 0.1.2](docs/玩家查阅/更新日志en/0.1.2.md)
+- [中文 0.1.2-fix 更新日志](docs/玩家查阅/更新日志zh/0.1.2-fix.md)
+- [English changelog for 0.1.2-fix](docs/玩家查阅/更新日志en/0.1.2-fix.md)
 
 ## 开发文档
 
@@ -90,7 +99,9 @@
 
 ## 源码构建
 
-使用 JDK 17 或兼容的构建环境，在项目根目录通过仓库附带的 Gradle Wrapper 构建。当前 Wrapper 固定为 Gradle 8.8，源码编译目标为 Java 17。
+准备 JDK 17 和 Node.js 18 或更新版本，在项目根目录通过仓库附带的 Gradle Wrapper 构建。Node.js 用于合并和校验中英文语言文件，无需安装 npm 依赖。当前 Wrapper 固定为 Gradle 8.8，源码编译目标为 Java 17。
+
+Gradle 默认调用 PATH 中的 `node`；需要指定程序时，可在构建命令后追加 `-PnodeExecutable="Node.js 可执行文件的绝对路径"`。语言源文件位于 `src/main/lang/`，构建所需的三个生成与验证脚本位于 `tools/`，均须随源码保留；不要手动编辑 `build/` 下的生成语言文件。
 
 Windows：
 
@@ -104,9 +115,9 @@ Linux / macOS：
 ./gradlew build jarJar
 ```
 
-首次构建需要联网，Gradle 会自动下载依赖；缓存齐全后可追加 `--offline`。当前正式包为 `build/libs/The_Long_Travail-0.1.2.jar`，带 `-slim` 后缀的包不包含内嵌依赖，不用于直接安装。无需复制本机整合包的 `mods`、`config`、`run` 或本地测试工具来完成普通源码构建。
+首次构建需要联网，Gradle 会自动下载依赖；缓存齐全后可追加 `--offline`。当前正式包为 `build/libs/The_Long_Travail-0.1.2-fix.jar`，带 `-slim` 后缀的包不包含内嵌依赖，不用于直接安装。无需复制本机整合包的 `mods`、`config`、`run` 或本地测试工具来完成普通源码构建。
 
-Caelus、Embeddium、Jade、JEI 和女仆 API 仅用于编译，不打包进成品，也不会自动加载到开发运行环境。女仆 API 固定为 Forge 1.20.1 的 1.5.3 版本，由 Gradle 自动下载；需要本地替代时使用 `-PmaidApiJar=/absolute/path/to/touhoulittlemaid.jar`。MixinExtras 随正式包内嵌，Curios 需另行安装。具体版本及仓库地址见 `build.gradle` 和 `gradle/optional-compat.gradle`。
+Caelus、Embeddium、Jade、JEI、女仆、Apotheosis、Placebo、Quark 和 Zeta 的可选 API 仅用于编译，不打包进成品，也不会自动加载到开发运行环境。女仆 API 固定为 Forge 1.20.1 的 1.5.3 版本，由 Gradle 自动下载；需要本地替代时使用 `-PmaidApiJar=/absolute/path/to/touhoulittlemaid.jar`。MixinExtras 随正式包内嵌，Curios 需另行安装。具体版本及仓库地址见 `build.gradle` 和 `gradle/optional-compat.gradle`。
 
 其他模组接入苦旅时，可参考 [状态查询与旅程写入 API](docs/开发者查阅/state-api.md) 和 [饰品佩戴与恢复校验](docs/开发者查阅/accessory-equipment.md)。
 

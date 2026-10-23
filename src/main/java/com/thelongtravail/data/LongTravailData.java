@@ -84,7 +84,8 @@ public final class LongTravailData {
         return removeRequirement(stack, "Structures", structure);
     }
 
-    public record RequirementIdentity(ItemStack stack, Tag root, Tag requirements, UUID journey, long revision) {
+    public record RequirementIdentity(
+            ItemStack stack, Tag root, Tag requirements, UUID journey, long revision) {
         @Override
         public boolean equals(Object other) {
             return other instanceof RequirementIdentity key
@@ -135,7 +136,8 @@ public final class LongTravailData {
     public static boolean hasRemainingBiomes(ItemStack stack) {
         CompoundTag requirements = root(stack).getCompound(REQUIREMENTS);
         for (TravailAspect aspect : TravailAspect.values())
-            if (!requirements.getCompound(aspect.id()).getList("Biomes", Tag.TAG_STRING).isEmpty()) return true;
+            if (!requirements.getCompound(aspect.id()).getList("Biomes", Tag.TAG_STRING).isEmpty())
+                return true;
         return false;
     }
 
@@ -183,7 +185,9 @@ public final class LongTravailData {
         if (JourneyOperations.override(
                         root,
                         List.of(aspect),
-                        witness ? JourneyOperations.Override.WITNESS : JourneyOperations.Override.MALICE)
+                        witness
+                                ? JourneyOperations.Override.WITNESS
+                                : JourneyOperations.Override.MALICE)
                 == JourneyOperations.Status.SUCCESS) saveRoot(stack, root);
     }
 
@@ -208,17 +212,23 @@ public final class LongTravailData {
         saveRoot(stack, root);
     }
 
-    private static boolean removeRequirement(ItemStack stack, String listName, ResourceLocation target) {
+    private static boolean removeRequirement(
+            ItemStack stack, String listName, ResourceLocation target) {
         if (!isInitialized(stack)) return false;
         CompoundTag root = root(stack);
-        long revision = root.getLong(REQUIREMENTS_REVISION), stateRevision = root.getLong("StateRevision");
+        long revision = root.getLong(REQUIREMENTS_REVISION),
+                stateRevision = root.getLong("StateRevision");
         var ref =
                 new JourneyOperations.RequirementRef(
-                        listName.equals("Biomes") ? JourneyOperations.Kind.BIOME : JourneyOperations.Kind.STRUCTURE,
+                        listName.equals("Biomes")
+                                ? JourneyOperations.Kind.BIOME
+                                : JourneyOperations.Kind.STRUCTURE,
                         target);
         boolean changed = false;
         for (TravailAspect aspect : TravailAspect.values())
-            changed |= JourneyOperations.complete(root, aspect, ref) == JourneyOperations.Status.SUCCESS;
+            changed |=
+                    JourneyOperations.complete(root, aspect, ref)
+                            == JourneyOperations.Status.SUCCESS;
         if (changed) {
             root.putLong(REQUIREMENTS_REVISION, revision + 1);
             root.putLong("StateRevision", stateRevision + 1);
@@ -228,7 +238,8 @@ public final class LongTravailData {
     }
 
     private static void updateCompletions(CompoundTag root) {
-        for (TravailAspect aspect : TravailAspect.values()) JourneyOperations.updateCompletion(root, aspect);
+        for (TravailAspect aspect : TravailAspect.values())
+            JourneyOperations.updateCompletion(root, aspect);
     }
 
     private static CompoundTag root(ItemStack stack) {

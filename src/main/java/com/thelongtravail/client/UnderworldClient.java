@@ -33,7 +33,10 @@ public final class UnderworldClient {
         return Component.translatable(key).withStyle(s -> s.withColor(0xDC143C).withBold(true));
     }
 
-    @Mod.EventBusSubscriber(modid = TheLongTravail.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(
+            modid = TheLongTravail.MODID,
+            value = Dist.CLIENT,
+            bus = Mod.EventBusSubscriber.Bus.MOD)
     public static final class Setup {
         @SubscribeEvent
         public static void setup(net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent e) {
@@ -51,13 +54,18 @@ public final class UnderworldClient {
         if (!(e.getScreen() instanceof DeathScreen s) || death == null) return;
         UUID id = death;
         var access = (com.thelongtravail.mixin.BookDeathScreenAccessor) s;
-        int firstY = access.travail$exitButtons().stream().mapToInt(Button::getY).min().orElse(s.height / 4 + 72);
+        int firstY =
+                access.travail$exitButtons().stream()
+                        .mapToInt(Button::getY)
+                        .min()
+                        .orElse(s.height / 4 + 72);
         for (Button existing : access.travail$exitButtons()) existing.setY(existing.getY() + 24);
         Button button =
                 Button.builder(
                                 revivalName(),
                                 b -> {
-                                    TravailNetwork.requestUnderworld(new UnderworldPacket.Request(id));
+                                    TravailNetwork.requestUnderworld(
+                                            new UnderworldPacket.Request(id));
                                 })
                         .bounds(s.width / 2 - 100, firstY, 200, 20)
                         .build();
@@ -75,31 +83,47 @@ public final class UnderworldClient {
     public static void tick(net.minecraftforge.event.TickEvent.ClientTickEvent e) {
         if (e.phase != net.minecraftforge.event.TickEvent.Phase.END || death == null) return;
         var mc = Minecraft.getInstance();
-        if (mc.player != null && mc.level != null && mc.player.isDeadOrDying() && !(mc.screen instanceof DeathScreen))
+        if (mc.player != null
+                && mc.level != null
+                && mc.player.isDeadOrDying()
+                && !(mc.screen instanceof DeathScreen))
             mc.setScreen(
                     new DeathScreen(
-                            Component.translatable("death.attack.generic", mc.player.getDisplayName()),
+                            Component.translatable(
+                                    "death.attack.generic", mc.player.getDisplayName()),
                             mc.level.getLevelData().isHardcore()));
     }
 
     public static List<Component> details(
-            UnderworldAccessoryItem item, net.minecraft.world.entity.player.Player viewer, boolean complete) {
+            UnderworldAccessoryItem item,
+            net.minecraft.world.entity.player.Player viewer,
+            boolean complete) {
         List<Component> out = new ArrayList<>();
         out.add(Component.empty());
         {
-            String prefix = "tooltip.the_long_travail." + (item.ring ? "thousand_years." : "book_of_dead.");
+            String prefix =
+                    "tooltip.the_long_travail." + (item.ring ? "thousand_years." : "book_of_dead.");
             boolean witnessed =
                     !complete
                             && viewer != null
                             && com.thelongtravail.data.LongTravailData.hasWitness(
-                                    TravailCurios.stack(viewer), com.thelongtravail.TravailAspect.UNDERWORLD);
+                                    TravailCurios.stack(viewer),
+                                    com.thelongtravail.TravailAspect.UNDERWORLD);
             String[] keys =
                     item.ring
-                            ? new String[] {"malice_title", "malice", "", "witness_title", "witness"}
+                            ? new String[] {
+                                "malice_title", "malice", "", "witness_title", "witness"
+                            }
                             : witnessed
                                     ? new String[] {"revive", "hardcore", "", "limits"}
                                     : new String[] {
-                                        "revive", "hardcore", "", "witness_condition", "witness", "", "limits"
+                                        "revive",
+                                        "hardcore",
+                                        "",
+                                        "witness_condition",
+                                        "witness",
+                                        "",
+                                        "limits"
                                     };
             for (String key : keys) {
                 if (key.isEmpty()) {
@@ -110,13 +134,18 @@ public final class UnderworldClient {
                     out.add(
                             Component.translatable(
                                             prefix + key,
-                                            revivalName("tooltip.the_long_travail.book_of_dead.revival_name"))
+                                            revivalName(
+                                                    "tooltip.the_long_travail.book_of_dead.revival_name"))
                                     .withStyle(s -> s.withColor(RainTooltips.BODY_COLOR)));
                     continue;
                 }
                 Object[] args =
                         key.equals("malice")
-                                ? new Object[] {number(TooltipConfigSync.decimal("underworldItem.wither", .1) * 100)}
+                                ? new Object[] {
+                                    number(
+                                            TooltipConfigSync.decimal("underworldItem.wither", .1)
+                                                    * 100)
+                                }
                                 : new Object[0];
                 out.add(
                         RainTooltips.coloredLine(
@@ -126,7 +155,8 @@ public final class UnderworldClient {
                                                         s.withColor(
                                                                 key.endsWith("title")
                                                                         ? RainTooltips.TITLE_COLOR
-                                                                        : RainTooltips.BODY_COLOR))));
+                                                                        : RainTooltips
+                                                                                .BODY_COLOR))));
             }
         }
         return List.copyOf(out);

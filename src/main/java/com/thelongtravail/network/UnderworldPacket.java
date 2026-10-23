@@ -26,7 +26,8 @@ public record UnderworldPacket(UUID death, boolean available) {
     }
 
     public static void send(ServerPlayer p, UUID id, boolean available) {
-        if (p.connection != null) TravailNetwork.sendUnderworld(p, new UnderworldPacket(id, available));
+        if (p.connection != null)
+            TravailNetwork.sendUnderworld(p, new UnderworldPacket(id, available));
     }
 
     public record Request(UUID death) {

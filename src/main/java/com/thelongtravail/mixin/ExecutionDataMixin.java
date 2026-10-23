@@ -28,8 +28,10 @@ public abstract class ExecutionDataMixin implements ExecutionData {
         isDirty = true;
     }
 
-    @WrapMethod(method = "set(Lnet/minecraft/network/syncher/EntityDataAccessor;Ljava/lang/Object;Z)V")
-    private <T> void travail$holdDeath(EntityDataAccessor<T> key, T value, boolean force, Operation<Void> original) {
+    @WrapMethod(
+            method = "set(Lnet/minecraft/network/syncher/EntityDataAccessor;Ljava/lang/Object;Z)V")
+    private <T> void travail$holdDeath(
+            EntityDataAccessor<T> key, T value, boolean force, Operation<Void> original) {
         if (entity instanceof LivingEntity living
                 && FinalExecution.locked(living)
                 && key.equals(ExecutionHealthAccessor.travail$healthKey())) return;

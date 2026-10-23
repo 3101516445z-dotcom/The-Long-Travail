@@ -33,27 +33,38 @@ public final class ModRegistry {
     private static final DeferredRegister<CreativeModeTab> TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, TheLongTravail.MODID);
 
-    public static final RegistryObject<Item> LONG_TRAVAIL = ITEMS.register("the_long_travail", LongTravailItem::new);
+    public static final RegistryObject<Item> LONG_TRAVAIL =
+            ITEMS.register("the_long_travail", LongTravailItem::new);
     public static final RegistryObject<Item> RENEWAL = ITEMS.register("renewal", RenewalItem::new);
-    public static final RegistryObject<Item> HOMECOMING = ITEMS.register("homecoming", HomecomingItem::new);
-    public static final RegistryObject<Item> WAYGUIDE = ITEMS.register("wayguide", WayguideItem::new);
+    public static final RegistryObject<Item> HOMECOMING =
+            ITEMS.register("homecoming", HomecomingItem::new);
+    public static final RegistryObject<Item> WAYGUIDE =
+            ITEMS.register("wayguide", WayguideItem::new);
     public static final RegistryObject<Item> SPRING_CORNER =
-            ITEMS.register("spring_corner", () -> new com.thelongtravail.item.FlourishingAccessoryItem(true));
+            ITEMS.register(
+                    "spring_corner",
+                    () -> new com.thelongtravail.item.FlourishingAccessoryItem(true));
     public static final RegistryObject<Item> MISTLETOE =
             ITEMS.register("mistletoe", com.thelongtravail.item.MistletoeItem::new);
     public static final RegistryObject<Item> EVERLASTING_FLOWER =
-            ITEMS.register("everlasting_flower", com.thelongtravail.item.EverlastingFlowerItem::new);
+            ITEMS.register(
+                    "everlasting_flower", com.thelongtravail.item.EverlastingFlowerItem::new);
     public static final RegistryObject<MobEffect> MISTLETOE_EFFECT =
             EFFECTS.register("mistletoe", com.thelongtravail.effect.MistletoeEffect::new);
     public static final RegistryObject<Item> AFFECTION =
-            ITEMS.register("affection", () -> new com.thelongtravail.item.FlourishingAccessoryItem(false));
-    private static final DeferredRegister<net.minecraft.world.item.crafting.RecipeSerializer<?>> RECIPES =
-            DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, TheLongTravail.MODID);
+            ITEMS.register(
+                    "affection", () -> new com.thelongtravail.item.FlourishingAccessoryItem(false));
+    private static final DeferredRegister<net.minecraft.world.item.crafting.RecipeSerializer<?>>
+            RECIPES =
+                    DeferredRegister.create(
+                            ForgeRegistries.RECIPE_SERIALIZERS, TheLongTravail.MODID);
     public static final RegistryObject<
                     net.minecraft.world.item.crafting.RecipeSerializer<
                             com.thelongtravail.flourishing.SpringRecipes.Crown>>
             SPRING_CROWN_RECIPE =
-                    RECIPES.register("spring_crown", com.thelongtravail.flourishing.SpringRecipes.CrownSerializer::new);
+                    RECIPES.register(
+                            "spring_crown",
+                            com.thelongtravail.flourishing.SpringRecipes.CrownSerializer::new);
     public static final RegistryObject<
                     net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer<
                             com.thelongtravail.flourishing.SpringRecipes.Change>>
@@ -61,8 +72,10 @@ public final class ModRegistry {
                     RECIPES.register(
                             "spring_change",
                             () ->
-                                    new net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer<>(
-                                            com.thelongtravail.flourishing.SpringRecipes.Change::new));
+                                    new net.minecraft.world.item.crafting
+                                            .SimpleCraftingRecipeSerializer<>(
+                                            com.thelongtravail.flourishing.SpringRecipes.Change
+                                                    ::new));
     public static final RegistryObject<Item> PERFECT_FLUID =
             ITEMS.register("perfect_fluid", () -> new com.thelongtravail.item.AbyssItem(false));
     public static final RegistryObject<Item> MIDNIGHT_LAFITE =
@@ -74,55 +87,78 @@ public final class ModRegistry {
                     RECIPES.register(
                             "perfect_fluid_copy",
                             () ->
-                                    new net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer<>(
+                                    new net.minecraft.world.item.crafting
+                                            .SimpleCraftingRecipeSerializer<>(
                                             com.thelongtravail.abyss.PerfectFluidRecipe::new));
-    public static final RegistryObject<Item> EKI = ITEMS.register("eki", com.thelongtravail.item.EkiItem::new);
+    public static final RegistryObject<Item> EKI =
+            ITEMS.register("eki", com.thelongtravail.item.EkiItem::new);
     public static final RegistryObject<Item> TOKAIDO =
             ITEMS.register("tokaido", com.thelongtravail.item.TokaidoItem::new);
     public static final RegistryObject<Item> FREE_AND_EASY_WANDERING =
-            ITEMS.register("free_and_easy_wandering", () -> new com.thelongtravail.item.BoundlessAccessoryItem(true));
+            ITEMS.register(
+                    "free_and_easy_wandering",
+                    () -> new com.thelongtravail.item.BoundlessAccessoryItem(true));
     public static final RegistryObject<Item> LITTLE_PRINCE =
-            ITEMS.register("little_prince", () -> new com.thelongtravail.item.BoundlessRelicItem(true));
+            ITEMS.register(
+                    "little_prince", () -> new com.thelongtravail.item.BoundlessRelicItem(true));
     public static final RegistryObject<Item> LORENTZ_FANTASY =
-            ITEMS.register("lorentz_fantasy", () -> new com.thelongtravail.item.BoundlessRelicItem(false));
+            ITEMS.register(
+                    "lorentz_fantasy", () -> new com.thelongtravail.item.BoundlessRelicItem(false));
     public static final RegistryObject<Item> STAR_VOICE =
-            ITEMS.register("star_voice", () -> new com.thelongtravail.item.BoundlessAccessoryItem(false));
+            ITEMS.register(
+                    "star_voice", () -> new com.thelongtravail.item.BoundlessAccessoryItem(false));
     public static final RegistryObject<Item> SWORD_AND_LANTERN =
             ITEMS.register("sword_and_lantern", com.thelongtravail.item.SwordLanternItem::new);
     public static final RegistryObject<Item> THOUSAND_YEARS =
-            ITEMS.register("a_thousand_years_later", () -> new com.thelongtravail.item.UnderworldAccessoryItem(true));
+            ITEMS.register(
+                    "a_thousand_years_later",
+                    () -> new com.thelongtravail.item.UnderworldAccessoryItem(true));
     public static final RegistryObject<Item> BOOK_OF_DEAD =
-            ITEMS.register("book_of_the_dead", () -> new com.thelongtravail.item.UnderworldAccessoryItem(false));
+            ITEMS.register(
+                    "book_of_the_dead",
+                    () -> new com.thelongtravail.item.UnderworldAccessoryItem(false));
     public static final RegistryObject<Item> DEMON_KING =
             ITEMS.register(
-                    "demon_king_of_the_sixth_heaven", () -> new com.thelongtravail.item.UnderworldRelicItem(false));
+                    "demon_king_of_the_sixth_heaven",
+                    () -> new com.thelongtravail.item.UnderworldRelicItem(false));
     public static final RegistryObject<Item> SOUL_BANNER =
-            ITEMS.register("myriad_souls_banner", () -> new com.thelongtravail.item.UnderworldRelicItem(true));
+            ITEMS.register(
+                    "myriad_souls_banner",
+                    () -> new com.thelongtravail.item.UnderworldRelicItem(true));
     public static final RegistryObject<Item> PHOSPHOPHYLLITE =
             ITEMS.register("phosphophyllite", com.thelongtravail.item.PhosphophylliteItem::new);
     public static final RegistryObject<Item> UNDERGROUND_VELVET =
-            ITEMS.register("underground_velvet", com.thelongtravail.item.UndergroundVelvetItem::new);
-    public static final RegistryObject<Item> AZRAEL = ITEMS.register("azrael", com.thelongtravail.item.AzraelItem::new);
+            ITEMS.register(
+                    "underground_velvet", com.thelongtravail.item.UndergroundVelvetItem::new);
+    public static final RegistryObject<Item> AZRAEL =
+            ITEMS.register("azrael", com.thelongtravail.item.AzraelItem::new);
     public static final RegistryObject<Item> DON_QUIXOTE =
             ITEMS.register("don_quixote", com.thelongtravail.item.DonQuixoteItem::new);
     public static final RegistryObject<Item> TOWER_OF_BABEL =
             ITEMS.register("tower_of_babel", com.thelongtravail.item.BabelItem::new);
     public static final RegistryObject<Item> GOLDEN_AGE =
-            ITEMS.register("golden_age", () -> new com.thelongtravail.item.FarReachAccessoryItem(true));
+            ITEMS.register(
+                    "golden_age", () -> new com.thelongtravail.item.FarReachAccessoryItem(true));
     public static final RegistryObject<Item> ICARUS =
-            ITEMS.register("icarus", () -> new com.thelongtravail.item.FarReachAccessoryItem(false));
+            ITEMS.register(
+                    "icarus", () -> new com.thelongtravail.item.FarReachAccessoryItem(false));
     public static final RegistryObject<EntityType<WayguideEntity>> WAYGUIDE_ENTITY =
             ENTITIES.register(
                     "wayguide",
                     () ->
-                            EntityType.Builder.<WayguideEntity>of(WayguideEntity::new, MobCategory.MISC)
+                            EntityType.Builder.<WayguideEntity>of(
+                                            WayguideEntity::new, MobCategory.MISC)
                                     .sized(0.25F, 0.25F)
                                     .clientTrackingRange(8)
                                     .updateInterval(5)
                                     .build(TheLongTravail.MODID + ":wayguide"));
     public static final java.util.List<RegistryObject<Item>> REVELATION_STONES =
             java.util.Arrays.stream(TravailAspect.values())
-                    .map(aspect -> ITEMS.<Item>register(aspect.id() + "_stone", () -> new RevelationStoneItem(aspect)))
+                    .map(
+                            aspect ->
+                                    ITEMS.<Item>register(
+                                            aspect.id() + "_stone",
+                                            () -> new RevelationStoneItem(aspect)))
                     .toList();
     public static final java.util.List<RegistryObject<Item>> ESSENCES =
             java.util.Arrays.stream(TravailAspect.values())
@@ -130,9 +166,12 @@ public final class ModRegistry {
                             aspect ->
                                     ITEMS.<Item>register(
                                             aspect.id() + "_essence",
-                                            () -> new com.thelongtravail.item.AspectEssenceItem(aspect)))
+                                            () ->
+                                                    new com.thelongtravail.item.AspectEssenceItem(
+                                                            aspect)))
                     .toList();
-    public static final RegistryObject<MobEffect> STIFF = EFFECTS.register("stiff", StiffEffect::new);
+    public static final RegistryObject<MobEffect> STIFF =
+            EFFECTS.register("stiff", StiffEffect::new);
     public static final RegistryObject<MobEffect> VISUAL_DEPRIVATION =
             EFFECTS.register("visual_deprivation", VisualDeprivationEffect::new);
     public static final RegistryObject<CreativeModeTab> TAB =
@@ -148,9 +187,14 @@ public final class ModRegistry {
                                                 output.accept(RENEWAL.get());
                                                 output.accept(HOMECOMING.get());
                                                 output.accept(WAYGUIDE.get());
-                                                for (TravailAspect aspect : TravailAspect.values()) {
-                                                    output.accept(REVELATION_STONES.get(aspect.ordinal()).get());
-                                                    output.accept(ESSENCES.get(aspect.ordinal()).get());
+                                                for (TravailAspect aspect :
+                                                        TravailAspect.values()) {
+                                                    output.accept(
+                                                            REVELATION_STONES
+                                                                    .get(aspect.ordinal())
+                                                                    .get());
+                                                    output.accept(
+                                                            ESSENCES.get(aspect.ordinal()).get());
                                                     var items =
                                                             switch (aspect) {
                                                                 case FLOURISHING ->
@@ -190,7 +234,8 @@ public final class ModRegistry {
                                                                                 LITTLE_PRINCE,
                                                                                 LORENTZ_FANTASY);
                                                             };
-                                                    items.forEach(item -> output.accept(item.get()));
+                                                    items.forEach(
+                                                            item -> output.accept(item.get()));
                                                 }
                                             })
                                     .build());

@@ -10,7 +10,8 @@ public final class BabelCarrying {
     }
 
     public static boolean carrying(ServerPlayer p) {
-        return CarryingApi.query(p, ModRegistry.TOWER_OF_BABEL.get()) != CarryingApi.CarryingResult.ABSENT;
+        return CarryingApi.query(p, ModRegistry.TOWER_OF_BABEL.get())
+                != CarryingApi.CarryingResult.ABSENT;
     }
 
     public static void forget(ServerPlayer p) {

@@ -9,7 +9,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 
-public record DiaryHintTooltip(Parts parts, int prefixWidth, int keyWidth) implements TooltipComponent {
+public record DiaryHintTooltip(Parts parts, int prefixWidth, int keyWidth)
+        implements TooltipComponent {
     public record Parts(Component original, String prefix, Component key, String suffix) {}
 
     public static Parts split(Component line) {
@@ -19,15 +20,30 @@ public record DiaryHintTooltip(Parts parts, int prefixWidth, int keyWidth) imple
             String marker = "\uFFF0";
             String pattern = Component.translatable(text.getKey(), marker).getString();
             int at = pattern.indexOf(marker);
-            if (at >= 0) return new Parts(line, pattern.substring(0, at), key, pattern.substring(at + marker.length()));
+            if (at >= 0)
+                return new Parts(
+                        line,
+                        pattern.substring(0, at),
+                        key,
+                        pattern.substring(at + marker.length()));
         }
         return new Parts(line, "", null, "");
     }
 
     public static List<DiaryHintTooltip> layout(Font font, List<Component> lines) {
         var parts = lines.stream().map(DiaryHintTooltip::split).toList();
-        int prefix = parts.stream().filter(p -> p.key() != null).mapToInt(p -> font.width(p.prefix())).max().orElse(0);
-        int key = parts.stream().filter(p -> p.key() != null).mapToInt(p -> font.width(p.key())).max().orElse(0);
+        int prefix =
+                parts.stream()
+                        .filter(p -> p.key() != null)
+                        .mapToInt(p -> font.width(p.prefix()))
+                        .max()
+                        .orElse(0);
+        int key =
+                parts.stream()
+                        .filter(p -> p.key() != null)
+                        .mapToInt(p -> font.width(p.key()))
+                        .max()
+                        .orElse(0);
         return parts.stream().map(p -> new DiaryHintTooltip(p, prefix, key)).toList();
     }
 
@@ -36,7 +52,9 @@ public record DiaryHintTooltip(Parts parts, int prefixWidth, int keyWidth) imple
     }
 
     public int width(Font font) {
-        return parts.key() == null ? font.width(parts.original()) : suffixX() + font.width(parts.suffix());
+        return parts.key() == null
+                ? font.width(parts.original())
+                : suffixX() + font.width(parts.suffix());
     }
 
     public static final class Renderer implements ClientTooltipComponent {
@@ -66,7 +84,8 @@ public record DiaryHintTooltip(Parts parts, int prefixWidth, int keyWidth) imple
             graphics.drawString(font, row.prefix(), x, y, RainTooltips.BODY_COLOR, true);
             int keyX = x + value.prefixWidth() + (value.keyWidth() - font.width(row.key())) / 2;
             graphics.drawString(font, row.key(), keyX, y, RainTooltips.ACCENT_COLOR, true);
-            graphics.drawString(font, row.suffix(), x + value.suffixX(), y, RainTooltips.BODY_COLOR, true);
+            graphics.drawString(
+                    font, row.suffix(), x + value.suffixX(), y, RainTooltips.BODY_COLOR, true);
         }
     }
 }

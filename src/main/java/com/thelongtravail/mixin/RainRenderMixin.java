@@ -12,7 +12,12 @@ import org.spongepowered.asm.mixin.Mixin;
 public abstract class RainRenderMixin {
     @WrapMethod(method = "renderSnowAndRain")
     private void travail$render(
-            LightTexture light, float tick, double x, double y, double z, Operation<Void> original) {
+            LightTexture light,
+            float tick,
+            double x,
+            double y,
+            double z,
+            Operation<Void> original) {
         try (var scope = new PrecipitationScope(Minecraft.getInstance().level)) {
             original.call(light, tick, x, y, z);
         }

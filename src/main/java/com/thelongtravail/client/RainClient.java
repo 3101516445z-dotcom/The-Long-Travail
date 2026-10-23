@@ -35,7 +35,10 @@ public final class RainClient {
         if (CAST.isActiveAndMatches(key)) TravailNetwork.requestRain();
     }
 
-    @Mod.EventBusSubscriber(modid = TheLongTravail.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(
+            modid = TheLongTravail.MODID,
+            value = Dist.CLIENT,
+            bus = Mod.EventBusSubscriber.Bus.MOD)
     public static final class Registration {
         @SubscribeEvent
         public static void register(RegisterKeyMappingsEvent e) {

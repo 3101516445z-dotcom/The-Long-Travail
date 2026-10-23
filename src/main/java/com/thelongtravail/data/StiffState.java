@@ -14,7 +14,9 @@ public final class StiffState {
         if (!(entity instanceof Player player)) return entity.hasEffect(ModRegistry.STIFF.get());
         if (!com.thelongtravail.config.ModeEffectRules.diaryApplies(player)) return false;
         // 本地倒计时仅供预测显示，不能在低 TPS 时抢先解除服务端状态。
-        return player.level().isClientSide ? player.getPersistentData().contains(UNTIL) : remaining(player) > 0;
+        return player.level().isClientSide
+                ? player.getPersistentData().contains(UNTIL)
+                : remaining(player) > 0;
     }
 
     public static int remaining(Player player) {
@@ -43,13 +45,15 @@ public final class StiffState {
 
     public static void clear(ServerPlayer player) {
         accept(player, 0);
-        if (player.hasEffect(ModRegistry.STIFF.get())) EffectChanges.remove(player, ModRegistry.STIFF.get(), false);
+        if (player.hasEffect(ModRegistry.STIFF.get()))
+            EffectChanges.remove(player, ModRegistry.STIFF.get(), false);
         TravailNetwork.sendStiff(player, 0);
     }
 
     public static void tick(ServerPlayer player) {
         if (player.getPersistentData().contains(UNTIL)
-                && (remaining(player) == 0 || !com.thelongtravail.config.ModeEffectRules.diaryApplies(player)))
+                && (remaining(player) == 0
+                        || !com.thelongtravail.config.ModeEffectRules.diaryApplies(player)))
             clear(player);
     }
 

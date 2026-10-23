@@ -10,15 +10,23 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(LivingEntity.class)
 public abstract class DamageReplayMixin {
     @WrapMethod(method = "getDamageAfterArmorAbsorb")
-    private float travail$replayArmor(DamageSource source, float amount, Operation<Float> original) {
-        return DamageReplay.active((LivingEntity) (Object) this, source) ? amount : original.call(source, amount);
+    private float travail$replayArmor(
+            DamageSource source, float amount, Operation<Float> original) {
+        return DamageReplay.active((LivingEntity) (Object) this, source)
+                ? amount
+                : original.call(source, amount);
     }
 
     @WrapMethod(method = "getDamageAfterMagicAbsorb")
-    private float travail$replayMagic(DamageSource source, float amount, Operation<Float> original) {
+    private float travail$replayMagic(
+            DamageSource source, float amount, Operation<Float> original) {
         float result =
-                DamageReplay.active((LivingEntity) (Object) this, source) ? amount : original.call(source, amount);
-        var context = com.thelongtravail.helper.CombatContext.current((LivingEntity) (Object) this, source);
+                DamageReplay.active((LivingEntity) (Object) this, source)
+                        ? amount
+                        : original.call(source, amount);
+        var context =
+                com.thelongtravail.helper.CombatContext.current(
+                        (LivingEntity) (Object) this, source);
         return context == null ? result : context.beforeAbsorption(result);
     }
 

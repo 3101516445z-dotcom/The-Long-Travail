@@ -17,30 +17,41 @@ import java.util.*;
 
 @Mod.EventBusSubscriber(modid = "the_long_travail")
 public final class Phosphophyllite {
-    private static final ResourceLocation SOURCE = new ResourceLocation("the_long_travail", "phosphophyllite");
+    private static final ResourceLocation SOURCE =
+            new ResourceLocation("the_long_travail", "phosphophyllite");
+    // 新生魔艺用此属性调整药水持续时间，两个处理阶段都须将其排除。
+
+    private static final Set<String> COMPAT_EXCLUSIONS =
+            Set.of("ars_nouveau:ars_nouveau.perk.wixie");
 
     private record Applied(int phase, double amount, Set<String> excluded) {}
 
     private static List<? extends String> excludedValues = List.of();
-    private static Set<String> excludedSnapshot = Set.of();
+    private static Set<String> excludedSnapshot = COMPAT_EXCLUSIONS;
 
     private static Set<String> exclusions() {
         var values = DeepValleyItemsConfig.EXCLUDED_ATTRIBUTES.get();
         if (!excludedValues.equals(values)) {
             excludedValues = List.copyOf(values);
-            excludedSnapshot = Set.copyOf(values);
+            Set<String> merged = new HashSet<>(values);
+            merged.addAll(COMPAT_EXCLUSIONS);
+            excludedSnapshot = Set.copyOf(merged);
         }
         return excludedSnapshot;
     }
 
     private static final Map<LivingEntity, Applied> APPLIED = new WeakHashMap<>();
-    private static final Set<LivingEntity> HEALING = Collections.newSetFromMap(new IdentityHashMap<>());
+    private static final Set<LivingEntity> HEALING =
+            Collections.newSetFromMap(new IdentityHashMap<>());
 
     public static int phase(LivingEntity entity) {
         if (!entity.isAlive() || entity.isSpectator()) return 0;
         if (entity instanceof ServerPlayer p) {
-            if (!AccessoryEquipRules.hasEquipped(p, "curio", ModRegistry.PHOSPHOPHYLLITE.get())) return 0;
-            return TravailStateApi.hasDeepValleyWitness(p) ? 2 : TravailStateApi.hasDeepValleyMalice(p) ? 1 : 0;
+            if (!AccessoryEquipRules.hasEquipped(p, "curio", ModRegistry.PHOSPHOPHYLLITE.get()))
+                return 0;
+            return TravailStateApi.hasDeepValleyWitness(p)
+                    ? 2
+                    : TravailStateApi.hasDeepValleyMalice(p) ? 1 : 0;
         }
         return com.thelongtravail.compat.maid.MaidAccessories.phosphophyllitePhase(entity);
     }
@@ -50,7 +61,8 @@ public final class Phosphophyllite {
         int phase = phase(entity);
         return phase == 0
                 ? 0
-                : DeepValleyItemsConfig.get("phosphophyllite." + (phase == 2 ? "witnessDamage" : "maliceDamage"));
+                : DeepValleyItemsConfig.get(
+                        "phosphophyllite." + (phase == 2 ? "witnessDamage" : "maliceDamage"));
     }
 
     public static void tick(LivingEntity entity) {
@@ -59,7 +71,8 @@ public final class Phosphophyllite {
                 phase == 0
                         ? 0
                         : DeepValleyItemsConfig.get(
-                                "phosphophyllite." + (phase == 2 ? "witnessAttributes" : "maliceAttributes"));
+                                "phosphophyllite."
+                                        + (phase == 2 ? "witnessAttributes" : "maliceAttributes"));
         Set<String> excluded = exclusions();
         Applied old = APPLIED.get(entity);
         boolean changed =
@@ -76,14 +89,16 @@ public final class Phosphophyllite {
     public static void received(LivingEntity entity) {
         if (phase(entity) != 2 || !HEALING.add(entity)) return;
         try {
-            if (entity.getRandom().nextDouble() < DeepValleyItemsConfig.get("phosphophyllite.healChance"))
+            if (entity.getRandom().nextDouble()
+                    < DeepValleyItemsConfig.get("phosphophyllite.healChance"))
                 OverflowHealing.heal(
                         entity,
                         (float)
                                 Math.min(
                                         Float.MAX_VALUE,
                                         entity.getMaxHealth()
-                                                * DeepValleyItemsConfig.get("phosphophyllite.healFraction")));
+                                                * DeepValleyItemsConfig.get(
+                                                        "phosphophyllite.healFraction")));
         } finally {
             HEALING.remove(entity);
         }
@@ -99,7 +114,7 @@ public final class Phosphophyllite {
         APPLIED.clear();
         HEALING.clear();
         excludedValues = List.of();
-        excludedSnapshot = Set.of();
+        excludedSnapshot = COMPAT_EXCLUSIONS;
     }
 
     private Phosphophyllite() {}

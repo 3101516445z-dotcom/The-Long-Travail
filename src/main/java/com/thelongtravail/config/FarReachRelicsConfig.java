@@ -92,7 +92,14 @@ public final class FarReachRelicsConfig {
                 2,
                 128,
                 "加速补货期间，每个世界日实际补货的次数上限；普通补货也计入。\nMaximum number of actual restocks per world day while accelerated restocking is active. Normal restocks also count toward this limit.");
-        for (String area : List.of("inventory", "offhand", "armor", "enderChest", "curios", "externalInventoryTick"))
+        for (String area :
+                List.of(
+                        "inventory",
+                        "offhand",
+                        "armor",
+                        "enderChest",
+                        "curios",
+                        "externalInventoryTick"))
             CARRY.put(
                     area,
                     b.comment(
@@ -113,7 +120,9 @@ public final class FarReachRelicsConfig {
                                     try {
                                         String[] p = s.split("=", 2);
                                         double d = Double.parseDouble(p[1]);
-                                        return net.minecraft.resources.ResourceLocation.tryParse(p[0]) != null
+                                        return net.minecraft.resources.ResourceLocation.tryParse(
+                                                                p[0])
+                                                        != null
                                                 && Double.isFinite(d)
                                                 && d > 0;
                                     } catch (Exception e) {
@@ -122,8 +131,15 @@ public final class FarReachRelicsConfig {
                                 });
     }
 
-    private static void n(ForgeConfigSpec.Builder b, String key, double value, double min, double max, String comment) {
-        FarReachItemsConfig.NUMBERS.put(key, b.comment(comment).defineInRange("items." + key, value, min, max));
+    private static void n(
+            ForgeConfigSpec.Builder b,
+            String key,
+            double value,
+            double min,
+            double max,
+            String comment) {
+        FarReachItemsConfig.NUMBERS.put(
+                key, b.comment(comment).defineInRange("items." + key, value, min, max));
     }
 
     public static double value(String key) {

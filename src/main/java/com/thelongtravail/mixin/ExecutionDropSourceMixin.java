@@ -22,7 +22,8 @@ public abstract class ExecutionDropSourceMixin {
                             value = "INVOKE",
                             target =
                                     "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
-    private boolean travail$sourceBeforeAdmission(Level level, Entity item, Operation<Boolean> original) {
+    private boolean travail$sourceBeforeAdmission(
+            Level level, Entity item, Operation<Boolean> original) {
         if (item instanceof ItemEntity drop) ExecutionLoot.source((Entity) (Object) this, drop);
         return original.call(level, item);
     }
@@ -32,7 +33,8 @@ public abstract class ExecutionDropSourceMixin {
             method =
                     "spawnAtLocation(Lnet/minecraft/world/item/ItemStack;F)Lnet/minecraft/world/entity/item/ItemEntity;",
             at = @At("RETURN"))
-    private void travail$capturedSource(ItemStack stack, float offset, CallbackInfoReturnable<ItemEntity> cir) {
+    private void travail$capturedSource(
+            ItemStack stack, float offset, CallbackInfoReturnable<ItemEntity> cir) {
         ExecutionLoot.source((Entity) (Object) this, cir.getReturnValue());
     }
 }

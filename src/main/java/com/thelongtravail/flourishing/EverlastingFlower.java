@@ -25,7 +25,8 @@ import java.util.UUID;
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
 public final class EverlastingFlower {
     public static final TagKey<Biome> BIOMES =
-            TagKey.create(Registries.BIOME, new ResourceLocation(TheLongTravail.MODID, "flower_biomes"));
+            TagKey.create(
+                    Registries.BIOME, new ResourceLocation(TheLongTravail.MODID, "flower_biomes"));
     private static final ResourceLocation GROWTH_SOURCE =
             ResourceLocation.fromNamespaceAndPath(TheLongTravail.MODID, "everlasting_flower");
     private static final DamageReplay.Policy REPLAY =
@@ -35,7 +36,8 @@ public final class EverlastingFlower {
                 }
 
                 public boolean continueChain(LivingEntity attacker, LivingEntity target) {
-                    return attacker.getRandom().nextDouble() < FlourishingGrowthConfig.flower("witness.repeatChance");
+                    return attacker.getRandom().nextDouble()
+                            < FlourishingGrowthConfig.flower("witness.repeatChance");
                 }
             };
     private static final UUID SPEED = UUID.fromString("4e429a52-f0ae-41db-8bc8-e54e3689ada2");
@@ -61,14 +63,17 @@ public final class EverlastingFlower {
         if (!(entity instanceof ServerPlayer player))
             return com.thelongtravail.compat.maid.MaidAccessories.flowerPhase(entity);
         var diary = TravailCurios.stack(player);
-        return diary.isEmpty() ? 0 : LongTravailData.hasWitness(diary, TravailAspect.FLOURISHING) ? 2 : 1;
+        return diary.isEmpty()
+                ? 0
+                : LongTravailData.hasWitness(diary, TravailAspect.FLOURISHING) ? 2 : 1;
     }
 
     public static boolean growthEnabled(ItemStack stack) {
         return stack.hasTag() && stack.getTag().contains("TravailGrowth")
                 ? stack.getTag().getBoolean("TravailGrowth")
                 : com.thelongtravail.network.TooltipConfigSync.decimal(
-                                "floral.growthDefault", FlourishingGrowthConfig.DEFAULT_GROWTH.get() ? 1 : 0)
+                                "floral.growthDefault",
+                                FlourishingGrowthConfig.DEFAULT_GROWTH.get() ? 1 : 0)
                         > 0;
     }
 
@@ -77,11 +82,15 @@ public final class EverlastingFlower {
     }
 
     public static double bonus(LivingEntity entity) {
-        return phase(entity) == 2 && biome(entity) ? FlourishingGrowthConfig.flower("witness.damageBonus") : 0;
+        return phase(entity) == 2 && biome(entity)
+                ? FlourishingGrowthConfig.flower("witness.damageBonus")
+                : 0;
     }
 
     public static double reduction(LivingEntity entity) {
-        return phase(entity) == 1 && biome(entity) ? FlourishingGrowthConfig.flower("malice.damageReduction") : 0;
+        return phase(entity) == 1 && biome(entity)
+                ? FlourishingGrowthConfig.flower("malice.damageReduction")
+                : 0;
     }
 
     public static void update(LivingEntity entity) {
@@ -105,19 +114,27 @@ public final class EverlastingFlower {
         else GrowthScheduler.remove(GROWTH_SOURCE, entity);
     }
 
+    public static void unequipped(LivingEntity entity) {
+        DamageReplay.cancel(entity, REPLAY);
+    }
+
     @SubscribeEvent
     public static void tick(LivingEvent.LivingTickEvent event) {
         LivingEntity entity = event.getEntity();
-        if (entity instanceof ServerPlayer || com.thelongtravail.compat.maid.MaidAccessories.isMaid(entity))
-            update(entity);
+        if (entity instanceof ServerPlayer
+                || com.thelongtravail.compat.maid.MaidAccessories.isMaid(entity)) update(entity);
     }
 
-    public static void successful(LivingEntity target, DamageSource source, float amount, boolean replay) {
-        if (!(source.getEntity() instanceof LivingEntity attacker) || attacker == target || !attacker.isAlive()) return;
+    public static void successful(
+            LivingEntity target, DamageSource source, float amount, boolean replay) {
+        if (!(source.getEntity() instanceof LivingEntity attacker)
+                || attacker == target
+                || !attacker.isAlive()) return;
         if (replay) return;
         int phase = phase(attacker);
         if (phase == 1
-                && attacker.getRandom().nextDouble() < FlourishingGrowthConfig.flower("malice.resistanceChance")) {
+                && attacker.getRandom().nextDouble()
+                        < FlourishingGrowthConfig.flower("malice.resistanceChance")) {
             int amplifier = FlourishingGrowthConfig.RESISTANCE_LEVEL.get() - 1;
             var old = attacker.getEffect(MobEffects.DAMAGE_RESISTANCE);
             if (old == null || old.getAmplifier() <= amplifier)
@@ -130,7 +147,8 @@ public final class EverlastingFlower {
         } else if (phase == 2
                 && amount > 0
                 && Float.isFinite(amount)
-                && attacker.getRandom().nextDouble() < FlourishingGrowthConfig.flower("witness.repeatChance"))
+                && attacker.getRandom().nextDouble()
+                        < FlourishingGrowthConfig.flower("witness.repeatChance"))
             DamageReplay.enqueue(attacker, target, source, amount, REPLAY);
     }
 

@@ -106,7 +106,8 @@ public final class VisualDeprivationTimeline {
 
     private float value(double time) {
         if (owner == null) return 0;
-        if (releasing) return riseFrom * (1 - smooth((time - riseStart) / Math.max(0.0001, riseLength)));
+        if (releasing)
+            return riseFrom * (1 - smooth((time - riseStart) / Math.max(0.0001, riseLength)));
         time = effectTime(time);
         if (time >= end) return 0;
         float in = riseLength <= 0 ? 1 : smooth((time - riseStart) / riseLength);
@@ -134,7 +135,11 @@ public final class VisualDeprivationTimeline {
     }
 
     public int remaining() {
-        return releasing ? 0 : (int) Math.max(0, Math.min(Integer.MAX_VALUE, Math.ceil(end - effectTime(clock))));
+        return releasing
+                ? 0
+                : (int)
+                        Math.max(
+                                0, Math.min(Integer.MAX_VALUE, Math.ceil(end - effectTime(clock))));
     }
 
     public int total() {

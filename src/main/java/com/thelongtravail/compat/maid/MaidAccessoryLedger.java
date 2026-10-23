@@ -11,7 +11,10 @@ public final class MaidAccessoryLedger extends SavedData {
     public static MaidAccessoryLedger get(MinecraftServer server) {
         return server.overworld()
                 .getDataStorage()
-                .computeIfAbsent(MaidAccessoryLedger::load, MaidAccessoryLedger::new, "travail_maid_accessories");
+                .computeIfAbsent(
+                        MaidAccessoryLedger::load,
+                        MaidAccessoryLedger::new,
+                        "travail_maid_accessories");
     }
 
     public CompoundTag find(UUID id) {

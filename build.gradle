@@ -6,7 +6,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.38'
 }
 
-version = '0.1.2'
+version = '0.1.2-fix'
 group = 'com.thelongtravail'
 
 base {
@@ -62,6 +62,10 @@ repositories {
             includeModule('maven.modrinth', 'embeddium')
             includeModule('maven.modrinth', 'jade')
             includeModule('maven.modrinth', 'R0bDWFAW')
+            includeModule('maven.modrinth', 'apotheosis')
+            includeModule('maven.modrinth', 'placebo')
+            includeModule('maven.modrinth', 'quark')
+            includeModule('maven.modrinth', 'zeta')
         }
     }
 }
@@ -106,3 +110,5 @@ tasks.named('jarJar').configure {
     finalizedBy 'reobfJarJar'
 }
 reobf { jarJar {} }
+
+apply from: 'gradle/language.gradle'

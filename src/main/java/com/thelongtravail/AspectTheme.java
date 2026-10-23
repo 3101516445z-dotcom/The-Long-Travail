@@ -15,7 +15,12 @@ public enum AspectTheme {
     private static final AspectTheme[] THEMES = values();
 
     AspectTheme(int accent, int ink) {
-        this(accent, ink, mix(accent, 0x000000, .25F), mix(accent, 0xFFFFFF, .28F), mix(accent, 0xFFFFFF, .72F));
+        this(
+                accent,
+                ink,
+                mix(accent, 0x000000, .25F),
+                mix(accent, 0xFFFFFF, .28F),
+                mix(accent, 0xFFFFFF, .72F));
     }
 
     AspectTheme(int accent, int ink, int dark, int main, int highlight) {

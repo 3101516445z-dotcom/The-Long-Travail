@@ -22,10 +22,12 @@ public final class UndergroundVelvetItem extends Item implements ItemDescription
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> use(
+            Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (player.getCooldowns().isOnCooldown(this)) return InteractionResultHolder.fail(stack);
-        if (player instanceof ServerPlayer p && !com.thelongtravail.valley.UndergroundVelvet.use(p, stack))
+        if (player instanceof ServerPlayer p
+                && !com.thelongtravail.valley.UndergroundVelvet.use(p, stack))
             return InteractionResultHolder.fail(stack);
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }

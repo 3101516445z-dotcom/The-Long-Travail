@@ -14,7 +14,7 @@ final class TravailCommands {
 
     static void onRegisterCommands(RegisterCommandsEvent event) {
         event.getDispatcher().register(
-            Commands.literal("the_long_travail")
+            Commands.literal("tlt")
                 .requires(source -> source.hasPermission(2))
                 .then(Commands.literal("timestop")
                     .executes(context -> timeStop(context.getSource(),
@@ -53,11 +53,15 @@ final class TravailCommands {
                             context.getSource().getPlayerOrException(),
                             IntegerArgumentType.getInteger(context, "value"))))));
     }
+
     private static int timeStop(net.minecraft.commands.CommandSourceStack source, int ticks)
             throws com.mojang.brigadier.exceptions.CommandSyntaxException {
         var player = source.getPlayerOrException();
-        if (!player.isAlive() || player.isSpectator() || com.thelongtravail.boundless.TimeStopManager.frozen(player)) {
-            source.sendFailure(Component.translatable("command.the_long_travail.timestop.unavailable"));
+        if (!player.isAlive()
+                || player.isSpectator()
+                || com.thelongtravail.boundless.TimeStopManager.frozen(player)) {
+            source.sendFailure(
+                    Component.translatable("command.the_long_travail.timestop.unavailable"));
             return 0;
         }
         boolean started =
@@ -69,19 +73,24 @@ final class TravailCommands {
                                 player.position(),
                                 com.thelongtravail.config.BoundlessItemsConfig.get("star.radius"),
                                 ticks,
-                                com.thelongtravail.boundless.TimeStopExemptions.snapshot(player).orElse(null));
+                                com.thelongtravail.boundless.TimeStopExemptions.snapshot(player)
+                                        .orElse(null));
         if (!started) {
             source.sendFailure(Component.translatable("command.the_long_travail.timestop.failed"));
             return 0;
         }
-        source.sendSuccess(() -> Component.translatable("command.the_long_travail.timestop.started"), true);
+        source.sendSuccess(
+                () -> Component.translatable("command.the_long_travail.timestop.started"), true);
         return 1;
     }
 
     private static int executeTargets(
             net.minecraft.commands.CommandSourceStack source,
             java.util.Collection<? extends net.minecraft.world.entity.Entity> targets) {
-        var actor = source.getEntity() instanceof net.minecraft.world.entity.LivingEntity living ? living : null;
+        var actor =
+                source.getEntity() instanceof net.minecraft.world.entity.LivingEntity living
+                        ? living
+                        : null;
         int dead = 0, terminated = 0, survived = 0, skipped = 0, failed = 0;
         for (var target : targets) {
             if (!(target instanceof net.minecraft.world.entity.LivingEntity living)) {
@@ -89,9 +98,11 @@ final class TravailCommands {
                 continue;
             }
             try {
-                switch (com.thelongtravail.valley.AzraelExecution.executeForCommand(actor, living)) {
+                switch (com.thelongtravail.valley.AzraelExecution.executeForCommand(
+                        actor, living)) {
                     case DEAD -> {
-                        if (com.thelongtravail.valley.FinalExecution.terminated(living)) terminated++;
+                        if (com.thelongtravail.valley.FinalExecution.terminated(living))
+                            terminated++;
                         else dead++;
                     }
                     case SURVIVED -> survived++;
@@ -100,44 +111,55 @@ final class TravailCommands {
             } catch (RuntimeException error) {
                 failed++;
                 com.thelongtravail.TheLongTravail.LOGGER.error(
-                        "Execution command failed for {}", target.getType() + " " + target.getUUID(), error);
+                        "Execution command failed for {}",
+                        target.getType() + " " + target.getUUID(),
+                        error);
             }
         }
         var message =
                 Component.translatable(
-                        "command.the_long_travail.execute.result", dead, terminated, survived, skipped, failed);
+                        "command.the_long_travail.execute.result",
+                        dead,
+                        terminated,
+                        survived,
+                        skipped,
+                        failed);
         source.sendSuccess(() -> message, true);
         return dead + terminated;
     }
 
     static int clearVisualDeprivation(ServerPlayer player) {
         VisualDeprivation.clear(player, VisualDeprivation.ClearReason.COMMAND);
-        player.sendSystemMessage(Component.translatable("command.the_long_travail.visual_deprivation.cleared"));
+        player.sendSystemMessage(
+                Component.translatable("command.the_long_travail.visual_deprivation.cleared"));
         return 1;
     }
 
     static int setAllWitnessesForTesting(ServerPlayer player) {
         ItemStack travail = TravailCurios.stack(player);
         if (travail.isEmpty()) {
-            player.sendSystemMessage(Component.translatable("command.the_long_travail.reverse.not_equipped"));
+            player.sendSystemMessage(
+                    Component.translatable("command.the_long_travail.reverse.not_equipped"));
             return 0;
         }
         if (!accepted(
                 player,
-                com.thelongtravail.api.TravailJourneyApi.setAllOverrides(player, JourneyOperations.Override.WITNESS)))
-            return 0;
+                com.thelongtravail.api.TravailJourneyApi.setAllOverrides(
+                        player, JourneyOperations.Override.WITNESS))) return 0;
         player.sendSystemMessage(Component.translatable("command.the_long_travail.reverse.all"));
         return 1;
     }
 
     static int setWitnessForTesting(ServerPlayer player, int value) {
         if (value == 0) {
-            player.sendSystemMessage(Component.translatable("command.the_long_travail.reverse.zero"));
+            player.sendSystemMessage(
+                    Component.translatable("command.the_long_travail.reverse.zero"));
             return 0;
         }
         ItemStack travail = TravailCurios.stack(player);
         if (travail.isEmpty()) {
-            player.sendSystemMessage(Component.translatable("command.the_long_travail.reverse.not_equipped"));
+            player.sendSystemMessage(
+                    Component.translatable("command.the_long_travail.reverse.not_equipped"));
             return 0;
         }
         TravailAspect aspect = TravailAspect.values()[Math.abs(value) - 1];
@@ -147,28 +169,38 @@ final class TravailCommands {
                 com.thelongtravail.api.TravailJourneyApi.setOverride(
                         player,
                         aspect,
-                        witness ? JourneyOperations.Override.WITNESS : JourneyOperations.Override.MALICE))) return 0;
+                        witness
+                                ? JourneyOperations.Override.WITNESS
+                                : JourneyOperations.Override.MALICE))) return 0;
         String state = witness ? "witness" : "malice";
         String key = "tooltip.the_long_travail." + aspect.id() + "." + state + ".title";
         player.sendSystemMessage(
-                Component.translatable("command.the_long_travail.reverse.success", Component.translatable(key)));
+                Component.translatable(
+                        "command.the_long_travail.reverse.success", Component.translatable(key)));
         return 1;
     }
 
     static int clearWitnessTesting(ServerPlayer player, int value) {
         ItemStack travail = TravailCurios.stack(player);
         if (travail.isEmpty()) {
-            player.sendSystemMessage(Component.translatable("command.the_long_travail.reverse.not_equipped"));
+            player.sendSystemMessage(
+                    Component.translatable("command.the_long_travail.reverse.not_equipped"));
             return 0;
         }
         if (value == 0) {
-            if (!accepted(player, com.thelongtravail.api.TravailJourneyApi.clearAllOverrides(player))) return 0;
-            player.sendSystemMessage(Component.translatable("command.the_long_travail.reverse.clear_all"));
+            if (!accepted(
+                    player, com.thelongtravail.api.TravailJourneyApi.clearAllOverrides(player)))
+                return 0;
+            player.sendSystemMessage(
+                    Component.translatable("command.the_long_travail.reverse.clear_all"));
             return 1;
         }
         TravailAspect aspect = TravailAspect.values()[value - 1];
-        if (!accepted(player, com.thelongtravail.api.TravailJourneyApi.clearOverride(player, aspect))) return 0;
-        player.sendSystemMessage(Component.translatable("command.the_long_travail.reverse.clear_one", value));
+        if (!accepted(
+                player, com.thelongtravail.api.TravailJourneyApi.clearOverride(player, aspect)))
+            return 0;
+        player.sendSystemMessage(
+                Component.translatable("command.the_long_travail.reverse.clear_one", value));
         return 1;
     }
 

@@ -20,7 +20,7 @@ public final class CombatAttributes {
     }
 
     public static double overlord(LivingEntity entity) {
-        return value(entity, ModAttributes.OVERLORD.get(), 1);
+        return value(entity, ModAttributes.OVERLORD.get(), Float.MAX_VALUE);
     }
 
     private CombatAttributes() {}

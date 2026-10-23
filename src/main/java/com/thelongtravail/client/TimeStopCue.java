@@ -29,7 +29,11 @@ public final class TimeStopCue {
         }
         for (int i = 0; i < 6; i++) {
             double angle = Math.PI * 2 * i / 6;
-            add(position.add(Math.cos(angle) * 0.3, 0, Math.sin(angle) * 0.3), 0, 0.04 + i * 0.004, 0);
+            add(
+                    position.add(Math.cos(angle) * 0.3, 0, Math.sin(angle) * 0.3),
+                    0,
+                    0.04 + i * 0.004,
+                    0);
         }
         level.playLocalSound(
                 position.x,
@@ -46,7 +50,14 @@ public final class TimeStopCue {
         Particle particle =
                 Minecraft.getInstance()
                         .particleEngine
-                        .createParticle(ParticleTypes.END_ROD, position.x, position.y, position.z, dx, dy, dz);
+                        .createParticle(
+                                ParticleTypes.END_ROD,
+                                position.x,
+                                position.y,
+                                position.z,
+                                dx,
+                                dy,
+                                dz);
         if (particle != null) {
             particle.setLifetime(12);
             PARTICLES.add(particle);

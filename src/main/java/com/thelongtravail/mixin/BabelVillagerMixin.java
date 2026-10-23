@@ -59,7 +59,8 @@ public abstract class BabelVillagerMixin {
     @Inject(method = "customServerAiStep", at = @At("HEAD"))
     private void travail$refresh(CallbackInfo ci) {
         var v = (Villager) (Object) this;
-        if (v.getTradingPlayer() != null && BabelTrades.refresh(v, v.getTradingPlayer())) BabelTrades.sync(v);
+        if (v.getTradingPlayer() != null && BabelTrades.refresh(v, v.getTradingPlayer()))
+            BabelTrades.sync(v);
     }
 
     @Inject(method = "shouldRestock", at = @At("HEAD"), cancellable = true)
@@ -68,7 +69,9 @@ public abstract class BabelVillagerMixin {
         var n = v.getPersistentData();
         long day = Math.floorDiv(v.level().getDayTime(), 24000L);
         boolean enhanced = BabelTrades.nearby(v);
-        if (!enhanced && (!n.contains("TravailBabelRestockDay") || n.getLong("TravailBabelRestockDay") != day)) return;
+        if (!enhanced
+                && (!n.contains("TravailBabelRestockDay")
+                        || n.getLong("TravailBabelRestockDay") != day)) return;
         if (!n.contains("TravailBabelRestockDay") || n.getLong("TravailBabelRestockDay") != day) {
             if (Math.floorDiv(lastRestockCheckDayTime, 24000L) != day) numberOfRestocksToday = 0;
             n.putLong("TravailBabelRestockDay", day);

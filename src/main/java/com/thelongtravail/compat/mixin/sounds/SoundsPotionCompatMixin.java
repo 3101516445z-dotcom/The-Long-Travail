@@ -62,6 +62,7 @@ public abstract class SoundsPotionCompatMixin {
             remap = false,
             require = 0)
     private static void travail$sound(@Coerce Object sound) {
-        EffectSounds.notification(travail$effect, travail$gain, ((ConfiguredSoundInvoker) sound)::travail$playSound);
+        EffectSounds.notification(
+                travail$effect, travail$gain, ((ConfiguredSoundInvoker) sound)::travail$playSound);
     }
 }

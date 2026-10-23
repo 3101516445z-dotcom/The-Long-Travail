@@ -4,7 +4,9 @@ import com.thelongtravail.config.TravailClientConfig.HaloQuality;
 
 public final class NameHaloKernel {
     private static final NameHaloKernel[] KERNELS =
-            java.util.Arrays.stream(HaloQuality.values()).map(NameHaloKernel::new).toArray(NameHaloKernel[]::new);
+            java.util.Arrays.stream(HaloQuality.values())
+                    .map(NameHaloKernel::new)
+                    .toArray(NameHaloKernel[]::new);
     private final float[][] x, y;
     private final float[] opacity;
     public final int samplesPerRing;

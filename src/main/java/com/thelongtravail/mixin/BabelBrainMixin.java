@@ -25,8 +25,11 @@ public abstract class BabelBrainMixin implements BabelBrainOwner {
 
     @Inject(method = "setMemoryInternal", at = @At("HEAD"), cancellable = true)
     private void travail$memory(
-            MemoryModuleType<?> type, Optional<? extends ExpirableValue<?>> value, CallbackInfo ci) {
-        if (value.isPresent() && BabelProtection.memoryBlocked(travail$owner.get(), type, value.get().getValue()))
+            MemoryModuleType<?> type,
+            Optional<? extends ExpirableValue<?>> value,
+            CallbackInfo ci) {
+        if (value.isPresent()
+                && BabelProtection.memoryBlocked(travail$owner.get(), type, value.get().getValue()))
             ci.cancel();
     }
 

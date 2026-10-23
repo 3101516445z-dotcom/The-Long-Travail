@@ -8,8 +8,11 @@ import java.util.*;
 
 public final class FlourishingItemsConfig {
     public static final Map<String, ForgeConfigSpec.DoubleValue> NUMBERS = new LinkedHashMap<>();
-    public static final Map<Flower, ForgeConfigSpec.BooleanValue> ENABLED = new EnumMap<>(Flower.class);
-    public static ForgeConfigSpec.ConfigValue<List<? extends String>> SPRING_SLOTS, AFFECTION_SLOTS, BLACKLIST;
+    public static final Map<Flower, ForgeConfigSpec.BooleanValue> ENABLED =
+            new EnumMap<>(Flower.class);
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> SPRING_SLOTS,
+            AFFECTION_SLOTS,
+            BLACKLIST;
 
     public static void define(ForgeConfigSpec.Builder b) {
         FlourishingGrowthConfig.define(b);
@@ -33,7 +36,9 @@ public final class FlourishingItemsConfig {
                     p + "." + value,
                     f.initial,
                     value.equals("level") ? 1 : 0,
-                    value.equals("level") ? 256 : f == Flower.CHERRY_LEAVES ? .9 : reduction(f) ? 1 : 1000,
+                    value.equals("level")
+                            ? 256
+                            : f == Flower.CHERRY_LEAVES ? .9 : reduction(f) ? 1 : 1000,
                     value.equals("level")
                             ? "效果等级；1表示Ⅰ级，小数向下取整。\nEffect level; 1 means level I. Fractional values are rounded down."
                             : value.equals("healing")
@@ -73,7 +78,14 @@ public final class FlourishingItemsConfig {
                 1000000,
                 "生命值恢复间隔，单位：秒；恢复不受饱食度限制。\nInterval between health restorations, in seconds; restoration is not restricted by hunger level.");
         for (String id : List.of("lily_of_the_valley", "wither_rose")) {
-            extra(b, id, "durationSeconds", 4, .05, 1000000, "效果持续时间，单位：秒。\nEffect duration, in seconds.");
+            extra(
+                    b,
+                    id,
+                    "durationSeconds",
+                    4,
+                    .05,
+                    1000000,
+                    "效果持续时间，单位：秒。\nEffect duration, in seconds.");
             extra(
                     b,
                     id,
@@ -179,16 +191,20 @@ public final class FlourishingItemsConfig {
                 switch (f) {
                     case DANDELION ->
                             "食物恢复的饱食度提高的比例；不足1点的部分会保留，并在之后进食时累计计算。\nFractional increase in hunger restored by food. Fractions below 1 point are retained and accumulated across later meals.";
-                    case POPPY, RED_TULIP, SUNFLOWER -> "造成的伤害提高的比例。\nFractional increase in damage dealt.";
+                    case POPPY, RED_TULIP, SUNFLOWER ->
+                            "造成的伤害提高的比例。\nFractional increase in damage dealt.";
                     case BLUE_ORCHID -> "水中移动速度的增加比例。\nFractional increase in swimming speed.";
                     case ALLIUM ->
                             "中毒伤害的减免比例；不影响其他魔法伤害。\nFractional reduction in Poison damage; does not affect other magic damage.";
                     case AZURE_BLUET -> "摔落伤害的减免比例。\nFractional reduction in fall damage.";
                     case ORANGE_TULIP -> "攻击速度的增加比例。\nFractional increase in attack speed.";
                     case WHITE_TULIP -> "受到的伤害降低的比例。\nFractional reduction in damage taken.";
-                    case PINK_TULIP -> "佩戴者受到的治疗量提高的比例。\nFractional increase in healing received by the wearer.";
-                    case CORNFLOWER -> "造成的投射物伤害增加比例。\nFractional increase in projectile damage dealt.";
-                    case TORCHFLOWER -> "火焰、燃烧和熔岩伤害的减免比例。\nFractional reduction in fire, burning, and lava damage.";
+                    case PINK_TULIP ->
+                            "佩戴者受到的治疗量提高的比例。\nFractional increase in healing received by the wearer.";
+                    case CORNFLOWER ->
+                            "造成的投射物伤害增加比例。\nFractional increase in projectile damage dealt.";
+                    case TORCHFLOWER ->
+                            "火焰、燃烧和熔岩伤害的减免比例。\nFractional reduction in fire, burning, and lava damage.";
                     case LILAC ->
                             "施加的中毒、凋零、缓慢和虚弱效果持续时间延长的比例。\nFractional increase in the duration of Poison, Wither, Slowness, and Weakness effects applied.";
                     case ROSE_BUSH ->
@@ -203,21 +219,46 @@ public final class FlourishingItemsConfig {
                     case PINK_PETALS -> "移动速度的增加比例。\nFractional increase in movement speed.";
                     default -> "效果比例。\nEffect fraction.";
                 };
-        return meaning.replace("\n", "0.1表示10%，0表示不提供此项效果。\n") + " 0.1 means 10%; 0 disables this effect.";
+        return meaning.replace("\n", "0.1表示10%，0表示不提供此项效果。\n")
+                + " 0.1 means 10%; 0 disables this effect.";
     }
 
     private static void number(
-            ForgeConfigSpec.Builder b, String key, String path, double v, double min, double max, String comment) {
+            ForgeConfigSpec.Builder b,
+            String key,
+            String path,
+            double v,
+            double min,
+            double max,
+            String comment) {
         NUMBERS.put(key, b.comment(comment).defineInRange(path, v, min, max));
     }
 
     private static void extra(
-            ForgeConfigSpec.Builder b, String id, String key, double v, double min, double max, String comment) {
-        number(b, "flowers." + id + "." + key, "items.spring_corner.flowers." + id + "." + key, v, min, max, comment);
+            ForgeConfigSpec.Builder b,
+            String id,
+            String key,
+            double v,
+            double min,
+            double max,
+            String comment) {
+        number(
+                b,
+                "flowers." + id + "." + key,
+                "items.spring_corner.flowers." + id + "." + key,
+                v,
+                min,
+                max,
+                comment);
     }
 
     private static void affinity(
-            ForgeConfigSpec.Builder b, String key, double v, double min, double max, String comment) {
+            ForgeConfigSpec.Builder b,
+            String key,
+            double v,
+            double min,
+            double max,
+            String comment) {
         number(b, "affection." + key, "items.affection." + key, v, min, max, comment);
     }
 
@@ -235,7 +276,10 @@ public final class FlourishingItemsConfig {
     private static ForgeConfigSpec.ConfigValue<List<? extends String>> ids(
             ForgeConfigSpec.Builder b, String key, List<String> values, String comment) {
         return b.comment(comment)
-                .defineListAllowEmpty(key, values, v -> v instanceof String s && ResourceLocation.tryParse(s) != null);
+                .defineListAllowEmpty(
+                        key,
+                        values,
+                        v -> v instanceof String s && ResourceLocation.tryParse(s) != null);
     }
 
     public static double get(String key) {
@@ -249,7 +293,9 @@ public final class FlourishingItemsConfig {
                         + "."
                         + (f == Flower.OXEYE_DAISY
                                 ? "healing"
-                                : f == Flower.LILY_OF_THE_VALLEY || f == Flower.WITHER_ROSE ? "level" : "bonus"));
+                                : f == Flower.LILY_OF_THE_VALLEY || f == Flower.WITHER_ROSE
+                                        ? "level"
+                                        : "bonus"));
     }
 
     public static double extra(Flower f, String key) {
@@ -261,7 +307,8 @@ public final class FlourishingItemsConfig {
     }
 
     public static boolean shownEnabled(Flower f) {
-        return TooltipConfigSync.decimal("floral.enabled." + f.id, ENABLED.get(f).get() ? 1 : 0) > 0;
+        return TooltipConfigSync.decimal("floral.enabled." + f.id, ENABLED.get(f).get() ? 1 : 0)
+                > 0;
     }
 
     public static int ticks(double seconds) {

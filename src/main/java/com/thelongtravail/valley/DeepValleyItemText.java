@@ -25,7 +25,9 @@ public final class DeepValleyItemText {
             out.add(title("malice"));
             out.add(
                     Component.translatable(
-                            prefix + "malice", percent(id + ".maliceAttributes"), percent(id + ".maliceDamage")));
+                            prefix + "malice",
+                            percent(id + ".maliceAttributes"),
+                            percent(id + ".maliceDamage")));
             out.add(Component.empty());
             out.add(title("witness"));
             out.add(
@@ -40,7 +42,9 @@ public final class DeepValleyItemText {
                     mine = DeepValleyItemsConfig.shown(id + ".mineshaftChance"),
                     city = DeepValleyItemsConfig.shown(id + ".cityChance"),
                     d = Math.max(1, mine + city);
-            out.add(Component.translatable(prefix + "base", number(ore * 100), number((1 - ore) * 100)));
+            out.add(
+                    Component.translatable(
+                            prefix + "base", number(ore * 100), number((1 - ore) * 100)));
             out.add(Component.empty());
             out.add(title("malice"));
             out.add(

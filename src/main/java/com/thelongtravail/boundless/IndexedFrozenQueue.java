@@ -16,7 +16,8 @@ final class IndexedFrozenQueue<K, V> {
     private long nextOrder;
     private final java.util.function.BinaryOperator<V> recoveryMerge;
 
-    IndexedFrozenQueue(Function<V, Set<Long>> coverage, java.util.function.BinaryOperator<V> recoveryMerge) {
+    IndexedFrozenQueue(
+            Function<V, Set<Long>> coverage, java.util.function.BinaryOperator<V> recoveryMerge) {
         this.coverage = coverage;
         this.recoveryMerge = recoveryMerge;
     }
@@ -47,7 +48,9 @@ final class IndexedFrozenQueue<K, V> {
                     failure.addSuppressed(recovery);
                 }
                 com.thelongtravail.TheLongTravail.LOGGER.warn(
-                        "Frozen update failed at batch index {}; retaining {} unstarted updates", failed, remaining);
+                        "Frozen update failed at batch index {}; retaining {} unstarted updates",
+                        failed,
+                        remaining);
                 throw failure;
             }
         }
@@ -57,11 +60,15 @@ final class IndexedFrozenQueue<K, V> {
                 var row = rows.get(i);
                 K key = row.getKey();
                 Entry<V> old = row.getValue(), newer = entries.get(key);
-                V value = newer == null ? old.value() : recoveryMerge.apply(old.value(), newer.value());
+                V value =
+                        newer == null
+                                ? old.value()
+                                : recoveryMerge.apply(old.value(), newer.value());
                 if (newer != null) unindex(key, newer);
                 var restored = new Entry<>(old.order(), value, Set.copyOf(coverage.apply(value)));
                 entries.put(key, restored);
-                for (long chunk : restored.chunks()) chunks.computeIfAbsent(chunk, ignored -> new HashSet<>()).add(key);
+                for (long chunk : restored.chunks())
+                    chunks.computeIfAbsent(chunk, ignored -> new HashSet<>()).add(key);
                 pending.add(key);
             }
             var ordered = new ArrayList<>(entries.entrySet());
@@ -98,10 +105,14 @@ final class IndexedFrozenQueue<K, V> {
         boolean sameCoverage = old != null && old.chunks().equals(covered);
         if (old != null && !sameCoverage) unindex(key, old);
         Entry<V> entry =
-                new Entry<>(old == null ? nextOrder++ : old.order(), value, sameCoverage ? old.chunks() : covered);
+                new Entry<>(
+                        old == null ? nextOrder++ : old.order(),
+                        value,
+                        sameCoverage ? old.chunks() : covered);
         entries.put(key, entry);
         if (!sameCoverage)
-            for (long chunk : entry.chunks()) chunks.computeIfAbsent(chunk, ignored -> new HashSet<>()).add(key);
+            for (long chunk : entry.chunks())
+                chunks.computeIfAbsent(chunk, ignored -> new HashSet<>()).add(key);
         pending.add(key);
         Peak.FROZEN_QUEUE_SIZE.record(entries.size());
     }

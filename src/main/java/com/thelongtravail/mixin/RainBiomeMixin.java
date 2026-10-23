@@ -27,15 +27,18 @@ public abstract class RainBiomeMixin {
     }
 
     @Inject(method = "shouldSnow", at = @At("HEAD"), cancellable = true)
-    private void travail$snow(LevelReader reader, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+    private void travail$snow(
+            LevelReader reader, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
         if (reader instanceof Level level && RainWeather.snow(level)) cir.setReturnValue(false);
     }
 
     @Inject(
-            method = "shouldFreeze(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Z)Z",
+            method =
+                    "shouldFreeze(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Z)Z",
             at = @At("HEAD"),
             cancellable = true)
-    private void travail$ice(LevelReader reader, BlockPos pos, boolean edge, CallbackInfoReturnable<Boolean> cir) {
+    private void travail$ice(
+            LevelReader reader, BlockPos pos, boolean edge, CallbackInfoReturnable<Boolean> cir) {
         if (reader instanceof Level level && RainWeather.snow(level)) cir.setReturnValue(false);
     }
 }

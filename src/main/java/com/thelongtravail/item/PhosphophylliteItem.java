@@ -44,7 +44,8 @@ public final class PhosphophylliteItem extends Item implements ICurioItem, ItemD
 
     @Override
     public void onUnequip(SlotContext c, ItemStack next, ItemStack old) {
-        if (!c.entity().level().isClientSide) com.thelongtravail.valley.Phosphophyllite.tick(c.entity());
+        if (!c.entity().level().isClientSide)
+            com.thelongtravail.valley.Phosphophyllite.tick(c.entity());
     }
 
     @Override

@@ -12,7 +12,9 @@ public abstract class BookBlockEntityMixin {
     private void travail$loaded(net.minecraft.world.level.Level level, CallbackInfo ci) {
         BlockEntity be = (BlockEntity) (Object) this;
         if (!level.isClientSide
-                && be.getClass().getName().equals("de.maxhenkel.gravestone.tileentity.GraveStoneTileEntity"))
+                && be.getClass()
+                        .getName()
+                        .equals("de.maxhenkel.gravestone.tileentity.GraveStoneTileEntity"))
             UnderworldStorage.loaded(be);
     }
 }

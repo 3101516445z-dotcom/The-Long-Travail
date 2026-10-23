@@ -92,7 +92,8 @@ public final class AbyssJeiPlugin implements IModPlugin {
         }
 
         @Override
-        public void draw(Example example, IRecipeSlotsView slots, GuiGraphics graphics, double x, double y) {
+        public void draw(
+                Example example, IRecipeSlotsView slots, GuiGraphics graphics, double x, double y) {
             gui.getRecipeArrow().draw(graphics, 65, 3);
         }
 

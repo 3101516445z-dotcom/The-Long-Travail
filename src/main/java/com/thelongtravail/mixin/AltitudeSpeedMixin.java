@@ -15,6 +15,7 @@ public abstract class AltitudeSpeedMixin implements AltitudePenalty.Cache {
     @Unique private long travail$altitudeRevision;
     @Unique private Object travail$altitudeLevel;
     @Unique private float travail$altitudeValue;
+    @Unique private double travail$altitudeY;
 
     @Override
     public float travail$altitudeFactor() {
@@ -22,10 +23,12 @@ public abstract class AltitudeSpeedMixin implements AltitudePenalty.Cache {
         long revision = AltitudePenalty.revision(player);
         if (!travail$altitudeValid
                 || travail$altitudeTick != player.tickCount
+                || travail$altitudeY != player.getY()
                 || travail$altitudeRevision != revision
                 || travail$altitudeLevel != player.level()) {
             travail$altitudeValue = AltitudePenalty.compute(player);
             travail$altitudeTick = player.tickCount;
+            travail$altitudeY = player.getY();
             travail$altitudeRevision = revision;
             travail$altitudeLevel = player.level();
             travail$altitudeValid = true;

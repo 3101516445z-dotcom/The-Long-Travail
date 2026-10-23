@@ -11,7 +11,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import java.io.IOException;
 
-@Mod.EventBusSubscriber(modid = "the_long_travail", value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(
+        modid = "the_long_travail",
+        value = Dist.CLIENT,
+        bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class VisualDeprivationRenderer {
     private static ShaderInstance shader;
 
@@ -32,7 +35,8 @@ public final class VisualDeprivationRenderer {
         var style = VisualDeprivationClient.style(partial);
         float pulse = VisualDeprivationClient.pulse(partial, style);
         float radius = style.radius() * (1 + (1 - pulse) * style.pulseRadius());
-        shader.safeGetUniform("Veil").set(envelope * pulse, style.darkening(), style.opacity(), radius);
+        shader.safeGetUniform("Veil")
+                .set(envelope * pulse, style.darkening(), style.opacity(), radius);
         shader.safeGetUniform("Softness").set(style.softness());
         var previous = RenderSystem.getShader();
         RenderSystem.disableDepthTest();

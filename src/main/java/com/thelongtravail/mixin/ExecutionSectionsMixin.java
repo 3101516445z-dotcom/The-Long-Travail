@@ -43,7 +43,8 @@ public abstract class ExecutionSectionsMixin<T extends EntityAccess> implements 
 
     public java.util.Set<Entity> travail$present(java.util.Set<Entity> targets) {
         com.thelongtravail.data.HotPathMetrics.Counter.EXECUTION_SECTION_BATCHES.add(1);
-        java.util.Set<Entity> found = java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<>());
+        java.util.Set<Entity> found =
+                java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<>());
         for (var section : sections.values()) {
             com.thelongtravail.data.HotPathMetrics.Counter.EXECUTION_SECTION_VISITS.add(1);
             found.addAll(((ExecutionStorage) section).travail$present(targets));
@@ -52,7 +53,8 @@ public abstract class ExecutionSectionsMixin<T extends EntityAccess> implements 
     }
 
     public boolean travail$contains(Entity e) {
-        for (var section : sections.values()) if (((ExecutionStorage) section).travail$contains(e)) return true;
+        for (var section : sections.values())
+            if (((ExecutionStorage) section).travail$contains(e)) return true;
         return false;
     }
 }

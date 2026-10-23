@@ -13,12 +13,14 @@ public abstract class BabelLivingMixin {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void travail$created(CallbackInfo ci) {
-        if (brain != null) ((BabelBrainOwner) brain).travail$babelOwner((LivingEntity) (Object) this);
+        if (brain != null)
+            ((BabelBrainOwner) brain).travail$babelOwner((LivingEntity) (Object) this);
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     private void travail$loaded(net.minecraft.nbt.CompoundTag tag, CallbackInfo ci) {
-        if (brain != null) ((BabelBrainOwner) brain).travail$babelOwner((LivingEntity) (Object) this);
+        if (brain != null)
+            ((BabelBrainOwner) brain).travail$babelOwner((LivingEntity) (Object) this);
     }
 
     @Inject(method = "setLastHurtByMob", at = @At("HEAD"), cancellable = true)
@@ -31,15 +33,20 @@ public abstract class BabelLivingMixin {
         if (BabelProtection.protects((LivingEntity) (Object) this, target)) ci.cancel();
     }
 
-    @Inject(method = "canAttack(Lnet/minecraft/world/entity/LivingEntity;)Z", at = @At("RETURN"), cancellable = true)
+    @Inject(
+            method = "canAttack(Lnet/minecraft/world/entity/LivingEntity;)Z",
+            at = @At("RETURN"),
+            cancellable = true)
     private void travail$canAttack(LivingEntity target, CallbackInfoReturnable<Boolean> cir) {
-        if (BabelProtection.protects((LivingEntity) (Object) this, target)) cir.setReturnValue(false);
+        if (BabelProtection.protects((LivingEntity) (Object) this, target))
+            cir.setReturnValue(false);
     }
 
     @Inject(method = "getBrain", at = @At("RETURN"))
     private void travail$brain(CallbackInfoReturnable<Brain<?>> cir) {
         Brain<?> currentBrain = cir.getReturnValue();
         // 部分 AI 优化会在 LivingEntity 初始化 brain 之前调用 getBrain。
-        if (currentBrain != null) ((BabelBrainOwner) currentBrain).travail$babelOwner((LivingEntity) (Object) this);
+        if (currentBrain != null)
+            ((BabelBrainOwner) currentBrain).travail$babelOwner((LivingEntity) (Object) this);
     }
 }

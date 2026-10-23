@@ -11,7 +11,8 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = ForgeHooks.class, remap = false)
 public abstract class AzraelDeathMixin {
     @WrapMethod(method = "onLivingDeath", remap = false)
-    private static boolean travail$deathOutcome(LivingEntity target, DamageSource source, Operation<Boolean> original) {
+    private static boolean travail$deathOutcome(
+            LivingEntity target, DamageSource source, Operation<Boolean> original) {
         boolean cancelled = original.call(target, source);
         AzraelExecution.deathResult(target, source, cancelled);
         if (target instanceof net.minecraft.server.level.ServerPlayer p)

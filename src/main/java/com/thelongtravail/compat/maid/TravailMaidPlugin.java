@@ -27,6 +27,8 @@ public final class TravailMaidPlugin implements ILittleMaid {
 
                         @Override
                         public void onTakeOff(EntityMaid maid, ItemStack stack) {
+                            if (stack.is(ModRegistry.EVERLASTING_FLOWER.get()))
+                                com.thelongtravail.flourishing.EverlastingFlower.unequipped(maid);
                             MaidAccessoryRuntime.equipmentChanged(maid, stack);
                         }
                     });

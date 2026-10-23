@@ -12,7 +12,8 @@ public abstract class FixedMistletoePriceMixin {
     @Inject(method = "getCostA", at = @At("HEAD"), cancellable = true)
     private void travail$fixedPrice(CallbackInfoReturnable<ItemStack> cir) {
         var offer = (MerchantOffer) (Object) this;
-        if (com.thelongtravail.flourishing.MistletoeTrades.fixed(offer))
+        if (com.thelongtravail.flourishing.MistletoeTrades.fixed(offer)
+                || com.thelongtravail.loot.ArchaeologyTrades.fixed(offer))
             cir.setReturnValue(offer.getBaseCostA().copy());
     }
 }

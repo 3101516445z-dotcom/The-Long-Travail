@@ -6,14 +6,19 @@ public final class UnderworldItemsConfig {
     public static ForgeConfigSpec.DoubleValue WITHER_BONUS, KILL_THRESHOLD;
     public static ForgeConfigSpec.IntValue PROTECTION, SOUL_CAPACITY;
 
-    public static final java.util.Map<String, ForgeConfigSpec.DoubleValue> RELICS = new java.util.LinkedHashMap<>();
+    public static final java.util.Map<String, ForgeConfigSpec.DoubleValue> RELICS =
+            new java.util.LinkedHashMap<>();
 
     private static void relic(ForgeConfigSpec.Builder b, String key, double value, double max) {
         RELICS.put(
                 key,
                 b.comment(
                                 "冥府饰品的数值设置；比例设为 0 时不提供对应加成，容量须为正整数。\nUnderworld accessory setting. A fractional bonus of 0 disables that bonus; capacity must be a positive integer.")
-                        .defineInRange("items.relics." + key, value, key.equals("banner.capacity") ? 1 : 0, max));
+                        .defineInRange(
+                                "items.relics." + key,
+                                value,
+                                key.equals("banner.capacity") ? 1 : 0,
+                                max));
     }
 
     public static void define(ForgeConfigSpec.Builder b) {
@@ -36,7 +41,7 @@ public final class UnderworldItemsConfig {
                         .defineInRange("items.thousandYears.witherBonusPerLevel", .15, 0, 1000000);
         KILL_THRESHOLD =
                 b.comment(
-                                "死者之书：generic_kill伤害在减免前达到此值时，无法触发死者苏生与冥府之见证。\n判断依据为传入的伤害值，而非减免后的伤害值。\nBook of the Dead: generic_kill damage at or above this value before reductions prevents Resurrection and Underworld Witness from triggering. Uses the incoming damage value, not the value after reductions.")
+                                "死者之书：generic_kill伤害在减免前达到此值时，无法触发死者苏生与冥府之见证。\n判断依据为传入的伤害值，而非减免后的伤害值。\nBook of the Dead: generic_kill damage at or above this value before reductions prevents Resurrection and Underworld Witness from triggering.\nUses the incoming damage value, not the value after reductions.")
                         .defineInRange("items.book.killThreshold", 10000000D, 1, Double.MAX_VALUE);
         PROTECTION =
                 b.comment(

@@ -56,8 +56,12 @@ public abstract class IcarusElytraLayerMixin<T extends LivingEntity, M extends E
         travail$wingModel.setupAnim(entity, limbSwing, limbAmount, age, yaw, pitch);
         var consumer =
                 ItemRenderer.getArmorFoilBuffer(
-                        buffers, RenderType.armorCutoutNoCull(TRAVAIL_ICARUS), false, stack.hasFoil());
-        travail$wingModel.renderToBuffer(pose, consumer, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+                        buffers,
+                        RenderType.armorCutoutNoCull(TRAVAIL_ICARUS),
+                        false,
+                        stack.hasFoil());
+        travail$wingModel.renderToBuffer(
+                pose, consumer, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         pose.popPose();
         ci.cancel();
     }

@@ -27,7 +27,8 @@ public final class MistletoeItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
+    public void appendHoverText(
+            ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
         ItemDescription.summary(lines);
     }
 }

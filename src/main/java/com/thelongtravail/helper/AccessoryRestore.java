@@ -23,10 +23,13 @@ public final class AccessoryRestore implements AutoCloseable {
             for (Tag entry : root.getList("Curios", Tag.TAG_COMPOUND)) {
                 CompoundTag slot = (CompoundTag) entry;
                 for (Tag item :
-                        slot.getCompound("StacksHandler").getCompound("Stacks").getList("Items", Tag.TAG_COMPOUND)) {
+                        slot.getCompound("StacksHandler")
+                                .getCompound("Stacks")
+                                .getList("Items", Tag.TAG_COMPOUND)) {
                     ItemStack stack = ItemStack.of((CompoundTag) item);
                     if (!stack.isEmpty())
-                        equipped.computeIfAbsent(slot.getString("Identifier"), key -> new HashSet<>())
+                        equipped.computeIfAbsent(
+                                        slot.getString("Identifier"), key -> new HashSet<>())
                                 .add(stack.getItem());
                 }
             }

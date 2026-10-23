@@ -6,6 +6,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixins.the_long_travail.refmap.json",
   "mixins": [
+    "quark.DiaryRuneRecipeMixin",
     "dummmmmmy.DummyDamageMixin",
     "caelus.IcarusCaelusApiMixin",
     "gravestone.BookGravestoneMixin",
@@ -15,6 +16,7 @@
     "maid.MaidRelicSlotMixin"
   ],
   "client": [
+    "apotheosis.AffixNameMixin",
     "maid.MaidTooltipMixin",
     "jei.JeiReadingOverlayMixin",
     "sounds.ConfiguredSoundInvoker",

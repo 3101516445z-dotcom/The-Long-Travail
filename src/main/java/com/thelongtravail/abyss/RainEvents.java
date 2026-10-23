@@ -57,12 +57,16 @@ public final class RainEvents {
         float saturation = RainConfig.SATURATION.get().floatValue();
         if (amount > 0) food.eat(amount, saturation / (2 * amount));
         else if (saturation > 0)
-            food.setSaturation(Math.min(food.getFoodLevel(), food.getSaturationLevel() + saturation));
+            food.setSaturation(
+                    Math.min(food.getFoodLevel(), food.getSaturationLevel() + saturation));
     }
 
     public static void cast(ServerPlayer p) {
         if (!RainConfig.SKILL_ENABLED.get()) return;
-        if (!p.isAlive() || p.isSpectator() || p.containerMenu != p.inventoryMenu || !RainState.equipped(p)) return;
+        if (!p.isAlive()
+                || p.isSpectator()
+                || p.containerMenu != p.inventoryMenu
+                || !RainState.equipped(p)) return;
         Progress progress = PLAYERS.computeIfAbsent(p, unused -> new Progress());
         long tick = p.serverLevel().getGameTime();
         if (progress.castTick == tick) return;
@@ -82,7 +86,8 @@ public final class RainEvents {
         }
         boolean natural = weather.naturalRain(p.serverLevel());
         weather.start(p.serverLevel(), RainConfig.ticks(RainConfig.DURATION.get()));
-        p.getPersistentData().putInt(RainState.COOLDOWN_KEY, RainConfig.ticks(RainConfig.COOLDOWN.get()));
+        p.getPersistentData()
+                .putInt(RainState.COOLDOWN_KEY, RainConfig.ticks(RainConfig.COOLDOWN.get()));
         message(p, natural ? "natural" : "success");
     }
 
@@ -90,7 +95,8 @@ public final class RainEvents {
         TravailNetwork.sendRainMessage(
                 p,
                 new RainMessagePacket(
-                        "message.the_long_travail.rain." + key, key.equals("cooldown") ? RainState.cooldown(p) : 0));
+                        "message.the_long_travail.rain." + key,
+                        key.equals("cooldown") ? RainState.cooldown(p) : 0));
     }
 
     private static void sync(ServerPlayer p, Progress s, boolean force) {
@@ -103,7 +109,9 @@ public final class RainEvents {
                 dry = RainConfig.DRY_RAIN.get(),
                 snow = RainConfig.SNOW_RAIN.get();
         float speed = RainState.speed(p);
-        boolean fire = RainConfig.FIRE.get() && (observedPassive != null ? observedPassive : RainState.passive(p));
+        boolean fire =
+                RainConfig.FIRE.get()
+                        && (observedPassive != null ? observedPassive : RainState.passive(p));
         var last = s.last;
         if (!force
                 && last != null
@@ -116,7 +124,15 @@ public final class RainEvents {
                 && last.fire() == fire) return;
         RainPacket packet =
                 new RainPacket(
-                        p.getId(), weather, dry, snow, speed, fire, config.eki(), config.tokaido(), config.slots());
+                        p.getId(),
+                        weather,
+                        dry,
+                        snow,
+                        speed,
+                        fire,
+                        config.eki(),
+                        config.tokaido(),
+                        config.slots());
         s.last = packet;
         s.configRevision = config.revision();
         TravailNetwork.sendRain(p, packet);
@@ -141,14 +157,16 @@ public final class RainEvents {
                             ClientboundGameEventPacket.RAIN_LEVEL_CHANGE, level.getRainLevel(1)));
             p.connection.send(
                     new ClientboundGameEventPacket(
-                            ClientboundGameEventPacket.THUNDER_LEVEL_CHANGE, RainWeather.rawThunderLevel(level)));
+                            ClientboundGameEventPacket.THUNDER_LEVEL_CHANGE,
+                            RainWeather.rawThunderLevel(level)));
             sync(p, PLAYERS.computeIfAbsent(p, unused -> new Progress()), true);
         }
     }
 
     @SubscribeEvent
     public static void login(PlayerEvent.PlayerLoggedInEvent e) {
-        if (e.getEntity() instanceof ServerPlayer p) sync(p, PLAYERS.computeIfAbsent(p, u -> new Progress()), true);
+        if (e.getEntity() instanceof ServerPlayer p)
+            sync(p, PLAYERS.computeIfAbsent(p, u -> new Progress()), true);
     }
 
     @SubscribeEvent
@@ -161,7 +179,9 @@ public final class RainEvents {
 
     @SubscribeEvent
     public static void clone(PlayerEvent.Clone e) {
-        e.getEntity().getPersistentData().putInt(RainState.COOLDOWN_KEY, RainState.cooldown(e.getOriginal()));
+        e.getEntity()
+                .getPersistentData()
+                .putInt(RainState.COOLDOWN_KEY, RainState.cooldown(e.getOriginal()));
     }
 
     @SubscribeEvent

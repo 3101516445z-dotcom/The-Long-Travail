@@ -26,12 +26,14 @@ public final class GoldenAgeActions {
     private static final Map<Player, Long> DIG_COOLDOWNS = new WeakHashMap<>();
     private static final Map<ServerPlayer, Batch> BATCHES = new WeakHashMap<>();
     private static final Set<UUID> PROCESSING = new HashSet<>();
+    private static long nextPoolWarning;
 
     private static final class Batch {
         final long tick;
         int used;
         List<Enchantment> enchantments;
         List<ItemStack> foods;
+        boolean poolFailed;
 
         Batch(long tick) {
             this.tick = tick;
@@ -88,7 +90,8 @@ public final class GoldenAgeActions {
                 || !p.mayBuild()
                 || !p.level().mayInteract(p, event.getPos())) return;
         var block = p.level().getBlockState(event.getPos());
-        if (!block.is(Blocks.SAND) && !block.is(Blocks.RED_SAND) && !block.is(Blocks.GRAVEL)) return;
+        if (!block.is(Blocks.SAND) && !block.is(Blocks.RED_SAND) && !block.is(Blocks.GRAVEL))
+            return;
         event.setCanceled(true);
         event.setCancellationResult(InteractionResult.sidedSuccess(p.level().isClientSide));
         if (!(p instanceof ServerPlayer player)) return;
@@ -96,11 +99,15 @@ public final class GoldenAgeActions {
         if (now < DIG_COOLDOWNS.getOrDefault(p, Long.MIN_VALUE)) return;
         DIG_COOLDOWNS.put(p, now + FarReachItemsConfig.ticks("golden_age.digCooldown"));
         TravailCurios.returnToInventoryOrDrop(
-                player, new ItemStack(player.getRandom().nextBoolean() ? Items.GOLD_NUGGET : Items.FLINT));
+                player,
+                new ItemStack(player.getRandom().nextBoolean() ? Items.GOLD_NUGGET : Items.FLINT));
     }
 
     public static void tick(ItemEntity item) {
-        if (item.level().isClientSide || !item.isAlive() || !pending(item) || TimeStopManager.frozen(item)) return;
+        if (item.level().isClientSide
+                || !item.isAlive()
+                || !pending(item)
+                || TimeStopManager.frozen(item)) return;
         UUID owner = item.getPersistentData().getUUID(OWNER);
         if (!PROCESSING.add(owner)) return;
         try {
@@ -117,14 +124,16 @@ public final class GoldenAgeActions {
             return;
         }
         int required = FarReachItemsConfig.ticks("golden_age.waterTime");
-        int wet = Math.min(required, data.getInt(WET) + 1);
+        // 持久化计时可能损坏；先限制到有效区间，再用 long 递增，避免整数溢出。
+        int wet = (int) Math.min(required, Math.max(0L, (long) data.getInt(WET)) + 1L);
         data.putInt(WET, wet);
         if (wet < required) return;
         Player owner = item.level().getPlayerByUUID(data.getUUID(OWNER));
         if (!(owner instanceof ServerPlayer player)
                 || !FarReachEquipment.equipped(player, true)
                 || TimeStopManager.frozen(player)
-                || item.distanceToSqr(player) > Math.pow(FarReachItemsConfig.get("golden_age.range"), 2)) return;
+                || item.distanceToSqr(player)
+                        > Math.pow(FarReachItemsConfig.get("golden_age.range"), 2)) return;
         boolean witness = TravailStateApi.hasFarReachWitness(player);
         if (!witness && !TravailStateApi.hasFarReachMalice(player)) return;
         long now = item.level().getGameTime();
@@ -135,13 +144,31 @@ public final class GoldenAgeActions {
         }
         int available = (int) FarReachItemsConfig.get("golden_age.batchSize") - batch.used;
         if (available <= 0) return;
-        if (witness && batch.foods == null) batch.foods = GoldenAgePools.foods(player);
-        if (!witness && batch.enchantments == null) batch.enchantments = GoldenAgePools.enchantments();
+        if (batch.poolFailed) return;
+        try {
+            if (witness && batch.foods == null) batch.foods = GoldenAgePools.foods(player);
+            if (!witness && batch.enchantments == null)
+                batch.enchantments = GoldenAgePools.enchantments();
+        } catch (RuntimeException failure) {
+            // 候选池不完整时不得抽取；批次失败时不消耗金锭，也不进行随机抽取。
+            batch.poolFailed = true;
+            long time = System.nanoTime();
+            if (nextPoolWarning == 0 || time - nextPoolWarning >= 0) {
+                nextPoolWarning = time + 60_000_000_000L;
+                TheLongTravail.LOGGER.warn(
+                        "Golden Age candidate query failed; gold retained for player {}",
+                        player.getUUID(),
+                        failure);
+            }
+            return;
+        }
         if (witness ? batch.foods.isEmpty() : batch.enchantments.isEmpty()) return;
         List<ItemStack> foods = batch.foods;
         List<Enchantment> enchantments = batch.enchantments;
         int count = Math.min(available, item.getItem().getCount());
-        for (int i = 0; i < count && batch.used < (int) FarReachItemsConfig.get("golden_age.batchSize"); i++) {
+        for (int i = 0;
+                i < count && batch.used < (int) FarReachItemsConfig.get("golden_age.batchSize");
+                i++) {
             ItemStack output;
             if (player.getRandom().nextBoolean())
                 output =
@@ -149,9 +176,13 @@ public final class GoldenAgeActions {
                                 ? foods.get(player.getRandom().nextInt(foods.size())).copy()
                                 : EnchantedBookItem.createForEnchantment(
                                         new EnchantmentInstance(
-                                                enchantments.get(player.getRandom().nextInt(enchantments.size())), 1));
+                                                enchantments.get(
+                                                        player.getRandom()
+                                                                .nextInt(enchantments.size())),
+                                                1));
             else output = new ItemStack(witness ? Items.HONEY_BLOCK : Items.LAPIS_BLOCK);
-            ItemEntity result = new ItemEntity(item.level(), item.getX(), item.getY(), item.getZ(), output);
+            ItemEntity result =
+                    new ItemEntity(item.level(), item.getX(), item.getY(), item.getZ(), output);
             result.setDeltaMovement(item.getDeltaMovement());
             result.setDefaultPickUpDelay();
             batch.used++;

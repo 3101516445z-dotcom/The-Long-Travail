@@ -27,7 +27,9 @@ public record BoundlessPacket(boolean active, int cooldown) {
         TravailNetwork.sendBoundless(
                 p,
                 new BoundlessPacket(
-                        active, p.getPersistentData().getInt(com.thelongtravail.boundless.DreamState.COOLDOWN)));
+                        active,
+                        p.getPersistentData()
+                                .getInt(com.thelongtravail.boundless.DreamState.COOLDOWN)));
     }
 
     public record Message(String key, int cooldownTicks) {
@@ -73,7 +75,10 @@ public record BoundlessPacket(boolean active, int cooldown) {
                                 || sender.connection == null
                                 || sender.connection != connection.getPacketListener()
                                 || sender.connection.player != sender
-                                || sender.serverLevel().getServer().getPlayerList().getPlayer(sender.getUUID())
+                                || sender.serverLevel()
+                                                .getServer()
+                                                .getPlayerList()
+                                                .getPlayer(sender.getUUID())
                                         != sender) return;
                         com.thelongtravail.boundless.DreamState.cast(sender);
                     });

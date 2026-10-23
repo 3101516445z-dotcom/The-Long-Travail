@@ -20,7 +20,9 @@ public final class LanternLight {
             DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, "the_long_travail");
     public static final RegistryObject<Block> BLOCK = BLOCKS.register("lantern_light", Light::new);
     public static final RegistryObject<BlockEntityType<Data>> TYPE =
-            ENTITIES.register("lantern_light", () -> BlockEntityType.Builder.of(Data::new, BLOCK.get()).build(null));
+            ENTITIES.register(
+                    "lantern_light",
+                    () -> BlockEntityType.Builder.of(Data::new, BLOCK.get()).build(null));
     private static final Set<Data> LOADED = Collections.newSetFromMap(new IdentityHashMap<>());
 
     private record Change(Level level, BlockPos pos, BlockState before, BlockState after) {}

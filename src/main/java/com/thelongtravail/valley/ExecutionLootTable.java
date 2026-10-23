@@ -15,7 +15,8 @@ public final class ExecutionLootTable {
 
     public record Result(List<Item> items, boolean limited, int skipped) {}
 
-    public static Result collect(ResourceLocation root, Function<ResourceLocation, LootTable> resolver) {
+    public static Result collect(
+            ResourceLocation root, Function<ResourceLocation, LootTable> resolver) {
         var result = LootItemCollector.collect(root, resolver);
         return new Result(result.items(), result.limited(), result.skipped());
     }

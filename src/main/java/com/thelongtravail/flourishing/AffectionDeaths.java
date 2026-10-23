@@ -12,7 +12,8 @@ public final class AffectionDeaths extends SavedData {
     public static AffectionDeaths get(MinecraftServer server) {
         return server.overworld()
                 .getDataStorage()
-                .computeIfAbsent(AffectionDeaths::load, AffectionDeaths::new, "the_long_travail_affection");
+                .computeIfAbsent(
+                        AffectionDeaths::load, AffectionDeaths::new, "the_long_travail_affection");
     }
 
     private static AffectionDeaths load(CompoundTag tag) {

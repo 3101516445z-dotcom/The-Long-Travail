@@ -120,7 +120,8 @@ public final class MaidAccessories {
         return loaded() && MaidAccessoryRuntime.immune(victim, source, amount);
     }
 
-    public static float reduce(LivingEntity victim, DamageSource source, float amount, boolean poison) {
+    public static float reduce(
+            LivingEntity victim, DamageSource source, float amount, boolean poison) {
         return loaded() ? MaidAccessoryRuntime.reduce(victim, source, amount, poison) : amount;
     }
 
@@ -144,7 +145,8 @@ public final class MaidAccessories {
         return loaded() && MaidAccessoryRuntime.seesUndead(e);
     }
 
-    public static MobEffectInstance extend(LivingEntity target, MobEffectInstance effect, Entity source) {
+    public static MobEffectInstance extend(
+            LivingEntity target, MobEffectInstance effect, Entity source) {
         return loaded() ? MaidAccessoryRuntime.extend(target, effect, source) : effect;
     }
 
@@ -164,7 +166,8 @@ public final class MaidAccessories {
         return loaded() && MaidAccessoryRuntime.lantern(e);
     }
 
-    public static boolean canHarm(LivingEntity attacker, net.minecraft.world.entity.player.Player other) {
+    public static boolean canHarm(
+            LivingEntity attacker, net.minecraft.world.entity.player.Player other) {
         if (attacker instanceof net.minecraft.server.level.ServerPlayer p)
             return p.server.isPvpAllowed() && p.canHarmPlayer(other);
         return loaded() && MaidAccessoryRuntime.canHarm(attacker, other);

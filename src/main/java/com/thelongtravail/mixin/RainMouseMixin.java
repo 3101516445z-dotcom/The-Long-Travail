@@ -11,7 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MouseHandler.class)
 public abstract class RainMouseMixin {
     @Inject(method = "onPress", at = @At("HEAD"))
-    private void travail$mouse(long window, int button, int action, int modifiers, CallbackInfo ci) {
+    private void travail$mouse(
+            long window, int button, int action, int modifiers, CallbackInfo ci) {
         if (window == Minecraft.getInstance().getWindow().getWindow())
             RainClient.press(InputConstants.Type.MOUSE.getOrCreate(button), action);
     }

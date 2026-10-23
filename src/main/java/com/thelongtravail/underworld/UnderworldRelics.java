@@ -21,8 +21,10 @@ import java.util.*;
 
 @Mod.EventBusSubscriber(modid = "the_long_travail")
 public final class UnderworldRelics {
-    private static final ResourceLocation SOURCE = new ResourceLocation("the_long_travail", "underworld_relics");
-    private static final Map<LivingEntity, Map<Attribute, AttributeModifierSet.Modifier>> APPLIED = new WeakHashMap<>();
+    private static final ResourceLocation SOURCE =
+            new ResourceLocation("the_long_travail", "underworld_relics");
+    private static final Map<LivingEntity, Map<Attribute, AttributeModifierSet.Modifier>> APPLIED =
+            new WeakHashMap<>();
 
     public static int phase(LivingEntity e) {
         if (!e.isAlive() || e.isRemoved() || e.isSpectator()) return 0;
@@ -38,7 +40,8 @@ public final class UnderworldRelics {
     public static ItemStack equipped(LivingEntity e, boolean banner) {
         if (phase(e) == 0) return ItemStack.EMPTY;
         var item = banner ? ModRegistry.SOUL_BANNER.get() : ModRegistry.DEMON_KING.get();
-        if (!(e instanceof Player p)) return com.thelongtravail.compat.maid.MaidAccessories.relicStack(e, banner);
+        if (!(e instanceof Player p))
+            return com.thelongtravail.compat.maid.MaidAccessories.relicStack(e, banner);
         return CuriosApi.getCuriosInventory(p)
                 .map(
                         inv ->
@@ -48,7 +51,10 @@ public final class UnderworldRelics {
                                                         !r.slotContext().cosmetic()
                                                                 && r.slotContext()
                                                                         .identifier()
-                                                                        .equals(banner ? "charm" : "bracelet"))
+                                                                        .equals(
+                                                                                banner
+                                                                                        ? "charm"
+                                                                                        : "bracelet"))
                                         .map(r -> r.stack())
                                         .findFirst()
                                         .orElse(ItemStack.EMPTY))
@@ -75,7 +81,8 @@ public final class UnderworldRelics {
 
     public static void refresh(LivingEntity e) {
         if (e.level().isClientSide) return;
-        Map<Attribute, AttributeModifierSet.Modifier> wanted = new IdentityHashMap<>();
+        // Modifier 是值对象；身份比较会把每次新建的等值修饰符误判为变化。
+        Map<Attribute, AttributeModifierSet.Modifier> wanted = new HashMap<>();
         int phase = phase(e), n = souls(equipped(e, true));
         if (phase == 2 && !equipped(e, false).isEmpty())
             put(wanted, ModAttributes.OVERLORD.get(), value("king.overlord"));
@@ -83,7 +90,11 @@ public final class UnderworldRelics {
             put(
                     wanted,
                     ModAttributes.CRITICAL_CHANCE.get(),
-                    n * value(phase == 1 ? "banner.maliceCriticalPerSoul" : "banner.witnessCriticalPerSoul"));
+                    n
+                            * value(
+                                    phase == 1
+                                            ? "banner.maliceCriticalPerSoul"
+                                            : "banner.witnessCriticalPerSoul"));
             if (phase == 2)
                 put(
                         wanted,
@@ -98,8 +109,13 @@ public final class UnderworldRelics {
         }
     }
 
-    private static void put(Map<Attribute, AttributeModifierSet.Modifier> out, Attribute a, double amount) {
-        if (amount > 0) out.put(a, new AttributeModifierSet.Modifier(amount, AttributeModifier.Operation.ADDITION));
+    private static void put(
+            Map<Attribute, AttributeModifierSet.Modifier> out, Attribute a, double amount) {
+        if (amount > 0)
+            out.put(
+                    a,
+                    new AttributeModifierSet.Modifier(
+                            amount, AttributeModifier.Operation.ADDITION));
     }
 
     public static double value(String key) {
@@ -110,7 +126,8 @@ public final class UnderworldRelics {
     public static void tick(LivingEvent.LivingTickEvent event) {
         var e = event.getEntity();
         if (!e.level().isClientSide
-                && (e instanceof Player || com.thelongtravail.compat.maid.MaidAccessories.isMaid(e))) refresh(e);
+                && (e instanceof Player
+                        || com.thelongtravail.compat.maid.MaidAccessories.isMaid(e))) refresh(e);
     }
 
     @SubscribeEvent

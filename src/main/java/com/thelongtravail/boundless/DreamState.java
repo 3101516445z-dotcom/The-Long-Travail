@@ -55,7 +55,8 @@ public final class DreamState {
     public static void tick(ServerPlayer p) {
         int oldCooldown = p.getPersistentData().getInt(COOLDOWN);
         StarVoiceState.decrement(p, COOLDOWN);
-        if (oldCooldown > 0 && p.getPersistentData().getInt(COOLDOWN) == 0) BoundlessPacket.sendDream(p, active(p));
+        if (oldCooldown > 0 && p.getPersistentData().getInt(COOLDOWN) == 0)
+            BoundlessPacket.sendDream(p, active(p));
         if (!active(p)) return;
         CompoundTag n = p.getPersistentData().getCompound(RECORD);
         if (n.getBoolean("exiting")) {
@@ -101,7 +102,8 @@ public final class DreamState {
         for (BlockPos at :
                 BlockPos.betweenClosed(
                         BlockPos.containing(path.minX, path.minY - 1e-7, path.minZ),
-                        BlockPos.containing(path.maxX - 1e-7, path.maxY - 1e-7, path.maxZ - 1e-7))) {
+                        BlockPos.containing(
+                                path.maxX - 1e-7, path.maxY - 1e-7, path.maxZ - 1e-7))) {
             var block = l.getBlockState(at);
             if (!l.getFluidState(at).isEmpty()
                     || block.is(net.minecraft.tags.BlockTags.FIRE)
@@ -112,14 +114,17 @@ public final class DreamState {
                     || block.is(net.minecraft.world.level.block.Blocks.SWEET_BERRY_BUSH)
                     || block.is(net.minecraft.tags.BlockTags.CAMPFIRES)
                             && block.hasProperty(net.minecraft.world.level.block.CampfireBlock.LIT)
-                            && block.getValue(net.minecraft.world.level.block.CampfireBlock.LIT)) return false;
+                            && block.getValue(net.minecraft.world.level.block.CampfireBlock.LIT))
+                return false;
         }
         return true;
     }
 
     private static boolean chunksLoaded(ServerPlayer p, Vec3 v) {
         var box = p.getDimensions(Pose.STANDING).makeBoundingBox(v);
-        for (int x = net.minecraft.util.Mth.floor(box.minX) >> 4; x <= net.minecraft.util.Mth.floor(box.maxX) >> 4; x++)
+        for (int x = net.minecraft.util.Mth.floor(box.minX) >> 4;
+                x <= net.minecraft.util.Mth.floor(box.maxX) >> 4;
+                x++)
             for (int z = net.minecraft.util.Mth.floor(box.minZ) >> 4;
                     z <= net.minecraft.util.Mth.floor(box.maxZ) >> 4;
                     z++) if (!p.serverLevel().hasChunk(x, z)) return false;
@@ -134,7 +139,9 @@ public final class DreamState {
                     for (int x = -r; x <= r; x++)
                         for (int z = -r; z <= r; z++) {
                             if (Math.max(Math.abs(x), Math.abs(z)) != r) continue;
-                            Vec3 v = Vec3.atBottomCenterOf(BlockPos.containing(anchor).offset(x, dy * sign, z));
+                            Vec3 v =
+                                    Vec3.atBottomCenterOf(
+                                            BlockPos.containing(anchor).offset(x, dy * sign, z));
                             if (safe(p, v)) return v;
                         }
         return null;
@@ -150,10 +157,13 @@ public final class DreamState {
                     if (!l.getWorldBorder().isWithinBounds(column)) continue;
                     int height =
                             l.getHeight(
-                                    net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                                    net.minecraft.world.level.levelgen.Heightmap.Types
+                                            .MOTION_BLOCKING_NO_LEAVES,
                                     column.getX(),
                                     column.getZ());
-                    Vec3 candidate = Vec3.atBottomCenterOf(new BlockPos(column.getX(), height, column.getZ()));
+                    Vec3 candidate =
+                            Vec3.atBottomCenterOf(
+                                    new BlockPos(column.getX(), height, column.getZ()));
                     if (safe(p, candidate)) return candidate;
                 }
         return null;
@@ -187,11 +197,14 @@ public final class DreamState {
                 Vec3 landing = p.position();
                 if (!safe(p, landing)) {
                     Vec3 anchor =
-                            n.getString("dimension").equals(p.level().dimension().location().toString())
+                            n.getString("dimension")
+                                            .equals(p.level().dimension().location().toString())
                                     ? new Vec3(n.getDouble("x"), n.getDouble("y"), n.getDouble("z"))
                                     : Vec3.atBottomCenterOf(p.serverLevel().getSharedSpawnPos());
-                    if (n.getString("dimension").equals(p.level().dimension().location().toString())) {
-                        Vec3 found = safe(p, anchor) ? anchor : DreamLandingSearch.result(p, n, anchor);
+                    if (n.getString("dimension")
+                            .equals(p.level().dimension().location().toString())) {
+                        Vec3 found =
+                                safe(p, anchor) ? anchor : DreamLandingSearch.result(p, n, anchor);
                         if (found == null) {
                             n.putInt("retryDelay", 1);
                             return;
@@ -209,13 +222,15 @@ public final class DreamState {
                         landing = found == null ? anchor : found;
                     }
                 }
-                p.teleportTo(p.serverLevel(), landing.x, landing.y, landing.z, p.getYRot(), p.getXRot());
+                p.teleportTo(
+                        p.serverLevel(), landing.x, landing.y, landing.z, p.getYRot(), p.getXRot());
                 p.fallDistance = 0;
                 p.setGameMode(GameType.byId(n.getInt("mode")));
                 if (p.isSpectator()) {
                     if (firstAttempt)
                         com.thelongtravail.TheLongTravail.LOGGER.warn(
-                                "Dream exit mode restoration rejected for {}; keeping recovery record", p.getUUID());
+                                "Dream exit mode restoration rejected for {}; keeping recovery record",
+                                p.getUUID());
                     return;
                 }
             }
@@ -226,7 +241,9 @@ public final class DreamState {
         } catch (RuntimeException failure) {
             if (firstAttempt)
                 com.thelongtravail.TheLongTravail.LOGGER.warn(
-                        "Dream exit failed for {}; keeping recovery record for retry", p.getUUID(), failure);
+                        "Dream exit failed for {}; keeping recovery record for retry",
+                        p.getUUID(),
+                        failure);
         } finally {
             FINISHING.remove(p);
         }

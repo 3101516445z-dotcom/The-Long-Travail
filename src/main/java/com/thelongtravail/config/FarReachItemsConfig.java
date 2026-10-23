@@ -55,7 +55,7 @@ public final class FarReachItemsConfig {
                 6,
                 0,
                 1000,
-                "候选食物的理论饱和度恢复量下限。\n理论恢复量按“2×食物恢复的饱食度×饱和度系数”计算，不考虑玩家当前状态对实际恢复量的限制。\nMinimum theoretical saturation restored by an eligible food. Calculated as 2 x hunger restored x saturation modifier, without applying limits imposed by the player's current state.");
+                "候选食物的理论饱和度恢复量下限。\n理论恢复量按“2×食物恢复的饱食度×饱和度系数”计算，不考虑玩家当前状态对实际恢复量的限制。\nMinimum theoretical saturation restored by an eligible food.\nCalculated as 2 x hunger restored x saturation modifier, without applying limits imposed by the player's current state.");
         ALLOW_HARMFUL =
                 b.comment(
                                 "是否允许选中在标准食物属性中声明了有害效果的食物。由自定义代码产生副作用的食物，需通过食物黑名单手动排除。\nAllow foods whose standard food properties declare harmful effects. Foods with side effects implemented in custom code must be excluded manually using the food blacklist.")
@@ -72,7 +72,7 @@ public final class FarReachItemsConfig {
                         "禁止出现的食物物品ID；默认为空列表。\nFood item IDs excluded from selection; empty by default.");
         IGNITE_SECONDS =
                 b.comment(
-                                "命中后点燃目标的持续时间，单位：秒；\n0表示不点燃。\n若目标剩余的燃烧时间更长，重复命中不会将其缩短。\n实际燃烧时间仍受原版火焰保护附魔影响。\nDuration for which a hit sets the target on fire, in seconds; 0 disables ignition. Repeated hits do not shorten a longer remaining burn duration. Vanilla Fire Protection still affects the actual duration.")
+                                "命中后点燃目标的持续时间，单位：秒；\n0表示不点燃。\n若目标剩余的燃烧时间更长，重复命中不会将其缩短。\n实际燃烧时间仍受原版火焰保护附魔影响。\nDuration for which a hit sets the target on fire, in seconds.\n0 disables ignition.\nRepeated hits do not shorten a longer remaining burn duration.\nVanilla Fire Protection still affects the actual duration.")
                         .defineInRange("items.icarus.igniteSeconds", 10, 0, 3600);
         n(
                 b,
@@ -87,7 +87,7 @@ public final class FarReachItemsConfig {
                 .6,
                 0,
                 1000,
-                "穷遐之恶意生效时，露天且晴天条件下的正午伤害加成比例；\n0.6表示提高60%。\n末地始终视为晴天，下界始终不视为晴天；\n昼夜均按世界时间判断。\nNoon damage bonus with Far Reach Malice active under open sky in clear weather; 0.6 means +60%. The End always counts as clear weather, and the Nether never does. Day and night are determined by world time in all dimensions.");
+                "穷遐之恶意生效时，露天且晴天条件下的正午伤害加成比例；\n0.6表示提高60%。\n末地始终视为晴天，下界始终不视为晴天；\n昼夜均按世界时间判断。\nNoon damage bonus with Far Reach Malice active under open sky in clear weather.\n0.6 means +60%.\nThe End always counts as clear weather, and the Nether never does.\nDay and night are determined by world time in all dimensions.");
         n(
                 b,
                 "icarus.witnessBonus",
@@ -97,24 +97,31 @@ public final class FarReachItemsConfig {
                 "见证分支露天时的固定增伤比例，不受时间与天气限制。\nFixed damage bonus under open sky with Witness active, regardless of time or weather.");
         EXTRA_IMMUNITIES =
                 b.comment(
-                                "见证额外免疫池，默认为空列表。\n填写伤害类型ID或#伤害类型标签；\n允许非魔法类型。\n默认仅内置minecraft:magic和minecraft:indirect_magic，不自动兼容其他模组。\nAdditional Witness damage immunities; empty by default. Accepts damage type IDs or #damage_type_tags, including non-magic types. Only minecraft:magic and minecraft:indirect_magic are included by default; damage types from other mods are not automatically included.")
+                                "见证额外免疫池，默认为空列表。\n填写伤害类型ID或#伤害类型标签；\n允许非魔法类型。\n默认仅内置minecraft:magic和minecraft:indirect_magic，不自动兼容其他模组。\nAdditional Witness damage immunities; empty by default.\nAccepts damage type IDs or #damage_type_tags.\nNon-magic damage types are also allowed.\nOnly minecraft:magic and minecraft:indirect_magic are included by default; damage types from other mods are not automatically included.")
                         .defineListAllowEmpty(
                                 "items.icarus.extraImmunities",
                                 List.of(),
                                 v ->
                                         v instanceof String s
-                                                && ResourceLocation.tryParse(s.startsWith("#") ? s.substring(1) : s)
+                                                && ResourceLocation.tryParse(
+                                                                s.startsWith("#")
+                                                                        ? s.substring(1)
+                                                                        : s)
                                                         != null);
     }
 
-    private static void n(ForgeConfigSpec.Builder b, String k, double d, double min, double max, String comment) {
+    private static void n(
+            ForgeConfigSpec.Builder b, String k, double d, double min, double max, String comment) {
         NUMBERS.put(k, b.comment(comment).defineInRange("items." + k, d, min, max));
     }
 
     private static ForgeConfigSpec.ConfigValue<List<? extends String>> ids(
             ForgeConfigSpec.Builder b, String k, String comment) {
         return b.comment(comment)
-                .defineListAllowEmpty(k, List.of(), v -> v instanceof String s && ResourceLocation.tryParse(s) != null);
+                .defineListAllowEmpty(
+                        k,
+                        List.of(),
+                        v -> v instanceof String s && ResourceLocation.tryParse(s) != null);
     }
 
     public static double get(String key) {

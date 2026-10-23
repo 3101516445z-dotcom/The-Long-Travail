@@ -17,7 +17,9 @@ public final class AccessoryEquipRules {
                                         .anyMatch(
                                                 r ->
                                                         !r.slotContext().cosmetic()
-                                                                && r.slotContext().identifier().equals(slot)))
+                                                                && r.slotContext()
+                                                                        .identifier()
+                                                                        .equals(slot)))
                 .orElse(false);
     }
 
@@ -37,11 +39,19 @@ public final class AccessoryEquipRules {
                 .map(
                         inv ->
                                 inv.findCurios(item).stream()
-                                        .filter(r -> includeCosmetics || !r.slotContext().cosmetic())
+                                        .filter(
+                                                r ->
+                                                        includeCosmetics
+                                                                || !r.slotContext().cosmetic())
                                         .noneMatch(
                                                 r ->
-                                                        !r.slotContext().identifier().equals(context.identifier())
-                                                                || r.slotContext().index() != context.index()))
+                                                        !r.slotContext()
+                                                                        .identifier()
+                                                                        .equals(
+                                                                                context
+                                                                                        .identifier())
+                                                                || r.slotContext().index()
+                                                                        != context.index()))
                 .orElse(false);
     }
 

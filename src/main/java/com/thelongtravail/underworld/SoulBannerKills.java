@@ -16,20 +16,24 @@ import java.util.*;
 public final class SoulBannerKills {
     public record Claim(LivingEntity killer, ItemStack banner) {}
 
-    private record Pending(LivingEntity victim, Claim claim, LivingDeathEvent event, boolean forced) {}
+    private record Pending(
+            LivingEntity victim, Claim claim, LivingDeathEvent event, boolean forced) {}
 
     private static final Map<LivingEntity, Pending> PENDING = new IdentityHashMap<>();
     private static final Set<LivingEntity> COUNTED = Collections.newSetFromMap(new WeakHashMap<>());
 
     public static Claim capture(LivingEntity victim, Entity source) {
-        if (victim instanceof Player || victim instanceof ArmorStand || victim.level().isClientSide) return null;
-        var id = net.minecraftforge.registries.ForgeRegistries.ENTITY_TYPES.getKey(victim.getType());
+        if (victim instanceof Player || victim instanceof ArmorStand || victim.level().isClientSide)
+            return null;
+        var id =
+                net.minecraftforge.registries.ForgeRegistries.ENTITY_TYPES.getKey(victim.getType());
         if (id != null && id.getNamespace().equals("dummmmmmy")) return null;
         Set<Entity> seen = Collections.newSetFromMap(new IdentityHashMap<>());
         while (source instanceof Projectile p && seen.add(source)) source = p.getOwner();
         if (!(source instanceof LivingEntity actor)
                 || actor == victim
-                || !(actor instanceof Player || com.thelongtravail.compat.maid.MaidAccessories.isMaid(actor)))
+                || !(actor instanceof Player
+                        || com.thelongtravail.compat.maid.MaidAccessories.isMaid(actor)))
             return null;
         ItemStack stack = UnderworldRelics.equipped(actor, true);
         return stack.isEmpty() ? null : new Claim(actor, stack);
@@ -53,7 +57,8 @@ public final class SoulBannerKills {
 
     @SubscribeEvent
     public static void living(LivingEvent.LivingTickEvent e) {
-        if (!e.getEntity().level().isClientSide && e.getEntity().isAlive()) COUNTED.remove(e.getEntity());
+        if (!e.getEntity().level().isClientSide && e.getEntity().isAlive())
+            COUNTED.remove(e.getEntity());
     }
 
     @SubscribeEvent

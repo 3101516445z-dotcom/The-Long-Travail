@@ -17,9 +17,13 @@ public final class JourneySpatial {
     private record Candidate(ResourceLocation id, List<BoundingBox> boxes) {}
 
     private record Entry(
-            long until, Map<Structure, ResourceLocation> targets, List<Candidate> candidates, Set<Long> dependencies) {}
+            long until,
+            Map<Structure, ResourceLocation> targets,
+            List<Candidate> candidates,
+            Set<Long> dependencies) {}
 
-    private static final Map<ServerLevel, LinkedHashMap<Long, Entry>> CACHE = new IdentityHashMap<>();
+    private static final Map<ServerLevel, LinkedHashMap<Long, Entry>> CACHE =
+            new IdentityHashMap<>();
 
     public static void clear() {
         CACHE.clear();
@@ -32,11 +36,16 @@ public final class JourneySpatial {
             Runnable invalidate =
                     () -> {
                         var cache = CACHE.get(l);
-                        if (cache != null) cache.values().removeIf(entry -> entry.dependencies.contains(changed));
+                        if (cache != null)
+                            cache.values().removeIf(entry -> entry.dependencies.contains(changed));
                         var biomes = BIOMES.get(l);
                         if (biomes != null)
                             biomes.values()
-                                    .removeIf(entry -> entry.dependsOn(ChunkPos.getX(changed), ChunkPos.getZ(changed)));
+                                    .removeIf(
+                                            entry ->
+                                                    entry.dependsOn(
+                                                            ChunkPos.getX(changed),
+                                                            ChunkPos.getZ(changed)));
                     };
             if (l.getServer().isSameThread()) invalidate.run();
             else l.getServer().execute(invalidate);
@@ -70,7 +79,9 @@ public final class JourneySpatial {
     }
 
     static boolean matches(StructureStart start, ResourceLocation id, BlockPos p) {
-        return start != null && start.isValid() && boxes(start, id).stream().anyMatch(b -> contains(b, p));
+        return start != null
+                && start.isValid()
+                && boxes(start, id).stream().anyMatch(b -> contains(b, p));
     }
 
     public static List<ResourceLocation> loadedAt(
@@ -80,7 +91,10 @@ public final class JourneySpatial {
         long now = level.getGameTime();
         var cache = CACHE.computeIfAbsent(level, l -> new LinkedHashMap<>(16, .75f, true));
         Entry entry = cache.get(key);
-        if (entry == null || now >= entry.until || now < entry.until - 100 || !entry.targets.equals(targets)) {
+        if (entry == null
+                || now >= entry.until
+                || now < entry.until - 100
+                || !entry.targets.equals(targets)) {
             List<Candidate> candidates = new ArrayList<>();
             Set<Long> dependencies = new HashSet<>();
             Map<Structure, Set<Long>> seen = new HashMap<>();
@@ -100,11 +114,16 @@ public final class JourneySpatial {
                             if (!visited.add(packed)) continue;
                             dependencies.add(packed);
                             var chunk =
-                                    level.getChunkSource().getChunkNow(ChunkPos.getX(packed), ChunkPos.getZ(packed));
+                                    level.getChunkSource()
+                                            .getChunkNow(
+                                                    ChunkPos.getX(packed), ChunkPos.getZ(packed));
                             if (chunk == null) continue;
                             var start = chunk.getStartForStructure(target.getKey());
                             if (start != null && start.isValid())
-                                candidates.add(new Candidate(target.getValue(), boxes(start, target.getValue())));
+                                candidates.add(
+                                        new Candidate(
+                                                target.getValue(),
+                                                boxes(start, target.getValue())));
                         }
                     }
                 }
@@ -127,7 +146,9 @@ public final class JourneySpatial {
         return List.copyOf(found);
     }
 
-    private static final Map<ServerLevel, it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap<BiomeSample>>
+    private static final Map<
+                    ServerLevel,
+                    it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap<BiomeSample>>
             BIOMES = new IdentityHashMap<>();
 
     private static final class BiomeSample {
@@ -153,9 +174,12 @@ public final class JourneySpatial {
         }
     }
 
-    private static BiomeSample sample(ServerLevel level, BlockPos pos, ResourceLocation suppliedCenter) {
+    private static BiomeSample sample(
+            ServerLevel level, BlockPos pos, ResourceLocation suppliedCenter) {
         var cache =
-                BIOMES.computeIfAbsent(level, l -> new it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap<>(256));
+                BIOMES.computeIfAbsent(
+                        level,
+                        l -> new it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap<>(256));
         long key = pos.asLong(), now = level.getGameTime();
         int radius = JourneyDetectionConfig.BIOME_RADIUS.get();
         var sample = cache.getAndMoveToLast(key);
@@ -192,7 +216,10 @@ public final class JourneySpatial {
             int baseX = (p.getX() - r - 2) >> 4, baseZ = (p.getZ() - r - 2) >> 4;
             int checked = 0, loaded = 0;
             for (int i = 0; i < 4; i++) {
-                q.set(p.getX() + (i == 0 ? r : i == 1 ? -r : 0), p.getY(), p.getZ() + (i == 2 ? r : i == 3 ? -r : 0));
+                q.set(
+                        p.getX() + (i == 0 ? r : i == 1 ? -r : 0),
+                        p.getY(),
+                        p.getZ() + (i == 2 ? r : i == 3 ? -r : 0));
                 boolean ready = true;
                 for (int x = (q.getX() - 2) >> 4; x <= (q.getX() + 2) >> 4; x++)
                     for (int z = (q.getZ() - 2) >> 4; z <= (q.getZ() + 2) >> 4; z++) {
@@ -203,7 +230,9 @@ public final class JourneySpatial {
                         }
                         if ((loaded & bit) == 0) ready = false;
                     }
-                if (ready) sample.neighbors[i] = level.getBiome(q).unwrapKey().map(k -> k.location()).orElse(null);
+                if (ready)
+                    sample.neighbors[i] =
+                            level.getBiome(q).unwrapKey().map(k -> k.location()).orElse(null);
             }
         }
         Set<ResourceLocation> found = null;

@@ -10,7 +10,9 @@ import java.util.*;
 public final class BoundlessRelicText {
     private static String number(String key, double scale) {
         return BigDecimal.valueOf(
-                        TooltipConfigSync.decimal("boundlessItem." + key, BoundlessItemsConfig.get(key)) * scale)
+                        TooltipConfigSync.decimal(
+                                        "boundlessItem." + key, BoundlessItemsConfig.get(key))
+                                * scale)
                 .stripTrailingZeros()
                 .toPlainString();
     }
@@ -30,7 +32,8 @@ public final class BoundlessRelicText {
 
     public static Component toggleMessage(boolean enabled) {
         return RainTooltips.coloredLine(
-                Component.translatable("message.the_long_travail.lorentz." + (enabled ? "on" : "off"))
+                Component.translatable(
+                                "message.the_long_travail.lorentz." + (enabled ? "on" : "off"))
                         .withStyle(style -> style.withColor(RainTooltips.BODY_COLOR)));
     }
 
@@ -49,7 +52,11 @@ public final class BoundlessRelicText {
             out.add(Component.empty());
             out.add(line("lorentz.critical", number("lorentz.critical", 100)));
             out.add(Component.empty());
-            out.add(line("lorentz.damage", number("lorentz.damage", 100), number("lorentz.headshot", 100)));
+            out.add(
+                    line(
+                            "lorentz.damage",
+                            number("lorentz.damage", 100),
+                            number("lorentz.headshot", 100)));
             out.add(Component.empty());
             out.add(line("lorentz.witness_heading"));
             out.add(Component.empty());

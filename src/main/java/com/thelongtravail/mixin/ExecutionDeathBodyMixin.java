@@ -24,7 +24,10 @@ public abstract class ExecutionDeathBodyMixin {
                             target =
                                     "Lnet/minecraftforge/common/ForgeHooks;onLivingDeath(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/damagesource/DamageSource;)Z",
                             remap = false))
-    private boolean travail$finalDeath(LivingEntity target, DamageSource source, Operation<Boolean> original) {
-        return FinalExecution.bypassDeathCheck(target, source) ? false : original.call(target, source);
+    private boolean travail$finalDeath(
+            LivingEntity target, DamageSource source, Operation<Boolean> original) {
+        return FinalExecution.bypassDeathCheck(target, source)
+                ? false
+                : original.call(target, source);
     }
 }

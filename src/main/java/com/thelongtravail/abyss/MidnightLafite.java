@@ -29,7 +29,9 @@ public final class MidnightLafite {
 
     public static int phase(LivingEntity e) {
         if (e instanceof Player p)
-            return TravailStateApi.hasAbyssWitness(p) ? 2 : TravailStateApi.hasAbyssMalice(p) ? 1 : 0;
+            return TravailStateApi.hasAbyssWitness(p)
+                    ? 2
+                    : TravailStateApi.hasAbyssMalice(p) ? 1 : 0;
         return MaidAccessories.lafitePhase(e);
     }
 
@@ -60,9 +62,11 @@ public final class MidnightLafite {
     }
 
     public static MobEffectInstance duration(LivingEntity e, MobEffectInstance incoming) {
-        if (e.level().isClientSide || !equipped(e) || incoming.isInfiniteDuration()) return incoming;
+        if (e.level().isClientSide || !equipped(e) || incoming.isInfiniteDuration())
+            return incoming;
         double multiplier;
-        if (incoming.getEffect() == MobEffects.POISON) multiplier = AbyssItemsConfig.get("poisonDurationMultiplier");
+        if (incoming.getEffect() == MobEffects.POISON)
+            multiplier = AbyssItemsConfig.get("poisonDurationMultiplier");
         else if (incoming.getEffect() == MobEffects.CONFUSION) {
             multiplier = AbyssItemsConfig.get("nauseaDurationMultiplier");
             if (multiplier > 1 && !ModeEffectRules.LAFITE_NAUSEA.applies(e)) return incoming;
@@ -71,24 +75,33 @@ public final class MidnightLafite {
         var copy = copyEffect(incoming);
         ((EffectDurationAccessor) copy)
                 .travail$duration(
-                        (int) Math.max(1, Math.min(Integer.MAX_VALUE, Math.ceil(incoming.getDuration() * multiplier))));
+                        (int)
+                                Math.max(
+                                        1,
+                                        Math.min(
+                                                Integer.MAX_VALUE,
+                                                Math.ceil(incoming.getDuration() * multiplier))));
         return copy;
     }
 
     public static MobEffectInstance copyEffect(MobEffectInstance incoming) {
         var copy = new MobEffectInstance(incoming);
         var hidden = ((EffectDurationAccessor) incoming).travail$hiddenEffect();
-        if (hidden != null) ((EffectDurationAccessor) copy).travail$hiddenEffect(copyEffect(hidden));
+        if (hidden != null)
+            ((EffectDurationAccessor) copy).travail$hiddenEffect(copyEffect(hidden));
         return copy;
     }
 
     public static boolean immune(LivingEntity e, MobEffect effect) {
-        return (effect == MobEffects.HUNGER || effect == MobEffects.LEVITATION) && equipped(e) && phase(e) == 2;
+        return (effect == MobEffects.HUNGER || effect == MobEffects.LEVITATION)
+                && equipped(e)
+                && phase(e) == 2;
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void applicable(MobEffectEvent.Applicable event) {
-        if (!event.getEntity().level().isClientSide && immune(event.getEntity(), event.getEffectInstance().getEffect()))
+        if (!event.getEntity().level().isClientSide
+                && immune(event.getEntity(), event.getEffectInstance().getEffect()))
             event.setResult(Event.Result.DENY);
     }
 

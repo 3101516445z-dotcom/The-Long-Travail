@@ -15,12 +15,16 @@ import java.util.function.*;
 
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
 public final class DependentAccessories {
-    private record Rule(Supplier<Item> item, Predicate<ServerPlayer> requirement, Consumer<ServerPlayer> cleanup) {}
+    private record Rule(
+            Supplier<Item> item,
+            Predicate<ServerPlayer> requirement,
+            Consumer<ServerPlayer> cleanup) {}
 
     private record Position(String slot, int index, Item item) {}
 
     private static final List<Rule> RULES = new ArrayList<>();
-    private static final Set<ServerPlayer> CHECKING = Collections.newSetFromMap(new IdentityHashMap<>());
+    private static final Set<ServerPlayer> CHECKING =
+            Collections.newSetFromMap(new IdentityHashMap<>());
 
     static {
         register(
@@ -49,7 +53,9 @@ public final class DependentAccessories {
     }
 
     public static void register(
-            Supplier<Item> item, Predicate<ServerPlayer> requirement, Consumer<ServerPlayer> cleanup) {
+            Supplier<Item> item,
+            Predicate<ServerPlayer> requirement,
+            Consumer<ServerPlayer> cleanup) {
         RULES.add(new Rule(item, requirement, cleanup));
     }
 
@@ -99,7 +105,8 @@ public final class DependentAccessories {
 
     @SubscribeEvent
     public static void tick(TickEvent.PlayerTickEvent event) {
-        if (event.phase == TickEvent.Phase.END && event.player instanceof ServerPlayer player) reconcile(player);
+        if (event.phase == TickEvent.Phase.END && event.player instanceof ServerPlayer player)
+            reconcile(player);
     }
 
     private DependentAccessories() {}

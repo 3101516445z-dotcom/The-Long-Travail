@@ -7,10 +7,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
 public final class InsightRetaliation {
-    public static final net.minecraft.tags.TagKey<net.minecraft.world.damagesource.DamageType> RETALIATION =
-            net.minecraft.tags.TagKey.create(
-                    Registries.DAMAGE_TYPE,
-                    net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("the_long_travail", "retaliation"));
+    public static final net.minecraft.tags.TagKey<net.minecraft.world.damagesource.DamageType>
+            RETALIATION =
+                    net.minecraft.tags.TagKey.create(
+                            Registries.DAMAGE_TYPE,
+                            net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(
+                                    "the_long_travail", "retaliation"));
     private static final ThreadLocal<Boolean> CHAIN = ThreadLocal.withInitial(() -> false);
 
     private static final class Source extends DamageSource {
@@ -51,7 +53,8 @@ public final class InsightRetaliation {
         if (attacker instanceof net.minecraft.world.entity.player.Player player
                 && (defender instanceof net.minecraft.server.level.ServerPlayer
                         || com.thelongtravail.compat.maid.MaidAccessories.isMaid(defender))
-                && !com.thelongtravail.compat.maid.MaidAccessories.canHarm(defender, player)) return;
+                && !com.thelongtravail.compat.maid.MaidAccessories.canHarm(defender, player))
+            return;
         CHAIN.set(true);
         try {
             attacker.hurt(new Source(defender), (float) Math.min(Float.MAX_VALUE, amount));

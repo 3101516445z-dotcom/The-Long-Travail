@@ -19,8 +19,11 @@ public abstract class RainFireMixin {
                             value = "INVOKE",
                             target =
                                     "Lnet/minecraft/world/entity/LivingEntity;hasEffect(Lnet/minecraft/world/effect/MobEffect;)Z"))
-    private boolean travail$fireResistance(LivingEntity entity, MobEffect effect, Operation<Boolean> original) {
+    private boolean travail$fireResistance(
+            LivingEntity entity, MobEffect effect, Operation<Boolean> original) {
         return original.call(entity, effect)
-                || effect == MobEffects.FIRE_RESISTANCE && entity instanceof Player p && RainState.fire(p);
+                || effect == MobEffects.FIRE_RESISTANCE
+                        && entity instanceof Player p
+                        && RainState.fire(p);
     }
 }

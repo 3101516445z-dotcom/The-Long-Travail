@@ -16,7 +16,8 @@ final class CatalogIconAlignment {
         Minecraft mc = Minecraft.getInstance();
         var model = mc.getItemRenderer().getModel(stack, mc.level, mc.player, 0);
         if (model.isGui3d() || model.isCustomRenderer()) return ZERO;
-        return OFFSETS.computeIfAbsent(model.getParticleIcon().contents(), CatalogIconAlignment::measure);
+        return OFFSETS.computeIfAbsent(
+                model.getParticleIcon().contents(), CatalogIconAlignment::measure);
     }
 
     private static Offset measure(SpriteContents sprite) {
@@ -35,7 +36,9 @@ final class CatalogIconAlignment {
             }
         }
         if (right < left) return ZERO;
-        return new Offset((width - left - right - 1) / (2f * width), (height - top - bottom - 1) / (2f * height));
+        return new Offset(
+                (width - left - right - 1) / (2f * width),
+                (height - top - bottom - 1) / (2f * height));
     }
 
     private CatalogIconAlignment() {}

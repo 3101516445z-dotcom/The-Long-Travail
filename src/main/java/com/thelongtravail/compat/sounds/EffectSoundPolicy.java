@@ -10,9 +10,11 @@ public final class EffectSoundPolicy {
         EXPIRE
     }
 
-    private record Mark(String id, boolean gain, Reason reason, long serial, long batch, long tick) {}
+    private record Mark(
+            String id, boolean gain, Reason reason, long serial, long batch, long tick) {}
 
-    private record Pending(String id, boolean gain, java.util.function.BooleanSupplier play, long tick) {}
+    private record Pending(
+            String id, boolean gain, java.util.function.BooleanSupplier play, long tick) {}
 
     private record Cleared(long tick, long batch, boolean malice) {}
 
@@ -57,7 +59,8 @@ public final class EffectSoundPolicy {
 
     public void advance() {
         tick++;
-        while (!pending.isEmpty() && tick - pending.peekFirst().tick >= 2) decide(pending.removeFirst());
+        while (!pending.isEmpty() && tick - pending.peekFirst().tick >= 2)
+            decide(pending.removeFirst());
         marks.removeIf(m -> tick - m.tick > 10);
         cleared.entrySet().removeIf(e -> tick - e.getValue().tick > 40);
         warnings.entrySet().removeIf(e -> tick - e.getValue() >= 200);
@@ -68,14 +71,19 @@ public final class EffectSoundPolicy {
         var iterator = marks.iterator();
         while (iterator.hasNext()) {
             var mark = iterator.next();
-            if (mark.id.equals(event.id) && mark.gain == event.gain && Math.abs(mark.tick - event.tick) <= 10) {
+            if (mark.id.equals(event.id)
+                    && mark.gain == event.gain
+                    && Math.abs(mark.tick - event.tick) <= 10) {
                 iterator.remove();
                 diagnostic.accept("quiet-" + mark.reason, event.id);
                 return;
             }
         }
         Cleared recent = cleared.get(event.id);
-        if (event.gain && recent != null && event.tick >= recent.tick - 2 && event.tick - recent.tick <= 40) {
+        if (event.gain
+                && recent != null
+                && event.tick >= recent.tick - 2
+                && event.tick - recent.tick <= 40) {
             Long warned = warnings.get(event.id);
             if (warned != null && tick - warned < 200) {
                 diagnostic.accept("quiet-repeat", event.id);
@@ -92,7 +100,8 @@ public final class EffectSoundPolicy {
                 batches.put(recent.batch, tick);
             }
         }
-        if (event.play.getAsBoolean()) diagnostic.accept(event.gain ? "play-gain" : "play-loss", event.id);
+        if (event.play.getAsBoolean())
+            diagnostic.accept(event.gain ? "play-gain" : "play-loss", event.id);
     }
 
     private static <K, V> void trim(Map<K, V> map, int limit) {

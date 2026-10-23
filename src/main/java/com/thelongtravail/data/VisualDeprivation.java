@@ -55,7 +55,8 @@ public final class VisualDeprivation {
                 0,
                 0,
                 switch (reason) {
-                    case EXPIRED, DEATH, RESPAWN, DIMENSION_CHANGE, DIARY_RESET, NO_ACTIVE_STATE -> true;
+                    case EXPIRED, DEATH, RESPAWN, DIMENSION_CHANGE, DIARY_RESET, NO_ACTIVE_STATE ->
+                            true;
                     default -> false;
                 });
         if (had) {
@@ -81,7 +82,8 @@ public final class VisualDeprivation {
     public static void tick(ServerPlayer player) {
         if (!player.getPersistentData().contains(UNTIL)) return;
         int left = remaining(player);
-        if (!com.thelongtravail.config.ModeEffectRules.diaryApplies(player)) clear(player, ClearReason.NO_ACTIVE_STATE);
+        if (!com.thelongtravail.config.ModeEffectRules.diaryApplies(player))
+            clear(player, ClearReason.NO_ACTIVE_STATE);
         else if (left == 0) clear(player, ClearReason.EXPIRED);
         else TravailNetwork.sendVisualProgress(player, left);
     }

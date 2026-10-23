@@ -125,7 +125,8 @@ public final class WayguideEntity extends Entity implements ItemSupplier {
     }
 
     @Override
-    public void lerpTo(double x, double y, double z, float yaw, float pitch, int steps, boolean teleport) {
+    public void lerpTo(
+            double x, double y, double z, float yaw, float pitch, int steps, boolean teleport) {
         lerpTarget = new Vec3(x, y, z);
         lerpSteps = Math.max(1, steps);
     }
@@ -136,12 +137,16 @@ public final class WayguideEntity extends Entity implements ItemSupplier {
         if (level().isClientSide) {
             Entity player = searching() ? level().getEntity(entityData.get(OWNER)) : null;
             if (player != null) {
-                setPos(player.getX(), player.getY() + 3 + Math.sin(tickCount * 0.22) * 0.22, player.getZ());
+                setPos(
+                        player.getX(),
+                        player.getY() + 3 + Math.sin(tickCount * 0.22) * 0.22,
+                        player.getZ());
             } else if (lerpSteps > 0) {
                 setPos(position().lerp(lerpTarget, 1.0 / lerpSteps));
                 lerpSteps--;
             }
-            if (tickCount % 2 == 0) level().addParticle(ParticleTypes.ENCHANT, getX(), getY(), getZ(), 0, 0.05, 0);
+            if (tickCount % 2 == 0)
+                level().addParticle(ParticleTypes.ENCHANT, getX(), getY(), getZ(), 0, 0.05, 0);
             return;
         }
         if (searching()) {
@@ -149,17 +154,22 @@ public final class WayguideEntity extends Entity implements ItemSupplier {
                 refund(
                         searchOwner != null
                                 ? searchOwner
-                                : ((ServerLevel) level()).getServer().getPlayerList().getPlayer(owner));
+                                : ((ServerLevel) level())
+                                        .getServer()
+                                        .getPlayerList()
+                                        .getPlayer(owner));
                 return;
             }
-            if (searchOwner != null) setPos(searchOwner.getX(), searchOwner.getY() + 3, searchOwner.getZ());
+            if (searchOwner != null)
+                setPos(searchOwner.getX(), searchOwner.getY() + 3, searchOwner.getZ());
             return;
         }
         age++;
         Vec3 motion = destination.subtract(position()).scale(0.16);
         setDeltaMovement(motion);
         setPos(position().add(motion));
-        int durationTicks = com.thelongtravail.config.TravailConfig.WAYGUIDE_GUIDE_DURATION_SECONDS.get() * 20;
+        int durationTicks =
+                com.thelongtravail.config.TravailConfig.WAYGUIDE_GUIDE_DURATION_SECONDS.get() * 20;
         if (age >= durationTicks && (age - durationTicks) % 20 == 0) {
             if (!returnItem) {
                 discard();
@@ -189,7 +199,8 @@ public final class WayguideEntity extends Entity implements ItemSupplier {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        destination = new Vec3(tag.getDouble("GuideX"), tag.getDouble("GuideY"), tag.getDouble("GuideZ"));
+        destination =
+                new Vec3(tag.getDouble("GuideX"), tag.getDouble("GuideY"), tag.getDouble("GuideZ"));
         age = tag.getInt("GuideAge");
         returnItem = tag.getBoolean("ReturnItem");
         escrowed = tag.getBoolean("Escrowed");

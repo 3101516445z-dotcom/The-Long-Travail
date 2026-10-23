@@ -58,7 +58,8 @@ public final class RainWeather extends SavedData {
     }
 
     public void start(ServerLevel level, int ticks) {
-        if (!level.dimension().equals(Level.OVERWORLD)) throw new IllegalArgumentException("Overworld weather only");
+        if (!level.dimension().equals(Level.OVERWORLD))
+            throw new IllegalArgumentException("Overworld weather only");
         ServerLevelData d = (ServerLevelData) level.getLevelData();
         if (!active()) {
             clearTime = d.getClearWeatherTime();
@@ -126,10 +127,12 @@ public final class RainWeather extends SavedData {
     }
 
     public static boolean dry(Level level) {
-        return active(level) && (level.isClientSide ? RainState.clientDry : RainConfig.DRY_RAIN.get());
+        return active(level)
+                && (level.isClientSide ? RainState.clientDry : RainConfig.DRY_RAIN.get());
     }
 
     public static boolean snow(Level level) {
-        return active(level) && (level.isClientSide ? RainState.clientSnow : RainConfig.SNOW_RAIN.get());
+        return active(level)
+                && (level.isClientSide ? RainState.clientSnow : RainConfig.SNOW_RAIN.get());
     }
 }

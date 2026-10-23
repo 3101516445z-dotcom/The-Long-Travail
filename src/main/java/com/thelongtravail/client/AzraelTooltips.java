@@ -29,7 +29,8 @@ public final class AzraelTooltips {
                 .toPlainString();
     }
 
-    public static List<Component> forViewer(net.minecraft.world.entity.player.Player player, boolean complete) {
+    public static List<Component> forViewer(
+            net.minecraft.world.entity.player.Player player, boolean complete) {
         return List.of(
                 Component.empty(),
                 text("malice_title"),

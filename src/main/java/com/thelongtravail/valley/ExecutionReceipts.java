@@ -26,7 +26,8 @@ public final class ExecutionReceipts {
             return;
         }
         receipts.identities.put(
-                packet.id(), new Receipt(packet.uuid(), new ExecutionLease(packet.expires(), packet.limit())));
+                packet.id(),
+                new Receipt(packet.uuid(), new ExecutionLease(packet.expires(), packet.limit())));
         receipts.cursor = null;
     }
 
@@ -41,7 +42,9 @@ public final class ExecutionReceipts {
     public ExecutionLease lease(Level world, int id, UUID uuid) {
         var receipts = worlds.get(world);
         var receipt = receipts == null ? null : receipts.identities.get(id);
-        return receipt != null && uuid.equals(receipt.uuid()) && !receipt.lease().expired(world.getGameTime())
+        return receipt != null
+                        && uuid.equals(receipt.uuid())
+                        && !receipt.lease().expired(world.getGameTime())
                 ? receipt.lease()
                 : null;
     }
@@ -59,7 +62,8 @@ public final class ExecutionReceipts {
                 continue;
             }
             var entity = world.getEntity(identity.getKey());
-            if (entity != null && entity.getUUID().equals(identity.getValue().uuid())) found.accept(entity);
+            if (entity != null && entity.getUUID().equals(identity.getValue().uuid()))
+                found.accept(entity);
         }
         if (!receipts.cursor.hasNext()) receipts.cursor = null;
         if (receipts.identities.isEmpty()) worlds.remove(world);

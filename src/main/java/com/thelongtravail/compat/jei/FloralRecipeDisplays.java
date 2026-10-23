@@ -11,7 +11,10 @@ import java.util.*;
 
 public final class FloralRecipeDisplays {
     public record ChangeDisplay(
-            String operation, List<ItemStack> inputs, List<ItemStack> materials, List<ItemStack> outputs) {}
+            String operation,
+            List<ItemStack> inputs,
+            List<ItemStack> materials,
+            List<ItemStack> outputs) {}
 
     public record Snapshot(CrownDisplay crown, List<ChangeDisplay> changes) {}
 
@@ -29,18 +32,23 @@ public final class FloralRecipeDisplays {
         return new ChangeDisplay(op, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
-    private static void row(ChangeDisplay d, ItemStack input, ItemStack material, ItemStack output) {
+    private static void row(
+            ChangeDisplay d, ItemStack input, ItemStack material, ItemStack output) {
         d.inputs.add(input);
         d.materials.add(material);
         d.outputs.add(output);
     }
 
     public static Snapshot build(int mask) {
-        List<Flower> enabled = Arrays.stream(Flower.values()).filter(f -> (mask & (1 << f.ordinal())) != 0).toList();
+        List<Flower> enabled =
+                Arrays.stream(Flower.values())
+                        .filter(f -> (mask & (1 << f.ordinal())) != 0)
+                        .toList();
         var select = display("select");
         var add = display("add");
         var wash = display("wash");
-        for (Flower flower : enabled) row(select, stack(), new ItemStack(flower.item()), stack(flower));
+        for (Flower flower : enabled)
+            row(select, stack(), new ItemStack(flower.item()), stack(flower));
         for (Flower primary : Flower.values()) {
             for (Flower added : enabled)
                 if (primary != added) {
@@ -50,10 +58,19 @@ public final class FloralRecipeDisplays {
                                     .filter(f -> f != primary && f != added)
                                     .findFirst()
                                     .orElseThrow();
-                    row(add, stack(primary, existing), new ItemStack(added.item()), stack(primary, existing, added));
+                    row(
+                            add,
+                            stack(primary, existing),
+                            new ItemStack(added.item()),
+                            stack(primary, existing, added));
                 }
-            var secondary = Arrays.stream(Flower.values()).filter(f -> f != primary).limit(2).toList();
-            row(wash, stack(primary, secondary.get(0)), new ItemStack(Items.WATER_BUCKET), stack(primary));
+            var secondary =
+                    Arrays.stream(Flower.values()).filter(f -> f != primary).limit(2).toList();
+            row(
+                    wash,
+                    stack(primary, secondary.get(0)),
+                    new ItemStack(Items.WATER_BUCKET),
+                    stack(primary));
             row(
                     wash,
                     stack(primary, secondary.get(0), secondary.get(1)),
@@ -62,7 +79,8 @@ public final class FloralRecipeDisplays {
         }
         List<ChangeDisplay> changes = new ArrayList<>();
         for (var d : List.of(select, add, wash)) if (!d.inputs.isEmpty()) changes.add(d);
-        return new Snapshot(enabled.isEmpty() ? null : new CrownDisplay(enabled, mask), List.copyOf(changes));
+        return new Snapshot(
+                enabled.isEmpty() ? null : new CrownDisplay(enabled, mask), List.copyOf(changes));
     }
 
     public static final class CrownDisplay extends ShapedRecipe {

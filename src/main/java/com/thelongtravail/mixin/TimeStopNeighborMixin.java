@@ -33,7 +33,12 @@ public abstract class TimeStopNeighborMixin {
             at = @At("HEAD"),
             cancellable = true)
     private void travail$neighborState(
-            BlockState state, BlockPos p, Block block, BlockPos from, boolean moving, CallbackInfo ci) {
+            BlockState state,
+            BlockPos p,
+            Block block,
+            BlockPos from,
+            boolean moving,
+            CallbackInfo ci) {
         if (level instanceof ServerLevel s && TimeStopManager.frozen(level, p)) {
             FrozenBlockTasks.get(s).neighbor(state, p, block, from, moving);
             ci.cancel();

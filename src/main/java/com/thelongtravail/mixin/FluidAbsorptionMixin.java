@@ -14,9 +14,11 @@ public abstract class FluidAbsorptionMixin {
             at =
                     @At(
                             value = "INVOKE",
-                            target = "Lnet/minecraft/world/entity/player/Player;getAbsorptionAmount()F",
+                            target =
+                                    "Lnet/minecraft/world/entity/player/Player;getAbsorptionAmount()F",
                             ordinal = 0))
-    private float theLongTravail$fluidBypassesAbsorption(Player player, DamageSource source, float amount) {
+    private float theLongTravail$fluidBypassesAbsorption(
+            Player player, DamageSource source, float amount) {
         return (source.is(TrueDamage.FLUID)
                         || (com.thelongtravail.flourishing.FloralCombat.rose(source)
                                 || com.thelongtravail.farreach.DonQuixoteCombat.secondary(source)))

@@ -40,7 +40,11 @@ public final class SwordLanternConfig {
     }
 
     private static ForgeConfigSpec.DoubleValue bonus(
-            ForgeConfigSpec.Builder b, String key, double value, String condition, String englishCondition) {
+            ForgeConfigSpec.Builder b,
+            String key,
+            double value,
+            String condition,
+            String englishCondition) {
         return b.comment(
                         condition
                                 + "时，造成的伤害增加的比例；各项加成相加。\n"

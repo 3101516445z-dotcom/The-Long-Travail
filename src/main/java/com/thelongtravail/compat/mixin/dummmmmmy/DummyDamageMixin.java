@@ -18,7 +18,8 @@ public abstract class DummyDamageMixin {
             at =
                     @At(
                             value = "FIELD",
-                            target = "Lnet/mehvahdjukaar/dummmmmmy/common/TargetDummyEntity;totalDamageTakenInCombat:F",
+                            target =
+                                    "Lnet/mehvahdjukaar/dummmmmmy/common/TargetDummyEntity;totalDamageTakenInCombat:F",
                             opcode = Opcodes.PUTFIELD,
                             shift = At.Shift.AFTER),
             remap = false)

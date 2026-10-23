@@ -67,7 +67,8 @@ public final class ExecutionLoot {
     // 只统计实际成功加入世界的掉落；仅生成或捕获到列表中的掉落仍可能被取消。
     public static void admitted(Entity entity) {
         Scope scope = CURRENT.get();
-        if (scope == null || !(entity instanceof ItemEntity item) || item.getItem().isEmpty()) return;
+        if (scope == null || !(entity instanceof ItemEntity item) || item.getItem().isEmpty())
+            return;
         Entity owner = scope.sources.get(item);
         if (owner != null) {
             while (scope != null && scope.target != owner) scope = scope.previous;
@@ -89,7 +90,8 @@ public final class ExecutionLoot {
             state.table = target.getLootTable();
         } catch (RuntimeException ex) {
             state.handled = true;
-            TheLongTravail.LOGGER.warn("Execution loot table lookup failed for {}", target.getUUID(), ex);
+            TheLongTravail.LOGGER.warn(
+                    "Execution loot table lookup failed for {}", target.getUUID(), ex);
         }
     }
 
@@ -113,8 +115,11 @@ public final class ExecutionLoot {
                 || !level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) return;
         try {
             var dropLevel = level.getServer().getLevel(state.dimension);
-            if (dropLevel == null || !dropLevel.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) return;
-            var result = ExecutionLootTable.collect(state.table, level.getServer().getLootData()::getLootTable);
+            if (dropLevel == null || !dropLevel.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT))
+                return;
+            var result =
+                    ExecutionLootTable.collect(
+                            state.table, level.getServer().getLootData()::getLootTable);
             int spawned = 0;
             for (Item item : result.items()) {
                 var drop =
@@ -135,7 +140,8 @@ public final class ExecutionLoot {
                     result.limited(),
                     result.skipped());
         } catch (RuntimeException ex) {
-            TheLongTravail.LOGGER.warn("Execution loot fallback failed; not retried for {}", target.getUUID(), ex);
+            TheLongTravail.LOGGER.warn(
+                    "Execution loot fallback failed; not retried for {}", target.getUUID(), ex);
         }
     }
 

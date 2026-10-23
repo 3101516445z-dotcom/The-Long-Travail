@@ -24,7 +24,9 @@ public final class SwordLanternItem extends Item implements ICurioItem, ItemDesc
 
     @Override
     public boolean canEquip(SlotContext c, ItemStack s) {
-        return !c.cosmetic() && c.identifier().equals("belt") && DependentAccessories.unique(c, this);
+        return !c.cosmetic()
+                && c.identifier().equals("belt")
+                && DependentAccessories.unique(c, this);
     }
 
     @Override
@@ -39,31 +41,39 @@ public final class SwordLanternItem extends Item implements ICurioItem, ItemDesc
 
     @Override
     public net.minecraft.world.InteractionResultHolder<ItemStack> use(
-            Level level, net.minecraft.world.entity.player.Player player, net.minecraft.world.InteractionHand hand) {
+            Level level,
+            net.minecraft.world.entity.player.Player player,
+            net.minecraft.world.InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (!player.isShiftKeyDown()) return net.minecraft.world.InteractionResultHolder.pass(stack);
+        if (!player.isShiftKeyDown())
+            return net.minecraft.world.InteractionResultHolder.pass(stack);
         if (!level.isClientSide) {
             boolean enabled = com.thelongtravail.valley.LanternSources.toggle(stack);
             player.displayClientMessage(
                     com.thelongtravail.helper.ActionMessages.text(
-                            "message.the_long_travail.sword_lantern.light_" + (enabled ? "on" : "off")),
+                            "message.the_long_travail.sword_lantern.light_"
+                                    + (enabled ? "on" : "off")),
                     true);
         }
         return net.minecraft.world.InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }
 
     private static String num(String key, double fallback, double scale) {
-        return java.math.BigDecimal.valueOf(TooltipConfigSync.decimal("swordLantern." + key, fallback) * scale)
+        return java.math.BigDecimal.valueOf(
+                        TooltipConfigSync.decimal("swordLantern." + key, fallback) * scale)
                 .stripTrailingZeros()
                 .toPlainString();
     }
 
     private static void line(List<Component> out, String key, Object... args) {
         for (String text :
-                Component.translatable("tooltip.the_long_travail.sword_lantern." + key, args).getString().split("\\n"))
+                Component.translatable("tooltip.the_long_travail.sword_lantern." + key, args)
+                        .getString()
+                        .split("\\n"))
             out.add(
                     RainTooltips.coloredLine(
-                            Component.literal(text).withStyle(s -> s.withColor(RainTooltips.BODY_COLOR))));
+                            Component.literal(text)
+                                    .withStyle(s -> s.withColor(RainTooltips.BODY_COLOR))));
     }
 
     @Override

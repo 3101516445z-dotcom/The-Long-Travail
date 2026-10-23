@@ -30,7 +30,10 @@ public final class UnderworldItems {
                                                         !r.slotContext().cosmetic()
                                                                 && r.slotContext()
                                                                         .identifier()
-                                                                        .equals(ring ? "ring" : "charm")
+                                                                        .equals(
+                                                                                ring
+                                                                                        ? "ring"
+                                                                                        : "charm")
                                                                 && !consumed(p, r.stack()))
                                         .map(r -> r.stack())
                                         .findFirst()
@@ -49,7 +52,8 @@ public final class UnderworldItems {
         return com.thelongtravail.compat.maid.MaidAccessories.seesUndead(attacker)
                 || attacker instanceof Player p
                         && !equipped(p, true).isEmpty()
-                        && LongTravailData.hasWitness(TravailCurios.stack(p), TravailAspect.UNDERWORLD);
+                        && LongTravailData.hasWitness(
+                                TravailCurios.stack(p), TravailAspect.UNDERWORLD);
     }
 
     public static MobType attackType(LivingEntity attacker, LivingEntity target) {
@@ -59,9 +63,12 @@ public final class UnderworldItems {
     public static double bonus(LivingEntity target, DamageSource source) {
         if (!(source.getEntity() instanceof ServerPlayer p)
                 || equipped(p, true).isEmpty()
-                || LongTravailData.hasWitness(TravailCurios.stack(p), TravailAspect.UNDERWORLD)) return 0;
+                || LongTravailData.hasWitness(TravailCurios.stack(p), TravailAspect.UNDERWORLD))
+            return 0;
         var effect = target.getEffect(MobEffects.WITHER);
-        return effect == null ? 0 : ((double) effect.getAmplifier() + 1) * UnderworldItemsConfig.WITHER_BONUS.get();
+        return effect == null
+                ? 0
+                : ((double) effect.getAmplifier() + 1) * UnderworldItemsConfig.WITHER_BONUS.get();
     }
 
     private UnderworldItems() {}

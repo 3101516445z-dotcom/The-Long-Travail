@@ -10,12 +10,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(HopperBlockEntity.class)
 public abstract class TimeStopHopperMixin {
     @Inject(
-            method = "addItem(Lnet/minecraft/world/Container;Lnet/minecraft/world/entity/item/ItemEntity;)Z",
+            method =
+                    "addItem(Lnet/minecraft/world/Container;Lnet/minecraft/world/entity/item/ItemEntity;)Z",
             at = @At("HEAD"),
             cancellable = true)
     private static void travail$itemPickup(
-            Container target, net.minecraft.world.entity.item.ItemEntity item, CallbackInfoReturnable<Boolean> ci) {
-        if (TimeStopManager.frozen(item) || com.thelongtravail.boundless.FrozenContainers.frozen(target))
+            Container target,
+            net.minecraft.world.entity.item.ItemEntity item,
+            CallbackInfoReturnable<Boolean> ci) {
+        if (TimeStopManager.frozen(item)
+                || com.thelongtravail.boundless.FrozenContainers.frozen(target))
             ci.setReturnValue(false);
     }
 
@@ -43,7 +47,8 @@ public abstract class TimeStopHopperMixin {
             net.minecraft.world.level.block.entity.Hopper h,
             CallbackInfoReturnable<Boolean> ci) {
         if (TimeStopManager.frozen(
-                l, net.minecraft.core.BlockPos.containing(h.getLevelX(), h.getLevelY() + 1, h.getLevelZ())))
-            ci.setReturnValue(false);
+                l,
+                net.minecraft.core.BlockPos.containing(
+                        h.getLevelX(), h.getLevelY() + 1, h.getLevelZ()))) ci.setReturnValue(false);
     }
 }

@@ -14,20 +14,29 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class TimeStopLevelMixin {
     @WrapOperation(
             method = "tickBlockEntities",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/entity/TickingBlockEntity;tick()V"))
+            at =
+                    @At(
+                            value = "INVOKE",
+                            target =
+                                    "Lnet/minecraft/world/level/block/entity/TickingBlockEntity;tick()V"))
     private void travail$blockEntity(TickingBlockEntity t, Operation<Void> original) {
         if (!TimeStopManager.frozen((Level) (Object) this, t.getPos())) original.call(t);
     }
 
     @Inject(
-            method = "setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)Z",
+            method =
+                    "setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)Z",
             at = @At("HEAD"),
             cancellable = true)
     private void travail$protectBlock(
-            BlockPos p, BlockState state, int flags, int recursion, CallbackInfoReturnable<Boolean> ci) {
+            BlockPos p,
+            BlockState state,
+            int flags,
+            int recursion,
+            CallbackInfoReturnable<Boolean> ci) {
         if (TimeStopManager.frozen((Level) (Object) this, p)
-                && !com.thelongtravail.valley.LanternLight.permitted((Level) (Object) this, p, state))
-            ci.setReturnValue(false);
+                && !com.thelongtravail.valley.LanternLight.permitted(
+                        (Level) (Object) this, p, state)) ci.setReturnValue(false);
     }
 
     @Inject(method = "destroyBlock", at = @At("HEAD"), cancellable = true)

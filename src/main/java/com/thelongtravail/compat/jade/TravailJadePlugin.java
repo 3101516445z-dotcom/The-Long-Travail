@@ -20,7 +20,9 @@ public final class TravailJadePlugin implements IWailaPlugin {
                     if (!(accessor instanceof EntityAccessor entityAccessor)
                             || !(entityAccessor.getEntity() instanceof ItemEntity item)
                             || !TheLongTravail.MODID.equals(
-                                    BuiltInRegistries.ITEM.getKey(item.getItem().getItem()).getNamespace())) {
+                                    BuiltInRegistries.ITEM
+                                            .getKey(item.getItem().getItem())
+                                            .getNamespace())) {
                         return;
                     }
                     if (tooltip.get(Identifiers.MC_ITEM_TOOLTIP).isEmpty()) {
@@ -28,7 +30,8 @@ public final class TravailJadePlugin implements IWailaPlugin {
                     }
                     tooltip.remove(Identifiers.MC_ITEM_TOOLTIP);
                     tooltip.add(
-                            Component.translatable("tooltip.the_long_travail.jade.pick_up_for_details")
+                            Component.translatable(
+                                            "tooltip.the_long_travail.jade.pick_up_for_details")
                                     .withStyle(style -> style.withColor(RainTooltips.BODY_COLOR)),
                             Identifiers.MC_ITEM_TOOLTIP);
                 });

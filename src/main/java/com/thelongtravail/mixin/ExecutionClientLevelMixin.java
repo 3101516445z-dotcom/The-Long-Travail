@@ -21,7 +21,8 @@ public abstract class ExecutionClientLevelMixin implements ExecutionStorage {
 
     @Inject(method = "addEntity", at = @At("HEAD"), cancellable = true)
     private void travail$rejectRestoredSpawn(int id, Entity entity, CallbackInfo ci) {
-        if (com.thelongtravail.client.ExecutionTerminationClient.suppressIncoming(entity, id)) ci.cancel();
+        if (com.thelongtravail.client.ExecutionTerminationClient.suppressIncoming(entity, id))
+            ci.cancel();
     }
 
     public void travail$erase(Entity e) {

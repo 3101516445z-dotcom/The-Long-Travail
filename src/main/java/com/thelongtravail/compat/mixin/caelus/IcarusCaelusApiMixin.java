@@ -13,7 +13,8 @@ import top.theillusivec4.caelus.api.CaelusApi;
 @Mixin(targets = "top.theillusivec4.caelus.common.CaelusApiImpl", remap = false)
 public abstract class IcarusCaelusApiMixin {
     @Inject(method = "canFallFly", at = @At("RETURN"), cancellable = true, remap = false)
-    private void travail$icarusSource(LivingEntity entity, CallbackInfoReturnable<CaelusApi.TriState> cir) {
+    private void travail$icarusSource(
+            LivingEntity entity, CallbackInfoReturnable<CaelusApi.TriState> cir) {
         if (cir.getReturnValue() == CaelusApi.TriState.DEFAULT && IcarusFlight.equipped(entity))
             cir.setReturnValue(CaelusApi.TriState.ALLOW);
     }

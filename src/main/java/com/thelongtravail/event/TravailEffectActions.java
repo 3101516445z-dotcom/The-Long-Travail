@@ -27,7 +27,8 @@ import java.util.List;
 final class TravailEffectActions {
     private static final String FLYING_PROJECTILE = "LongTravailFlyingProjectile";
     private static final String ATTACK_CLEANSE_COOLDOWN = "AttackCleanseCooldown";
-    private static final ThreadLocal<java.util.Set<java.util.UUID>> ATTACK_CLEANSE_ACTIVE = new ThreadLocal<>();
+    private static final ThreadLocal<java.util.Set<java.util.UUID>> ATTACK_CLEANSE_ACTIVE =
+            new ThreadLocal<>();
     private static final String VALLEY_WITNESS_COOLDOWN = "ValleyWitnessCooldown";
 
     static void processBeingAttacked(ServerPlayer player) {
@@ -35,13 +36,15 @@ final class TravailEffectActions {
         if (travail.isEmpty() || !ModeEffectRules.diaryApplies(player)) return;
         RandomSource random = player.getRandom();
         if (!LongTravailData.hasWitness(travail, TravailAspect.FAR_REACH)) {
-            if (random.nextDouble() < TravailConfig.FAR_ALL_CLEAR_CHANCE.get()) removeAllBeneficial(player);
+            if (random.nextDouble() < TravailConfig.FAR_ALL_CLEAR_CHANCE.get())
+                removeAllBeneficial(player);
             else removeOneBeneficial(player);
         }
         if (!LongTravailData.hasWitness(travail, TravailAspect.DEEP_VALLEY)
                 && random.nextDouble() < TravailConfig.VALLEY_VISUAL_DEPRIVATION_CHANCE.get()) {
             VisualDeprivation.start(
-                    player, secondsToTicks(TravailConfig.VALLEY_VISUAL_DEPRIVATION_DURATION_SECONDS.get()));
+                    player,
+                    secondsToTicks(TravailConfig.VALLEY_VISUAL_DEPRIVATION_DURATION_SECONDS.get()));
         }
     }
 
@@ -51,8 +54,10 @@ final class TravailEffectActions {
         RandomSource random = player.getRandom();
         processAttackCleanse(player, travail, random);
         if (!LongTravailData.hasWitness(travail, TravailAspect.DEEP_VALLEY)) {
-            if (ModeEffectRules.diaryApplies(player) && random.nextDouble() < TravailConfig.VALLEY_STIFF_CHANCE.get()) {
-                StiffState.start(player, secondsToTicks(TravailConfig.VALLEY_STIFF_DURATION_SECONDS.get()));
+            if (ModeEffectRules.diaryApplies(player)
+                    && random.nextDouble() < TravailConfig.VALLEY_STIFF_CHANCE.get()) {
+                StiffState.start(
+                        player, secondsToTicks(TravailConfig.VALLEY_STIFF_DURATION_SECONDS.get()));
             }
         } else {
             long now = player.level().getGameTime();
@@ -60,13 +65,16 @@ final class TravailEffectActions {
             LongTravailData.putLong(
                     travail,
                     VALLEY_WITNESS_COOLDOWN,
-                    now + secondsToTicks(TravailConfig.VALLEY_WITNESS_ATTACK_COOLDOWN_SECONDS.get()));
+                    now
+                            + secondsToTicks(
+                                    TravailConfig.VALLEY_WITNESS_ATTACK_COOLDOWN_SECONDS.get()));
             if (AutomaticEffectBudget.acquire(player))
                 EffectChanges.add(
                         player,
                         new MobEffectInstance(
                                 MobEffects.MOVEMENT_SPEED,
-                                secondsToTicks(TravailConfig.VALLEY_SWIFTNESS_DURATION_SECONDS.get()),
+                                secondsToTicks(
+                                        TravailConfig.VALLEY_SWIFTNESS_DURATION_SECONDS.get()),
                                 TravailConfig.VALLEY_SWIFTNESS_LEVEL.get() - 1));
             for (int i = 0; i < TravailConfig.VALLEY_RANDOM_EFFECT_COUNT.get(); i++) {
                 grantRandomBeneficial(
@@ -78,8 +86,8 @@ final class TravailEffectActions {
     }
 
     static void processAttackCleanse(ServerPlayer player, ItemStack travail, RandomSource random) {
-        if (!ModeEffectRules.diaryApplies(player) || LongTravailData.hasWitness(travail, TravailAspect.FAR_REACH))
-            return;
+        if (!ModeEffectRules.diaryApplies(player)
+                || LongTravailData.hasWitness(travail, TravailAspect.FAR_REACH)) return;
         var active = ATTACK_CLEANSE_ACTIVE.get();
         var id = player.getUUID();
         if (active != null && active.contains(id)) return;
@@ -104,7 +112,9 @@ final class TravailEffectActions {
 
     static void processFarReachWitness(ServerPlayer player) {
         int actions = TravailConfig.FAR_WITNESS_ACTION_COUNT.get();
-        int removed = CleanseRotation.remove(player, actions, () -> AutomaticEffectBudget.acquire(player));
+        int removed =
+                CleanseRotation.remove(
+                        player, actions, () -> AutomaticEffectBudget.acquire(player));
         for (int i = removed; i < actions; i++)
             grantRandomBeneficial(
                     player,
@@ -126,7 +136,8 @@ final class TravailEffectActions {
     static void removeOneBeneficial(ServerPlayer player) {
         List<MobEffect> effects = beneficialEffects(player);
         if (!effects.isEmpty())
-            EffectChanges.remove(player, effects.get(player.getRandom().nextInt(effects.size())), true);
+            EffectChanges.remove(
+                    player, effects.get(player.getRandom().nextInt(effects.size())), true);
     }
 
     static void removeAllBeneficial(ServerPlayer player) {
@@ -135,13 +146,16 @@ final class TravailEffectActions {
 
     static List<MobEffect> beneficialEffects(ServerPlayer player) {
         return player.getActiveEffects().stream()
-                .filter(instance -> instance.getEffect().getCategory() == MobEffectCategory.BENEFICIAL)
+                .filter(
+                        instance ->
+                                instance.getEffect().getCategory() == MobEffectCategory.BENEFICIAL)
                 .map(MobEffectInstance::getEffect)
                 .distinct()
                 .toList();
     }
 
-    static void grantRandomBeneficial(ServerPlayer player, WeightedTable<EffectEntry> configured, int duration) {
+    static void grantRandomBeneficial(
+            ServerPlayer player, WeightedTable<EffectEntry> configured, int duration) {
         if (configured.entries().isEmpty() || !AutomaticEffectBudget.acquire(player)) return;
         EffectEntry selected = configured.choose(player.getRandom());
         if (selected == null) return;
@@ -153,17 +167,24 @@ final class TravailEffectActions {
     static int configuredMaxLevel(MobEffect effect) {
         ResourceLocation id = ForgeRegistries.MOB_EFFECTS.getKey(effect);
         if (id == null) return TravailConfig.FAR_WITNESS_FALLBACK_MAX_LEVEL.get();
-        return RuntimePools.current().maxLevels().getOrDefault(id, TravailConfig.FAR_WITNESS_FALLBACK_MAX_LEVEL.get());
+        return RuntimePools.current()
+                .maxLevels()
+                .getOrDefault(id, TravailConfig.FAR_WITNESS_FALLBACK_MAX_LEVEL.get());
     }
 
     static void onHeal(LivingHealEvent event) {
-        if (!(event.getEntity() instanceof ServerPlayer player) || player.level().isClientSide) return;
+        if (!(event.getEntity() instanceof ServerPlayer player) || player.level().isClientSide)
+            return;
         ItemStack travail = TravailCurios.stack(player);
         if (travail.isEmpty()) return;
         if (!LongTravailData.hasWitness(travail, TravailAspect.FLOURISHING)) {
             if (!ModeEffectRules.diaryApplies(player)) return;
             event.setAmount(
-                    event.getAmount() * (1.0F - TravailConfig.FLOURISHING_HEALING_REDUCTION.get().floatValue()));
+                    event.getAmount()
+                            * (1.0F
+                                    - TravailConfig.FLOURISHING_HEALING_REDUCTION
+                                            .get()
+                                            .floatValue()));
             return;
         }
         double bonus =
@@ -188,9 +209,11 @@ final class TravailEffectActions {
         var entity = event.getEntity();
         if (entity.level().isClientSide) return;
         MobEffectInstance added = event.getEffectInstance();
-        if (entity instanceof ServerPlayer player) EffectChanges.externalChange(player, added.getEffect());
+        if (entity instanceof ServerPlayer player)
+            EffectChanges.externalChange(player, added.getEffect());
         int amplifier =
-                com.thelongtravail.data.IncomingEffectLevels.adjusted(entity, added.getEffect(), added.getAmplifier());
+                com.thelongtravail.data.IncomingEffectLevels.adjusted(
+                        entity, added.getEffect(), added.getAmplifier());
         ((com.thelongtravail.mixin.EffectDurationAccessor) added).travail$amplifier(amplifier);
     }
 
@@ -210,7 +233,9 @@ final class TravailEffectActions {
 
     static float safeMultiply(float amount, float multiplier) {
         double result = (double) amount * multiplier;
-        return !Double.isFinite(result) || result >= Float.MAX_VALUE ? Float.MAX_VALUE : (float) Math.max(0.0D, result);
+        return !Double.isFinite(result) || result >= Float.MAX_VALUE
+                ? Float.MAX_VALUE
+                : (float) Math.max(0.0D, result);
     }
 
     static int secondsToTicks(double seconds) {

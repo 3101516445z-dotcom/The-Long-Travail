@@ -12,7 +12,9 @@ public abstract class BabelTargetingMixin {
     @Shadow @Final private boolean isCombat;
 
     @Inject(method = "test", at = @At("RETURN"), cancellable = true)
-    private void travail$test(LivingEntity source, LivingEntity target, CallbackInfoReturnable<Boolean> cir) {
-        if (isCombat && source != null && BabelProtection.protects(source, target)) cir.setReturnValue(false);
+    private void travail$test(
+            LivingEntity source, LivingEntity target, CallbackInfoReturnable<Boolean> cir) {
+        if (isCombat && source != null && BabelProtection.protects(source, target))
+            cir.setReturnValue(false);
     }
 }

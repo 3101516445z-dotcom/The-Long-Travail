@@ -87,7 +87,8 @@ public final class TravailStateApi {
     }
 
     public static Snapshot inspectDiary(@Nullable ItemStack diary) {
-        if (diary == null || diary.isEmpty() || !diary.is(ModRegistry.LONG_TRAVAIL.get())) return Snapshot.ABSENT;
+        if (diary == null || diary.isEmpty() || !diary.is(ModRegistry.LONG_TRAVAIL.get()))
+            return Snapshot.ABSENT;
         int witnesses = 0;
         for (TravailAspect aspect : TravailAspect.values()) {
             if (LongTravailData.hasWitness(diary, aspect)) witnesses |= aspect.mask();

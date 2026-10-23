@@ -36,7 +36,8 @@ public final class CatalogSession {
                     GLFW.GLFW_KEY_LEFT_ALT,
                     "key.categories.the_long_travail");
     private static CatalogSession active;
-    private static final Set<Integer> consumedKeys = new HashSet<>(), consumedButtons = new HashSet<>();
+    private static final Set<Integer> consumedKeys = new HashSet<>(),
+            consumedButtons = new HashSet<>();
     private final Screen owner;
     private CatalogScreen parent;
     private Screen page;
@@ -64,7 +65,8 @@ public final class CatalogSession {
         return active;
     }
 
-    public static CatalogSession openDetail(Screen owner, CatalogEntries.Entry entry, ItemStack actual) {
+    public static CatalogSession openDetail(
+            Screen owner, CatalogEntries.Entry entry, ItemStack actual) {
         active = new CatalogSession(owner);
         active.detail(entry, actual);
         return active;
@@ -79,7 +81,11 @@ public final class CatalogSession {
     private void layout(Minecraft mc) {
         int w = mc.getWindow().getGuiScaledWidth(), h = mc.getWindow().getGuiScaledHeight();
         float previousScale = scale;
-        scale = 0.8f * Math.max(0.1f, Math.min(1.25f, Math.min((w - 12f) / 524f, (h - 12f) / 360f)));
+        scale =
+                0.8f
+                        * Math.max(
+                                0.1f,
+                                Math.min(1.25f, Math.min((w - 12f) / 524f, (h - 12f) / 360f)));
         int lw = (int) (w / scale), lh = (int) (h / scale);
         if (page.width != lw || page.height != lh || previousScale != scale) page.init(mc, lw, lh);
     }
@@ -87,13 +93,20 @@ public final class CatalogSession {
     float bodyTextScale() {
         var window = Minecraft.getInstance().getWindow();
         float originalScale =
-                Math.min(1, Math.min(window.getGuiScaledWidth() / 420f, window.getGuiScaledHeight() / 260f));
+                Math.min(
+                        1,
+                        Math.min(
+                                window.getGuiScaledWidth() / 420f,
+                                window.getGuiScaledHeight() / 260f));
         return originalScale / scale;
     }
 
     void scissor(net.minecraft.client.gui.GuiGraphics g, int x1, int y1, int x2, int y2) {
         g.enableScissor(
-                (int) (x1 * scale), (int) (y1 * scale), (int) Math.ceil(x2 * scale), (int) Math.ceil(y2 * scale));
+                (int) (x1 * scale),
+                (int) (y1 * scale),
+                (int) Math.ceil(x2 * scale),
+                (int) Math.ceil(y2 * scale));
     }
 
     public void detail(CatalogEntries.Entry entry, ItemStack stack) {
@@ -112,7 +125,10 @@ public final class CatalogSession {
         if (active == this) active = null;
     }
 
-    @Mod.EventBusSubscriber(modid = TheLongTravail.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(
+            modid = TheLongTravail.MODID,
+            value = Dist.CLIENT,
+            bus = Mod.EventBusSubscriber.Bus.MOD)
     public static final class Registration {
         @SubscribeEvent
         public static void keys(RegisterKeyMappingsEvent event) {
@@ -130,8 +146,13 @@ public final class CatalogSession {
                                 com.thelongtravail.client.ThemeTooltips.keyName(OPEN)
                                         .copy()
                                         .withStyle(
-                                                s -> s.withColor(com.thelongtravail.abyss.RainTooltips.ACCENT_COLOR)))
-                        .withStyle(s -> s.withColor(com.thelongtravail.abyss.RainTooltips.BODY_COLOR));
+                                                s ->
+                                                        s.withColor(
+                                                                com.thelongtravail.abyss
+                                                                        .RainTooltips
+                                                                        .ACCENT_COLOR)))
+                        .withStyle(
+                                s -> s.withColor(com.thelongtravail.abyss.RainTooltips.BODY_COLOR));
         var lines = event.getToolTip();
         int at = lines.size();
         for (int i = 0; i < lines.size(); i++)
@@ -180,7 +201,8 @@ public final class CatalogSession {
             event.setCanceled(true);
             boolean firstPress = consumedKeys.add(event.getKeyCode());
             if (event.getKeyCode() != GLFW.GLFW_KEY_ESCAPE || firstPress)
-                active.page.keyPressed(event.getKeyCode(), event.getScanCode(), event.getModifiers());
+                active.page.keyPressed(
+                        event.getKeyCode(), event.getScanCode(), event.getModifiers());
             return;
         }
         if (consumedKeys.contains(event.getKeyCode())) {
@@ -208,7 +230,9 @@ public final class CatalogSession {
             event.setCanceled(true);
             consumedButtons.add(event.getButton());
             active.page.mouseClicked(
-                    event.getMouseX() / active.scale, event.getMouseY() / active.scale, event.getButton());
+                    event.getMouseX() / active.scale,
+                    event.getMouseY() / active.scale,
+                    event.getButton());
         }
     }
 
@@ -217,7 +241,9 @@ public final class CatalogSession {
         if (active != null) {
             event.setCanceled(true);
             active.page.mouseReleased(
-                    event.getMouseX() / active.scale, event.getMouseY() / active.scale, event.getButton());
+                    event.getMouseX() / active.scale,
+                    event.getMouseY() / active.scale,
+                    event.getButton());
         }
         if (consumedButtons.remove(event.getButton())) event.setCanceled(true);
     }
@@ -240,7 +266,9 @@ public final class CatalogSession {
         if (active != null) {
             event.setCanceled(true);
             active.page.mouseScrolled(
-                    event.getMouseX() / active.scale, event.getMouseY() / active.scale, event.getScrollDelta());
+                    event.getMouseX() / active.scale,
+                    event.getMouseY() / active.scale,
+                    event.getScrollDelta());
         }
     }
 

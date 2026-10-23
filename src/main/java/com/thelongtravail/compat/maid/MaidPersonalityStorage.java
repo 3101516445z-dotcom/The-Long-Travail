@@ -13,10 +13,12 @@ public final class MaidPersonalityStorage {
     public static final String MARKER = "TravailDynamicHealthExcluded";
     public static final String BASE = "TravailIndependentHealthTarget";
     private static final RangedAttribute CALCULATION =
-            new RangedAttribute("travail.unbounded_health_calculation", 1, -Double.MAX_VALUE, Double.MAX_VALUE);
+            new RangedAttribute(
+                    "travail.unbounded_health_calculation", 1, -Double.MAX_VALUE, Double.MAX_VALUE);
     private static final UUID PEONY = UUID.fromString("193ab8d0-46cc-4179-bb32-f0317ed65401");
     private static final UUID PHOSPHOPHYLLITE =
-            UUID.nameUUIDFromBytes("the_long_travail:phosphophyllite".getBytes(StandardCharsets.UTF_8));
+            UUID.nameUUIDFromBytes(
+                    "the_long_travail:phosphophyllite".getBytes(StandardCharsets.UTF_8));
 
     private static boolean dynamic(UUID id) {
         return PEONY.equals(id) || PHOSPHOPHYLLITE.equals(id);
@@ -24,7 +26,8 @@ public final class MaidPersonalityStorage {
 
     private static final UUID FLOOR =
             UUID.nameUUIDFromBytes(
-                    "touhou_little_maid_personality.store_freeze_health".getBytes(StandardCharsets.UTF_8));
+                    "touhou_little_maid_personality.store_freeze_health"
+                            .getBytes(StandardCharsets.UTF_8));
 
     private MaidPersonalityStorage() {}
 
@@ -32,7 +35,9 @@ public final class MaidPersonalityStorage {
         if (maid == null || data == null) return;
         var original = maid.getAttribute(Attributes.MAX_HEALTH);
         if (original == null) return;
-        boolean peony = original.getModifier(PEONY) != null || original.getModifier(PHOSPHOPHYLLITE) != null;
+        boolean peony =
+                original.getModifier(PEONY) != null
+                        || original.getModifier(PHOSPHOPHYLLITE) != null;
         var independent = new AttributeInstance(CALCULATION, ignored -> {});
         independent.setBaseValue(original.getBaseValue());
         for (var modifier : original.getModifiers())
@@ -51,7 +56,9 @@ public final class MaidPersonalityStorage {
             }
             snapshot.putDouble(BASE, independent.getValue());
             if (peony) {
-                snapshot.putDouble("WantMax", (float) Attributes.MAX_HEALTH.sanitizeValue(independent.getValue()));
+                snapshot.putDouble(
+                        "WantMax",
+                        (float) Attributes.MAX_HEALTH.sanitizeValue(independent.getValue()));
                 snapshot.putBoolean(MARKER, true);
             }
         }
@@ -75,7 +82,8 @@ public final class MaidPersonalityStorage {
         var health = maid.getAttribute(Attributes.MAX_HEALTH);
         if (!tag.contains(BASE, Tag.TAG_ANY_NUMERIC)
                 || health == null
-                || health.getModifier(PEONY) == null && health.getModifier(PHOSPHOPHYLLITE) == null) return false;
+                || health.getModifier(PEONY) == null && health.getModifier(PHOSPHOPHYLLITE) == null)
+            return false;
         tag.putBoolean(MARKER, true);
         return true;
     }

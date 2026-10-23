@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public final class TravailNetwork {
-    private static final String PROTOCOL = "20";
+    private static final String PROTOCOL = "21";
     private static final SimpleChannel CHANNEL =
             NetworkRegistry.newSimpleChannel(
                     new ResourceLocation(TheLongTravail.MODID, "main"),
@@ -28,6 +28,19 @@ public final class TravailNetwork {
                     PROTOCOL::equals);
 
     public static void register() {
+        CHANNEL.registerMessage(
+                18,
+                PrinceFlightPacket.class,
+                PrinceFlightPacket::encode,
+                PrinceFlightPacket::decode,
+                (packet, supplier) -> {
+                    var context = supplier.get();
+                    var connection = context.getNetworkManager();
+                    context.enqueueWork(
+                            () -> PrinceFlightPacket.receiver.accept(packet, connection));
+                    context.setPacketHandled(true);
+                },
+                java.util.Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(
                 17,
                 ExecutionTerminationPacket.class,
@@ -196,7 +209,10 @@ public final class TravailNetwork {
                 },
                 buffer ->
                         new VisualDeprivationPacket(
-                                buffer.readVarInt(), buffer.readVarInt(), buffer.readBoolean(), buffer.readBoolean()),
+                                buffer.readVarInt(),
+                                buffer.readVarInt(),
+                                buffer.readBoolean(),
+                                buffer.readBoolean()),
                 (packet, supplier) -> {
                     var context = supplier.get();
                     context.enqueueWork(() -> VisualDeprivationPacket.receiver.accept(packet));
@@ -211,7 +227,11 @@ public final class TravailNetwork {
         if (lease == null || lease.expired(level.getGameTime())) return;
         var packet =
                 new ExecutionTerminationPacket(
-                        level.dimension().location(), target.getId(), target.getUUID(), lease.expires(), lease.limit);
+                        level.dimension().location(),
+                        target.getId(),
+                        target.getUUID(),
+                        lease.expires(),
+                        lease.limit);
         for (var viewer : level.players()) {
             if (viewer.connection != null && CHANNEL.isRemotePresent(viewer.connection.connection))
                 CHANNEL.send(PacketDistributor.PLAYER.with(() -> viewer), packet);
@@ -232,12 +252,25 @@ public final class TravailNetwork {
     }
 
     public static void sendLanternTo(ServerPlayer viewer, LanternPacket packet) {
-        if (viewer.connection != null) CHANNEL.send(PacketDistributor.PLAYER.with(() -> viewer), packet);
+        if (viewer.connection != null)
+            CHANNEL.send(PacketDistributor.PLAYER.with(() -> viewer), packet);
     }
 
     public static void sendStiff(ServerPlayer player, int remaining) {
         if (player.connection != null)
             CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new StiffPacket(remaining));
+    }
+
+    public static void sendPrinceFlight(ServerPlayer player, boolean active, boolean revoke) {
+        if (player.connection != null)
+            CHANNEL.send(
+                    PacketDistributor.PLAYER.with(() -> player),
+                    new PrinceFlightPacket(
+                            player.level().dimension().location(),
+                            player.getId(),
+                            player.getUUID(),
+                            active,
+                            revoke));
     }
 
     public static void sendVisualProgress(ServerPlayer player, int remaining) {
@@ -251,7 +284,8 @@ public final class TravailNetwork {
         sendVisualDeprivation(player, remaining, total, false);
     }
 
-    public static void sendVisualDeprivation(ServerPlayer player, int remaining, int total, boolean immediate) {
+    public static void sendVisualDeprivation(
+            ServerPlayer player, int remaining, int total, boolean immediate) {
         if (player.connection != null)
             CHANNEL.send(
                     PacketDistributor.PLAYER.with(() -> player),
@@ -259,11 +293,13 @@ public final class TravailNetwork {
     }
 
     public static void sendItemSound(ServerPlayer player, ItemSoundCue cue) {
-        if (player.connection != null) CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), cue);
+        if (player.connection != null)
+            CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), cue);
     }
 
     public static void sendEffectNotice(ServerPlayer player, EffectNotice notice) {
-        if (player.connection != null) CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), notice);
+        if (player.connection != null)
+            CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), notice);
     }
 
     public static void sendTooltipConfig(ServerPlayer player) {
@@ -273,7 +309,8 @@ public final class TravailNetwork {
 
     private static TooltipConfigPacket tooltipSnapshot() {
         try {
-            return new TooltipConfigPacket(TooltipConfigSync.serverValues(), TooltipConfigSync.serverPools());
+            return new TooltipConfigPacket(
+                    TooltipConfigSync.serverValues(), TooltipConfigSync.serverPools());
         } catch (IllegalArgumentException invalid) {
             TheLongTravail.LOGGER.error(
                     "Tooltip configuration was not sent: {}. Correct the named pool/value and reload the configuration.",
@@ -286,7 +323,8 @@ public final class TravailNetwork {
         CHANNEL.send(
                 PacketDistributor.PLAYER.with(() -> player),
                 new JourneyPacket(
-                        PlayerJourneyData.discoveredBiomeCount(player), PlayerJourneyData.revealedMask(player)));
+                        PlayerJourneyData.discoveredBiomeCount(player),
+                        PlayerJourneyData.revealedMask(player)));
     }
 
     private record JourneyPacket(int count, int revealed) {
@@ -307,7 +345,8 @@ public final class TravailNetwork {
     }
 
     public static void onConfigReloading(ModConfigEvent.Reloading event) {
-        if (!com.thelongtravail.config.ConfigFiles.isCommonSpec(event.getConfig().getSpec())) return;
+        if (!com.thelongtravail.config.ConfigFiles.isCommonSpec(event.getConfig().getSpec()))
+            return;
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         if (server != null)
             server.execute(
@@ -326,11 +365,16 @@ public final class TravailNetwork {
                         if (snapshot == null) return;
                         server.getPlayerList()
                                 .getPlayers()
-                                .forEach(player -> CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), snapshot));
+                                .forEach(
+                                        player ->
+                                                CHANNEL.send(
+                                                        PacketDistributor.PLAYER.with(() -> player),
+                                                        snapshot));
                     });
     }
 
-    private record TooltipConfigPacket(Map<String, Double> values, Map<String, List<String>> pools) {
+    private record TooltipConfigPacket(
+            Map<String, Double> values, Map<String, List<String>> pools) {
         private TooltipConfigPacket {
             var checked = new TooltipConfigCodec.Snapshot(values, pools);
             values = checked.values();
@@ -338,7 +382,8 @@ public final class TravailNetwork {
         }
 
         private static void encode(TooltipConfigPacket packet, FriendlyByteBuf buffer) {
-            TooltipConfigCodec.encode(new TooltipConfigCodec.Snapshot(packet.values, packet.pools), buffer);
+            TooltipConfigCodec.encode(
+                    new TooltipConfigCodec.Snapshot(packet.values, packet.pools), buffer);
         }
 
         private static TooltipConfigPacket decode(FriendlyByteBuf buffer) {
@@ -346,7 +391,8 @@ public final class TravailNetwork {
             return new TooltipConfigPacket(decoded.values(), decoded.pools());
         }
 
-        private static void handle(TooltipConfigPacket packet, Supplier<NetworkEvent.Context> contextSupplier) {
+        private static void handle(
+                TooltipConfigPacket packet, Supplier<NetworkEvent.Context> contextSupplier) {
             NetworkEvent.Context context = contextSupplier.get();
             context.enqueueWork(() -> TooltipConfigSync.accept(packet.values, packet.pools));
             context.setPacketHandled(true);
@@ -374,10 +420,14 @@ public final class TravailNetwork {
                                 ? Math.max(
                                         0,
                                         player.getPersistentData()
-                                                .getInt(com.thelongtravail.boundless.DreamState.COOLDOWN))
+                                                .getInt(
+                                                        com.thelongtravail.boundless.DreamState
+                                                                .COOLDOWN))
                                 : key.equals("countdown")
                                         ? player.getPersistentData()
-                                                .getCompound(com.thelongtravail.boundless.DreamState.RECORD)
+                                                .getCompound(
+                                                        com.thelongtravail.boundless.DreamState
+                                                                .RECORD)
                                                 .getInt("left")
                                         : 0));
     }
@@ -397,7 +447,8 @@ public final class TravailNetwork {
     public static void sendTimeStopCue(net.minecraft.world.entity.LivingEntity caster) {
         var position = caster.position().add(0, caster.getBbHeight() * 0.5, 0);
         var packet = new TimeStopCuePacket(caster.level().dimension().location(), position);
-        for (ServerPlayer viewer : ((net.minecraft.server.level.ServerLevel) caster.level()).players()) {
+        for (ServerPlayer viewer :
+                ((net.minecraft.server.level.ServerLevel) caster.level()).players()) {
             if (viewer.connection != null && viewer.distanceToSqr(caster) <= 32 * 32) {
                 CHANNEL.send(PacketDistributor.PLAYER.with(() -> viewer), packet);
             }

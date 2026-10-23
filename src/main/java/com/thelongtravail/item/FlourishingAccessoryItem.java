@@ -29,12 +29,14 @@ public final class FlourishingAccessoryItem extends Item implements ICurioItem, 
 
     @Override
     public void onEquip(SlotContext context, ItemStack previous, ItemStack stack) {
-        if (!spring && context.entity() instanceof net.minecraft.server.level.ServerPlayer p) Affection.reset(p);
+        if (!spring && context.entity() instanceof net.minecraft.server.level.ServerPlayer p)
+            Affection.reset(p);
     }
 
     @Override
     public void onUnequip(SlotContext context, ItemStack next, ItemStack stack) {
-        if (!spring && context.entity() instanceof net.minecraft.server.level.ServerPlayer p) Affection.reset(p);
+        if (!spring && context.entity() instanceof net.minecraft.server.level.ServerPlayer p)
+            Affection.reset(p);
     }
 
     @Override
@@ -48,7 +50,8 @@ public final class FlourishingAccessoryItem extends Item implements ICurioItem, 
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
+    public void inventoryTick(
+            ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
         if (!spring && !level.isClientSide && entity.tickCount % 20 == 0)
             AffectionDeaths.get(level.getServer()).clean(stack);
     }
@@ -56,12 +59,16 @@ public final class FlourishingAccessoryItem extends Item implements ICurioItem, 
     @Override
     public boolean canEquip(SlotContext context, ItemStack stack) {
         if (!(context.entity() instanceof Player p)) return false;
-        var slots = spring ? FlourishingItemsConfig.SPRING_SLOTS.get() : FlourishingItemsConfig.AFFECTION_SLOTS.get();
+        var slots =
+                spring
+                        ? FlourishingItemsConfig.SPRING_SLOTS.get()
+                        : FlourishingItemsConfig.AFFECTION_SLOTS.get();
         if (p.level().isClientSide)
             slots =
                     com.thelongtravail.network.TooltipConfigSync.pool(
                             spring ? "floral.springSlots" : "floral.affectionSlots", slots);
-        if (!slots.contains(context.identifier()) || (!spring && !Affection.ownerAllowed(stack, p))) return false;
+        if (!slots.contains(context.identifier()) || (!spring && !Affection.ownerAllowed(stack, p)))
+            return false;
         return com.thelongtravail.helper.AccessoryEquipRules.unique(context, this, true);
     }
 
@@ -79,7 +86,8 @@ public final class FlourishingAccessoryItem extends Item implements ICurioItem, 
             if (!level.isClientSide) {
                 Affection.clear(stack);
                 p.displayClientMessage(
-                        com.thelongtravail.helper.ActionMessages.text("message.the_long_travail.affection.cleared"),
+                        com.thelongtravail.helper.ActionMessages.text(
+                                "message.the_long_travail.affection.cleared"),
                         true);
             }
             return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
@@ -88,12 +96,14 @@ public final class FlourishingAccessoryItem extends Item implements ICurioItem, 
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
+    public void appendHoverText(
+            ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
         ItemDescription.summary(lines);
     }
 
     @Override
-    public void appendDetails(ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
+    public void appendDetails(
+            ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
         lines.add(Component.empty());
         addLines(lines, spring ? "spring_corner.rules" : "affection.rules", spring ? 4 : 2);
         if (spring) {
@@ -102,7 +112,10 @@ public final class FlourishingAccessoryItem extends Item implements ICurioItem, 
                 Component name =
                         FloralText.gold(flower.item().getDescription())
                                 .copy()
-                                .withStyle(style -> style.withInsertion("the_long_travail:flower_name"));
+                                .withStyle(
+                                        style ->
+                                                style.withInsertion(
+                                                        "the_long_travail:flower_name"));
                 var row =
                         Component.translatable(
                                         "tooltip.the_long_travail.flower.catalog_entry",
@@ -111,7 +124,8 @@ public final class FlourishingAccessoryItem extends Item implements ICurioItem, 
                                 .withStyle(style -> style.withColor(FloralText.BODY));
                 if (!FlourishingItemsConfig.shownEnabled(flower))
                     row.append(
-                            Component.translatable("tooltip.the_long_travail.flower.catalog_disabled")
+                            Component.translatable(
+                                            "tooltip.the_long_travail.flower.catalog_disabled")
                                     .withStyle(style -> style.withColor(0xC7A474)));
                 lines.add(row);
             }
@@ -131,7 +145,8 @@ public final class FlourishingAccessoryItem extends Item implements ICurioItem, 
             lines.add(
                     FloralText.text(
                             "tooltip.the_long_travail.affection.range",
-                            FlowerDescriptions.number(FlourishingItemsConfig.shown("affection.range"))));
+                            FlowerDescriptions.number(
+                                    FlourishingItemsConfig.shown("affection.range"))));
         }
     }
 
@@ -139,7 +154,8 @@ public final class FlourishingAccessoryItem extends Item implements ICurioItem, 
         lines.add(
                 FloralText.text(
                         "tooltip.the_long_travail.affection." + key,
-                        FlowerDescriptions.percent(FlourishingItemsConfig.shown("affection." + config))));
+                        FlowerDescriptions.percent(
+                                FlourishingItemsConfig.shown("affection." + config))));
     }
 
     private static void addLines(List<Component> lines, String key, int count) {

@@ -8,7 +8,9 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import org.spongepowered.asm.mixin.*;
 
-@Mixin(targets = "com.github.tartaricacid.touhoulittlemaid.inventory.container.backpack.BaubleContainer$BaubleSlot")
+@Mixin(
+        targets =
+                "com.github.tartaricacid.touhoulittlemaid.inventory.container.backpack.BaubleContainer$BaubleSlot")
 public abstract class MaidRelicSlotMixin extends SlotItemHandler {
     @Shadow(remap = false)
     @Final
@@ -22,10 +24,12 @@ public abstract class MaidRelicSlotMixin extends SlotItemHandler {
     public boolean mayPlace(ItemStack stack) {
         if (stack.getItem() instanceof UnderworldRelicItem) {
             // 客户端无法确认主人的日记状态，装备资格由服务端校验。
-            if (!maid.level().isClientSide && MaidAccessoryRuntime.relicPhase(maid) == 0) return false;
+            if (!maid.level().isClientSide && MaidAccessoryRuntime.relicPhase(maid) == 0)
+                return false;
             var inventory = maid.getMaidBauble();
             for (int i = 0; i < inventory.getSlots(); i++)
-                if (i != getSlotIndex() && inventory.getStackInSlot(i).is(stack.getItem())) return false;
+                if (i != getSlotIndex() && inventory.getStackInSlot(i).is(stack.getItem()))
+                    return false;
         }
         return super.mayPlace(stack);
     }

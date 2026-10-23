@@ -8,7 +8,11 @@ import java.util.*;
 public final class ReceivedHitGate {
     private final Map<LivingEntity, Long> last = new WeakHashMap<>();
 
-    public boolean acquire(LivingEntity entity, DamageSource source, Collection<? extends String> excluded, int ticks) {
+    public boolean acquire(
+            LivingEntity entity,
+            DamageSource source,
+            Collection<? extends String> excluded,
+            int ticks) {
         String id = source.typeHolder().unwrapKey().map(k -> k.location().toString()).orElse("");
         if (excluded.contains(id)) return false;
         long now = entity.level().getGameTime();

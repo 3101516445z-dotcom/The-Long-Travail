@@ -56,7 +56,10 @@ public abstract class ExecutionMultiMapMixin<T> implements ExecutionStorage {
     @Unique
     private List<T> travail$without(List<T> list, Entity entity) {
         if (!travail$has(list, entity)) return list;
-        List<T> copy = list instanceof ObjectArrayList ? new ObjectArrayList<>(list) : new ArrayList<>(list);
+        List<T> copy =
+                list instanceof ObjectArrayList
+                        ? new ObjectArrayList<>(list)
+                        : new ArrayList<>(list);
         copy.removeIf(value -> value == entity);
         return copy;
     }
@@ -73,13 +76,15 @@ public abstract class ExecutionMultiMapMixin<T> implements ExecutionStorage {
         visited.add(allInstances);
         visited.addAll(byClass.values());
         for (var list : visited)
-            for (var value : list) if (value instanceof Entity entity && targets.contains(entity)) found.add(entity);
+            for (var value : list)
+                if (value instanceof Entity entity && targets.contains(entity)) found.add(entity);
         return found;
     }
 
     public boolean travail$contains(Entity e) {
         if (travail$has(allInstances, e)) return true;
-        for (var list : byClass.values()) if (list != allInstances && travail$has(list, e)) return true;
+        for (var list : byClass.values())
+            if (list != allInstances && travail$has(list, e)) return true;
         return false;
     }
 }

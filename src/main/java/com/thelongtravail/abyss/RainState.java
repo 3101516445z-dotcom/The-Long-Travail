@@ -100,7 +100,8 @@ public final class RainState {
         return weather((net.minecraft.world.entity.LivingEntity) p, local, sky);
     }
 
-    public static boolean weather(net.minecraft.world.entity.LivingEntity p, boolean local, boolean sky) {
+    public static boolean weather(
+            net.minecraft.world.entity.LivingEntity p, boolean local, boolean sky) {
         var level = (net.minecraft.server.level.ServerLevel) p.level();
         if (!level.dimension().equals(Level.OVERWORLD)) return false;
         if (!level.getLevelData().isRaining() && !level.getLevelData().isThundering()) return false;
@@ -122,9 +123,12 @@ public final class RainState {
     }
 
     public static EkiState ekiState(ServerPlayer p, ItemStack diary) {
-        if (diary.isEmpty() || !weather(p, RainConfig.EKI_LOCAL.get(), RainConfig.EKI_SKY.get()) || !carrying(p))
-            return EkiState.INACTIVE;
-        return LongTravailData.hasWitness(diary, TravailAspect.ABYSS) ? EkiState.WITNESS : EkiState.MALICE;
+        if (diary.isEmpty()
+                || !weather(p, RainConfig.EKI_LOCAL.get(), RainConfig.EKI_SKY.get())
+                || !carrying(p)) return EkiState.INACTIVE;
+        return LongTravailData.hasWitness(diary, TravailAspect.ABYSS)
+                ? EkiState.WITNESS
+                : EkiState.MALICE;
     }
 
     public static boolean ekiMalice(ServerPlayer p) {
@@ -132,7 +136,8 @@ public final class RainState {
     }
 
     public static boolean passive(ServerPlayer p) {
-        return equipped(p) && weather(p, RainConfig.TOKAIDO_LOCAL.get(), RainConfig.TOKAIDO_SKY.get());
+        return equipped(p)
+                && weather(p, RainConfig.TOKAIDO_LOCAL.get(), RainConfig.TOKAIDO_SKY.get());
     }
 
     public static float speed(Player p) {

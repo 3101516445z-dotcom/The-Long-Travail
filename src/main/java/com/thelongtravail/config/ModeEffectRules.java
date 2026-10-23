@@ -7,7 +7,11 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import java.util.Map;
 
 public enum ModeEffectRules {
-    DIARY("general.toml", "malice.affectCreativeAndSpectator", "苦旅的恶意惩罚", "Malice penalties from The Long Travail"),
+    DIARY(
+            "general.toml",
+            "malice.affectCreativeAndSpectator",
+            "苦旅的恶意惩罚",
+            "Malice penalties from The Long Travail"),
     PHOSPHOPHYLLITE_DAMAGE(
             "aspects/deep_valley.toml",
             "items.phosphophyllite.damageAffectsCreativeAndSpectator",
@@ -39,7 +43,8 @@ public enum ModeEffectRules {
             "春日一隅中玫瑰丛的反伤",
             "Rose Bush retaliation from A Corner of Spring"),
     LAFITE_NAUSEA(
-            "aspects/abyss.toml", "items.midnight_lafite.nauseaExtensionAffectsCreativeAndSpectator",
+            "aspects/abyss.toml",
+                    "items.midnight_lafite.nauseaExtensionAffectsCreativeAndSpectator",
             "午夜拉菲的反胃时长延长", "Nausea extension from Midnight Lafite"),
     ICARUS_FIRE(
             "aspects/far_reach.toml",
@@ -70,7 +75,8 @@ public enum ModeEffectRules {
     }
 
     public boolean applies(Entity target) {
-        if (!(target instanceof Player player) || !player.isCreative() && !player.isSpectator()) return true;
+        if (!(target instanceof Player player) || !player.isCreative() && !player.isSpectator())
+            return true;
         return player.level().isClientSide
                 ? TooltipConfigSync.integer("mode." + name(), config.get() ? 1 : 0) != 0
                 : config.get();

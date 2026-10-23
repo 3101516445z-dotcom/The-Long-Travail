@@ -9,7 +9,8 @@ import net.minecraft.world.entity.player.Player;
 
 public final class WitnessSoundRule {
     public static boolean muteGain(Player player, MobEffect effect, boolean gain, boolean enabled) {
-        if (!enabled || !gain || player == null || effect == null || !effect.isBeneficial()) return false;
+        if (!enabled || !gain || player == null || effect == null || !effect.isBeneficial())
+            return false;
         var diary = TravailCurios.stack(player);
         return !diary.isEmpty()
                 && (LongTravailData.hasWitness(diary, TravailAspect.FAR_REACH)

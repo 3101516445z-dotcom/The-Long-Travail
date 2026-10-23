@@ -5,7 +5,12 @@ public final class DiaryHoldProgress {
     private double seconds;
 
     public boolean advance(double elapsedSeconds, boolean holding) {
-        seconds = Math.max(0, Math.min(DURATION, seconds + Math.max(0, elapsedSeconds) * (holding ? 1 : -1)));
+        seconds =
+                Math.max(
+                        0,
+                        Math.min(
+                                DURATION,
+                                seconds + Math.max(0, elapsedSeconds) * (holding ? 1 : -1)));
         return seconds >= DURATION;
     }
 

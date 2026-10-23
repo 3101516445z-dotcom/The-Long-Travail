@@ -39,25 +39,30 @@ public final class EverlastingFlowerItem extends Item implements ICurioItem {
 
     @Override
     public void onUnequip(SlotContext c, ItemStack next, ItemStack stack) {
+        if (!c.cosmetic() && !next.is(this)) EverlastingFlower.unequipped(c.entity());
         EverlastingFlower.update(c.entity());
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> use(
+            Level level, Player player, InteractionHand hand) {
         var stack = player.getItemInHand(hand);
         if (!player.isShiftKeyDown()) return InteractionResultHolder.pass(stack);
         if (!level.isClientSide) {
             boolean enabled = !EverlastingFlower.growthEnabled(stack);
             stack.getOrCreateTag().putBoolean("TravailGrowth", enabled);
             player.displayClientMessage(
-                    Component.translatable("message.the_long_travail.growth." + (enabled ? "enabled" : "disabled")),
+                    Component.translatable(
+                            "message.the_long_travail.growth."
+                                    + (enabled ? "enabled" : "disabled")),
                     true);
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
+    public void appendHoverText(
+            ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
         ItemDescription.summary(lines);
     }
 }

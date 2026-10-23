@@ -21,13 +21,15 @@ public final class FrozenBlockEvents extends SavedData {
                     held -> {
                         Set<Long> chunks = new HashSet<>();
                         chunks.add(net.minecraft.world.level.ChunkPos.asLong(held.event.pos()));
-                        for (BlockPos pos : held.gates) chunks.add(net.minecraft.world.level.ChunkPos.asLong(pos));
+                        for (BlockPos pos : held.gates)
+                            chunks.add(net.minecraft.world.level.ChunkPos.asLong(pos));
                         return chunks;
                     });
 
     public static FrozenBlockEvents get(ServerLevel l) {
         return l.getDataStorage()
-                .computeIfAbsent(FrozenBlockEvents::load, FrozenBlockEvents::new, "travail_frozen_events");
+                .computeIfAbsent(
+                        FrozenBlockEvents::load, FrozenBlockEvents::new, "travail_frozen_events");
     }
 
     public void hold(BlockEventData event) {
@@ -55,7 +57,8 @@ public final class FrozenBlockEvents extends SavedData {
                             new BlockPos(
                                     net.minecraft.world.level.ChunkPos.getX(chunk) << 4,
                                     0,
-                                    net.minecraft.world.level.ChunkPos.getZ(chunk) << 4))) return false;
+                                    net.minecraft.world.level.ChunkPos.getZ(chunk) << 4)))
+                        return false;
                     loaded.add(chunk);
                     return true;
                 });
@@ -65,9 +68,11 @@ public final class FrozenBlockEvents extends SavedData {
                         held -> {
                             var event = held.event;
                             if (TimeStopManager.frozen(level, event.pos())) return false;
-                            for (BlockPos gate : held.gates) if (TimeStopManager.frozen(level, gate)) return false;
+                            for (BlockPos gate : held.gates)
+                                if (TimeStopManager.frozen(level, gate)) return false;
                             if (level.hasChunkAt(event.pos())) return true;
-                            waitingChunks.add(net.minecraft.world.level.ChunkPos.asLong(event.pos()));
+                            waitingChunks.add(
+                                    net.minecraft.world.level.ChunkPos.asLong(event.pos()));
                             return false;
                         });
         if (!ready.isEmpty()) setDirty();
@@ -105,7 +110,8 @@ public final class FrozenBlockEvents extends SavedData {
             BlockEventData event =
                     new BlockEventData(
                             BlockPos.of(tag.getLong("pos")),
-                            BuiltInRegistries.BLOCK.get(new ResourceLocation(tag.getString("block"))),
+                            BuiltInRegistries.BLOCK.get(
+                                    new ResourceLocation(tag.getString("block"))),
                             tag.getInt("a"),
                             tag.getInt("b"));
             out.hold(event);

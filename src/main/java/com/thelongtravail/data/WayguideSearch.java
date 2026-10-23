@@ -46,7 +46,11 @@ public final class WayguideSearch {
     private record Target(ResourceLocation id, BlockPos pos) {}
 
     private record Cached(
-            Journey journey, ResourceKey<Level> dimension, BlockPos origin, Target target, long expires) {}
+            Journey journey,
+            ResourceKey<Level> dimension,
+            BlockPos origin,
+            Target target,
+            long expires) {}
 
     private static final Map<UUID, Task> TASKS = new HashMap<>();
     private static final Map<UUID, Cached> CACHE = new HashMap<>();
@@ -54,7 +58,8 @@ public final class WayguideSearch {
     private static final List<ChunkRequest> REQUESTS = new ArrayList<>();
     private static final TicketType<UUID> SEARCH_TICKET =
             TicketType.create("the_long_travail_wayguide", UUID::compareTo);
-    private static final int TICKET_DISTANCE = 33 - ChunkLevel.byStatus(ChunkStatus.STRUCTURE_STARTS);
+    private static final int TICKET_DISTANCE =
+            33 - ChunkLevel.byStatus(ChunkStatus.STRUCTURE_STARTS);
 
     public static void clear() {
         for (Task task : List.copyOf(TASKS.values())) cancel(task, null);
@@ -91,7 +96,9 @@ public final class WayguideSearch {
         var loaded =
                 player.serverLevel()
                         .getChunkSource()
-                        .getChunkNow(player.blockPosition().getX() >> 4, player.blockPosition().getZ() >> 4);
+                        .getChunkNow(
+                                player.blockPosition().getX() >> 4,
+                                player.blockPosition().getZ() >> 4);
         if (loaded != null)
             loaded.getNoiseBiome(
                             QuartPos.fromBlock(player.getBlockX()),
@@ -114,7 +121,10 @@ public final class WayguideSearch {
         if (!cacheHit) CACHE.remove(player.getUUID());
         long accepted = System.nanoTime();
         Scanner scanner =
-                cacheHit ? new CachedScanner(player.serverLevel(), player.blockPosition(), cached.target) : null;
+                cacheHit
+                        ? new CachedScanner(
+                                player.serverLevel(), player.blockPosition(), cached.target)
+                        : null;
         ItemStack held = player.getItemInHand(hand);
         if (!held.is(ModRegistry.WAYGUIDE.get()) || held.isEmpty()) return false;
         var entity = ModRegistry.WAYGUIDE_ENTITY.get().create(player.serverLevel());
@@ -175,12 +185,15 @@ public final class WayguideSearch {
                 }
             } else if (phase == 2) {
                 if (placements.hasNext()) {
-                    groups.computeIfAbsent(placements.next(), p -> new ArrayList<>()).add(structure);
+                    groups.computeIfAbsent(placements.next(), p -> new ArrayList<>())
+                            .add(structure);
                 } else if (targets.hasNext()) {
                     structure =
                             level.registryAccess()
                                     .registryOrThrow(Registries.STRUCTURE)
-                                    .getHolder(ResourceKey.create(Registries.STRUCTURE, targets.next()))
+                                    .getHolder(
+                                            ResourceKey.create(
+                                                    Registries.STRUCTURE, targets.next()))
                                     .orElse(null);
                     if (structure != null)
                         placements =
@@ -197,7 +210,12 @@ public final class WayguideSearch {
             } else if (cursors.hasNext()) {
                 var entry = cursors.next();
                 structureScanner.placements.add(
-                        new PlacementCursor(level, origin, structureScanner.radius, entry.getKey(), entry.getValue()));
+                        new PlacementCursor(
+                                level,
+                                origin,
+                                structureScanner.radius,
+                                entry.getKey(),
+                                entry.getValue()));
             } else {
                 result = structureScanner;
                 finished = true;
@@ -218,14 +236,20 @@ public final class WayguideSearch {
         final long startTick;
         int samples;
 
-        Task(ServerPlayer player, ItemStack diary, Scanner scanner, WayguideEntity entity, long accepted) {
+        Task(
+                ServerPlayer player,
+                ItemStack diary,
+                Scanner scanner,
+                WayguideEntity entity,
+                long accepted) {
             this.player = player;
             this.entity = entity;
             this.journey = Journey.of(diary);
             this.dimension = player.level().dimension();
             this.origin = player.blockPosition().immutable();
             this.scanner = scanner;
-            if (scanner == null) this.preparation = new Preparation(player.serverLevel(), diary, origin);
+            if (scanner == null)
+                this.preparation = new Preparation(player.serverLevel(), diary, origin);
             this.maxSamples = TravailConfig.WAYGUIDE_MAX_SAMPLES.get();
             this.started = accepted;
             this.timeout = TravailConfig.WAYGUIDE_TIMEOUT_SECONDS.get() * 1_000_000_000L;
@@ -290,7 +314,9 @@ public final class WayguideSearch {
                     continue;
                 }
                 for (int i = 0; i < 32 && budget > 0 && loads.take(); i++) {
-                    if (task.scanner.target != null || task.samples >= task.maxSamples || task.scanner.finished) break;
+                    if (task.scanner.target != null
+                            || task.samples >= task.maxSamples
+                            || task.scanner.finished) break;
                     if (!task.scanner.step(loads)) break;
                     progressed = true;
                     task.samples++;
@@ -303,7 +329,9 @@ public final class WayguideSearch {
                     cancel(task, "timeout");
                     continue;
                 }
-                if ((task.scanner.target != null || task.scanner.finished || task.samples >= task.maxSamples)
+                if ((task.scanner.target != null
+                                || task.scanner.finished
+                                || task.samples >= task.maxSamples)
                         && task.player.level().getGameTime() - task.startTick < 20) {
                     QUEUE.addLast(id);
                     blocked++;
@@ -337,7 +365,8 @@ public final class WayguideSearch {
                                         task.dimension,
                                         task.origin,
                                         task.scanner.target,
-                                        task.player.level().getGameTime() + TravailConfig.WAYGUIDE_CACHE_TICKS.get()));
+                                        task.player.level().getGameTime()
+                                                + TravailConfig.WAYGUIDE_CACHE_TICKS.get()));
                     } else cancel(task, "cancelled");
                     TASKS.remove(id);
                 } else if (task.scanner.finished || task.samples >= task.maxSamples) {
@@ -351,7 +380,8 @@ public final class WayguideSearch {
             } catch (RuntimeException error) {
                 TASKS.remove(id);
                 cancel(task, "error");
-                TheLongTravail.LOGGER.error("Wayguide search failed in {}", task.dimension.location(), error);
+                TheLongTravail.LOGGER.error(
+                        "Wayguide search failed in {}", task.dimension.location(), error);
             }
         }
     }
@@ -369,13 +399,16 @@ public final class WayguideSearch {
 
     private static void message(ServerPlayer player, String key) {
         player.displayClientMessage(
-                com.thelongtravail.helper.ActionMessages.text("message.the_long_travail.wayguide." + key), true);
+                com.thelongtravail.helper.ActionMessages.text(
+                        "message.the_long_travail.wayguide." + key),
+                true);
     }
 
     private static final class LoadBudget {
         int remaining = 1;
         int operations = Math.max(4096, TravailConfig.WAYGUIDE_SAMPLES_PER_TICK.get() * 2);
-        final long deadline = System.nanoTime() + TravailConfig.WAYGUIDE_SEARCH_MILLIS.get() * 1_000_000L;
+        final long deadline =
+                System.nanoTime() + TravailConfig.WAYGUIDE_SEARCH_MILLIS.get() * 1_000_000L;
 
         boolean take() {
             return operations-- > 0 && System.nanoTime() < deadline;
@@ -400,7 +433,10 @@ public final class WayguideSearch {
         void close() {}
 
         boolean within(BlockPos pos) {
-            return Math.hypot((double) pos.getX() - origin.getX(), (double) pos.getZ() - origin.getZ()) <= radius
+            return Math.hypot(
+                                    (double) pos.getX() - origin.getX(),
+                                    (double) pos.getZ() - origin.getZ())
+                            <= radius
                     && level.getWorldBorder().isWithinBounds(pos);
         }
     }
@@ -434,7 +470,8 @@ public final class WayguideSearch {
             try {
                 future =
                         ((ChunkFutureInvoker) level.getChunkSource())
-                                .travail$requestChunk(pos.x, pos.z, ChunkStatus.STRUCTURE_STARTS, true);
+                                .travail$requestChunk(
+                                        pos.x, pos.z, ChunkStatus.STRUCTURE_STARTS, true);
             } catch (RuntimeException error) {
                 release();
                 throw error;
@@ -471,7 +508,10 @@ public final class WayguideSearch {
             if (completion.equals("pending")) {
                 try {
                     var result = future.getNow(null);
-                    completion = result == null ? "empty" : result.left().isPresent() ? "success" : "loading_failure";
+                    completion =
+                            result == null
+                                    ? "empty"
+                                    : result.left().isPresent() ? "success" : "loading_failure";
                     if (!completion.equals("success"))
                         TheLongTravail.LOGGER.warn(
                                 "Wayguide chunk request completed: dimension={}, chunk={}, outcome={}, ownerCancelled={}",
@@ -483,7 +523,9 @@ public final class WayguideSearch {
                     completion =
                             future.isCancelled()
                                     ? "cancelled"
-                                    : future.isCompletedExceptionally() ? "exceptional" : "invalid_result";
+                                    : future.isCompletedExceptionally()
+                                            ? "exceptional"
+                                            : "invalid_result";
                     TheLongTravail.LOGGER.warn(
                             "Wayguide chunk request completed: dimension={}, chunk={}, outcome={}, ownerCancelled={}",
                             level.dimension().location(),
@@ -536,7 +578,8 @@ public final class WayguideSearch {
                                         QuartPos.fromBlock(pos.getY()),
                                         QuartPos.fromBlock(z),
                                         level.getChunkSource().randomState().sampler());
-                if (biomes.contains(biome)) target = new Target(biome.unwrapKey().orElseThrow().location(), pos);
+                if (biomes.contains(biome))
+                    target = new Target(biome.unwrapKey().orElseThrow().location(), pos);
             }
             if (++height >= heights.length) {
                 height = 0;
@@ -584,7 +627,8 @@ public final class WayguideSearch {
             }
             BlockPos locatePos = pending.placement.getLocatePos(chunk);
             if (((StructureRingsAccessor) level.getChunkSource().getGeneratorState())
-                    .travail$ringPositions().values().stream().anyMatch(f -> !f.isDone())) return false;
+                    .travail$ringPositions().values().stream().anyMatch(f -> !f.isDone()))
+                return false;
             if (within(locatePos)
                     && pending.placement.isStructureChunk(
                             level.getChunkSource().getGeneratorState(), chunk.x, chunk.z)) {
@@ -603,7 +647,9 @@ public final class WayguideSearch {
                     for (Holder<Structure> holder : pending.structures) {
                         var start = access.getStartForStructure(holder.value());
                         if (start != null && start.isValid()) {
-                            target = new Target(holder.unwrapKey().orElseThrow().location(), locatePos);
+                            target =
+                                    new Target(
+                                            holder.unwrapKey().orElseThrow().location(), locatePos);
                             break;
                         }
                     }
@@ -646,7 +692,10 @@ public final class WayguideSearch {
             this.structures = List.copyOf(structures);
             this.origin = origin;
             int cx = origin.getX() >> 4, cz = origin.getZ() >> 4;
-            spacing = placement instanceof RandomSpreadStructurePlacement random ? random.spacing() : 1;
+            spacing =
+                    placement instanceof RandomSpreadStructurePlacement random
+                            ? random.spacing()
+                            : 1;
             baseX = Math.floorDiv(cx, spacing);
             baseZ = Math.floorDiv(cz, spacing);
             grid = new WayguideGeometry.Spiral((radius + 15) / 16 / spacing + 2);
@@ -665,17 +714,26 @@ public final class WayguideSearch {
             if (rings == null) {
                 rings = ringFuture.getNow(List.of());
                 sortedRings =
-                        new PriorityQueue<>(Comparator.comparingDouble(Ring::distance).thenComparingInt(Ring::order));
+                        new PriorityQueue<>(
+                                Comparator.comparingDouble(Ring::distance)
+                                        .thenComparingInt(Ring::order));
             }
             for (int i = 0; i < 32 && ringIndex < rings.size() && budget.take(); i++) {
                 var pos = rings.get(ringIndex);
-                sortedRings.add(new Ring(pos, ringIndex++, pos.getMiddleBlockPosition(origin.getY()).distSqr(origin)));
+                sortedRings.add(
+                        new Ring(
+                                pos,
+                                ringIndex++,
+                                pos.getMiddleBlockPosition(origin.getY()).distSqr(origin)));
             }
             return ringIndex == rings.size();
         }
 
         ChunkPos next() {
-            if (rings != null) return sortedRings == null || sortedRings.isEmpty() ? null : sortedRings.remove().pos();
+            if (rings != null)
+                return sortedRings == null || sortedRings.isEmpty()
+                        ? null
+                        : sortedRings.remove().pos();
             if (grid.finished()) return null;
             int x = (baseX + grid.x()) * spacing, z = (baseZ + grid.z()) * spacing;
             grid.advance();

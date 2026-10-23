@@ -18,7 +18,10 @@ public abstract class IcarusLocalFlightMixin {
                             target =
                                     "Lnet/minecraft/world/item/ItemStack;canElytraFly(Lnet/minecraft/world/entity/LivingEntity;)Z",
                             remap = false))
-    private boolean travail$icarusFlight(ItemStack stack, LivingEntity entity, Operation<Boolean> original) {
-        return IcarusFlight.equipped(entity) ? IcarusFlight.allowed(entity) : original.call(stack, entity);
+    private boolean travail$icarusFlight(
+            ItemStack stack, LivingEntity entity, Operation<Boolean> original) {
+        return IcarusFlight.equipped(entity)
+                ? IcarusFlight.allowed(entity)
+                : original.call(stack, entity);
     }
 }

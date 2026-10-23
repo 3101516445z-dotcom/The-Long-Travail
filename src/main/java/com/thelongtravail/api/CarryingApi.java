@@ -28,16 +28,23 @@ public final class CarryingApi {
     private record Location(String area, String slot, int index) {}
 
     private static final Map<ResourceLocation, Provider> PROVIDERS = new LinkedHashMap<>();
+    private static volatile List<Map.Entry<ResourceLocation, Provider>> PROVIDER_SNAPSHOT =
+            List.of();
+    private static final String[] BUILTIN_AREAS = {"inventory", "offhand", "armor", "enderChest"};
     private static final Map<ServerPlayer, Map<Signal, Long>> SIGNALS = new WeakHashMap<>();
     private static final Map<ServerPlayer, Map<Item, Location>> LOCATIONS = new WeakHashMap<>();
-    private static final Set<ServerPlayer> QUERYING = Collections.newSetFromMap(new IdentityHashMap<>());
-    private static final ResourceLocation LEGACY = new ResourceLocation("the_long_travail", "legacy_inventory_tick");
+    private static final Set<ServerPlayer> QUERYING =
+            Collections.newSetFromMap(new IdentityHashMap<>());
+    private static final ResourceLocation LEGACY =
+            new ResourceLocation("the_long_travail", "legacy_inventory_tick");
 
     public static void registerProvider(ResourceLocation id, Provider provider) {
         Objects.requireNonNull(id);
         Objects.requireNonNull(provider);
         if (PROVIDERS.putIfAbsent(id, provider) != null)
             throw new IllegalArgumentException("Duplicate carrying provider: " + id);
+        // 注册时更新快照；回调中新注册的提供方仍从下一次查询开始生效。
+        PROVIDER_SNAPSHOT = List.copyOf(PROVIDERS.entrySet());
     }
 
     public static void reportCarried(ServerPlayer player, Item item, ResourceLocation source) {
@@ -79,23 +86,26 @@ public final class CarryingApi {
     public static CarryingResult query(ServerPlayer player, Item item) {
         checkThread(player);
         if (!player.isAlive() || player.isSpectator()) return CarryingResult.ABSENT;
-        if (!QUERYING.add(player)) throw new IllegalStateException("Recursive carrying provider query");
+        if (!QUERYING.add(player))
+            throw new IllegalStateException("Recursive carrying provider query");
         try {
             var locations = LOCATIONS.computeIfAbsent(player, p -> new HashMap<>());
             var hint = locations.get(item);
             if (hint != null && valid(player, item, hint)) return CarryingResult.PRESENT;
             locations.remove(item);
-            for (String area : List.of("inventory", "offhand", "armor", "enderChest")) {
+            for (String area : BUILTIN_AREAS) {
                 if (!allowed(item, area)) continue;
+                boolean enderChest = area.equals("enderChest");
+                var contents = enderChest ? null : stacks(player, area);
                 int size =
-                        area.equals("enderChest")
+                        enderChest
                                 ? player.getEnderChestInventory().getContainerSize()
-                                : stacks(player, area).size();
+                                : contents.size();
                 for (int i = 0; i < size; i++) {
                     ItemStack stack =
-                            area.equals("enderChest")
+                            enderChest
                                     ? player.getEnderChestInventory().getItem(i)
-                                    : stacks(player, area).get(i);
+                                    : contents.get(i);
                     if (stack.is(item)) {
                         locations.put(item, new Location(area, "", i));
                         return CarryingResult.PRESENT;
@@ -103,29 +113,25 @@ public final class CarryingApi {
                 }
             }
             if (allowed(item, "curios")) {
-                var found =
-                        CuriosApi.getCuriosInventory(player)
-                                .resolve()
-                                .flatMap(
-                                        inv ->
-                                                inv.findCurios(item).stream()
-                                                        .filter(r -> !r.slotContext().cosmetic())
-                                                        .findFirst());
-                if (found.isPresent()) {
-                    var c = found.get().slotContext();
-                    locations.put(item, new Location("curios", c.identifier(), c.index()));
-                    return CarryingResult.PRESENT;
-                }
+                var inventory = CuriosApi.getCuriosInventory(player).resolve();
+                if (inventory.isPresent())
+                    for (var found : inventory.get().findCurios(item)) {
+                        var c = found.slotContext();
+                        if (c.cosmetic()) continue;
+                        locations.put(item, new Location("curios", c.identifier(), c.index()));
+                        return CarryingResult.PRESENT;
+                    }
             }
             if (!allowed(item, "externalInventoryTick")) return CarryingResult.ABSENT;
             var signals = SIGNALS.get(player);
             long now = player.level().getGameTime();
             if (signals != null) {
                 signals.entrySet().removeIf(e -> now < e.getValue() || now - e.getValue() > 2);
-                if (signals.keySet().stream().anyMatch(s -> s.item == item)) return CarryingResult.PRESENT;
+                if (signals.keySet().stream().anyMatch(s -> s.item == item))
+                    return CarryingResult.PRESENT;
             }
             boolean failed = false;
-            for (var entry : List.copyOf(PROVIDERS.entrySet())) {
+            for (var entry : PROVIDER_SNAPSHOT) {
                 try {
                     if (entry.getValue().carries(player, item)) return CarryingResult.PRESENT;
                 } catch (RuntimeException ex) {
@@ -135,7 +141,9 @@ public final class CarryingApi {
                     if (next == null || time - next >= 0) {
                         NEXT_WARNING.put(entry.getKey(), time + 60_000_000_000L);
                         com.thelongtravail.TheLongTravail.LOGGER.warn(
-                                "Carrying provider {} failed; result remains unknown", entry.getKey(), ex);
+                                "Carrying provider {} failed; result remains unknown",
+                                entry.getKey(),
+                                ex);
                     }
                 }
             }
@@ -159,7 +167,10 @@ public final class CarryingApi {
             return CuriosApi.getCuriosInventory(p)
                     .resolve()
                     .flatMap(h -> h.getStacksHandler(l.slot))
-                    .map(h -> l.index < h.getStacks().getSlots() && h.getStacks().getStackInSlot(l.index).is(item))
+                    .map(
+                            h ->
+                                    l.index < h.getStacks().getSlots()
+                                            && h.getStacks().getStackInSlot(l.index).is(item))
                     .orElse(false);
         if (l.area.equals("enderChest"))
             return l.index < p.getEnderChestInventory().getContainerSize()

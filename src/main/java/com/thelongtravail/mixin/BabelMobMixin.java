@@ -32,7 +32,8 @@ public abstract class BabelMobMixin {
             at =
                     @At(
                             value = "FIELD",
-                            target = "Lnet/minecraft/world/entity/Mob;target:Lnet/minecraft/world/entity/LivingEntity;",
+                            target =
+                                    "Lnet/minecraft/world/entity/Mob;target:Lnet/minecraft/world/entity/LivingEntity;",
                             opcode = 181))
     private void travail$commit(Mob self, LivingEntity next) {
         if (!BabelProtection.protects(self, next)) target = next;

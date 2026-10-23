@@ -9,9 +9,13 @@ import net.minecraft.world.entity.*;
 
 public final class AzraelExecution {
     public static final ResourceKey<DamageType> TYPE =
-            ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("the_long_travail", "azrael_execution"));
+            ResourceKey.create(
+                    Registries.DAMAGE_TYPE,
+                    new ResourceLocation("the_long_travail", "azrael_execution"));
     public static final ResourceKey<DamageType> SELF =
-            ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("the_long_travail", "azrael_self"));
+            ResourceKey.create(
+                    Registries.DAMAGE_TYPE,
+                    new ResourceLocation("the_long_travail", "azrael_self"));
     private static final ThreadLocal<Frame> CURRENT = new ThreadLocal<>();
 
     private static final class Frame {
@@ -46,7 +50,8 @@ public final class AzraelExecution {
     }
 
     private static final boolean DIAGNOSTICS = Boolean.getBoolean("travail.execution.diagnostics");
-    private static final java.util.Map<ResourceLocation, Long> NEXT_REPORT = new java.util.HashMap<>();
+    private static final java.util.Map<ResourceLocation, Long> NEXT_REPORT =
+            new java.util.HashMap<>();
 
     public static void clearDiagnostics() {
         NEXT_REPORT.clear();
@@ -54,7 +59,9 @@ public final class AzraelExecution {
 
     private static StringBuilder beginDiagnostic(LivingEntity target) {
         if (!DIAGNOSTICS) return null;
-        ResourceLocation type = net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(target.getType());
+        ResourceLocation type =
+                net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(
+                        target.getType());
         long now = System.nanoTime();
         Long next = NEXT_REPORT.get(type);
         if (next != null && now - next < 0) return null;
@@ -64,7 +71,13 @@ public final class AzraelExecution {
 
     private static void report(Frame frame, String stage, int number, Attempt result) {
         if (frame.diagnostic != null)
-            frame.diagnostic.append("; ").append(stage).append('#').append(number).append('=').append(result);
+            frame.diagnostic
+                    .append("; ")
+                    .append(stage)
+                    .append('#')
+                    .append(number)
+                    .append('=')
+                    .append(result);
     }
 
     private static Attempt outcome(Frame frame) {
@@ -90,14 +103,21 @@ public final class AzraelExecution {
         frame.acceptedDeath = !cancelled;
     }
 
-    private static DamageSource source(LivingEntity player, LivingEntity target, ResourceKey<DamageType> type) {
-        var holder = target.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(type);
+    private static DamageSource source(
+            LivingEntity player, LivingEntity target, ResourceKey<DamageType> type) {
+        var holder =
+                target.level()
+                        .registryAccess()
+                        .registryOrThrow(Registries.DAMAGE_TYPE)
+                        .getHolderOrThrow(type);
         boolean self = target == player;
         return new DamageSource(holder, self ? null : player, self ? null : player) {
             @Override
-            public net.minecraft.network.chat.Component getLocalizedDeathMessage(LivingEntity victim) {
+            public net.minecraft.network.chat.Component getLocalizedDeathMessage(
+                    LivingEntity victim) {
                 return net.minecraft.network.chat.Component.translatable(
-                        "death.attack.the_long_travail." + (self ? "azrael_self" : "azrael_execution"),
+                        "death.attack.the_long_travail."
+                                + (self ? "azrael_self" : "azrael_execution"),
                         victim.getDisplayName());
             }
         };
@@ -106,7 +126,9 @@ public final class AzraelExecution {
     private static boolean dead(Frame frame) {
         LivingEntity target = frame.target;
         return target.getRemovalReason() == Entity.RemovalReason.KILLED
-                || frame.acceptedDeath && Float.isFinite(target.getHealth()) && target.getHealth() <= 0;
+                || frame.acceptedDeath
+                        && Float.isFinite(target.getHealth())
+                        && target.getHealth() <= 0;
     }
 
     // 每次调用前须先记录伤害归属；第三阶段处决不能依赖仅在 hurt 成功后写入的记录。
@@ -126,12 +148,14 @@ public final class AzraelExecution {
         return Float.isFinite(maximum) ? Math.max(1, maximum) : 1;
     }
 
-    private static void repairAfterFailure(Frame frame, float health, float absorption, Throwable failure) {
+    private static void repairAfterFailure(
+            Frame frame, float health, float absorption, Throwable failure) {
         // 不追加处决，也不吞掉原异常；修复失败时将其异常附加到原异常，避免掩盖第三方故障。
         try {
             if (!frame.target.isRemoved()) {
                 repair(frame, health, absorption);
-                if (!frame.acceptedDeath && frame.target.getHealth() <= 0) frame.target.setHealth(health);
+                if (!frame.acceptedDeath && frame.target.getHealth() <= 0)
+                    frame.target.setHealth(health);
             }
         } catch (RuntimeException | Error repairFailure) {
             if (repairFailure != failure) failure.addSuppressed(repairFailure);
@@ -147,7 +171,8 @@ public final class AzraelExecution {
             target.setAbsorptionAmount(Float.isFinite(absorption) ? absorption : 0);
     }
 
-    private static Attempt hit(Frame frame, LivingEntity player, DamageSource source, float amount) {
+    private static Attempt hit(
+            Frame frame, LivingEntity player, DamageSource source, float amount) {
         var target = frame.target;
         float health = snapshotHealth(target), absorption = target.getAbsorptionAmount();
         frame.begin(source);
@@ -163,8 +188,11 @@ public final class AzraelExecution {
             FinalExecution.sealDeath(target);
             return Attempt.DEAD;
         }
-        frame.invalidDamage = !Float.isFinite(target.getHealth()) || !Float.isFinite(target.getAbsorptionAmount());
-        if (frame.invalidDamage) com.thelongtravail.data.HotPathMetrics.Counter.EXECUTION_NONFINITE.add(1);
+        frame.invalidDamage =
+                !Float.isFinite(target.getHealth())
+                        || !Float.isFinite(target.getAbsorptionAmount());
+        if (frame.invalidDamage)
+            com.thelongtravail.data.HotPathMetrics.Counter.EXECUTION_NONFINITE.add(1);
         repair(frame, health, absorption);
         return outcome(frame);
     }
@@ -176,7 +204,11 @@ public final class AzraelExecution {
 
     private static Attempt genericKill(Frame frame, LivingEntity player) {
         com.thelongtravail.data.HotPathMetrics.Counter.EXECUTION_GENERIC.add(1);
-        return hit(frame, player, source(player, frame.target, DamageTypes.GENERIC_KILL), Float.MAX_VALUE);
+        return hit(
+                frame,
+                player,
+                source(player, frame.target, DamageTypes.GENERIC_KILL),
+                Float.MAX_VALUE);
     }
 
     private static Attempt directDeath(Frame frame, LivingEntity player, DamageSource execution) {
@@ -217,12 +249,14 @@ public final class AzraelExecution {
                 || active()
                 || target.isRemoved()
                 || !target.isAlive()
-                || !command && (player == null || target.level() != player.level())) return Result.INVALID;
+                || !command && (player == null || target.level() != player.level()))
+            return Result.INVALID;
         // 随机判定后，PvP 开关或队伍关系仍可能变化；在本游戏刻末尾执行第三阶段处决前须重新检查。
         if (!command
                 && target != player
                 && target instanceof net.minecraft.world.entity.player.Player other
-                && !com.thelongtravail.compat.maid.MaidAccessories.canHarm(player, other)) return Result.INVALID;
+                && !com.thelongtravail.compat.maid.MaidAccessories.canHarm(player, other))
+            return Result.INVALID;
         var soulClaim = com.thelongtravail.underworld.SoulBannerKills.capture(target, player);
         Frame frame = new Frame(target);
         CURRENT.set(frame);
@@ -259,7 +293,8 @@ public final class AzraelExecution {
         } finally {
             CURRENT.remove();
             if (frame.diagnostic != null)
-                com.thelongtravail.TheLongTravail.LOGGER.info("Azrael execution: {}", frame.diagnostic);
+                com.thelongtravail.TheLongTravail.LOGGER.info(
+                        "Azrael execution: {}", frame.diagnostic);
         }
     }
 

@@ -58,7 +58,8 @@ public final class JourneyOperations {
     private static ListTag draw(RequirementPools.Pool pool, RandomSource random) {
         ListTag list = new ListTag();
         for (WeightedEntry entry :
-                WeightedPicker.withoutReplacement(pool.entries(), pool.count(), WeightedEntry::weight, random))
+                WeightedPicker.withoutReplacement(
+                        pool.entries(), pool.count(), WeightedEntry::weight, random))
             list.add(StringTag.valueOf(entry.id().toString()));
         return list;
     }
@@ -75,7 +76,8 @@ public final class JourneyOperations {
     public static void updateCompletion(CompoundTag root, TravailAspect aspect) {
         if (!JourneyState.validConditions(root, aspect)) return;
         CompoundTag theme = root.getCompound("Requirements").getCompound(aspect.id());
-        if (theme.getList("Biomes", Tag.TAG_STRING).isEmpty() && theme.getList("Structures", Tag.TAG_STRING).isEmpty())
+        if (theme.getList("Biomes", Tag.TAG_STRING).isEmpty()
+                && theme.getList("Structures", Tag.TAG_STRING).isEmpty())
             root.putInt("Witnesses", root.getInt("Witnesses") | aspect.mask());
     }
 
@@ -95,7 +97,8 @@ public final class JourneyOperations {
         return Status.SUCCESS;
     }
 
-    public static Status completeRandom(CompoundTag root, TravailAspect aspect, RandomSource random) {
+    public static Status completeRandom(
+            CompoundTag root, TravailAspect aspect, RandomSource random) {
         if (!root.getBoolean("Initialized")) return Status.UNINITIALIZED;
         if (!JourneyState.validConditions(root, aspect)) return Status.INVALID_DATA;
         var theme = root.getCompound("Requirements").getCompound(aspect.id());
@@ -116,15 +119,23 @@ public final class JourneyOperations {
     public static Status resetAspect(CompoundTag root, TravailAspect aspect, ServerPlayer player) {
         if (!root.getBoolean("Initialized")) return Status.UNINITIALIZED;
         if (JourneyState.identity(root, aspect) == null) return Status.INVALID_DATA;
-        return resetAspect(root, aspect, RequirementPools.current(player).aspects().get(aspect), player.getRandom());
+        return resetAspect(
+                root,
+                aspect,
+                RequirementPools.current(player).aspects().get(aspect),
+                player.getRandom());
     }
 
     public static Status resetAspect(
-            CompoundTag root, TravailAspect aspect, RequirementPools.AspectPools pools, RandomSource random) {
+            CompoundTag root,
+            TravailAspect aspect,
+            RequirementPools.AspectPools pools,
+            RandomSource random) {
         if (!root.getBoolean("Initialized")) return Status.UNINITIALIZED;
         if (JourneyState.identity(root, aspect) == null) return Status.INVALID_DATA;
         if (pools.biomes().status() == RequirementPools.Status.INVALID
-                || pools.structures().status() == RequirementPools.Status.INVALID) return Status.INVALID_POOL;
+                || pools.structures().status() == RequirementPools.Status.INVALID)
+            return Status.INVALID_POOL;
         if (pools.biomes().count() + pools.structures().count() == 0) return Status.NO_CONDITIONS;
         CompoundTag generated = generate(pools, random);
         root.getCompound("Requirements").put(aspect.id(), generated);
@@ -142,7 +153,9 @@ public final class JourneyOperations {
         CompoundTag theme = root.getCompound("Requirements").getCompound(expected.aspect().id());
         ListTag sources = theme.getList("WitnessSources", Tag.TAG_STRING);
         Tag entry = StringTag.valueOf(source.toString());
-        boolean book = expected.aspect() == TravailAspect.UNDERWORLD && source.equals(JourneyState.BOOK_SOURCE);
+        boolean book =
+                expected.aspect() == TravailAspect.UNDERWORLD
+                        && source.equals(JourneyState.BOOK_SOURCE);
         boolean changed =
                 (root.getInt("Witnesses") & expected.aspect().mask()) == 0
                         || !sources.contains(entry)
@@ -156,10 +169,13 @@ public final class JourneyOperations {
         return Status.SUCCESS;
     }
 
-    public static Status override(CompoundTag root, Collection<TravailAspect> aspects, Override value) {
-        if (value == null || aspects == null || aspects.stream().anyMatch(Objects::isNull)) return Status.INVALID_DATA;
+    public static Status override(
+            CompoundTag root, Collection<TravailAspect> aspects, Override value) {
+        if (value == null || aspects == null || aspects.stream().anyMatch(Objects::isNull))
+            return Status.INVALID_DATA;
         if (!JourneyState.supported(root)) return Status.INVALID_DATA;
-        int beforeWitness = root.getInt("ForcedWitnesses"), beforeMalice = root.getInt("ForcedMalices");
+        int beforeWitness = root.getInt("ForcedWitnesses"),
+                beforeMalice = root.getInt("ForcedMalices");
         int witnesses = beforeWitness, malices = beforeMalice;
         for (TravailAspect aspect : aspects) {
             if (root.getBoolean("Initialized") && JourneyState.identity(root, aspect) == null)

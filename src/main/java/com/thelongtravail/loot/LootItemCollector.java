@@ -19,9 +19,11 @@ public final class LootItemCollector {
 
     public static final class Cache {
         private static final int MAX_ROOTS = 256;
-        private final LinkedHashMap<ResourceLocation, Cached> roots = new LinkedHashMap<>(16, .75F, true);
+        private final LinkedHashMap<ResourceLocation, Cached> roots =
+                new LinkedHashMap<>(16, .75F, true);
 
-        public Result collect(ResourceLocation root, Function<ResourceLocation, LootTable> resolver) {
+        public Result collect(
+                ResourceLocation root, Function<ResourceLocation, LootTable> resolver) {
             Cached old = roots.get(root);
             if (old != null && old.valid(resolver)) return old.result;
             roots.remove(root);
@@ -41,13 +43,15 @@ public final class LootItemCollector {
 
     private record Cached(Result result, List<Dependency> dependencies) {
         boolean valid(Function<ResourceLocation, LootTable> resolver) {
-            for (var dependency : dependencies) if (resolver.apply(dependency.id) != dependency.table) return false;
+            for (var dependency : dependencies)
+                if (resolver.apply(dependency.id) != dependency.table) return false;
             return true;
         }
     }
 
     public static Result collectCached(ResourceLocation root, LootDataManager manager) {
-        return CACHES.computeIfAbsent(manager, unused -> new Cache()).collect(root, manager::getLootTable);
+        return CACHES.computeIfAbsent(manager, unused -> new Cache())
+                .collect(root, manager::getLootTable);
     }
 
     public static void clearCache() {
@@ -66,7 +70,8 @@ public final class LootItemCollector {
         this.resolver = resolver;
     }
 
-    public static Result collect(ResourceLocation root, Function<ResourceLocation, LootTable> resolver) {
+    public static Result collect(
+            ResourceLocation root, Function<ResourceLocation, LootTable> resolver) {
         var reader = new LootItemCollector(resolver);
         reader.table(root, 0);
         return new Result(List.copyOf(reader.items), reader.limited, reader.skipped);

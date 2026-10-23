@@ -21,7 +21,9 @@ public final class ExecutionCleanup {
     public static boolean detached(LivingEntity entity, boolean full) {
         var storage = (ExecutionStorage) entity.level();
         return ((ExecutionRawEntity) entity).travail$reason() == Entity.RemovalReason.KILLED
-                && !(full ? storage.travail$contains(entity) : storage.travail$containsKnown(entity));
+                && !(full
+                        ? storage.travail$contains(entity)
+                        : storage.travail$containsKnown(entity));
     }
 
     public static void rawDetach(LivingEntity entity) {
@@ -29,7 +31,8 @@ public final class ExecutionCleanup {
     }
 
     public static void rawDetach(LivingEntity entity, boolean full) {
-        if (entity instanceof Player) throw new IllegalArgumentException("Player lifecycle cannot be force detached");
+        if (entity instanceof Player)
+            throw new IllegalArgumentException("Player lifecycle cannot be force detached");
         var raw = (ExecutionRawEntity) entity;
         raw.travail$reason(Entity.RemovalReason.KILLED);
         // 先移除全部存储记录，再丢弃回调，以便清理失败时重试。
@@ -39,7 +42,10 @@ public final class ExecutionCleanup {
         if (vehicle != null) {
             var parent = (ExecutionRawEntity) vehicle;
             parent.travail$passengers(
-                    ImmutableList.copyOf(parent.travail$passengers().stream().filter(e -> e != entity).toList()));
+                    ImmutableList.copyOf(
+                            parent.travail$passengers().stream()
+                                    .filter(e -> e != entity)
+                                    .toList()));
             raw.travail$vehicle(null);
         }
         for (var passenger : raw.travail$passengers()) {
@@ -50,19 +56,22 @@ public final class ExecutionCleanup {
         raw.travail$callback(EntityInLevelCallback.NULL);
         raw.travail$added(false);
         if (!detached(entity, full))
-            throw new IllegalStateException("Stage five storage cleanup incomplete: " + entity.getUUID());
+            throw new IllegalStateException(
+                    "Stage five storage cleanup incomplete: " + entity.getUUID());
     }
 
     public static void finishServer(LivingEntity entity) {
         var level = (ServerLevel) entity.level();
-        if (!level.getServer().isSameThread()) throw new IllegalStateException("Cleanup requires server thread");
+        if (!level.getServer().isSameThread())
+            throw new IllegalStateException("Cleanup requires server thread");
         boolean notify = entity.isAddedToWorld();
         rawDetach(entity);
         if (notify) notifyRemoval(entity);
         try {
             entity.updateDynamicGameEventListener((listener, world) -> listener.remove(world));
         } catch (RuntimeException ex) {
-            TheLongTravail.LOGGER.warn("Execution listener cleanup failed for {}", entity.getUUID(), ex);
+            TheLongTravail.LOGGER.warn(
+                    "Execution listener cleanup failed for {}", entity.getUUID(), ex);
         }
         level.getScoreboard().entityRemoved(entity);
     }
@@ -71,11 +80,13 @@ public final class ExecutionCleanup {
         try {
             entity.onRemovedFromWorld();
         } catch (RuntimeException ex) {
-            TheLongTravail.LOGGER.warn("Execution removed callback failed for {}", entity.getUUID(), ex);
+            TheLongTravail.LOGGER.warn(
+                    "Execution removed callback failed for {}", entity.getUUID(), ex);
         }
         try {
             net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(
-                    new net.minecraftforge.event.entity.EntityLeaveLevelEvent(entity, entity.level()));
+                    new net.minecraftforge.event.entity.EntityLeaveLevelEvent(
+                            entity, entity.level()));
         } catch (RuntimeException ex) {
             TheLongTravail.LOGGER.warn("Execution leave event failed for {}", entity.getUUID(), ex);
         }

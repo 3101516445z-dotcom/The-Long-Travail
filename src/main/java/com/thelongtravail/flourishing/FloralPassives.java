@@ -38,18 +38,34 @@ public final class FloralPassives {
                 FloralCombat.value(crown, Flower.FLOWERING_AZALEA_LEAVES),
                 AttributeModifier.Operation.ADDITION);
         double reach = FloralCombat.value(crown, Flower.CHORUS_FLOWER);
-        modifier(entity, ForgeMod.BLOCK_REACH.get(), BLOCK_REACH, reach, AttributeModifier.Operation.ADDITION);
-        modifier(entity, ForgeMod.ENTITY_REACH.get(), ENTITY_REACH, reach, AttributeModifier.Operation.ADDITION);
+        modifier(
+                entity,
+                ForgeMod.BLOCK_REACH.get(),
+                BLOCK_REACH,
+                reach,
+                AttributeModifier.Operation.ADDITION);
+        modifier(
+                entity,
+                ForgeMod.ENTITY_REACH.get(),
+                ENTITY_REACH,
+                reach,
+                AttributeModifier.Operation.ADDITION);
     }
 
     private static void modifier(
-            LivingEntity entity, Attribute attribute, UUID id, double amount, AttributeModifier.Operation operation) {
+            LivingEntity entity,
+            Attribute attribute,
+            UUID id,
+            double amount,
+            AttributeModifier.Operation operation) {
         var instance = entity.getAttribute(attribute);
         if (instance == null) return;
         var old = instance.getModifier(id);
         if (old != null && old.getAmount() == amount && old.getOperation() == operation) return;
         if (old != null) instance.removeModifier(id);
-        if (amount != 0) instance.addTransientModifier(new AttributeModifier(id, "Spring flower", amount, operation));
+        if (amount != 0)
+            instance.addTransientModifier(
+                    new AttributeModifier(id, "Spring flower", amount, operation));
     }
 
     public static MobEffectInstance shorten(LivingEntity target, MobEffectInstance incoming) {
@@ -70,9 +86,11 @@ public final class FloralPassives {
     private static MobEffectInstance copyShortened(MobEffectInstance incoming, double multiplier) {
         var copy = new MobEffectInstance(incoming);
         if (!incoming.isInfiniteDuration() && incoming.getDuration() > 0)
-            ((EffectDurationAccessor) copy).travail$duration((int) Math.ceil(incoming.getDuration() * multiplier));
+            ((EffectDurationAccessor) copy)
+                    .travail$duration((int) Math.ceil(incoming.getDuration() * multiplier));
         var hidden = ((EffectDurationAccessor) incoming).travail$hiddenEffect();
-        if (hidden != null) ((EffectDurationAccessor) copy).travail$hiddenEffect(copyShortened(hidden, multiplier));
+        if (hidden != null)
+            ((EffectDurationAccessor) copy).travail$hiddenEffect(copyShortened(hidden, multiplier));
         return copy;
     }
 

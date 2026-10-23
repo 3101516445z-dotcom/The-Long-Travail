@@ -4,11 +4,19 @@ import net.minecraft.client.gui.GuiGraphics;
 
 final class CatalogFrame {
     static void fadeEdges(
-            GuiGraphics g, int left, int top, int right, int bottom, int size, boolean above, boolean below) {
+            GuiGraphics g,
+            int left,
+            int top,
+            int right,
+            int bottom,
+            int size,
+            boolean above,
+            boolean below) {
         g.flush();
         var overlay = net.minecraft.client.renderer.RenderType.guiOverlay();
         if (above) g.fillGradient(overlay, left, top, right, top + size, 0xFF27211E, 0x0027211E, 0);
-        if (below) g.fillGradient(overlay, left, bottom - size, right, bottom, 0x0027211E, 0xFF27211E, 0);
+        if (below)
+            g.fillGradient(overlay, left, bottom - size, right, bottom, 0x0027211E, 0xFF27211E, 0);
         g.flush();
     }
 
@@ -64,7 +72,14 @@ final class CatalogFrame {
         for (int i = 0; i < 3; i++) rect(g, x - i, y + (up ? i : -i), i * 2 + 1, 1, 0xFFAC8A5D);
     }
 
-    static void draw(GuiGraphics g, int width, int height, int left, int top, int panelWidth, int panelHeight) {
+    static void draw(
+            GuiGraphics g,
+            int width,
+            int height,
+            int left,
+            int top,
+            int panelWidth,
+            int panelHeight) {
         g.fill(0, 0, width, height, 0xAA09090D);
         rect(g, left + 5, top + 7, panelWidth, panelHeight, 0x65000000);
         rect(g, left, top, panelWidth, panelHeight, 0xFF171313);

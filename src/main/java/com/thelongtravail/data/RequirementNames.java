@@ -46,7 +46,9 @@ public final class RequirementNames {
 
     public static String resolve(boolean structures, ResourceLocation id, String configured) {
         String key = translationKey(structures, id.toString(), configured);
-        return key == null ? configured : Component.translatableWithFallback(key, id.toString()).getString();
+        return key == null
+                ? configured
+                : Component.translatableWithFallback(key, id.toString()).getString();
     }
 
     public static String translationKey(boolean structures, String id, String configured) {

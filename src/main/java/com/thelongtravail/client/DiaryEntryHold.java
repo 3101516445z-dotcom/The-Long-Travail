@@ -14,7 +14,8 @@ public final class DiaryEntryHold {
             if (diaryDown) owner = Entry.DIARY;
             else if (catalogDown) owner = Entry.CATALOG;
         }
-        if (progress.advance(elapsed, valid && owner != null && (diaryDown || catalogDown))) return owner;
+        if (progress.advance(elapsed, valid && owner != null && (diaryDown || catalogDown)))
+            return owner;
         if (progress.fraction() == 0) owner = null;
         return null;
     }

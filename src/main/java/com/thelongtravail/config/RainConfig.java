@@ -88,7 +88,8 @@ public final class RainConfig {
         IMMUNITY_EXCLUSIONS =
                 b.comment(
                                 "只排除駅额外免伤的伤害类型ID；minecraft:generic_kill始终排除。\nDamage type IDs excluded only from Eki's additional damage immunity; minecraft:generic_kill is always excluded.")
-                        .defineListAllowEmpty("items.eki.immunityExclusions", List.of(), RainConfig::id);
+                        .defineListAllowEmpty(
+                                "items.eki.immunityExclusions", List.of(), RainConfig::id);
         EKI_LOCAL =
                 flag(
                         b,
@@ -248,7 +249,12 @@ public final class RainConfig {
     }
 
     private static ForgeConfigSpec.DoubleValue number(
-            ForgeConfigSpec.Builder b, String key, double value, double min, double max, String comment) {
+            ForgeConfigSpec.Builder b,
+            String key,
+            double value,
+            double min,
+            double max,
+            String comment) {
         return b.comment(comment).defineInRange(key, value, min, max);
     }
 

@@ -28,14 +28,16 @@ public final class FinalExecution {
     public static boolean enterDeath(LivingEntity target, DamageSource source) {
         if (!locked(target)) return true;
         Frame frame = CURRENT.get();
-        if (frame == null || frame.target != target || frame.source != source || frame.entered) return false;
+        if (frame == null || frame.target != target || frame.source != source || frame.entered)
+            return false;
         frame.entered = true;
         return true;
     }
 
     public static boolean bypassDeathCheck(LivingEntity target, DamageSource source) {
         Frame frame = CURRENT.get();
-        if (frame == null || frame.target != target || frame.source != source || !frame.entered) return false;
+        if (frame == null || frame.target != target || frame.source != source || !frame.entered)
+            return false;
         frame.admitted = true;
         AzraelExecution.deathResult(target, source, false);
         return true;
@@ -50,7 +52,8 @@ public final class FinalExecution {
     }
 
     public static boolean retryCleanup(LivingEntity target) {
-        if (target instanceof net.minecraft.world.entity.player.Player || !cleanupPending(target)) return false;
+        if (target instanceof net.minecraft.world.entity.player.Player || !cleanupPending(target))
+            return false;
         if (CURRENT.get() != null) return false;
         if (target.level().isClientSide || !target.level().getServer().isSameThread())
             throw new IllegalStateException("Cleanup must run on server thread");
@@ -82,13 +85,16 @@ public final class FinalExecution {
                 ExecutionCleanup.finishServer(target);
                 body.travail$rawCleanupRequired(false);
             } catch (RuntimeException | Error failure) {
-                if (removalFailure != null && removalFailure != failure) failure.addSuppressed(removalFailure);
+                if (removalFailure != null && removalFailure != failure)
+                    failure.addSuppressed(removalFailure);
                 throw failure;
             }
         }
         if (removalFailure != null)
             com.thelongtravail.TheLongTravail.LOGGER.warn(
-                    "Vanilla removal failed; cleanup recovered {}", target.getUUID(), removalFailure);
+                    "Vanilla removal failed; cleanup recovered {}",
+                    target.getUUID(),
+                    removalFailure);
         com.thelongtravail.network.TravailNetwork.sendExecutionTermination(target);
         body.travail$executionTerminated(true);
         body.travail$cleanupPending(false);
@@ -96,7 +102,8 @@ public final class FinalExecution {
         com.thelongtravail.TheLongTravail.LOGGER.info(
                 "Final execution terminated stage={} entity={} uuid={} class={}; custom death/drop completion is not guaranteed",
                 stageFive ? 5 : 4,
-                net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(target.getType()),
+                net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(
+                        target.getType()),
                 target.getUUID(),
                 target.getClass().getName());
     }
@@ -135,7 +142,8 @@ public final class FinalExecution {
                 return true;
             }
             target.die(source);
-            boolean completed = frame.admitted && data.travail$storedHealth() == 0 && target.getHealth() == 0;
+            boolean completed =
+                    frame.admitted && data.travail$storedHealth() == 0 && target.getHealth() == 0;
             if (!completed)
                 com.thelongtravail.TheLongTravail.LOGGER.warn(
                         "Final execution incomplete entity={} uuid={} admitted={} storedHealth={}; retaining old-instance lock",

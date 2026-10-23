@@ -14,9 +14,22 @@ public record RainCastPacket() {
 
     public static void handle(RainCastPacket p, Supplier<NetworkEvent.Context> supplier) {
         var c = supplier.get();
+        var sender = c.getSender();
+        var connection = c.getNetworkManager();
         c.enqueueWork(
                 () -> {
-                    if (c.getSender() != null) RainEvents.cast(c.getSender());
+                    if (sender == null
+                            || !connection.isConnected()
+                            || sender.isRemoved()
+                            || sender.connection == null
+                            || sender.connection != connection.getPacketListener()
+                            || sender.connection.player != sender
+                            || sender.serverLevel()
+                                            .getServer()
+                                            .getPlayerList()
+                                            .getPlayer(sender.getUUID())
+                                    != sender) return;
+                    RainEvents.cast(sender);
                 });
         c.setPacketHandled(true);
     }

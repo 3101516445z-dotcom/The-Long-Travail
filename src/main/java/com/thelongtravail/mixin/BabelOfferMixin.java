@@ -11,6 +11,7 @@ public abstract class BabelOfferMixin {
     @Inject(method = "getCostA", at = @At("HEAD"), cancellable = true)
     private void travail$fixed(CallbackInfoReturnable<ItemStack> cir) {
         var o = (MerchantOffer) (Object) this;
-        if (com.thelongtravail.farreach.BabelTrades.fixed(o)) cir.setReturnValue(o.getBaseCostA().copy());
+        if (com.thelongtravail.farreach.BabelTrades.fixed(o))
+            cir.setReturnValue(o.getBaseCostA().copy());
     }
 }

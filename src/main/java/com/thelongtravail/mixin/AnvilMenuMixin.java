@@ -36,7 +36,9 @@ public abstract class AnvilMenuMixin {
     private int theLongTravail$costCap() {
         Player player = ((ItemCombinerMenuAccessor) (Object) this).theLongTravail$getPlayer();
         int configured = TravailConfig.UNDERWORLD_ANVIL_LEVEL_CAP.get();
-        return player.level().isClientSide ? TooltipConfigSync.integer("underworld.anvilCap", configured) : configured;
+        return player.level().isClientSide
+                ? TooltipConfigSync.integer("underworld.anvilCap", configured)
+                : configured;
     }
 
     private boolean hasUnderworldWitness() {

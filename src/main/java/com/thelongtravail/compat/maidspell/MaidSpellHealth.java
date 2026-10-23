@@ -18,7 +18,8 @@ public final class MaidSpellHealth {
         try {
             health =
                     (EntityDataAccessor<Float>)
-                            Class.forName("com.github.yimeng261.maidspell.mixin.accessor.LivingEntityHealthAccessor")
+                            Class.forName(
+                                            "com.github.yimeng261.maidspell.mixin.accessor.LivingEntityHealthAccessor")
                                     .getMethod("maidspell$getHealthAccessor")
                                     .invoke(null);
             guardedWrite =
@@ -26,7 +27,9 @@ public final class MaidSpellHealth {
                             .getMethod("runBypassing", Runnable.class);
         } catch (ReflectiveOperationException failure) {
             org.slf4j.LoggerFactory.getLogger("the_long_travail.compat")
-                    .warn("MaidSpell health-cap API unavailable; retaining normal health setter", failure);
+                    .warn(
+                            "MaidSpell health-cap API unavailable; retaining normal health setter",
+                            failure);
         }
     }
 
@@ -36,10 +39,12 @@ public final class MaidSpellHealth {
         inspect();
         if (guardedWrite != null) {
             try {
-                guardedWrite.invoke(null, (Runnable) () -> maid.getEntityData().set(health, maximum));
+                guardedWrite.invoke(
+                        null, (Runnable) () -> maid.getEntityData().set(health, maximum));
                 return;
             } catch (ReflectiveOperationException failure) {
-                throw new IllegalStateException("MaidSpell failed to reconcile removed health modifier", failure);
+                throw new IllegalStateException(
+                        "MaidSpell failed to reconcile removed health modifier", failure);
             }
         }
         maid.setHealth(maximum);

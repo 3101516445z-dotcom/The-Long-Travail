@@ -28,7 +28,8 @@ public final class DemonKingCombat {
         return (float) (amount * (1 - UnderworldRelics.value("king.undeadReduction")));
     }
 
-    public static net.minecraft.world.item.ItemStack healingStack(LivingEntity target, DamageSource source) {
+    public static net.minecraft.world.item.ItemStack healingStack(
+            LivingEntity target, DamageSource source) {
         if (!(source.getEntity() instanceof LivingEntity actor)
                 || actor == target
                 || UnderworldRelics.phase(actor) != 1
@@ -38,7 +39,10 @@ public final class DemonKingCombat {
     }
 
     public static void heal(
-            LivingEntity target, DamageSource source, net.minecraft.world.item.ItemStack original, double loss) {
+            LivingEntity target,
+            DamageSource source,
+            net.minecraft.world.item.ItemStack original,
+            double loss) {
         if (original.isEmpty()
                 || !(loss > 0)
                 || !Double.isFinite(loss)
@@ -46,7 +50,8 @@ public final class DemonKingCombat {
                 || !actor.isAlive()
                 || UnderworldRelics.phase(actor) != 1
                 || UnderworldRelics.equipped(actor, false) != original) return;
-        actor.heal((float) Math.min(Float.MAX_VALUE, loss * UnderworldRelics.value("king.lifesteal")));
+        actor.heal(
+                (float) Math.min(Float.MAX_VALUE, loss * UnderworldRelics.value("king.lifesteal")));
     }
 
     private DemonKingCombat() {}

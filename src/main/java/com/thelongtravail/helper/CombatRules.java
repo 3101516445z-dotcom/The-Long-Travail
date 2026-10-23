@@ -19,19 +19,26 @@ final class CombatRules {
     }
 
     static float internalAmount(
-            LivingEntity target, ServerPlayer attacker, boolean roseDamage, DamageSource source, float amount) {
+            LivingEntity target,
+            ServerPlayer attacker,
+            boolean roseDamage,
+            DamageSource source,
+            float amount) {
         if (!(amount > 0)) return 0;
         if (roseDamage) return amount;
-        amount = multiply(amount, 1 + com.thelongtravail.valley.Phosphophyllite.damageBonus(target));
+        amount =
+                multiply(amount, 1 + com.thelongtravail.valley.Phosphophyllite.damageBonus(target));
         if (target instanceof ServerPlayer player) {
             ItemStack diary = TravailCurios.stack(player);
             if (ModeEffectRules.diaryApplies(player) && !diary.isEmpty()) {
                 if (!LongTravailData.hasWitness(diary, TravailAspect.FLOURISHING)
                         && player.getHealth()
-                                > player.getMaxHealth() * TravailConfig.FLOURISHING_HEALTH_THRESHOLD.get()) {
+                                > player.getMaxHealth()
+                                        * TravailConfig.FLOURISHING_HEALTH_THRESHOLD.get()) {
                     amount = multiply(amount, TravailConfig.FLOURISHING_DAMAGE_MULTIPLIER.get());
                 }
-                if (!LongTravailData.hasWitness(diary, TravailAspect.ABYSS) && abyssEnvironmentDamage(source)) {
+                if (!LongTravailData.hasWitness(diary, TravailAspect.ABYSS)
+                        && abyssEnvironmentDamage(source)) {
                     amount = multiply(amount, TravailConfig.ABYSS_ENVIRONMENT_MULTIPLIER.get());
                 }
             }

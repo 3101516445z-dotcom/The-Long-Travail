@@ -22,18 +22,16 @@ public final class LanternSources {
     }
 
     public static boolean equipped(Player player) {
-        return player.isAlive()
-                && !player.isSpectator()
-                && top.theillusivec4.curios.api.CuriosApi.getCuriosInventory(player)
-                        .map(
-                                inv ->
-                                        inv.findCurios(ModRegistry.SWORD_AND_LANTERN.get()).stream()
-                                                .anyMatch(
-                                                        r ->
-                                                                !r.slotContext().cosmetic()
-                                                                        && r.slotContext().identifier().equals("belt")
-                                                                        && enabled(r.stack())))
-                        .orElse(false);
+        if (!player.isAlive() || player.isSpectator()) return false;
+        var inventory = top.theillusivec4.curios.api.CuriosApi.getCuriosInventory(player).resolve();
+        if (inventory.isEmpty()) return false;
+        var belt = inventory.get().getStacksHandler("belt");
+        if (belt.isEmpty()) return false;
+
+        var stacks = belt.get().getStacks();
+        for (int i = 0; i < stacks.getSlots(); i++)
+            if (enabled(stacks.getStackInSlot(i))) return true;
+        return false;
     }
 
     public static boolean held(Player player) {

@@ -19,22 +19,28 @@ public final class MaidBaubleSync {
         var slots = maid.getMaidBauble();
         for (int i = 0; i < slots.getSlots(); i++) {
             ItemStack s = slots.getStackInSlot(i);
-            if (MaidAccessories.items().contains(s.getItem())) out.put(Integer.toString(i), s.save(new CompoundTag()));
+            if (MaidAccessories.items().contains(s.getItem()))
+                out.put(Integer.toString(i), s.save(new CompoundTag()));
         }
         return out;
     }
 
-    public static List<SyncBaubleMessage> changes(EntityMaid maid, CompoundTag previous, CompoundTag current) {
+    public static List<SyncBaubleMessage> changes(
+            EntityMaid maid, CompoundTag previous, CompoundTag current) {
         Set<String> keys = new TreeSet<>();
         if (previous != null) keys.addAll(previous.getAllKeys());
         if (current != null) keys.addAll(current.getAllKeys());
         List<SyncBaubleMessage> out = new ArrayList<>();
         var slots = maid.getMaidBauble();
         for (String key : keys) {
-            if (previous != null && current != null && Objects.equals(previous.get(key), current.get(key))) continue;
+            if (previous != null
+                    && current != null
+                    && Objects.equals(previous.get(key), current.get(key))) continue;
             int slot = Integer.parseInt(key);
             if (slot >= 0 && slot < slots.getSlots())
-                out.add(SyncBaubleMessage.partialSync(maid.getId(), slot, slots.getStackInSlot(slot).copy()));
+                out.add(
+                        SyncBaubleMessage.partialSync(
+                                maid.getId(), slot, slots.getStackInSlot(slot).copy()));
         }
         return out;
     }
@@ -64,7 +70,8 @@ public final class MaidBaubleSync {
                 && e.getEntity() instanceof net.minecraft.server.level.ServerPlayer player) {
             for (var message : changes(maid, null, snapshot(maid)))
                 NetworkHandler.CHANNEL.send(
-                        net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> player), message);
+                        net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> player),
+                        message);
             watch(maid);
         }
     }

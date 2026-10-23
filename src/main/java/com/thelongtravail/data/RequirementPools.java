@@ -49,7 +49,8 @@ public final class RequirementPools {
         var registries = player.serverLevel().registryAccess();
         var biomes = registries.registryOrThrow(Registries.BIOME);
         var structures = registries.registryOrThrow(Registries.STRUCTURE);
-        if (snapshot != null && biomeRegistry == biomes && structureRegistry == structures) return snapshot;
+        if (snapshot != null && biomeRegistry == biomes && structureRegistry == structures)
+            return snapshot;
         Map<TravailAspect, AspectPools> result = new EnumMap<>(TravailAspect.class);
         boolean valid = true;
         for (TravailAspect aspect : TravailAspect.values()) {
@@ -66,7 +67,9 @@ public final class RequirementPools {
                             structures::containsKey,
                             message -> warn(aspect, "structures", message));
             result.put(aspect, new AspectPools(biomePool, structurePool));
-            valid &= biomePool.status() != Status.INVALID && structurePool.status() != Status.INVALID;
+            valid &=
+                    biomePool.status() != Status.INVALID
+                            && structurePool.status() != Status.INVALID;
         }
         biomeRegistry = biomes;
         structureRegistry = structures;

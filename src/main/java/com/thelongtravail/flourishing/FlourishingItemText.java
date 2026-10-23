@@ -27,7 +27,10 @@ public final class FlourishingItemText {
     }
 
     private static String percent(String key) {
-        return BigDecimal.valueOf(value(key)).movePointRight(2).stripTrailingZeros().toPlainString();
+        return BigDecimal.valueOf(value(key))
+                .movePointRight(2)
+                .stripTrailingZeros()
+                .toPlainString();
     }
 
     private static Component line(String key, Object... args) {
@@ -47,7 +50,11 @@ public final class FlourishingItemText {
                             percent("mistletoe.speedBonusPerLevel"),
                             percent("mistletoe.damageBonusPerLevel"),
                             percent("mistletoe.damageReductionPerLevel")));
-            out.add(line(id + "2", n(value("mistletoe.durationSeconds")), n(value("mistletoe.maxLevel"))));
+            out.add(
+                    line(
+                            id + "2",
+                            n(value("mistletoe.durationSeconds")),
+                            n(value("mistletoe.maxLevel"))));
             out.add(line(id + "3"));
             out.add(Component.empty());
             out.add(line(id + "4", percent("mistletoe.expiryDamagePerLevel")));
@@ -70,7 +77,9 @@ public final class FlourishingItemText {
             out.add(line(id + "4"));
             int rank = (int) value("resistanceLevel");
             String roman =
-                    rank >= 1 && rank <= 5 ? new String[] {"Ⅰ", "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ"}[rank - 1] : Integer.toString(rank);
+                    rank >= 1 && rank <= 5
+                            ? new String[] {"Ⅰ", "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ"}[rank - 1]
+                            : Integer.toString(rank);
             out.add(
                     line(
                             id + "5",

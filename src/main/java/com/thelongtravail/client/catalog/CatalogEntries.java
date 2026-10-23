@@ -32,7 +32,9 @@ public final class CatalogEntries {
         }
 
         public String label() {
-            return Component.translatable("gui.the_long_travail.catalog.category." + name().toLowerCase(Locale.ROOT))
+            return Component.translatable(
+                            "gui.the_long_travail.catalog.category."
+                                    + name().toLowerCase(Locale.ROOT))
                     .getString();
         }
     }
@@ -71,8 +73,10 @@ public final class CatalogEntries {
             forms.add(name);
             forms.add(id);
             forms.add(subtitle());
-            if (forms.stream().map(CatalogEntries::normalize).anyMatch(s -> s.startsWith(q))) return 1;
-            if (forms.stream().map(CatalogEntries::normalize).anyMatch(s -> s.contains(q))) return 2;
+            if (forms.stream().map(CatalogEntries::normalize).anyMatch(s -> s.startsWith(q)))
+                return 1;
+            if (forms.stream().map(CatalogEntries::normalize).anyMatch(s -> s.contains(q)))
+                return 2;
             String all = normalize(String.join(" ", forms));
             return Arrays.stream(query.toLowerCase(Locale.ROOT).trim().split("\\s+"))
                             .allMatch(token -> all.contains(normalize(token)))
@@ -148,7 +152,8 @@ public final class CatalogEntries {
         for (Category category : List.of(Category.STONE, Category.ESSENCE))
             for (TravailAspect a : TravailAspect.values()) {
                 boolean stone = category == Category.STONE;
-                String p = py[a.ordinal()].split("\\|")[0], initials = py[a.ordinal()].split("\\|")[1];
+                String p = py[a.ordinal()].split("\\|")[0],
+                        initials = py[a.ordinal()].split("\\|")[1];
                 add(
                         entries,
                         a.id() + (stone ? "_stone" : "_essence"),
@@ -213,7 +218,9 @@ public final class CatalogEntries {
                 TravailAspect.ABYSS,
                 "yi|y|eki|驿",
                 s ->
-                        (RainTooltips.clientEki.isEmpty() ? RainTooltips.ekiSnapshot() : RainTooltips.clientEki)
+                        (RainTooltips.clientEki.isEmpty()
+                                        ? RainTooltips.ekiSnapshot()
+                                        : RainTooltips.clientEki)
                                 .stream().map(RainTooltips::coloredLine).toList());
         add(
                 entries,
@@ -344,7 +351,10 @@ public final class CatalogEntries {
                 "xiaoyaoyou|xyy|freeandeasywandering",
                 s ->
                         BoundlessTooltips.forViewer(
-                                true, Minecraft.getInstance().player, BoundlessTooltips.dreamKey.get(), true));
+                                true,
+                                Minecraft.getInstance().player,
+                                BoundlessTooltips.dreamKey.get(),
+                                true));
         add(
                 entries,
                 "star_voice",
@@ -354,7 +364,10 @@ public final class CatalogEntries {
                 "xingzhisheng|xzs|starvoice|voiceofthestars",
                 s ->
                         BoundlessTooltips.forViewer(
-                                false, Minecraft.getInstance().player, BoundlessTooltips.dreamKey.get(), true));
+                                false,
+                                Minecraft.getInstance().player,
+                                BoundlessTooltips.dreamKey.get(),
+                                true));
         add(
                 entries,
                 "little_prince",
@@ -391,17 +404,23 @@ public final class CatalogEntries {
         List<Component> lines = new ArrayList<>();
         if (stack.getItem() instanceof com.thelongtravail.item.ItemDescription detailed)
             detailed.appendDetails(stack, Minecraft.getInstance().level, lines, TooltipFlag.NORMAL);
-        else stack.getItem().appendHoverText(stack, Minecraft.getInstance().level, lines, TooltipFlag.NORMAL);
+        else
+            stack.getItem()
+                    .appendHoverText(
+                            stack, Minecraft.getInstance().level, lines, TooltipFlag.NORMAL);
         lines.removeIf(
                 line ->
                         line.getContents() instanceof TranslatableContents t
-                                && t.getKey().equals(com.thelongtravail.item.ItemDescription.CATALOG));
+                                && t.getKey()
+                                        .equals(com.thelongtravail.item.ItemDescription.CATALOG));
         lines.replaceAll(
                 line ->
-                        line.getContents() instanceof TranslatableContents t && t.getKey().equals(RainTooltips.CAST_KEY)
+                        line.getContents() instanceof TranslatableContents t
+                                        && t.getKey().equals(RainTooltips.CAST_KEY)
                                 ? Component.translatable(
                                                 RainTooltips.CAST_KEY,
-                                                com.thelongtravail.client.ThemeTooltips.keyName(RainClient.CAST))
+                                                com.thelongtravail.client.ThemeTooltips.keyName(
+                                                        RainClient.CAST))
                                         .withStyle(line.getStyle())
                                 : line);
         return lines;
@@ -409,7 +428,8 @@ public final class CatalogEntries {
 
     private static List<Component> far(ItemStack stack) {
         List<Component> out = new ArrayList<>();
-        ((FarReachAccessoryItem) stack.getItem()).appendDetails(out, Minecraft.getInstance().player, stack, true);
+        ((FarReachAccessoryItem) stack.getItem())
+                .appendDetails(out, Minecraft.getInstance().player, stack, true);
         return out;
     }
 

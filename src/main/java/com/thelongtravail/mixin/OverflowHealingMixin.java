@@ -45,7 +45,10 @@ public abstract class OverflowHealingMixin {
 
     @WrapOperation(
             method = "heal",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;setHealth(F)V"))
+            at =
+                    @At(
+                            value = "INVOKE",
+                            target = "Lnet/minecraft/world/entity/LivingEntity;setHealth(F)V"))
     private void travail$overflow(LivingEntity target, float health, Operation<Void> original) {
         float missing = Math.max(0, target.getMaxHealth() - target.getHealth());
         original.call(target, health);

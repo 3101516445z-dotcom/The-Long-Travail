@@ -15,11 +15,13 @@ public final class CleanseRotation {
         return remove(player, actions, () -> true);
     }
 
-    public static int remove(ServerPlayer player, int actions, java.util.function.BooleanSupplier acquire) {
+    public static int remove(
+            ServerPlayer player, int actions, java.util.function.BooleanSupplier acquire) {
         if (actions <= 0) return 0;
         Set<MobEffect> active = new HashSet<>();
         for (var instance : player.getActiveEffects())
-            if (instance.getEffect().getCategory() == MobEffectCategory.HARMFUL) active.add(instance.getEffect());
+            if (instance.getEffect().getCategory() == MobEffectCategory.HARMFUL)
+                active.add(instance.getEffect());
         var queue = QUEUES.computeIfAbsent(player, p -> new ArrayDeque<>());
         queue.removeIf(e -> !active.contains(e));
         active.removeAll(new HashSet<>(queue));

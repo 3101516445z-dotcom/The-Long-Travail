@@ -30,7 +30,8 @@ public final class AbyssItemText {
     }
 
     private static Component raw(String key, Object... args) {
-        return Component.translatable(PREFIX + key, args).withStyle(s -> s.withColor(RainTooltips.BODY_COLOR));
+        return Component.translatable(PREFIX + key, args)
+                .withStyle(s -> s.withColor(RainTooltips.BODY_COLOR));
     }
 
     private static Component line(String key, Object... args) {
@@ -51,15 +52,19 @@ public final class AbyssItemText {
         var levels = new ArrayList<Component>();
         double regen = value("regenerationLevelBonus"), saturation = value("saturationLevelBonus");
         if (regen > 0) levels.add(raw("regeneration", n(regen)));
-        if (saturation > 0) levels.add(raw(levels.isEmpty() ? "saturation_first" : "saturation", n(saturation)));
+        if (saturation > 0)
+            levels.add(raw(levels.isEmpty() ? "saturation_first" : "saturation", n(saturation)));
         if (!levels.isEmpty()) out.add(sentence(levels));
         var durations = new ArrayList<Component>();
-        double poison = value("poisonDurationMultiplier"), nausea = value("nauseaDurationMultiplier");
-        if (poison != 1) durations.add(raw("poison_" + (poison < 1 ? "shorter" : "longer"), percent(poison)));
+        double poison = value("poisonDurationMultiplier"),
+                nausea = value("nauseaDurationMultiplier");
+        if (poison != 1)
+            durations.add(raw("poison_" + (poison < 1 ? "shorter" : "longer"), percent(poison)));
         if (nausea != 1)
             durations.add(
                     raw(
-                            (durations.isEmpty() ? "nausea_first_" : "nausea_") + (nausea < 1 ? "shorter" : "longer"),
+                            (durations.isEmpty() ? "nausea_first_" : "nausea_")
+                                    + (nausea < 1 ? "shorter" : "longer"),
                             percent(nausea)));
         if (!durations.isEmpty()) {
             out.add(sentence(durations));
@@ -80,7 +85,9 @@ public final class AbyssItemText {
             out.add(line("fluid.3"));
             out.add(Component.empty());
             out.add(line("fluid.4"));
-            var blacklist = TooltipConfigSync.pool("abyss.fluidBlacklist", AbyssItemsConfig.BLACKLIST.get());
+            var blacklist =
+                    TooltipConfigSync.pool(
+                            "abyss.fluidBlacklist", AbyssItemsConfig.BLACKLIST.get());
             var names = Component.empty();
             for (int i = 0; i < blacklist.size(); i++) {
                 if (i > 0) names.append(raw("separator"));
@@ -92,7 +99,8 @@ public final class AbyssItemText {
                                 .withStyle(
                                         style ->
                                                 style.withColor(RainTooltips.ACCENT_COLOR)
-                                                        .withInsertion("the_long_travail:configured_item")));
+                                                        .withInsertion(
+                                                                "the_long_travail:configured_item")));
             }
             if (blacklist.isEmpty())
                 names.append(
@@ -101,7 +109,8 @@ public final class AbyssItemText {
                                 .withStyle(
                                         style ->
                                                 style.withColor(RainTooltips.ACCENT_COLOR)
-                                                        .withInsertion("the_long_travail:configured_item")));
+                                                        .withInsertion(
+                                                                "the_long_travail:configured_item")));
             out.add(raw("fluid.blacklist_current", names));
             return out;
         }
@@ -131,7 +140,8 @@ public final class AbyssItemText {
         else out.addAll(basics());
         if (value("malicePeak") > 0 && value("shelteredNonClearPeak") >= value("malicePeak"))
             out.add(line("summary.malice"));
-        else if (value("malicePeak") > 0 || value("shelteredNonClearPeak") > 0) out.add(line("summary.malice_custom"));
+        else if (value("malicePeak") > 0 || value("shelteredNonClearPeak") > 0)
+            out.add(line("summary.malice_custom"));
         if (value("witnessBonus") > 0) out.add(line("summary.witness"));
         else out.add(line("summary.witness_zero"));
         return out;
