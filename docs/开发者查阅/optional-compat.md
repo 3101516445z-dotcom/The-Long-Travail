@@ -36,10 +36,30 @@
 
 - 核心 Mixin：`src/main/resources/mixins.the_long_travail.json`。
 - 可选 Mixin：`src/main/resources/mixins.the_long_travail.compat.json`，包根为 `com.thelongtravail.compat.mixin`。
-- 可选目标的字节码检查：`compat/OptionalCompatPlugin.java`，缺失目标时跳过；Gravestone、Caelus 的契约不匹配仍会抛出异常并阻止启动。神化铁砧的契约检查由下述独立插件负责，不匹配时同样抛出异常。
-- 核心铁砧 Mixin 的神化协调入口：`apotheosis/AnvilCompatPlugin.java`，由核心 Mixin 配置注册；确认神化已提供无限等级阈值时，仅跳过重复的等级限制注入，保留费用封顶和免费取出。
+- 可选目标的字节码检查：`compat/OptionalCompatPlugin.java`；Gravestone、Caelus 和神化铁砧共用 `compat/OptionalCompatChecks` 契约检查与 `compat/OptionalCompatState` 状态。未安装时跳过，接口不匹配或字节码不可读时警告并停用对应适配，单项适配每次启动最多警告一次。
+- 核心铁砧 Mixin 的神化协调入口：`apotheosis/AnvilCompatPlugin.java`，由核心 Mixin 配置注册；未安装神化时保留苦旅的等级限制注入；安装后检查服务端实现，客户端另检查界面实现。确认支持时跳过重复注入；不支持时同样跳过这两处阈值注入，交由神化处理等级限制。费用封顶、免费取出与名称样式保持独立。
 - 可选编译依赖：`gradle/optional-compat.gradle`，由主 `build.gradle` 引入，均为 `compileOnly`。
 - 两份 Mixin 配置均由 Gradle 开发运行与成品 JAR Manifest 注册，移动类时必须同步配置和 refmap。
+
+### 兼容判断依据
+
+运行时按实际接口契约判断，不使用模组版本号白名单。`gradle/optional-compat.gradle` 中固定的版本用于编译；测试记录中的版本只标明受测 JAR。
+
+| 适配 | 检查内容 |
+| --- | --- |
+| Gravestone | `getDeath`、`setDeath`、`getAllItems` 的完整签名及公共实例方法资格；`setDeath` 须有可注入的方法体。 |
+| Caelus | `getInstance` 的公共静态入口、API 与实现类的 `canFallFly` 签名，以及 `TriState.DEFAULT/ALLOW/DENY` 字段；实现方法须可注入。 |
+| Apotheosis 铁砧 | `apoth_removeLevelCap(int)` 的字节码是否直接返回 `Integer.MAX_VALUE`。客户端同时核对界面实现。 |
+
+墓碑和 Caelus 的注入选择器使用完整方法描述符，避免同名重载误匹配。神化的检查只接受当前已识别的字节码形式；行为等价但结构不同的实现也可能停用协调，需要核对后扩展契约检查。
+
+### 停用后的运行时入口
+
+Gravestone 的两个 Mixin、加载队列、物品读取及定期扫描共用停用状态。停用后清理待处理队列，不删除墓碑账本或修改墓碑库存；恢复兼容版本并重启后重新检查。运行时发现反射签名、访问权限或返回条目类型不符时也停用，条目类型先整批验证，再开始物品校正。
+
+Caelus 的 Mixin 回调与 `IcarusCaelusCompat` 共用状态。停用时不再调用可选 API，伊卡洛斯沿用没有 Caelus 适配时的判定；运行时链接错误也会关闭此适配。普通玩法异常和严重虚拟机错误不作为接口不匹配吞掉。
+
+`./gradlew.bat testOptionalCompatibility` 运行状态及字节码契约回归，常规 `check` 也包含该任务；可用 `-PcompatTestJars="路径1;路径2"` 追加实际 Gravestone、Caelus 或 Apotheosis JAR 的契约检查。
 
 ## 女仆饰品
 

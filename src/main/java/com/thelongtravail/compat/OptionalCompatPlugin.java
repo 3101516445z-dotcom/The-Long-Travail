@@ -1,12 +1,12 @@
 package com.thelongtravail.compat;
 
+import java.util.List;
+import java.util.Set;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import org.spongepowered.asm.service.MixinService;
-import java.util.List;
-import java.util.Set;
 
 public final class OptionalCompatPlugin implements IMixinConfigPlugin {
     private Boolean soundsSupported;
@@ -110,8 +110,24 @@ public final class OptionalCompatPlugin implements IMixinConfigPlugin {
                 throw new IllegalStateException("Cannot inspect maid swimming API", failure);
             }
         }
-        if (mixin.endsWith("BookGravestoneMixin")) return gravestone(target);
-        if (mixin.endsWith("IcarusCaelusApiMixin")) return caelus(target);
+        if (mixin.endsWith("BookGravestoneMixin") || mixin.endsWith("BookBlockEntityMixin"))
+            return OptionalCompatState.GRAVESTONE.check(
+                    installed("gravestone"),
+                    () ->
+                            OptionalCompatChecks.gravestone(
+                                    name ->
+                                            MixinService.getService()
+                                                    .getBytecodeProvider()
+                                                    .getClassNode(name)));
+        if (mixin.endsWith("IcarusCaelusApiMixin"))
+            return OptionalCompatState.CAELUS.check(
+                    installed("caelus"),
+                    () ->
+                            OptionalCompatChecks.caelus(
+                                    name ->
+                                            MixinService.getService()
+                                                    .getBytecodeProvider()
+                                                    .getClassNode(name)));
         if (mixin.endsWith("LanternEmbeddiumLightMixin")) {
             try {
                 ClassNode node =
@@ -203,93 +219,9 @@ public final class OptionalCompatPlugin implements IMixinConfigPlugin {
         }
     }
 
-    private static boolean publicInstance(ClassNode node, String name, String descriptor) {
-        return node.methods.stream()
-                .anyMatch(
-                        method ->
-                                method.name.equals(name)
-                                        && method.desc.equals(descriptor)
-                                        && (method.access & Opcodes.ACC_PUBLIC) != 0
-                                        && (method.access & Opcodes.ACC_STATIC) == 0);
-    }
-
-    private static boolean gravestone(String target) {
-        ClassNode tile;
-        try {
-            tile = MixinService.getService().getBytecodeProvider().getClassNode(target);
-        } catch (ClassNotFoundException absent) {
-            return false;
-        } catch (java.io.IOException failure) {
-            throw new IllegalStateException(
-                    "Cannot inspect Gravestone; item reconciliation cannot be verified", failure);
-        }
-        try {
-            var death =
-                    MixinService.getService()
-                            .getBytecodeProvider()
-                            .getClassNode(
-                                    com.thelongtravail.compat.gravestone.GravestoneAccess.DEATH);
-            if (publicInstance(
-                            tile,
-                            com.thelongtravail.compat.gravestone.GravestoneAccess.GET_DEATH,
-                            com.thelongtravail.compat.gravestone.GravestoneAccess.GET_DEATH_DESC)
-                    && publicInstance(
-                            tile,
-                            com.thelongtravail.compat.gravestone.GravestoneAccess.SET_DEATH,
-                            com.thelongtravail.compat.gravestone.GravestoneAccess.SET_DEATH_DESC)
-                    && publicInstance(
-                            death,
-                            com.thelongtravail.compat.gravestone.GravestoneAccess.GET_ITEMS,
-                            com.thelongtravail.compat.gravestone.GravestoneAccess.GET_ITEMS_DESC))
-                return true;
-        } catch (ClassNotFoundException | java.io.IOException failure) {
-            throw new IllegalStateException(
-                    "Incomplete Gravestone API; item reconciliation cannot be verified", failure);
-        }
-        throw new IllegalStateException(
-                "Unsupported Gravestone API: getDeath/setDeath/getAllItems signatures changed; refusing unsafe item reconciliation");
-    }
-
-    private static boolean caelus(String target) {
-        ClassNode node;
-        try {
-            node = MixinService.getService().getBytecodeProvider().getClassNode(target);
-        } catch (ClassNotFoundException absent) {
-            return false;
-        } catch (java.io.IOException failure) {
-            throw new IllegalStateException("Cannot inspect Caelus flight API", failure);
-        }
-        try {
-            var result =
-                    MixinService.getService()
-                            .getBytecodeProvider()
-                            .getClassNode("top.theillusivec4.caelus.api.CaelusApi$TriState");
-            String descriptor = "Ltop/theillusivec4/caelus/api/CaelusApi$TriState;";
-            boolean fields =
-                    List.of("DEFAULT", "ALLOW", "DENY").stream()
-                            .allMatch(
-                                    name ->
-                                            result.fields.stream()
-                                                    .anyMatch(
-                                                            field ->
-                                                                    field.name.equals(name)
-                                                                            && field.desc.equals(
-                                                                                    descriptor)
-                                                                            && (field.access
-                                                                                            & Opcodes
-                                                                                                    .ACC_ENUM)
-                                                                                    != 0));
-            if (fields
-                    && publicInstance(
-                            node,
-                            "canFallFly",
-                            "(Lnet/minecraft/world/entity/LivingEntity;)" + descriptor))
-                return true;
-        } catch (ClassNotFoundException | java.io.IOException failure) {
-            throw new IllegalStateException("Incomplete Caelus flight API", failure);
-        }
-        throw new IllegalStateException(
-                "Unsupported Caelus canFallFly/TriState API; Icarus flight adapter cannot be applied");
+    private static boolean installed(String mod) {
+        return net.minecraftforge.fml.loading.FMLLoader.getLoadingModList().getMods().stream()
+                .anyMatch(info -> info.getModId().equals(mod));
     }
 
     private static boolean soundLayout(org.objectweb.asm.tree.MethodNode method) {

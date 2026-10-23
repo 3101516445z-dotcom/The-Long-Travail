@@ -12,10 +12,15 @@ import top.theillusivec4.caelus.api.CaelusApi;
 @Pseudo
 @Mixin(targets = "top.theillusivec4.caelus.common.CaelusApiImpl", remap = false)
 public abstract class IcarusCaelusApiMixin {
-    @Inject(method = "canFallFly", at = @At("RETURN"), cancellable = true, remap = false)
+    @Inject(
+            method = "canFallFly(Lnet/minecraft/world/entity/LivingEntity;)Ltop/theillusivec4/caelus/api/CaelusApi$TriState;",
+            at = @At("RETURN"),
+            cancellable = true,
+            remap = false)
     private void travail$icarusSource(
             LivingEntity entity, CallbackInfoReturnable<CaelusApi.TriState> cir) {
-        if (cir.getReturnValue() == CaelusApi.TriState.DEFAULT && IcarusFlight.equipped(entity))
+        if (com.thelongtravail.compat.OptionalCompatState.CAELUS.enabled()
+                && cir.getReturnValue() == CaelusApi.TriState.DEFAULT && IcarusFlight.equipped(entity))
             cir.setReturnValue(CaelusApi.TriState.ALLOW);
     }
 }

@@ -1,11 +1,11 @@
 package com.thelongtravail.compat.apotheosis;
 
+import com.thelongtravail.compat.OptionalCompatChecks;
+import com.thelongtravail.compat.OptionalCompatState;
 import java.util.List;
 import java.util.Set;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.LdcInsnNode;
 import net.minecraftforge.fml.loading.FMLLoader;
+import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import org.spongepowered.asm.service.MixinService;
@@ -13,46 +13,32 @@ import org.spongepowered.asm.service.MixinService;
 public final class AnvilCompatPlugin implements IMixinConfigPlugin {
     @Override
     public boolean shouldApplyMixin(String target, String mixin) {
-        String provider;
-        if (mixin.endsWith(".AnvilLevelLimitMixin"))
-            provider = "dev.shadowsoffire.apotheosis.mixin.AnvilMenuMixin";
-        else if (mixin.endsWith(".AnvilScreenMixin"))
-            provider = "dev.shadowsoffire.apotheosis.mixin.client.AnvilScreenMixin";
-        else return true;
+        if (!mixin.endsWith(".AnvilLevelLimitMixin") && !mixin.endsWith(".AnvilScreenMixin"))
+            return true;
 
         // Mixin 加载时，运行阶段的 ModList 尚不可用；须使用加载阶段的模组列表，避免提前初始化神化或 Minecraft 类。
         if (FMLLoader.getLoadingModList().getMods().stream()
                 .noneMatch(mod -> mod.getModId().equals("apotheosis"))) return true;
-        try {
-            ClassNode node =
-                    MixinService.getService().getBytecodeProvider().getClassNode(provider, true);
-            if (!removesLevelLimit(node))
-                throw new IllegalStateException(
-                        "Unsupported Apotheosis anvil level-limit implementation: " + provider);
-            org.slf4j.LoggerFactory.getLogger("the_long_travail.compat")
-                    .info(
-                            "Skipping {}: Apotheosis supplies the unlimited anvil level threshold",
-                            mixin);
-            return false;
-        } catch (ClassNotFoundException | java.io.IOException failure) {
-            throw new IllegalStateException(
-                    "Unable to verify Apotheosis anvil compatibility: " + provider, failure);
-        }
+        OptionalCompatState.APOTHEOSIS_ANVIL.check(
+                true,
+                () -> {
+                    var bytecode = MixinService.getService().getBytecodeProvider();
+                    boolean server =
+                            removesLevelLimit(
+                                    bytecode.getClassNode(
+                                            "dev.shadowsoffire.apotheosis.mixin.AnvilMenuMixin", true));
+                    return server
+                            && (!FMLLoader.getDist().isClient()
+                                    || removesLevelLimit(
+                                            bytecode.getClassNode(
+                                                    "dev.shadowsoffire.apotheosis.mixin.client.AnvilScreenMixin",
+                                                    true)));
+                });
+        return false;
     }
 
     static boolean removesLevelLimit(ClassNode node) {
-        for (var method : node.methods) {
-            if (!method.name.equals("apoth_removeLevelCap") || !method.desc.equals("(I)I"))
-                continue;
-            var instructions = new java.util.ArrayList<org.objectweb.asm.tree.AbstractInsnNode>();
-            for (var instruction : method.instructions)
-                if (instruction.getOpcode() >= 0) instructions.add(instruction);
-            return instructions.size() == 2
-                    && instructions.get(0) instanceof LdcInsnNode constant
-                    && Integer.valueOf(Integer.MAX_VALUE).equals(constant.cst)
-                    && instructions.get(1).getOpcode() == Opcodes.IRETURN;
-        }
-        return false;
+        return OptionalCompatChecks.anvil(node);
     }
 
     @Override

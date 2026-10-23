@@ -112,3 +112,5 @@ tasks.named('jarJar').configure {
 reobf { jarJar {} }
 
 apply from: 'gradle/language.gradle'
+
+apply from: 'gradle/compat-checks.gradle'

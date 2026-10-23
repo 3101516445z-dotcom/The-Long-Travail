@@ -9,7 +9,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Pseudo
 @Mixin(targets = "de.maxhenkel.gravestone.tileentity.GraveStoneTileEntity", remap = false)
 public abstract class BookGravestoneMixin {
-    @Inject(method = "setDeath", at = @At("TAIL"), remap = false)
+    @Inject(
+            method = "setDeath(Lde/maxhenkel/gravestone/corelib/death/Death;)V",
+            at = @At("TAIL"),
+            remap = false)
     private void travail$grave(@Coerce Object death, CallbackInfo ci) {
         UnderworldStorage.grave((BlockEntity) (Object) this);
     }
