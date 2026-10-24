@@ -1,5 +1,5 @@
 {
-  "message.the_long_travail.perfect_fluid.copy_failed": "Perfect Fluid could not copy the external inventory completely. Your ingredients have been retained.",
+  "message.the_long_travail.perfect_fluid.copy_failed": "Perfect Fluid copy failed: copying was refused due to the special nature of the inventory. Your ingredients have been retained.",
   "tooltip.the_long_travail.flavor.tokaido": "How many bridges beneath the cherry blossoms…",
   "tooltip.the_long_travail.flavor.eki": "Beyond the long tunnel through the prefectural border lies snow country.",
   "tooltip.the_long_travail.flavor.perfect_fluid": "One is all, all is one.",
@@ -89,7 +89,7 @@
   "tooltip.the_long_travail.abyss_items.fluid.restriction": "However, §6Perfect Fluid§r cannot be crafted with itself or §6The Long Travail§r. When §6Perfect Fluid§r is crafted with a container, any §6Perfect Fluid§r or §6The Long Travail§r inside §athe container or its nested containers§r is removed from the crafting output. The original contents remain unchanged.",
   "tooltip.the_long_travail.abyss_items.fluid.2": "For stackable items, §6Perfect Fluid§r copies only §aone item§r per craft, not the entire stack.",
   "tooltip.the_long_travail.abyss_items.fluid.3": "If the target is §aunstackable§r, or the original and copy §acannot stack together§r, crafting consumes §6Perfect Fluid§r and produces §aone copy§r; the original remains in the crafting grid.",
-  "tooltip.the_long_travail.abyss_items.fluid.4": "All items except §6The Long Travail§r and §6Perfect Fluid§r itself can be copied by default. Add item IDs to the configuration blacklist to prevent those items from being copied. Blacklisted items inside containers and their nested containers are also removed from the copy, leaving the original contents unchanged.",
+  "tooltip.the_long_travail.abyss_items.fluid.4": "Almost any item except §6The Long Travail§r and §6Perfect Fluid§r itself can be copied. Add item IDs to the configuration blacklist to prevent those items from being copied. Blacklisted items inside containers and their nested containers are also removed from the copy, leaving the original contents unchanged.",
   "tooltip.the_long_travail.abyss_items.fluid.blacklist": "Currently blacklisted items:",
   "tooltip.the_long_travail.abyss_items.fluid.blacklist_current": "Currently prohibited from duplication: %s.",
   "tooltip.the_long_travail.abyss_items.fluid.blacklist_unrestricted": "None",

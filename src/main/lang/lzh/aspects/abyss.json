@@ -1,5 +1,5 @@
 {
-  "message.the_long_travail.perfect_fluid.copy_failed": "完美流體複製不成：外庫未能盡摹，材料猶存。",
+  "message.the_long_travail.perfect_fluid.copy_failed": "完美流體複製不成：庫藏性殊，不予複製，材料猶存。",
   "tooltip.the_long_travail.flavor.tokaido": "踏櫻花第幾橋……",
   "tooltip.the_long_travail.flavor.eki": "穿縣界長隧，乃雪國。",
   "tooltip.the_long_travail.flavor.perfect_fluid": "一即全，全即一。",
@@ -89,7 +89,7 @@
   "tooltip.the_long_travail.abyss_items.fluid.restriction": "然§6完美流體§r不可與§6苦旅§r或§6完美流體§r自合；且§6完美流體§r與容器合時，§a容器及其疊套之容器§r中§6苦旅§r與§6完美流體§r皆自產物中除，原件之內容不損。",
   "tooltip.the_long_travail.abyss_items.fluid.2": "目標可疊者，§6完美流體§r每合唯複§a一件§r，不複全組。",
   "tooltip.the_long_travail.abyss_items.fluid.3": "若目標§a不可疊§r，或原件與複品§a不能同疊§r，合後耗§6完美流體§r而生§a一複品§r，原物留於合成欄。",
-  "tooltip.the_long_travail.abyss_items.fluid.4": "除§6苦旅§r與§6完美流體§r自身外，預設允許複製諸物。可於設定黑名單中書物品 ID，禁其參與；容器及疊套容器中之黑名物品，亦自複品中除，原件之內容不損。",
+  "tooltip.the_long_travail.abyss_items.fluid.4": "除§6苦旅§r與§6完美流體§r自身外，幾乎諸物皆可複製。可於設定黑名單中書物品 ID，禁其參與；容器及疊套容器中之黑名物品，亦自複品中除，原件之內容不損。",
   "tooltip.the_long_travail.abyss_items.fluid.blacklist": "今之黑名物品：",
   "tooltip.the_long_travail.abyss_items.fluid.blacklist_current": "今禁複之物：%s。",
   "tooltip.the_long_travail.abyss_items.fluid.blacklist_unrestricted": "無",

@@ -1,5 +1,5 @@
 {
-  "message.the_long_travail.perfect_fluid.copy_failed": "完美流体复制失败：外部库存无法完整复制，材料已保留。",
+  "message.the_long_travail.perfect_fluid.copy_failed": "完美流体复制失败：库存性质特殊，拒绝复制，材料已保留。",
   "tooltip.the_long_travail.flavor.tokaido": "踏过樱花第几桥……",
   "tooltip.the_long_travail.flavor.eki": "穿过县界长长的隧道，便是雪国。",
   "tooltip.the_long_travail.flavor.perfect_fluid": "一即是全，全即是一。",
@@ -89,7 +89,7 @@
   "tooltip.the_long_travail.abyss_items.fluid.restriction": "但是，§6完美流体§r不能与§6苦旅§r或§6完美流体§r自身合成，且§6完美流体§r与容器合成时，§a容器乃至其嵌套容器§r中的§6苦旅§r与§6完美流体§r会在合成产物中被清除，原件内容不受影响。",
   "tooltip.the_long_travail.abyss_items.fluid.2": "目标物品可堆叠时，§6完美流体§r每次只能复制§a一件§r物品，不能复制整组。",
   "tooltip.the_long_travail.abyss_items.fluid.3": "目标物品§a不可堆叠§r或原件与复制品§a无法堆叠§r时，合成后会消耗§6完美流体§r并生成§a一个§r复制品，原物品则留在合成栏内。",
-  "tooltip.the_long_travail.abyss_items.fluid.4": "除§6苦旅§r与§6完美流体§r自身外，默认允许复制所有物品。可在配置黑名单中填写物品 ID，禁止对应物品参与复制；容器及其嵌套容器中的黑名单物品也会从复制产物中清除，原件内容不受影响。",
+  "tooltip.the_long_travail.abyss_items.fluid.4": "除§6苦旅§r与§6完美流体§r自身外，允许复制几乎任何物品。可在配置黑名单中填写物品 ID，禁止对应物品参与复制；容器及其嵌套容器中的黑名单物品也会从复制产物中清除，原件内容不受影响。",
   "tooltip.the_long_travail.abyss_items.fluid.blacklist": "当前黑名单物品有：",
   "tooltip.the_long_travail.abyss_items.fluid.blacklist_current": "当前禁止复制物品：%s。",
   "tooltip.the_long_travail.abyss_items.fluid.blacklist_unrestricted": "无",

@@ -54,7 +54,8 @@ public final class FluidCopyGraph {
             if (++count > 4_000_000) return true;
             Tag next = queue.removeLast();
             if (next instanceof CompoundTag c) {
-                if (reference(c) != null || FluidAeStore.handles(c)) return true;
+                if (reference(c) != null || FluidAeStore.handles(c) || FluidBeyondStore.handles(c))
+                    return true;
                 for (String key : c.getAllKeys()) queue.add(c.get(key));
             } else if (next instanceof ListTag l) for (Tag child : l) queue.add(child);
         }
@@ -152,6 +153,10 @@ public final class FluidCopyGraph {
                     if (!key.equals("Slot")) c.remove(key);
                 c.putString("id", "minecraft:air");
                 c.putByte("Count", (byte) 0);
+                return;
+            }
+            if (FluidBeyondStore.handles(c)) {
+                FluidBeyondStore.transform(this, c, depth);
                 return;
             }
             if (FluidAeStore.handles(c)) {
