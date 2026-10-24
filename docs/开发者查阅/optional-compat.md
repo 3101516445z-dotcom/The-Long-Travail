@@ -6,6 +6,7 @@
 | --- | --- |
 | `jei`、`mixin/jei` | 花饰配方与紫水晶母岩精粹来源展示、札记及拾遗目录/详情页的 JEI 渲染遮挡适配 |
 | `jade` | 掉落物说明精简 |
+| `youkaisfeasts`、`youkaishomecoming`、`arselemental` | 钓出生物预设；新生魔艺与车万女仆的生物预设分别位于 `arsnouveau`、`maid` |
 | `mixin/embeddium` | 方块模型顶点动态光照 |
 | `caelus`、`mixin/caelus` | 伊卡洛斯飞行 API 协调与 Mixin |
 | `ftbteams` | 剑与灯队友判断、时停队伍快照 |
@@ -19,6 +20,70 @@
 | `maid/client` | 女仆专用提示识别与追加文案 |
 | `mixin/dummmmmmy` | 试验假人的有效伤害统计适配 |
 | `fluid` | 完美流体复制精妙背包、RS 系列磁盘与 AE2 存储元件 |
+| `terralith`、`incendium`、`alexscaves` | 按主题提供联动群系与结构预设 |
+| `goetyawaken`、`townsandtowers`、`goety`、`ironsspellbooks`、`arsnouveau`、`aquamirae`、`mowziesmobs`、`traveloptics` | 按主题提供结构预设；万法皆通结构预设位于 `maidspell` |
+| `l2complements`、`curseofpandora`、`celestialcore`、`apprenticecodex`、`enigmaticlegacy`、`enigmaticaddons`、`enigmaticdelicacy` | 钓鱼与幻翼物品奖励预设；Iron 奖励预设位于 `ironsspellbooks` |
+| `enigmaticlegacy`、`enigmaticdelicacy`、`l2complements`、`celestialenchantments` | 黄金时代食物与附魔黑名单预设 |
+
+## 联动群系预设
+
+`compat/terralith/TerralithBiomeDefaults` 提供六个主题的 65 个候选 ID；`compat/incendium/IncendiumBiomeDefaults` 提供冥府 8 个；`compat/alexscaves/AlexsCavesBiomeDefaults` 提供幽谷 2 个。`config/BiomeCompatDefaults` 集中登记命名空间、标记与主题条目，在 `ServerStartingEvent` 读取世界的 `Registries.BIOME`，按实际命名空间识别联动并逐项检查注册状态，不依赖模组列表。名称采用 `@biome.<namespace>.<path>`（路径中的 `/` 保留），新增权重固定为 1，不提供额外译文。
+
+按主题池内 ID 去重并保留已有条目。`travail.requirements.compatInitialization` 下的 `terralithBiomesAdded`、`incendiumBiomesAdded`、`alexsCavesBiomesAdded` 按联动、主题独立记录本次处理，包括零新增；无对应预设的主题不生成该标记，未检测到对应命名空间时不标记。每份配置的池与标记通过 `ManagedConfig.update` 一次保存，成功后发布配置并清理 spec 缓存；尚未处理的磁盘编辑不会被覆盖。初始化后清理探索池缓存。
+
+标记跨存档共用，不随预设更新或玩家删除自动重置。新增联动的数据仍放入对应 `compat` 子目录，只登记有条目的主题；结构预设应使用独立标记。`gradlew.bat testBiomeCompatDefaults` 检查条目归属、去重、权重与独立初始化语义；世界注册表与文件保存需隔离 Forge 检查。
+
+## 联动结构预设
+
+`config/StructureCompatDefaults` 登记 12 个模组的结构预设，通过世界的 `Registries.STRUCTURE` 检测命名空间与实际 ID；不依赖模组 ID，因此 `towns_and_towers` 等命名空间与模组 ID 不一致的来源也可识别。候选数据放在各 `compat/<模组>/...StructureDefaults`，保持六个主题的归属。
+
+主题范围、条目数量和标记名称见[配置说明](../玩家查阅/configuration-controls.md#联动结构预设)。结构标记使用 `*StructuresAdded`，独立于 `*BiomesAdded`；无对应候选的主题不定义标记。群系和结构共用 `config/ExplorationPresetEntries` 按池内 ID 合并，新结构名称为 `@structure.<namespace>.<path>`，保留路径中的 `/`，权重为 1。未选择接入的模组和原版条目不会自动补入，也不会被删除。
+
+保存沿用 `ManagedConfig.update`，每个主题的结构池与本次处理标记同文件提交，保存成功后发布配置并清理缓存；缺席时不标记，处理后即使零新增也标记。结构抽取数量与已有旅程不变。`gradlew.bat testStructureCompatDefaults testBiomeCompatDefaults` 检查范围、独立标记、重试与合并规则。
+
+## 联动物品奖励预设
+
+`config/RewardCompatDefaults` 在 `ServerStartingEvent` 按 `ForgeRegistries.ITEMS` 的实际命名空间检测来源，逐项检查物品是否注册。8 个模组的 49 条候选分别位于对应 `compat` 子目录中的 `...RewardDefaults`，返回 `物品ID|权重|最小数量|最大数量`；各类分别提供独立的 `fishingItems()`、`phantomDrops()` 列表，目前内容相同，允许今后分别调整或只提供其中一类。
+
+`RewardCompatDefaults.Preset` 分别持有两类列表，按目标主题选择条目；该类候选为空时不定义对应初始化标记。仅冥府、无垠定义奖励标记：`travail.witness.compatInitialization.<namespace>.fishingItemsAdded` 与 `phantomDropsAdded`。同池按 ID 去重，已有条目优先；保留预设权重与数量，不使用探索条目的 `@翻译键` 或固定权重 1。ROR 不在候选中，不删除已有手动条目。来源缺席不标记；处理后零新增也标记。标记重置与共享范围见[玩家配置说明](../玩家查阅/configuration-controls.md#见证奖励池与联动预设)。
+
+通过 `ManagedConfig.update` 同次保存池与标记，写入失败不发布初始化结果；随后已有的 `ServerStartedEvent` 调用 `RuntimePools.reload`，更新按权重编译的物品池。无需更改发奖事件和队列逻辑，也不改钓出生物配置。
+
+`TravailConfig.defaultFishingItems()`、`defaultPhantomDrops()` 分别提供原版默认值，目前各 12 项；合法已有列表不做迁移覆盖。`gradlew.bat testRewardCompatDefaults` 检查来源范围、权重数量、合并和标记规则；隔离 Forge 测试另行验证注册表、文件持久化、spec 缓存与运行时奖励表。
+
+## 钓出生物联动预设
+
+`config/FishingEntityCompatDefaults` 仅处理冥府的 `fishingEntities`。5 个来源的 15 条候选位于对应 `compat` 子目录中的 `...FishingDefaults.entities()`，格式为 `实体ID|权重`；亚小妹不在自动候选中，已有手动配置不删除。
+
+在 `ServerStartingEvent` 使用 `ForgeRegistries.ENTITY_TYPES` 检测来源命名空间并逐项检查 ID。`travail.witness.compatInitialization.<namespace>.fishingEntitiesAdded` 按来源独立记录；与奖励、探索标记分开，来源缺席不标记，零新增仍记录。合并使用 `WeightedPresetEntries` 保留已有同 ID 权重和顺序，保存沿用 `ManagedConfig.update`；已有的 `ServerStartedEvent` 随后通过 `RuntimePools.reload` 更新运行时加权表。
+
+`TravailConfig.defaultFishingEntities()` 单独提供 9 项原版默认配置，不经过联动注入，也没有初始化标记。候选默认值、触发概率和实际实体生成逻辑分别管理，本次只调整默认池和联动候选。
+
+`gradlew.bat testFishingEntityCompatDefaults testRewardCompatDefaults` 验证实体名单、权重、独立标记及共用合并方法的奖励回归。隔离注册表测试验证文件持久化、缓存与运行时实体表；真实第三方生物行为仍需整合包验收。
+
+## 增益效果联动预设
+
+`config/EffectCompatDefaults` 在 `ServerStartingEvent` 按 `ForgeRegistries.MOB_EFFECTS` 的命名空间识别来源，仅补入已注册且分类为 `BENEFICIAL` 的预设效果。来源名单包括 12 个命名空间，每池 36 项；AD、`esoteric_spell`、`projectile_damage`、`gtbcs_geomancy_plus` 不在名单中。
+
+数据位于对应 `compat` 子目录的效果预设类；`farReach()` 与 `deepValley()` 分别定义 `效果ID|最高等级|权重` 列表，不互相转调。新增来源时登记 `EffectCompatDefaults.PRESETS`，按主题提供候选，空列表表示该主题不参与。原版默认值由 `TravailConfig.defaultFarReachEffects()` 与 `defaultDeepValleyEffects()` 分别维护。
+
+每个主题文件独立保存 `travail.witness.compatInitialization.<namespace>.positiveEffectsAdded`。使用 `WeightedPresetEntries` 按 ID 保留手动配置，由 `ManagedConfig.update` 同次保存列表和标记；来源缺席不标记，存在但零新增也标记。随后 `ServerStartedEvent` 的既有 `RuntimePools.reload` 更新运行时表。两个抽取池独立；既有穷遐等级加成上限仍按两池同 ID 的较高等级合并。
+
+`gradlew.bat testEffectCompatDefaults` 验证候选范围、手动优先、一次性初始化、筛选及主题数据独立性；隔离 Forge 检查另行验证实际注册表分类、持久化和运行时池。
+
+## 黄金时代联动黑名单
+
+`config/GoldenAgeCompatDefaults` 在 `ServerStartingEvent` 按 `ModList` 检测安装状态，分别通过物品和附魔注册表检查候选 ID。四个来源的数据位于 `compat/enigmaticlegacy`、`enigmaticdelicacy`、`l2complements`、`celestialenchantments` 的 `...GoldenAgeDefaults` 类。
+
+新增来源时在 `PRESETS` 登记模组 ID、目标 `Pool` 和候选列表；同一来源可分别提供食物与附魔黑名单，两类标记独立。基础默认列表为空，联动补充不写入原版默认值。列表与 `items.golden_age.compatInitialization.<modId>.<foodBlacklistAdded|enchantmentBlacklistAdded>` 通过 `ManagedConfig.update` 同次保存；保留手动值，来源存在时零新增也记录，来源缺席保持待处理。
+
+沿用 `GoldenAgePools` 的黑名单筛选与按列表内容校验的缓存，不修改注册表或其他获取途径。`gradlew.bat testGoldenAgeCompatDefaults` 检查名单、独立标记、注册表分流、手动优先及一次性补充。
+
+## 妖怪们的归家与飨宴
+
+`youkaishomecoming` 与 `youkaisfeasts` 是独立注册命名空间。归家预设位于 `compat/youkaishomecoming`，分别提供 5 项钓出生物与穷遐、幽谷各 5 项增益效果；三份列表独立维护，沿用对应飨宴预设的权重与等级上限。
+
+归家候选已按上游 [实体注册](https://github.com/Minecraft-LightLand/Youkai-Homecoming/blob/main/src/main/java/dev/xkmc/youkaishomecoming/init/registrate/YHEntities.java) 与 [效果注册](https://github.com/Minecraft-LightLand/Youkai-Homecoming/blob/main/src/main/java/dev/xkmc/youkaishomecoming/init/registrate/YHEffects.java) 核对。按完整 ID 去重，来源初始化标记分别保存在各命名空间下，不将两个来源互相映射或迁移；只注册其中一个时不会填入另一个的 ID。后续差异应修改各自的显式列表。
 
 ## 核心与联动的边界
 

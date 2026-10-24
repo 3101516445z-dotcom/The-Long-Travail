@@ -6,12 +6,78 @@ tasks.register('testConfigRecovery', JavaExec) {
 }
 
 tasks.named('check') {
+    dependsOn 'testConfigLayout'
     dependsOn tasks.named('testConfigRecovery')
     dependsOn tasks.named('testConfigDiagnostics')
+    dependsOn 'testBiomeCompatDefaults'
+    dependsOn 'testStructureCompatDefaults'
+    dependsOn 'testRewardCompatDefaults'
+    dependsOn 'testFishingEntityCompatDefaults'
+    dependsOn 'testEffectCompatDefaults'
+    dependsOn 'testGoldenAgeCompatDefaults'
+    dependsOn 'testYoukaiCompatDefaults'
+    dependsOn 'testCompatCombinations'
+}
+
+tasks.register('testConfigLayout', JavaExec) {
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.thelongtravail.config.ConfigLayoutTest'
+    args layout.buildDirectory.dir('reports/config-layout').get().asFile.absolutePath
+}
+
+tasks.register('testBiomeCompatDefaults', JavaExec) {
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.thelongtravail.config.BiomeCompatDefaultsTest'
 }
 
 tasks.register('testConfigDiagnostics', JavaExec) {
     dependsOn tasks.named('testClasses')
     classpath = sourceSets.test.runtimeClasspath
     mainClass = 'com.thelongtravail.config.ConfigDiagnosticsTest'
+}
+
+tasks.register('testStructureCompatDefaults', JavaExec) {
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.thelongtravail.config.StructureCompatDefaultsTest'
+}
+
+tasks.register('testRewardCompatDefaults', JavaExec) {
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.thelongtravail.config.RewardCompatDefaultsTest'
+}
+
+tasks.register('testFishingEntityCompatDefaults', JavaExec) {
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.thelongtravail.config.FishingEntityCompatDefaultsTest'
+}
+
+tasks.register('testEffectCompatDefaults', JavaExec) {
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.thelongtravail.config.EffectCompatDefaultsTest'
+}
+
+tasks.register('testGoldenAgeCompatDefaults', JavaExec) {
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.thelongtravail.config.GoldenAgeCompatDefaultsTest'
+}
+
+tasks.register('testYoukaiCompatDefaults', JavaExec) {
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.thelongtravail.config.YoukaiCompatDefaultsTest'
+}
+
+tasks.register('testCompatCombinations', JavaExec) {
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.thelongtravail.config.CompatCombinationTest'
+    maxHeapSize = '512m'
+    args layout.buildDirectory.dir('reports/compat-combinations').get().asFile.absolutePath
 }

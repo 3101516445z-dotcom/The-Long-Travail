@@ -15,6 +15,24 @@ public final class ConfigFiles {
     public static void register(FMLJavaModLoadingContext context) {
         context.getModEventBus().addListener(ConfigFiles::afterConfigLoading);
         context.getModEventBus().addListener(PerfectFluidCompatDefaults::loaded);
+        context.getModEventBus().addListener(BiomeCompatDefaults::loaded);
+        context.getModEventBus().addListener(StructureCompatDefaults::loaded);
+        context.getModEventBus().addListener(RewardCompatDefaults::loaded);
+        context.getModEventBus().addListener(FishingEntityCompatDefaults::loaded);
+        context.getModEventBus().addListener(EffectCompatDefaults::loaded);
+        context.getModEventBus().addListener(GoldenAgeCompatDefaults::loaded);
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+                BiomeCompatDefaults::starting);
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+                StructureCompatDefaults::starting);
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+                RewardCompatDefaults::starting);
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+                FishingEntityCompatDefaults::starting);
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+                EffectCompatDefaults::starting);
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+                GoldenAgeCompatDefaults::starting);
         context.getModEventBus()
                 .addListener(
                         (net.minecraftforge.fml.event.config.ModConfigEvent.Loading event) -> {

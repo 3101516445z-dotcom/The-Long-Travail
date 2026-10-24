@@ -146,6 +146,27 @@ final class ManagedConfig extends ModConfig {
         }
     }
 
+    synchronized boolean update(java.util.function.Predicate<CommentedConfig> edit) {
+        if (active == null || !writable) return false;
+        Path path = getFullPath();
+        try {
+            ConfigRecovery.checkUnchanged(path, disk);
+            CommentedConfig candidate = ConfigFileIO.parse(disk);
+            if (!edit.test(candidate)) return false;
+            ConfigRecovery.checkUnchanged(path, disk);
+            ConfigFileIO.write(path, candidate);
+            disk = Files.readAllBytes(path);
+            active = snapshot(path, candidate);
+            definition.acceptConfig(active);
+            definition.afterReload();
+            return true;
+        } catch (IOException failure) {
+            ConfigProblems.report(
+                    path, "预设保存未完成，原配置已保留 / Preset was not saved: " + failure.getMessage());
+            return false;
+        }
+    }
+
     private static CommentedFileConfig snapshot(Path path, CommentedConfig config) {
         var file = CommentedFileConfig.builder(path).preserveInsertionOrder().sync().build();
         file.putAll(config);

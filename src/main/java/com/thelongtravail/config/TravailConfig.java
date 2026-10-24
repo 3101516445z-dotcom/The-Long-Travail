@@ -1,6 +1,7 @@
 package com.thelongtravail.config;
 
 import com.thelongtravail.TravailAspect;
+
 import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.EnumMap;
@@ -125,13 +126,22 @@ public final class TravailConfig {
         JourneyDetectionConfig.define(builder);
         MUTE_BENEFICIAL_EFFECT_GAIN_SOUNDS =
                 builder.comment(
-                                "佩戴苦旅且拥有穷遐之见证或幽谷之见证时，关闭Sounds模组在获得正面药水效果时播放的提示音，不限效果来源。\n不影响饮用、装备操作和减益效果的提示音。关闭此选项后，仍保留苦旅自身效果原有的静音规则。",
-                                "While wearing The Long Travail with Far Reach Witness or Deep Valley Witness, suppress the Sounds mod's notification sound for gaining beneficial potion effects, regardless of their source.\nDoes not affect drinking sounds, equipment interaction sounds, or harmful-effect notifications. Disabling this option preserves The Long Travail's existing rules for silencing its own effects.")
+                                "佩戴苦旅且拥有穷遐之见证或幽谷之见证时，关闭Sounds模组在获得正面药水效果时播放的提示音，不限效果来源。\n"
+                                        + "不影响饮用、装备操作和减益效果的提示音。关闭此选项后，仍保留苦旅自身效果原有的静音规则。",
+                                "While wearing The Long Travail with Far Reach Witness or Deep"
+                                    + " Valley Witness, suppress the Sounds mod's notification"
+                                    + " sound for gaining beneficial potion effects, regardless of"
+                                    + " their source.\n"
+                                    + "Does not affect drinking sounds, equipment interaction"
+                                    + " sounds, or harmful-effect notifications. Disabling this"
+                                    + " option preserves The Long Travail's existing rules for"
+                                    + " silencing its own effects.")
                         .define("compatibility.muteBeneficialEffectGainSounds", true);
         GIVE_STARTER_ITEM =
                 builder.comment(
                                 "玩家首次进入世界时，是否赠送一本苦旅；每名玩家最多领取一次。",
-                                "Give each player a copy of The Long Travail when they first enter the world, at most once per player.")
+                                "Give each player a copy of The Long Travail when they first enter"
+                                        + " the world, at most once per player.")
                         .define("starter.giveStarterItem", true);
         BIOME_DRAW_COUNT =
                 integer(
@@ -153,8 +163,12 @@ public final class TravailConfig {
                         "Number of distinct structures drawn for each Malice.");
         RECEIVED_TRIGGER =
                 builder.comment(
-                                "受击恶意的触发方式：ATTACK_ATTEMPT 表示受到攻击时触发；\nHEALTH_LOSS 表示实际生命值减少后才触发，不含吸收生命值的损失。",
-                                "Trigger mode for on-hit Malice: ATTACK_ATTEMPT triggers when attacked.\nHEALTH_LOSS triggers only after actual health loss, excluding absorption loss.")
+                                "受击恶意的触发方式：ATTACK_ATTEMPT 表示受到攻击时触发；\n"
+                                        + "HEALTH_LOSS 表示实际生命值减少后才触发，不含吸收生命值的损失。",
+                                "Trigger mode for on-hit Malice: ATTACK_ATTEMPT triggers when"
+                                        + " attacked.\n"
+                                        + "HEALTH_LOSS triggers only after actual health loss,"
+                                        + " excluding absorption loss.")
                         .defineEnum(
                                 "receivedMalice.receivedMaliceTrigger",
                                 ReceivedTrigger.ATTACK_ATTEMPT);
@@ -166,7 +180,9 @@ public final class TravailConfig {
                         0,
                         1_000_000,
                         "各类受击恶意共用的冷却时间，单位：游戏刻；0表示无冷却。此设置不改变伤害本身，也不影响由攻击触发的效果。",
-                        "Shared cooldown for the different on-hit Malice effects, in game ticks; 0 means no cooldown. Does not change damage itself or effects triggered by attacking.");
+                        "Shared cooldown for the different on-hit Malice effects, in game ticks; 0"
+                                + " means no cooldown. Does not change damage itself or effects"
+                                + " triggered by attacking.");
         MAX_AUTOMATIC_EFFECT_ACTIONS =
                 integer(
                         builder,
@@ -174,12 +190,15 @@ public final class TravailConfig {
                         0,
                         0,
                         1_000_000,
-                        "每名玩家任意连续20游戏刻内，穷遐之见证与幽谷之见证共用的自动效果尝试次数上限。\n包括穷遐的净化和增益，以及幽谷攻击触发的增益；失败或被取消的尝试也计数。\n超出上限的尝试直接跳过，不补发。0表示不限次数。\n不影响受击恶意、视觉剥夺，以及幽谷的黑暗和失明免疫。",
-                        "Maximum automatic effect attempts shared by Far Reach Witness and Deep Valley Witness per player within any consecutive 20 game ticks.\nIncludes Far Reach cleansing and buffs, and buffs triggered by Deep Valley attacks. Failed or canceled attempts also count.\nAttempts exceeding the limit are skipped and are not retried later. 0 means unlimited attempts.\nDoes not affect on-hit Malice, Visual Deprivation, or Deep Valley's Darkness and Blindness immunity.");
+                        "每名玩家连续 20 游戏刻内，穷遐与幽谷共用的自动效果尝试次数上限；失败尝试也计数，0 不限。超限直接跳过。",
+                        "Shared Far Reach/Deep Valley automatic effect-attempt limit per player"
+                                + " over 20 consecutive game ticks; failed attempts count, 0 is"
+                                + " unlimited. Excess attempts are skipped.");
         RECEIVED_EXCLUSIONS =
                 builder.comment(
                                 "不触发受击恶意的伤害类型ID；不改变伤害本身。",
-                                "Damage type IDs that do not trigger on-hit Malice; does not change damage itself.")
+                                "Damage type IDs that do not trigger on-hit Malice; does not change"
+                                        + " damage itself.")
                         .defineListAllowEmpty(
                                 "receivedMalice.receivedMaliceExcludedDamageTypes",
                                 List.of(),
@@ -200,7 +219,10 @@ public final class TravailConfig {
                         1,
                         3600,
                         "路引找到目标后的引导时长，单位：秒。\n从开始飞出到变成掉落物为止，包含飞行和悬停，不包含搜索等待。\n修改后也会影响正在指路的路引。",
-                        "Duration of guidance after the Wayguide finds a target, in seconds.\nMeasured from launch until becoming a dropped item, including flight and hovering but excluding search time.\nChanges also affect Wayguides already in flight.");
+                        "Duration of guidance after the Wayguide finds a target, in seconds.\n"
+                            + "Measured from launch until becoming a dropped item, including flight"
+                            + " and hovering but excluding search time.\n"
+                            + "Changes also affect Wayguides already in flight.");
         WAYGUIDE_RADIUS =
                 integer(
                         builder,
@@ -209,7 +231,9 @@ public final class TravailConfig {
                         16,
                         5000,
                         "路引的最大水平搜索半径，单位：方块，最多5000。未找到目标不代表整个维度都没有目标。",
-                        "Maximum horizontal Wayguide search radius, in blocks, capped at 5000. Not finding a target does not mean none exists in the entire dimension.");
+                        "Maximum horizontal Wayguide search radius, in blocks, capped at 5000. Not"
+                                + " finding a target does not mean none exists in the entire"
+                                + " dimension.");
         WAYGUIDE_TIMEOUT_SECONDS =
                 integer(
                         builder,
@@ -218,7 +242,10 @@ public final class TravailConfig {
                         1,
                         300,
                         "单次搜索的最长等待时间，按现实时间计秒。\n从请求被接受时开始计时，包含准备和排队。检测到超时后停止搜索并返还路引。",
-                        "Maximum waiting time for a search request, in real-world seconds.\nMeasured from acceptance of the request, including preparation and queueing. When a timeout is detected, the search stops and the Wayguide is returned.");
+                        "Maximum waiting time for a search request, in real-world seconds.\n"
+                            + "Measured from acceptance of the request, including preparation and"
+                            + " queueing. When a timeout is detected, the search stops and the"
+                            + " Wayguide is returned.");
         WAYGUIDE_BIOME_SPACING =
                 integer(
                         builder,
@@ -227,7 +254,8 @@ public final class TravailConfig {
                         4,
                         256,
                         "群系的水平采样间距，单位：方块；数值越小，搜索越精细，但耗时也越长。",
-                        "Horizontal biome sample spacing, in blocks. Smaller values provide finer searches but take longer.");
+                        "Horizontal biome sample spacing, in blocks. Smaller values provide finer"
+                                + " searches but take longer.");
         WAYGUIDE_HEIGHT_SPACING =
                 integer(
                         builder,
@@ -236,7 +264,8 @@ public final class TravailConfig {
                         4,
                         256,
                         "群系采样的垂直间距，单位：方块；无论间距如何，都会额外检查玩家所在高度。",
-                        "Vertical spacing between biome samples, in blocks. The player's height is always checked as well.");
+                        "Vertical spacing between biome samples, in blocks. The player's height is"
+                                + " always checked as well.");
         WAYGUIDE_SAMPLES_PER_TICK =
                 integer(
                         builder,
@@ -245,7 +274,8 @@ public final class TravailConfig {
                         1,
                         65536,
                         "全服每游戏刻最多进行的路引搜索采样次数，由所有玩家共用。",
-                        "Maximum Wayguide search samples per game tick across the server, shared by all players.");
+                        "Maximum Wayguide search samples per game tick across the server, shared by"
+                                + " all players.");
         WAYGUIDE_SEARCH_MILLIS =
                 integer(
                         builder,
@@ -254,7 +284,10 @@ public final class TravailConfig {
                         1,
                         50,
                         "每游戏刻的搜索时间预算，单位：毫秒。\n包含准备、检查、采样和收尾。单次操作及必要清理可能使实际耗时超过预算。",
-                        "Target time spent on normal search processing per game tick, in milliseconds.\nIncludes preparation, checks, sampling, and completion. Individual operations and necessary state cleanup may exceed this budget.");
+                        "Target time spent on normal search processing per game tick, in"
+                            + " milliseconds.\n"
+                            + "Includes preparation, checks, sampling, and completion. Individual"
+                            + " operations and necessary state cleanup may exceed this budget.");
         WAYGUIDE_MAX_SAMPLES =
                 integer(
                         builder,
@@ -263,7 +296,8 @@ public final class TravailConfig {
                         1,
                         32000000,
                         "单次路引搜索的采样次数上限；达到上限后停止搜索并返还路引。",
-                        "Maximum samples per Wayguide search. Reaching the limit stops the search and returns the Wayguide.");
+                        "Maximum samples per Wayguide search. Reaching the limit stops the search"
+                                + " and returns the Wayguide.");
         WAYGUIDE_CACHE_TICKS =
                 integer(
                         builder,
@@ -272,7 +306,9 @@ public final class TravailConfig {
                         0,
                         72000,
                         "搜索结果的缓存时间，单位：游戏刻；0表示不缓存。移动超过128格、切换维度或苦旅进度变化后，缓存失效。",
-                        "Search-result cache duration, in game ticks; 0 disables caching. Moving more than 128 blocks, changing dimensions, or changing Long Travail progress invalidates the cache.");
+                        "Search-result cache duration, in game ticks; 0 disables caching. Moving"
+                            + " more than 128 blocks, changing dimensions, or changing Long Travail"
+                            + " progress invalidates the cache.");
 
         builder = builders.computeIfAbsent("general.toml", key -> new ForgeConfigSpec.Builder());
         REWARD_ENTITIES_PER_TICK =
@@ -283,7 +319,8 @@ public final class TravailConfig {
                         1,
                         1024,
                         "全服每游戏刻最多生成的额外奖励物品实体数；不限制原版掉落。",
-                        "Maximum extra-reward item entities spawned per game tick across the server. Does not limit vanilla drops.");
+                        "Maximum extra-reward item entities spawned per game tick across the"
+                                + " server. Does not limit vanilla drops.");
         REWARD_QUEUE_CAPACITY =
                 integer(
                         builder,
@@ -292,11 +329,19 @@ public final class TravailConfig {
                         1,
                         16384,
                         "待发奖励的记录数量上限。达到上限时，暂停自动击杀幻翼，并跳过钓鱼的额外物品奖励。调低上限不会删除已有记录。",
-                        "Maximum pending reward records. At the limit, automatic phantom kills pause and extra fishing item rewards are skipped. Lowering the limit does not delete existing records.");
+                        "Maximum pending reward records. At the limit, automatic phantom kills"
+                                + " pause and extra fishing item rewards are skipped. Lowering the"
+                                + " limit does not delete existing records.");
         REWARD_OVERFLOW =
                 builder.comment(
-                                "DEFER：分批发放全部奖励。\nLIMIT：每次最多发放 rewardMaxEntitiesPerReward 堆物品，超出部分不发放。\n两种方式均受全服每游戏刻发放上限限制。",
-                                "DEFER: deliver all rewards in batches.\nLIMIT: deliver at most rewardMaxEntitiesPerReward item stacks per reward; discard the excess.\nBoth modes are subject to the server-wide per-tick delivery limit.")
+                                "DEFER：分批发放全部奖励。\n"
+                                        + "LIMIT：每次最多发放 rewardMaxEntitiesPerReward 堆物品，超出部分不发放。\n"
+                                        + "两种方式均受全服每游戏刻发放上限限制。",
+                                "DEFER: deliver all rewards in batches.\n"
+                                    + "LIMIT: deliver at most rewardMaxEntitiesPerReward item"
+                                    + " stacks per reward; discard the excess.\n"
+                                    + "Both modes are subject to the server-wide per-tick delivery"
+                                    + " limit.")
                         .defineEnum("rewardDelivery.rewardOverflowPolicy", RewardOverflow.DEFER);
         REWARD_LIMIT =
                 integer(
@@ -319,7 +364,8 @@ public final class TravailConfig {
                         0,
                         1_000_000,
                         "繁茂之见证的治疗量累计加成上限；100表示额外增加10000%，0表示无上限。",
-                        "Maximum accumulated healing bonus from Flourishing Witness; 100 means an additional 10000%, and 0 means no limit.");
+                        "Maximum accumulated healing bonus from Flourishing Witness; 100 means an"
+                                + " additional 10000%, and 0 means no limit.");
         FLOURISHING_HEALING_REDUCTION =
                 decimal(
                         builder,
@@ -337,7 +383,8 @@ public final class TravailConfig {
                         0.0D,
                         1.0D,
                         "当前生命值占最大生命值的比例高于此值时，应用 incomingDamageMultiplier 指定的受伤倍率。",
-                        "When current health as a fraction of maximum health is above this value, apply the incomingDamageMultiplier damage multiplier.");
+                        "When current health as a fraction of maximum health is above this value,"
+                                + " apply the incomingDamageMultiplier damage multiplier.");
         FLOURISHING_DAMAGE_MULTIPLIER =
                 decimal(
                         builder,
@@ -346,7 +393,8 @@ public final class TravailConfig {
                         0.0D,
                         1_000_000.0D,
                         "生命值比例高于 doubleDamageHealthThreshold 时，受到的伤害倍率。",
-                        "Incoming damage multiplier while the health fraction is above doubleDamageHealthThreshold.");
+                        "Incoming damage multiplier while the health fraction is above"
+                                + " doubleDamageHealthThreshold.");
         FLOURISHING_BONUS_PER_BIOME =
                 decimal(
                         builder,
@@ -388,7 +436,9 @@ public final class TravailConfig {
                         0.0D,
                         1_000_000.0D,
                         "流体伤害的触发间隔，单位：秒；0表示每游戏刻触发。间隔过短可能增加游戏负担，多人时更明显。",
-                        "Interval between fluid damage triggers, in seconds; 0 triggers every game tick. Short intervals may increase processing load, especially with multiple players.");
+                        "Interval between fluid damage triggers, in seconds; 0 triggers every game"
+                            + " tick. Short intervals may increase processing load, especially with"
+                            + " multiple players.");
         ABYSS_MINING_REDUCTION =
                 decimal(
                         builder,
@@ -406,7 +456,8 @@ public final class TravailConfig {
                         0.0D,
                         1_000_000.0D,
                         "窒息、挤压、溺水与冻结伤害倍率；见证免疫同一组伤害。",
-                        "Damage multiplier for suffocation, entity cramming, drowning, and freezing. Witness grants immunity to the same damage types.");
+                        "Damage multiplier for suffocation, entity cramming, drowning, and"
+                                + " freezing. Witness grants immunity to the same damage types.");
         ABYSS_CANCEL_CHANCE =
                 decimal(
                         builder,
@@ -418,14 +469,34 @@ public final class TravailConfig {
                         "Chance for Abyss Witness to negate damage while the player is in fluid.");
         FLUID_EROSION_UNAVOIDABLE =
                 builder.comment(
-                                "是否防止流体真实伤害在攻击、受伤和伤害结算事件中被取消或降为零，并保留苦旅自身倍率计算后的伤害下限。\nPrevent fluid true damage from being canceled or reduced to zero in attack, hurt, and damage-calculation events, and preserve a damage floor after The Long Travail's own multipliers are applied.",
+                                "是否防止流体真实伤害在攻击、受伤和伤害结算事件中被取消或降为零，并保留苦旅自身倍率计算后的伤害下限。\n"
+                                    + "Prevent fluid true damage from being canceled or reduced to"
+                                    + " zero in attack, hurt, and damage-calculation events, and"
+                                    + " preserve a damage floor after The Long Travail's own"
+                                    + " multipliers are applied.",
                                 "仍遵守苦旅自身的免伤和输出限制，不绕过伤害事件之前的无敌判定、图腾或死亡事件。关闭后仍保留流体伤害原有的护甲等穿透规则。",
-                                "Still follows The Long Travail's own damage immunity and output limits. Does not bypass invulnerability checks before damage events, totems, or death events. Disabling this preserves fluid damage's existing armor and other bypass rules.")
+                                "Still follows The Long Travail's own damage immunity and output"
+                                    + " limits. Does not bypass invulnerability checks before"
+                                    + " damage events, totems, or death events. Disabling this"
+                                    + " preserves fluid damage's existing armor and other bypass"
+                                    + " rules.")
                         .define("travail.malice.fluidErosionUnavoidable", true);
         FLUID_PROTECTION =
                 builder.comment(
-                                "ENFORCED：防止事件取消伤害，并保留伤害下限。\nRESPECT_CANCELLATION：允许事件取消伤害；伤害未被取消时，保留下限。\nSTANDARD：允许事件取消伤害或降低伤害。\nENFORCED: prevent events from canceling damage and preserve a damage floor.\nRESPECT_CANCELLATION: allow events to cancel damage; preserve the floor if damage is not canceled.\nSTANDARD: allow events to cancel or reduce damage.",
-                                "fluidErosionUnavoidable=false 时，始终使用 STANDARD。\n所有模式均保留流体伤害原有的护甲和吸收生命值穿透规则。\nWhen fluidErosionUnavoidable=false, STANDARD is always used.\nAll modes retain fluid damage's existing armor and absorption bypass rules.")
+                                "ENFORCED：防止事件取消伤害，并保留伤害下限。\n"
+                                    + "RESPECT_CANCELLATION：允许事件取消伤害；伤害未被取消时，保留下限。\n"
+                                    + "STANDARD：允许事件取消伤害或降低伤害。\n"
+                                    + "ENFORCED: prevent events from canceling damage and preserve"
+                                    + " a damage floor.\n"
+                                    + "RESPECT_CANCELLATION: allow events to cancel damage;"
+                                    + " preserve the floor if damage is not canceled.\n"
+                                    + "STANDARD: allow events to cancel or reduce damage.",
+                                "fluidErosionUnavoidable=false 时，始终使用 STANDARD。\n"
+                                        + "所有模式均保留流体伤害原有的护甲和吸收生命值穿透规则。\n"
+                                        + "When fluidErosionUnavoidable=false, STANDARD is always"
+                                        + " used.\n"
+                                        + "All modes retain fluid damage's existing armor and"
+                                        + " absorption bypass rules.")
                         .defineEnum(
                                 "travail.malice.fluidErosionProtectionMode",
                                 FluidProtection.ENFORCED);
@@ -473,7 +544,8 @@ public final class TravailConfig {
                         0.0D,
                         1_000_000.0D,
                         "攻击触发增益效果清除的冷却时间，单位：秒；0表示无冷却。",
-                        "Cooldown for beneficial-effect removal triggered by attacking, in seconds; 0 means no cooldown.");
+                        "Cooldown for beneficial-effect removal triggered by attacking, in seconds;"
+                                + " 0 means no cooldown.");
         FAR_WITNESS_LEVEL_BONUS =
                 integer(
                         builder,
@@ -485,8 +557,13 @@ public final class TravailConfig {
                         "Levels added to newly gained beneficial effects.");
         FAR_WITNESS_LEVEL_BLACKLIST =
                 builder.comment(
-                                "不接受穷遐之见证等级加成的效果ID列表，例如 minecraft:night_vision。\n仅跳过等级提升，不阻止获得效果，也不改变随机效果池。空列表表示不排除任何效果。",
-                                "Effect IDs excluded from Far Reach Witness's level bonus, such as minecraft:night_vision.\nOnly skips the level increase. Does not prevent gaining the effect or change random effect pools. An empty list excludes no effects.")
+                                "不接受穷遐之见证等级加成的效果ID列表，例如 minecraft:night_vision。\n"
+                                        + "仅跳过等级提升，不阻止获得效果，也不改变随机效果池。空列表表示不排除任何效果。",
+                                "Effect IDs excluded from Far Reach Witness's level bonus, such as"
+                                    + " minecraft:night_vision.\n"
+                                    + "Only skips the level increase. Does not prevent gaining the"
+                                    + " effect or change random effect pools. An empty list"
+                                    + " excludes no effects.")
                         .defineListAllowEmpty(
                                 "travail.witness.beneficialLevelBonusBlacklist",
                                 List.of("minecraft:night_vision", "minecraft:water_breathing"),
@@ -499,7 +576,8 @@ public final class TravailConfig {
                         1,
                         256,
                         "既未列入穷遐效果池、也未列入幽谷效果池的增益效果等级上限。",
-                        "Maximum level for beneficial effects absent from both the Far Reach and Deep Valley effect pools.");
+                        "Maximum level for beneficial effects absent from both the Far Reach and"
+                                + " Deep Valley effect pools.");
         FAR_WITNESS_INTERVAL_SECONDS =
                 decimal(
                         builder,
@@ -508,7 +586,9 @@ public final class TravailConfig {
                         0.0D,
                         1_000_000.0D,
                         "净化或给予增益效果的触发间隔，单位：秒；0表示每游戏刻触发。间隔过短且每轮次数较多时，可能增加游戏负担。",
-                        "Interval between cleansing or granting beneficial effects, in seconds; 0 triggers every game tick. Short intervals combined with many attempts per cycle may increase processing load.");
+                        "Interval between cleansing or granting beneficial effects, in seconds; 0"
+                                + " triggers every game tick. Short intervals combined with many"
+                                + " attempts per cycle may increase processing load.");
         FAR_WITNESS_ACTION_COUNT =
                 integer(
                         builder,
@@ -517,7 +597,9 @@ public final class TravailConfig {
                         0,
                         64,
                         "每轮尝试清除减益效果的次数；剩余次数用于给予增益效果。次数过多且触发间隔过短时，可能增加游戏负担。",
-                        "Attempts to remove harmful effects per cycle; remaining attempts grant beneficial effects. Many attempts combined with short trigger intervals may increase processing load.");
+                        "Attempts to remove harmful effects per cycle; remaining attempts grant"
+                                + " beneficial effects. Many attempts combined with short trigger"
+                                + " intervals may increase processing load.");
         FAR_WITNESS_POSITIVE_DURATION_SECONDS =
                 decimal(
                         builder,
@@ -538,11 +620,12 @@ public final class TravailConfig {
                         "minecraft:snowy_taiga|@biome.minecraft.snowy_taiga|1",
                         "minecraft:ice_spikes|@biome.minecraft.ice_spikes|1"),
                 List.of());
+        EffectCompatDefaults.define(builder, TravailAspect.FAR_REACH);
         FAR_REACH_POSITIVE_EFFECTS =
                 builder.comment("格式：效果ID|最高等级|权重", "Format: effect_id|max_level|weight")
                         .defineListAllowEmpty(
                                 "travail.witness.positiveEffects",
-                                defaultEffects(),
+                                defaultFarReachEffects(),
                                 TravailConfig::validEffectEntry);
 
         builder =
@@ -574,7 +657,9 @@ public final class TravailConfig {
                         0,
                         100,
                         "视觉剥夺的淡入时间，单位：游戏刻；淡入与淡出时间之和超过总持续时间时，按比例缩短。",
-                        "Visual Deprivation fade-in duration, in game ticks. If fade-in and fade-out together exceed the total duration, both are shortened proportionally.");
+                        "Visual Deprivation fade-in duration, in game ticks. If fade-in and"
+                                + " fade-out together exceed the total duration, both are shortened"
+                                + " proportionally.");
         VALLEY_VISUAL_DEPRIVATION_FADE_OUT_TICKS =
                 integer(
                         builder,
@@ -583,7 +668,9 @@ public final class TravailConfig {
                         0,
                         100,
                         "视觉剥夺的淡出时间，单位：游戏刻；淡入与淡出时间之和超过总持续时间时，按比例缩短。",
-                        "Visual Deprivation fade-out duration, in game ticks. If fade-in and fade-out together exceed the total duration, both are shortened proportionally.");
+                        "Visual Deprivation fade-out duration, in game ticks. If fade-in and"
+                                + " fade-out together exceed the total duration, both are shortened"
+                                + " proportionally.");
         VALLEY_STIFF_CHANCE =
                 decimal(
                         builder,
@@ -628,7 +715,9 @@ public final class TravailConfig {
                         0,
                         64,
                         "每次成功攻击给予的随机增益效果数量。数量过多且增益冷却过短时，可能增加游戏负担。",
-                        "Number of random beneficial effects granted per successful attack. Large counts combined with short buff cooldowns may increase processing load.");
+                        "Number of random beneficial effects granted per successful attack. Large"
+                            + " counts combined with short buff cooldowns may increase processing"
+                            + " load.");
         VALLEY_RANDOM_EFFECT_DURATION_SECONDS =
                 decimal(
                         builder,
@@ -646,7 +735,8 @@ public final class TravailConfig {
                         0.0D,
                         1_000_000.0D,
                         "幽谷之见证通过造成伤害触发增益的冷却时间，单位：秒；0表示无冷却。",
-                        "Cooldown for buffs triggered by dealing damage with Deep Valley Witness, in seconds; 0 means no cooldown.");
+                        "Cooldown for buffs triggered by dealing damage with Deep Valley Witness,"
+                                + " in seconds; 0 means no cooldown.");
         defineRequirements(
                 builder,
                 TravailAspect.DEEP_VALLEY,
@@ -658,11 +748,12 @@ public final class TravailConfig {
                         "minecraft:mushroom_fields|@biome.minecraft.mushroom_fields|1",
                         "minecraft:stony_shore|@biome.minecraft.stony_shore|1"),
                 List.of());
+        EffectCompatDefaults.define(builder, TravailAspect.DEEP_VALLEY);
         DEEP_VALLEY_POSITIVE_EFFECTS =
                 builder.comment("格式：效果ID|最高等级|权重", "Format: effect_id|max_level|weight")
                         .defineListAllowEmpty(
                                 "travail.witness.positiveEffects",
-                                defaultEffects(),
+                                defaultDeepValleyEffects(),
                                 TravailConfig::validEffectEntry);
 
         builder =
@@ -694,7 +785,8 @@ public final class TravailConfig {
                         0,
                         1_000_000,
                         "冥府之见证生效时的铁砧经验等级消耗上限。",
-                        "Maximum anvil cost in experience levels while Underworld Witness is active.");
+                        "Maximum anvil cost in experience levels while Underworld Witness is"
+                                + " active.");
         UNDERWORLD_FORTUNE_BONUS =
                 integer(
                         builder,
@@ -721,7 +813,8 @@ public final class TravailConfig {
                         0.0D,
                         1.0D,
                         "钓出生物的概率。与钓出特殊物品的概率之和超过100%时，两项按原比例缩放至合计100%。",
-                        "Chance to fish up a creature. If this and the special-item chance total more than 100%, both are scaled proportionally to total 100%.");
+                        "Chance to fish up a creature. If this and the special-item chance total"
+                                + " more than 100%, both are scaled proportionally to total 100%.");
         FISH_SPECIAL_CHANCE =
                 decimal(
                         builder,
@@ -730,7 +823,8 @@ public final class TravailConfig {
                         0.0D,
                         1.0D,
                         "钓出特殊物品的概率。与钓出生物的概率之和超过100%时，两项按原比例缩放至合计100%。",
-                        "Chance to fish up a special item. If this and the creature chance total more than 100%, both are scaled proportionally to total 100%.");
+                        "Chance to fish up a special item. If this and the creature chance total"
+                                + " more than 100%, both are scaled proportionally to total 100%.");
         defineRequirements(
                 builder,
                 TravailAspect.UNDERWORLD,
@@ -742,30 +836,24 @@ public final class TravailConfig {
                         "minecraft:crimson_forest|@biome.minecraft.crimson_forest|1",
                         "minecraft:wooded_badlands|@biome.minecraft.wooded_badlands|1"),
                 List.of());
+        RewardCompatDefaults.define(builder, TravailAspect.UNDERWORLD);
         FISH_SPECIAL_ITEMS =
                 builder.comment(
                                 "格式：物品ID|权重|最小数量|最大数量",
                                 "Format: item_id|weight|min_count|max_count",
                                 "不可堆叠的物品每件都会生成一个掉落实体；一次发放过多可能造成卡顿。",
-                                "Each non-stackable item creates a separate dropped item entity. Delivering too many at once may cause lag.")
+                                "Each non-stackable item creates a separate dropped item entity."
+                                        + " Delivering too many at once may cause lag.")
                         .defineListAllowEmpty(
                                 "travail.witness.fishing.fishingSpecialItems",
-                                defaultRewardItems(),
+                                defaultFishingItems(),
                                 TravailConfig::validRewardEntry);
+        FishingEntityCompatDefaults.define(builder);
         FISH_ENTITIES =
                 builder.comment("格式：实体ID|权重", "Format: entity_id|weight")
                         .defineListAllowEmpty(
                                 "travail.witness.fishing.fishingEntities",
-                                List.of(
-                                        "minecraft:pig|10",
-                                        "minecraft:cow|10",
-                                        "minecraft:sheep|10",
-                                        "minecraft:pufferfish|5",
-                                        "minecraft:wandering_trader|5",
-                                        "minecraft:cat|5",
-                                        "minecraft:fox|1",
-                                        "minecraft:axolotl|1",
-                                        "minecraft:turtle|1"),
+                                defaultFishingEntities(),
                                 TravailConfig::validWeightedEntry);
 
         builder =
@@ -779,7 +867,8 @@ public final class TravailConfig {
                         0.0D,
                         1_000_000.0D,
                         "玩家的 Y 坐标高于此值时，降低移动速度。",
-                        "Reduce movement speed when the player's Y coordinate exceeds this threshold.");
+                        "Reduce movement speed when the player's Y coordinate exceeds this"
+                                + " threshold.");
         BOUNDLESS_SPEED_REDUCTION =
                 decimal(
                         builder,
@@ -788,7 +877,8 @@ public final class TravailConfig {
                         0.0D,
                         1.0D,
                         "高空速度削减比例；0.8表示削减80%。",
-                        "Fractional movement speed reduction at high altitude; 0.8 means an 80% reduction.");
+                        "Fractional movement speed reduction at high altitude; 0.8 means an 80%"
+                                + " reduction.");
         BOUNDLESS_EXTRA_CURIO_SLOTS =
                 integer(
                         builder,
@@ -806,7 +896,8 @@ public final class TravailConfig {
                         0,
                         128,
                         "自动击杀幻翼的检测半径，单位：方块。范围过大或幻翼过多时，可能增加游戏负担。",
-                        "Detection radius for automatic phantom kills, in blocks. Large radii or large numbers of phantoms may increase processing load.");
+                        "Detection radius for automatic phantom kills, in blocks. Large radii or"
+                                + " large numbers of phantoms may increase processing load.");
         PHANTOM_CHECK_INTERVAL_SECONDS =
                 decimal(
                         builder,
@@ -824,7 +915,8 @@ public final class TravailConfig {
                         1,
                         1024,
                         "每名玩家每轮最多尝试击杀的幻翼数，包括伤害被取消的尝试。",
-                        "Maximum phantom kill attempts per player per scan, including attempts whose damage is canceled.");
+                        "Maximum phantom kill attempts per player per scan, including attempts"
+                                + " whose damage is canceled.");
         defineRequirements(
                 builder,
                 TravailAspect.BOUNDLESS,
@@ -836,15 +928,18 @@ public final class TravailConfig {
                         "minecraft:small_end_islands|@biome.minecraft.small_end_islands|1",
                         "minecraft:stony_peaks|@biome.minecraft.stony_peaks|1"),
                 List.of());
+        RewardCompatDefaults.define(builder, TravailAspect.BOUNDLESS);
         PHANTOM_DROPS =
                 builder.comment(
                                 "格式：物品ID|权重|最小数量|最大数量",
                                 "Format: item_id|weight|min_count|max_count",
                                 "不可堆叠的物品每件都会生成一个掉落实体；多只幻翼同时产生大量奖励时可能造成卡顿。",
-                                "Each non-stackable item creates a separate dropped item entity. Large rewards from multiple phantoms at once may cause lag.")
+                                "Each non-stackable item creates a separate dropped item entity."
+                                        + " Large rewards from multiple phantoms at once may cause"
+                                        + " lag.")
                         .defineListAllowEmpty(
                                 "travail.witness.phantom.phantomDrops",
-                                defaultRewardItems(),
+                                defaultPhantomDrops(),
                                 TravailConfig::validRewardEntry);
 
         builder =
@@ -853,7 +948,8 @@ public final class TravailConfig {
         VISUAL_DARKENING =
                 builder.comment(
                                 "世界画面的整体变暗比例；0表示不变暗，1表示全黑。",
-                                "Overall world darkening fraction; 0 leaves the view unchanged, and 1 makes it completely black.")
+                                "Overall world darkening fraction; 0 leaves the view unchanged, and"
+                                        + " 1 makes it completely black.")
                         .defineInRange(
                                 "travail.visualDeprivation.worldDarkening", 0.65D, 0.0D, 1.0D);
         VISUAL_OPACITY =
@@ -865,7 +961,9 @@ public final class TravailConfig {
         VISUAL_RADIUS =
                 builder.comment(
                                 "屏幕中央清晰区域的椭圆半径；1表示横向和纵向均延伸至屏幕边缘，不改变实际视野角度（FOV）。",
-                                "Elliptical radius of the clear central area. 1 reaches the screen edges horizontally and vertically. Does not change the actual field of view (FOV).")
+                                "Elliptical radius of the clear central area. 1 reaches the screen"
+                                        + " edges horizontally and vertically. Does not change the"
+                                        + " actual field of view (FOV).")
                         .defineInRange("travail.visualDeprivation.clearRadius", 0.45D, 0.0D, 2.0D);
         VISUAL_SOFTNESS =
                 builder.comment(
@@ -876,7 +974,8 @@ public final class TravailConfig {
         VISUAL_DISTANCE_START =
                 builder.comment(
                                 "距离雾的起始距离，单位：方块；自动限制为不超过结束距离。",
-                                "Distance at which the distance veil starts, in blocks, automatically capped at its end distance.")
+                                "Distance at which the distance veil starts, in blocks,"
+                                        + " automatically capped at its end distance.")
                         .defineInRange(
                                 "travail.visualDeprivation.distanceVeilStart",
                                 1.25D,
@@ -885,7 +984,8 @@ public final class TravailConfig {
         VISUAL_DISTANCE_END =
                 builder.comment(
                                 "距离雾的结束距离，单位：方块；使用光影包时，显示效果可能不同。",
-                                "Distance at which the distance veil ends, in blocks. Shader packs may change its appearance.")
+                                "Distance at which the distance veil ends, in blocks. Shader packs"
+                                        + " may change its appearance.")
                         .defineInRange(
                                 "travail.visualDeprivation.distanceVeilEnd", 5.0D, 0.1D, 4096.0D);
         VISUAL_PULSE_PERIOD =
@@ -897,7 +997,9 @@ public final class TravailConfig {
         VISUAL_PULSE_DEPTH =
                 builder.comment(
                                 "视觉强度的波动幅度；0表示不波动，0.2表示在80%至100%强度之间波动。",
-                                "Amplitude of visual intensity fluctuations; 0 disables fluctuations, and 0.2 varies intensity between 80% and 100%.")
+                                "Amplitude of visual intensity fluctuations; 0 disables"
+                                        + " fluctuations, and 0.2 varies intensity between 80% and"
+                                        + " 100%.")
                         .defineInRange("travail.visualDeprivation.pulseDepth", 0.0D, 0.0D, 1.0D);
         VISUAL_DISTANCE_ENABLED =
                 builder.comment(
@@ -912,12 +1014,15 @@ public final class TravailConfig {
         VISUAL_REFRESH_TICKS =
                 builder.comment(
                                 "淡出期间再次触发时，恢复遮蔽强度所需的游戏刻数。",
-                                "Game ticks needed to restore mask intensity when the effect is triggered again during fade-out.")
+                                "Game ticks needed to restore mask intensity when the effect is"
+                                        + " triggered again during fade-out.")
                         .defineInRange("travail.visualDeprivation.refreshBlendTicks", 5, 0, 100);
         VISUAL_CLEAR_TICKS =
                 builder.comment(
                                 "通过饮用牛奶等方式主动解除视觉剥夺后，遮蔽画面逐渐消退所需的时间，单位：游戏刻。视觉剥夺状态本身会立即解除。",
-                                "Time for the visual mask to fade after Visual Deprivation is actively removed, for example by drinking milk, in game ticks. The status effect itself is removed immediately.")
+                                "Time for the visual mask to fade after Visual Deprivation is"
+                                    + " actively removed, for example by drinking milk, in game"
+                                    + " ticks. The status effect itself is removed immediately.")
                         .defineInRange("travail.visualDeprivation.clearFadeOutTicks", 4, 0, 100);
 
         CarryingConfig.define(builders.get("general.toml"));
@@ -946,13 +1051,14 @@ public final class TravailConfig {
             TravailAspect aspect,
             List<String> biomes,
             List<String> structures) {
+        BiomeCompatDefaults.define(builder, aspect);
+        StructureCompatDefaults.define(builder, aspect);
         BIOME_POOLS.put(
                 aspect,
                 builder.comment(
-                                "格式：群系ID|显示名称|正整数权重。例：minecraft:plains|平原|1。",
-                                "详细规则与多语言示例见上一级目录的“配置说明.txt”。",
-                                "Format: biome_id|display_name|positive_integer_weight. Example: minecraft:plains|Plains|1.",
-                                "See Configuration Guide.txt in the parent directory for details.")
+                                "格式：群系ID|显示名称|正整数权重。例：minecraft:plains|平原|1。\n"
+                                        + "Format: biome_id|display_name|positive_integer_weight."
+                                        + " Example: minecraft:plains|Plains|1.")
                         .defineListAllowEmpty(
                                 "travail.requirements.biomes",
                                 biomes,
@@ -960,17 +1066,16 @@ public final class TravailConfig {
         STRUCTURE_POOLS.put(
                 aspect,
                 builder.comment(
-                                "格式：结构ID|显示名称|正整数权重。例：minecraft:stronghold|要塞|1。",
-                                "详细规则与多语言示例见上一级目录的“配置说明.txt”。",
-                                "Format: structure_id|display_name|positive_integer_weight. Example: minecraft:stronghold|Stronghold|1.",
-                                "See Configuration Guide.txt in the parent directory for details.")
+                                "格式：结构ID|显示名称|正整数权重。例：minecraft:stronghold|要塞|1。\n"
+                                    + "Format: structure_id|display_name|positive_integer_weight."
+                                    + " Example: minecraft:stronghold|Stronghold|1.")
                         .defineListAllowEmpty(
                                 "travail.requirements.structures",
                                 structures,
                                 TravailConfig::validRequirementEntry));
     }
 
-    private static List<String> defaultEffects() {
+    private static List<String> defaultFarReachEffects() {
         return List.of(
                 "minecraft:jump_boost|5|5",
                 "minecraft:regeneration|5|3",
@@ -979,17 +1084,58 @@ public final class TravailConfig {
                 "minecraft:strength|3|2");
     }
 
-    private static List<String> defaultRewardItems() {
+    private static List<String> defaultDeepValleyEffects() {
         return List.of(
-                "minecraft:apple|15|1|5",
-                "minecraft:emerald|15|1|5",
-                "minecraft:iron_ingot|15|1|3",
-                "minecraft:gold_ingot|10|1|3",
+                "minecraft:jump_boost|5|5",
+                "minecraft:regeneration|5|3",
+                "minecraft:resistance|4|2",
+                "minecraft:haste|3|2",
+                "minecraft:strength|3|2");
+    }
+
+    private static List<String> defaultFishingEntities() {
+        return List.of(
+                "minecraft:pig|100",
+                "minecraft:cow|100",
+                "minecraft:sheep|100",
+                "minecraft:villager|50",
+                "minecraft:wandering_trader|50",
+                "minecraft:cat|50",
+                "minecraft:fox|25",
+                "minecraft:axolotl|25",
+                "minecraft:turtle|25");
+    }
+
+    private static List<String> defaultFishingItems() {
+        return List.of(
+                "minecraft:apple|6|1|5",
+                "minecraft:emerald|6|1|5",
+                "minecraft:iron_ingot|6|1|3",
+                "minecraft:gold_ingot|6|1|3",
                 "minecraft:diamond|6|1|3",
+                "minecraft:nautilus_shell|6|1|3",
                 "minecraft:enchanted_golden_apple|3|1|1",
                 "minecraft:netherite_ingot|2|1|1",
                 "minecraft:nether_star|1|1|1",
-                "minecraft:dragon_egg|1|1|1");
+                "minecraft:dragon_egg|1|1|1",
+                "minecraft:netherite_scrap|3|1|3",
+                "minecraft:echo_shard|3|1|3");
+    }
+
+    private static List<String> defaultPhantomDrops() {
+        return List.of(
+                "minecraft:apple|6|1|5",
+                "minecraft:emerald|6|1|5",
+                "minecraft:iron_ingot|6|1|3",
+                "minecraft:gold_ingot|6|1|3",
+                "minecraft:diamond|6|1|3",
+                "minecraft:nautilus_shell|6|1|3",
+                "minecraft:enchanted_golden_apple|3|1|1",
+                "minecraft:netherite_ingot|2|1|1",
+                "minecraft:nether_star|1|1|1",
+                "minecraft:dragon_egg|1|1|1",
+                "minecraft:netherite_scrap|3|1|3",
+                "minecraft:echo_shard|3|1|3");
     }
 
     private static ForgeConfigSpec.IntValue integer(

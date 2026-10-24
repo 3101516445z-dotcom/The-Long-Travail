@@ -3,25 +3,40 @@ package com.thelongtravail.loot;
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
 import com.google.gson.JsonParser;
+
+import net.minecraftforge.common.ForgeConfigSpec;
+
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import net.minecraftforge.common.ForgeConfigSpec;
 
 // 将整张映射表作为一个配置值，避免 Forge 校正配置时删除用户新增的战利品表 ID。
 public final class UnifiedLootConfig {
     public static void define(ForgeConfigSpec.Builder builder) {
         builder.comment(
-                        "苦旅共享战利品：每张表每次执行最多选中一个条目。保存后执行/reload或重启生效。\nShared Long Travail loot: each table selects at most one entry per execution. After saving, use /reload or restart for changes to take effect.")
+                        "启用苦旅共享战利品及完美流体钓鱼奖励。\n"
+                            + "Enable shared Long Travail loot and Perfect Fluid fishing rewards.")
                 .define("loot.enabled", true);
         builder.comment(
-                        "在幸运值为 0 且满足开放水域条件时，钓到完美流体的基础概率；0.0025 表示 0.25%。宝藏分支内的概率为此值的 20 倍。为保留归墟精粹 10% 的份额，上限为 0.045。0 表示禁用，同时受 loot.enabled 控制；保存后执行 /reload 生效。\nBase chance to fish up Perfect Fluid with zero luck in open water; 0.0025 means 0.25%. Its chance within the treasure pool is 20 times this value. The maximum of 0.045 preserves the 10% share for Abyss Essence. Set to 0 to disable; loot.enabled must also be enabled. Save and run /reload to apply changes.")
+                        "零幸运且满足开放水域时的基础概率；0.0025 表示 0.25%，0 禁用；同时受 loot.enabled 控制。\n"
+                                + "Base chance with zero luck in open water; 0.0025 means 0.25%, 0"
+                                + " disables it. Also requires loot.enabled.")
                 .defineInRange("loot.perfect_fluid.fishingChance", .0025, 0, .045);
         builder.comment(
-                        "按完整战利品表ID分组，可手动增加原版或模组表。ID须用双引号包围。\nGrouped by full loot table ID; vanilla or modded tables can be added manually. IDs must be enclosed in double quotes.",
-                        "chance为总概率(0~1)；items格式：物品ID|正整数权重|最小数量|最大数量。\nchance is the overall probability (0 to 1); items format: item_id|positive_integer_weight|min_count|max_count.",
-                        "触发奖励后，按权重选择一个条目；数量为1~1时只出一件；数量范围1~2304。空列表或概率0关闭本表。\nWhen a reward triggers, select one entry by weight. A quantity range of 1 to 1 gives exactly one item; supported quantities are 1 to 2304. An empty list or a chance of 0 disables rewards from this table.",
-                        "父表与子表独立抽取；不额外附加抢夺、时运、精准采集或玩家击杀条件。\nParent and child tables roll independently. No additional Looting, Fortune, Silk Touch, or player-kill requirements are imposed.")
+                        "按完整战利品表ID分组，可手动增加原版或模组表。ID须用双引号包围。\n"
+                            + "Grouped by full loot table ID; vanilla or modded tables can be added"
+                            + " manually. IDs must be enclosed in double quotes.",
+                        "chance为总概率(0~1)；items格式：物品ID|正整数权重|最小数量|最大数量。\n"
+                                + "chance is the overall probability (0 to 1); items format:"
+                                + " item_id|positive_integer_weight|min_count|max_count.",
+                        "触发奖励后，按权重选择一个条目；数量为1~1时只出一件；数量范围1~2304。空列表或概率0关闭本表。\n"
+                            + "When a reward triggers, select one entry by weight. A quantity range"
+                            + " of 1 to 1 gives exactly one item; supported quantities are 1 to"
+                            + " 2304. An empty list or a chance of 0 disables rewards from this"
+                            + " table.",
+                        "父表与子表独立抽取；不额外附加抢夺、时运、精准采集或玩家击杀条件。\n"
+                            + "Parent and child tables roll independently. No additional Looting,"
+                            + " Fortune, Silk Touch, or player-kill requirements are imposed.")
                 .define(
                         "loot.tables",
                         UnifiedLootConfig::defaults,
@@ -51,15 +66,13 @@ public final class UnifiedLootConfig {
                                                         .instance());
                                 table.set("chance", value.get("chance").getAsDouble());
                                 table.setComment(
-                                        "chance",
-                                        "本表苦旅奖励总概率；0表示不触发奖励，1表示必定触发奖励。添加物品不会自动增加总概率。\nOverall chance for a Long Travail reward from this table; 0 disables rewards, and 1 always triggers a reward. Adding items does not automatically increase the overall chance.");
+                                        "chance", "本表触发概率。\nTrigger probability for this table.");
                                 var items = new java.util.ArrayList<String>();
                                 value.getAsJsonArray("items")
                                         .forEach(item -> items.add(item.getAsString()));
                                 table.set("items", items);
                                 table.setComment(
-                                        "items",
-                                        "物品ID|权重|最小数量|最大数量；触发奖励后，只选择一个条目。\nitem_id|weight|min_count|max_count; select only one entry when a reward triggers.");
+                                        "items", "本表物品候选。\nItem candidates for this table.");
                                 tables.set(List.of(entry.getKey()), table);
                             });
         } catch (java.io.IOException failure) {

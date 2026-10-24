@@ -3,6 +3,7 @@ package com.thelongtravail.config;
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.core.UnmodifiableCommentedConfig;
 import com.electronwill.nightconfig.toml.TomlFormat;
+
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -59,7 +60,7 @@ final class ConfigLayout {
             };
         }
         if (path.equals(List.of("travail"))) {
-            return List.of("malice", "witness", "visualDeprivation", "requirements");
+            return List.of("requirements", "malice", "witness", "visualDeprivation");
         }
         return List.of();
     }

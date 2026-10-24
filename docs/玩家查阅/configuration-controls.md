@@ -2,6 +2,12 @@
 
 配置位于游戏目录的 `config/the_long_travail/`，首次启动时自动生成。各项设置的含义、默认值和范围，可查看配置文件中的注释，或同目录下的 `配置说明.txt`（英文版为 `Configuration Guide.txt`）。
 
+随配置生成的说明书按“配置写法 → 预设 → 其他机制”排列。注释中的 `[C04]`、`[P01]` 等编号对应说明书章节；在文本编辑器中同时按 `Ctrl` 和 `F`，输入编号即可查找。基础写法与单位见 `[C04]`，各类列表格式见 `[C05]`，预设的含义见 `[P00]`。
+
+主题配置先列群系池、结构池，再列主题能力和物品；联动预设处理记录集中在文件末尾，同类型归为一组，群系与结构记录在前。点号键保留原有层级，例如 `[travail.witness.compatInitialization]` 下的 `goety.positiveEffectsAdded` 仍是同一配置路径。
+
+预设记录的 `true` 表示已处理或手动跳过补入，`false` 表示等待处理，均不是功能开关。普通玩家通常无需修改；整合包作者重试、跳过或管理已有条目时参阅 `[P01]`。完美流体的处理时机及物品注册条件另见 `[P08]`。
+
 ## 到哪里修改
 
 | 文件 | 主要内容 |
@@ -26,7 +32,141 @@
 
 保存后重启游戏或服务器，可确保配置生效；饰品与道具战利品设置也可通过 `/reload` 更新。联机时，玩法设置以服务端为准，`client.toml` 只影响本机显示。
 
-修改探索目标池或抽取数量，只影响之后新初始化或重置的旅程；已有旅程、已释放技能和正在进行的冷却不会重新计算。旧目录中的设置不会自动整体迁入；当前目录中的合法设置会保留，缺失项按配置定义补齐。末地城奖池和完美流体联动黑名单另有下述一次性迁移。
+修改探索目标池或抽取数量，只影响之后新初始化或重置的旅程；已有旅程、已释放技能和正在进行的冷却不会重新计算。旧目录中的设置不会自动整体迁入；当前目录中的合法设置会保留，缺失项按配置定义补齐。末地城奖池、完美流体联动黑名单与联动探索预设另有下述一次性处理。
+
+## 联动群系预设
+
+世界加载时，根据实际注册的群系识别联动；Terralith 与 Incendium 的模组版、数据包版均可使用。只加入当前存在且对应池内没有的预设 ID，使用 `@翻译键`，权重统一为 `1`。已有条目的名称、权重和顺序保留，译名由模组或资源包提供。
+
+| 联动 | 主题与候选数量 | 初始化标记 |
+| --- | --- | --- |
+| Terralith | 繁茂 16、归墟 10、穷遐 19、幽谷 9、冥府 4、无垠 7 | `terralithBiomesAdded` |
+| Incendium | 冥府 8 | `incendiumBiomesAdded` |
+| Alex 的洞穴 | 幽谷 2：毒化洞穴、磁场洞穴 | `alexsCavesBiomesAdded` |
+
+各标记位于对应主题文件的 `travail.requirements.compatInitialization`，按联动和主题独立记录，无对应预设的主题不生成该联动标记。检测到联动并处理后设为 `true`，即使新增数量为零也会记录；未检测到时不标记。标记存在期间不会因手动删除、换世界或预设更新而再次补入。
+
+需要重新补充时，将对应标记设为 `false` 或删除该键，再重新加载世界；也可预先设为 `true` 跳过初始化。标记由使用同一份配置的存档共用。预设不调整结构池和抽取数量，只影响之后新初始化或重置的旅程。
+
+## 联动结构预设
+
+结构池采用相同的一次性补充规则，按世界中实际注册的结构识别来源，支持通过模组或数据包提供结构。当前接入以下 12 个模组、65 个候选结构，新条目使用 `@structure.<命名空间>.<路径>`，权重为 `1`；已有同 ID 设置保留。
+
+| 联动 | 主题与候选数量 | 结构初始化标记 |
+| --- | --- | --- |
+| Terralith | 繁茂 8、归墟 1、穷遐 3、幽谷 5、冥府 1 | `terralithStructuresAdded` |
+| Goety Awaken | 繁茂 2、归墟 1、穷遐 4、幽谷 1、冥府 1 | `goetyAwakenStructuresAdded` |
+| Towns and Towers | 归墟 7、无垠 1 | `townsAndTowersStructuresAdded` |
+| Goety | 繁茂 1、穷遐 4、幽谷 1、冥府 1、无垠 1 | `goetyStructuresAdded` |
+| Incendium | 冥府 5、无垠 1 | `incendiumStructuresAdded` |
+| Iron's Spells and Spellbooks | 归墟 1、穷遐 1、冥府 1、无垠 1 | `ironsSpellbooksStructuresAdded` |
+| Touhou Little Maid: Spell | 繁茂 1、穷遐 1、无垠 2 | `maidSpellStructuresAdded` |
+| Ars Nouveau | 幽谷 3 | `arsNouveauStructuresAdded` |
+| Aquamirae | 归墟 2 | `aquamiraeStructuresAdded` |
+| Alex's Caves | 幽谷 1 | `alexsCavesStructuresAdded` |
+| Mowzie's Mobs | 穷遐 1 | `mowziesMobsStructuresAdded` |
+| T.O Magic and Extras | 冥府 1 | `travelOpticsStructuresAdded` |
+
+各标记同样位于对应主题文件的 `travail.requirements.compatInitialization`，只在有预设的主题中生成；结构标记与群系标记独立，群系已初始化不会阻止结构补充。检测到对应结构命名空间后处理一次，即使没有新增也记录完成；删除条目不会触发补回。将相应标记设为 `false` 或删除该键后重新打开世界，可再尝试一次。
+
+ROR、AD、Cult of Azazel、Medieval Buildings [The End Edition] 和原版结构不加入此次联动预设，已有手动条目照常保留。译文由外部语言资源提供，缺少译文时显示结构 ID。
+
+预设只扩充候选池，不修改 `general.toml` 的 `requirements.structureDrawCount`。其默认值仍为 `0`，需要结构目标时自行设置抽取数量；已有旅程不重新抽取。
+
+## 见证奖励池与联动预设
+
+冥府钓鱼物品奖励使用 `aspects/underworld.toml` 的 `travail.witness.fishing.fishingSpecialItems`；无垠幻翼奖励使用 `aspects/boundless.toml` 的 `travail.witness.phantom.phantomDrops`。条目格式为 `物品ID|权重|最小数量|最大数量`，没有独立名称字段。
+
+两个池的原版默认奖励分别维护，目前均为以下 12 项。每次选中一种物品，再在数量范围内随机；权重表示池内相对占比。
+
+| 原版物品 | 权重 | 数量 |
+| --- | ---: | --- |
+| 苹果、绿宝石 | 各 6 | 1～5 |
+| 铁锭、金锭、钻石、鹦鹉螺壳 | 各 6 | 1～3 |
+| 附魔金苹果 | 3 | 1 |
+| 下界合金锭 | 2 | 1 |
+| 下界之星、龙蛋 | 各 1 | 1 |
+| 下界合金碎片、回响碎片 | 各 3 | 1～3 |
+
+默认值用于新建或缺失的配置项，已有完整列表不会自动替换成新默认值。世界启动时，以下模组的已注册物品会按一次性规则补入两个池，保持各自预设权重，数量均为 1～3：
+
+| 联动命名空间 | 每池候选数 | 权重 |
+| --- | ---: | --- |
+| `l2complements` | 17 | 2 |
+| `curseofpandora` | 16 | 2 |
+| `celestial_core` | 8 | 3 |
+| `irons_spellbooks` | 3 | `raw_mithril`、`ancient_knowledge_fragment` 为 3；`legendary_ink` 为 2 |
+| `apprenticecodex` | 2 | 2 |
+| `enigmaticlegacy` | 1 | 3 |
+| `enigmaticaddons` | 1 | 3 |
+| `enigmaticdelicacy` | 1 | 3 |
+
+钓鱼和幻翼的联动候选也分别维护，目前各有 8 个模组、49 个候选物品；全部存在时，新配置每池共 61 项。今后可以分别调整物品、权重与数量。ROR 不加入预设，已有手动 ROR 条目保留。已有同 ID 配置优先，不覆盖权重、数量和顺序；仅补入当前实际注册的缺失 ID。
+
+各主题的 `travail.witness.compatInitialization.<命名空间>` 下分别使用 `fishingItemsAdded`、`phantomDropsAdded`，与群系、结构标记独立。检测到来源命名空间后处理一次，即使零新增也设为 `true`；未检测到则保持未处理。完成后手动删除、清空池或更换存档不会自动补回。将对应标记设为 `false` 或删除该键，再重新打开世界可重试；预先设为 `true` 可跳过注入。标记随配置保存，使用同一份配置的存档共用。
+
+联动补充只改变池内候选与占比，不修改钓鱼奖励触发概率、幻翼检测与击杀规则、奖励发放限制；钓出生物池另行配置，不受本次预设影响。
+
+## 钓出生物默认配置池与联动预设
+
+冥府 `aspects/underworld.toml` 的 `travail.witness.fishing.fishingEntities` 使用 `实体ID|权重`，每次选中一种实体，在鱼钩处生成。原版默认配置池为猪、牛、羊各权重 100，村民、流浪商人、猫各 50，狐狸、美西螈、海龟各 25，共 9 项。新建或缺失的配置项使用这些默认值；已有合法列表保留。
+
+世界启动时按实体注册表补充以下联动预设，仅追加当前存在且池中没有的 ID：
+
+| 联动 | 候选实体 | 权重 |
+| --- | --- | ---: |
+| 妖怪们的飨宴 `youkaisfeasts` | 鹿、螃蟹、八目鳗、金枪鱼、野猪 | 各 40 |
+| 妖怪们的归家 `youkaishomecoming` | 鹿、螃蟹、八目鳗、金枪鱼、野猪 | 各 40 |
+| 新生魔艺 `ars_nouveau` | 星宝石兽、风转草、德格米 | 各 25 |
+| Ars Elemental `ars_elemental` | Siren | 25 |
+| 车万女仆 `touhou_little_maid` | 女仆妖精 | 15 |
+
+共 5 个来源、15 项候选；归家与飨宴各有独立的 5 项，按完整 ID 分别处理。其他来源齐全、两者只安装其一时，新配置共 19 项；两个命名空间的候选全部存在时共 24 项。亚小妹 `starfantasy_goety:apollyon` 不自动加入，已有手动条目保留。已有同 ID 的权重与顺序优先。
+
+各联动在 `travail.witness.compatInitialization.<命名空间>.fishingEntitiesAdded` 独立记录，与钓鱼物品、幻翼奖励及探索池标记分开。来源缺席不标记；处理后即使零新增也设为 `true`，手动删除或清空后不再补回。设为 `false` 或删除对应标记后重新打开世界可重试，预先设为 `true` 可跳过初始化；使用同一配置的存档共用标记。
+
+生物联动只补充候选，不改变 `fishingEntityChance`、`fishingSpecialItemChance` 或现有实体生成方式，也不修改两个物品奖励池。
+
+## 增益效果联动预设
+
+`aspects/far_reach.toml` 与 `aspects/deep_valley.toml` 各自的 `travail.witness.positiveEffects` 使用 `效果ID|最高等级|权重`。两个池的默认值、联动预设和初始化记录分别维护。
+
+原版默认值保留：跳跃提升 `5|5`、生命恢复 `5|3`、抗性提升 `4|2`、急迫 `3|2`、力量 `3|2`，后两列依次为最高等级和权重。已有合法配置保持原值。
+
+| 来源命名空间 | 每池候选数 |
+| --- | ---: |
+| `goety` | 9 |
+| `more_potion_effects`、`youkaisfeasts`、`youkaishomecoming` | 各 5 |
+| `irons_spells_delight` | 3 |
+| `goetyawaken`、`cataclysm` | 各 2 |
+| `enigmaticaddons`、`irons_spellbooks`、`alexsmobs`、`attributeslib`、`ars_nouveau` | 各 1 |
+
+共 12 个来源、每池 36 项联动候选，权重均为 1，最高等级按各效果预设。归家与飨宴各提供 `craby|2|1`、`enjoyable|2|1`、`earthy|1|1`、`breathing|2|1`、`refreshing|1|1`，使用各自命名空间。其他来源齐全、两者只安装其一时，新配置每池共 36 项；两个命名空间的候选全部可用时每池共 41 项。AD（`astral_dimension`）、`esoteric_spell`、`projectile_damage`、`gtbcs_geomancy_plus` 不自动加入，已有手动条目保留。
+
+加载世界时按效果注册表的命名空间检测来源，只补入已注册、属于增益类型且本池缺少的 ID；已有同 ID 的最高等级、权重和顺序优先。各主题文件中的 `travail.witness.compatInitialization.<命名空间>.positiveEffectsAdded` 独立记录处理状态。
+
+来源缺席不标记；来源存在时，即使没有新增项也标记为 `true`。手动删除、清空列表或更换存档不会再次补入；设为 `false` 或删除标记并重新打开世界可重试，预先设为 `true` 可跳过。使用同一配置的存档共用标记。
+
+联动只补充效果候选，沿用原有效果触发、持续时间与等级处理规则；穷遐等级加成的上限表仍取两个效果池中同 ID 的较高上限。
+
+归家与飨宴的来源检测、完整 ID 和初始化标记相互独立，不替换或迁移已有条目。飨宴的初始化记录不会阻止后来安装归家的预设补充。
+
+## 黄金时代联动黑名单
+
+`aspects/far_reach.toml` 中，`items.golden_age.foodBlacklist` 排除黄金时代可产出的食物，`items.golden_age.enchantmentBlacklist` 排除可选附魔。两个列表的基础默认值为空；首次检测到以下模组时，分别补入对应黑名单。
+
+| 模组 | 黑名单 | 自动补入 |
+| --- | --- | --- |
+| Enigmatic Legacy | 食物 | 天体果实 `enigmaticlegacy:astral_fruit` |
+| Enigmatic Delicacy | 食物 | 深渊乱炖 `enigmaticdelicacy:abyssal_stew` |
+| L2 Complements | 附魔 | 弹射物免疫 `projectile_reject`、火焰免疫 `fire_reject`、环境免疫 `environment_reject`、爆炸免疫 `explosion_reject`、魔法免疫 `magic_reject`、伤害免疫（创造）`invincible`，均使用 `l2complements:` 前缀 |
+| Celestial Enchantments | 附魔 | 死亡刀刃 `celestial_enchantments:death_blade`、星月庇护 `celestial_enchantments:celestial_shelter` |
+
+加载世界时检查模组是否安装，并分别检查物品、附魔注册表；仅补入已注册且列表中缺少的 ID，保留手动条目与顺序。食物和附魔分别使用 `items.golden_age.compatInitialization.<模组ID>.foodBlacklistAdded`、`enchantmentBlacklistAdded` 记录处理状态，与见证奖励及效果池的标记独立。
+
+模组未安装不标记；已安装时即使零新增也标记为 `true`。之后删除条目、清空黑名单或更换存档均不会自动补回；将对应标记设为 `false` 或删除后重新打开世界，可再次尝试。预先设为 `true` 可跳过，使用同一配置的存档共用标记。
+
+黑名单仅作用于黄金时代的产出候选，不禁止通过其他途径获取或使用这些物品和附魔。其他食物筛选条件与附魔等级规则保持原有配置。
 
 ## 配置写错时如何处理
 

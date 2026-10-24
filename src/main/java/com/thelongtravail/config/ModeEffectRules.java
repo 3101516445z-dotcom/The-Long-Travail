@@ -1,9 +1,11 @@
 package com.thelongtravail.config;
 
 import com.thelongtravail.network.TooltipConfigSync;
+
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.ForgeConfigSpec;
+
 import java.util.Map;
 
 public enum ModeEffectRules {
@@ -67,10 +69,10 @@ public enum ModeEffectRules {
             rule.config =
                     builders.get(rule.file)
                             .comment(
-                                    rule.description
-                                            + "是否对创造模式或观察者模式的玩家生效。\nfalse：不对这些玩家生效（默认）；true：对这些玩家生效。\n其他生效条件保持不变。",
+                                    rule.description + "是否对创造模式或观察者模式的玩家生效。",
                                     rule.descriptionEnglish
-                                            + ": apply this effect to players in Creative or Spectator mode.\nfalse: these players are exempt (default); true: the effect also applies to them.\nAll other activation conditions still apply.")
+                                            + ": apply this effect to players in Creative or"
+                                            + " Spectator mode.")
                             .define(rule.key, false);
     }
 

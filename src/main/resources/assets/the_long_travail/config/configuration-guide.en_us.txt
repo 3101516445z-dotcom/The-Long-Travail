@@ -1,0 +1,493 @@
+The Long Travail Configuration Guide
+Generated and updated automatically at startup. Do not store personal notes here.
+Edit the TOML files in this directory. Legacy root-level files are not loaded.
+
+QUICK INDEX
+To find a section, open this guide and use the editor's Find command: hold Ctrl and press F, then type the code from the config comment (for example, P06). This searches the current file without changing it.
+Use Next or press Enter to move through matches; you can also scroll to the heading using the index below.
+New to presets? Start with P00, then P01. For carrying locations, see C03; for configuration errors, see T01.
+
+Editing configuration
+  C01  Files
+  C04  Basic syntax and units
+  C02  Reading configuration keys
+  C05  List format reference
+  E01  Exploration pools
+  E02  Localized names
+  E03  Selection and invalid entries
+  C06  Shared loot syntax and probability
+
+Presets
+  P00  What is a preset?
+  P01  Compatibility preset records and actions
+  P02  Compatible biome presets
+  P03  Compatible structure presets
+  P04  Witness reward pools and compatibility presets
+  P05  Fishing entity defaults and compatibility presets
+  P06  Beneficial-effect compatibility presets
+  P07  Golden Age compatibility blacklists
+  P08  Perfect Fluid compatibility blacklist
+
+Other mechanics and troubleshooting
+  C03  Carrying locations
+  M02  Automatic effects and reward delivery limits
+  M03  Azrael execution and protection
+  M04  Wayguide search and cache
+  M05  Client display preferences
+  T01  Handling configuration errors
+  M01  Maid compatibility
+
+====================================================================
+Editing configuration
+====================================================================
+
+[C01] Files
+------------------------------------------------
+general.toml: shared rules, exploration draw counts, unified loot, and carrying location switches.
+For shared and per-item carrying switches, see [C03].
+utility_items.toml: general-purpose items such as the Wayguide.
+client.toml: local display preferences only.
+aspects/: six themes, their associated items, and separate exploration pools.
+Most settings reload after saving; unified loot also needs /reload or a restart.
+Pool and draw-count changes affect new journeys only.
+
+Reading order
+general.toml: starter items, exploration rules, Malice, carrying and limits, compatibility, loot, internal upgrade records.
+Theme files: biome pools, structure pools, Malice, Witness, other theme rules, associated items, then preset processing records grouped by type.
+The mod maintains upgrades; do not edit them manually. Compatibility preset initialization markers may be reset as described below.
+
+[C04] Basic syntax and units
+------------------------------------------------
+Edit values to the right of = and keep the keys. Use UTF-8, ASCII double quotes and commas. Text beginning with # is a comment.
+
+Booleans, numbers and text
+- Boolean: enabled = true or enabled = false, without quotes. Read each setting's meaning; true/false do not always mean enabled/disabled.
+- Number: chance = 0.07 means 7% only when the field is a probability. Enter numbers without quotes.
+- Flat additions and multipliers differ: a flat 0.1 adds 0.1; interpret ratios and multipliers according to the field description.
+- Scientific notation: 2.0E-5 equals 0.00002, or 0.002% when used as a probability.
+- Text and enums: rewardOverflowPolicy = "DEFER". Use only the case-sensitive options in Allowed Values.
+- Range gives allowed bounds, not units. There are 20 game ticks per game second; distinguish real time from game time as specified.
+
+Lists
+items = [
+    "minecraft:apple|6|1|5",
+    "minecraft:emerald|6|1|5"
+]
+Quote each string, separate entries with ASCII commas, and keep the closing ]. Preserve the field's type; not all lists use this item format.
+[] is an empty list. The effects of 0 and empty lists depend on the setting. An empty pool can still receive eligible presets while its record is false; see [P01].
+Do not define a key twice in the same table. Quote full resource IDs containing colons in table names, as shown in [C06].
+
+[C02] Reading configuration keys
+------------------------------------------------
+Under [travail.witness.compatInitialization], goety.positiveEffectsAdded = false has the full path travail.witness.compatInitialization.goety.positiveEffectsAdded.
+Dotted keys express the original nested tables on one line without changing their meaning. Grouping by type does not merge records for different sources or pools.
+
+[C05] List format reference
+------------------------------------------------
+Choose the format for the pool. The | character separates fields; do not enter placeholder angle brackets.
+
+Biomes/structures: id|display_name|positive_integer_weight, e.g. minecraft:plains|@biome.minecraft.plains|3. See [E01], [E02].
+Item rewards/shared loot: item_id|weight|min_count|max_count, e.g. minecraft:apple|6|1|5. See [C06], [P04].
+Fishing entities: entity_id|weight, e.g. minecraft:pig|100. See [P05].
+Beneficial effects: effect_id|max_level|weight, e.g. minecraft:jump_boost|5|5. See [P06].
+Item/enchantment blacklists: full IDs only, e.g. "enigmaticlegacy:astral_fruit", without weights. See [P07], [P08].
+
+Each field retains its own bounds and validation rules. These are syntax examples, not entries you must add.
+IDs, translation keys and custom names serve different purposes. The @ translation-key name field belongs to exploration pools; do not copy it into other list formats.
+
+[E01] Exploration pools
+------------------------------------------------
+Format: biome_id|display_name|weight or structure_id|display_name|weight.
+Use a positive integer weight. Larger weights increase selection probability.
+Put each quoted entry on its own line inside brackets, separated by commas:
+biomes = [
+    "minecraft:plains|Peaks Above the Clouds|3",
+    "minecraft:forest|A Walk in the Woods|1"
+]
+A custom name or riddle changes only the diary label, not the actual target.
+IDs must exist in the current pack. example:stronghold is only a placeholder.
+
+[E02] Localized names
+------------------------------------------------
+Prefix a translation key with @, for example:
+minecraft:plains|@biome.minecraft.plains|3
+example:stronghold|@structure.example.stronghold|3
+Provide translations in a mod or resource pack. Missing translations show the ID.
+
+[E03] Selection and invalid entries
+------------------------------------------------
+Draw counts are under requirements in general.toml.
+An empty pool or a zero count disables that category.
+Duplicate IDs keep the first valid entry. Use weights instead of duplicate entries.
+Invalid or unavailable targets are logged and skipped.
+If too few valid targets remain, all remaining targets are selected.
+A nonempty enabled pool with no valid targets blocks new journey generation.
+
+[C06] Shared loot syntax and probability
+------------------------------------------------
+Location: general.toml / loot. loot.enabled is the master switch. Save, then use /reload or restart.
+
+Complete syntax example (not the default chance)
+[loot.tables."minecraft:chests/ancient_city"]
+chance = 0.2
+items = [
+    "minecraft:apple|1|1|2",
+    "minecraft:emerald|3|1|1"
+]
+
+First roll chance for this table, then select one entry by relative weight, then choose a count within its range.
+The example triggers 20% of the time. Given a trigger, apples have 1/4 of the weight and emeralds 3/4, so their final per-table-execution chances are 5% and 15%.
+Adding candidates changes relative weights, not chance. chance = 0 or items = [] disables this table's Long Travail reward; chance = 1 always triggers it.
+Item IDs must exist, weights must be positive integers, and counts must be 1–2304 with minimum no greater than maximum. Parent and child tables roll independently; no extra Looting, Fortune, Silk Touch or player-kill conditions are added.
+Invalid configuration and preserved originals: [T01].
+
+Perfect Fluid fishing chance (separate setting)
+loot.perfect_fluid.fishingChance
+Base chance to fish up Perfect Fluid with zero luck in open water; 0.0025 means 0.25%. Its chance within the treasure pool is 20 times this value. The maximum of 0.045 preserves the 10% share for Abyss Essence. Set to 0 to disable; loot.enabled must also be enabled. Save and run /reload to apply changes.
+
+====================================================================
+Presets
+====================================================================
+
+[P00] What is a preset?
+------------------------------------------------
+A preset is a built-in list of configuration entries prepared by The Long Travail for supported content. When the corresponding source is available and processing is allowed, the mod adds its missing entries to the appropriate pools, saving players from entering each ID manually.
+
+For example, with Terralith available, an eligible theme can receive its predefined biome candidates. Existing entries for the same IDs keep their names and weights. You can edit or remove the appended entries afterward.
+
+Three things to distinguish
+- Pool: the actual candidate list used during play, such as biomes or positiveEffects.
+- Preset: the built-in entries that can be appended to that list. It is not an extra configuration file you need to fill in.
+- Processing record: a boolean under compatInitialization that controls whether an automatic addition attempt is still pending. See [P01].
+
+Vanilla default pools are separate: defaults initialize new or missing settings, while compatibility presets supplement supported optional content. Neither replaces an existing complete pool merely because a preset marker was reset.
+
+Only predefined, available candidates are added; installing a mod does not import all of its content. Biome and structure presets use weight 1 and @ names; other types have their own weights, counts and level caps, listed in [P02] through [P08].
+Homecoming and Feasts use distinct namespaces. Their entity and effect presets keep full IDs and independent initialization markers; existing entries are not replaced or migrated.
+
+[P01] Compatibility preset records and actions
+------------------------------------------------
+Once a source is detected and its processing conditions are met, only missing preset entries are appended; existing settings and order for matching IDs are retained.
+
+Record values
+true: stop automatic additions. Processing sets it to true even when no entries were added. You may also set it to true beforehand to skip additions.
+false: wait for a processing attempt; it does not disable compatibility. Absent sources or unmet processing conditions leave it false.
+These values do not indicate installed mods or guarantee that a pool contains every preset entry. Deletions, empty pools, other worlds and preset updates do not reset true.
+Records belong to the configuration and are shared by worlds using it. Themes, sources and pools keep independent records.
+
+Actions
+To retry: exit the world, or stop a dedicated server. Set the relevant record to false or remove that key, save, then reopen the world or start the server.
+Perfect Fluid requires a full game or server restart; reopening a world alone is insufficient. Retrying adds missing entries only and does not restore the entire default pool.
+To skip initial additions: set the relevant record to true and save before loading a world; for Perfect Fluid, do this before starting the game or server.
+To stop a pool's actual effects, edit its feature or pool settings. Changing a preset record does not remove entries already added.
+
+[P02] Compatible biome presets
+------------------------------------------------
+Shared record rules and retry steps: [P01].
+
+Detection and entry format
+On world startup, detect integrations by registered biome namespaces. If absent, leave initialization pending. Terralith and Incendium also support data pack installations.
+Append only registered preset IDs missing from that theme's pool, using @translation_keys and weight 1. Keep existing names, weights, and order.
+
+Sources and counts
+Terralith: Flourishing 16, Abyss 10, Far Reach 19, Deep Valley 9, Underworld 4, Boundless 7. Incendium: Underworld 8. Alex's Caves: Deep Valley 2.
+
+Records and scope
+Under each applicable theme's travail.requirements.compatInitialization, terralithBiomesAdded, incendiumBiomesAdded, and alexsCavesBiomesAdded record independent processing states.
+Themes without entries for an integration do not receive its marker.
+Translations come from mods or resource packs; see [E02]. Structure pools, draw counts, and existing journeys are unchanged.
+
+[P03] Compatible structure presets
+------------------------------------------------
+Shared record rules and retry steps: [P01].
+
+Detection and entry format
+On world startup, detect registered structure namespaces and append only registered preset IDs missing from each theme's pool, using @structure.<namespace>.<path> and weight 1.
+
+Sources and counts
+Supported candidates: Terralith 18, Goety Awaken 9, Towns and Towers 8, Goety 8, Incendium 6, Iron's Spells and Spellbooks 4, Touhou Little Maid: Spell 4, Ars Nouveau 3, Aquamirae 2, Alex's Caves 1, Mowzie's Mobs 1, and T.O Magic 'n Extras 1; 65 in total.
+
+Records and scope
+Each applicable theme records independent *StructuresAdded markers under travail.requirements.compatInitialization. Biome markers do not block structure initialization; unrelated themes do not receive a marker.
+Existing names, weights, and order are retained. Mods or resource packs supply translations; missing translations show the ID. Unsupported sources and vanilla structures are not added automatically; manual entries remain.
+Draw counts and existing journeys are unchanged. requirements.structureDrawCount in general.toml still defaults to 0; set a count to enable structure objectives.
+
+[P04] Witness reward pools and compatibility presets
+------------------------------------------------
+Shared record rules and retry steps: [P01].
+
+Settings and format
+Underworld fishingSpecialItems and Boundless phantomDrops use item_id|weight|min_count|max_count, without a display-name field.
+Vanilla defaults and compatibility presets are defined separately for fishing and phantom rewards. They currently match but can be adjusted independently.
+
+Vanilla defaults
+Both vanilla defaults currently contain 12 items: apples and emeralds have weight 6 and counts 1-5; iron ingots, gold ingots, diamonds and nautilus shells have weight 6 and counts 1-3.
+Enchanted golden apples have weight 3, netherite ingots weight 2, nether stars and dragon eggs weight 1, each with count 1. Netherite scraps and echo shards have weight 3 and counts 1-3.
+These defaults apply to new or missing configuration entries; existing complete lists are not replaced.
+
+Compatibility candidates
+At world startup, append registered reward candidates from 8 namespaces: l2complements 17, curseofpandora 16, celestial_core 8, irons_spellbooks 3, apprenticecodex 2, enigmaticlegacy 1, enigmaticaddons 1 and enigmaticdelicacy 1; 49 candidates in total.
+L2, Pandora and Apprentice Codex rewards have weight 2; the others have weight 3 except Iron's legendary ink, which has weight 2. Counts are 1-3. With every candidate available, a new configuration contains 61 items per pool.
+Add only registered IDs missing from that pool, preserving existing weights, quantities and order. ROR is excluded from presets; manual entries remain.
+
+Records and scope
+Under each applicable theme's travail.witness.compatInitialization.<namespace>, fishingItemsAdded and phantomDropsAdded track independent initialization, separate from biome and structure markers.
+Fishing trigger chances, phantom detection and kill rules, delivery limits and the fishing entity pool are unchanged. New candidates change only the relative item probabilities within each reward pool.
+
+[P05] Fishing entity defaults and compatibility presets
+------------------------------------------------
+Shared record rules and retry steps: [P01].
+
+Settings and format
+Underworld travail.witness.fishing.fishingEntities uses entity_id|weight. One entity is selected and created at the fishing hook.
+
+Vanilla defaults
+The vanilla default pool contains 9 entries: pigs, cows and sheep at weight 100 each; villagers, wandering traders and cats at 50; foxes, axolotls and turtles at 25. Defaults apply only to new or missing entries; existing valid lists are retained.
+
+Compatibility candidates
+Optional candidates: Youkai's Feasts and Youkai's Homecoming each provide deer, crab, lamprey, tuna and boar at weight 40; Ars Nouveau starbuncle, whirlisprig and drygmy at 25; Ars Elemental Siren at 25; Touhou Little Maid's Maid Fairy at 15.
+There are 15 candidates from 5 sources. With other sources available, a fresh configuration has 19 entries with either Homecoming or Feasts, or 24 with every candidate in both namespaces. Append only registered entity IDs missing from the pool and preserve manual weights and order. starfantasy_goety:apollyon is not added automatically; existing manual entries remain.
+
+Records and scope
+travail.witness.compatInitialization.<namespace>.fishingEntitiesAdded tracks each source independently of item reward and exploration markers.
+Set false or remove a marker and reopen the world to retry, or set true beforehand to skip initialization. Worlds sharing a configuration share markers. Integration does not alter fishing trigger chances, entity creation behavior or item reward pools.
+
+[P06] Beneficial-effect compatibility presets
+------------------------------------------------
+Shared record rules and retry steps: [P01].
+
+Settings and format
+Each theme's travail.witness.positiveEffects uses effect_id|max_level|weight. Far Reach and Deep Valley maintain separate defaults, presets and initialization records.
+
+Vanilla defaults
+Vanilla defaults remain: jump_boost 5|5, regeneration 5|3, resistance 4|2, haste 3|2, strength 3|2 (max level|weight). Existing valid settings are preserved.
+
+Compatibility candidates
+Each pool has 36 optional candidates from 12 sources, all with weight 1 and per-effect level caps. With other sources available, a fresh pool contains 36 entries with either Homecoming or Feasts, or 41 when both namespaces have every candidate.
+Sources: goety (9), more_potion_effects (5), youkaisfeasts (5), youkaishomecoming (5), irons_spells_delight (3), goetyawaken (2), cataclysm (2), and one each from enigmaticaddons, irons_spellbooks, alexsmobs, attributeslib and ars_nouveau.
+astral_dimension, esoteric_spell, projectile_damage and gtbcs_geomancy_plus are excluded from automatic presets; existing manual entries remain.
+
+Detection and processing
+On world startup, detect effect registry namespaces and append only registered beneficial effects missing from the pool, preserving existing level caps, weights and order.
+Each theme file independently stores travail.witness.compatInitialization.<namespace>.positiveEffectsAdded.
+Effect triggers, durations and level handling retain their existing rules. Far Reach's level-bonus cap still uses the higher cap for each ID across both pools.
+
+[P07] Golden Age compatibility blacklists
+------------------------------------------------
+Shared record rules and retry steps: [P01].
+
+Settings
+In aspects/far_reach.toml, items.golden_age.foodBlacklist and enchantmentBlacklist start empty and exclude candidates from Golden Age's food and enchantment rewards respectively.
+
+Compatibility candidates
+Foods: Enigmatic Legacy's enigmaticlegacy:astral_fruit and Enigmatic Delicacy's enigmaticdelicacy:abyssal_stew.
+Enchantments: L2 Complements' projectile_reject, fire_reject, environment_reject, explosion_reject, magic_reject and invincible, all prefixed with l2complements:; Celestial Enchantments' celestial_enchantments:death_blade and celestial_enchantments:celestial_shelter.
+
+Detection and processing
+On world startup, check installed mods and append only IDs registered in the corresponding registry and missing from the list, preserving manual entries and order.
+foodBlacklistAdded and enchantmentBlacklistAdded under items.golden_age.compatInitialization.<modId> track the lists independently of Witness rewards and effect pools.
+Only Golden Age's reward candidates are affected. Other acquisition methods, food filters and enchantment-level rules retain their existing behavior.
+
+[P08] Perfect Fluid compatibility blacklist
+------------------------------------------------
+Shared record rules and retry steps: [P01].
+
+Settings
+In aspects/abyss.toml, items.perfect_fluid.itemBlacklist lists item IDs excluded from duplication. Records are under items.perfect_fluid.compatInitialization.
+
+Mods and items
+Touhou Little Maid (touhou_little_maid): maidSoulAdded covers initial and occupied Soul Spells, excluding empty Soul Spells.
+Touhou Little Maid Personality (touhou_little_maid_personality): monsterBattleDeviceAdded covers Monster Battle Device.
+
+Startup-specific rules
+The two records are independent. At game or server startup, a group is processed only if its mod is installed and all its preset items are registered. Missing IDs are then appended and its record is set to true.
+If every item in the group is already listed, the record still becomes true. An absent mod or any unregistered item keeps that group pending; the group is not partially added.
+You may then edit the blacklist freely. To retry, close the game or stop the server, set the relevant record to false, save and restart.
+The blacklist contents determine actual duplication restrictions; records only control automatic additions.
+
+====================================================================
+Other mechanics and troubleshooting
+====================================================================
+
+[C03] Carrying locations
+------------------------------------------------
+Locations and scope
+- general.toml / carrying: shared location switches used by Eki, Tower of Babel and Little Prince.
+- aspects/abyss.toml / items.eki.carrying: additional location switches for Eki.
+- aspects/far_reach.toml / items.babel.carrying: additional location switches for Tower of Babel.
+
+For Eki and Tower of Babel, both the shared switch and the item's own switch must be true for a location to count. These are active per-item settings and are generated in new configurations.
+Example: carrying.inventory = true allows inventory checks globally, but items.babel.carrying.inventory = false still excludes inventory-carried Babel items without disabling the location for other items.
+
+Location-specific details
+- inventory: main inventory and hotbar; offhand: offhand; armor: four vanilla armor slots; enderChest: ender chest.
+- curios: equipped Curios slots, excluding cosmetic slots. Enabling a location does not grant permission to equip an item there.
+- externalInventoryTick: external containers must support and enable simulated inventory updates. Ordinary nested containers are not searched recursively.
+- Eki's location switches apply to players. Maid accessories use native bauble slots; see [M01]. Carrying Eki in multiple locations does not stack its effects.
+
+[M02] Automatic effects and reward delivery limits
+------------------------------------------------
+File: general.toml
+
+Automatic effect attempt limits
+~~~~~~~~~~~~~~~~~~~~~~~~
+effectLimits.maxAutomaticEffectActionsPerPlayerPerSecond
+Maximum automatic effect attempts shared by Far Reach Witness and Deep Valley Witness per player within any consecutive 20 game ticks.
+Includes Far Reach cleansing and buffs, and buffs triggered by Deep Valley attacks. Failed or canceled attempts also count.
+Attempts exceeding the limit are skipped and are not retried later. 0 means unlimited attempts.
+Does not affect on-hit Malice, Visual Deprivation, or Deep Valley's Darkness and Blindness immunity.
+
+Reward queue and delivery policies
+~~~~~~~~~~~~~~~~~~~~~~~~
+rewardDelivery.rewardMaxItemEntitiesPerTick
+Maximum extra-reward item entities spawned per game tick across the server. Does not limit vanilla drops.
+
+rewardDelivery.rewardQueueCapacity
+Maximum pending reward records. At the limit, automatic phantom kills pause and extra fishing item rewards are skipped. Lowering the limit does not delete existing records.
+
+rewardDelivery.rewardOverflowPolicy
+DEFER: deliver all rewards in batches.
+LIMIT: deliver at most rewardMaxEntitiesPerReward item stacks per reward; discard the excess.
+Both modes are subject to the server-wide per-tick delivery limit.
+
+rewardDelivery.rewardMaxEntitiesPerReward
+Maximum item stacks delivered per reward in LIMIT mode.
+
+[M03] Azrael execution and protection
+------------------------------------------------
+File: aspects/deep_valley.toml
+
+Duration and execution chances
+~~~~~~~~~~~~~~~~~~~~~~~~
+items.azrael.executionWatchSeconds
+Maximum duration of active protection after a forced execution, in seconds at 20 game ticks per second. Defaults to 300 seconds; targets that are not reinserted are observed for only 10 seconds. Reinsertion and cleanup failures do not reset this limit. Active cleanup stops when the limit expires, but passive guards against the old entity instance remain. Changes apply only to subsequent executions.
+
+items.azrael.maliceChance
+With Deep Valley Malice active, being attacked grants one execution attempt, except for attacks from the wearer.
+This is the chance to execute the first target the wearer actually damages afterward.
+Neither execution attempts nor execution chance can accumulate.
+0.025 means 2.5%.
+
+items.azrael.targetChance
+With Deep Valley Witness active, the chance to execute the target on each roll.
+Executing the target and executing the wearer are mutually exclusive outcomes of the same roll.
+If their chances total more than 1, they are scaled proportionally to total 1.
+
+items.azrael.selfChance
+With Deep Valley Witness active, the chance to execute the wearer on each roll; the default, 0.005, means 0.5%.
+
+Execution stages and fallbacks
+~~~~~~~~~~~~~~~~~~~~~~~~
+items.azrael.damageAttempts
+Maximum number of attempts to deal infinite true damage during the first execution stage. Vanilla damage-invulnerability time is reset before each attempt. Stops as soon as execution succeeds.
+
+items.azrael.genericKillFallback
+If the first stage fails, attempt generic_kill damage once, retaining the player as its source.
+
+items.azrael.directDeathFallback
+If both earlier stages fail, bypass cancelable death checks and lock the old entity instance's health. Players retain the respawn process. Non-player entities run the vanilla death method before being forcibly terminated, which may bypass custom drops or boss cleanup.
+
+Creative and Spectator modes
+~~~~~~~~~~~~~~~~~~~~~~~~
+items.azrael.selfExecutionAffectsCreativeAndSpectator
+Azrael executing its wearer: apply this effect to players in Creative or Spectator mode.
+
+items.azrael.targetExecutionAffectsCreativeAndSpectator
+Azrael executing other players: apply this effect to players in Creative or Spectator mode.
+
+[M04] Wayguide search and cache
+------------------------------------------------
+File: utility_items.toml
+
+Guidance duration and search range
+~~~~~~~~~~~~~~~~~~~~~~~~
+items.wayguide.guideDurationSeconds
+Duration of guidance after the Wayguide finds a target, in seconds.
+Measured from launch until becoming a dropped item, including flight and hovering but excluding search time.
+Changes also affect Wayguides already in flight.
+
+items.wayguide.search.searchRadius
+Maximum horizontal Wayguide search radius, in blocks, capped at 5000. Not finding a target does not mean none exists in the entire dimension.
+
+items.wayguide.search.searchTimeoutSeconds
+Maximum waiting time for a search request, in real-world seconds.
+Measured from acceptance of the request, including preparation and queueing. When a timeout is detected, the search stops and the Wayguide is returned.
+
+Sampling precision
+~~~~~~~~~~~~~~~~~~~~~~~~
+items.wayguide.sampling.biomeSampleSpacing
+Horizontal biome sample spacing, in blocks. Smaller values provide finer searches but take longer.
+
+items.wayguide.sampling.heightSampleSpacing
+Vertical spacing between biome samples, in blocks. The player's height is always checked as well.
+
+Search budgets
+~~~~~~~~~~~~~~~~~~~~~~~~
+items.wayguide.budget.samplesPerTick
+Maximum Wayguide search samples per game tick across the server, shared by all players.
+
+items.wayguide.budget.searchMillisPerTick
+Target time spent on normal search processing per game tick, in milliseconds.
+Includes preparation, checks, sampling, and completion. Individual operations and necessary state cleanup may exceed this budget.
+
+items.wayguide.budget.maxSamplesPerSearch
+Maximum samples per Wayguide search. Reaching the limit stops the search and returns the Wayguide.
+
+Cache and invalidation
+~~~~~~~~~~~~~~~~~~~~~~~~
+items.wayguide.cache.cacheTicks
+Search-result cache duration, in game ticks; 0 disables caching. Moving more than 128 blocks, changing dimensions, or changing Long Travail progress invalidates the cache.
+
+[M05] Client display preferences
+------------------------------------------------
+client.toml affects only this client. Name halos, Visual Deprivation motion, skill messages and time-stop boundaries do not change server rules. The two halo quality settings are independent. Changes reload after saving; restarting the client ensures they take effect.
+
+Halo quality: HIGH, MEDIUM, LOW or OFF. Lower quality reduces rendering cost; OFF preserves animation inside the names.
+
+nameEffects.nameHaloQuality
+Halo quality for The Long Travail name.
+
+nameEffects.aspectNameHaloQuality
+Halo quality for the six theme names.
+
+visualDeprivation.reduceVisualMotion
+Disable periodic changes in Visual Deprivation intensity on this client.
+
+messages.rainSkillMessages
+Show Tokaido skill messages.
+
+messages.dreamSkillMessages
+Show Free and Easy Wandering skill messages.
+
+timeStop.boundaryLevel
+Time-stop boundary display mode for this client: 1 = a continuous translucent glass sphere; 2 = a wireframe sphere.
+Default: 1. Mode 2 reduces rendering cost. Both modes use bright cyan-green for exempt boundaries and orange-red for dangerous boundaries.
+
+[T01] Handling configuration errors
+------------------------------------------------
+Use UTF-8; a leading UTF-8 BOM is accepted. Prefer plain numbers, such as chance = 0.07. Valid numeric strings are also converted automatically.
+
+At startup: if missing values, unclosed brackets or quotes, duplicate keys, or damaged encoding prevent parsing, the original file is preserved before restoring that file's defaults. Other configuration files are unchanged.
+Ordinary settings with invalid types or out-of-range values use their defaults individually. Filling in missing settings normally creates no error backup.
+
+During play: files that cannot be parsed remain on disk for repair, while the loaded configuration stays active. Save the corrected file to retry.
+Invalid ordinary values retain their effective values from this session; other valid edits still apply.
+
+Loot: each table is validated as a whole. Invalid chances, item IDs, weights or quantities retain that table's effective rules from this session; without previous rules, its added rewards are disabled.
+Other valid tables and Perfect Fluid's fishing chance are handled independently. Valid deletions, zero chance and empty item lists stop the affected rewards.
+
+Originals and repair: before restoring a damaged file or correcting existing values, the original contents are saved under invalid/<timestamp-and-unique-id>/ with theme subdirectories preserved and an errors.txt report.
+If preserving the original fails, the configuration is not overwritten. Backups are not deleted or restored automatically; recover any wanted settings from the original, correct them, and put them into the current TOML file.
+
+Logs and notices: single-player users or server administrators receive one summary notice. Duplicate warnings are suppressed. At most 20 detailed warnings are logged per 60 seconds; omitted counts and affected files are summarized about once a minute, with any pending summary flushed when the server stops.
+Locate the issue using the log or errors.txt, then correct and save the current configuration. Unified loot also needs /reload or a restart.
+
+[M01] Maid compatibility
+------------------------------------------------
+Supported accessories work only in native maid bauble slots.
+Maid inventories, hands, and Curios slots do not qualify.
+Diary-dependent effects read the diary worn by the online owner without consuming Witness progress.
+Without an online owner wearing the diary, those effects do not apply.
+One owner's diary can support several maids, each wearing its own accessories.
+Eki carrying switches and Curios slot settings apply only to players.
+Tokaido provides only healing and fire immunity to maids.

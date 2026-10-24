@@ -2,7 +2,6 @@ package com.thelongtravail.config;
 
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.toml.TomlParser;
-import com.electronwill.nightconfig.toml.TomlWriter;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -42,12 +41,7 @@ public final class ConfigFileIO {
     }
 
     public static void write(Path path, CommentedConfig config) throws IOException {
-        TomlWriter writer = new TomlWriter();
-        writer.setIndentArrayElementsPredicate(list -> !list.isEmpty());
-        writer.setIndent("    ");
-        var output = new java.io.StringWriter();
-        writer.write(ConfigLayout.arrange(path, config), output);
-        String text = output.toString();
+        String text = ConfigTomlWriter.write(path, config);
         if (Files.exists(path)
                 && java.util.Arrays.equals(
                         Files.readAllBytes(path), text.getBytes(StandardCharsets.UTF_8))) return;
