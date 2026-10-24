@@ -1,5 +1,6 @@
 package com.thelongtravail.underworld;
 
+import com.thelongtravail.compat.dummmmmmy.DummySoulRules;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.decoration.ArmorStand;
@@ -27,7 +28,7 @@ public final class SoulBannerKills {
             return null;
         var id =
                 net.minecraftforge.registries.ForgeRegistries.ENTITY_TYPES.getKey(victim.getType());
-        if (id != null && id.getNamespace().equals("dummmmmmy")) return null;
+        if (DummySoulRules.excludesSoulCapture(id)) return null;
         Set<Entity> seen = Collections.newSetFromMap(new IdentityHashMap<>());
         while (source instanceof Projectile p && seen.add(source)) source = p.getOwner();
         if (!(source instanceof LivingEntity actor)

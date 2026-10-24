@@ -1,4 +1,4 @@
-package com.thelongtravail.mixin;
+package com.thelongtravail.compat.mixin.maid;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import com.thelongtravail.underworld.UnderworldItems;

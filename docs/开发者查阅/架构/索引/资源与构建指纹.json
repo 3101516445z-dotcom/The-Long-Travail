@@ -18,7 +18,7 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "9b0cabecacfac9af8ea9bbf657682d0e44270a65231080ff25f80d2b8dc187b2",
+  "fingerprint": "317d66eeabec8df393a0e97fb2edc6ccc211cb0576a2e46d5c83abbedf2adaf3",
   "files": [
     {
       "path": "build.gradle",
@@ -1094,11 +1094,11 @@
     },
     {
       "path": "src/main/resources/mixins.the_long_travail.compat.json",
-      "sha256": "44faf057aad09c089bb96c4c6e5ae0a861ebd2881bec24dee2e022ef1c14062f"
+      "sha256": "cdeb45526ef69fe3d432ea9388d6170a885407e10fd09fc2207240b06b86c589"
     },
     {
       "path": "src/main/resources/mixins.the_long_travail.json",
-      "sha256": "9f2f8174f61936ffa46d6c3004065c8d3f3d2ff8f9d15e071a2923d67cd8af77"
+      "sha256": "ee8dd33fe28c2e55834453a2869caec40c8ba1a1843c0da614978d704c2dac0d"
     },
     {
       "path": "src/main/resources/pack.mcmeta",

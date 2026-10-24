@@ -12,6 +12,7 @@
     "gravestone.BookGravestoneMixin",
     "gravestone.BookBlockEntityMixin",
     "maid.MaidSwimMixin",
+    "maid.UnderworldMaidAttackMixin",
     "maid.MaidPersonalityStorageMixin",
     "maid.MaidRelicSlotMixin"
   ],

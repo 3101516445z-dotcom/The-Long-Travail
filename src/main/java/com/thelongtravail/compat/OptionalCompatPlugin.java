@@ -18,6 +18,8 @@ public final class OptionalCompatPlugin implements IMixinConfigPlugin {
     }
 
     public boolean shouldApplyMixin(String target, String mixin) {
+        // 此桥接只引用原版类型，沿用始终注入、由女仆门面判断是否生效的策略。
+        if (mixin.endsWith(".maid.UnderworldMaidAttackMixin")) return true;
         if (mixin.endsWith("AffixNameMixin") || mixin.endsWith("DiaryRuneRecipeMixin")) {
             String mod = mixin.endsWith("AffixNameMixin") ? "apotheosis" : "quark";
             return net.minecraftforge.fml.loading.FMLLoader.getLoadingModList().getMods().stream()

@@ -86,7 +86,6 @@
     "BookServerPlayerMixin",
     "BookPlayerListMixin",
     "UnderworldAttackMixin",
-    "UnderworldMaidAttackMixin",
     "UnderworldEnchantmentMixin",
     "UnderworldStackMixin",
     "DroppedItemIndexMixin",

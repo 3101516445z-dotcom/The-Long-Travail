@@ -199,7 +199,7 @@
 
 ## 常用调整
 
-- **駅与东海道的天气条件**：固定为主世界的雨天、雪天或雷暴天气，不能再选择“任意天气”或“仅雷暴”。旧 `items.eki.weather`、`items.tokaido.weather` 会在加载新版配置时自动移除；其他合法设置保留。当地降水与露天要求仍由原有选项控制，唤雨期间也使用同一套被动生效条件。
+- **駅与东海道五十三次的天气条件**：固定为主世界的雨天、雪天或雷暴天气，不能再选择“任意天气”或“仅雷暴”。旧 `items.eki.weather`、`items.tokaido.weather` 会在加载新版配置时自动移除；其他合法设置保留。当地降水与露天要求仍由原有选项控制，唤雨期间也使用同一套被动生效条件。
 
 - **效果强度与触发条件**：在对应主题文件中修改。概率通常用 `0`～`1` 表示，例如 `0.5` 为 50%；具体单位和范围以注释为准。
 - **名称光晕**：在 `client.toml` 的 `nameEffects` 中调整，可选 `HIGH`、`MEDIUM`、`LOW` 或 `OFF`。
@@ -215,8 +215,8 @@
 | `general.toml` | `malice.affectCreativeAndSpectator` | 苦旅的全部恶意惩罚 |
 | `aspects/deep_valley.toml` | `items.phosphophyllite.damageAffectsCreativeAndSpectator` | 磷叶石的受伤倍率 |
 | `aspects/abyss.toml` | `items.midnight_lafite.nauseaExtensionAffectsCreativeAndSpectator` | 午夜拉菲延长反胃时长 |
-| `aspects/deep_valley.toml` | `items.azrael.selfExecutionAffectsCreativeAndSpectator` | Azrael 处决佩戴者自身 |
-| `aspects/deep_valley.toml` | `items.azrael.targetExecutionAffectsCreativeAndSpectator` | Azrael 处决其他玩家 |
+| `aspects/deep_valley.toml` | `items.azrael.selfExecutionAffectsCreativeAndSpectator` | 死告天使 处决佩戴者自身 |
+| `aspects/deep_valley.toml` | `items.azrael.targetExecutionAffectsCreativeAndSpectator` | 死告天使 处决其他玩家 |
 | `aspects/boundless.toml` | `items.boundless.star.affectCreativeAndSpectator` | 星之声冻结范围内玩家 |
 | `aspects/flourishing.toml` | `items.spring_corner.harmfulEffectsAffectCreativeAndSpectator` | 春日一隅施加中毒、凋零，以及丁香延长负面效果 |
 | `aspects/flourishing.toml` | `items.spring_corner.retaliationAffectsCreativeAndSpectator` | 春日一隅的玫瑰丛反伤 |

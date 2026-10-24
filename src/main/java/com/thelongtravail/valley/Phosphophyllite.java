@@ -1,6 +1,7 @@
 package com.thelongtravail.valley;
 
 import com.thelongtravail.api.TravailStateApi;
+import com.thelongtravail.compat.arsnouveau.ArsNouveauAttributeRules;
 import com.thelongtravail.common.*;
 import com.thelongtravail.config.*;
 import com.thelongtravail.helper.AccessoryEquipRules;
@@ -19,10 +20,8 @@ import java.util.*;
 public final class Phosphophyllite {
     private static final ResourceLocation SOURCE =
             new ResourceLocation("the_long_travail", "phosphophyllite");
-    // 新生魔艺用此属性调整药水持续时间，两个处理阶段都须将其排除。
-
     private static final Set<String> COMPAT_EXCLUSIONS =
-            Set.of("ars_nouveau:ars_nouveau.perk.wixie");
+            ArsNouveauAttributeRules.phosphophylliteExclusions();
 
     private record Applied(int phase, double amount, Set<String> excluded) {}
 

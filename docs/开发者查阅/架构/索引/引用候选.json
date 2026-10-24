@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "method": "lexical-candidates-not-call-graph",
-  "sourceFingerprint": "71a7a95a8dd3a9c74e76ee5a7583216ce24727de7d1435c4aa93828c1d3f119a",
+  "sourceFingerprint": "45ef4b4a86acd50ade24a37a0ae6f4536b310c5552d946c71d8b05ee328673e8",
   "files": [
     {
       "path": "src/main/java/com/thelongtravail/AspectTheme.java",
@@ -57,7 +57,7 @@
       "pkg": "com.thelongtravail.abyss",
       "type": "com.thelongtravail.abyss.MidnightLafite",
       "module": "六主题玩法",
-      "role": "拉菲夜间与药效处理入口",
+      "role": "午夜拉菲夜间与药效处理入口",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Forge事件",
@@ -381,7 +381,7 @@
       "pkg": "com.thelongtravail.boundless",
       "type": "com.thelongtravail.boundless.LorentzFantasy",
       "module": "六主题玩法",
-      "role": "洛伦兹箭矢快照、命中与虚空结算",
+      "role": "洛伦兹幻想箭矢快照、命中与虚空结算",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Forge事件",
@@ -1165,7 +1165,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "abe5ecfcb31e5073061ac6653f80b63fb9d2bc4c56da851485c8c908e1f3bbce"
+      "sha256": "a21573859673776e590e998ff689a14806e5a5ecd6023919b97888c6cd1259ed"
     },
     {
       "path": "src/main/java/com/thelongtravail/compat/OptionalCompatState.java",
@@ -1274,6 +1274,18 @@
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
       "sha256": "ce2e8946f4eb51c0ee070b0f492bf8a70990e56fa7b5f5fc4c10b99d8ad29bc9"
+    },
+    {
+      "path": "src/main/java/com/thelongtravail/compat/arsnouveau/ArsNouveauAttributeRules.java",
+      "name": "ArsNouveauAttributeRules",
+      "pkg": "com.thelongtravail.compat.arsnouveau",
+      "type": "com.thelongtravail.compat.arsnouveau.ArsNouveauAttributeRules",
+      "module": "外部模组适配",
+      "role": "新生魔艺属性增幅排除规则",
+      "classification": "重点归类",
+      "side": "待按方法核对",
+      "entry": "普通调用/待核对",
+      "sha256": "7cf82e6ba7ed1ece604c7bd57a12a7879d1635744f7e22033382cc85f0b7209d"
     },
     {
       "path": "src/main/java/com/thelongtravail/compat/arsnouveau/ArsNouveauEffectDefaults.java",
@@ -1406,6 +1418,18 @@
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
       "sha256": "a18853ba5480b9cbfc65d0238421aeab80acb55705e29ba3d51655b9357def9e"
+    },
+    {
+      "path": "src/main/java/com/thelongtravail/compat/dummmmmmy/DummySoulRules.java",
+      "name": "DummySoulRules",
+      "pkg": "com.thelongtravail.compat.dummmmmmy",
+      "type": "com.thelongtravail.compat.dummmmmmy.DummySoulRules",
+      "module": "外部模组适配",
+      "role": "假人命名空间收魂排除",
+      "classification": "重点归类",
+      "side": "待按方法核对",
+      "entry": "普通调用/待核对",
+      "sha256": "b80dd1d36ba962c85fcf8cd1dc257a644768775b6e1f1257561713e88d29a2e1"
     },
     {
       "path": "src/main/java/com/thelongtravail/compat/eeeabsmobs/EEEABMobsStructureDefaults.java",
@@ -2236,6 +2260,18 @@
       "sha256": "96d443454cd0d38ce081c028a1f2fb0578a0416c07407ffb8319a07449c8b164"
     },
     {
+      "path": "src/main/java/com/thelongtravail/compat/mixin/maid/UnderworldMaidAttackMixin.java",
+      "name": "UnderworldMaidAttackMixin",
+      "pkg": "com.thelongtravail.compat.mixin.maid",
+      "type": "com.thelongtravail.compat.mixin.maid.UnderworldMaidAttackMixin",
+      "module": "外部模组适配",
+      "role": "女仆冥府见证攻击类型桥接",
+      "classification": "重点归类",
+      "side": "待按方法核对",
+      "entry": "Mixin",
+      "sha256": "478889d61ab89727ca74fcf205f00b7e56d892ec47dd0a18042dd96d145d6091"
+    },
+    {
       "path": "src/main/java/com/thelongtravail/compat/mixin/quark/DiaryRuneRecipeMixin.java",
       "name": "DiaryRuneRecipeMixin",
       "pkg": "com.thelongtravail.compat.mixin.quark",
@@ -2781,7 +2817,7 @@
       "pkg": "com.thelongtravail.config",
       "type": "com.thelongtravail.config.LorentzGeometryConfig",
       "module": "六主题玩法",
-      "role": "洛伦兹爆头几何修正配置",
+      "role": "洛伦兹幻想爆头几何修正配置",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
@@ -3621,7 +3657,7 @@
       "pkg": "com.thelongtravail.flourishing",
       "type": "com.thelongtravail.flourishing.Affection",
       "module": "六主题玩法",
-      "role": "情深意切绑定与有效目标缓存",
+      "role": "喜欢的心情绑定与有效目标缓存",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
@@ -3633,7 +3669,7 @@
       "pkg": "com.thelongtravail.flourishing",
       "type": "com.thelongtravail.flourishing.AffectionDeaths",
       "module": "六主题玩法",
-      "role": "情深意切死亡绑定持久化账本",
+      "role": "喜欢的心情死亡绑定持久化账本",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
@@ -3729,7 +3765,7 @@
       "pkg": "com.thelongtravail.flourishing",
       "type": "com.thelongtravail.flourishing.FlowerData",
       "module": "六主题玩法",
-      "role": "花冠三花组合数据与生效查询",
+      "role": "春日一隅三花组合数据与生效查询",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
@@ -3777,7 +3813,7 @@
       "pkg": "com.thelongtravail.flourishing",
       "type": "com.thelongtravail.flourishing.SpringRecipes",
       "module": "六主题玩法",
-      "role": "花冠合成、加花与水洗",
+      "role": "春日一隅合成、加花与水洗",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
@@ -3969,7 +4005,7 @@
       "pkg": "com.thelongtravail.item",
       "type": "com.thelongtravail.item.AbyssItem",
       "module": "归墟物品入口",
-      "role": "完美流体与拉菲名称、说明和佩戴入口",
+      "role": "完美流体与午夜拉菲名称、说明和佩戴入口",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Curios回调",
@@ -4089,7 +4125,7 @@
       "pkg": "com.thelongtravail.item",
       "type": "com.thelongtravail.item.FlourishingAccessoryItem",
       "module": "繁茂物品入口",
-      "role": "春隅与情深意切构造分支、交互和装备回调",
+      "role": "春日一隅与喜欢的心情构造分支、交互和装备回调",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Curios回调",
@@ -4221,7 +4257,7 @@
       "pkg": "com.thelongtravail.item",
       "type": "com.thelongtravail.item.UnderworldAccessoryItem",
       "module": "冥府物品入口",
-      "role": "千年之后与死者之书佩戴入口",
+      "role": "一千年后与死者之书佩戴入口",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Curios回调",
@@ -4233,7 +4269,7 @@
       "pkg": "com.thelongtravail.item",
       "type": "com.thelongtravail.item.UnderworldRelicItem",
       "module": "六主题玩法",
-      "role": "魔王与魂幡装备依赖入口",
+      "role": "第六天魔王与万魂幡装备依赖入口",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Curios回调",
@@ -5265,7 +5301,7 @@
       "pkg": "com.thelongtravail.mixin",
       "type": "com.thelongtravail.mixin.LafiteInstantEffectMixin",
       "module": "六主题玩法",
-      "role": "拉菲夜间与药效处理入口",
+      "role": "午夜拉菲夜间与药效处理入口",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Mixin",
@@ -5361,7 +5397,7 @@
       "pkg": "com.thelongtravail.mixin",
       "type": "com.thelongtravail.mixin.LorentzArrowAccessor",
       "module": "六主题玩法",
-      "role": "洛伦兹箭矢入地状态访问",
+      "role": "洛伦兹幻想箭矢入地状态访问",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Mixin",
@@ -5373,7 +5409,7 @@
       "pkg": "com.thelongtravail.mixin",
       "type": "com.thelongtravail.mixin.LorentzArrowMixin",
       "module": "六主题玩法",
-      "role": "洛伦兹箭矢受击作用域桥接",
+      "role": "洛伦兹幻想箭矢受击作用域桥接",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Mixin",
@@ -5920,18 +5956,6 @@
       "sha256": "7f9b1d2cfbbf76925f1a928df1b07f657f970aed15a46e76804cf4b52132fa7f"
     },
     {
-      "path": "src/main/java/com/thelongtravail/mixin/UnderworldMaidAttackMixin.java",
-      "name": "UnderworldMaidAttackMixin",
-      "pkg": "com.thelongtravail.mixin",
-      "type": "com.thelongtravail.mixin.UnderworldMaidAttackMixin",
-      "module": "原版注入桥接",
-      "role": "平台接入",
-      "classification": "目录初分，待逐类复核",
-      "side": "待按方法核对",
-      "entry": "Mixin",
-      "sha256": "ab8fdf4555e7b8592d26b9319887a290f40e15a4b89df0ece1272b97679e26d8"
-    },
-    {
       "path": "src/main/java/com/thelongtravail/mixin/UnderworldStackMixin.java",
       "name": "UnderworldStackMixin",
       "pkg": "com.thelongtravail.mixin",
@@ -5961,7 +5985,7 @@
       "pkg": "com.thelongtravail.network",
       "type": "com.thelongtravail.network.BoundlessPacket",
       "module": "客户端与兼容",
-      "role": "白日梦请求、状态和提示协议",
+      "role": "逍遥游请求、状态和提示协议",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
@@ -6021,7 +6045,7 @@
       "pkg": "com.thelongtravail.network",
       "type": "com.thelongtravail.network.LanternPacket",
       "module": "客户端与兼容",
-      "role": "灯笼玩家光源状态协议",
+      "role": "剑与灯玩家光源状态协议",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
@@ -6093,7 +6117,7 @@
       "pkg": "com.thelongtravail.network",
       "type": "com.thelongtravail.network.StiffPacket",
       "module": "客户端与兼容",
-      "role": "僵直剩余时间协议",
+      "role": "僵硬剩余时间协议",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
@@ -6237,7 +6261,7 @@
       "pkg": "com.thelongtravail.underworld",
       "type": "com.thelongtravail.underworld.DemonKingCombat",
       "module": "六主题玩法",
-      "role": "魔王环境增伤、亡灵减伤与吸血",
+      "role": "第六天魔王环境增伤、亡灵减伤与吸血",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
@@ -6289,7 +6313,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Forge事件",
-      "sha256": "6653427ccde7063eebb331d13ba54bad42e8ffd77d16df6f6c55037fb854115d"
+      "sha256": "efd9911342ea52bdfd1e0f613a6c3293332d07b1471be93dcd9a25f38e37c6ff"
     },
     {
       "path": "src/main/java/com/thelongtravail/underworld/SpawnProtectionAccess.java",
@@ -6589,7 +6613,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "Forge事件",
-      "sha256": "95c2ff2551f86c0f049bc0ef3b04961cc912e6e346793dd1648fae47abfc74c7"
+      "sha256": "5e0113540d15ccb54eacb4b4ad26de652bde4a147cdcc7313ae0a20927b46940"
     },
     {
       "path": "src/main/java/com/thelongtravail/valley/SwordLanternConfig.java",
@@ -10742,6 +10766,14 @@
       "basis": "explicit-import"
     },
     {
+      "from": "com.thelongtravail.compat.mixin.maid.UnderworldMaidAttackMixin",
+      "to": "com.thelongtravail.compat.maid.MaidAccessories",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/compat/mixin/maid/UnderworldMaidAttackMixin.java",
+      "tokenLine": 21,
+      "basis": "fully-qualified"
+    },
+    {
       "from": "com.thelongtravail.compat.mixin.quark.DiaryRuneRecipeMixin",
       "to": "com.thelongtravail.registry.ModRegistry",
       "kind": "lexical-reference-candidate",
@@ -10786,7 +10818,7 @@
       "to": "com.thelongtravail.compat.OptionalCompatChecks",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/compat/OptionalCompatPlugin.java",
-      "tokenLine": 117,
+      "tokenLine": 119,
       "basis": "same-package"
     },
     {
@@ -10794,7 +10826,7 @@
       "to": "com.thelongtravail.compat.OptionalCompatState",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/compat/OptionalCompatPlugin.java",
-      "tokenLine": 114,
+      "tokenLine": 116,
       "basis": "same-package"
     },
     {
@@ -17654,14 +17686,6 @@
       "basis": "explicit-import"
     },
     {
-      "from": "com.thelongtravail.mixin.UnderworldMaidAttackMixin",
-      "to": "com.thelongtravail.compat.maid.MaidAccessories",
-      "kind": "lexical-reference-candidate",
-      "evidence": "src/main/java/com/thelongtravail/mixin/UnderworldMaidAttackMixin.java",
-      "tokenLine": 21,
-      "basis": "fully-qualified"
-    },
-    {
       "from": "com.thelongtravail.mixin.UnderworldStackMixin",
       "to": "com.thelongtravail.underworld.UnderworldLedger",
       "kind": "lexical-reference-candidate",
@@ -18599,10 +18623,18 @@
     },
     {
       "from": "com.thelongtravail.underworld.SoulBannerKills",
+      "to": "com.thelongtravail.compat.dummmmmmy.DummySoulRules",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/underworld/SoulBannerKills.java",
+      "tokenLine": 31,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.underworld.SoulBannerKills",
       "to": "com.thelongtravail.compat.maid.MaidAccessories",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/underworld/SoulBannerKills.java",
-      "tokenLine": 36,
+      "tokenLine": 37,
       "basis": "fully-qualified"
     },
     {
@@ -18610,7 +18642,7 @@
       "to": "com.thelongtravail.underworld.UnderworldRelics",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/underworld/SoulBannerKills.java",
-      "tokenLine": 38,
+      "tokenLine": 39,
       "basis": "same-package"
     },
     {
@@ -19274,7 +19306,7 @@
       "to": "com.thelongtravail.api.TravailStateApi",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/valley/Phosphophyllite.java",
-      "tokenLine": 52,
+      "tokenLine": 51,
       "basis": "explicit-import"
     },
     {
@@ -19282,7 +19314,7 @@
       "to": "com.thelongtravail.common.AttributeModifierSet",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/valley/Phosphophyllite.java",
-      "tokenLine": 84,
+      "tokenLine": 83,
       "basis": "wildcard-import"
     },
     {
@@ -19290,15 +19322,23 @@
       "to": "com.thelongtravail.common.OverflowHealing",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/valley/Phosphophyllite.java",
-      "tokenLine": 94,
+      "tokenLine": 93,
       "basis": "wildcard-import"
+    },
+    {
+      "from": "com.thelongtravail.valley.Phosphophyllite",
+      "to": "com.thelongtravail.compat.arsnouveau.ArsNouveauAttributeRules",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/valley/Phosphophyllite.java",
+      "tokenLine": 24,
+      "basis": "explicit-import"
     },
     {
       "from": "com.thelongtravail.valley.Phosphophyllite",
       "to": "com.thelongtravail.compat.maid.MaidAccessories",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/valley/Phosphophyllite.java",
-      "tokenLine": 56,
+      "tokenLine": 55,
       "basis": "fully-qualified"
     },
     {
@@ -19306,7 +19346,7 @@
       "to": "com.thelongtravail.config.DeepValleyItemsConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/valley/Phosphophyllite.java",
-      "tokenLine": 33,
+      "tokenLine": 32,
       "basis": "wildcard-import"
     },
     {
@@ -19314,7 +19354,7 @@
       "to": "com.thelongtravail.config.ModeEffectRules",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/valley/Phosphophyllite.java",
-      "tokenLine": 60,
+      "tokenLine": 59,
       "basis": "wildcard-import"
     },
     {
@@ -19322,7 +19362,7 @@
       "to": "com.thelongtravail.helper.AccessoryEquipRules",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/valley/Phosphophyllite.java",
-      "tokenLine": 50,
+      "tokenLine": 49,
       "basis": "explicit-import"
     },
     {
@@ -19330,7 +19370,7 @@
       "to": "com.thelongtravail.registry.ModRegistry",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/valley/Phosphophyllite.java",
-      "tokenLine": 50,
+      "tokenLine": 49,
       "basis": "explicit-import"
     },
     {
