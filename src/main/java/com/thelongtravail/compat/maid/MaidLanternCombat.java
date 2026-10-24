@@ -21,12 +21,12 @@ public final class MaidLanternCombat {
     }
 
     public static boolean equipped(EntityMaid p) {
-        return !MaidAccessoryRuntime.equipped(p, ModRegistry.SWORD_AND_LANTERN.get()).isEmpty();
+        return !MaidAccess.equipped(p, ModRegistry.SWORD_AND_LANTERN.get()).isEmpty();
     }
 
     private static boolean friendly(EntityMaid p, LivingEntity e) {
         if (e == p || p.isAlliedTo(e) || e.isAlliedTo(p)) return true;
-        var master = MaidAccessoryRuntime.owner(p);
+        var master = MaidAccess.owner(p);
         if (master == null) return false;
         if (e instanceof Player other && SwordLanternState.teammates(master, other)) return true;
         var id = TimeStopExemptions.owner(e);

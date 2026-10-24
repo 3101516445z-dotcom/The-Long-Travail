@@ -1,0 +1,37 @@
+allprojects {
+    afterEvaluate {
+        dependencies { runtimeOnly fg.deobf(project.ext.maidApiDependency) }
+        def directory = project.file('build/structure-round-16-' + (project.findProperty('structurePhase') ?: 'after'))
+        sourceSets {
+            maidSoakTest {
+                java.srcDir 'tools/structure-regression/soak'
+                resources.srcDir 'tools/structure-regression/resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        minecraft.runs.server {
+            workingDirectory directory
+            property 'travail.hotpath.metrics', 'true'
+            args '--nogui'
+            mods { travail_smoke { source sourceSets.maidSoakTest } }
+        }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            doFirst {
+                if (directory.exists()) {
+                    def base = project.file('build').canonicalFile.toPath()
+                    if (!directory.canonicalFile.toPath().startsWith(base)) throw new GradleException('Unsafe soak directory')
+                    def archived = new File(directory.parentFile, directory.name + '-archive-' + System.currentTimeMillis())
+                    if (!directory.renameTo(archived)) throw new GradleException('Cannot archive previous soak world')
+                }
+                directory.mkdirs()
+                new File(directory, 'eula.txt').text = project.file('run/eula.txt').text
+                new File(directory, 'server.properties').text = 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25658\nlevel-name=maid-structure-test\nlevel-type=minecraft\\:flat\ngenerate-structures=false\nview-distance=2\nsimulation-distance=2\nmax-tick-time=60000\n'
+                new File(directory, 'soak-result.txt').text = 'NOT_RUN'
+            }
+            doLast {
+                if (new File(directory, 'soak-result.txt').text.startsWith('PASS ')==false) throw new GradleException('Maid structural regression failed')
+            }
+        }
+    }
+}

@@ -1,5 +1,7 @@
 package com.thelongtravail.config;
 
+import com.thelongtravail.common.TickDurations;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 
@@ -296,7 +298,7 @@ public final class RainConfig {
     }
 
     public static int ticks(double seconds) {
-        return Math.max(0, (int) Math.ceil(seconds * 20));
+        return TickDurations.ceilNonNegative(seconds);
     }
 
     private static boolean id(Object v) {

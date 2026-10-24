@@ -64,5 +64,14 @@ public final class ConfigFileIO {
         }
     }
 
+    /** Checks the expected disk version, writes, then returns the bytes actually on disk.
+     * Callers retain their own publication and failure policies.
+     */
+    static byte[] writeChecked(Path path, CommentedConfig config, byte[] expected) throws IOException {
+        ConfigRecovery.checkUnchanged(path, expected);
+        write(path, config);
+        return Files.readAllBytes(path);
+    }
+
     private ConfigFileIO() {}
 }

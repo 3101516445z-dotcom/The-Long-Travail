@@ -1,0 +1,17 @@
+allprojects {
+    afterEvaluate {
+        sourceSets {
+            releaseSmoke {
+                java.srcDir 'tools/structure-regression/restart'
+                resources.srcDir 'tools/structure-regression/resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+            }
+        }
+        tasks.register('releaseSmokeJar', Jar) {
+            from sourceSets.releaseSmoke.output
+            archiveBaseName = 'travail-release-smoke'
+            archiveVersion = '1'
+        }
+        reobf { releaseSmokeJar { classpath.from sourceSets.main.output } }
+    }
+}

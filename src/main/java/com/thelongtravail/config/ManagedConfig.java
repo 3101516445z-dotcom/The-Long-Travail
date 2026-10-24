@@ -109,16 +109,12 @@ final class ManagedConfig extends ModConfig {
             if (!result.rejected()) {
                 if (!result.issues().isEmpty())
                     ConfigRecovery.archive(root, path, bytes, result.issues());
-                ConfigRecovery.checkUnchanged(path, bytes);
-                ConfigFileIO.write(path, candidate);
-                disk = Files.readAllBytes(path);
+                disk = ConfigFileIO.writeChecked(path, candidate, bytes);
             } else {
                 ConfigRecovery.checkUnchanged(path, bytes);
                 disk = bytes;
             }
-            active = snapshot(path, candidate);
-            definition.acceptConfig(active);
-            definition.afterReload();
+            publish(path, candidate);
             writable = !result.rejected();
             for (String issue : result.issues()) ConfigProblems.report(path, issue);
             owner.dispatchConfigEvent(IConfigEvent.reloading(this));
@@ -136,9 +132,7 @@ final class ManagedConfig extends ModConfig {
         if (active == null || !writable) return;
         Path path = getFullPath();
         try {
-            ConfigRecovery.checkUnchanged(path, disk);
-            ConfigFileIO.write(path, active);
-            disk = Files.readAllBytes(path);
+            disk = ConfigFileIO.writeChecked(path, active, disk);
         } catch (IOException failure) {
             writable = false;
             ConfigProblems.report(
@@ -153,18 +147,21 @@ final class ManagedConfig extends ModConfig {
             ConfigRecovery.checkUnchanged(path, disk);
             CommentedConfig candidate = ConfigFileIO.parse(disk);
             if (!edit.test(candidate)) return false;
-            ConfigRecovery.checkUnchanged(path, disk);
-            ConfigFileIO.write(path, candidate);
-            disk = Files.readAllBytes(path);
-            active = snapshot(path, candidate);
-            definition.acceptConfig(active);
-            definition.afterReload();
+            disk = ConfigFileIO.writeChecked(path, candidate, disk);
+            publish(path, candidate);
             return true;
         } catch (IOException failure) {
             ConfigProblems.report(
                     path, "预设保存未完成，原配置已保留 / Preset was not saved: " + failure.getMessage());
             return false;
         }
+    }
+
+    // Called under this instance's lock, only at the original publication points.
+    private void publish(Path path, CommentedConfig candidate) {
+        active = snapshot(path, candidate);
+        definition.acceptConfig(active);
+        definition.afterReload();
     }
 
     private static CommentedFileConfig snapshot(Path path, CommentedConfig config) {

@@ -76,9 +76,9 @@
 
 ### 加载与重载流程
 
-配置仍由 `ForgeConfigSpec` 定义并注册到 Forge。`config/ManagedConfig` 通过独立 `ConfigFileTypeHandler` 管理本模组文件，不改写其他模组的处理器。`ConfigRecovery` 在升级迁移前解析和恢复文件；`ConfigValidation` 校验普通配置项并转换合法数字字符串；`ConfigWatcher` 监听创建、修改和删除事件，等待保存事件短暂停顿后再读取。
+配置仍由 `ForgeConfigSpec` 定义并注册到 Forge。`config/ManagedConfig` 通过独立 `ConfigFileTypeHandler` 管理本模组文件，不改写其他模组的处理器。`ConfigRecovery` 先解析文件，解析失败时改用空候选；仅解析成功的 general.toml 尝试特定迁移，随后按 spec 校验、必要时备份并写回；`ConfigValidation` 校验普通配置项并转换合法数字字符串；`ConfigWatcher` 监听创建、修改和删除事件，等待保存事件短暂停顿后再读取。
 
-读取必须先进入独立候选配置，校验后发布新配置、清理 spec 缓存并发送 Forge 重载事件，使现有运行时缓存及客户端说明同步继续生效。运行中非法普通值沿用有效值；无法解析的文件整体拒绝。不要直接对正在使用的文件配置调用 `load()`，也不要通过保存动作覆盖尚未处理的磁盘修改。
+文件热重载先进入独立候选配置，校验后发布新配置、清理 spec 缓存并发送 Forge 重载事件，使现有运行时缓存及客户端说明同步继续生效。运行中非法普通值沿用旧有效值或默认值，其他有效修改仍可发布，同时保留磁盘输入并禁止自动写回；无法解析的文件整体拒绝，保留旧活动配置。此流程不同于下文的预设 update 路径。不要直接对正在使用的文件配置调用 `load()`，也不要通过保存动作覆盖尚未处理的磁盘修改。
 
 ### 排版与保存
 
@@ -92,13 +92,13 @@
 
 同类型预设用配置键区分来源和目标池。例如 `[travail.witness.compatInitialization]` 下的 `goety.positiveEffectsAdded`，仍对应 `travail.witness.compatInitialization.goety.positiveEffectsAdded`；点号写法不改变层级，也不合并独立记录。
 
-排版调整须保留键名、值及类型、列表顺序与重复项，以及未知字段和注释。经过读取、保存后再次保存，应得到相同文本；内容未变时不重写文件。常规保存使用 `ManagedConfig.save()`，保留其磁盘变更检查。
+排版调整须保留键名、值及类型、列表顺序与重复项，以及未知字段和注释。经过读取、保存后再次保存，应得到相同文本；内容未变时不重写文件。常规保存使用 `ManagedConfig.save()`，保留其磁盘变更检查。上述未知内容保留是排版层契约；加载校验中的 `ForgeConfigSpec.correct` 仍可能删除未定义键。
 
 ### 联动预设写入
 
 群系、结构、奖励、生物、增益效果及黄金时代黑名单预设，通过配置包内的 `ManagedConfig.update(edit)` 修改候选配置。调用方在同一次修改中补充列表并设置处理标记；`edit` 返回 `true` 表示需要保存，返回 `false` 表示没有修改。候选条目的注册与合法性筛选由各预设实现负责。
 
-`update` 在读取候选与写盘前分别核对磁盘是否变化，保存后更新活动配置并刷新 spec 缓存。不要拆成“先保存列表、再保存标记”两次写入。各类来源检测、标记与运行时池更新方式见[联动预设接入](optional-compat.md#联动群系预设)。完美流体黑名单沿用 `PerfectFluidCompatDefaults` 的启动初始化与保存流程。
+`update` 在读取候选与写盘前分别核对磁盘是否变化，保存后更新活动配置并刷新 spec 缓存，但不显式分发 Forge Reloading 事件，也不复用完整 validate 流程；运行时刷新需核对调用方或启动阶段的既有安排。不要拆成“先保存列表、再保存标记”两次写入。各类来源检测、标记与运行时池更新方式见[联动预设接入](optional-compat.md#联动群系预设)。完美流体黑名单沿用 `PerfectFluidCompatDefaults` 的启动初始化与保存流程。
 
 ### 注释与说明书维护
 

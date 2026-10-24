@@ -1,5 +1,7 @@
 package com.thelongtravail.event;
 
+import com.thelongtravail.common.TickDurations;
+
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.config.ModeEffectRules;
 import com.thelongtravail.config.TravailConfig;
@@ -239,8 +241,7 @@ final class TravailEffectActions {
     }
 
     static int secondsToTicks(double seconds) {
-        if (seconds <= 0.0D) return 1;
-        return (int) Math.max(1L, Math.min(Integer.MAX_VALUE, Math.round(seconds * 20.0D)));
+        return TickDurations.roundAtLeastOne(seconds);
     }
 
     private TravailEffectActions() {}

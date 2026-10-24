@@ -89,7 +89,7 @@ public class TravailEvents {
     @SubscribeEvent
     public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            resetRuntime(player, VisualDeprivation.ClearReason.RESPAWN);
+            JourneyRuntimeMaintenance.resetRuntime(player, VisualDeprivation.ClearReason.RESPAWN);
             TravailNetwork.sendJourney(player);
             WayguideReturns.get(player.server).activate(player);
         }
@@ -98,7 +98,7 @@ public class TravailEvents {
     @SubscribeEvent
     public void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            resetRuntime(player, VisualDeprivation.ClearReason.DIMENSION_CHANGE);
+            JourneyRuntimeMaintenance.resetRuntime(player, VisualDeprivation.ClearReason.DIMENSION_CHANGE);
             TravailNetwork.sendJourney(player);
             WayguideReturns.get(player.server).activate(player);
         }
@@ -125,55 +125,21 @@ public class TravailEvents {
                 && event.player instanceof ServerPlayer player) EffectChanges.tick(player);
     }
 
+    /** Compatibility entry point; journey services call the coordinator directly. */
     public static void onDiaryReset(ServerPlayer player, ItemStack diary) {
-        resetRuntime(player, VisualDeprivation.ClearReason.DIARY_RESET);
-        TravailPlayerMaintenance.updateExtraSlots(player, diary);
-        TravailPlayerMaintenance.updateAltitudePenalty(player, diary);
-        TravailNetwork.sendJourney(player);
+        JourneyRuntimeMaintenance.onDiaryReset(player, diary);
     }
 
+    /** Compatibility entry point; journey services call the coordinator directly. */
     public static void onJourneyChanged(
             ServerPlayer player, ItemStack diary, JourneyService.OperationResult change) {
-        if (change.queryPolicy() == JourneyService.QueryPolicy.INVALIDATE) {
-            JourneyQueries.forget(player);
-            WayguideSearch.forget(player);
-        }
-        int switched = change.beforeMask() ^ change.afterMask();
-        if ((switched & TravailAspect.DEEP_VALLEY.mask()) != 0
-                || change.resetAspects().contains(TravailAspect.DEEP_VALLEY))
-            com.thelongtravail.valley.AzraelState.forget(player);
-        if ((switched & TravailAspect.FAR_REACH.mask()) != 0
-                || change.resetAspects().contains(TravailAspect.FAR_REACH))
-            CleanseRotation.forget(player);
-        if ((switched & TravailAspect.BOUNDLESS.mask()) != 0
-                || change.resetAspects().contains(TravailAspect.BOUNDLESS)) {
-            AltitudePenalty.forget(player);
-            TravailPlayerMaintenance.updateExtraSlots(player, diary);
-            TravailPlayerMaintenance.updateAltitudePenalty(player, diary);
-        }
-    }
-
-    private static void resetRuntime(ServerPlayer player, VisualDeprivation.ClearReason reason) {
-        clearRuntimeCaches(player);
-        VisualDeprivation.clear(player, reason);
-        StiffState.clear(player);
-    }
-
-    private static void clearRuntimeCaches(ServerPlayer player) {
-        com.thelongtravail.valley.AzraelState.forget(player);
-        AltitudePenalty.forget(player);
-        com.thelongtravail.helper.ReceivedMalice.forget(player);
-        AutomaticEffectBudget.forget(player);
-        JourneyQueries.forget(player);
-        CleanseRotation.forget(player);
-        EffectChanges.forget(player);
-        WayguideSearch.forget(player);
+        JourneyRuntimeMaintenance.onJourneyChanged(player, diary, change);
     }
 
     @SubscribeEvent
     public void onDeath(LivingDeathEvent event) {
         if (event.getEntity() instanceof ServerPlayer player)
-            resetRuntime(player, VisualDeprivation.ClearReason.DEATH);
+            JourneyRuntimeMaintenance.resetRuntime(player, VisualDeprivation.ClearReason.DEATH);
     }
 
     @SubscribeEvent
@@ -181,7 +147,7 @@ public class TravailEvents {
         if (event.getEntity() instanceof ServerPlayer player) {
             AltitudePenalty.forget(player);
             // 持久化的截止时间属于诅咒状态，不能随连接缓存一起清除。
-            clearRuntimeCaches(player);
+            JourneyRuntimeMaintenance.clearRuntimeCaches(player);
             WayguideReturns.get(player.server).suspend(player);
         }
     }

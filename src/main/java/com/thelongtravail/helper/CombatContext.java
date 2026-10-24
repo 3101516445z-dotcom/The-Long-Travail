@@ -39,7 +39,7 @@ public final class CombatContext implements AutoCloseable {
     private final double floralBonus;
     private boolean feedbackHandled;
     private boolean phosphophylliteReceived;
-    private boolean committed;
+    private final CombatDamageRecord damageRecord = new CombatDamageRecord();
     private boolean hurtEvaluated;
     private float protectedDamage;
     private final boolean execution;
@@ -47,8 +47,6 @@ public final class CombatContext implements AutoCloseable {
     private boolean provocationRecorded;
     private final boolean quixoteStrike;
     private final com.thelongtravail.farreach.DonQuixoteCombat.Snapshot quixote;
-    private double recordedDamage;
-    private double relicHealthLoss;
     private final double relicBonus;
     private final ItemStack relicHealing;
     private final double growthBonus;
@@ -67,6 +65,8 @@ public final class CombatContext implements AutoCloseable {
         return replay != null;
     }
 
+    // Capture order is intentional: replay and poison claims consume per-hit state.
+    // Keep these operations here rather than treating construction as a pure read-only snapshot.
     private CombatContext(LivingEntity target, DamageSource source) {
         this.lorentzVoid = com.thelongtravail.boundless.LorentzFantasy.secondary(source);
         this.lorentzBonus =
@@ -170,26 +170,15 @@ public final class CombatContext implements AutoCloseable {
 
     public static void recordHealthLoss(LivingEntity target, float before, float after) {
         CombatContext context = CURRENT.get();
-        if (context != null && context.target == target && after < before) {
-            context.committed = true;
-            if (Float.isFinite(before) && Float.isFinite(after))
-                context.relicHealthLoss += Math.max(0, Math.max(0, before) - Math.max(0, after));
-            if (Float.isFinite(before) && Float.isFinite(after)) {
-                context.recordedDamage += before - after;
-                context.recordProvocation();
-            }
-            if (Float.isFinite(before) && Float.isFinite(after)) context.confirmDamage();
+        if (context != null && context.target == target && context.damageRecord.healthLost(before, after)) {
+            context.recordProvocation();
+            context.confirmDamage();
         }
     }
 
     public static void recordAbsorptionLoss(LivingEntity target, float before, float after) {
         CombatContext context = CURRENT.get();
-        if (context != null
-                && context.target == target
-                && Float.isFinite(before)
-                && Float.isFinite(after)
-                && after < before) {
-            context.recordedDamage += before - after;
+        if (context != null && context.target == target && context.damageRecord.absorptionLost(before, after)) {
             context.recordProvocation();
             context.confirmDamage();
         }
@@ -199,7 +188,7 @@ public final class CombatContext implements AutoCloseable {
         if (target.level().isClientSide || !Float.isFinite(amount) || amount <= 0) return;
         CombatContext context = current(target, source);
         if (context != null) {
-            context.recordedDamage += amount;
+            context.damageRecord.dummyDamage(amount);
             context.confirmDamage();
         }
     }
@@ -242,12 +231,12 @@ public final class CombatContext implements AutoCloseable {
         }
         if (damageConfirmed)
             com.thelongtravail.farreach.DonQuixoteCombat.finish(
-                    target, source, quixote, recordedDamage);
+                    target, source, quixote, damageRecord.total());
         if (accessoryAttack) {
             com.thelongtravail.flourishing.FloralEvents.received(target, source);
             com.thelongtravail.compat.maid.MaidAccessories.retaliate(target, source);
         }
-        if (committed
+        if (damageRecord.committed()
                 && !maidImmune
                 && !icarusImmune
                 && !victimInternallyImmune
@@ -264,9 +253,9 @@ public final class CombatContext implements AutoCloseable {
         }
         if (damageConfirmed && !roseDamage && !source.is(DamageTypes.THORNS))
             com.thelongtravail.flourishing.EverlastingFlower.successful(
-                    target, source, (float) Math.min(Float.MAX_VALUE, recordedDamage), false);
+                    target, source, (float) Math.min(Float.MAX_VALUE, damageRecord.total()), false);
         com.thelongtravail.underworld.DemonKingCombat.heal(
-                target, source, relicHealing, relicHealthLoss);
+                target, source, relicHealing, damageRecord.healthLoss());
         attributeDamage.finish();
     }
 

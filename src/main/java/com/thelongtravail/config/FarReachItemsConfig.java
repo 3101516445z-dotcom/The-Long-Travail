@@ -1,5 +1,7 @@
 package com.thelongtravail.config;
 
+import com.thelongtravail.common.TickDurations;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 
@@ -187,7 +189,7 @@ public final class FarReachItemsConfig {
     }
 
     public static int ticks(String key) {
-        return RainConfig.ticks(get(key));
+        return TickDurations.ceilNonNegative(get(key));
     }
 
     private FarReachItemsConfig() {}

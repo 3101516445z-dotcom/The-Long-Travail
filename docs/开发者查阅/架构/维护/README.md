@@ -1,0 +1,39 @@
+# 项目书维护
+
+## 生成和检查
+
+在仓库根目录使用现有 Node.js 18+：
+
+```text
+node docs/开发者查阅/架构/维护/generate.mjs
+node docs/开发者查阅/架构/维护/generate.mjs --check
+node docs/开发者查阅/架构/维护/test-checks.mjs
+```
+
+生成器读取 Java 主源码及下述资源/构建范围，写入索引中的四份固定文件：源码归属.md、引用候选.md/json、资源与构建指纹.json。--check 不写文件，比较预期索引并检查本地 Markdown 内联链接及 Markdown 标题锚点。不加载游戏，不修改 Java、配置或 JAR；未接入 Gradle 正式构建。
+
+分类规则集中在 generate.mjs 的 groups 与 overrides；前者提供目录初分，后者记录重点例外。规则修改后重新生成。人工章节单独维护，不由工具覆盖。
+
+## 当前实现边界
+
+本阶段使用无额外依赖的词法扫描建立引用候选，未部署 JavaParser 或 ArchUnit。它不是语义分析器，不输出方法级调用图。显式导入、同包和通配导入只帮助筛选候选；局部同名变量可能误报，嵌套类型与动态接入可能漏报。tokenLine 为候选标识位置，不能直接当成已确认调用位置。
+
+完整符号解析是后续增强项：先验证项目编译类路径、映射和可选依赖，明确列出未解析符号，再将经过确认的关系加入依赖视图。不要把候选统计改名为调用覆盖率。
+
+Java 指纹维持原格式，独立覆盖 src/main/java。新增 [资源与构建指纹](../索引/资源与构建指纹.json) 对 src/main/resources、src/main/lang、gradle 全目录，以及 build.gradle、settings.gradle、gradle.properties、gradlew/gradlew.bat 和四份具名 tools 语言脚本计算路径与字节 SHA-256；增加、删除、修改均会使 --check 失败。明确列表见 JSON 的 scope，缺失的固定文件不入 files，新增后可检测；未枚举的根文件/其他 tools 不受保证。
+
+指纹不依赖 Git 是否跟踪文件，不含用户配置、build 生成物、外部依赖 JAR、src/test 或所有本机脚本。资源二进制也按字节记录，但不会解析纹理含义或检查资源引用闭包。更新指纹只表示确认了快照，不证明文档语义已同步。
+
+[checks.mjs](checks.mjs) 检查项目书所有 Markdown 内联链接的本地文件/目录，支持角括号路径和百分号编码；带 fragment 的 Markdown 目标（含项目书之外的文件）检查 ATX/Setext 标题及重复标题 -N 后缀，忽略 fenced code 中的示例链接。标题使用本仓库约定的 Unicode 小写/去标点/空白转连字符规则；不是完整 GitHub/CommonMark 渲染器。引用式链接、HTML 链接/自定义锚点、复杂内联嵌套与 HTML 实体未实现，非 Markdown fragment 不校验，外部 URL 不联网检查。受审计目录中的符号链接拒绝递归，以免把范围扩展到目录外。
+
+[test-checks.mjs](test-checks.mjs) 在独立临时仓库运行 14 个正反例：中文/重复/Setext 标题、fenced 示例、编码和空格路径、断链/缺锚点、资源/语言/构建/工具变化检测、原 Java 检查保留，以及不同 cwd 运行。临时目录创建后仅删除本次夹具；本轮 Node v24.15.0 全部通过。此检查器不新增 npm 依赖。
+
+## 更新触发
+
+新增/删除/修改 Java 或列入 scope 的资源/构建输入后生成索引；改变职责、公共入口、数据存储或生命周期时更新相应章节。修改网络或 Mixin 时重新核对注册、方向、方法目标和接收线程。文档链接与源码一致不代表描述语义正确。
+
+本目录的生成器与项目书一同进入开发者文档允许跟踪的路径，避免受本地 tools 忽略规则影响；不复制本机测试夹具到公开文档。使用 `git status`/`git check-ignore` 核对可跟踪性，不自动提交或推送。
+
+[返回项目书](../README.md)
+
+结构优化进度及逐轮隔离验证见 [结构优化实施记录](结构优化实施记录.md)。

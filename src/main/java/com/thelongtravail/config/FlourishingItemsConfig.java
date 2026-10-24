@@ -1,5 +1,7 @@
 package com.thelongtravail.config;
 
+import com.thelongtravail.common.TickDurations;
+
 import com.thelongtravail.flourishing.Flower;
 import com.thelongtravail.network.TooltipConfigSync;
 
@@ -367,7 +369,7 @@ public final class FlourishingItemsConfig {
     }
 
     public static int ticks(double seconds) {
-        return (int) Math.min(Integer.MAX_VALUE, Math.ceil(seconds * 20));
+        return TickDurations.ceilSigned(seconds);
     }
 
     private FlourishingItemsConfig() {}

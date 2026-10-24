@@ -1,0 +1,39 @@
+allprojects {
+    afterEvaluate {
+        dependencies { runtimeOnly fg.deobf(project.ext.maidApiDependency) }
+        def phase = project.findProperty('structurePhase') ?: 'after'
+        def directory = project.file('build/structure-restart-server')
+        sourceSets {
+            restartTest {
+                java.srcDir 'tools/structure-regression/restart'
+                resources.srcDir 'tools/structure-regression/resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        minecraft.runs.server {
+            workingDirectory directory
+            property 'travail.restart.stage', phase.toString()
+            args '--nogui'
+            mods { travail_smoke { source sourceSets.restartTest } }
+        }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            doFirst {
+                if (phase == 'before' && directory.exists()) {
+                    java.nio.file.Files.move(directory.toPath(), new File(directory.parentFile,
+                            directory.name + '-archive-' + System.currentTimeMillis()).toPath())
+                }
+                if (phase == 'after' && !new File(directory, 'restart.properties').isFile())
+                    throw new GradleException('Restart verification requires a completed prepare run')
+                directory.mkdirs()
+                new File(directory,'eula.txt').text = project.file('run/eula.txt').text
+                new File(directory,'server.properties').text = 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25656\nlevel-name=restart-test\nlevel-type=minecraft\\:flat\ngenerate-structures=false\nview-distance=2\nsimulation-distance=2\nmax-tick-time=60000\n'
+                new File(directory,'restart-result.txt').text = 'NOT_RUN'
+            }
+            doLast {
+                if (!new File(directory,'restart-result.txt').text.startsWith('PASS'))
+                    throw new GradleException('Cross-process restart check failed')
+            }
+        }
+    }
+}

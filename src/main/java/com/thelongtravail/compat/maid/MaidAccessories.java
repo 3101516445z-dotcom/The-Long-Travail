@@ -33,11 +33,11 @@ public final class MaidAccessories {
     }
 
     public static boolean quixote(LivingEntity e) {
-        return loaded() && MaidAccessoryRuntime.quixote(e);
+        return loaded() && MaidAccessoryRules.quixote(e);
     }
 
     public static int quixotePhase(LivingEntity e) {
-        return loaded() ? MaidAccessoryRuntime.quixotePhase(e) : 0;
+        return loaded() ? MaidAccessoryRules.quixotePhase(e) : 0;
     }
 
     public static UUID quixoteOwner(LivingEntity e) {
@@ -53,15 +53,15 @@ public final class MaidAccessories {
     }
 
     public static int phosphophyllitePhase(LivingEntity entity) {
-        return loaded() ? MaidAccessoryRuntime.phosphophyllitePhase(entity) : 0;
+        return loaded() ? MaidAccessoryRules.phosphophyllitePhase(entity) : 0;
     }
 
     public static ItemStack lorentzStack(LivingEntity e) {
-        return loaded() ? MaidAccessoryRuntime.lorentzStack(e) : ItemStack.EMPTY;
+        return loaded() ? MaidAccessoryRules.lorentzStack(e) : ItemStack.EMPTY;
     }
 
     public static int lorentzPhase(LivingEntity e) {
-        return loaded() ? MaidAccessoryRuntime.lorentzPhase(e) : 0;
+        return loaded() ? MaidAccessoryRules.lorentzPhase(e) : 0;
     }
 
     public static UUID lorentzOwner(LivingEntity e) {
@@ -69,27 +69,27 @@ public final class MaidAccessories {
     }
 
     public static boolean lafite(LivingEntity entity) {
-        return loaded() && MaidAccessoryRuntime.lafite(entity);
+        return loaded() && MaidAccessoryRules.lafite(entity);
     }
 
     public static int lafitePhase(LivingEntity entity) {
-        return loaded() ? MaidAccessoryRuntime.lafitePhase(entity) : 0;
+        return loaded() ? MaidAccessoryRules.lafitePhase(entity) : 0;
     }
 
     public static ItemStack flowerStack(LivingEntity entity) {
-        return loaded() ? MaidAccessoryRuntime.flowerStack(entity) : ItemStack.EMPTY;
+        return loaded() ? MaidAccessoryRules.flowerStack(entity) : ItemStack.EMPTY;
     }
 
     public static int flowerPhase(LivingEntity entity) {
-        return loaded() ? MaidAccessoryRuntime.flowerPhase(entity) : 0;
+        return loaded() ? MaidAccessoryRules.flowerPhase(entity) : 0;
     }
 
     public static int relicPhase(LivingEntity e) {
-        return loaded() ? MaidAccessoryRuntime.relicPhase(e) : 0;
+        return loaded() ? MaidAccessoryRules.relicPhase(e) : 0;
     }
 
     public static ItemStack relicStack(LivingEntity e, boolean banner) {
-        return loaded() ? MaidAccessoryRuntime.relicStack(e, banner) : ItemStack.EMPTY;
+        return loaded() ? MaidAccessoryRules.relicStack(e, banner) : ItemStack.EMPTY;
     }
 
     private static boolean loaded() {
@@ -101,7 +101,7 @@ public final class MaidAccessories {
     }
 
     public static ItemStack springCrown(LivingEntity entity) {
-        return loaded() ? MaidAccessoryRuntime.springCrown(entity) : ItemStack.EMPTY;
+        return loaded() ? MaidAccessoryRules.springCrown(entity) : ItemStack.EMPTY;
     }
 
     public static void init() {
@@ -109,49 +109,49 @@ public final class MaidAccessories {
     }
 
     public static double bonus(LivingEntity victim, DamageSource source) {
-        return loaded() ? MaidAccessoryRuntime.bonus(victim, source) : 0;
+        return loaded() ? MaidCombatCalculations.bonus(victim, source) : 0;
     }
 
     public static double witherBonus(LivingEntity victim, DamageSource source) {
-        return loaded() ? MaidAccessoryRuntime.witherBonus(victim, source) : 0;
+        return loaded() ? MaidCombatCalculations.witherBonus(victim, source) : 0;
     }
 
     public static boolean immune(LivingEntity victim, DamageSource source, float amount) {
-        return loaded() && MaidAccessoryRuntime.immune(victim, source, amount);
+        return loaded() && MaidCombatCalculations.immune(victim, source, amount);
     }
 
     public static float reduce(
             LivingEntity victim, DamageSource source, float amount, boolean poison) {
-        return loaded() ? MaidAccessoryRuntime.reduce(victim, source, amount, poison) : amount;
+        return loaded() ? MaidCombatCalculations.reduce(victim, source, amount, poison) : amount;
     }
 
     public static void received(LivingEntity victim, DamageSource source) {
-        if (loaded()) MaidAccessoryRuntime.received(victim, source);
+        if (loaded()) MaidCombatFeedback.received(victim, source);
     }
 
     public static void retaliate(LivingEntity victim, DamageSource source) {
-        if (loaded()) MaidAccessoryRuntime.retaliate(victim, source);
+        if (loaded()) MaidCombatFeedback.retaliate(victim, source);
     }
 
     public static void confirmed(LivingEntity victim, DamageSource source, boolean rose) {
-        if (loaded()) MaidAccessoryRuntime.confirmed(victim, source, rose);
+        if (loaded()) MaidCombatFeedback.confirmed(victim, source, rose);
     }
 
     public static void successful(LivingEntity victim, DamageSource source) {
-        if (loaded()) MaidAccessoryRuntime.successful(victim, source);
+        if (loaded()) MaidCombatFeedback.successful(victim, source);
     }
 
     public static boolean seesUndead(LivingEntity e) {
-        return loaded() && MaidAccessoryRuntime.seesUndead(e);
+        return loaded() && MaidAccessoryRules.seesUndead(e);
     }
 
     public static MobEffectInstance extend(
             LivingEntity target, MobEffectInstance effect, Entity source) {
-        return loaded() ? MaidAccessoryRuntime.extend(target, effect, source) : effect;
+        return loaded() ? MaidCombatFeedback.extend(target, effect, source) : effect;
     }
 
     public static UUID casterId(LivingEntity e) {
-        return isMaid(e) ? MaidAccessoryRuntime.identity(e) : e.getUUID();
+        return isMaid(e) ? MaidAccess.identity(e) : e.getUUID();
     }
 
     public static void starCooldown(LivingEntity e, int ticks) {
@@ -163,7 +163,7 @@ public final class MaidAccessories {
     }
 
     public static boolean lantern(Entity e) {
-        return loaded() && MaidAccessoryRuntime.lantern(e);
+        return loaded() && MaidAccessoryRules.lantern(e);
     }
 
     public static boolean canHarm(

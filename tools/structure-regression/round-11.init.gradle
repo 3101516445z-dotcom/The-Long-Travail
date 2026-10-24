@@ -1,0 +1,42 @@
+allprojects {
+    afterEvaluate {
+        dependencies { runtimeOnly fg.deobf(project.ext.maidApiDependency) }
+        def directory = project.file('build/structure-round-11-' + (project.findProperty('structurePhase') ?: 'after'))
+        sourceSets {
+            configSmoke {
+                java.srcDir 'tools/structure-regression/config'
+                resources.srcDir 'tools/structure-regression/resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        minecraft.runs.server {
+            workingDirectory directory
+            property 'travail.structure.liveDefaults', 'true'
+            args '--nogui'
+            mods { travail_smoke { source sourceSets.configSmoke } }
+        }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            doFirst {
+                // Keep each prior isolated world/config set; repeated runs start with fresh inputs.
+                if (directory.exists()) {
+                    def archived = new File(directory.parentFile, directory.name + '-archive-' + System.currentTimeMillis())
+                    java.nio.file.Files.move(directory.toPath(), archived.toPath())
+                }
+                directory.mkdirs()
+                new File(directory,'eula.txt').text = project.file('run/eula.txt').text
+                new File(directory,'server.properties').text = 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25653\nlevel-name=config-test\nlevel-type=minecraft\\:flat\ngenerate-structures=false\nview-distance=2\nsimulation-distance=2\nmax-tick-time=0\n'
+                def configs = new File(directory,'config/the_long_travail')
+                new File(configs,'aspects').mkdirs()
+                new File(configs,'general.toml').setText('chance = \n', 'UTF-8')
+                new File(configs,'aspects/abyss.toml').setBytes('# 概率\n'.getBytes('GBK'))
+                new File(configs,'aspects/far_reach.toml').setText('[items.icarus]\nigniteSeconds = "12"\n', 'UTF-8')
+                new File(directory,'config-result.txt').text = 'NOT_RUN'
+                project.file('build/config-recovery-latest-path.txt').text = directory.absolutePath
+            }
+            doLast {
+                if (!new File(directory,'config-result.txt').text.startsWith('PASS')) throw new GradleException('Config smoke did not pass: ' + directory)
+            }
+        }
+    }
+}

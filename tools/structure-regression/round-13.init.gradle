@@ -1,0 +1,31 @@
+allprojects {
+    afterEvaluate {
+        dependencies { runtimeOnly fg.deobf(project.ext.maidApiDependency) }
+        def directory = project.file('build/structure-round-13-' + (project.findProperty('structurePhase') ?: 'after'))
+        sourceSets {
+            maidStructureTest {
+                java.srcDir 'tools/structure-regression/maid'
+                resources.srcDir 'tools/structure-regression/resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        minecraft.runs.server {
+            workingDirectory directory
+            property 'travail.hotpath.metrics', 'true'
+            args '--nogui'
+            mods { travail_smoke { source sourceSets.maidStructureTest } }
+        }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            doFirst {
+                directory.mkdirs()
+                new File(directory, 'eula.txt').text = project.file('run/eula.txt').text
+                new File(directory, 'server.properties').text = 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25655\nlevel-name=maid-structure-test\nlevel-type=minecraft\\:flat\ngenerate-structures=false\nview-distance=2\nsimulation-distance=2\nmax-tick-time=60000\n'
+                new File(directory, 'maid-compat-result.txt').text = 'NOT_RUN'
+            }
+            doLast {
+                if (new File(directory, 'maid-compat-result.txt').text.trim() != 'PASS') throw new GradleException('Maid structural regression failed')
+            }
+        }
+    }
+}

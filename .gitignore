@@ -65,3 +65,7 @@ desktop.ini
 
 # 发布包保存在仓库外，避免重复加入源码仓库
 /releases/
+
+# Reproducible structural regression harness
+!/tools/structure-regression/
+!/tools/structure-regression/**

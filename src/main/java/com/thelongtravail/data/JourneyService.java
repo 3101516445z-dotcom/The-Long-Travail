@@ -1,7 +1,7 @@
 package com.thelongtravail.data;
 
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.event.TravailEvents;
+import com.thelongtravail.event.JourneyRuntimeMaintenance;
 import com.thelongtravail.helper.TravailCurios;
 import com.thelongtravail.registry.ModRegistry;
 import net.minecraft.server.level.ServerPlayer;
@@ -178,8 +178,8 @@ public final class JourneyService {
                             whole
                                     || beforeRoot.getLong("StateRevision")
                                             != afterRoot.getLong("StateRevision"));
-            if (whole) TravailEvents.onDiaryReset(player, replacement);
-            else TravailEvents.onJourneyChanged(player, replacement, result);
+            if (whole) JourneyRuntimeMaintenance.onDiaryReset(player, replacement);
+            else JourneyRuntimeMaintenance.onJourneyChanged(player, replacement, result);
             player.getInventory().setChanged();
             player.containerMenu.broadcastChanges();
             return result;

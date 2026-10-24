@@ -1,5 +1,7 @@
 package com.thelongtravail.config;
 
+import com.thelongtravail.common.TickDurations;
+
 import net.minecraftforge.common.ForgeConfigSpec;
 import java.util.*;
 
@@ -174,7 +176,7 @@ public final class BoundlessItemsConfig {
     }
 
     public static int ticks(String k) {
-        return RainConfig.ticks(get(k));
+        return TickDurations.ceilNonNegative(get(k));
     }
 
     private BoundlessItemsConfig() {}

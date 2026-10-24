@@ -2,7 +2,6 @@ package com.thelongtravail.config;
 
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.thelongtravail.compat.maid.MaidFluidDefaults;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import net.minecraft.resources.ResourceLocation;
@@ -22,13 +21,13 @@ public final class PerfectFluidCompatDefaults {
 
     static void initialize() {
         if (loaded == null) throw new IllegalStateException("Abyss config was not loaded");
-        if (apply(
-                loaded.getConfigData(),
-                ModList.get()::isLoaded,
-                id -> ForgeRegistries.ITEMS.containsKey(new ResourceLocation(id)))) {
-            loaded.save();
-            TravailConfig.SPECS.get("aspects/abyss.toml").afterReload();
-        }
+        ConfigDefaultEdits.applyLive(
+                loaded,
+                TravailConfig.SPECS.get("aspects/abyss.toml"),
+                config -> apply(
+                        config,
+                        ModList.get()::isLoaded,
+                        id -> ForgeRegistries.ITEMS.containsKey(new ResourceLocation(id))));
     }
 
     public static boolean apply(
@@ -50,14 +49,9 @@ public final class PerfectFluidCompatDefaults {
             List<String> items,
             String flag) {
         String marker = BASE + "compatInitialization." + flag;
-        if (Boolean.TRUE.equals(config.get(marker))
-                || !modPresent.test(mod)
-                || !items.stream().allMatch(itemPresent)) return false;
-        List<String> values = new ArrayList<>(config.<List<String>>get(BASE + "itemBlacklist"));
-        for (String item : items) if (!values.contains(item)) values.add(item);
-        config.set(BASE + "itemBlacklist", values);
-        config.set(marker, true);
-        return true;
+        return ConfigDefaultEdits.appendOnce(
+                config, BASE + "itemBlacklist", marker, items,
+                () -> modPresent.test(mod) && items.stream().allMatch(itemPresent));
     }
 
     private PerfectFluidCompatDefaults() {}

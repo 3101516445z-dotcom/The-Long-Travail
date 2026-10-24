@@ -1,0 +1,30 @@
+allprojects {
+    afterEvaluate {
+        def directory = project.file('build/structure-round-01-server')
+        sourceSets {
+            structureRegression {
+                java.srcDir 'tools/structure-regression/src'
+                resources.srcDir 'tools/structure-regression/resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        minecraft.runs.server {
+            workingDirectory directory
+            args '--nogui'
+            mods { travail_smoke { source sourceSets.structureRegression } }
+        }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            doFirst {
+                directory.mkdirs()
+                new File(directory, 'eula.txt').text = project.file('run/eula.txt').text
+                new File(directory, 'server.properties').text = 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25643\nlevel-name=structure-round-01\nlevel-type=minecraft\\:flat\ngenerate-structures=false\nview-distance=2\nsimulation-distance=2\nmax-tick-time=60000\n'
+                new File(directory, 'result.txt').text = 'NOT_RUN'
+            }
+            doLast {
+                if (new File(directory, 'result.txt').text.trim() != 'PASS')
+                    throw new GradleException('Conservative performance regression failed')
+            }
+        }
+    }
+}

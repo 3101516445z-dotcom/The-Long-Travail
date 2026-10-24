@@ -1,0 +1,1128 @@
+{
+  "schema": 1,
+  "scope": {
+    "directories": [
+      "src/main/resources",
+      "src/main/lang",
+      "gradle"
+    ],
+    "fixed": [
+      "build.gradle",
+      "settings.gradle",
+      "gradle.properties",
+      "gradlew",
+      "gradlew.bat",
+      "tools/generate-language-files.cjs",
+      "tools/verify-language-files.cjs",
+      "tools/test-language-generation.cjs",
+      "tools/verify-locale.cjs"
+    ]
+  },
+  "fingerprint": "46bbe4df5d5a0e20704e7a02d45f40b4932fc01533049c7074c996f0bdd22386",
+  "files": [
+    {
+      "path": "build.gradle",
+      "sha256": "38f3b090e920d783dd5c55c0dfafb03537e1b7ae8215c3435ed7b4aad0b5c8dd"
+    },
+    {
+      "path": "gradle.properties",
+      "sha256": "58a820524b1197f432cc0720f670689fa7f634b2fb68554c581b8685a7ae50fc"
+    },
+    {
+      "path": "gradle/compat-checks.gradle",
+      "sha256": "68597a4548191a77751dd1bd8ec71d81e0abcf563c4498967c76e7615804c45f"
+    },
+    {
+      "path": "gradle/config-checks.gradle",
+      "sha256": "831b214389861809bf63068f4197c41842af682d17077c075347dff7dcd06903"
+    },
+    {
+      "path": "gradle/language.gradle",
+      "sha256": "3b93f36aa83ff855253995238db764dd4f15a829ce0a833cf99d36e7a1b4a418"
+    },
+    {
+      "path": "gradle/optional-compat.gradle",
+      "sha256": "b4b5ac8d9986d76d322bb6f0068ae02a7ee963b51d47cd3a8224601a1ce8e3b6"
+    },
+    {
+      "path": "gradle/wrapper/gradle-wrapper.jar",
+      "sha256": "ed2c26eba7cfb93cc2b7785d05e534f07b5b48b5e7fc941921cd098628abca58"
+    },
+    {
+      "path": "gradle/wrapper/gradle-wrapper.properties",
+      "sha256": "0c0c22ccb8e653a13a7df19493b11fe5ce0f5fae7ee4835223d2d2ad028799da"
+    },
+    {
+      "path": "gradlew",
+      "sha256": "fb3cbfe6d066ee52bc07f62ed61ff77bde195384f52496c94280a83008d9f531"
+    },
+    {
+      "path": "gradlew.bat",
+      "sha256": "8e327fcb99d29ce0fe3ee2fec6e6a25de815a2df83a6a44a553dea89ffc92955"
+    },
+    {
+      "path": "settings.gradle",
+      "sha256": "814f32911dba21dc3fb6a43e2b39546f98c2368b7d303bca8b9787e39bbbc133"
+    },
+    {
+      "path": "src/main/lang/README.md",
+      "sha256": "7ebbffc657e8e4d9c2d2bec2a972f0ce12af7850cad8a218276ecf790735b602"
+    },
+    {
+      "path": "src/main/lang/en_us/aspects/abyss.json",
+      "sha256": "4af496a31963b8b8e265414cafb5a9dccc7f7f6146d0315afc8aa29873e3fd60"
+    },
+    {
+      "path": "src/main/lang/en_us/aspects/boundless.json",
+      "sha256": "75ad6c2ea4385025c09e68be6065e9793bc82d8128b77dff40a3552668d7d943"
+    },
+    {
+      "path": "src/main/lang/en_us/aspects/deep_valley.json",
+      "sha256": "eb9d464e63d665ae6fc70c715471d9feb0fb6b785597b11e2822bb47ebaebdba"
+    },
+    {
+      "path": "src/main/lang/en_us/aspects/far_reach.json",
+      "sha256": "b60ec2eef21b2cd050883ecf61fb01c6253ff05c4ce5f0df5527134ae810db07"
+    },
+    {
+      "path": "src/main/lang/en_us/aspects/flourishing.json",
+      "sha256": "c91e695c5875b9290ffca278f64aeaa5313d643a3f87d4346180dc0e4a341c26"
+    },
+    {
+      "path": "src/main/lang/en_us/aspects/underworld.json",
+      "sha256": "a2a14cc0ba8a7b8bfafbef5a0cbc7a09786d7624958109ed0991b59dbb110490"
+    },
+    {
+      "path": "src/main/lang/en_us/catalog.json",
+      "sha256": "9eca66fcb76afa47f85bf8946bf0217fa0927a5ca3be74a76b86fd81a35633ce"
+    },
+    {
+      "path": "src/main/lang/en_us/common.json",
+      "sha256": "bc632de9285cc1eb29adf8495878350c23ac86f0bd3066eb8d61203c05e19afd"
+    },
+    {
+      "path": "src/main/lang/en_us/compatibility.json",
+      "sha256": "3f8bf49f1d86c2efa52b61e40b0de23ac538ad07e6540a321d3b81d4c6de3a8f"
+    },
+    {
+      "path": "src/main/lang/en_us/diary.json",
+      "sha256": "6d7e30eee28929ca09544f294d7bd45c39a0a1068e1261872495dff5386cf16d"
+    },
+    {
+      "path": "src/main/lang/en_us/utility_items.json",
+      "sha256": "4b9fcb5bdb7a1605001fa9c85d634f4e3fa34cd8b1fe37e8793931cc9b05b77f"
+    },
+    {
+      "path": "src/main/lang/groups.json",
+      "sha256": "da47a74652e0aeb7480e651fb87545e2d6a1d255eeedc6c54091e07d4fb4f831"
+    },
+    {
+      "path": "src/main/lang/lzh/aspects/abyss.json",
+      "sha256": "aa0a33761d4bac4edc2a37eb511a685aca0605d3f148c20f00140b5b4c751f24"
+    },
+    {
+      "path": "src/main/lang/lzh/aspects/boundless.json",
+      "sha256": "1b4df0dcac64e462c8ae498372648a724ba5a376badd968261e392c252d230a7"
+    },
+    {
+      "path": "src/main/lang/lzh/aspects/deep_valley.json",
+      "sha256": "9924533f0d2916983964f35844388b0949038c0de387fa83c2f435001c3857dc"
+    },
+    {
+      "path": "src/main/lang/lzh/aspects/far_reach.json",
+      "sha256": "a3cfa4d1ad481da56ddee8f1f27c38909d26e3b2afb5ffe2f49be243c3a9cf59"
+    },
+    {
+      "path": "src/main/lang/lzh/aspects/flourishing.json",
+      "sha256": "a6769b2bf3e7fe63669d944740a73811642c0f5ce4f5beec59b752138c4d6de4"
+    },
+    {
+      "path": "src/main/lang/lzh/aspects/underworld.json",
+      "sha256": "f63e713d5aba047f7b4df09bc81c5bcc93aeb1046118aafe9fed3566d12040f0"
+    },
+    {
+      "path": "src/main/lang/lzh/catalog.json",
+      "sha256": "f00a6990d5de75b9ee76fb59db773439a370064e1e9018c94ae675c159d263f3"
+    },
+    {
+      "path": "src/main/lang/lzh/common.json",
+      "sha256": "3bebff916976632d849749c99cb1da5112254a148e5b26f6268d57320914f172"
+    },
+    {
+      "path": "src/main/lang/lzh/compatibility.json",
+      "sha256": "36aefa1a9e86e5d4b771636aac77a1bd073505a95b90924757a759cc797cc5d1"
+    },
+    {
+      "path": "src/main/lang/lzh/diary.json",
+      "sha256": "b730660e95739131ddfd2a5efe4a0fba96e509fe702b145e857b48576fb9a7eb"
+    },
+    {
+      "path": "src/main/lang/lzh/utility_items.json",
+      "sha256": "de74ad769c85978b666db25232ec2f5cf824d33fdc4ce97d782079e6192b9693"
+    },
+    {
+      "path": "src/main/lang/zh_cn/aspects/abyss.json",
+      "sha256": "be751af231309726330424e36df8d3c7b506497e22b76334bc799974cb8e36e7"
+    },
+    {
+      "path": "src/main/lang/zh_cn/aspects/boundless.json",
+      "sha256": "0fd84c274ba366d016ae34ed3cec9a9cb148b6434353746bdce1d0c739229027"
+    },
+    {
+      "path": "src/main/lang/zh_cn/aspects/deep_valley.json",
+      "sha256": "037820e239abd8805eb8f60e05f083c2a76745391b654d54081c4c7d201438aa"
+    },
+    {
+      "path": "src/main/lang/zh_cn/aspects/far_reach.json",
+      "sha256": "2e73cbd05bc03b433f8c9fc1c6e1abefd7ee2c7735b08d465d4cb9c48bfa031a"
+    },
+    {
+      "path": "src/main/lang/zh_cn/aspects/flourishing.json",
+      "sha256": "4f3a0214ecbab31ffd51fd664b4d09d300aa049932ff9df4a9d2e7a7d06f6714"
+    },
+    {
+      "path": "src/main/lang/zh_cn/aspects/underworld.json",
+      "sha256": "f9fea9030724b31ea36f66876be280f878278f30746fe33e975faaaf4aa13c6f"
+    },
+    {
+      "path": "src/main/lang/zh_cn/catalog.json",
+      "sha256": "f1daf99144cdfcfb84ae27efea9ce44503e160a00c129a704a05b1aca589dd0a"
+    },
+    {
+      "path": "src/main/lang/zh_cn/common.json",
+      "sha256": "9e08ef44ea66011c2f17b50c68f80dfe88fc4fcfeeca81ea03e49f019cd1b0f5"
+    },
+    {
+      "path": "src/main/lang/zh_cn/compatibility.json",
+      "sha256": "a145c245a36ebbc671cc9a4a762d3f3ed267c8842a20b53d746a286214412db2"
+    },
+    {
+      "path": "src/main/lang/zh_cn/diary.json",
+      "sha256": "80fe016e565eb156366b2cb5927502fa617376d0a35c84c7883362180f92f9f5"
+    },
+    {
+      "path": "src/main/lang/zh_cn/utility_items.json",
+      "sha256": "bcbdf0e597e63cc66c6cdd6ca1b43599c12c1cae75b2c4ffd5161fe486b2aec4"
+    },
+    {
+      "path": "src/main/lang/zh_hk/aspects/abyss.json",
+      "sha256": "7e8c2c40a906ab363215fadedea38ca16a7bf43b54a90f592c3d14b44c3d5965"
+    },
+    {
+      "path": "src/main/lang/zh_hk/aspects/boundless.json",
+      "sha256": "c62ad9b0fdfbd89d3bb32015669cd5c32e27658866d23db2fe2df940cace3811"
+    },
+    {
+      "path": "src/main/lang/zh_hk/aspects/deep_valley.json",
+      "sha256": "84990094b6608a363acf0353d742a72472bcd3cb8d71b880eac425a2c9c763ef"
+    },
+    {
+      "path": "src/main/lang/zh_hk/aspects/far_reach.json",
+      "sha256": "587cbddee0a8b41cf7a71d16515c3a9b82f9075389190753b93d1f5bbc2d629f"
+    },
+    {
+      "path": "src/main/lang/zh_hk/aspects/flourishing.json",
+      "sha256": "db6f4e6c80977e27ddbb077053764e0ab407bbe3fec61c82e1a4a3c834badda7"
+    },
+    {
+      "path": "src/main/lang/zh_hk/aspects/underworld.json",
+      "sha256": "0484cf688aa7463866b5a13f6ddfc8b2087eca559d8f61cafc50eed386a563a9"
+    },
+    {
+      "path": "src/main/lang/zh_hk/catalog.json",
+      "sha256": "18fda5d1d5a3a5f33562f2e68fa6f9fd221c83aa69be87e235ffe5863d8de815"
+    },
+    {
+      "path": "src/main/lang/zh_hk/common.json",
+      "sha256": "710b6ec0ded490fefafedbbfa8c37f6d70bf3711f25958669fc2df88d1dc3de1"
+    },
+    {
+      "path": "src/main/lang/zh_hk/compatibility.json",
+      "sha256": "6d4a6534f7886e7843a8fd9e0a9e0ad9a08a6aebd6bc9e8604002583cb76ccca"
+    },
+    {
+      "path": "src/main/lang/zh_hk/diary.json",
+      "sha256": "5e45c2c8651fec398d6eba6502ad7b6424451fd93d787b34e4baec58e8282733"
+    },
+    {
+      "path": "src/main/lang/zh_hk/utility_items.json",
+      "sha256": "6597186fe8d3fe6a31a63dbe212fe577254a0b7963870190c38489095587a52e"
+    },
+    {
+      "path": "src/main/lang/zh_tw/aspects/abyss.json",
+      "sha256": "704fc481a073ca11de74f0b9a6432e20ba0f5ed5a28dfc2cb8dfbed5e4d9e37c"
+    },
+    {
+      "path": "src/main/lang/zh_tw/aspects/boundless.json",
+      "sha256": "aced991d7bb2f05d3304b7ef3a740a0ab3214545ef9edb9957a6be2c8581c05f"
+    },
+    {
+      "path": "src/main/lang/zh_tw/aspects/deep_valley.json",
+      "sha256": "41695782e1b1e3e1f378b737a54f4061a72b7230c03f80316bd1cb5690774e2d"
+    },
+    {
+      "path": "src/main/lang/zh_tw/aspects/far_reach.json",
+      "sha256": "a85dae14cf7ffc04db6737f9cfce85cf331932ec44e1b590de3b7f4a2b031577"
+    },
+    {
+      "path": "src/main/lang/zh_tw/aspects/flourishing.json",
+      "sha256": "32a12cbc53649bc8d1c0be9642a2a2f83adc8b233a43ba2f72df96bb8d4200de"
+    },
+    {
+      "path": "src/main/lang/zh_tw/aspects/underworld.json",
+      "sha256": "0484cf688aa7463866b5a13f6ddfc8b2087eca559d8f61cafc50eed386a563a9"
+    },
+    {
+      "path": "src/main/lang/zh_tw/catalog.json",
+      "sha256": "af8e7fbaa319fb6c762af843657dc79c1bc252793312a8b43c6edf16e88b9092"
+    },
+    {
+      "path": "src/main/lang/zh_tw/common.json",
+      "sha256": "710b6ec0ded490fefafedbbfa8c37f6d70bf3711f25958669fc2df88d1dc3de1"
+    },
+    {
+      "path": "src/main/lang/zh_tw/compatibility.json",
+      "sha256": "4250e90bb2ba08744051ac63a03d36f83b0e2325d730dc52a0af61c027c2d5ef"
+    },
+    {
+      "path": "src/main/lang/zh_tw/diary.json",
+      "sha256": "5e45c2c8651fec398d6eba6502ad7b6424451fd93d787b34e4baec58e8282733"
+    },
+    {
+      "path": "src/main/lang/zh_tw/utility_items.json",
+      "sha256": "da97e1771472bf08d2e4ca8e6f17b7b72df2869781f2d549bf4edc9b32678e46"
+    },
+    {
+      "path": "src/main/resources/META-INF/mods.toml",
+      "sha256": "1a36565d843646d704e42d6475ce2edaa830b21f36c99aa6ec8c428aae953df8"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/blockstates/lantern_light.json",
+      "sha256": "6a670e296ab67789a6b26493c3c49ba21af5279d64a8d79c9dbf0fc42738f2bd"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/config/configuration-guide.en_us.txt",
+      "sha256": "350d946774f395b3691a62623c510f7568048d55ced41e3d8c8de932ce41e58c"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/config/configuration-guide.zh_cn.txt",
+      "sha256": "1abcf5217f8dd1d2bf8c047b513d6ed7583dacbcbe5959f1c3a82643de9fdf90"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/block/lantern_light.json",
+      "sha256": "8ef9584674b4510ec14d3eee89a00e41d0abd26ddd8b1716062d47814769141f"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/a_thousand_years_later.json",
+      "sha256": "ea38df5eeba39ead91d7a202900bcdd46ee5133e5ecd0946500f47986ce0f8f5"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/abyss_essence.json",
+      "sha256": "9f2c19a7b01209698bbcd5d64b9f5231c828b38275305bd2ec8801d36317a23b"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/abyss_stone.json",
+      "sha256": "d5cbc990b0933ef21c8441a637b635d2332c8a1db25eb0820312dbb3819e21ff"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/affection.json",
+      "sha256": "cb698e8aa5da0dc666173317eb5f6a6fcce8d7d34f5be8155a379b16a4bcae2b"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/azrael.json",
+      "sha256": "e2cd9c4386d69144293b479e4fe8e4470c37590a1d96ae72d1ddec792e292a6d"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/book_of_the_dead.json",
+      "sha256": "836c06700b9745d931dede0a9aab87c9786e5adaf191c8e669b0c618b4fd01ba"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/boundless_essence.json",
+      "sha256": "5ca3b17e3233eb7b98aa70e52c0f964b6e7a8eaf6e246035d00668aeeafa7c6c"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/boundless_stone.json",
+      "sha256": "4ec079069b3192595aa03931968466157768acdad6975ceac4a65e37b0042a0d"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/deep_valley_essence.json",
+      "sha256": "78f8ec03546f373d4dcb0b44a748ebe9bd529e74849bc5a528c924d84036c76a"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/deep_valley_stone.json",
+      "sha256": "b303ad06c37fefa31f50056c55a80426ec641d661191ff310ab32b7f1ac25eff"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/demon_king_of_the_sixth_heaven.json",
+      "sha256": "74fb96462e3b50193b813578ccdcabdeba6b16b8c664cfda198984e380bdb179"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/don_quixote.json",
+      "sha256": "9f7922ed9cf071b4bf168484871fc8769e8486447b3e54c51862d41bc3cb4159"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/eki.json",
+      "sha256": "6d295bf96aba32c856a68c030ff70ae286590d0d60758ad61e3915f3dc49495f"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/everlasting_flower.json",
+      "sha256": "36a8411059825ce07a1b7ee62b2ce8fb0282ed084f1871d5ad96783765d2cb02"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/far_reach_essence.json",
+      "sha256": "c636918d632bc315d8a96fe5f73c80d2435a6579118abf8da3a1d677107c2baf"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/far_reach_stone.json",
+      "sha256": "560725aae310c57c493c5ba85772c112c7d194a49a9d257e0873def132fe6a2c"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/flourishing_essence.json",
+      "sha256": "1518d99dfe3e339ce3f4bd629027e5fe9ac251febe66e489d25cd294f6a8df9e"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/flourishing_stone.json",
+      "sha256": "89546e43f634bb1f3831bc7116bacf4df8d02424c290e2952eca0f7c6bbbe1cb"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/free_and_easy_wandering.json",
+      "sha256": "9dd33edf92b5727c6f18a3456d19518040099d02da0ccb708832c7dc92d42fbc"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/golden_age.json",
+      "sha256": "c70ef09ec413116a62903d62b2e1e20368c10a8fa2c9f59bc867460e4f1e8819"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/homecoming.json",
+      "sha256": "01aad1bc592836790fe497acc2e13f08b25e702fd04f46333d3928d2660ebb7b"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/icarus.json",
+      "sha256": "56c875e8bee17a3bf8c71a9e030c38e7e17561605d3a228a3bc8c63e3e2f9a86"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/little_prince.json",
+      "sha256": "a3ec9ec928ea01832559a7365cd2a8183a987bae69cb396124d5b0e6b0c03ece"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/lorentz_fantasy.json",
+      "sha256": "b5aeca9a402fe8077fc1b13717d3032c422731aa369e61881b6a9868462093e7"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/midnight_lafite.json",
+      "sha256": "b61075ea7cf8aa810f3140539b73049d846052a6b0b9155d61326b3c0c53fa36"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/mistletoe.json",
+      "sha256": "4ba7f7e526df8277e2f47aa24c7869098638e2fd5ffa36bddb02349830f1cea0"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/myriad_souls_banner.json",
+      "sha256": "746a1c6c73bc5817ca43201dbc2a8e70d26ec55f835f733bccdd98817e4c77bc"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/perfect_fluid.json",
+      "sha256": "58a201d6ef39615fb4c850325dbf03716e3b91d352133692226d81cc1b02ed9d"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/phosphophyllite.json",
+      "sha256": "0ac9bef75c532aca50dab8c468f5ded95a681870c443c13a0995fb939613879a"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/renewal.json",
+      "sha256": "b8ebabbf3765e371a198ed68437a3e18702167793b767c63465ac512000ffb1d"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/spring_corner.json",
+      "sha256": "1d12aaa3f289b33d2ad63400233260c38990192ef0fece38a3dc19f86205f752"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/star_voice.json",
+      "sha256": "ba8ad262e0297dee86ecb8704a1a3fdca67d976f39688f4be04f145a6f2656d3"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/sword_and_lantern.json",
+      "sha256": "36e49c2af76ac127c4832c97446a03ba4c7addaf2f3993b1a8c20dfc1af7dd13"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/the_long_travail.json",
+      "sha256": "13f52a146ccb9edb60498e3bde10790587a863b46f8a06a6956c1b5d4e00e551"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/tokaido.json",
+      "sha256": "bc1465bfda56b5c1b2c87f1ba978e556f3877f662db709fcf86d2288f19eec07"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/tower_of_babel.json",
+      "sha256": "7b8d5e0ff63f9ef0265a6a2378e0df23a31afef68ebde98a84a0d63f500c9007"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/underground_velvet.json",
+      "sha256": "7e799a879994bba5d5c641778ef8c06123de2366383d5ac786c0c4f40eced43f"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/underworld_essence.json",
+      "sha256": "84f5fd8b5ab7eb546f62dc22f85e7cbc29676e29bb447fe73be463077b8adb81"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/underworld_stone.json",
+      "sha256": "7a58c1deff66bfdad657226460a57f60a0b72b13467eec10f35d1b8542bde525"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/wayguide.json",
+      "sha256": "ea179c959bc80d7af0def2a98de981be486fd257812ed8e039326a8aeb43901d"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/shaders/core/diary_font.fsh",
+      "sha256": "c34a8df68279d5ff0526ef23906c195ec6d25cb0ad93a71d627054063153c2f2"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/shaders/core/diary_font.json",
+      "sha256": "c31948a8873b5f821e81bc2cff30e46e15a361375ae835c1a03c436024c0c5b6"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/shaders/core/diary_font.vsh",
+      "sha256": "0098c8c27b5a072fc8eff66e8d10cb34bc792c3467de4e3a8b43a641556ca2f4"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/shaders/core/visual_deprivation.fsh",
+      "sha256": "659e06ee7558e3328e06f6d38087c60c129b7eded57a2354bc2ab400a70ac221"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/shaders/core/visual_deprivation.json",
+      "sha256": "06821b57f80f0526948536681cec5ba487f282f9e21ec00915b49652fc1b929f"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/shaders/core/visual_deprivation.vsh",
+      "sha256": "bbbb51fa51b08bb4427215cacc5904af170d8ac65bb17ce55f2ff0ec81bf26b7"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/entity/icarus_elytra.png",
+      "sha256": "548a3cb36cc30a3651ec7e84b089e8a982c4b027a6ca91c0ab81e4f85fed1df9"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/gui/advancements/paper.png",
+      "sha256": "b4e19746d01dafc06a05bf5d1f95b3be2f8f8ccfc502c126a267ab2ca761ee50"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/gui/diary_base.png",
+      "sha256": "521481091f0bff213e3e211920198377eb4ca444d12f8727a5439583b42a7f95"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/gui/diary_bookmark.png",
+      "sha256": "86eb6c61df8f16811b8b57ebce4dc99f26022d6adf302316f33dbcc6fec26296"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/a_thousand_years_later.png",
+      "sha256": "789721d920ac7f47fdce184d46fd445286582d93891cbf94cd97fccdd70e1240"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/abyss_essence.png",
+      "sha256": "6bb367bcf41e01b3de0bbf6b5b802c6fc008a925afa9de496f0778e16c44bb20"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/abyss_stone.png",
+      "sha256": "9084446a5ab4d0f7257d92648bdd99d0cc1ced330c444f0c8dedc3dc3ac08d15"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/affection.png",
+      "sha256": "71307c9d0a856b9a2112c9476928594a1f9afc1b50f90137f84981386ee93770"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/azrael.png",
+      "sha256": "96983c1b6219d2ac04d1a91d7ba04f88712ede91fb2982f200f537b3cda215ea"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/book_of_the_dead.png",
+      "sha256": "f60a0b712cfc5968bd739dbdfbf879244508c28598a1533285f385b3b1831968"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/boundless_essence.png",
+      "sha256": "e9a78254c28645501a045e7b16374b994c922a280af25e51c1b1399d1aedc0a8"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/boundless_stone.png",
+      "sha256": "dd4b2edf14ca56a58a7e757fa9b26f3f508963e864ddaf61d18f5f6a2941be7f"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/deep_valley_essence.png",
+      "sha256": "d8085cb780941cd84065fbb3234692630f31fefa9adb9481b64a09367139877d"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/deep_valley_stone.png",
+      "sha256": "b13ad5868eda843b3908a7b0f70875259b21fb74847c4c345eac6f3adde65f05"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/demon_king_of_the_sixth_heaven.png",
+      "sha256": "74992e3c05a90706595410b0baab0e7a608c8b56f1126c938642dd76cbf7862c"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/don_quixote.png",
+      "sha256": "77ff074e91ffef7f5bb2972f19f65405592f88980758c9d903c77a778f029253"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/eki.png",
+      "sha256": "6ef0ebc3b19d6371a38c9167e9cee9a6d6d5ec2c98fa9ad2dae691eed89e11d6"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/everlasting_flower.png",
+      "sha256": "5a86b9b75ff85c00132f27597fd83a4e76bc9a40d20007c8a18ef62f55964873"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/far_reach_essence.png",
+      "sha256": "2d8b7265e1d16e55d4d0ee80988ee1c8125a8bc9ba55e0de973842d2d00f21fc"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/far_reach_stone.png",
+      "sha256": "bd8a864ec773528b7878a8882606790661ea746c28406fc3ad220551bf1b5d9f"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/flourishing_essence.png",
+      "sha256": "e1bec3608230cd5f1462781fd222b2ba4ffff5ec20945cb0d0c5174bc8fce05d"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/flourishing_stone.png",
+      "sha256": "c9bce4b4a7d2f2b8853392e1d17804fbb17dd3211a6a986a04f3de23fed6f400"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/free_and_easy_wandering.png",
+      "sha256": "758469e74af87865e66d7cf97f740752bf59b6224266a835f5806c93066d7f13"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/golden_age.png",
+      "sha256": "608dbf366c3282c2a8d680afa0de03122e4504a8132b9ba0b2eb9200d8f5d1f9"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/homecoming.png",
+      "sha256": "fb3043f970738ad9bb01114a5908a1b5f2249b452d6c633236839ec5c6f28cbd"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/icarus.png",
+      "sha256": "f41527b894650f21764bab2abefe9e456bd7c7b8b41cc801cc2141a7da27430a"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/little_prince.png",
+      "sha256": "0a90f14f2c8a9229c97d3a94d8361cc46cc28b7a80e3cb6fec755f35e53b09f5"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/lorentz_fantasy.png",
+      "sha256": "629e098ce402549c38c2da81da0addb9c365dc862163b08b49d78086acb5635d"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/midnight_lafite.png",
+      "sha256": "5d370e3286eb1c3a12e1500a44d9d0ec872b69dda99da6cea1210556758ed799"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/mistletoe.png",
+      "sha256": "2a3a08da8594cdc69598a51f8223af6857650599d8d1104f64ee418f4a964eca"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/myriad_souls_banner.png",
+      "sha256": "3ea91667c8e3b500b5b93dd21ce28989c95f2f6fd72bc18792b5a959584e57e9"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/perfect_fluid.png",
+      "sha256": "b6dc1530c45de0576b6b1059e6242ee0780797ff666adaf849647889557552c9"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/phosphophyllite.png",
+      "sha256": "b733b05ef9fdd3b1c4c6a139d8347e93d252f080f8643755eb739b2ba286d902"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/renewal.png",
+      "sha256": "fda0104a81357e2810dffa1ec2839a850fdcd8b966b1adbadf9900cc08d45d49"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/spring_corner.png",
+      "sha256": "c457cea53d0d112787223044cf4a86f1582007d7930154bd3ea22c63a9f24389"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/star_voice.png",
+      "sha256": "784ff337cc74df86420c0fa80577249710abfbb8207ebc4b9c42eb509d75ff4c"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/sword_and_lantern.png",
+      "sha256": "ab1f13c717777be760565c5534a3298c5c25b720a825b9d5a9e21d1f0268cd41"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/the_long_travail.png",
+      "sha256": "c804e0d1c3e39878787dbc41723f2a0a7b163e3982b892a32ac1e3cd26550ca2"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/tokaido.png",
+      "sha256": "8658d812939e657de47d6b839a42b8a9eb3a69dab7d7f5a8aec97585612ca45d"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/tower_of_babel.png",
+      "sha256": "176924bfacf58da8afdbe318d8dcfc4e60770348cd983d3d1de3df09678919be"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/underground_velvet.png",
+      "sha256": "5312f73440ed6fe1c94756026352270bc8ee0a0b0fd3964aa45e32ba3f05e889"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/underworld_essence.png",
+      "sha256": "ce01c0613f5cb5721f0bdbf722e31933a5174f090f85a8c2902e2e6df89417d2"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/underworld_stone.png",
+      "sha256": "e13a502fd7cc8070bb2641b3caac2b087a8608debfdc590e71e7701502f7ff28"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/wayguide.png",
+      "sha256": "079853b96f31b2c7b35c51e2345358eedfff278951e7212231c74ba95feba1aa"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/mob_effect/mistletoe.png",
+      "sha256": "2a3a08da8594cdc69598a51f8223af6857650599d8d1104f64ee418f4a964eca"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/mob_effect/stiff.png",
+      "sha256": "4009f09ca6c1a0e322be8920373e77faf0028ae89b8d23b30733e087cf5eef50"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/mob_effect/visual_deprivation.png",
+      "sha256": "c5ef44f26d1ec4409857ff277173496151636a938972a881332c152b95286daf"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/slot/travel_diary.png",
+      "sha256": "4d2d7256bb2a2abd3196c3cf86612372fd45ee5b7692f0e001161253a6c72a93"
+    },
+    {
+      "path": "src/main/resources/data/curios/tags/items/back.json",
+      "sha256": "f77acc5206fb17edc0ba166c5385d372bc8d22d6613a7f7e3b78015e39c59a5e"
+    },
+    {
+      "path": "src/main/resources/data/curios/tags/items/belt.json",
+      "sha256": "a7b1d2bb05ac91e0fa6d693256219cb43fa16de5c8daea5d2054c703a99039bd"
+    },
+    {
+      "path": "src/main/resources/data/curios/tags/items/body.json",
+      "sha256": "17b3648cfc1cdd7dfaf73984ca7f6a3503fa303d499a090087275c6fae095c0b"
+    },
+    {
+      "path": "src/main/resources/data/curios/tags/items/bracelet.json",
+      "sha256": "e8a88c518351dca9a2c9a7e8019fdd25090a6ad044fd0eaf5858b3da9de1e09a"
+    },
+    {
+      "path": "src/main/resources/data/curios/tags/items/charm.json",
+      "sha256": "e07d87ee8745e0b31d4486b7f1dece031420d6702d19b660302240cb412923d4"
+    },
+    {
+      "path": "src/main/resources/data/curios/tags/items/curio.json",
+      "sha256": "e624bad1e58ce776c7eb9c31dc137f5e12cac76fad15bb80a993f4466238d6d9"
+    },
+    {
+      "path": "src/main/resources/data/curios/tags/items/feet.json",
+      "sha256": "83906ae1fd8a036beaee6c7ddd6ce3cef3f2884c92a7b4fcaaa41a34de85a502"
+    },
+    {
+      "path": "src/main/resources/data/curios/tags/items/hands.json",
+      "sha256": "ccc17864dd4e95107715a0c7b461a8e5756b145862d464a50d539bf92874b9de"
+    },
+    {
+      "path": "src/main/resources/data/curios/tags/items/head.json",
+      "sha256": "67721cc39c1c7a39fe9ad046d900fa91c4dd7a09169a7f96b43a68b49a46254b"
+    },
+    {
+      "path": "src/main/resources/data/curios/tags/items/necklace.json",
+      "sha256": "e7b8e7110bf0980a6dc1e5fec8b94b07d38f33bdfadb7d38277b0737f47eac1b"
+    },
+    {
+      "path": "src/main/resources/data/curios/tags/items/ring.json",
+      "sha256": "cef1716050f7f2722cdaa3bb6a6024768da99abbb02b48bcd20970623e1ffa80"
+    },
+    {
+      "path": "src/main/resources/data/curios/tags/items/travel_diary.json",
+      "sha256": "0b23bce8ffb814e1df1d44e1ceea292dba907474ca033e507337e66e670ecadb"
+    },
+    {
+      "path": "src/main/resources/data/forge/loot_modifiers/global_loot_modifiers.json",
+      "sha256": "2a658458515cf9f457e03434f462f5f78f2741067f4dacc28bbb7b0a8652d9e4"
+    },
+    {
+      "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_armor.json",
+      "sha256": "d77e8deedb073a20f388ad553a9fbfbcf01e796a7319b960a5242249cf011fd2"
+    },
+    {
+      "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_cooldown.json",
+      "sha256": "d77e8deedb073a20f388ad553a9fbfbcf01e796a7319b960a5242249cf011fd2"
+    },
+    {
+      "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_effects.json",
+      "sha256": "d77e8deedb073a20f388ad553a9fbfbcf01e796a7319b960a5242249cf011fd2"
+    },
+    {
+      "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_enchantments.json",
+      "sha256": "d77e8deedb073a20f388ad553a9fbfbcf01e796a7319b960a5242249cf011fd2"
+    },
+    {
+      "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_invulnerability.json",
+      "sha256": "1178ce3c39b8a1f40bc9d494eba174be40dce7d1ed4eb64e11977be4828f1bbc"
+    },
+    {
+      "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_resistance.json",
+      "sha256": "d77e8deedb073a20f388ad553a9fbfbcf01e796a7319b960a5242249cf011fd2"
+    },
+    {
+      "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_shield.json",
+      "sha256": "d77e8deedb073a20f388ad553a9fbfbcf01e796a7319b960a5242249cf011fd2"
+    },
+    {
+      "path": "src/main/resources/data/minecraft/tags/damage_type/no_impact.json",
+      "sha256": "f0beeddf98b474371b69a9706c761df0186e6a48236343a7bf042ff49df946d0"
+    },
+    {
+      "path": "src/main/resources/data/minecraft/tags/damage_type/no_knockback.json",
+      "sha256": "f9fb31af08b11bad0b1dc4bf84943caed566ee3419ac424d6fafea337f5f4018"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/advancements/root.json",
+      "sha256": "2a80909de5a8670f2eff32e2deb78680e66f4b65b1270bbe9e0dedcd13dd1521"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/curios/entities/player.json",
+      "sha256": "ee1cb5e4e366ffff77a0ea982831908515251c2552dbae77de315caf56fe90c1"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/curios/slots/back.json",
+      "sha256": "1ffb9e2c5903295d24be192261d82ebc3de34de5ee377613406bbe54ba3deb20"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/curios/slots/belt.json",
+      "sha256": "8dad90769863c7ee66696db016ac5b9457203c5fcebd0678b1dfc17c4fc30626"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/curios/slots/body.json",
+      "sha256": "8dad90769863c7ee66696db016ac5b9457203c5fcebd0678b1dfc17c4fc30626"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/curios/slots/bracelet.json",
+      "sha256": "8dad90769863c7ee66696db016ac5b9457203c5fcebd0678b1dfc17c4fc30626"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/curios/slots/charm.json",
+      "sha256": "1ffb9e2c5903295d24be192261d82ebc3de34de5ee377613406bbe54ba3deb20"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/curios/slots/feet.json",
+      "sha256": "4c616535279d13845a2c5e42dafe89432baaee374b27c470a7973c2c6f9fd843"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/curios/slots/hands.json",
+      "sha256": "7e0716e85d797e293b3588ad70bae3e3fc82c3f114574f177807774d607981fc"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/curios/slots/head.json",
+      "sha256": "8dad90769863c7ee66696db016ac5b9457203c5fcebd0678b1dfc17c4fc30626"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/curios/slots/necklace.json",
+      "sha256": "8dad90769863c7ee66696db016ac5b9457203c5fcebd0678b1dfc17c4fc30626"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/curios/slots/ring.json",
+      "sha256": "1ffb9e2c5903295d24be192261d82ebc3de34de5ee377613406bbe54ba3deb20"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/curios/slots/travel_diary.json",
+      "sha256": "fb79d3f8fe5cdeca9f314789422521de9ee775a152d0aa556b66dcc5dc423b17"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/damage_type/azrael_execution.json",
+      "sha256": "576bb0606f12dd2fd930e02bac941c4e1101a658da23019a15d35b2044416a19"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/damage_type/azrael_self.json",
+      "sha256": "6e0673c97dcae2239aa83423ecd22289dbf8fd8b55397ff8776964e30cb814db"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/damage_type/don_quixote_strike.json",
+      "sha256": "8067802c49592feb7569c55afed9528a0973f86f0b04b2e577d074cdef499906"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/damage_type/fluid_erosion.json",
+      "sha256": "3b3d29d4e63e658f0a861b0906ce63888990f65fb52751f8201d32391432cc43"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/damage_type/lorentz_void.json",
+      "sha256": "c1a27550655de74dc41bd7de72af73e6d63470716c7add790c069970b091b146"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/damage_type/rose_retaliation.json",
+      "sha256": "e99807061e886378648b86f0fd4ec3ff811f283e73d80389d7a01b2743d970e3"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/loot_tables/materials/abandoned_mineshaft.json",
+      "sha256": "7ba65876d7536f8d805727f880e0b0fcc5e85e7dedc33e3a7688338db297a7b2"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/loot_tables/materials/desert_pyramid.json",
+      "sha256": "b9abedef8fe7ce70e3f1e28810e72c46e0f1a31d4a02865c5a22cd0f6e1d0e72"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/loot_tables/materials/essences/blocks/budding_amethyst.json",
+      "sha256": "a9e9c477eaa8fdb1626990b1b67a2c76af6955af20a465412de8ce609556da13"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/loot_tables/materials/essences/chests/buried_treasure.json",
+      "sha256": "dfc2121e29f214573c7f23a0070daa10cc9fe6a8524a8df93a3e5a04d7f283fb"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/loot_tables/materials/essences/chests/jungle_temple.json",
+      "sha256": "4394f3057d71253816dc93022afbcececf2a214ac060ea1f0f77b4ec31ca646f"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/loot_tables/materials/essences/chests/stronghold_library.json",
+      "sha256": "a413c0e26b294ca3dff6c56dd7e816f8f4f4eb9cf6284f8707af12458151f5fa"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/loot_tables/materials/pillager_outpost.json",
+      "sha256": "8dfd9d627729270c8cce9d3a26ef099685de3bd1090a5d242f7b0586b1b3a5fe"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/loot_tables/materials/village_fisher.json",
+      "sha256": "6e8cf5525116bc8dbda365657517fd6f173488c3aedd76610e4413e7d16e2905"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/loot_tables/materials/woodland_mansion.json",
+      "sha256": "e7ddb4ccdc12a01ed69ac0ee95219b5e69c0d82a47a4dad66c94eac66e651b94"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/abyss_stone.json",
+      "sha256": "4348ab5ccc5d2dc6b1fa888f88b13e46693736084bc24cda26b9128b462a6dac"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/boundless_stone.json",
+      "sha256": "bb380cddfd1eb7521dac8d616e1240f004414859cf16a8a181970223548176f9"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/deep_valley_stone.json",
+      "sha256": "deb860a1c62f1e25988aa6e548634da640145f133893726483f424f15a351f1d"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/everlasting_flower.json",
+      "sha256": "343eca3f9778eb39d2d1e217d6b056939f518314c8e971c268ed0f4cca754d9e"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/far_reach_stone.json",
+      "sha256": "720bdd4d378657363d5cee0eb1c2a5dc97d2dfe52edecced110bed7889280757"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/flourishing_stone.json",
+      "sha256": "fafcc037c12cccaaba642f3e742ef11d9181823d6feb6ff92c9ba3b13b375fdc"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/golden_age.json",
+      "sha256": "1bce8866f496ec0fa7350a83c5c3c71cb33d0384a2e2fe6e74f755fb2c35cf64"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/homecoming.json",
+      "sha256": "f62077604134d5732bf8b3d2d4fe56741f148a7f855860e9f586645acc376d9f"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/icarus.json",
+      "sha256": "3f123504767e281c1253a8a0fa159f1f86ec5f1136fbdc293beb7b42b907d81d"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/mistletoe.json",
+      "sha256": "6d9b795d72f8e5d48471da4310480543e0e128cf2534139c6047843cd3a17cfb"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/myriad_souls_banner.json",
+      "sha256": "0c349cb6c6049599907e82e55690519b2426c48584bb9ae36e1ae995bf0d8232"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/perfect_fluid_copy.json",
+      "sha256": "aadedd02a9794c477e985c977ebe5f764d2d075d536802d89c9820140bf43501"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/renewal.json",
+      "sha256": "7299a1b5ec3c758179e8a738a28ff0b1109c88939132acbe65fac94f123da967"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_change.json",
+      "sha256": "755cb2d17b8247cb69e8d0b9368b9315f53a1c5c2f4732a5499bd02957ee355f"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/allium.json",
+      "sha256": "41bc0bb92b38b2963fabe4a5322e58e296dec4211e2eb7b421dc2a5d92769f84"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/azure_bluet.json",
+      "sha256": "adc896a0e53547549024c287deeabe12226d5a712d27ec384d5ea06029050f0f"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/blue_orchid.json",
+      "sha256": "31d7f6745c634699eb2f9b488728667b3e9d46313fd4a00329801fc4d566478d"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/cherry_leaves.json",
+      "sha256": "903778116d5cc076703f00d788c2baaa9db55f518c13f494a8b7ef2fe8f78b77"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/chorus_flower.json",
+      "sha256": "ec08de5b6e4c7ec8eeafb07374d7f6c105b46473ad2459649f656e0bec23aabc"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/cornflower.json",
+      "sha256": "4cbb4fd0a2bfd9d8cd5a297fd8c02897fc6f5b16ca613eb494bc0c25f260c441"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/dandelion.json",
+      "sha256": "eabd656c6fe388dec8b8545084d55b8e75c4fc10c594c4f2217a88e0e1785e7c"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/flowering_azalea.json",
+      "sha256": "0e431a77dbc50fe4466d4dcae6e27e72667fd43a5c3a876dcdc2f967de8c0a9e"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/flowering_azalea_leaves.json",
+      "sha256": "fd5fe11df80d358b117ed44257834889f39af87a60ce139e936b9b0e04bc627e"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/lilac.json",
+      "sha256": "39a1cee460885d25e30eeca53dfb0a448fc7610dd608122d8e01e35cf7ca783a"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/lily_of_the_valley.json",
+      "sha256": "19f8fa0ef34cb766424b7bbc1373adf9bfbff464839bad0e1479f0558f43df00"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/orange_tulip.json",
+      "sha256": "0df770e20e7b6904be31fa5118f09ce1f12d75071ae518db7a1d9483e5a47fa4"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/oxeye_daisy.json",
+      "sha256": "c7111bf018e8ae3171b03db44a305931352355dd6c69998e0c23c04bb832186c"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/peony.json",
+      "sha256": "5cb8871d8c75a01c4315b273f9c0a4679297a22943564b73be60c7d6c857e825"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/pink_petals.json",
+      "sha256": "35958ee539d145204533ac076b2e98a8786e9e402104b1d56535a6da37147ed5"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/pink_tulip.json",
+      "sha256": "920556c846f38dc06cf808ce09583dff7d6bbf34e7b5ad223d238f046a8a3f6f"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/pitcher_plant.json",
+      "sha256": "212cc142b712681c686391642d353ff29b105c0c92e267634775e5d060f3665c"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/poppy.json",
+      "sha256": "9c6d32137ed7f6e29401fcc2a97e617935bd8455200637e5cba88453ccedf04a"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/red_tulip.json",
+      "sha256": "953c7998cd93b87082926ef8fd00c15433538c6338e07173ed01903cc317c507"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/rose_bush.json",
+      "sha256": "de16451536f22591dc4ab314b90c18791caed2890b4b9574dfd06543bceb562a"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/spore_blossom.json",
+      "sha256": "4fa464c9c684239c11b17a14c99d68d653b45e823108b9e7676460e9dcb69dee"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/sunflower.json",
+      "sha256": "65c19fb5d9ce39e02a1edb0f1bb4e6cf9e9a344f1747c57b9012e66a50365c6b"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/torchflower.json",
+      "sha256": "4c519af2071298ffe545d493fee2842f48d77b3707910d7b9b376cb875178a58"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/white_tulip.json",
+      "sha256": "51013a55d97140bfdd8662d224deb5a6817ec0bac452d6cad50284f2629fa3d6"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/wither_rose.json",
+      "sha256": "57dee16d734224fc6f2a13331f607da2c94d4e2538e01f05ec353982bcd65623"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/underground_velvet.json",
+      "sha256": "e52271f14d3b5774dfc738333e280c83209e57eb52ed89b92c5eb23f8ff9a9d1"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/underworld_stone.json",
+      "sha256": "48dc8efac68ca7bccd8327c74357e0e7dfaeefadfe94416aa1efec9f7df214a4"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/wayguide.json",
+      "sha256": "9e40cbb9b362fa22be24dc57ec6d247d46d8c934967307f2ed3f3b4d54d217a7"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/tags/blocks/growth_exclude.json",
+      "sha256": "695bb054e55c24e4f80fe90c697ca5847c93937706046bcf7222b697dedefad7"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/tags/blocks/growth_include.json",
+      "sha256": "695bb054e55c24e4f80fe90c697ca5847c93937706046bcf7222b697dedefad7"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/tags/damage_type/bypasses_combat_attributes.json",
+      "sha256": "f9fb31af08b11bad0b1dc4bf84943caed566ee3419ac424d6fafea337f5f4018"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/tags/damage_type/retaliation.json",
+      "sha256": "6e3d558d76097dc25a6858950754d91deff0a33c979ffef09c8643c3e633fa54"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/tags/entity_types/babel_exclude.json",
+      "sha256": "335d057ba8258a379a6ea242d1542253147a52a4ab2c6015ec57f05e077537dd"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/tags/entity_types/babel_include.json",
+      "sha256": "3927c159b0c308b0dc5d85d56c63838b682fa1854bb3f76c42e62cffa70c8749"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/tags/items/spring_flowers.json",
+      "sha256": "f9e269b6fc7ca7c06c3ed4b5c9e45e1cc5170c460b3aaadebf749a43c5e3d567"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/tags/items/stone_terracotta.json",
+      "sha256": "f209e16cf6d02f029eacd967d8a37a884a733f9e0052fd28c74c0d93b8557875"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/tags/worldgen/biome/flower_biomes.json",
+      "sha256": "56e90dfeaea4f0d0a5204e7fba74f9f01b0a0982d372ee937c789db39440c066"
+    },
+    {
+      "path": "src/main/resources/mixins.the_long_travail.compat.json",
+      "sha256": "44faf057aad09c089bb96c4c6e5ae0a861ebd2881bec24dee2e022ef1c14062f"
+    },
+    {
+      "path": "src/main/resources/mixins.the_long_travail.json",
+      "sha256": "9f2f8174f61936ffa46d6c3004065c8d3f3d2ff8f9d15e071a2923d67cd8af77"
+    },
+    {
+      "path": "src/main/resources/pack.mcmeta",
+      "sha256": "9c8f1e0459c88c0e6878e0bc8ebbfa47ddffed9f06ccccb317a2a44866ee338a"
+    },
+    {
+      "path": "src/main/resources/the_long_travail/default_loot.json",
+      "sha256": "b6d24520b9039f5caeae4d92a31ae188255b9530322517062866de662ba774f7"
+    },
+    {
+      "path": "tools/generate-language-files.cjs",
+      "sha256": "f2df24d78bcdf84e96eb6133187572314f84097c75939ada120ae2ba17239698"
+    },
+    {
+      "path": "tools/test-language-generation.cjs",
+      "sha256": "7e3ce6849b128f491d2423bc97a8590f7b0d744ddfbcb1fbc1076c3233b974e9"
+    },
+    {
+      "path": "tools/verify-language-files.cjs",
+      "sha256": "49f8f57afb239d9c8181a4aee9be9840514f78f450b07b179b039606418a5f59"
+    },
+    {
+      "path": "tools/verify-locale.cjs",
+      "sha256": "3f4047602448d15d48071d741bc23616be55bc05ba20eafbe97542ab622becfd"
+    }
+  ]
+}
