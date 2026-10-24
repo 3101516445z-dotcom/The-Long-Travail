@@ -74,12 +74,58 @@
 
 ## 配置加载与重载
 
+### 加载与重载流程
+
 配置仍由 `ForgeConfigSpec` 定义并注册到 Forge。`config/ManagedConfig` 通过独立 `ConfigFileTypeHandler` 管理本模组文件，不改写其他模组的处理器。`ConfigRecovery` 在升级迁移前解析和恢复文件；`ConfigValidation` 校验普通配置项并转换合法数字字符串；`ConfigWatcher` 监听创建、修改和删除事件，等待保存事件短暂停顿后再读取。
 
 读取必须先进入独立候选配置，校验后发布新配置、清理 spec 缓存并发送 Forge 重载事件，使现有运行时缓存及客户端说明同步继续生效。运行中非法普通值沿用有效值；无法解析的文件整体拒绝。不要直接对正在使用的文件配置调用 `load()`，也不要通过保存动作覆盖尚未处理的磁盘修改。
 
+### 排版与保存
+
+以下入口均位于 `config` 包，新增配置或调整输出时按职责维护：
+
+| 入口 | 职责 |
+| --- | --- |
+| `ConfigLayout` | 稳定排列配置节；主题文件先列探索条件池，再列恶意、见证和物品设置。 |
+| `ConfigTomlWriter` | 输出 TOML 排版，将预设处理记录移到末尾并按类型分组；群系、结构记录在前。 |
+| `ConfigFileIO.write` | 比较输出与磁盘内容；有变化时写入临时文件，再替换目标文件。优先使用原子移动，不支持时使用普通替换。 |
+
+同类型预设用配置键区分来源和目标池。例如 `[travail.witness.compatInitialization]` 下的 `goety.positiveEffectsAdded`，仍对应 `travail.witness.compatInitialization.goety.positiveEffectsAdded`；点号写法不改变层级，也不合并独立记录。
+
+排版调整须保留键名、值及类型、列表顺序与重复项，以及未知字段和注释。经过读取、保存后再次保存，应得到相同文本；内容未变时不重写文件。常规保存使用 `ManagedConfig.save()`，保留其磁盘变更检查。
+
+### 联动预设写入
+
+群系、结构、奖励、生物、增益效果及黄金时代黑名单预设，通过配置包内的 `ManagedConfig.update(edit)` 修改候选配置。调用方在同一次修改中补充列表并设置处理标记；`edit` 返回 `true` 表示需要保存，返回 `false` 表示没有修改。候选条目的注册与合法性筛选由各预设实现负责。
+
+`update` 在读取候选与写盘前分别核对磁盘是否变化，保存后更新活动配置并刷新 spec 缓存。不要拆成“先保存列表、再保存标记”两次写入。各类来源检测、标记与运行时池更新方式见[联动预设接入](optional-compat.md#联动群系预设)。完美流体黑名单沿用 `PerfectFluidCompatDefaults` 的启动初始化与保存流程。
+
+### 注释与说明书维护
+
+- **配置字段**：在对应 spec 定义处维护用途、单位和特殊规则；配置节的共用说明由 `ConfigFilesDescription.describe` 管理。
+- **预设记录**：各预设定义处标明模组名称；分组标题、记录含义和说明书章节指引由 `ConfigTomlWriter` 统一输出。
+- **中英文说明书**：维护资源中的 [configuration-guide.zh_cn.txt](../../src/main/resources/assets/the_long_travail/config/configuration-guide.zh_cn.txt) 与 [configuration-guide.en_us.txt](../../src/main/resources/assets/the_long_travail/config/configuration-guide.en_us.txt)。
+
+说明书按“配置写法 → 预设 → 其他机制”排列。新增或调整章节时，中英文标题、内容和章节编号须对应，并同步配置注释中的指引。复杂机制放入说明书，字段注释保留简述与定位编号，避免逐项重复整段规则。
+
+`ConfigFilesDescription` 读取这两份资源，`ConfigFiles.writeGuides` 在启动时生成或更新配置目录中的 `配置说明.txt` 与 `Configuration Guide.txt`。修改生成后的说明书不会更新源码，下次启动会按资源内容更新。
+
+### 错误恢复与诊断
+
 自动纠正已有值或恢复损坏文件前，将原始字节与处理说明保存到 `config/the_long_travail/invalid/<时间与唯一编号>/`；备份成功且原文件未被再次修改后才替换。保留主题相对路径，不自动清理备份。启动时仅恢复损坏文件；有效配置历史仅在本次运行内保留。
 
-配置诊断统一通过 `ConfigProblems.report` 输出。`ConfigDiagnostics` 最多记住 1,024 条不同错误，按写入顺序淘汰；详细警告使用滚动 60 秒窗口，最多 20 条。限流部分从首条被省略的警告起约每分钟汇总一次，由配置监听线程在空闲时继续刷新，停服时输出剩余汇总。汇总最多列出 16 个文件，超出时提示另有文件；计数为被省略的报告次数，已淘汰错误再次出现也会计入。去重记录不按时间清空，与配置有效值和磁盘备份独立。
+配置诊断统一通过 `ConfigProblems.report` 输出。`ConfigDiagnostics` 最多记住 1,024 条不同错误，按写入顺序淘汰；详细警告使用滚动 60 秒窗口，最多 20 条。去重记录不按时间清空，与配置有效值和磁盘备份独立。
 
-新增配置优先通过既有 spec 注册；动态嵌套结构须独立校验，不能只用整组类型判断代替内部字段校验。共享战利品的逐表处理见[战利品接入](loot-integration.md#配置错误处理)。`gradlew.bat testConfigRecovery testConfigDiagnostics` 检查解析、文件恢复与诊断容量、限流和并发行为；完整监听与注册表行为需隔离 Forge 验证。
+限流部分从首条被省略的警告起约每分钟汇总一次，由配置监听线程在空闲时继续刷新，停服时输出剩余汇总。汇总最多列出 16 个文件，超出时提示另有文件；计数为被省略的报告次数，已淘汰错误再次出现也会计入。
+
+新增配置优先通过既有 spec 注册；动态嵌套结构须独立校验，不能只用整组类型判断代替内部字段校验。共享战利品的逐表处理见[战利品接入](loot-integration.md#配置错误处理)。
+
+### 检查入口
+
+| 命令 | 检查范围 |
+| --- | --- |
+| `gradlew.bat testConfigLayout` | 排版读写一致性、重复保存、预设分组、未知内容保留，以及中英文说明书章节对应。 |
+| `gradlew.bat testConfigRecovery testConfigDiagnostics` | 解析与文件恢复，以及诊断容量、限流和并发行为。 |
+| `gradlew.bat check` | 包含上述检查，以及各类联动预设和组合检查。 |
+
+实际配置监听、模组注册表及完整配置生成流程需在 Forge 环境验证；独立检查通过不等于完整整合包验收。

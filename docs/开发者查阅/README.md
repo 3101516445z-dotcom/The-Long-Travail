@@ -7,12 +7,14 @@
 | [统一携带 API](carrying-api.md) | 玩家携带查询、外部库存接入及失效边界 |
 | [状态与旅程 API](state-api.md) | 恶意/见证查询、旅程写入身份、时停查询 |
 | [饰品佩戴与恢复校验](accessory-equipment.md) | canEquip、恢复作用域、唯一性、依赖失效与返还 |
-| [可选模组联动](optional-compat.md) | 类加载隔离、女仆、试验假人及外部库存复制 |
+| [可选模组联动](optional-compat.md) | 联动预设、类加载隔离、女仆、试验假人及外部库存复制 |
 | [战利品数据接入](loot-integration.md) | 来源表、注入、数据包重载、抽样及终结补偿边界 |
-| [运行时接入与公共模块](runtime-integration.md) | 伤害上下文、公共模块、实体生命周期、调度、箭矢与飞行 |
+| [运行时接入与公共模块](runtime-integration.md) | 伤害与生命周期、公共模块、配置加载与保存、说明书维护 |
 | [战斗属性](combat-attributes.md) | 见切、必杀、霸主的注册 ID、调用、结算顺序及诅咒边界 |
 
 携带与状态 API 面向外部调用者，其余文档面向源码及联动开发。跨模块接入另查运行时约定。
+
+配置相关接入可直接查看[联动预设](optional-compat.md#联动群系预设)、[排版与保存](runtime-integration.md#排版与保存)、[预设写入](runtime-integration.md#联动预设写入)和[注释与说明书维护](runtime-integration.md#注释与说明书维护)。
 
 玩家使用说明见[玩家文档](../玩家查阅/README.md)，构建环境和命令见[项目说明](../../README.md#源码构建)。文档中的内部协作入口不等同于稳定的对外 API；移植或升级版本时须重新核对签名、Mixin 和存档约定。
 
