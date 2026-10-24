@@ -6,10 +6,8 @@ import java.util.List;
 
 public final class AlexsCavesStructureDefaults {
     public static List<String> structures(TravailAspect aspect) {
-        return switch (aspect) {
-            case DEEP_VALLEY -> List.of("alexscaves:gingerbread_town");
-            default -> List.of();
-        };
+        // 姜饼镇会在放置阶段调整位置，完成到访检测回归前不加入预设。
+        return List.of();
     }
 
     private AlexsCavesStructureDefaults() {}

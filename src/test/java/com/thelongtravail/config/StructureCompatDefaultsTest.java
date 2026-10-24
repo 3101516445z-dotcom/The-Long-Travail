@@ -37,7 +37,7 @@ public final class StructureCompatDefaultsTest {
                             "goety",
                             "travail.requirements.compatInitialization.goetyStructuresAdded",
                             com.thelongtravail.compat.goety.GoetyStructureDefaults::structures,
-                            new int[] {1, 0, 4, 1, 1, 1}),
+                            new int[] {1, 0, 4, 1, 1, 2}),
                     new Case(
                             "incendium",
                             "travail.requirements.compatInitialization.incendiumStructuresAdded",
@@ -50,13 +50,13 @@ public final class StructureCompatDefaultsTest {
                             com.thelongtravail.compat.ironsspellbooks
                                             .IronsSpellbooksStructureDefaults
                                     ::structures,
-                            new int[] {0, 1, 1, 0, 1, 1}),
+                            new int[] {1, 1, 2, 1, 1, 1}),
                     new Case(
                             "touhou_little_maid_spell",
                             "travail.requirements.compatInitialization.maidSpellStructuresAdded",
                             com.thelongtravail.compat.maidspell.MaidSpellStructureDefaults
                                     ::structures,
-                            new int[] {1, 0, 1, 0, 0, 2}),
+                            new int[] {2, 0, 0, 0, 1, 0}),
                     new Case(
                             "ars_nouveau",
                             "travail.requirements.compatInitialization.arsNouveauStructuresAdded",
@@ -70,23 +70,36 @@ public final class StructureCompatDefaultsTest {
                                     ::structures,
                             new int[] {0, 2, 0, 0, 0, 0}),
                     new Case(
-                            "alexscaves",
-                            "travail.requirements.compatInitialization.alexsCavesStructuresAdded",
-                            com.thelongtravail.compat.alexscaves.AlexsCavesStructureDefaults
-                                    ::structures,
-                            new int[] {0, 0, 0, 1, 0, 0}),
-                    new Case(
                             "mowziesmobs",
                             "travail.requirements.compatInitialization.mowziesMobsStructuresAdded",
                             com.thelongtravail.compat.mowziesmobs.MowziesMobsStructureDefaults
                                     ::structures,
-                            new int[] {0, 0, 1, 0, 0, 0}),
+                            new int[] {1, 0, 1, 1, 0, 0}),
                     new Case(
                             "traveloptics",
                             "travail.requirements.compatInitialization.travelOpticsStructuresAdded",
                             com.thelongtravail.compat.traveloptics.TravelOpticsStructureDefaults
                                     ::structures,
-                            new int[] {0, 0, 0, 0, 1, 0}));
+                            new int[] {0, 0, 0, 0, 1, 0}),
+                    new Case(
+                            "cataclysm",
+                            "travail.requirements.compatInitialization.cataclysmStructuresAdded",
+                            com.thelongtravail.compat.cataclysm.CataclysmStructureDefaults
+                                    ::structures,
+                            new int[] {0, 2, 2, 1, 2, 1}),
+                    new Case(
+                            "legendary_monsters",
+                            "travail.requirements.compatInitialization.legendarymonstersStructuresAdded",
+                            com.thelongtravail.compat.legendarymonsters
+                                            .LegendaryMonstersStructureDefaults
+                                    ::structures,
+                            new int[] {1, 0, 0, 0, 0, 2}),
+                    new Case(
+                            "eeeabsmobs",
+                            "travail.requirements.compatInitialization.eeeabsmobsStructuresAdded",
+                            com.thelongtravail.compat.eeeabsmobs.EEEABMobsStructureDefaults
+                                    ::structures,
+                            new int[] {0, 0, 0, 1, 1, 0}));
     private static int checks;
 
     private static void expect(boolean value, String label) {
@@ -195,7 +208,7 @@ public final class StructureCompatDefaultsTest {
                 expect(entries(config).size() == 1, "One available target");
             }
         }
-        expect(allIds.size() == 65, "Exactly 65 approved structures");
+        expect(allIds.size() == 82, "Exactly 82 approved structures");
         for (var aspect : TravailAspect.values()) {
             var config = fresh();
             int expected = 1;

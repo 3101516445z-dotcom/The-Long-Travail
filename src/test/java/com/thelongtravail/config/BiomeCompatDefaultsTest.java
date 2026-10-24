@@ -136,7 +136,12 @@ public final class BiomeCompatDefaultsTest {
                     fire.size() == (aspect == TravailAspect.UNDERWORLD ? 8 : 0),
                     "Incendium theme scope");
             expect(
-                    caves.size() == (aspect == TravailAspect.DEEP_VALLEY ? 2 : 0),
+                    caves.size()
+                            == switch (aspect) {
+                                case FLOURISHING, DEEP_VALLEY -> 2;
+                                case ABYSS, UNDERWORLD -> 1;
+                                default -> 0;
+                            },
                     "Alex's Caves theme scope");
             var config = config(List.of());
             config.set(BiomeCompatDefaults.TERRALITH_MARKER, true);

@@ -16,6 +16,7 @@
 *.xml text eol=lf
 *.py text eol=lf
 *.cjs text eol=lf
+*.mjs text eol=lf
 *.vsh text eol=lf
 *.fsh text eol=lf
 *.sh text eol=lf

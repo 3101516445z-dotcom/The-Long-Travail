@@ -69,3 +69,5 @@ desktop.ini
 # Reproducible structural regression harness
 !/tools/structure-regression/
 !/tools/structure-regression/**
+!/tools/worldgen-presets/
+!/tools/worldgen-presets/**

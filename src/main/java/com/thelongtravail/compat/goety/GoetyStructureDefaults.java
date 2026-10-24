@@ -16,7 +16,7 @@ public final class GoetyStructureDefaults {
                             "goety:wind_shrine");
             case DEEP_VALLEY -> List.of("goety:crypt");
             case UNDERWORLD -> List.of("goety:dark_manor");
-            case BOUNDLESS -> List.of("goety:royal_tribute");
+            case BOUNDLESS -> List.of("goety:royal_tribute", "goety:final_terminal");
             default -> List.of();
         };
     }

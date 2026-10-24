@@ -20,14 +20,14 @@
 | `maid/client` | 女仆专用提示识别与追加文案 |
 | `mixin/dummmmmmy` | 试验假人的有效伤害统计适配 |
 | `fluid` | 完美流体复制精妙背包、RS 系列磁盘与 AE2 存储元件 |
-| `terralith`、`incendium`、`alexscaves` | 按主题提供联动群系与结构预设 |
-| `goetyawaken`、`townsandtowers`、`goety`、`ironsspellbooks`、`arsnouveau`、`aquamirae`、`mowziesmobs`、`traveloptics` | 按主题提供结构预设；万法皆通结构预设位于 `maidspell` |
+| `terralith`、`incendium`、`alexscaves` | 按主题提供联动群系预设；前两者另有结构预设 |
+| `cataclysm`、`legendarymonsters`、`eeeabsmobs`、`goetyawaken`、`townsandtowers`、`goety`、`ironsspellbooks`、`arsnouveau`、`aquamirae`、`mowziesmobs`、`traveloptics` | 按主题提供结构预设；万法皆通结构预设位于 `maidspell` |
 | `l2complements`、`curseofpandora`、`celestialcore`、`apprenticecodex`、`enigmaticlegacy`、`enigmaticaddons`、`enigmaticdelicacy` | 钓鱼与幻翼物品奖励预设；Iron 奖励预设位于 `ironsspellbooks` |
 | `enigmaticlegacy`、`enigmaticdelicacy`、`l2complements`、`celestialenchantments` | 黄金时代食物与附魔黑名单预设 |
 
 ## 联动群系预设
 
-`compat/terralith/TerralithBiomeDefaults` 提供六个主题的 65 个候选 ID；`compat/incendium/IncendiumBiomeDefaults` 提供冥府 8 个；`compat/alexscaves/AlexsCavesBiomeDefaults` 提供幽谷 2 个。`config/BiomeCompatDefaults` 集中登记命名空间、标记与主题条目，在 `ServerStartingEvent` 读取世界的 `Registries.BIOME`，按实际命名空间识别联动并逐项检查注册状态，不依赖模组列表。名称采用 `@biome.<namespace>.<path>`（路径中的 `/` 保留），新增权重固定为 1，不提供额外译文。
+`compat/terralith/TerralithBiomeDefaults` 提供六个主题的 65 个候选 ID；`compat/incendium/IncendiumBiomeDefaults` 提供冥府 8 个；`compat/alexscaves/AlexsCavesBiomeDefaults` 提供繁茂 2 个、归墟 1 个、幽谷 2 个、冥府 1 个。`config/BiomeCompatDefaults` 集中登记命名空间、标记与主题条目，在 `ServerStartingEvent` 读取世界的 `Registries.BIOME`，按实际命名空间识别联动并逐项检查注册状态，不依赖模组列表。名称采用 `@biome.<namespace>.<path>`（路径中的 `/` 保留），新增权重固定为 1，不提供额外译文。
 
 按主题池内 ID 去重并保留已有条目。`travail.requirements.compatInitialization` 下的 `terralithBiomesAdded`、`incendiumBiomesAdded`、`alexsCavesBiomesAdded` 按联动、主题独立记录本次处理，包括零新增；无对应预设的主题不生成该标记，未检测到对应命名空间时不标记。每份配置的池与标记通过 `ManagedConfig.update` 一次保存，成功后发布配置并清理 spec 缓存；尚未处理的磁盘编辑不会被覆盖。初始化后清理探索池缓存。
 
@@ -35,11 +35,13 @@
 
 ## 联动结构预设
 
-`config/StructureCompatDefaults` 登记 12 个模组的结构预设，通过世界的 `Registries.STRUCTURE` 检测命名空间与实际 ID；不依赖模组 ID，因此 `towns_and_towers` 等命名空间与模组 ID 不一致的来源也可识别。候选数据放在各 `compat/<模组>/...StructureDefaults`，保持六个主题的归属。
+`config/StructureCompatDefaults` 登记 14 个模组的结构预设，通过世界的 `Registries.STRUCTURE` 检测命名空间与实际 ID；不依赖模组 ID，因此 `towns_and_towers` 等命名空间与模组 ID 不一致的来源也可识别。候选数据放在各 `compat/<模组>/...StructureDefaults`，保持六个主题的归属。
 
-主题范围、条目数量和标记名称见[配置说明](../玩家查阅/configuration-controls.md#联动结构预设)。结构标记使用 `*StructuresAdded`，独立于 `*BiomesAdded`；无对应候选的主题不定义标记。群系和结构共用 `config/ExplorationPresetEntries` 按池内 ID 合并，新结构名称为 `@structure.<namespace>.<path>`，保留路径中的 `/`，权重为 1。未选择接入的模组和原版条目不会自动补入，也不会被删除。
+主题范围、条目数量和标记名称见[配置说明](../玩家查阅/configuration-controls.md#联动结构预设)。结构标记使用 `*StructuresAdded`，独立于 `*BiomesAdded`；无对应候选的主题不定义标记。群系和结构共用 `config/ExplorationPresetEntries` 按池内 ID 合并，新结构名称为 `@structure.<namespace>.<path>`，保留路径中的 `/`，权重为 1。新生魔艺、灾变、Iron、Goety、万法皆通、传奇怪物、EEEAB 和 Mowzie 的结构显示键在五种语言的 compatibility 分组维护。未选择接入的模组和原版条目不会自动补入，也不会被删除。
 
 保存沿用 `ManagedConfig.update`，每个主题的结构池与本次处理标记同文件提交，保存成功后发布配置并清理缓存；缺席时不标记，处理后即使零新增也标记。结构抽取数量与已有旅程不变。`gradlew.bat testStructureCompatDefaults testBiomeCompatDefaults` 检查范围、独立标记、重试与合并规则。
+
+真实模组生成回归入口为 [联动探索回归说明](../../tools/worldgen-presets/README.md)，使用自然结构和独立 JVM 重载。注册表夹具只能证明配置补入，不能代替实际到访检测。
 
 ## 联动物品奖励预设
 

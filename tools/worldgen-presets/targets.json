@@ -1,0 +1,192 @@
+[
+  {
+    "id": "cataclysm:acropolis",
+    "theme": "ABYSS",
+    "dimension": "overworld"
+  },
+  {
+    "id": "cataclysm:sunken_city",
+    "theme": "ABYSS",
+    "dimension": "overworld"
+  },
+  {
+    "id": "cataclysm:cursed_pyramid",
+    "theme": "FAR_REACH",
+    "dimension": "overworld"
+  },
+  {
+    "id": "cataclysm:frosted_prison",
+    "theme": "FAR_REACH",
+    "dimension": "overworld"
+  },
+  {
+    "id": "cataclysm:ancient_factory",
+    "theme": "DEEP_VALLEY",
+    "dimension": "overworld"
+  },
+  {
+    "id": "cataclysm:burning_arena",
+    "theme": "UNDERWORLD",
+    "dimension": "the_nether"
+  },
+  {
+    "id": "cataclysm:soul_black_smith",
+    "theme": "UNDERWORLD",
+    "dimension": "the_nether"
+  },
+  {
+    "id": "cataclysm:ruined_citadel",
+    "theme": "BOUNDLESS",
+    "dimension": "the_end"
+  },
+  {
+    "id": "legendary_monsters:mossy_temple",
+    "theme": "FLOURISHING",
+    "dimension": "overworld"
+  },
+  {
+    "id": "legendary_monsters:shulker_tower",
+    "theme": "BOUNDLESS",
+    "dimension": "the_end"
+  },
+  {
+    "id": "legendary_monsters:space_station",
+    "theme": "BOUNDLESS",
+    "dimension": "the_end"
+  },
+  {
+    "id": "eeeabsmobs:coreforge_ruins",
+    "theme": "DEEP_VALLEY",
+    "dimension": "overworld"
+  },
+  {
+    "id": "eeeabsmobs:bloody_altar",
+    "theme": "UNDERWORLD",
+    "dimension": "the_nether"
+  },
+  {
+    "id": "irons_spellbooks:mangrove_hut",
+    "theme": "FLOURISHING",
+    "dimension": "overworld"
+  },
+  {
+    "id": "irons_spellbooks:impaled_icebreaker",
+    "theme": "ABYSS",
+    "dimension": "overworld"
+  },
+  {
+    "id": "irons_spellbooks:ice_spider_den",
+    "theme": "FAR_REACH",
+    "dimension": "overworld"
+  },
+  {
+    "id": "irons_spellbooks:mountain_tower",
+    "theme": "FAR_REACH",
+    "dimension": "overworld"
+  },
+  {
+    "id": "irons_spellbooks:catacombs",
+    "theme": "DEEP_VALLEY",
+    "dimension": "overworld"
+  },
+  {
+    "id": "irons_spellbooks:ancient_battleground",
+    "theme": "UNDERWORLD",
+    "dimension": "the_nether"
+  },
+  {
+    "id": "irons_spellbooks:evoker_fort",
+    "theme": "BOUNDLESS",
+    "dimension": "overworld"
+  },
+  {
+    "id": "touhou_little_maid_spell:hidden_cherry_tree",
+    "theme": "FLOURISHING",
+    "dimension": "overworld"
+  },
+  {
+    "id": "touhou_little_maid_spell:elven_realm",
+    "theme": "FLOURISHING",
+    "dimension": "overworld"
+  },
+  {
+    "id": "touhou_little_maid_spell:fallen_sanctum",
+    "theme": "UNDERWORLD",
+    "dimension": "the_nether"
+  },
+  {
+    "id": "mowziesmobs:umvuthana_grove",
+    "theme": "FLOURISHING",
+    "dimension": "overworld"
+  },
+  {
+    "id": "mowziesmobs:monastery",
+    "theme": "FAR_REACH",
+    "dimension": "overworld"
+  },
+  {
+    "id": "mowziesmobs:wrought_chamber",
+    "theme": "DEEP_VALLEY",
+    "dimension": "overworld"
+  },
+  {
+    "id": "goety:mangrove_tower",
+    "theme": "FLOURISHING",
+    "dimension": "overworld"
+  },
+  {
+    "id": "goety:ominous_blacksmith",
+    "theme": "FAR_REACH",
+    "dimension": "overworld"
+  },
+  {
+    "id": "goety:buried_ritual",
+    "theme": "FAR_REACH",
+    "dimension": "overworld"
+  },
+  {
+    "id": "goety:secluded_igloo",
+    "theme": "FAR_REACH",
+    "dimension": "overworld"
+  },
+  {
+    "id": "goety:wind_shrine",
+    "theme": "FAR_REACH",
+    "dimension": "overworld"
+  },
+  {
+    "id": "goety:crypt",
+    "theme": "DEEP_VALLEY",
+    "dimension": "overworld"
+  },
+  {
+    "id": "goety:dark_manor",
+    "theme": "UNDERWORLD",
+    "dimension": "overworld"
+  },
+  {
+    "id": "goety:royal_tribute",
+    "theme": "BOUNDLESS",
+    "dimension": "overworld"
+  },
+  {
+    "id": "goety:final_terminal",
+    "theme": "BOUNDLESS",
+    "dimension": "the_end"
+  },
+  {
+    "id": "ars_nouveau:guardian_wilden_den",
+    "theme": "DEEP_VALLEY",
+    "dimension": "overworld"
+  },
+  {
+    "id": "ars_nouveau:hunter_wilden_den",
+    "theme": "DEEP_VALLEY",
+    "dimension": "overworld"
+  },
+  {
+    "id": "ars_nouveau:stalker_wilden_den",
+    "theme": "DEEP_VALLEY",
+    "dimension": "overworld"
+  }
+]

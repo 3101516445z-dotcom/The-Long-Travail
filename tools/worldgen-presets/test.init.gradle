@@ -1,0 +1,17 @@
+allprojects {
+    afterEvaluate {
+        sourceSets {
+            worldgenPresetsSmoke {
+                java.srcDir 'tools/worldgen-presets/src'
+                resources.srcDir 'tools/structure-regression/resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+            }
+        }
+        tasks.register('worldgenPresetsSmokeJar', Jar) {
+            from sourceSets.worldgenPresetsSmoke.output
+            archiveBaseName = 'travail-worldgen-presets-smoke'
+            archiveVersion = '1'
+        }
+        reobf { worldgenPresetsSmokeJar { classpath.from sourceSets.main.output } }
+    }
+}

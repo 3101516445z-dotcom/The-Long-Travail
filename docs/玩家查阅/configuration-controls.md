@@ -42,7 +42,7 @@
 | --- | --- | --- |
 | Terralith | 繁茂 16、归墟 10、穷遐 19、幽谷 9、冥府 4、无垠 7 | `terralithBiomesAdded` |
 | Incendium | 冥府 8 | `incendiumBiomesAdded` |
-| Alex 的洞穴 | 幽谷 2：毒化洞穴、磁场洞穴 | `alexsCavesBiomesAdded` |
+| Alex 的洞穴 | 繁茂 2、归墟 1、幽谷 2、冥府 1 | `alexsCavesBiomesAdded` |
 
 各标记位于对应主题文件的 `travail.requirements.compatInitialization`，按联动和主题独立记录，无对应预设的主题不生成该联动标记。检测到联动并处理后设为 `true`，即使新增数量为零也会记录；未检测到时不标记。标记存在期间不会因手动删除、换世界或预设更新而再次补入。
 
@@ -65,26 +65,32 @@
 
 ## 联动结构预设
 
-结构池采用相同的一次性补充规则，按世界中实际注册的结构识别来源，支持通过模组或数据包提供结构。当前接入以下 12 个模组、65 个候选结构，新条目使用 `@structure.<命名空间>.<路径>`，权重为 `1`；已有同 ID 设置保留。
+结构池采用相同的一次性补充规则，按世界中实际注册的结构识别来源，支持通过模组或数据包提供结构。当前接入以下 14 个模组、82 个候选结构，新条目使用 `@structure.<命名空间>.<路径>`，权重为 `1`；已有同 ID 设置保留。
 
 | 联动 | 主题与候选数量 | 结构初始化标记 |
 | --- | --- | --- |
 | Terralith | 繁茂 8、归墟 1、穷遐 3、幽谷 5、冥府 1 | `terralithStructuresAdded` |
 | Goety Awaken | 繁茂 2、归墟 1、穷遐 4、幽谷 1、冥府 1 | `goetyAwakenStructuresAdded` |
 | Towns and Towers | 归墟 7、无垠 1 | `townsAndTowersStructuresAdded` |
-| Goety | 繁茂 1、穷遐 4、幽谷 1、冥府 1、无垠 1 | `goetyStructuresAdded` |
+| Goety | 繁茂 1、穷遐 4、幽谷 1、冥府 1、无垠 2 | `goetyStructuresAdded` |
 | Incendium | 冥府 5、无垠 1 | `incendiumStructuresAdded` |
-| Iron's Spells and Spellbooks | 归墟 1、穷遐 1、冥府 1、无垠 1 | `ironsSpellbooksStructuresAdded` |
-| Touhou Little Maid: Spell | 繁茂 1、穷遐 1、无垠 2 | `maidSpellStructuresAdded` |
+| Iron's Spells and Spellbooks | 繁茂 1、归墟 1、穷遐 2、幽谷 1、冥府 1、无垠 1 | `ironsSpellbooksStructuresAdded` |
+| Touhou Little Maid: Spell | 繁茂 2、冥府 1 | `maidSpellStructuresAdded` |
 | Ars Nouveau | 幽谷 3 | `arsNouveauStructuresAdded` |
 | Aquamirae | 归墟 2 | `aquamiraeStructuresAdded` |
-| Alex's Caves | 幽谷 1 | `alexsCavesStructuresAdded` |
-| Mowzie's Mobs | 穷遐 1 | `mowziesMobsStructuresAdded` |
+| Mowzie's Mobs | 繁茂 1、穷遐 1、幽谷 1 | `mowziesMobsStructuresAdded` |
 | T.O Magic and Extras | 冥府 1 | `travelOpticsStructuresAdded` |
+| 灾变 | 归墟 2、穷遐 2、幽谷 1、冥府 2、无垠 1 | `cataclysmStructuresAdded` |
+| 传奇怪物 | 繁茂 1、无垠 2 | `legendarymonstersStructuresAdded` |
+| EEEAB 生物 | 幽谷 1、冥府 1 | `eeeabsmobsStructuresAdded` |
+
+卫城（`cataclysm:acropolis`）归入归墟。Alex 洞穴目前仅补入群系；姜饼镇因放置阶段高度变化退出结构默认预设。万法皆通改为隐世樱花树、精灵秘境和堕天圣堂，不再默认加入需要其他可选模组或具有特殊补生成机制的结构。
+
+以上调整不清除已有配置或旅程中的旧条目；已初始化的主题若要补入新条目，可重置对应标记，旧条目的删除仍由配置维护者决定。
 
 各标记同样位于对应主题文件的 `travail.requirements.compatInitialization`，只在有预设的主题中生成；结构标记与群系标记独立，群系已初始化不会阻止结构补充。检测到对应结构命名空间后处理一次，即使没有新增也记录完成；删除条目不会触发补回。将相应标记设为 `false` 或删除该键后重新打开世界，可再尝试一次。
 
-ROR、AD、Cult of Azazel、Medieval Buildings [The End Edition] 不加入此次联动预设，已有手动条目照常保留。译文由外部语言资源提供，缺少译文时显示结构 ID。
+ROR、AD、Cult of Azazel、Medieval Buildings [The End Edition] 不加入此次联动预设，已有手动条目照常保留。新生魔艺、灾变、Iron、Goety、万法皆通、传奇怪物、EEEAB 和 Mowzie 的结构由 TLT 补充五种语言的显示文本；其余结构仍可使用外部语言资源，缺少译文时显示结构 ID。
 
 预设只扩充候选池，不修改 `general.toml` 的 `requirements.structureDrawCount`。新配置的默认值为 `2`，已有配置值保留；已有旅程不重新抽取。
 

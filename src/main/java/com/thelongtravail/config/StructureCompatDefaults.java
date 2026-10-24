@@ -2,13 +2,15 @@ package com.thelongtravail.config;
 
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.compat.alexscaves.AlexsCavesStructureDefaults;
 import com.thelongtravail.compat.aquamirae.AquamiraeStructureDefaults;
 import com.thelongtravail.compat.arsnouveau.ArsNouveauStructureDefaults;
+import com.thelongtravail.compat.cataclysm.CataclysmStructureDefaults;
+import com.thelongtravail.compat.eeeabsmobs.EEEABMobsStructureDefaults;
 import com.thelongtravail.compat.goety.GoetyStructureDefaults;
 import com.thelongtravail.compat.goetyawaken.GoetyAwakenStructureDefaults;
 import com.thelongtravail.compat.incendium.IncendiumStructureDefaults;
 import com.thelongtravail.compat.ironsspellbooks.IronsSpellbooksStructureDefaults;
+import com.thelongtravail.compat.legendarymonsters.LegendaryMonstersStructureDefaults;
 import com.thelongtravail.compat.maidspell.MaidSpellStructureDefaults;
 import com.thelongtravail.compat.mowziesmobs.MowziesMobsStructureDefaults;
 import com.thelongtravail.compat.terralith.TerralithStructureDefaults;
@@ -39,6 +41,21 @@ public final class StructureCompatDefaults {
 
     private static final List<Preset> PRESETS =
             List.of(
+                    new Preset(
+                            "eeeabsmobs",
+                            "EEEAB's Mobs",
+                            "travail.requirements.compatInitialization.eeeabsmobsStructuresAdded",
+                            EEEABMobsStructureDefaults::structures),
+                    new Preset(
+                            "legendary_monsters",
+                            "Legendary Monsters",
+                            "travail.requirements.compatInitialization.legendarymonstersStructuresAdded",
+                            LegendaryMonstersStructureDefaults::structures),
+                    new Preset(
+                            "cataclysm",
+                            "Cataclysm",
+                            "travail.requirements.compatInitialization.cataclysmStructuresAdded",
+                            CataclysmStructureDefaults::structures),
                     new Preset(
                             "terralith",
                             "Terralith",
@@ -84,11 +101,6 @@ public final class StructureCompatDefaults {
                             "Aquamirae",
                             "travail.requirements.compatInitialization.aquamiraeStructuresAdded",
                             AquamiraeStructureDefaults::structures),
-                    new Preset(
-                            "alexscaves",
-                            "Alex's Caves",
-                            "travail.requirements.compatInitialization.alexsCavesStructuresAdded",
-                            AlexsCavesStructureDefaults::structures),
                     new Preset(
                             "mowziesmobs",
                             "Mowzie's Mobs",
