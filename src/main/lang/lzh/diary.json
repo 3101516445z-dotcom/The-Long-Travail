@@ -57,5 +57,17 @@
   "command.the_long_travail.reverse.success": "已強易為：%1$s",
   "command.the_long_travail.reverse.all": "已強易六項皆為見證。",
   "command.the_long_travail.reverse.clear_all": "已清全部逆之除錯狀態，復依真實之途判定。",
-  "command.the_long_travail.reverse.clear_one": "已清編號%1$s之逆除錯狀態，復依真實之途判定。"
+  "command.the_long_travail.reverse.clear_one": "已清編號%1$s之逆除錯狀態，復依真實之途判定。",
+  "structure.minecraft.village_plains": "平原村落",
+  "structure.minecraft.mansion": "林間府邸",
+  "structure.minecraft.monument": "海底神殿",
+  "structure.minecraft.ruined_portal_ocean": "滄海殘門",
+  "structure.minecraft.pillager_outpost": "寇哨",
+  "structure.minecraft.village_desert": "沙漠村落",
+  "structure.minecraft.mineshaft": "廢礦",
+  "structure.minecraft.ancient_city": "上古城",
+  "structure.minecraft.fortress": "下界要塞",
+  "structure.minecraft.bastion_remnant": "堡壘遺址",
+  "structure.minecraft.stronghold": "要塞",
+  "structure.minecraft.end_city": "終界城"
 }

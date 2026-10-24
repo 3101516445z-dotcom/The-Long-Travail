@@ -6,10 +6,10 @@ import { spawn } from 'node:child_process';
 import {guardProcess} from './process-guard.mjs';
 
 const [round, phase, ...options] = process.argv.slice(2);
-if (!['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16'].includes(round)
+if (!['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17'].includes(round)
         || !['before', 'after'].includes(phase)
         || options.some(option => option !== '--build') || options.length > 1) {
-    console.error('Usage: node tools/structure-regression/run.mjs 01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16 before|after [--build]');
+    console.error('Usage: node tools/structure-regression/run.mjs 01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17 before|after [--build]');
     process.exit(2);
 }
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -32,8 +32,8 @@ function inputSnapshot() {
 const inputs = inputSnapshot();
 const argumentsList = [...(options.includes('--build') ? ['build'] : []), '-I',
     `tools/structure-regression/round-${round}.init.gradle`, `-PstructurePhase=${phase}`, 'runServer', '--offline', '--no-daemon'];
-const resultNames = { '01': 'result.txt', '02': 'journey-api-result.txt', '03': 'accessory-restore-result.txt', '04': 'maid-compat-result.txt', '05': 'maid-compat-result.txt', '06': 'maid-compat-result.txt', '07': 'maid-compat-result.txt', '08': 'maid-compat-result.txt', '09': 'maid-compat-result.txt', '10': 'config-result.txt', '11': 'config-result.txt', '12': 'combat-attributes-result.txt', '13': 'maid-compat-result.txt', '14': 'restart-result.txt', '15': 'maid-compat-result.txt', '16': 'soak-result.txt' };
-const serverDir = path.join(root, round === '14' ? 'build/structure-restart-server' : `build/structure-round-${round}-${round === '01' ? 'server' : phase}`);
+const resultNames = { '01': 'result.txt', '02': 'journey-api-result.txt', '03': 'accessory-restore-result.txt', '04': 'maid-compat-result.txt', '05': 'maid-compat-result.txt', '06': 'maid-compat-result.txt', '07': 'maid-compat-result.txt', '08': 'maid-compat-result.txt', '09': 'maid-compat-result.txt', '10': 'config-result.txt', '11': 'config-result.txt', '12': 'combat-attributes-result.txt', '13': 'maid-compat-result.txt', '14': 'restart-result.txt', '15': 'maid-compat-result.txt', '16': 'soak-result.txt', '17': 'structures-result.txt' };
+const serverDir = path.join(root, round === '17' ? 'build/structure-defaults-server' : round === '14' ? 'build/structure-restart-server' : `build/structure-round-${round}-${round === '01' ? 'server' : phase}`);
 const report = { round, phase, startedAt: new Date().toISOString(), root, arguments: argumentsList,
     inputs, nodeVersion: process.version, status: 'NOT_RUN' };
 const reportPath = path.join(reportDir, 'report.json');
@@ -60,7 +60,7 @@ child.on('close', (code, signal) => {
         try {
             report.result = fs.readFileSync(path.join(serverDir, resultNames[round]), 'utf8').trim();
             report.inputsUnchanged = JSON.stringify(inputs) === JSON.stringify(inputSnapshot());
-            for (const name of [resultNames[round], 'checks.txt', 'maid-compat-checks.txt', 'config-transitions.txt', 'addon-inputs.json']) {
+            for (const name of [resultNames[round], 'checks.txt', 'maid-compat-checks.txt', 'config-transitions.txt', 'addon-inputs.json', 'structures.properties']) {
                 const file = path.join(serverDir, name);
                 if (fs.existsSync(file)) fs.copyFileSync(file, path.join(reportDir, name));
             }

@@ -57,5 +57,17 @@
   "command.the_long_travail.reverse.success": "Forced state change: %1$s",
   "command.the_long_travail.reverse.all": "Forced all six aspects to Witness.",
   "command.the_long_travail.reverse.clear_all": "Cleared every reversal debug state; natural journey evaluation has resumed.",
-  "command.the_long_travail.reverse.clear_one": "Cleared reversal debug state %1$s; natural journey evaluation has resumed for it."
+  "command.the_long_travail.reverse.clear_one": "Cleared reversal debug state %1$s; natural journey evaluation has resumed for it.",
+  "structure.minecraft.village_plains": "Plains Village",
+  "structure.minecraft.mansion": "Woodland Mansion",
+  "structure.minecraft.monument": "Ocean Monument",
+  "structure.minecraft.ruined_portal_ocean": "Ocean Ruined Portal",
+  "structure.minecraft.pillager_outpost": "Pillager Outpost",
+  "structure.minecraft.village_desert": "Desert Village",
+  "structure.minecraft.mineshaft": "Mineshaft",
+  "structure.minecraft.ancient_city": "Ancient City",
+  "structure.minecraft.fortress": "Nether Fortress",
+  "structure.minecraft.bastion_remnant": "Bastion Remnant",
+  "structure.minecraft.stronghold": "Stronghold",
+  "structure.minecraft.end_city": "End City"
 }

@@ -1,0 +1,37 @@
+allprojects {
+    afterEvaluate {
+        sourceSets {
+            defaultStructuresTest {
+                java.srcDir 'tools/structure-regression/structures'
+                resources.srcDir 'tools/structure-regression/resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        def stage = project.findProperty('structurePhase') ?: 'before'
+        def directory = project.file('build/structure-defaults-server')
+        minecraft.runs.server {
+            workingDirectory directory
+            property 'travail.structures.stage', stage
+            jvmArgs '-Xmx4G'
+            args '--nogui'
+            mods { travail_smoke { source sourceSets.defaultStructuresTest } }
+        }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            doFirst {
+                if (stage == 'before' && directory.exists()) {
+                    if (!directory.canonicalFile.toPath().startsWith(project.file('build').canonicalFile.toPath())) throw new GradleException('Unsafe test directory')
+                    if (!directory.renameTo(new File(directory.parentFile, directory.name + '-archive-' + System.currentTimeMillis()))) throw new GradleException('Cannot archive previous world')
+                }
+                if (stage == 'after' && !new File(directory, 'structures.properties').isFile()) throw new GradleException('Run prepare stage first')
+                directory.mkdirs()
+                new File(directory, 'eula.txt').text = project.file('run/eula.txt').text
+                new File(directory, 'server.properties').text = 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25662\nlevel-name=default-structures\nlevel-seed=12345\nlevel-type=minecraft\\:normal\ngenerate-structures=true\nview-distance=2\nsimulation-distance=2\nmax-tick-time=180000\n'
+                new File(directory, 'structures-result.txt').text = 'NOT_RUN'
+            }
+            doLast {
+                if (!new File(directory, 'structures-result.txt').text.startsWith('PASS ')) throw new GradleException('Default structure verification failed')
+            }
+        }
+    }
+}

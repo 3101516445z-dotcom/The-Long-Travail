@@ -48,6 +48,21 @@
 
 需要重新补充时，将对应标记设为 `false` 或删除该键，再重新加载世界；也可预先设为 `true` 跳过初始化。标记由使用同一份配置的存档共用。预设不调整结构池和抽取数量，只影响之后新初始化或重置的旅程。
 
+## 原版结构默认池
+
+新配置的六个主题各有两个原版结构，权重均为 1；general.toml 的 requirements.structureDrawCount 默认为 2。
+
+| 主题 | 默认结构（minecraft 命名空间） |
+| --- | --- |
+| 繁茂 | 平原村庄（village_plains）、林地府邸（mansion） |
+| 归墟 | 海底神殿（monument）、海洋废弃传送门（ruined_portal_ocean） |
+| 穷遐 | 掠夺者前哨站（pillager_outpost）、沙漠村庄（village_desert） |
+| 幽谷 | 废弃矿井（mineshaft）、远古城市（ancient_city） |
+| 冥府 | 下界要塞（fortress）、堡垒遗迹（bastion_remnant） |
+| 无垠 | 要塞（stronghold）、末地城（end_city） |
+
+抽取不重复：只有默认两项时，两项都会成为目标；联动补入更多候选后，从扩展池中按权重抽取两项。已有配置中的空池、抽取数及自定义条目保留，不自动改为新默认值；需要采用默认组合时，手动填写上述结构并将抽取数设为 2。已有旅程不会重新抽取。
+
 ## 联动结构预设
 
 结构池采用相同的一次性补充规则，按世界中实际注册的结构识别来源，支持通过模组或数据包提供结构。当前接入以下 12 个模组、65 个候选结构，新条目使用 `@structure.<命名空间>.<路径>`，权重为 `1`；已有同 ID 设置保留。
@@ -69,9 +84,9 @@
 
 各标记同样位于对应主题文件的 `travail.requirements.compatInitialization`，只在有预设的主题中生成；结构标记与群系标记独立，群系已初始化不会阻止结构补充。检测到对应结构命名空间后处理一次，即使没有新增也记录完成；删除条目不会触发补回。将相应标记设为 `false` 或删除该键后重新打开世界，可再尝试一次。
 
-ROR、AD、Cult of Azazel、Medieval Buildings [The End Edition] 和原版结构不加入此次联动预设，已有手动条目照常保留。译文由外部语言资源提供，缺少译文时显示结构 ID。
+ROR、AD、Cult of Azazel、Medieval Buildings [The End Edition] 不加入此次联动预设，已有手动条目照常保留。译文由外部语言资源提供，缺少译文时显示结构 ID。
 
-预设只扩充候选池，不修改 `general.toml` 的 `requirements.structureDrawCount`。其默认值仍为 `0`，需要结构目标时自行设置抽取数量；已有旅程不重新抽取。
+预设只扩充候选池，不修改 `general.toml` 的 `requirements.structureDrawCount`。新配置的默认值为 `2`，已有配置值保留；已有旅程不重新抽取。
 
 ## 见证奖励池与联动预设
 

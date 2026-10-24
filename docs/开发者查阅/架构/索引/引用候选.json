@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "method": "lexical-candidates-not-call-graph",
-  "sourceFingerprint": "49dd9e405e1f414a36247ae4189f3d1cca52497a2062a5828bfe5157d8a3aeff",
+  "sourceFingerprint": "39fc32ac6549de9ca5b7cc984dfdbfd12316263b14c1d6e76c6214741444c4f4",
   "files": [
     {
       "path": "src/main/java/com/thelongtravail/AspectTheme.java",
@@ -2833,7 +2833,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "2590f531a9a666631c9675385e274b27a2e35b5169b1691a61ad34830c4797c2"
+      "sha256": "c87a809c773ba20bccd2d21c247e0d53fe88878af8b4ffd7ccbd47529b5d52ab"
     },
     {
       "path": "src/main/java/com/thelongtravail/config/UnderworldItemsConfig.java",
@@ -11742,7 +11742,7 @@
       "to": "com.thelongtravail.config.AbyssItemsConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/config/TravailConfig.java",
-      "tokenLine": 1031,
+      "tokenLine": 1043,
       "basis": "same-package"
     },
     {
@@ -11750,7 +11750,7 @@
       "to": "com.thelongtravail.config.AzraelConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/config/TravailConfig.java",
-      "tokenLine": 1033,
+      "tokenLine": 1045,
       "basis": "same-package"
     },
     {
@@ -11758,7 +11758,7 @@
       "to": "com.thelongtravail.config.BiomeCompatDefaults",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/config/TravailConfig.java",
-      "tokenLine": 1054,
+      "tokenLine": 1066,
       "basis": "same-package"
     },
     {
@@ -11766,7 +11766,7 @@
       "to": "com.thelongtravail.config.BoundlessItemsConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/config/TravailConfig.java",
-      "tokenLine": 1029,
+      "tokenLine": 1041,
       "basis": "same-package"
     },
     {
@@ -11774,7 +11774,7 @@
       "to": "com.thelongtravail.config.CarryingConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/config/TravailConfig.java",
-      "tokenLine": 1028,
+      "tokenLine": 1040,
       "basis": "same-package"
     },
     {
@@ -11782,7 +11782,7 @@
       "to": "com.thelongtravail.config.ConfigFilesDescription",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/config/TravailConfig.java",
-      "tokenLine": 1043,
+      "tokenLine": 1055,
       "basis": "same-package"
     },
     {
@@ -11790,7 +11790,7 @@
       "to": "com.thelongtravail.config.DeepValleyItemsConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/config/TravailConfig.java",
-      "tokenLine": 1034,
+      "tokenLine": 1046,
       "basis": "same-package"
     },
     {
@@ -11798,7 +11798,7 @@
       "to": "com.thelongtravail.config.EffectCompatDefaults",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/config/TravailConfig.java",
-      "tokenLine": 623,
+      "tokenLine": 629,
       "basis": "same-package"
     },
     {
@@ -11806,7 +11806,7 @@
       "to": "com.thelongtravail.config.FarReachItemsConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/config/TravailConfig.java",
-      "tokenLine": 1038,
+      "tokenLine": 1050,
       "basis": "same-package"
     },
     {
@@ -11814,7 +11814,7 @@
       "to": "com.thelongtravail.config.FishingEntityCompatDefaults",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/config/TravailConfig.java",
-      "tokenLine": 851,
+      "tokenLine": 861,
       "basis": "same-package"
     },
     {
@@ -11822,7 +11822,7 @@
       "to": "com.thelongtravail.config.FlourishingItemsConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/config/TravailConfig.java",
-      "tokenLine": 1037,
+      "tokenLine": 1049,
       "basis": "same-package"
     },
     {
@@ -11838,7 +11838,7 @@
       "to": "com.thelongtravail.config.ModeEffectRules",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/config/TravailConfig.java",
-      "tokenLine": 1039,
+      "tokenLine": 1051,
       "basis": "same-package"
     },
     {
@@ -11846,7 +11846,7 @@
       "to": "com.thelongtravail.config.RainConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/config/TravailConfig.java",
-      "tokenLine": 1030,
+      "tokenLine": 1042,
       "basis": "same-package"
     },
     {
@@ -11854,7 +11854,7 @@
       "to": "com.thelongtravail.config.RewardCompatDefaults",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/config/TravailConfig.java",
-      "tokenLine": 839,
+      "tokenLine": 849,
       "basis": "same-package"
     },
     {
@@ -11862,7 +11862,7 @@
       "to": "com.thelongtravail.config.StructureCompatDefaults",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/config/TravailConfig.java",
-      "tokenLine": 1055,
+      "tokenLine": 1067,
       "basis": "same-package"
     },
     {
@@ -11870,7 +11870,7 @@
       "to": "com.thelongtravail.config.UnderworldItemsConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/config/TravailConfig.java",
-      "tokenLine": 1032,
+      "tokenLine": 1044,
       "basis": "same-package"
     },
     {
@@ -11894,7 +11894,7 @@
       "to": "com.thelongtravail.valley.SwordLanternConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/config/TravailConfig.java",
-      "tokenLine": 1035,
+      "tokenLine": 1047,
       "basis": "fully-qualified"
     },
     {

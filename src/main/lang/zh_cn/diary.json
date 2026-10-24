@@ -57,5 +57,17 @@
   "command.the_long_travail.reverse.success": "已强制切换为：%1$s",
   "command.the_long_travail.reverse.all": "已将全部六项强制切换为见证。",
   "command.the_long_travail.reverse.clear_all": "已清除全部反转调试状态，恢复按照真实旅程判定。",
-  "command.the_long_travail.reverse.clear_one": "已清除编号%1$s的反转调试状态，恢复按照真实旅程判定。"
+  "command.the_long_travail.reverse.clear_one": "已清除编号%1$s的反转调试状态，恢复按照真实旅程判定。",
+  "structure.minecraft.village_plains": "平原村庄",
+  "structure.minecraft.mansion": "林地府邸",
+  "structure.minecraft.monument": "海底神殿",
+  "structure.minecraft.ruined_portal_ocean": "海洋废弃传送门",
+  "structure.minecraft.pillager_outpost": "掠夺者前哨站",
+  "structure.minecraft.village_desert": "沙漠村庄",
+  "structure.minecraft.mineshaft": "废弃矿井",
+  "structure.minecraft.ancient_city": "远古城市",
+  "structure.minecraft.fortress": "下界要塞",
+  "structure.minecraft.bastion_remnant": "堡垒遗迹",
+  "structure.minecraft.stronghold": "要塞",
+  "structure.minecraft.end_city": "末地城"
 }

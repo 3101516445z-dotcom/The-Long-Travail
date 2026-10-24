@@ -156,7 +156,7 @@ public final class TravailConfig {
                 integer(
                         builder,
                         "requirements.structureDrawCount",
-                        0,
+                        2,
                         0,
                         100,
                         "为每种恶意抽取的不同结构数量。",
@@ -414,7 +414,9 @@ public final class TravailConfig {
                         "minecraft:swamp|@biome.minecraft.swamp|1",
                         "minecraft:jungle|@biome.minecraft.jungle|1",
                         "minecraft:savanna|@biome.minecraft.savanna|1"),
-                List.of());
+                List.of(
+                        "minecraft:village_plains|@structure.minecraft.village_plains|1",
+                        "minecraft:mansion|@structure.minecraft.mansion|1"));
 
         builder =
                 builders.computeIfAbsent(
@@ -513,7 +515,9 @@ public final class TravailConfig {
                         "minecraft:deep_cold_ocean|@biome.minecraft.deep_cold_ocean|1",
                         "minecraft:frozen_ocean|@biome.minecraft.frozen_ocean|1",
                         "minecraft:deep_frozen_ocean|@biome.minecraft.deep_frozen_ocean|1"),
-                List.of());
+                List.of(
+                        "minecraft:monument|@structure.minecraft.monument|1",
+                        "minecraft:ruined_portal_ocean|@structure.minecraft.ruined_portal_ocean|1"));
 
         builder =
                 builders.computeIfAbsent(
@@ -619,7 +623,9 @@ public final class TravailConfig {
                         "minecraft:windswept_hills|@biome.minecraft.windswept_hills|1",
                         "minecraft:snowy_taiga|@biome.minecraft.snowy_taiga|1",
                         "minecraft:ice_spikes|@biome.minecraft.ice_spikes|1"),
-                List.of());
+                List.of(
+                        "minecraft:pillager_outpost|@structure.minecraft.pillager_outpost|1",
+                        "minecraft:village_desert|@structure.minecraft.village_desert|1"));
         EffectCompatDefaults.define(builder, TravailAspect.FAR_REACH);
         FAR_REACH_POSITIVE_EFFECTS =
                 builder.comment("格式：效果ID|最高等级|权重", "Format: effect_id|max_level|weight")
@@ -747,7 +753,9 @@ public final class TravailConfig {
                         "minecraft:dark_forest|@biome.minecraft.dark_forest|1",
                         "minecraft:mushroom_fields|@biome.minecraft.mushroom_fields|1",
                         "minecraft:stony_shore|@biome.minecraft.stony_shore|1"),
-                List.of());
+                List.of(
+                        "minecraft:mineshaft|@structure.minecraft.mineshaft|1",
+                        "minecraft:ancient_city|@structure.minecraft.ancient_city|1"));
         EffectCompatDefaults.define(builder, TravailAspect.DEEP_VALLEY);
         DEEP_VALLEY_POSITIVE_EFFECTS =
                 builder.comment("格式：效果ID|最高等级|权重", "Format: effect_id|max_level|weight")
@@ -835,7 +843,9 @@ public final class TravailConfig {
                         "minecraft:basalt_deltas|@biome.minecraft.basalt_deltas|1",
                         "minecraft:crimson_forest|@biome.minecraft.crimson_forest|1",
                         "minecraft:wooded_badlands|@biome.minecraft.wooded_badlands|1"),
-                List.of());
+                List.of(
+                        "minecraft:fortress|@structure.minecraft.fortress|1",
+                        "minecraft:bastion_remnant|@structure.minecraft.bastion_remnant|1"));
         RewardCompatDefaults.define(builder, TravailAspect.UNDERWORLD);
         FISH_SPECIAL_ITEMS =
                 builder.comment(
@@ -927,7 +937,9 @@ public final class TravailConfig {
                         "minecraft:the_end|@biome.minecraft.the_end|1",
                         "minecraft:small_end_islands|@biome.minecraft.small_end_islands|1",
                         "minecraft:stony_peaks|@biome.minecraft.stony_peaks|1"),
-                List.of());
+                List.of(
+                        "minecraft:stronghold|@structure.minecraft.stronghold|1",
+                        "minecraft:end_city|@structure.minecraft.end_city|1"));
         RewardCompatDefaults.define(builder, TravailAspect.BOUNDLESS);
         PHANTOM_DROPS =
                 builder.comment(

@@ -58,7 +58,7 @@ before 必须在该轮源码修改之前运行，after 在修改之后运行；�
     node tools/structure-regression/run.mjs 04 before
     node tools/structure-regression/run.mjs 04 after --build
 
-轮次支持 01–15，阶段必须为 before/after，默认离线运行。第一轮仍使用历史固定目录，其余轮次按阶段分开。参数仅选择测试目录，不会回退源码。
+轮次支持 01–17，阶段必须为 before/after，默认离线运行。第一轮仍使用历史固定目录，其余轮次按阶段分开。参数仅选择测试目录，不会回退源码。
 每次在 build/structure-reports 下建立时间戳目录，保存 Gradle 日志、结果文件及 report.json。报告记录 src/main、gradle、测试工具和主要构建配置的 SHA-256；进程退出码为 0、结果为 PASS 且运行期间输入不变才通过。Node.js 18+，现有 Java/Gradle/依赖缓存及 run/eula.txt 是运行前提。
 此入口不快照世界，也不保证可还原外部 JAR；不要把 before/after 参数当作源码版本。
 
@@ -138,3 +138,11 @@ node tools/structure-regression/suite.mjs soak 启动专用持续场景，目标
     node tools/structure-regression/run-release.mjs
 
 要求 build/libs 中已有当前正式 TLT JAR；本入口不自动替代正式构建。准备脚本按唯一文件名复制本机 Curios、女仆、爱恋、性格原件，校验哈希；不做开发映射修改。测试夹具单独 reobf，SavedData 继承调用显式以声明类型发出，避免外部自定义子类的映射缺失。Java 可由 JAVA_HOME 指定。阶段报告在 build/release-validation/evidence-*。这只是指定组合，不包含 MaidSpell、整包或客户端验收；日志中缺少未加载扩展物品的配方错误不视为已解决。
+
+## 第十七轮：原版默认结构检测
+
+    node tools/structure-regression/suite.mjs structures --build
+
+独立于默认 all。先在种子 12345 的自然世界生成并定位六主题的 12 种结构，再正常保存退出，以第二个 JVM 重读同一世界复查。结果位于 build/structure-defaults-server/structures-result.txt；坐标保存在 structures.properties，运行器分别归档两阶段证据。before 表示生成，after 表示重启复查。
+
+覆盖实际 JourneySpatial.loadedAt 的多片段、多高度、缓存与范围外检查，以及默认池、默认抽取数和扩池抽样。扩池使用原版候选模拟；不覆盖玩家客户端显示、所有世界种子或全部联动结构。初始化脚本为 round-17.init.gradle，夹具为 structures/DefaultStructuresSmoke.java。

@@ -11,23 +11,24 @@ const plans = {
     combat: [['12','after']],
     maid: [['13','after']],
     restart: [['14','before'],['14','after']],
+    structures: [['17','before'],['17','after']],
     soak: [['16','after']],
     'maid-social': [['15','after']],
 };
 const [name,...options]=process.argv.slice(2);
 if (name==='--list' && !options.length) {
-    console.log('core | config | combat | maid | restart | soak | maid-social | all\n--build: build once before the first server run. All runs are sequential.');
+    console.log('core | config | combat | maid | restart | structures | soak | maid-social | all\n--build: build once before the first server run. All runs are sequential.');
     process.exit(0);
 }
 if (!(Object.hasOwn(plans, name) || name==='all') || options.some(o=>o!=='--build') || options.length>1) {
-    console.error('Usage: node tools/structure-regression/suite.mjs core|config|combat|maid|restart|soak|maid-social|all [--build]');
+    console.error('Usage: node tools/structure-regression/suite.mjs core|config|combat|maid|restart|structures|soak|maid-social|all [--build]');
     process.exit(2);
 }
 const here=path.dirname(fileURLToPath(import.meta.url));
 const root=path.resolve(here,'../..');
 const dir=path.join(root,'build/structure-suites',new Date().toISOString().replace(/[:.]/g,'-')+'-'+name+'-'+process.pid);
 fs.mkdirSync(dir,{recursive:true});
-const plan=name==='all'?Object.entries(plans).filter(([key])=>!['maid-social','soak'].includes(key)).flatMap(([,value])=>value):plans[name];
+const plan=name==='all'?Object.entries(plans).filter(([key])=>!['maid-social','soak','structures'].includes(key)).flatMap(([,value])=>value):plans[name];
 const report={suite:name,status:'NOT_RUN',startedAt:new Date().toISOString(),plan,runs:[]};
 const save=()=>fs.writeFileSync(path.join(dir,'report.json'),JSON.stringify(report,null,2)+'\n');
 save();
