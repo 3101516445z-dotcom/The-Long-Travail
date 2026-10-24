@@ -84,13 +84,9 @@
 | 传奇怪物 | 繁茂 1、无垠 2 | `legendarymonstersStructuresAdded` |
 | EEEAB 生物 | 幽谷 1、冥府 1 | `eeeabsmobsStructuresAdded` |
 
-卫城（`cataclysm:acropolis`）归入归墟。Alex 洞穴目前仅补入群系；姜饼镇因放置阶段高度变化退出结构默认预设。万法皆通改为隐世樱花树、精灵秘境和堕天圣堂，不再默认加入需要其他可选模组或具有特殊补生成机制的结构。
-
-以上调整不清除已有配置或旅程中的旧条目；已初始化的主题若要补入新条目，可重置对应标记，旧条目的删除仍由配置维护者决定。
-
 各标记同样位于对应主题文件的 `travail.requirements.compatInitialization`，只在有预设的主题中生成；结构标记与群系标记独立，群系已初始化不会阻止结构补充。检测到对应结构命名空间后处理一次，即使没有新增也记录完成；删除条目不会触发补回。将相应标记设为 `false` 或删除该键后重新打开世界，可再尝试一次。
 
-ROR、AD、Cult of Azazel、Medieval Buildings [The End Edition] 不加入此次联动预设，已有手动条目照常保留。新生魔艺、灾变、Iron、Goety、万法皆通、传奇怪物、EEEAB 和 Mowzie 的结构由 TLT 补充五种语言的显示文本；其余结构仍可使用外部语言资源，缺少译文时显示结构 ID。
+新生魔艺、灾变、Iron、Goety、万法皆通、传奇怪物、EEEAB 和 Mowzie 的结构由 TLT 补充五种语言的显示文本；其余结构仍可使用外部语言资源，缺少译文时显示结构 ID。
 
 预设只扩充候选池，不修改 `general.toml` 的 `requirements.structureDrawCount`。新配置的默认值为 `2`，已有配置值保留；已有旅程不重新抽取。
 

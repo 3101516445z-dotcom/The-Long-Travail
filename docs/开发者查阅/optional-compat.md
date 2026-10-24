@@ -59,7 +59,7 @@
 
 在 `ServerStartingEvent` 使用 `ForgeRegistries.ENTITY_TYPES` 检测来源命名空间并逐项检查 ID。`travail.witness.compatInitialization.<namespace>.fishingEntitiesAdded` 按来源独立记录；与奖励、探索标记分开，来源缺席不标记，零新增仍记录。合并使用 `WeightedPresetEntries` 保留已有同 ID 权重和顺序，保存沿用 `ManagedConfig.update`；已有的 `ServerStartedEvent` 随后通过 `RuntimePools.reload` 更新运行时加权表。
 
-`TravailConfig.defaultFishingEntities()` 单独提供 9 项原版默认配置，不经过联动注入，也没有初始化标记。候选默认值、触发概率和实际实体生成逻辑分别管理，本次只调整默认池和联动候选。
+`TravailConfig.defaultFishingEntities()` 单独提供 9 项原版默认配置，不经过联动注入，也没有初始化标记。候选默认值、触发概率和实际实体生成逻辑分别管理。
 
 `gradlew.bat testFishingEntityCompatDefaults testRewardCompatDefaults` 验证实体名单、权重、独立标记及共用合并方法的奖励回归。隔离注册表测试验证文件持久化、缓存与运行时实体表；真实第三方生物行为仍需整合包验收。
 
@@ -155,7 +155,6 @@ Caelus 的 Mixin 回调与 `IcarusCaelusCompat` 共用状态。停用时不再�
 超越维度 1.20.1 / 0.7.30 的压缩物质球由 `FluidBeyondStore` 处理，仅识别 `beyonddimensions:matter_compress_ball` 的实物 `stack_list`。物品资源样本以数量 1 接入同一复制图，真实数量独立保留为 long；条目顺序和重复条目不合并，不对不同资源求总量。支持物品、流体、FE，以及已安装并注册的 Botania Mana、Ars Source 和 Mekanism 四种化学资源实现；未知实现、非法数量、不能无损回读的数据整次拒绝。当前资源键格式以及带外层整数数量的旧 `Type/Stack` 物品格式可处理，其他旧格式保守拒绝。只规范化副本，原件不变。
 
 物质球统一使用原版背包/工作台领取事务，预览不创建外部库存；嵌套禁用物品净化、背包生物拒绝及回滚沿用现有规则。此适配不克隆超维网络，不修改 NetId、绑定回调或机器过滤配置。扩展资源的代码支持与实际运行验证范围须分别记录。
-
 
 精妙背包的 Mob Catcher 生物存储属于硬性联动限制，不写入配置黑名单。领取前读取背包外部库存，`capturedMobs` 非空或字段类型异常时拒绝整次复制，包括受支持容器中嵌套的此类背包；原件、材料和实体数据不变。不含该字段的旧版背包、空列表及仅安装捕捉升级但未捕捉生物的背包保持原有行为。预览仍不读取外部库存，可能显示结果，但服务端领取时会拒绝。
 

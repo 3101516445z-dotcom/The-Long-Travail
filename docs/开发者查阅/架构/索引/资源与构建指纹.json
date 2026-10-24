@@ -18,11 +18,11 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "181c278a120c5efa3f7f6259f20b7225a67b5335996af8923870db3fce76ff02",
+  "fingerprint": "9b0cabecacfac9af8ea9bbf657682d0e44270a65231080ff25f80d2b8dc187b2",
   "files": [
     {
       "path": "build.gradle",
-      "sha256": "38f3b090e920d783dd5c55c0dfafb03537e1b7ae8215c3435ed7b4aad0b5c8dd"
+      "sha256": "627902802bb85a798190420af16e2259e98babf18f100d4d4a8f559c866431a8"
     },
     {
       "path": "gradle.properties",
@@ -102,7 +102,7 @@
     },
     {
       "path": "src/main/lang/en_us/compatibility.json",
-      "sha256": "3f8bf49f1d86c2efa52b61e40b0de23ac538ad07e6540a321d3b81d4c6de3a8f"
+      "sha256": "45705b7f23b61b8f368a9b85647fd03babd4e6d6a271b91a2dd5b808e4179fa3"
     },
     {
       "path": "src/main/lang/en_us/diary.json",
@@ -150,7 +150,7 @@
     },
     {
       "path": "src/main/lang/lzh/compatibility.json",
-      "sha256": "36aefa1a9e86e5d4b771636aac77a1bd073505a95b90924757a759cc797cc5d1"
+      "sha256": "b76e57dfa97f8c8facbc8a1154d907af4f9841877cc368c64dbc25a5ab4074a1"
     },
     {
       "path": "src/main/lang/lzh/diary.json",
@@ -194,7 +194,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/compatibility.json",
-      "sha256": "a145c245a36ebbc671cc9a4a762d3f3ed267c8842a20b53d746a286214412db2"
+      "sha256": "7802c844ced771ba4270182e02431f27806896017fd11229dc2b5db723e8c33e"
     },
     {
       "path": "src/main/lang/zh_cn/diary.json",
@@ -238,7 +238,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/compatibility.json",
-      "sha256": "6d4a6534f7886e7843a8fd9e0a9e0ad9a08a6aebd6bc9e8604002583cb76ccca"
+      "sha256": "6fb88fb44a47a860f32c5cb07546331a94d7a739288281cd1b70777319e6df1a"
     },
     {
       "path": "src/main/lang/zh_hk/diary.json",
@@ -282,7 +282,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/compatibility.json",
-      "sha256": "4250e90bb2ba08744051ac63a03d36f83b0e2325d730dc52a0af61c027c2d5ef"
+      "sha256": "eaf73fd83bede3e346ba633aac69befe22b7b848afee79aa2a1f28c4be56d5d3"
     },
     {
       "path": "src/main/lang/zh_tw/diary.json",
@@ -294,7 +294,7 @@
     },
     {
       "path": "src/main/resources/META-INF/mods.toml",
-      "sha256": "1a36565d843646d704e42d6475ce2edaa830b21f36c99aa6ec8c428aae953df8"
+      "sha256": "79f841130952df68680af163aaaa36b1504aa11eaf6f370333c90ca1dfe8e233"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/blockstates/lantern_light.json",
