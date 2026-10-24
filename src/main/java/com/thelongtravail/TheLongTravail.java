@@ -2,6 +2,7 @@ package com.thelongtravail;
 
 import com.mojang.logging.LogUtils;
 import com.thelongtravail.config.ConfigFiles;
+import com.thelongtravail.config.ConfigReloadCoordinator;
 import com.thelongtravail.event.TravailEvents;
 import com.thelongtravail.network.TravailNetwork;
 import com.thelongtravail.registry.ModRegistry;
@@ -20,7 +21,7 @@ public class TheLongTravail {
         IEventBus modBus = context.getModEventBus();
         ModRegistry.register(modBus);
         TravailNetwork.register();
-        modBus.addListener(TravailNetwork::onConfigReloading);
+        modBus.addListener(ConfigReloadCoordinator::onConfigReloading);
         ConfigFiles.register(context);
         com.thelongtravail.compat.maid.MaidAccessories.init();
         MinecraftForge.EVENT_BUS.register(new TravailEvents());

@@ -20,10 +20,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-/** Qualification and value queries; effect execution and state cleanup remain in the runtime.
- * Phase retains its existing public type for compatibility. Phase-only queries intentionally
- * do not imply that the corresponding accessory is equipped or that the maid is alive.
- */
+// 查询资格与数值，效果执行和状态清理由对应运行组件负责。
+// Phase 沿用公开类型以保持兼容；仅查询阶段不代表已装备对应饰品或女仆仍存活。
 public final class MaidAccessoryRules {
     static boolean has(EntityMaid m, Item item) {
         return !equipped(m, item).isEmpty();

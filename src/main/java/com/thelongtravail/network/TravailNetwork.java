@@ -12,7 +12,6 @@ import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
-import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.List;
 import java.util.Map;
@@ -344,33 +343,18 @@ public final class TravailNetwork {
         }
     }
 
+    // 保留公开兼容入口；模组事件直接注册到配置重载协调器。
     public static void onConfigReloading(ModConfigEvent.Reloading event) {
-        if (!com.thelongtravail.config.ConfigFiles.isCommonSpec(event.getConfig().getSpec()))
-            return;
-        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-        if (server != null)
-            server.execute(
-                    () -> {
-                        if (server.isStopped()) return;
-                        com.thelongtravail.data.RuntimePools.reload();
-                        com.thelongtravail.farreach.GoldenAgeActions.reload();
-                        com.thelongtravail.flourishing.Affection.resetAll();
-                        for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-                            player.inventoryMenu.slotsChanged(player.getInventory());
-                            if (player.containerMenu != player.inventoryMenu)
-                                player.containerMenu.slotsChanged(player.getInventory());
-                        }
-                        com.thelongtravail.abyss.RainEvents.configReloaded(server);
-                        TooltipConfigPacket snapshot = tooltipSnapshot();
-                        if (snapshot == null) return;
-                        server.getPlayerList()
-                                .getPlayers()
-                                .forEach(
-                                        player ->
-                                                CHANNEL.send(
-                                                        PacketDistributor.PLAYER.with(() -> player),
-                                                        snapshot));
-                    });
+        com.thelongtravail.config.ConfigReloadCoordinator.onConfigReloading(event);
+    }
+
+    // 一次生成快照，再向所有玩家发送，保证本次广播使用同一组配置值。
+    public static void broadcastTooltipConfig(MinecraftServer server) {
+        TooltipConfigPacket snapshot = tooltipSnapshot();
+        if (snapshot == null) return;
+        server.getPlayerList()
+                .getPlayers()
+                .forEach(player -> CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), snapshot));
     }
 
     private record TooltipConfigPacket(

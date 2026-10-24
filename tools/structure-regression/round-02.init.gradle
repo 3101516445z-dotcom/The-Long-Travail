@@ -5,7 +5,7 @@ allprojects {
             journeyApiTest {
                 java.srcDir 'tools/structure-regression/journey'
 
-                java.include '**/JourneyApiSmoke.java', '**/StateApiSmoke.java', '**/RenewalSmoke.java', '**/JourneyQuerySmoke.java'
+                java.include '**/JourneyApiSmoke.java', '**/StateApiSmoke.java', '**/RenewalSmoke.java', '**/JourneyQuerySmoke.java', '**/WayguideCursorChecks.java', '**/FrozenPlacementCursor.java'
                 resources.srcDir 'tools/structure-regression/resources'
                 compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
                 runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath

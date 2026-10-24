@@ -32,7 +32,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 
-/** Damage and immunity policy; preserves short-circuit order and random draws. */
+// 计算伤害与免疫规则；短路判断顺序和随机数消耗属于行为约定。
 public final class MaidCombatCalculations {
     public static EntityMaid attacker(Entity source) {
         Set<Entity> seen = Collections.newSetFromMap(new IdentityHashMap<>());

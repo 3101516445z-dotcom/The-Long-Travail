@@ -146,3 +146,7 @@ node tools/structure-regression/suite.mjs soak 启动专用持续场景，目标
 独立于默认 all。先在种子 12345 的自然世界生成并定位六主题的 12 种结构，再正常保存退出，以第二个 JVM 重读同一世界复查。结果位于 build/structure-defaults-server/structures-result.txt；坐标保存在 structures.properties，运行器分别归档两阶段证据。before 表示生成，after 表示重启复查。
 
 覆盖实际 JourneySpatial.loadedAt 的多片段、多高度、缓存与范围外检查，以及默认池、默认抽取数和扩池抽样。扩池使用原版候选模拟；不覆盖玩家客户端显示、所有世界种子或全部联动结构。初始化脚本为 round-17.init.gradle，夹具为 structures/DefaultStructuresSmoke.java。
+
+## 注释与职责整理增量检查
+
+配置套件新增真实文件热重载后的 RuntimePools 快照发布检查。第二轮旅程夹具新增 WayguideCursorChecks，以 FrozenPlacementCursor 保留的提取前算法对照结构候选枚举；测试模组使用独立包，通过反射访问包内生产组件。覆盖候选顺序、负坐标、分段预算和异步环布局结果，不包含完整路引超时及跨重启返还验收。

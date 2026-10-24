@@ -25,7 +25,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.common.ForgeMod;
 
-/** Ordered per-maid attribute, healing and cooldown maintenance. */
+// 按固定顺序维护每个女仆的属性、治疗与冷却。
 final class MaidPeriodicEffects {
     private static final String ID = MaidAccess.IDENTITY_KEY;
     private static final UUID HEALTH = UUID.fromString("193ab8d0-46cc-4179-bb32-f0317ed65401"),

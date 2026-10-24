@@ -44,7 +44,7 @@ import net.minecraftforge.event.entity.living.LivingHealEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.Event;
 
-/** Combat and effect responses; event registration remains in the runtime adapter. */
+// 执行战斗与效果反馈；事件注册由运行适配入口负责。
 public final class MaidCombatFeedback {
     public static void received(LivingEntity victim, DamageSource source) {
         var cause = attacker(source);

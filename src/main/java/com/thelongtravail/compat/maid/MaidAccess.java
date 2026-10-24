@@ -7,7 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-/** Native maid access shared by gameplay adapters. Load only behind the optional-mod boundary. */
+// 为玩法适配提供女仆原生访问；仅在确认可选模组存在后加载。
 public final class MaidAccess {
     static final String IDENTITY_KEY = "TravailMaidIdentity";
 
@@ -28,7 +28,7 @@ public final class MaidAccess {
         return p == null || p.hasDisconnected() ? null : p;
     }
 
-    /** Returns the persistent compatibility identity, creating it only when absent. */
+    // 返回持久化的兼容身份，仅在缺失时创建。
     public static UUID identity(LivingEntity e) {
         var tag = e.getPersistentData();
         if (!tag.hasUUID(IDENTITY_KEY)) tag.putUUID(IDENTITY_KEY, UUID.randomUUID());

@@ -65,8 +65,8 @@ public final class CombatContext implements AutoCloseable {
         return replay != null;
     }
 
-    // Capture order is intentional: replay and poison claims consume per-hit state.
-    // Keep these operations here rather than treating construction as a pure read-only snapshot.
+    // 重放与毒伤认领会消耗本次伤害状态，必须保持此处的调用顺序。
+    // 构造过程包含上述状态变更，不能作为纯只读快照处理。
     private CombatContext(LivingEntity target, DamageSource source) {
         this.lorentzVoid = com.thelongtravail.boundless.LorentzFantasy.secondary(source);
         this.lorentzBonus =
@@ -244,7 +244,7 @@ public final class CombatContext implements AutoCloseable {
                 && receivedTrigger == TravailConfig.ReceivedTrigger.HEALTH_LOSS)
             phosphophylliteReceived |= ReceivedMalice.trigger(target, source);
         if (phosphophylliteReceived) com.thelongtravail.valley.Phosphophyllite.received(target);
-        // 造成伤害的统计包含生命值和伤害吸收量的损失；受击惩罚的 HEALTH_LOSS 仍只读取 committed。
+        // 造成伤害的统计包含生命值和伤害吸收量的损失；受击惩罚的 HEALTH_LOSS 仍只读取 damageRecord.committed()。
         if (damageConfirmed && !roseDamage && attacker != null && attacker != target)
             TravailEvents.processSuccessfulAttack(attacker);
         if (damageConfirmed) {

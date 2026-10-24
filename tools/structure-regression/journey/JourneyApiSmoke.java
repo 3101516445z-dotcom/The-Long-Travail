@@ -476,6 +476,7 @@ public final class JourneyApiSmoke {
             RenewalSmoke.run(e.getServer().overworld());
             for (int cycle = 0; cycle < 25; cycle++) test(e.getServer().overworld());
             JourneyQuerySmoke.run(e.getServer().overworld());
+            WayguideCursorChecks.run(e.getServer().overworld());
             pass = true;
         } catch (Throwable failure) {
             failure.printStackTrace();

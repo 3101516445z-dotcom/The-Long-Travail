@@ -125,12 +125,12 @@ public class TravailEvents {
                 && event.player instanceof ServerPlayer player) EffectChanges.tick(player);
     }
 
-    /** Compatibility entry point; journey services call the coordinator directly. */
+    // 保留兼容入口；旅程服务直接调用 JourneyRuntimeMaintenance。
     public static void onDiaryReset(ServerPlayer player, ItemStack diary) {
         JourneyRuntimeMaintenance.onDiaryReset(player, diary);
     }
 
-    /** Compatibility entry point; journey services call the coordinator directly. */
+    // 保留兼容入口；旅程服务直接调用 JourneyRuntimeMaintenance。
     public static void onJourneyChanged(
             ServerPlayer player, ItemStack diary, JourneyService.OperationResult change) {
         JourneyRuntimeMaintenance.onJourneyChanged(player, diary, change);

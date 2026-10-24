@@ -24,7 +24,7 @@ import top.theillusivec4.curios.api.event.CurioEquipEvent;
 import java.util.List;
 import java.util.UUID;
 
-/** Forge event adapter and compatibility entry points. Mutable state belongs to MaidRuntimeState. */
+// 承接 Forge 事件和兼容入口；可变状态由 MaidRuntimeState 管理。
 public final class MaidAccessoryRuntime {
     public enum Phase {
         INACTIVE,

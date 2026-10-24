@@ -29,12 +29,12 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.placement.ConcentricRingsStructurePlacement;
-import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
 import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
+// 统一管理搜索任务、每刻预算和在途区块请求；取消任务不取消原版共享请求。
+// 扫描器消费同一预算，结构候选区块枚举由 WayguidePlacementCursor 负责。
 public final class WayguideSearch {
     private record Journey(UUID id, long revision) {
         static Journey of(ItemStack diary) {
@@ -210,7 +210,7 @@ public final class WayguideSearch {
             } else if (cursors.hasNext()) {
                 var entry = cursors.next();
                 structureScanner.placements.add(
-                        new PlacementCursor(
+                        new WayguidePlacementCursor(
                                 level,
                                 origin,
                                 structureScanner.radius,
@@ -591,8 +591,8 @@ public final class WayguideSearch {
     }
 
     private static final class StructureScanner extends Scanner {
-        final Deque<PlacementCursor> placements = new ArrayDeque<>();
-        PlacementCursor pending;
+        final Deque<WayguidePlacementCursor> placements = new ArrayDeque<>();
+        WayguidePlacementCursor pending;
         ChunkPos chunk;
         ChunkRequest request;
 
@@ -611,7 +611,7 @@ public final class WayguideSearch {
                 chunk = null;
             }
             if (chunk == null) {
-                if (!pending.ready(budget)) {
+                if (!pending.ready(budget::take)) {
                     if (pending.ringFuture != null && !pending.ringFuture.isDone()) {
                         placements.addLast(pending);
                         pending = null;
@@ -663,83 +663,6 @@ public final class WayguideSearch {
         @Override
         void close() {
             if (request != null) request.cancelOwner();
-        }
-    }
-
-    private static final class PlacementCursor {
-        final ServerLevel level;
-        final StructurePlacement placement;
-        final List<Holder<Structure>> structures;
-        final WayguideGeometry.Spiral grid;
-        final int baseX, baseZ, spacing;
-        List<ChunkPos> rings;
-
-        record Ring(ChunkPos pos, int order, double distance) {}
-
-        PriorityQueue<Ring> sortedRings;
-        final CompletableFuture<List<ChunkPos>> ringFuture;
-        final BlockPos origin;
-        int ringIndex;
-
-        PlacementCursor(
-                ServerLevel level,
-                BlockPos origin,
-                int radius,
-                StructurePlacement placement,
-                List<Holder<Structure>> structures) {
-            this.level = level;
-            this.placement = placement;
-            this.structures = List.copyOf(structures);
-            this.origin = origin;
-            int cx = origin.getX() >> 4, cz = origin.getZ() >> 4;
-            spacing =
-                    placement instanceof RandomSpreadStructurePlacement random
-                            ? random.spacing()
-                            : 1;
-            baseX = Math.floorDiv(cx, spacing);
-            baseZ = Math.floorDiv(cz, spacing);
-            grid = new WayguideGeometry.Spiral((radius + 15) / 16 / spacing + 2);
-            if (placement instanceof ConcentricRingsStructurePlacement concentric) {
-                ringFuture =
-                        ((StructureRingsAccessor) level.getChunkSource().getGeneratorState())
-                                .travail$ringPositions()
-                                .get(concentric);
-                if (ringFuture == null) rings = List.of();
-            } else ringFuture = null;
-        }
-
-        boolean ready(LoadBudget budget) {
-            if (ringFuture == null) return true;
-            if (!ringFuture.isDone()) return false;
-            if (rings == null) {
-                rings = ringFuture.getNow(List.of());
-                sortedRings =
-                        new PriorityQueue<>(
-                                Comparator.comparingDouble(Ring::distance)
-                                        .thenComparingInt(Ring::order));
-            }
-            for (int i = 0; i < 32 && ringIndex < rings.size() && budget.take(); i++) {
-                var pos = rings.get(ringIndex);
-                sortedRings.add(
-                        new Ring(
-                                pos,
-                                ringIndex++,
-                                pos.getMiddleBlockPosition(origin.getY()).distSqr(origin)));
-            }
-            return ringIndex == rings.size();
-        }
-
-        ChunkPos next() {
-            if (rings != null)
-                return sortedRings == null || sortedRings.isEmpty()
-                        ? null
-                        : sortedRings.remove().pos();
-            if (grid.finished()) return null;
-            int x = (baseX + grid.x()) * spacing, z = (baseZ + grid.z()) * spacing;
-            grid.advance();
-            return placement instanceof RandomSpreadStructurePlacement random
-                    ? random.getPotentialStructureChunk(level.getSeed(), x, z)
-                    : new ChunkPos(x, z);
         }
     }
 

@@ -6,7 +6,7 @@ import com.thelongtravail.network.TravailNetwork;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
-/** Post-commit journey maintenance shared by the service and Forge lifecycle adapters. */
+// 协调旅程提交后的运行状态维护，也供 Forge 生命周期入口调用。
 public final class JourneyRuntimeMaintenance {
     public static void onDiaryReset(ServerPlayer player, ItemStack diary) {
         resetRuntime(player, VisualDeprivation.ClearReason.DIARY_RESET);

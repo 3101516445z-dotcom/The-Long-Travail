@@ -8,11 +8,10 @@ import java.util.function.Predicate;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
 
-/** Default-list editing and the legacy live-first initialization policy. */
+// 维护默认列表，以及先修改活动配置、再保存的初始化流程。
 final class ConfigDefaultEdits {
-    /** Mutates active configuration before saving. A rejected save does not roll back the edit.
-     * This intentionally differs from ManagedConfig.update's disk-first publication policy.
-     */
+    // 先修改活动配置再保存；保存被拒绝时不回滚活动值。
+    // 这与 ManagedConfig.update 先写盘再发布的流程不同。
     static void applyLive(ModConfig config, ForgeConfigSpec definition, Predicate<CommentedConfig> edit) {
         if (edit.test(config.getConfigData())) {
             config.save();
@@ -20,7 +19,7 @@ final class ConfigDefaultEdits {
         }
     }
 
-    /** Appends missing entries in declaration order; existing duplicates remain untouched. */
+    // 按声明顺序追加缺少的条目，保留已有重复项。
     static boolean appendOnce(CommentedConfig config, String listKey, String marker,
             List<String> items, BooleanSupplier available) {
         if (Boolean.TRUE.equals(config.get(marker)) || !available.getAsBoolean()) return false;

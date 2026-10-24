@@ -1,6 +1,6 @@
 package com.thelongtravail.helper;
 
-/** Numeric loss accounting for one hurt invocation. Event confirmation stays in CombatContext. */
+// 记录一次 hurt 调用的伤害损失；事件确认由 CombatContext 负责。
 final class CombatDamageRecord {
     private boolean committed;
     private double recordedDamage;
@@ -8,7 +8,7 @@ final class CombatDamageRecord {
 
     boolean healthLost(float before, float after) {
         if (!(after < before)) return false;
-        // Preserve the existing commitment flag even for a nonfinite transition.
+        // 检测到生命值下降时先标记提交；非有限数值不计入损失总量。
         committed = true;
         if (!Float.isFinite(before) || !Float.isFinite(after)) return false;
         relicHealthLoss += Math.max(0, Math.max(0, before) - Math.max(0, after));
@@ -22,7 +22,7 @@ final class CombatDamageRecord {
         return true;
     }
 
-    // The caller has already checked server side, context identity and finite positive amount.
+    // 调用方须先确认服务端、上下文身份，以及伤害值为有限正数。
     void dummyDamage(float amount) {
         recordedDamage += amount;
     }

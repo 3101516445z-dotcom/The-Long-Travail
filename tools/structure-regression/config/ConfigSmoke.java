@@ -72,9 +72,12 @@ public class ConfigSmoke {
                 }
                 var managed = ConfigTracker.INSTANCE.fileMap().get("the_long_travail/general.toml");
                 var config = ConfigFileIO.read(general);
+                var previousPools = server.submit(com.thelongtravail.data.RuntimePools::current).join();
                 config.set("requirements.biomeDrawCount", 7);
                 ConfigFileIO.write(general, config);
                 until(() -> TravailConfig.BIOME_DRAW_COUNT.get() == 7, "real watcher valid change");
+                until(() -> server.submit(() -> com.thelongtravail.data.RuntimePools.current() != previousPools).join(),
+                        "real watcher publishes runtime pools through registered reload coordinator");
                 byte[] malformed = "items = [\"a\", \"b\"\n".getBytes(StandardCharsets.UTF_8);
                 Files.write(general, malformed);
                 Thread.sleep(1500);

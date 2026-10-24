@@ -157,7 +157,7 @@ final class ManagedConfig extends ModConfig {
         }
     }
 
-    // Called under this instance's lock, only at the original publication points.
+    // 调用方须持有本实例锁；加载和更新流程在此发布活动配置。
     private void publish(Path path, CommentedConfig candidate) {
         active = snapshot(path, candidate);
         definition.acceptConfig(active);

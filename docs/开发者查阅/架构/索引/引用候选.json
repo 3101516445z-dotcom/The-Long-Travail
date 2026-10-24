@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "method": "lexical-candidates-not-call-graph",
-  "sourceFingerprint": "39fc32ac6549de9ca5b7cc984dfdbfd12316263b14c1d6e76c6214741444c4f4",
+  "sourceFingerprint": "e5151a9eb70f70dcb63ccd6a48edcac1b3c2d9bc9b4c7532a092944fe465ba70",
   "files": [
     {
       "path": "src/main/java/com/thelongtravail/AspectTheme.java",
@@ -25,7 +25,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "f57cd0addac66e6871c8af79df1101c89ab24400691a43e940cabed59e9fedd7"
+      "sha256": "22c76930a7764437f112816884ca08197c3bcf62d3c4c113c7975df03f730a41"
     },
     {
       "path": "src/main/java/com/thelongtravail/TravailAspect.java",
@@ -1141,7 +1141,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "c6766762bcdabf2cc24b88a1c7bffbcc9b09639f8e886300f2f34a3b3212ffd1"
+      "sha256": "5827cf48d7b247d8fb738b819106409450a92da6d39a3952648728ff42337efd"
     },
     {
       "path": "src/main/java/com/thelongtravail/compat/OptionalCompatChecks.java",
@@ -1849,7 +1849,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "cf729856b925c5ece1206610d83443eb3f7256f2605e7afa27fef021438b0547"
+      "sha256": "f471cbeea16e8573a956e10bff900c93ea69821302c398b7a9d9ca42fd00b019"
     },
     {
       "path": "src/main/java/com/thelongtravail/compat/maid/MaidAccessories.java",
@@ -1885,7 +1885,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "640ace21fca517571ac782ac159880cbb84ddb635447e04273f1fc8cf40c2681"
+      "sha256": "42170355c4bb1fd123c241413cac008a2b7d10c1a212a58a6422e75c46242f19"
     },
     {
       "path": "src/main/java/com/thelongtravail/compat/maid/MaidAccessoryRuntime.java",
@@ -1897,7 +1897,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "Forge事件",
-      "sha256": "df45a3e6bf98509d1ba239317e5dc6d0808f9e93dec167d82500401a9748113f"
+      "sha256": "e73c170a932ba00bb8f1a8762988c8220412e54cecd85e92ab94aadc796e4ebc"
     },
     {
       "path": "src/main/java/com/thelongtravail/compat/maid/MaidBaubleSync.java",
@@ -1921,7 +1921,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "094812cec07aa02a6858986adb4b3108e922f35fb1ba7cbdd22a900006c7462a"
+      "sha256": "5ea998f4d0bdb5e11b1d2960fe314188e81e2b274e60d7e06e82d21ae8e65349"
     },
     {
       "path": "src/main/java/com/thelongtravail/compat/maid/MaidCombatFeedback.java",
@@ -1933,7 +1933,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "2c86ffa09df1b25e98ae6f5c659ae204c40b31ac820cfd858ec14b6bb8aaa7d2"
+      "sha256": "4cfc659bdc7b8bc791cb70e51098b465531c060817d626344ecb15b669800bd8"
     },
     {
       "path": "src/main/java/com/thelongtravail/compat/maid/MaidFishingDefaults.java",
@@ -1981,7 +1981,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "cbba761946f358e147f0feec3b0a58440ad5663498143b94a0b21e0a775d1b07"
+      "sha256": "4d958958ecc0730e8c6653f94846ebc7490db81c7a87e91f8f7addebe786d0d0"
     },
     {
       "path": "src/main/java/com/thelongtravail/compat/maid/MaidPersonalityStorage.java",
@@ -2005,7 +2005,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "d9e44661a90ac6dc418ff649e93f72103daacdabefa0f836c0e4e8e9149dfd32"
+      "sha256": "a9a63d1a88da6cb0f33221b59fdfedf27e9df0c8562f95a0499c250e5bfb2de9"
     },
     {
       "path": "src/main/java/com/thelongtravail/compat/maid/MaidRuntimeState.java",
@@ -2017,7 +2017,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "38caa67acd3689992dd1a2d56b4e38f97baff989c21a8446170a471c50c5e57a"
+      "sha256": "068733e32ad27596e0c0b0e858f8c587c69c5c681c519395a2ba8fbebfb695d0"
     },
     {
       "path": "src/main/java/com/thelongtravail/compat/maid/TravailMaidPlugin.java",
@@ -2473,7 +2473,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "97caed10b53373e8f991ecb5f5331ca1bf82fd509c38190b3d70c1a752722bf4"
+      "sha256": "21c2a270b038e91dfb5c0013758f220515bbf27d62acfa0e8bd466bde727b2f1"
     },
     {
       "path": "src/main/java/com/thelongtravail/config/ConfigDiagnostics.java",
@@ -2497,7 +2497,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "8efeda4b1e302d04c8bfdf6e73c98e4dbb32701016bc38b53f4d78e93b1d48b9"
+      "sha256": "a5f6a93f2ed7965ebcd66a9d82536647da0b33c3786c3b9144c89b5022d0140f"
     },
     {
       "path": "src/main/java/com/thelongtravail/config/ConfigFiles.java",
@@ -2558,6 +2558,18 @@
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
       "sha256": "e7c056d611d5e092c01260c0d6f1481ec60ad386fe4fcb59c0dbb9b76fd741dd"
+    },
+    {
+      "path": "src/main/java/com/thelongtravail/config/ConfigReloadCoordinator.java",
+      "name": "ConfigReloadCoordinator",
+      "pkg": "com.thelongtravail.config",
+      "type": "com.thelongtravail.config.ConfigReloadCoordinator",
+      "module": "配置管理",
+      "role": "基础设施",
+      "classification": "目录初分，待逐类复核",
+      "side": "待按方法核对",
+      "entry": "普通调用/待核对",
+      "sha256": "3f8e3d3dcb00368dbf0d438bc5697f045dd451f4d631755f135578c184e89999"
     },
     {
       "path": "src/main/java/com/thelongtravail/config/ConfigTomlWriter.java",
@@ -2749,7 +2761,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "bdfeff8a327a06345710f3394defcb497a36896601ca8be1d34fc612b6d93b38"
+      "sha256": "ea37f442dabf96d4fa5e2125d82f373c06000cabed32d35930546505b6b91af2"
     },
     {
       "path": "src/main/java/com/thelongtravail/config/ModeEffectRules.java",
@@ -3208,6 +3220,18 @@
       "sha256": "24ab1d1651504920f08382d9112a81d429be16a58e6e4869533b4b458e315b13"
     },
     {
+      "path": "src/main/java/com/thelongtravail/data/WayguidePlacementCursor.java",
+      "name": "WayguidePlacementCursor",
+      "pkg": "com.thelongtravail.data",
+      "type": "com.thelongtravail.data.WayguidePlacementCursor",
+      "module": "旅程与运行数据",
+      "role": "核心机制（包级暂定）",
+      "classification": "目录初分，待逐类复核",
+      "side": "待按方法核对",
+      "entry": "普通调用/待核对",
+      "sha256": "9ffdf6dfe029de485d160c0cb8f426f2a60e95017cf8da29f2312451a5e32c26"
+    },
+    {
       "path": "src/main/java/com/thelongtravail/data/WayguideReturns.java",
       "name": "WayguideReturns",
       "pkg": "com.thelongtravail.data",
@@ -3229,7 +3253,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "3dc3827795e557c406ea1d8d809bdac82ab39746d689f130d8b345741306c122"
+      "sha256": "151a7a492817d8e00605a896916e3195d5ce446f7b322b13db12982261f6184a"
     },
     {
       "path": "src/main/java/com/thelongtravail/data/WeightedEntry.java",
@@ -3337,7 +3361,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "0455c2a2559e877481fa9f7693f041af706869c912afeb243ecbc1df3c50903a"
+      "sha256": "e246a3bbf58da529941f017e6bb544aaec3c808f3826cb56d36a940d93ba0ed2"
     },
     {
       "path": "src/main/java/com/thelongtravail/event/TravailCommands.java",
@@ -3373,7 +3397,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "Forge事件",
-      "sha256": "daf32b7ab06d51b51d669ae5c0ba83aa55efabf9a97d4f16f5eb77ec5fa47215"
+      "sha256": "74b0bdb459bcd37d667612df70ccdbb4fe70454500f54a447287d82a8afb91bc"
     },
     {
       "path": "src/main/java/com/thelongtravail/event/TravailPlayerMaintenance.java",
@@ -3805,7 +3829,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "eb884bd18fae8103b3f0640648519f892c97dc711e9cae19a6b1d5985580c14c"
+      "sha256": "cdc68f70eaa9f9b751a4c4ac11af8be3b1c63a3af933108b4d9cea2e1c5e0a78"
     },
     {
       "path": "src/main/java/com/thelongtravail/helper/CombatDamageRecord.java",
@@ -3817,7 +3841,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "750b0989ba9651e32c8503480e4d25cddac321d45037376e17645fbd0a16b29e"
+      "sha256": "a9488ae8efc1ed10ef527a81d2f78a51b4d823683ff02e6f35bb4821d7feab0b"
     },
     {
       "path": "src/main/java/com/thelongtravail/helper/CombatRules.java",
@@ -3841,7 +3865,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "3a2314d9755a835da63f81ecbfc4003f8fb39ce024249d3400cfea0df5a3ecf0"
+      "sha256": "788fe71dc4bc7ae4cb653831193c68943389da8c7d7d3ee564125a0b60c2d090"
     },
     {
       "path": "src/main/java/com/thelongtravail/helper/DependentAccessories.java",
@@ -6109,7 +6133,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "网络注册",
-      "sha256": "c78d68303617f83da4e7245a70238a9fed8cfefd2e457ab00dcf3285e41ac3c5"
+      "sha256": "cfaf2295318e6841d78326b5cb443bffeb203ef28f8e90d0e4f1884124d7bb08"
     },
     {
       "path": "src/main/java/com/thelongtravail/network/UnderworldPacket.java",
@@ -9862,7 +9886,7 @@
       "to": "com.thelongtravail.abyss.RainState",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/compat/maid/MaidAccessoryRules.java",
-      "tokenLine": 145,
+      "tokenLine": 143,
       "basis": "explicit-import"
     },
     {
@@ -9870,7 +9894,7 @@
       "to": "com.thelongtravail.config.RainConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/compat/maid/MaidAccessoryRules.java",
-      "tokenLine": 146,
+      "tokenLine": 144,
       "basis": "explicit-import"
     },
     {
@@ -9878,7 +9902,7 @@
       "to": "com.thelongtravail.data.LongTravailData",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/compat/maid/MaidAccessoryRules.java",
-      "tokenLine": 119,
+      "tokenLine": 117,
       "basis": "explicit-import"
     },
     {
@@ -9886,7 +9910,7 @@
       "to": "com.thelongtravail.flourishing.FloralCombat",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/compat/maid/MaidAccessoryRules.java",
-      "tokenLine": 136,
+      "tokenLine": 134,
       "basis": "explicit-import"
     },
     {
@@ -9894,7 +9918,7 @@
       "to": "com.thelongtravail.flourishing.Flower",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/compat/maid/MaidAccessoryRules.java",
-      "tokenLine": 136,
+      "tokenLine": 134,
       "basis": "explicit-import"
     },
     {
@@ -9902,7 +9926,7 @@
       "to": "com.thelongtravail.helper.TravailCurios",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/compat/maid/MaidAccessoryRules.java",
-      "tokenLine": 117,
+      "tokenLine": 115,
       "basis": "explicit-import"
     },
     {
@@ -9910,7 +9934,7 @@
       "to": "com.thelongtravail.registry.ModRegistry",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/compat/maid/MaidAccessoryRules.java",
-      "tokenLine": 34,
+      "tokenLine": 32,
       "basis": "explicit-import"
     },
     {
@@ -9918,7 +9942,7 @@
       "to": "com.thelongtravail.TravailAspect",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/compat/maid/MaidAccessoryRules.java",
-      "tokenLine": 40,
+      "tokenLine": 38,
       "basis": "explicit-import"
     },
     {
@@ -9926,7 +9950,7 @@
       "to": "com.thelongtravail.valley.LanternSources",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/compat/maid/MaidAccessoryRules.java",
-      "tokenLine": 124,
+      "tokenLine": 122,
       "basis": "explicit-import"
     },
     {
@@ -10910,7 +10934,7 @@
       "to": "com.thelongtravail.config.ConfigRecovery",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/config/ConfigFileIO.java",
-      "tokenLine": 71,
+      "tokenLine": 70,
       "basis": "same-package"
     },
     {
@@ -11056,6 +11080,54 @@
       "evidence": "src/main/java/com/thelongtravail/config/ConfigRecovery.java",
       "tokenLine": 34,
       "basis": "same-package"
+    },
+    {
+      "from": "com.thelongtravail.config.ConfigReloadCoordinator",
+      "to": "com.thelongtravail.abyss.RainEvents",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/config/ConfigReloadCoordinator.java",
+      "tokenLine": 30,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.config.ConfigReloadCoordinator",
+      "to": "com.thelongtravail.config.ConfigFiles",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/config/ConfigReloadCoordinator.java",
+      "tokenLine": 16,
+      "basis": "same-package"
+    },
+    {
+      "from": "com.thelongtravail.config.ConfigReloadCoordinator",
+      "to": "com.thelongtravail.data.RuntimePools",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/config/ConfigReloadCoordinator.java",
+      "tokenLine": 22,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.config.ConfigReloadCoordinator",
+      "to": "com.thelongtravail.farreach.GoldenAgeActions",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/config/ConfigReloadCoordinator.java",
+      "tokenLine": 23,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.config.ConfigReloadCoordinator",
+      "to": "com.thelongtravail.flourishing.Affection",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/config/ConfigReloadCoordinator.java",
+      "tokenLine": 24,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.config.ConfigReloadCoordinator",
+      "to": "com.thelongtravail.network.TravailNetwork",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/config/ConfigReloadCoordinator.java",
+      "tokenLine": 31,
+      "basis": "explicit-import"
     },
     {
       "from": "com.thelongtravail.config.ConfigTomlWriter",
@@ -12554,6 +12626,22 @@
       "basis": "fully-qualified"
     },
     {
+      "from": "com.thelongtravail.data.WayguidePlacementCursor",
+      "to": "com.thelongtravail.data.WayguideGeometry",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/data/WayguidePlacementCursor.java",
+      "tokenLine": 20,
+      "basis": "same-package"
+    },
+    {
+      "from": "com.thelongtravail.data.WayguidePlacementCursor",
+      "to": "com.thelongtravail.mixin.StructureRingsAccessor",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/data/WayguidePlacementCursor.java",
+      "tokenLine": 51,
+      "basis": "explicit-import"
+    },
+    {
       "from": "com.thelongtravail.data.WayguideReturns",
       "to": "com.thelongtravail.TheLongTravail",
       "kind": "lexical-reference-candidate",
@@ -12583,6 +12671,14 @@
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/data/WayguideSearch.java",
       "tokenLine": 545,
+      "basis": "same-package"
+    },
+    {
+      "from": "com.thelongtravail.data.WayguideSearch",
+      "to": "com.thelongtravail.data.WayguidePlacementCursor",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/data/WayguideSearch.java",
+      "tokenLine": 213,
       "basis": "same-package"
     },
     {
@@ -17747,23 +17843,15 @@
     },
     {
       "from": "com.thelongtravail.network.TravailNetwork",
-      "to": "com.thelongtravail.abyss.RainEvents",
-      "kind": "lexical-reference-candidate",
-      "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 363,
-      "basis": "fully-qualified"
-    },
-    {
-      "from": "com.thelongtravail.network.TravailNetwork",
       "to": "com.thelongtravail.boundless.DreamState",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 424,
+      "tokenLine": 408,
       "basis": "fully-qualified"
     },
     {
       "from": "com.thelongtravail.network.TravailNetwork",
-      "to": "com.thelongtravail.config.ConfigFiles",
+      "to": "com.thelongtravail.config.ConfigReloadCoordinator",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
       "tokenLine": 348,
@@ -17774,39 +17862,15 @@
       "to": "com.thelongtravail.data.PlayerJourneyData",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 326,
+      "tokenLine": 325,
       "basis": "explicit-import"
-    },
-    {
-      "from": "com.thelongtravail.network.TravailNetwork",
-      "to": "com.thelongtravail.data.RuntimePools",
-      "kind": "lexical-reference-candidate",
-      "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 355,
-      "basis": "fully-qualified"
-    },
-    {
-      "from": "com.thelongtravail.network.TravailNetwork",
-      "to": "com.thelongtravail.farreach.GoldenAgeActions",
-      "kind": "lexical-reference-candidate",
-      "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 356,
-      "basis": "fully-qualified"
-    },
-    {
-      "from": "com.thelongtravail.network.TravailNetwork",
-      "to": "com.thelongtravail.flourishing.Affection",
-      "kind": "lexical-reference-candidate",
-      "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 357,
-      "basis": "fully-qualified"
     },
     {
       "from": "com.thelongtravail.network.TravailNetwork",
       "to": "com.thelongtravail.network.BoundlessPacket",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 83,
+      "tokenLine": 82,
       "basis": "same-package"
     },
     {
@@ -17814,7 +17878,7 @@
       "to": "com.thelongtravail.network.EffectNotice",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 171,
+      "tokenLine": 170,
       "basis": "same-package"
     },
     {
@@ -17822,7 +17886,7 @@
       "to": "com.thelongtravail.network.ExecutionTerminationPacket",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 46,
+      "tokenLine": 45,
       "basis": "same-package"
     },
     {
@@ -17830,7 +17894,7 @@
       "to": "com.thelongtravail.network.ItemSoundCue",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 192,
+      "tokenLine": 191,
       "basis": "same-package"
     },
     {
@@ -17838,7 +17902,7 @@
       "to": "com.thelongtravail.network.JourneySync",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 342,
+      "tokenLine": 341,
       "basis": "same-package"
     },
     {
@@ -17846,7 +17910,7 @@
       "to": "com.thelongtravail.network.LanternPacket",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 97,
+      "tokenLine": 96,
       "basis": "same-package"
     },
     {
@@ -17854,7 +17918,7 @@
       "to": "com.thelongtravail.network.PrinceFlightPacket",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 33,
+      "tokenLine": 32,
       "basis": "same-package"
     },
     {
@@ -17862,7 +17926,7 @@
       "to": "com.thelongtravail.network.RainCastPacket",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 143,
+      "tokenLine": 142,
       "basis": "same-package"
     },
     {
@@ -17870,7 +17934,7 @@
       "to": "com.thelongtravail.network.RainMessagePacket",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 150,
+      "tokenLine": 149,
       "basis": "same-package"
     },
     {
@@ -17878,7 +17942,7 @@
       "to": "com.thelongtravail.network.RainPacket",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 136,
+      "tokenLine": 135,
       "basis": "same-package"
     },
     {
@@ -17886,7 +17950,7 @@
       "to": "com.thelongtravail.network.StiffPacket",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 125,
+      "tokenLine": 124,
       "basis": "same-package"
     },
     {
@@ -17894,7 +17958,7 @@
       "to": "com.thelongtravail.network.TimeStopCuePacket",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 69,
+      "tokenLine": 68,
       "basis": "same-package"
     },
     {
@@ -17902,7 +17966,7 @@
       "to": "com.thelongtravail.network.TimeStopPacket",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 118,
+      "tokenLine": 117,
       "basis": "same-package"
     },
     {
@@ -17910,7 +17974,7 @@
       "to": "com.thelongtravail.network.TooltipConfigCodec",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 379,
+      "tokenLine": 363,
       "basis": "same-package"
     },
     {
@@ -17918,7 +17982,7 @@
       "to": "com.thelongtravail.network.TooltipConfigSync",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 313,
+      "tokenLine": 312,
       "basis": "same-package"
     },
     {
@@ -17926,7 +17990,7 @@
       "to": "com.thelongtravail.network.UnderworldPacket",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 76,
+      "tokenLine": 75,
       "basis": "same-package"
     },
     {
@@ -17934,7 +17998,7 @@
       "to": "com.thelongtravail.network.VisualDeprivationPacket",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 203,
+      "tokenLine": 202,
       "basis": "same-package"
     },
     {
@@ -17942,7 +18006,7 @@
       "to": "com.thelongtravail.TheLongTravail",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 25,
+      "tokenLine": 24,
       "basis": "explicit-import"
     },
     {
@@ -17950,7 +18014,7 @@
       "to": "com.thelongtravail.valley.ExecutionBody",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/network/TravailNetwork.java",
-      "tokenLine": 226,
+      "tokenLine": 225,
       "basis": "fully-qualified"
     },
     {
@@ -18254,12 +18318,20 @@
       "to": "com.thelongtravail.compat.maid.MaidAccessories",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/TheLongTravail.java",
-      "tokenLine": 25,
+      "tokenLine": 26,
       "basis": "fully-qualified"
     },
     {
       "from": "com.thelongtravail.TheLongTravail",
       "to": "com.thelongtravail.config.ConfigFiles",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/TheLongTravail.java",
+      "tokenLine": 25,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.TheLongTravail",
+      "to": "com.thelongtravail.config.ConfigReloadCoordinator",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/TheLongTravail.java",
       "tokenLine": 24,
@@ -18270,7 +18342,7 @@
       "to": "com.thelongtravail.event.TravailEvents",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/TheLongTravail.java",
-      "tokenLine": 26,
+      "tokenLine": 27,
       "basis": "explicit-import"
     },
     {
@@ -18278,7 +18350,7 @@
       "to": "com.thelongtravail.network.TravailNetwork",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/TheLongTravail.java",
-      "tokenLine": 22,
+      "tokenLine": 23,
       "basis": "explicit-import"
     },
     {
@@ -18286,7 +18358,7 @@
       "to": "com.thelongtravail.registry.ModRegistry",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/TheLongTravail.java",
-      "tokenLine": 21,
+      "tokenLine": 22,
       "basis": "explicit-import"
     },
     {
