@@ -10,7 +10,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.registries.ForgeRegistries;
 
-// 默认配置只初始化一次，复制限制仍以黑名单为准。
+// 按处理标记补入联动黑名单，复制限制以当前黑名单为准。
 public final class PerfectFluidCompatDefaults {
     private static final String BASE = "items.perfect_fluid.";
     private static ModConfig loaded;

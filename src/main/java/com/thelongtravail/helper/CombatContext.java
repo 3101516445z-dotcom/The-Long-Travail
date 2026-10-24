@@ -498,7 +498,7 @@ public final class CombatContext implements AutoCloseable {
             amount = roseDamage ? amount : protect(amount);
         }
         amount = attributeDamage.defend(amount);
-        // 强制伤害不得重新计入已被洞察或霸王抵消的部分。
+        // 强制伤害不得重新计入已被见切或霸主抵消的部分。
         if (penetrating && !attributeDamage.settled()) protectedDamage = amount;
         return amount;
     }

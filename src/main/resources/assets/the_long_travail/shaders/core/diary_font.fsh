@@ -101,7 +101,7 @@ void main() {
     } else if (Material < 0.5) {
         color = nameColor();
     } else {
-        // 氛围短句使用浅麦金、八秒周期和略窄的扫光；原正文保留原参数。
+        // 氛围短句使用浅麦金、八秒周期和略窄的扫光。
         bool flavor = SweepWidth < 0.0;
         float center = mix(-0.14, 1.14, fract(Seconds / (flavor ? 8.0 : 10.0)));
         float sheen = 1.0 - smoothstep(flavor ? 0.020 : 0.025, flavor ? 0.096 : 0.12,

@@ -19,14 +19,14 @@ final class ConfigTomlWriter {
     private static final Gson JSON = new GsonBuilder().disableHtmlEscaping().create();
     private static final String PRESETS =
             """
-── 联动预设处理记录（高级） / Preset processing records (advanced) ──
-预设是内置的联动配置条目，满足条件时只补入池中缺少的内容；普通玩家通常无需修改这里。
-Presets are built-in compatibility entries that add missing pool content when eligible. Most players can leave these records alone.
-true：停止补入（已处理或手动跳过）；false：等待处理。不是功能启用开关。
-true: stop additions (processed or manually skipped); false: pending. These are not feature switches.
-上一级“配置说明.txt”：预设介绍 [P00]；重试与跳过 [P01]；配置键读法 [C02]。
-See ../Configuration Guide.txt: preset basics [P00], retry/skip [P01], dotted keys [C02].
-""";
+            ── 联动预设处理记录（高级） / Preset processing records (advanced) ──
+            预设是内置的联动配置条目，满足条件时只补入池中缺少的内容；普通玩家通常无需修改这里。
+            Presets are built-in compatibility entries that add missing pool content when eligible. Most players can leave these records alone.
+            true：停止补入（已处理或手动跳过）；false：等待处理。不是功能启用开关。
+            true: stop additions (processed or manually skipped); false: pending. These are not feature switches.
+            上一级“配置说明.txt”：预设介绍 [P00]；重试与跳过 [P01]；配置键读法 [C02]。
+            See ../Configuration Guide.txt: preset basics [P00], retry/skip [P01], dotted keys [C02].
+            """;
     private static final List<String> GROUPS =
             List.of(
                     "群系预设 / Biome presets|P02",
