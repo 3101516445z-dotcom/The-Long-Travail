@@ -2,15 +2,17 @@ package com.thelongtravail.client.catalog;
 
 import static com.thelongtravail.client.catalog.CatalogFrame.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
+
 import org.lwjgl.glfw.GLFW;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class CatalogDetailScreen extends Screen {
     private static final int WRAPPED_LINE_STEP = 12;
@@ -54,7 +56,8 @@ public final class CatalogDetailScreen extends Screen {
                 continue;
             }
             for (FormattedCharSequence line :
-                    font.split(paragraph, Math.max(1, (int) ((panelWidth - 88) / bodyTextScale)))) {
+                    wrapParagraph(
+                            paragraph, Math.max(1, (int) ((panelWidth - 88) / bodyTextScale)))) {
                 rows.add(new Row(line, y));
                 y += Math.round(WRAPPED_LINE_STEP * bodyTextScale);
             }
@@ -66,6 +69,43 @@ public final class CatalogDetailScreen extends Screen {
                         : rows.get(rows.size() - 1).y
                                 + (int) Math.ceil(font.lineHeight * bodyTextScale);
         scroll = Mth.clamp(scroll, 0, maxScroll());
+    }
+
+    /** 避免中文句末标点独占末行；移动前一字时保留其原有样式。 */
+    private List<FormattedCharSequence> wrapParagraph(Component paragraph, int width) {
+        var lines = new ArrayList<>(font.split(paragraph, width));
+        if (lines.size() < 2) return lines;
+        int last = lines.size() - 1;
+        StringBuilder tail = new StringBuilder();
+        lines.get(last)
+                .accept(
+                        (index, style, codePoint) -> {
+                            tail.appendCodePoint(codePoint);
+                            return true;
+                        });
+        if (tail.isEmpty() || !tail.codePoints().allMatch(c -> "。，、；：！？）》】」』".indexOf(c) >= 0))
+            return lines;
+        List<FormattedCharSequence> previous = new ArrayList<>();
+        List<Integer> codePoints = new ArrayList<>();
+        lines.get(last - 1)
+                .accept(
+                        (index, style, codePoint) -> {
+                            previous.add(
+                                    FormattedCharSequence.forward(
+                                            new String(Character.toChars(codePoint)), style));
+                            codePoints.add(codePoint);
+                            return true;
+                        });
+        if (previous.size() < 2
+                || Character.UnicodeScript.of(codePoints.get(codePoints.size() - 1))
+                        != Character.UnicodeScript.HAN) return lines;
+        var joined =
+                FormattedCharSequence.composite(previous.get(previous.size() - 1), lines.get(last));
+        if (font.width(joined) > width) return lines;
+        previous.remove(previous.size() - 1);
+        lines.set(last - 1, FormattedCharSequence.composite(previous));
+        lines.set(last, joined);
+        return lines;
     }
 
     private int viewport() {

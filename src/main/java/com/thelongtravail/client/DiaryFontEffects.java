@@ -102,6 +102,16 @@ public final class DiaryFontEffects {
                 (index, style, codePoint) -> {
                     String marker = style.getInsertion();
                     if (marker != null && marker.startsWith("the_long_travail:prose:")) {
+                        if (marker.endsWith(":coloring:auto")) {
+                            width[0] =
+                                    Math.max(
+                                            1,
+                                            net.minecraft.client.Minecraft.getInstance()
+                                                    .font.width(text));
+                            if (marker.startsWith("the_long_travail:prose:flavor:"))
+                                width[0] = -width[0];
+                            return false;
+                        }
                         try {
                             width[0] =
                                     Math.max(

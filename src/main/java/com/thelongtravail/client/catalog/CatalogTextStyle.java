@@ -16,14 +16,23 @@ public final class CatalogTextStyle {
             MUTED = 0x555555;
     private static final Pattern VALUES =
             Pattern.compile(
-                    "[+-]?\\d+(?:\\.\\d+)?(?:[%％]|(?:\\s*|-)(?:seconds?|minutes?|blocks?|levels?(?:\\(s\\))?|points?|times?)(?!\\w)|秒|分钟|格|级|点|倍|朵|条|张|颗|本|个|份|件)?"
+                    "[+-]?\\d+(?:\\.\\d+)?(?:[%％]|(?:\\s*|-)(?:seconds?|minutes?|blocks?|levels?(?:\\(s\\))?|points?|times?)(?!\\w)|秒|分钟|格|级|点|倍|朵|条|张|颗|本|个|份|件|种|種)?"
                             + "|[一二两三四五六七八九十]+(?:朵|条|张|级|格|秒|分钟|件|份|个)"
+                            + "|[0-9一二三四五六七八九十]+[种種]"
+                            + "|\\bnine(?= special text styles\\b)"
                             + "|\\bone(?= Perfect Fluid\\b)"
                             + "|\\b(?:one|two|three|four|five|six) (?:flowers?|records?|levels?|blocks?|seconds?|items?|copies|copy)\\b",
                     Pattern.CASE_INSENSITIVE);
     private static final Pattern KEYS = Pattern.compile("(?<=\\[)[^\\[\\]\\r\\n]+(?=\\])");
+    private static final Pattern STACK_SCOPE =
+            Pattern.compile("整组物品|整組物品|整組之物|\\bentire stack\\b", Pattern.CASE_INSENSITIVE);
     private static final List<String> TERMS =
             List.of(
+                    "施色",
+                    "还原样式",
+                    "還原樣式",
+                    "Coloring",
+                    "Restore Style",
                     "不会下坠",
                     "箭矢不下坠",
                     "弹射物伤害",
@@ -302,6 +311,8 @@ public final class CatalogTextStyle {
                 while (values.find()) paint(result, f.styles, values.start(), values.end(), VALUE);
                 var keys = KEYS.matcher(text);
                 while (keys.find()) paint(result, f.styles, keys.start(), keys.end(), VALUE);
+                var scope = STACK_SCOPE.matcher(text);
+                while (scope.find()) paint(result, f.styles, scope.start(), scope.end(), VALUE);
             }
             MutableComponent line = Component.empty();
             for (int start = 0; start < result.length; ) {

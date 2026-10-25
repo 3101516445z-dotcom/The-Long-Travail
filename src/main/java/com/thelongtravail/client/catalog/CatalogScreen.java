@@ -101,12 +101,15 @@ public final class CatalogScreen extends Screen {
         columnWidth = (available - gap * 5) / 6;
         int size = Math.min(40, columnWidth - 8);
         List<Entry> aids = all().stream().filter(e -> e.category() == Category.AID).toList();
-        int aidWidth = (available - 12) / 3;
+        int aidCount = Math.max(1, aids.size());
+        // 与下方六列共用列距；四件助力物品对应中间四列。
+        double aidStep = columnWidth + gap;
+        double aidLeft = (6 - aidCount) * aidStep / 2 + (columnWidth - size) / 2;
         for (int i = 0; i < aids.size(); i++)
             cards.add(
                     new Card(
                             aids.get(i),
-                            i * (aidWidth + 6) + (aidWidth - size) / 2,
+                            (int) Math.round(aidLeft + i * aidStep),
                             22,
                             size,
                             size));

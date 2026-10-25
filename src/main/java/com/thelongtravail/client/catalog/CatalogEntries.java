@@ -141,6 +141,8 @@ public final class CatalogEntries {
                 null,
                 "lu yin|luyin|ly|wayguide",
                 ignored -> CatalogUtilityDetails.aid("wayguide"));
+        add(entries, "coloring", COLORING, Category.AID, null, "shise|ss|施色|coloring",
+                stack -> CatalogUtilityDetails.aid("coloring"));
         String[] py = {
             "fanmao|fm|flourishing",
             "guixu|gx|abyss",

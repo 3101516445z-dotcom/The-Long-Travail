@@ -79,6 +79,8 @@ public final class TravailClientEvents {
         public static void setup(net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent event) {
             event.enqueueWork(
                     () -> {
+                        net.minecraft.client.gui.screens.MenuScreens.register(
+                                ModRegistry.COLORING_MENU.get(), ColoringScreen::new);
                         com.thelongtravail.network.PrinceFlightPacket.receiver =
                                 PrinceFlightClient::receive;
                         com.thelongtravail.network.ExecutionTerminationPacket.receiver =

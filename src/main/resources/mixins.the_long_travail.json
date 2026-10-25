@@ -6,6 +6,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixins.the_long_travail.refmap.json",
   "mixins": [
+    "ColoringNameMixin",
     "FluidCraftingGridAccessor",
     "FluidCraftingClickMixin",
     "FluidCraftingQuickMoveMixin",

@@ -1,6 +1,8 @@
 package com.thelongtravail.registry;
 
 import com.thelongtravail.TheLongTravail;
+import com.thelongtravail.item.ColoringItem;
+import com.thelongtravail.menu.ColoringMenu;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.item.RevelationStoneItem;
 import com.thelongtravail.item.HomecomingItem;
@@ -15,6 +17,8 @@ import com.thelongtravail.item.LongTravailItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -32,6 +36,15 @@ public final class ModRegistry {
             DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, TheLongTravail.MODID);
     private static final DeferredRegister<CreativeModeTab> TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, TheLongTravail.MODID);
+
+    private static final DeferredRegister<MenuType<?>> MENUS =
+            DeferredRegister.create(ForgeRegistries.MENU_TYPES, TheLongTravail.MODID);
+    public static final RegistryObject<MenuType<ColoringMenu>> COLORING_MENU =
+            MENUS.register(
+                    "coloring",
+                    () -> new MenuType<>(ColoringMenu::new, FeatureFlags.DEFAULT_FLAGS));
+    public static final RegistryObject<Item> COLORING =
+            ITEMS.register("coloring", ColoringItem::new);
 
     public static final RegistryObject<Item> LONG_TRAVAIL =
             ITEMS.register("the_long_travail", LongTravailItem::new);
@@ -187,6 +200,7 @@ public final class ModRegistry {
                                                 output.accept(RENEWAL.get());
                                                 output.accept(HOMECOMING.get());
                                                 output.accept(WAYGUIDE.get());
+                                                output.accept(COLORING.get());
                                                 for (TravailAspect aspect :
                                                         TravailAspect.values()) {
                                                     output.accept(
@@ -244,6 +258,7 @@ public final class ModRegistry {
         ModAttributes.register(bus);
         com.thelongtravail.valley.LanternLight.register(bus);
         ITEMS.register(bus);
+        MENUS.register(bus);
         RECIPES.register(bus);
         ENTITIES.register(bus);
         EFFECTS.register(bus);

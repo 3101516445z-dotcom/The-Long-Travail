@@ -1,10 +1,14 @@
 package com.thelongtravail.compat.apotheosis;
 
 import com.thelongtravail.AspectTheme;
+import com.thelongtravail.item.NameColoring;
+
 import dev.shadowsoffire.apotheosis.adventure.affix.AffixHelper;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.ItemStack;
+
 import java.util.Optional;
 
 public final class AffixNameStyle {
@@ -13,6 +17,13 @@ public final class AffixNameStyle {
 
     public static Component decorate(ItemStack stack, Component name) {
         if (stack.getTagElement(AffixHelper.AFFIX_DATA) == null) return name;
+        int selected = NameColoring.selection(stack);
+        if (selected >= 0) {
+            var quality = AffixHelper.getRarity(stack);
+            if (selected == NameColoring.CLEAR && quality.isBound())
+                return NameColoring.clearAffix(name, quality.get().getColor().getValue());
+            return name;
+        }
         String original = stack.getItem().getName(stack).getStyle().getInsertion();
         boolean diary = "the_long_travail:name".equals(original);
         if (!diary && AspectTheme.fromMarker(original) == null) return name;

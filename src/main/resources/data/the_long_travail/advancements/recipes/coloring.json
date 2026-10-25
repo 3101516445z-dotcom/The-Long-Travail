@@ -1,0 +1,15 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_brush": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {"items": [{"items": ["minecraft:brush"]}]}
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {"recipe": "the_long_travail:coloring"}
+    }
+  },
+  "requirements": [["has_brush", "has_the_recipe"]],
+  "rewards": {"recipes": ["the_long_travail:coloring"]}
+}

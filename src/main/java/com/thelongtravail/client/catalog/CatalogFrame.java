@@ -2,7 +2,7 @@ package com.thelongtravail.client.catalog;
 
 import net.minecraft.client.gui.GuiGraphics;
 
-final class CatalogFrame {
+public final class CatalogFrame {
     static void fadeEdges(
             GuiGraphics g,
             int left,
@@ -72,7 +72,7 @@ final class CatalogFrame {
         for (int i = 0; i < 3; i++) rect(g, x - i, y + (up ? i : -i), i * 2 + 1, 1, 0xFFAC8A5D);
     }
 
-    static void draw(
+    public static void draw(
             GuiGraphics g,
             int width,
             int height,
@@ -103,7 +103,7 @@ final class CatalogFrame {
         corner(g, left + panelWidth - 11, top + panelHeight - 11, -1, -1);
     }
 
-    static void close(GuiGraphics g, int cx, int y, boolean hover) {
+    public static void close(GuiGraphics g, int cx, int y, boolean hover) {
         if (hover) {
             rect(g, cx - 8, y - 8, 17, 17, 0xFF211B17);
             outline(g, cx - 8, y - 8, 17, 17, 0xFF55412E);

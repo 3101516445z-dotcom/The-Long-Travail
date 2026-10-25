@@ -21,6 +21,7 @@ public final class CatalogUtilityDetails {
     private static List<Component> paragraphs(String id, Component theme, Component item) {
         int count =
                 switch (id) {
+                    case "coloring" -> 5;
                     case "renewal" -> 7;
                     case "homecoming" -> 8;
                     case "wayguide" -> 9;
@@ -32,6 +33,7 @@ public final class CatalogUtilityDetails {
         for (int row = 0; row < count; row++) {
             boolean blank =
                     switch (id) {
+                        case "coloring" -> row == 2;
                         case "renewal" -> row == 2 || row == 5;
                         case "homecoming" -> row == 3 || row == 6;
                         case "wayguide" -> row == 3 || row == 7;

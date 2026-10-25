@@ -1,0 +1,86 @@
+allprojects {
+    afterEvaluate {
+        def apotheosis = project.hasProperty('coloringApotheosis')
+        def extras = project.hasProperty('coloringExtras')
+        def directory = project.file('build/coloring-' + (extras ? 'extras' : apotheosis ? 'apotheosis' : 'standalone'))
+        if (apotheosis) {
+            dependencies.add('runtimeOnly', fg.deobf('maven.modrinth:apotheosis:tT3CLYvK'))
+            dependencies.add('runtimeOnly', fg.deobf('maven.modrinth:placebo:6SkuAGoz'))
+            def extra = project.file('build/coloring-deps')
+            repositories { flatDir { dirs extra } }
+            if (extra.isDirectory()) extra.listFiles().findAll { it.name.endsWith('.jar') }.each { jar ->
+                dependencies.add('runtimeOnly', fg.deobf("coloring:${jar.name[0..-5]}:1"))
+            }
+        }
+        if (extras) {
+            dependencies.add('runtimeOnly', fg.deobf('maven.modrinth:quark:DijQLauD'))
+            dependencies.add('runtimeOnly', fg.deobf('maven.modrinth:zeta:mSER3jBI'))
+            dependencies.add('runtimeOnly', fg.deobf('top.theillusivec4.caelus:caelus-forge:3.2.0+1.20.1'))
+            def extra = project.file('build/coloring-extra-deps')
+            repositories { flatDir { dirs extra } }
+            extra.listFiles().findAll { it.name.endsWith('.jar') }.each { jar ->
+                dependencies.add('runtimeOnly', fg.deobf("coloringextra:${jar.name[0..-5]}:1"))
+            }
+        }
+        sourceSets {
+            coloringTest {
+                java.srcDir 'tools/structure-regression/coloring'
+                resources.srcDir 'tools/structure-regression/coloring-resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        tasks.register('coloringTestJar', Jar) {
+            from sourceSets.coloringTest.output
+            archiveFileName = 'coloring-regression.jar'
+            destinationDirectory = project.layout.buildDirectory.dir('coloring-fixture')
+            // 测试模组不重复声明主模组的 Mixin 配置。
+            doFirst { manifest.attributes.remove('MixinConfigs') }
+        }
+        reobf {
+            coloringTestJar {
+                classpath.from sourceSets.main.output, sourceSets.main.compileClasspath
+            }
+        }
+        minecraft.runs.server {
+            workingDirectory directory
+            args '--nogui'
+            mods { travail_smoke { source sourceSets.coloringTest } }
+        }
+        def clientDirectory = project.file(directory.toString() + '-client')
+        minecraft.runs.client {
+            workingDirectory clientDirectory
+            if (project.hasProperty('coloringQuick')) property 'coloring.stressNanos', '1000000000'
+            args '--width', '1000', '--height', '720'
+            mods { travail_smoke { source sourceSets.coloringTest } }
+        }
+        tasks.matching { it.name == 'runClient' }.configureEach {
+            doFirst {
+                clientDirectory.mkdirs()
+                def sourceWorld = project.file('build/coloring-standalone/coloring-test')
+                if (!sourceWorld.isDirectory()) throw new GradleException('Run standalone server fixture first')
+                def world = new File(clientDirectory, 'saves/coloring-test')
+                if (!world.exists()) project.copy { from sourceWorld; into world }
+                new File(clientDirectory, 'options.txt').text = 'onboardAccessibility:false\npauseOnLostFocus:false\nlang:zh_cn\nguiScale:2\nmaxFps:60\nrenderDistance:2\nsimulationDistance:5\n'
+                new File(clientDirectory, 'client-result.txt').text = 'NOT_RUN'
+                new File(clientDirectory, 'client-stress.txt').text = 'NOT_RUN'
+            }
+            doLast {
+                if (new File(clientDirectory, 'client-result.txt').text.trim() != 'PASS')
+                    throw new GradleException('Coloring client regression failed: ' + clientDirectory)
+            }
+        }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            doFirst {
+                directory.mkdirs()
+                new File(directory, 'eula.txt').text = project.file('run/eula.txt').text
+                new File(directory, 'server.properties').text = 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25649\nlevel-name=coloring-test\nlevel-type=minecraft\\:flat\ngenerate-structures=false\nview-distance=2\nsimulation-distance=2\nmax-tick-time=60000\n'
+                new File(directory, 'result.txt').text = 'NOT_RUN'
+            }
+            doLast {
+                if (new File(directory, 'result.txt').text.trim() != 'PASS')
+                    throw new GradleException('Coloring regression failed: ' + directory)
+            }
+        }
+    }
+}
