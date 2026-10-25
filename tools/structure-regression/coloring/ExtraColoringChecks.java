@@ -12,7 +12,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.nio.file.*;
 import java.util.*;
 
-/** Optional public APIs loaded reflectively, so the baseline fixture has no hard dependencies. */
+// 通过反射调用可选模组的公共接口，使基础夹具可独立加载。
 final class ExtraColoringChecks {
     static void run(ServerPlayer player) throws Exception {
         var lore = Class.forName("com.aizistral.enigmaticlegacy.helpers.ItemLoreHelper");

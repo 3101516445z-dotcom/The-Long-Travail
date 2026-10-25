@@ -10,7 +10,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-/** 铜框小面板；槽位坐标与 ColoringMenu 的容器定义保持一致。 */
+// 铜框小面板；槽位坐标与 ColoringMenu 的容器定义保持一致。
 public final class ColoringScreen extends AbstractContainerScreen<ColoringMenu> {
     public ColoringScreen(ColoringMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
@@ -56,6 +56,9 @@ public final class ColoringScreen extends AbstractContainerScreen<ColoringMenu> 
 
     private final class ChoiceButton extends Button {
         private final int choice;
+        private final java.util.List<net.minecraft.util.FormattedCharSequence> labelLines;
+        private final float labelScale;
+        private final int labelHeight;
 
         ChoiceButton(int choice, int x, int y, int height) {
             super(
@@ -70,6 +73,31 @@ public final class ColoringScreen extends AbstractContainerScreen<ColoringMenu> 
                     },
                     DEFAULT_NARRATION);
             this.choice = choice;
+            int wrapWidth = choice == 9 ? 26 : 30;
+            // 拉丁字母单词保持完整；中文仍按原有宽度换行。
+            var words =
+                    java.util.regex.Pattern.compile("[A-Za-z]+").matcher(getMessage().getString());
+            while (words.find()) {
+                wrapWidth =
+                        Math.max(
+                                wrapWidth,
+                                font.width(
+                                        Component.literal(words.group())
+                                                .setStyle(getMessage().getStyle())));
+            }
+            var lines = font.split(getMessage(), wrapWidth);
+            int maxLines = height == 25 ? 2 : 4;
+            while (lines.size() > maxLines) {
+                lines = font.split(getMessage(), ++wrapWidth);
+            }
+            labelLines = lines;
+            labelHeight = Math.max(font.lineHeight, (lines.size() - 1) * 12 + font.lineHeight);
+            int widest = lines.stream().mapToInt(font::width).max().orElse(1);
+            // 四周留出边框与光晕空间，只缩小，不放大短标签。
+            labelScale =
+                    Math.min(
+                            1.0F,
+                            Math.min(30.0F / Math.max(1, widest), (height - 6.0F) / labelHeight));
         }
 
         @Override
@@ -93,12 +121,15 @@ public final class ColoringScreen extends AbstractContainerScreen<ColoringMenu> 
                 g.fill(x + 29, y + h - 4, x + 33, y + h - 3, 0xFFD2B17A);
                 g.fill(x + 32, y + h - 7, x + 33, y + h - 3, 0xFFD2B17A);
             }
-            var lines = font.split(getMessage(), choice == 9 ? 26 : 30);
-            int yy = y + (h - lines.size() * 12) / 2 + 2;
-            for (var line : lines) {
-                g.drawString(font, line, x + (36 - font.width(line)) / 2, yy, 0xDDD3B5, false);
+            g.pose().pushPose();
+            g.pose().translate(x + 18.0F, y + (h - labelHeight * labelScale) / 2.0F, 0);
+            g.pose().scale(labelScale, labelScale, 1.0F);
+            int yy = 0;
+            for (var line : labelLines) {
+                g.drawString(font, line, -font.width(line) / 2, yy, 0xDDD3B5, false);
                 yy += 12;
             }
+            g.pose().popPose();
         }
     }
 

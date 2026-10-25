@@ -255,7 +255,7 @@ public final class ColoringSmoke {
                 containers(player);
                 player.getInventory().clearContent();
             }
-            // Exercise partial merges and mixed output actions with a fixed reproducible seed.
+            // 使用固定种子覆盖部分堆叠合并与多种输出操作。
             var random = new Random(20261025L);
             for (int round = 0; round < 2000; round++) {
                 player.getInventory().clearContent();

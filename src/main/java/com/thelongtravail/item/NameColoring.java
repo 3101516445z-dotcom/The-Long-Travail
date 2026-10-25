@@ -10,7 +10,7 @@ import net.minecraft.network.chat.contents.LiteralContents;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.item.ItemStack;
 
-/** 仅持久化样式选择，不保存渲染后或翻译后的名称。 */
+// 仅持久化样式选择，不保存渲染后或翻译后的名称。
 public final class NameColoring {
     public static final String KEY = "the_long_travail:name_style";
     public static final int CLEAR = 9;
@@ -49,7 +49,7 @@ public final class NameColoring {
                 : transform(name, choice, stack.getRarity().color.getColor(), null);
     }
 
-    /** 神化组装完整名称后，还原样式时保留品质颜色。 */
+    // 神化组装完整名称后，还原样式时保留品质颜色。
     public static Component clearAffix(Component name, int color) {
         return transform(name, CLEAR, color, color);
     }

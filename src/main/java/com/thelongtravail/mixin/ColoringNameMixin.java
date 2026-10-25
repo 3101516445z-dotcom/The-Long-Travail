@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 
 import org.spongepowered.asm.mixin.Mixin;
 
-/** 包裹神化（500）及已有词缀适配（400），在完整名称返回后应用施色。 */
+// 包裹神化（500）及已有词缀适配（400），在完整名称返回后应用施色。
 @Mixin(value = ItemStack.class, priority = 300)
 public abstract class ColoringNameMixin {
     @WrapMethod(method = "getHoverName")

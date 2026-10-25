@@ -71,7 +71,7 @@ public final class CatalogDetailScreen extends Screen {
         scroll = Mth.clamp(scroll, 0, maxScroll());
     }
 
-    /** 避免中文句末标点独占末行；移动前一字时保留其原有样式。 */
+    // 避免中文句末标点独占末行；移动前一字时保留其原有样式。
     private List<FormattedCharSequence> wrapParagraph(Component paragraph, int width) {
         var lines = new ArrayList<>(font.split(paragraph, width));
         if (lines.size() < 2) return lines;

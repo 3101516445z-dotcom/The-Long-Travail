@@ -60,7 +60,7 @@ public final class ColoringClientSmoke {
                 && mc.player != null
                 && mc.player.containerMenu instanceof ColoringMenu menu
                 && menu.getSlot(1).hasItem()) {
-            // Deterministic hover rendering even when the OS does not focus the test window.
+            // 显式绘制悬停提示，使测试窗口失焦时仍可截图。
             event.getGuiGraphics()
                     .renderTooltip(
                             mc.font,
@@ -354,7 +354,7 @@ public final class ColoringClientSmoke {
         }
     }
 
-    /** 整合包启动可能阻塞服务器；等待确认，不重发操作或跳过断言。 */
+    // 等待服务端状态同步；超过时限则判定失败。
     private static boolean awaitSync(boolean ready, String message) {
         if (!ready && wait > 600) throw new AssertionError(message + " after 600 client ticks");
         return ready;
