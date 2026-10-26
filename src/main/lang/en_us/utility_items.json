@@ -56,7 +56,7 @@
   "gui.the_long_travail.coloring.option.boundless": "Boundless",
   "gui.the_long_travail.coloring.option.prose": "Gilded",
   "gui.the_long_travail.coloring.option.flavor": "Ceramic",
-  "gui.the_long_travail.coloring.option.clear": "Restore Style",
+  "gui.the_long_travail.coloring.option.clear": "Restore\nStyle",
   "gui.the_long_travail.catalog.details.coloring.0": "Right-click while holding Coloring to open its interface. Place an item in the input slot on the left, then choose one of the nine special text styles provided by this mod to color its name.",
   "gui.the_long_travail.catalog.details.coloring.1": "Once you have chosen a style, take the item from the output slot on the right to apply it. You can also process an entire stack at once.",
   "gui.the_long_travail.catalog.details.coloring.3": "Coloring only changes how item names are displayed. It does not alter the name text, descriptions, enchantments, attributes, or other item details.",

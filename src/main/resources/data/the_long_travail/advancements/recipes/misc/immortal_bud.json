@@ -1,0 +1,15 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_flower": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [{ "items": ["the_long_travail:everlasting_flower"] }] }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": { "recipe": "the_long_travail:immortal_bud" }
+    }
+  },
+  "requirements": [["has_flower", "has_the_recipe"]],
+  "rewards": { "recipes": ["the_long_travail:immortal_bud"] }
+}

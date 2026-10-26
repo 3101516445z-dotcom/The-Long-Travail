@@ -62,6 +62,8 @@ public final class ModRegistry {
     public static final RegistryObject<Item> EVERLASTING_FLOWER =
             ITEMS.register(
                     "everlasting_flower", com.thelongtravail.item.EverlastingFlowerItem::new);
+    public static final RegistryObject<Item> IMMORTAL_BUD =
+            ITEMS.register("immortal_bud", com.thelongtravail.item.ImmortalBudItem::new);
     public static final RegistryObject<MobEffect> MISTLETOE_EFFECT =
             EFFECTS.register("mistletoe", com.thelongtravail.effect.MistletoeEffect::new);
     public static final RegistryObject<Item> AFFECTION =
@@ -89,6 +91,16 @@ public final class ModRegistry {
                                             .SimpleCraftingRecipeSerializer<>(
                                             com.thelongtravail.flourishing.SpringRecipes.Change
                                                     ::new));
+    public static final RegistryObject<
+                    net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer<
+                            com.thelongtravail.flourishing.ImmortalBudRecipe>>
+            IMMORTAL_BUD_APPLY =
+                    RECIPES.register(
+                            "immortal_bud_apply",
+                            () ->
+                                    new net.minecraft.world.item.crafting
+                                            .SimpleCraftingRecipeSerializer<>(
+                                            com.thelongtravail.flourishing.ImmortalBudRecipe::new));
     public static final RegistryObject<Item> PERFECT_FLUID =
             ITEMS.register("perfect_fluid", () -> new com.thelongtravail.item.AbyssItem(false));
     public static final RegistryObject<Item> MIDNIGHT_LAFITE =
@@ -216,7 +228,8 @@ public final class ModRegistry {
                                                                                 SPRING_CORNER,
                                                                                 AFFECTION,
                                                                                 MISTLETOE,
-                                                                                EVERLASTING_FLOWER);
+                                                                                EVERLASTING_FLOWER,
+                                                                                IMMORTAL_BUD);
                                                                 case ABYSS ->
                                                                         java.util.List.of(
                                                                                 EKI,

@@ -18,7 +18,7 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "317d66eeabec8df393a0e97fb2edc6ccc211cb0576a2e46d5c83abbedf2adaf3",
+  "fingerprint": "54a9723e9bef0d1a553e3630eca9f5a83deae4ad2df1bdbe420fbf16b868151e",
   "files": [
     {
       "path": "build.gradle",
@@ -86,7 +86,7 @@
     },
     {
       "path": "src/main/lang/en_us/aspects/flourishing.json",
-      "sha256": "c91e695c5875b9290ffca278f64aeaa5313d643a3f87d4346180dc0e4a341c26"
+      "sha256": "7010d89a755a078b4f400c2d66482a7b464c0a9d9cb71372fd013dacf389d02e"
     },
     {
       "path": "src/main/lang/en_us/aspects/underworld.json",
@@ -110,7 +110,7 @@
     },
     {
       "path": "src/main/lang/en_us/utility_items.json",
-      "sha256": "4b9fcb5bdb7a1605001fa9c85d634f4e3fa34cd8b1fe37e8793931cc9b05b77f"
+      "sha256": "5f2b8118fde85476dae32b5efa6c661560d8fade62dd0e921d8014a342c00678"
     },
     {
       "path": "src/main/lang/groups.json",
@@ -134,7 +134,7 @@
     },
     {
       "path": "src/main/lang/lzh/aspects/flourishing.json",
-      "sha256": "a6769b2bf3e7fe63669d944740a73811642c0f5ce4f5beec59b752138c4d6de4"
+      "sha256": "f2f5939e7ddaa12c0475e4248807fa5a4b5eac4ae48b65e6b0e0ffe67c4e4f11"
     },
     {
       "path": "src/main/lang/lzh/aspects/underworld.json",
@@ -158,7 +158,7 @@
     },
     {
       "path": "src/main/lang/lzh/utility_items.json",
-      "sha256": "de74ad769c85978b666db25232ec2f5cf824d33fdc4ce97d782079e6192b9693"
+      "sha256": "112fb914790547d3631b0c1503fadae61d5e472c4c97119159e06f2b172d01aa"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/abyss.json",
@@ -178,7 +178,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/aspects/flourishing.json",
-      "sha256": "4f3a0214ecbab31ffd51fd664b4d09d300aa049932ff9df4a9d2e7a7d06f6714"
+      "sha256": "4559a0a8faba761dbabb02b377cff497100fddc25eb38988afc43bba01314380"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/underworld.json",
@@ -202,7 +202,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/utility_items.json",
-      "sha256": "bcbdf0e597e63cc66c6cdd6ca1b43599c12c1cae75b2c4ffd5161fe486b2aec4"
+      "sha256": "1e218c79d758e3ee6cc58c7ce50b326f632f1dff2bcf9c5f0b00cfc68292bc21"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/abyss.json",
@@ -222,7 +222,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/aspects/flourishing.json",
-      "sha256": "db6f4e6c80977e27ddbb077053764e0ab407bbe3fec61c82e1a4a3c834badda7"
+      "sha256": "80f1bdcbcd28b8248d87486e9712239e400f646919fe16ade34bd926d97a8c4b"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/underworld.json",
@@ -246,7 +246,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/utility_items.json",
-      "sha256": "6597186fe8d3fe6a31a63dbe212fe577254a0b7963870190c38489095587a52e"
+      "sha256": "fd929243a934944be1190ad9848dacf2defb8881545ce79f9dc975cc0a685d1f"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/abyss.json",
@@ -266,7 +266,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/aspects/flourishing.json",
-      "sha256": "32a12cbc53649bc8d1c0be9642a2a2f83adc8b233a43ba2f72df96bb8d4200de"
+      "sha256": "b56a1940156e45b3aa9831ffc7a4e99673bde96e0db97a813167cdf7e3d63b4a"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/underworld.json",
@@ -290,7 +290,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/utility_items.json",
-      "sha256": "da97e1771472bf08d2e4ca8e6f17b7b72df2869781f2d549bf4edc9b32678e46"
+      "sha256": "2d4161c8a2f5b58bf77c8a56e215a688e301daabf497263139a7085a10f9a40d"
     },
     {
       "path": "src/main/resources/META-INF/mods.toml",
@@ -343,6 +343,10 @@
     {
       "path": "src/main/resources/assets/the_long_travail/models/item/boundless_stone.json",
       "sha256": "4ec079069b3192595aa03931968466157768acdad6975ceac4a65e37b0042a0d"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/coloring.json",
+      "sha256": "cc257f4eb0aa9b631dbc1c3cfb55238c30a36be62b75bef2d3b90beae632104a"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/models/item/deep_valley_essence.json",
@@ -399,6 +403,10 @@
     {
       "path": "src/main/resources/assets/the_long_travail/models/item/icarus.json",
       "sha256": "56c875e8bee17a3bf8c71a9e030c38e7e17561605d3a228a3bc8c63e3e2f9a86"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/immortal_bud.json",
+      "sha256": "187aadddf79c032d626ffd7563cf2fc3a0e83af6b968961051f080c9e09512f7"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/models/item/little_prince.json",
@@ -545,6 +553,10 @@
       "sha256": "dd4b2edf14ca56a58a7e757fa9b26f3f508963e864ddaf61d18f5f6a2941be7f"
     },
     {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/coloring.png",
+      "sha256": "f271a8d74d45432dd883f1ca54e3f5928a71b02b6c1ce227f6cc12677ee5ce56"
+    },
+    {
       "path": "src/main/resources/assets/the_long_travail/textures/item/deep_valley_essence.png",
       "sha256": "d8085cb780941cd84065fbb3234692630f31fefa9adb9481b64a09367139877d"
     },
@@ -599,6 +611,10 @@
     {
       "path": "src/main/resources/assets/the_long_travail/textures/item/icarus.png",
       "sha256": "f41527b894650f21764bab2abefe9e456bd7c7b8b41cc801cc2141a7da27430a"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/immortal_bud.png",
+      "sha256": "df8ab2466c6f689b558818ce5705499b11a8a038015066a7c4925286f312b877"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/textures/item/little_prince.png",
@@ -777,6 +793,14 @@
       "sha256": "f9fb31af08b11bad0b1dc4bf84943caed566ee3419ac424d6fafea337f5f4018"
     },
     {
+      "path": "src/main/resources/data/the_long_travail/advancements/recipes/coloring.json",
+      "sha256": "29ddaf64d525d3123655fdd04c5eb492c179710205cab17067729712c0e7c0e4"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/advancements/recipes/misc/immortal_bud.json",
+      "sha256": "bb1f211f21c8b7780487e12cef3c16994d8f94cb6c6274e3f30756c0b2272d96"
+    },
+    {
       "path": "src/main/resources/data/the_long_travail/advancements/root.json",
       "sha256": "2a80909de5a8670f2eff32e2deb78680e66f4b65b1270bbe9e0dedcd13dd1521"
     },
@@ -897,6 +921,10 @@
       "sha256": "bb380cddfd1eb7521dac8d616e1240f004414859cf16a8a181970223548176f9"
     },
     {
+      "path": "src/main/resources/data/the_long_travail/recipes/coloring.json",
+      "sha256": "39a355e3e909d1f93e105189700957b309f487f11921fdfd92471a8dff30e2ce"
+    },
+    {
       "path": "src/main/resources/data/the_long_travail/recipes/deep_valley_stone.json",
       "sha256": "deb860a1c62f1e25988aa6e548634da640145f133893726483f424f15a351f1d"
     },
@@ -923,6 +951,14 @@
     {
       "path": "src/main/resources/data/the_long_travail/recipes/icarus.json",
       "sha256": "3f123504767e281c1253a8a0fa159f1f86ec5f1136fbdc293beb7b42b907d81d"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/immortal_bud.json",
+      "sha256": "b916e1836273d9ca0d689f4060dfdf0d1bdc77e220abb5d35682b5ad1299fe68"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/immortal_bud_apply.json",
+      "sha256": "dc185879f869467a227d5f36a503b64e2aee4eb24735c33cb3d473ede3054b1e"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/mistletoe.json",
@@ -1098,7 +1134,7 @@
     },
     {
       "path": "src/main/resources/mixins.the_long_travail.json",
-      "sha256": "ee8dd33fe28c2e55834453a2869caec40c8ba1a1843c0da614978d704c2dac0d"
+      "sha256": "423c2a87b24d718e87a49053f8cf2381b8ea4f478e8920c157630e11d5c84076"
     },
     {
       "path": "src/main/resources/pack.mcmeta",

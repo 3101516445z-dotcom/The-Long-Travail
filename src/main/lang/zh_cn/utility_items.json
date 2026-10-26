@@ -56,7 +56,7 @@
   "gui.the_long_travail.coloring.option.boundless": "无垠",
   "gui.the_long_travail.coloring.option.prose": "镀金",
   "gui.the_long_travail.coloring.option.flavor": "陶染",
-  "gui.the_long_travail.coloring.option.clear": "还原样式",
+  "gui.the_long_travail.coloring.option.clear": "还原\n样式",
   "gui.the_long_travail.catalog.details.coloring.0": "手持右键打开施色界面，将物品放入左侧输入槽位，即可从本模组提供的9种特殊文本渲染样式中任选一种，为物品名染色。",
   "gui.the_long_travail.catalog.details.coloring.1": "选好样式后，从右侧输出槽位领取物品即可完成施色，也可以一次处理整组物品。",
   "gui.the_long_travail.catalog.details.coloring.3": "施色仅改变物品名称的显示样式，不会改动名称文字、说明、附魔和属性等其他内容。",

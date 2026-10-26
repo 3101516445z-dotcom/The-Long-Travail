@@ -114,5 +114,16 @@
   "tooltip.the_long_travail.flower.flowering_azalea": "擊退抗性增加§a%s§r。",
   "tooltip.the_long_travail.flower.chorus_flower": "方塊互動距離和近戰攻擊距離增加§a%s格§r。",
   "tooltip.the_long_travail.flower.spore_blossom": "受到的負面效果持續時間縮短§a%s%%§r，不影響瞬間效果和無限持續效果。",
-  "tooltip.the_long_travail.flower.flowering_azalea_leaves": "盔甲韌性增加§a%s點§r。"
+  "tooltip.the_long_travail.flower.flowering_azalea_leaves": "盔甲韌性增加§a%s點§r。",
+  "item.the_long_travail.immortal_bud": "永生芽",
+  "tooltip.the_long_travail.immortal_bud.mark": "恆久長青",
+  "tooltip.the_long_travail.flavor.immortal_bud": "被歲月所忘卻的枝椏，今時往日，新綠依然。",
+  "tooltip.the_long_travail.summary.immortal_bud.0": "與§a有耐久的物品§r無序合成，§6修滿其耐久§r並賦予「§6恆久長青§r」。",
+  "tooltip.the_long_travail.summary.immortal_bud.1": "帶有「§6恆久長青§r」的物品§6不會損壞§r。",
+  "tooltip.the_long_travail.immortal_bud.details.0": "將永生芽與一件有耐久的物品無序合成，可修滿目標耐久並賦予「恆久長青」標記。",
+  "tooltip.the_long_travail.immortal_bud.details.1": "每次合成將消耗一個永生芽，已被賦予的物品無法重複賦予。",
+  "tooltip.the_long_travail.immortal_bud.details.2": "合成僅為物品添加標記，物品原有的名稱、附魔及其他資料將會被保留。",
+  "tooltip.the_long_travail.immortal_bud.details.3": "帶有「恆久長青」的物品受到耐久保護，不會降低耐久，同樣也不會被過高的一次性消耗破壞。",
+  "tooltip.the_long_travail.immortal_bud.details.4": "永生芽自身及受保護的物品，在掉落物狀態下防火、防岩漿、防爆，且不會自然消失。",
+  "tooltip.the_long_travail.immortal_bud.details.5": "合成消耗、物品放置或使用消耗不受「恆久長青」保護。另外，受保護物品若墜入虛空，也無法找回。"
 }

@@ -128,6 +128,61 @@ public final class CatalogTextStyle {
                     "rainstorm",
                     "Wither");
 
+    // 仅用于永生芽条目，避免术语匹配改变其他页面的染色。
+    private static final List<String> IMMORTAL_BUD_TERMS =
+            List.of(
+                    "永生芽",
+                    "恒久长青",
+                    "恆久長青",
+                    "Immortal Bud",
+                    "Evergreen",
+                    "重复赋予",
+                    "重複賦予",
+                    "再授",
+                    "receive it again",
+                    "名称",
+                    "原物之名",
+                    "名稱",
+                    "附魔",
+                    "original name",
+                    "enchantments",
+                    "耐久保护",
+                    "耐久保護",
+                    "耐久不減",
+                    "durability loss",
+                    "一次性消耗",
+                    "耗損過甚",
+                    "single durability cost",
+                    "防火",
+                    "防岩浆",
+                    "防岩漿",
+                    "防爆",
+                    "不畏火",
+                    "岩漿",
+                    "爆炸",
+                    "fire",
+                    "lava",
+                    "explosions",
+                    "自然消失",
+                    "消散",
+                    "naturally despawn",
+                    "合成消耗",
+                    "物品放置",
+                    "使用消耗",
+                    "合成用料",
+                    "置物",
+                    "使用之耗",
+                    "crafting",
+                    "placement",
+                    "use",
+                    "虚空",
+                    "虛空",
+                    "void");
+    private static final Pattern IMMORTAL_BUD_SCOPE =
+            Pattern.compile(
+                    "有耐久的物品|有耐久之物|掉落物状态下|掉落物狀態下|落地|a damageable item|when dropped|\\bone(?= Immortal Bud)|一個|一枚",
+                    Pattern.CASE_INSENSITIVE);
+
     private record Flat(String text, List<Style> styles) {}
 
     private record TermMatch(int start, int end, String term) {}
@@ -165,9 +220,13 @@ public final class CatalogTextStyle {
     }
 
     private static void highlightTerms(
-            String text, List<Style> original, Style[] result, HighlightState state) {
+            String text,
+            List<Style> original,
+            Style[] result,
+            HighlightState state,
+            List<String> terms) {
         List<TermMatch> matches = new ArrayList<>();
-        for (String term : TERMS) {
+        for (String term : terms) {
             var matcher =
                     Pattern.compile(
                                     (term.charAt(0) < 128 ? "\\b" : "")
@@ -254,6 +313,14 @@ public final class CatalogTextStyle {
         HighlightState highlights = new HighlightState();
         boolean blacklistNamesNext = false;
         for (Component source : paragraphs) {
+            boolean immortalBud =
+                    source.getContents()
+                                    instanceof
+                                    net.minecraft.network.chat.contents.TranslatableContents
+                                                    translation
+                            && translation
+                                    .getKey()
+                                    .startsWith("tooltip.the_long_travail.immortal_bud.details.");
             Flat f = flatten(source);
             String text = f.text;
             boolean objectList =
@@ -303,7 +370,12 @@ public final class CatalogTextStyle {
                     matchesParameterLine(text, "star_voice.range")
                             || matchesParameterLine(text, "star_voice.group");
             if (!heading && !supplement && !numbersOnly && !objectList) {
-                highlightTerms(text, f.styles, result, highlights);
+                highlightTerms(
+                        text,
+                        f.styles,
+                        result,
+                        highlights,
+                        immortalBud ? IMMORTAL_BUD_TERMS : TERMS);
             } else if (heading) highlights.sentenceCount = 0;
             else highlights.advance(text, 0, text.length());
             if (!supplement && !objectList) {
@@ -312,6 +384,10 @@ public final class CatalogTextStyle {
                 var keys = KEYS.matcher(text);
                 while (keys.find()) paint(result, f.styles, keys.start(), keys.end(), VALUE);
                 var scope = STACK_SCOPE.matcher(text);
+                while (scope.find()) paint(result, f.styles, scope.start(), scope.end(), VALUE);
+            }
+            if (immortalBud) {
+                var scope = IMMORTAL_BUD_SCOPE.matcher(text);
                 while (scope.find()) paint(result, f.styles, scope.start(), scope.end(), VALUE);
             }
             MutableComponent line = Component.empty();

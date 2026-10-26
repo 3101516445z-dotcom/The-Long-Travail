@@ -114,5 +114,16 @@
   "tooltip.the_long_travail.flower.flowering_azalea": "擊退抗性增§a%s§r。",
   "tooltip.the_long_travail.flower.chorus_flower": "方塊交距與近戰之距增§a%s格§r。",
   "tooltip.the_long_travail.flower.spore_blossom": "所受負效之時減§a%s%%§r，不及瞬效與無盡之效。",
-  "tooltip.the_long_travail.flower.flowering_azalea_leaves": "盔甲韌性增§a%s點§r。"
+  "tooltip.the_long_travail.flower.flowering_azalea_leaves": "盔甲韌性增§a%s點§r。",
+  "item.the_long_travail.immortal_bud": "永生芽",
+  "tooltip.the_long_travail.immortal_bud.mark": "恆久長青",
+  "tooltip.the_long_travail.flavor.immortal_bud": "歲月所遺之枝，今昔如一，新綠猶然。",
+  "tooltip.the_long_travail.summary.immortal_bud.0": "與§a有耐久之物§r無序合成，§6盡復其耐久§r，授以「§6恆久長青§r」。",
+  "tooltip.the_long_travail.summary.immortal_bud.1": "有「§6恆久長青§r」者，其物§6不毀§r。",
+  "tooltip.the_long_travail.immortal_bud.details.0": "永生芽與有耐久之物無序合成，可盡復其耐久，授以「恆久長青」之記。",
+  "tooltip.the_long_travail.immortal_bud.details.1": "每合成一次，耗芽一枚；已有此記者，不可再授。",
+  "tooltip.the_long_travail.immortal_bud.details.2": "合成僅添此記，原物之名、附魔及餘資料皆存。",
+  "tooltip.the_long_travail.immortal_bud.details.3": "有「恆久長青」者，耐久不減，亦不因一次耗損過甚而毀。",
+  "tooltip.the_long_travail.immortal_bud.details.4": "永生芽及受護之物，落地不畏火、岩漿與爆炸，亦不隨時消散。",
+  "tooltip.the_long_travail.immortal_bud.details.5": "合成用料、置物及使用之耗，不在「恆久長青」所護之列。受護之物若墜虛空，亦不可尋回。"
 }

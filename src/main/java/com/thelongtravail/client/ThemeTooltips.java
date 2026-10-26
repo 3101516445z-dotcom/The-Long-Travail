@@ -44,6 +44,12 @@ public final class ThemeTooltips {
     }
 
     public static void finish(ItemStack stack, Player viewer, List<Component> lines) {
+        if (ImmortalBud.marked(stack)) {
+            lines.add(
+                    Math.min(1, lines.size()),
+                    com.thelongtravail.AspectTheme.FLOURISHING.name(
+                            Component.translatable("tooltip.the_long_travail.immortal_bud.mark")));
+        }
         lines.replaceAll(
                 line -> key(line, ItemDescription.CATALOG::equals) ? catalogPrompt() : line);
         if (lines.stream().noneMatch(c -> key(c, ItemDescription.SUMMARY::equals))) return;
@@ -154,6 +160,10 @@ public final class ThemeTooltips {
 
     public static List<Component> summary(String id, ItemStack stack, Player viewer) {
         var out = new ArrayList<Component>();
+        if (id.equals("immortal_bud")) {
+            for (int i = 0; i < 2; i++) out.add(text(id + "." + i));
+            return out;
+        }
         if (viewer != null && !AccessoryEquipRules.hasDiary(viewer)) {
             if (Set.of(
                             "demon_king_of_the_sixth_heaven",

@@ -58,6 +58,14 @@ public final class FloralJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration r) {
+        r.addItemStackInfo(
+                new ItemStack(ModRegistry.IMMORTAL_BUD.get()),
+                Component.translatable("tooltip.the_long_travail.immortal_bud.details.0"),
+                Component.translatable("tooltip.the_long_travail.immortal_bud.details.1"),
+                Component.translatable("tooltip.the_long_travail.immortal_bud.details.2"),
+                Component.translatable("tooltip.the_long_travail.immortal_bud.details.3"),
+                Component.translatable("tooltip.the_long_travail.immortal_bud.details.4"),
+                Component.translatable("tooltip.the_long_travail.immortal_bud.details.5"));
         snapshots.clear();
         active = null;
         r.addItemStackInfo(

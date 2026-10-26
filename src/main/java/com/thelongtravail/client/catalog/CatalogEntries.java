@@ -141,7 +141,13 @@ public final class CatalogEntries {
                 null,
                 "lu yin|luyin|ly|wayguide",
                 ignored -> CatalogUtilityDetails.aid("wayguide"));
-        add(entries, "coloring", COLORING, Category.AID, null, "shise|ss|施色|coloring",
+        add(
+                entries,
+                "coloring",
+                COLORING,
+                Category.AID,
+                null,
+                "shise|ss|施色|coloring",
                 stack -> CatalogUtilityDetails.aid("coloring"));
         String[] py = {
             "fanmao|fm|flourishing",
@@ -212,6 +218,14 @@ public final class CatalogEntries {
                 TravailAspect.FLOURISHING,
                 "wuqionghua|wqh|everlastingflower",
                 s -> com.thelongtravail.flourishing.FlourishingItemText.details(true));
+        add(
+                entries,
+                "immortal_bud",
+                IMMORTAL_BUD,
+                Category.THEME,
+                TravailAspect.FLOURISHING,
+                "yongshengya|ysy|immortalbud",
+                CatalogEntries::ordinary);
         add(
                 entries,
                 "eki",

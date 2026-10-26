@@ -6,6 +6,9 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixins.the_long_travail.refmap.json",
   "mixins": [
+    "ImmortalBudDamageMixin",
+    "ImmortalBudHurtMixin",
+    "ImmortalBudDropMixin",
     "ColoringNameMixin",
     "FluidCraftingGridAccessor",
     "FluidCraftingClickMixin",

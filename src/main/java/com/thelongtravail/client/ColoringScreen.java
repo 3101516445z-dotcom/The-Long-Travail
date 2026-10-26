@@ -74,6 +74,17 @@ public final class ColoringScreen extends AbstractContainerScreen<ColoringMenu> 
                     DEFAULT_NARRATION);
             this.choice = choice;
             int wrapWidth = choice == 9 ? 26 : 30;
+            // 还原按钮按译文中的显式换行排版，每行整体缩放。
+            if (choice == NameColoring.CLEAR) {
+                for (String line : getMessage().getString().split("\n")) {
+                    wrapWidth =
+                            Math.max(
+                                    wrapWidth,
+                                    font.width(
+                                            Component.literal(line)
+                                                    .setStyle(getMessage().getStyle())));
+                }
+            }
             // 拉丁字母单词保持完整；中文仍按原有宽度换行。
             var words =
                     java.util.regex.Pattern.compile("[A-Za-z]+").matcher(getMessage().getString());

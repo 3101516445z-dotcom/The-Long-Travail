@@ -114,5 +114,16 @@
   "tooltip.the_long_travail.flower.flowering_azalea": "Knockback resistance increases by §a%s§r.",
   "tooltip.the_long_travail.flower.chorus_flower": "Block interaction reach and melee attack reach increase by §a%s blocks§r.",
   "tooltip.the_long_travail.flower.spore_blossom": "Incoming harmful effect duration is reduced by §a%s%%§r, excluding instant and infinite effects.",
-  "tooltip.the_long_travail.flower.flowering_azalea_leaves": "Armor toughness increases by §a%s points§r."
+  "tooltip.the_long_travail.flower.flowering_azalea_leaves": "Armor toughness increases by §a%s points§r.",
+  "item.the_long_travail.immortal_bud": "Immortal Bud",
+  "tooltip.the_long_travail.immortal_bud.mark": "Evergreen",
+  "tooltip.the_long_travail.flavor.immortal_bud": "A branch forgotten by the years; today as yesterday, its green remains anew.",
+  "tooltip.the_long_travail.summary.immortal_bud.0": "Craft shapelessly with §aa damageable item§r to §6fully repair it§r and grant “§6Evergreen§r”.",
+  "tooltip.the_long_travail.summary.immortal_bud.1": "Items bearing “§6Evergreen§r” §6will not break§r.",
+  "tooltip.the_long_travail.immortal_bud.details.0": "Craft an Immortal Bud shapelessly with a damageable item to fully repair it and grant the “Evergreen” mark.",
+  "tooltip.the_long_travail.immortal_bud.details.1": "Each craft consumes one Immortal Bud. Items already bearing the mark cannot receive it again.",
+  "tooltip.the_long_travail.immortal_bud.details.2": "Crafting only adds the mark; the item’s original name, enchantments, and other data are preserved.",
+  "tooltip.the_long_travail.immortal_bud.details.3": "Items bearing “Evergreen” are protected against durability loss, including breakage caused by an excessive single durability cost.",
+  "tooltip.the_long_travail.immortal_bud.details.4": "The Immortal Bud itself and protected items resist fire, lava, and explosions when dropped, and do not naturally despawn.",
+  "tooltip.the_long_travail.immortal_bud.details.5": "“Evergreen” does not protect against consumption through crafting, placement, or use. Protected items that fall into the void cannot be recovered."
 }
