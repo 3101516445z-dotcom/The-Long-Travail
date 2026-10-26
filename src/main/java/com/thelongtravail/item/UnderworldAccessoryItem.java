@@ -3,12 +3,15 @@ package com.thelongtravail.item;
 import com.thelongtravail.AspectTheme;
 import com.thelongtravail.helper.*;
 import com.thelongtravail.underworld.UnderworldItems;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
+
 import java.util.List;
 
 public final class UnderworldAccessoryItem extends Item implements ICurioItem {
@@ -26,8 +29,9 @@ public final class UnderworldAccessoryItem extends Item implements ICurioItem {
 
     @Override
     public boolean canEquip(SlotContext c, ItemStack stack) {
-        return !c.cosmetic()
-                && c.identifier().equals(ring ? "ring" : "charm")
+        return ring
+                && !c.cosmetic()
+                && c.identifier().equals("ring")
                 && c.entity() instanceof Player p
                 && !UnderworldItems.consumed(p, stack)
                 && AccessoryEquipRules.hasDiary(p)
@@ -36,7 +40,7 @@ public final class UnderworldAccessoryItem extends Item implements ICurioItem {
 
     @Override
     public boolean canEquipFromUse(SlotContext c, ItemStack s) {
-        return true;
+        return ring;
     }
 
     @Override

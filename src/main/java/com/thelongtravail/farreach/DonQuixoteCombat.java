@@ -4,11 +4,13 @@ import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.compat.maid.MaidAccessories;
 import com.thelongtravail.config.FarReachRelicsConfig;
 import com.thelongtravail.registry.ModRegistry;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.*;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.*;
 import net.minecraft.world.entity.*;
+
 import top.theillusivec4.curios.api.CuriosApi;
 
 public final class DonQuixoteCombat {
@@ -31,7 +33,7 @@ public final class DonQuixoteCombat {
                                                                 !r.slotContext().cosmetic()
                                                                         && r.slotContext()
                                                                                 .identifier()
-                                                                                .equals("body")))
+                                                                                .equals("curio")))
                         .orElse(false);
     }
 

@@ -5,35 +5,34 @@ import com.thelongtravail.config.UnderworldItemsConfig;
 import com.thelongtravail.data.LongTravailData;
 import com.thelongtravail.helper.TravailCurios;
 import com.thelongtravail.registry.ModRegistry;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+
 import top.theillusivec4.curios.api.CuriosApi;
 
 public final class UnderworldItems {
     public static ItemStack equipped(Player p, boolean ring) {
         if (TravailCurios.stack(p).isEmpty()) return ItemStack.EMPTY;
+        if (!ring)
+            return p instanceof ServerPlayer sp
+                    ? com.thelongtravail.api.CarryingApi.findStack(
+                            sp, ModRegistry.BOOK_OF_DEAD.get(), stack -> !consumed(p, stack))
+                    : ItemStack.EMPTY;
         return CuriosApi.getCuriosInventory(p)
                 .map(
                         inv ->
-                                inv
-                                        .findCurios(
-                                                ring
-                                                        ? ModRegistry.THOUSAND_YEARS.get()
-                                                        : ModRegistry.BOOK_OF_DEAD.get())
-                                        .stream()
+                                inv.findCurios(ModRegistry.THOUSAND_YEARS.get()).stream()
                                         .filter(
                                                 r ->
                                                         !r.slotContext().cosmetic()
                                                                 && r.slotContext()
                                                                         .identifier()
-                                                                        .equals(
-                                                                                ring
-                                                                                        ? "ring"
-                                                                                        : "charm")
+                                                                        .equals("ring")
                                                                 && !consumed(p, r.stack()))
                                         .map(r -> r.stack())
                                         .findFirst()

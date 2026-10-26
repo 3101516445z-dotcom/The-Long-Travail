@@ -1,0 +1,20 @@
+allprojects {
+    afterEvaluate {
+        sourceSets {
+            revivalAcceptance {
+                java.srcDir 'tools/structure-regression/fullpack-revival'
+                java.srcDir 'tools/structure-regression/acquisition'
+                java.exclude '**/AcquisitionSmoke.java'
+                resources.srcDir 'tools/structure-regression/coloring-resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+            }
+        }
+        tasks.register('revivalAcceptanceJar', Jar) {
+            from sourceSets.revivalAcceptance.output
+            archiveFileName = 'travail-revival-acceptance.jar'
+            destinationDirectory = project.layout.buildDirectory.dir('revival-fixture')
+            doFirst { manifest.attributes.remove('MixinConfigs') }
+        }
+        reobf { revivalAcceptanceJar { classpath.from sourceSets.main.output, sourceSets.main.compileClasspath } }
+    }
+}

@@ -141,9 +141,9 @@ Adding candidates changes relative weights, not chance. chance = 0 or items = []
 Item IDs must exist, weights must be positive integers, and counts must be 1–2304 with minimum no greater than maximum. Parent and child tables roll independently; no extra Looting, Fortune, Silk Touch or player-kill conditions are added.
 Invalid configuration and preserved originals: [T01].
 
-Perfect Fluid fishing chance (separate setting)
-loot.perfect_fluid.fishingChance
-Base chance to fish up Perfect Fluid with zero luck in open water; 0.0025 means 0.25%. Its chance within the treasure pool is 20 times this value. The maximum of 0.045 preserves the 10% share for Abyss Essence. Set to 0 to disable; loot.enabled must also be enabled. Save and run /reload to apply changes.
+Fishing treasure item chance (separate setting)
+loot.fishing_treasure.itemChance
+Individual chance of Eki, Tokaido and Perfect Fluid within fishing treasure, default 0.1 (10% each). Abyss Essence retains 10%, leaving 60% for vanilla entries. Range: 0 to 0.3; 0 disables these three rewards. Requires loot.enabled. Save and run /reload to apply.
 
 ====================================================================
 Presets
@@ -474,7 +474,7 @@ During play: files that cannot be parsed remain on disk for repair, while the lo
 Invalid ordinary values retain their effective values from this session; other valid edits still apply.
 
 Loot: each table is validated as a whole. Invalid chances, item IDs, weights or quantities retain that table's effective rules from this session; without previous rules, its added rewards are disabled.
-Other valid tables and Perfect Fluid's fishing chance are handled independently. Valid deletions, zero chance and empty item lists stop the affected rewards.
+Other valid tables and fishing treasure item chances are handled independently. Valid deletions, zero chance and empty item lists stop the affected rewards.
 
 Originals and repair: before restoring a damaged file or correcting existing values, the original contents are saved under invalid/<timestamp-and-unique-id>/ with theme subdirectories preserved and an errors.txt report.
 If preserving the original fails, the configuration is not overwritten. Backups are not deleted or restored automatically; recover any wanted settings from the original, correct them, and put them into the current TOML file.

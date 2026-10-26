@@ -47,7 +47,7 @@
   "item.the_long_travail.lorentz_fantasy": "洛倫茲幻想",
   "message.the_long_travail.lorentz.on": "§6箭矢不下墜§r：已§a啟用§r",
   "message.the_long_travail.lorentz.off": "§6箭矢不下墜§r：已§c禁用§r",
-  "tooltip.the_long_travail.little_prince.base": "隨身攜帶時，賦予攜帶者§6創造飛行§r能力，並使其至少能夠直接跨上§a%s高§r的方塊。",
+  "tooltip.the_long_travail.little_prince.base": "攜帶時，賦予攜帶者§6創造飛行§r能力，並使其至少能夠直接跨上§a%s高§r的方塊。",
   "tooltip.the_long_travail.lorentz.base": "佩戴者射出的箭矢§6不會下墜§r，§6箭矢穿透§r§a+%s§r。",
   "tooltip.the_long_travail.lorentz.toggle": "手持時§a潛行右鍵§r，可啟用或禁用§6箭矢不下墜§r功能，僅影響之後射出的箭矢。",
   "tooltip.the_long_travail.lorentz.witness": "佩戴者射出的箭矢§a命中目標§r時，對目標額外造成相當於§a目標目前生命值%s%%§r的§6虛空傷害§r，即使目標免疫投射物傷害。",

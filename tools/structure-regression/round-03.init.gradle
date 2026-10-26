@@ -5,6 +5,7 @@ allprojects {
             accessoryRestoreTest {
                 java.srcDir 'tools/structure-regression/accessory'
                 resources.srcDir 'tools/structure-regression/resources'
+                resources.srcDir 'tools/structure-regression/accessory-data'
                 compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
                 runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
             }

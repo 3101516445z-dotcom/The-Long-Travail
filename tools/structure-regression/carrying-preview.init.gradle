@@ -1,0 +1,18 @@
+allprojects {
+    afterEvaluate {
+        sourceSets {
+            carryingPreview {
+                java.srcDir 'tools/structure-regression/carrying-preview'
+                resources.srcDir 'tools/structure-regression/coloring-resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+            }
+        }
+        tasks.register('carryingPreviewJar', Jar) {
+            from sourceSets.carryingPreview.output
+            archiveFileName = 'travail-carrying-preview.jar'
+            destinationDirectory = project.layout.buildDirectory.dir('carrying-fixture')
+            doFirst { manifest.attributes.remove('MixinConfigs') }
+        }
+        reobf { carryingPreviewJar { classpath.from sourceSets.main.output, sourceSets.main.compileClasspath } }
+    }
+}

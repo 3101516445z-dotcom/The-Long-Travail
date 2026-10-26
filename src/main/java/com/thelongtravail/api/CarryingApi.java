@@ -2,10 +2,13 @@ package com.thelongtravail.api;
 
 import com.thelongtravail.config.*;
 import com.thelongtravail.registry.ModRegistry;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.*;
+
 import top.theillusivec4.curios.api.CuriosApi;
+
 import java.util.*;
 
 // 只能在服务端游戏线程调用；提供方只报告实际携带情况，不判断日记或效果资格。
@@ -151,6 +154,39 @@ public final class CarryingApi {
         } finally {
             QUERYING.remove(player);
         }
+    }
+
+    // 返回真实物品栈，供需要标记或消耗物品的入口使用；死亡入口不要求玩家仍存活。
+    public static ItemStack findStack(
+            ServerPlayer player, Item item, java.util.function.Predicate<ItemStack> filter) {
+        checkThread(player);
+        for (String area : BUILTIN_AREAS) {
+            if (!allowed(item, area)) continue;
+            if (area.equals("enderChest")) {
+                var inventory = player.getEnderChestInventory();
+                for (int i = 0; i < inventory.getContainerSize(); i++) {
+                    ItemStack stack = inventory.getItem(i);
+                    if (stack.is(item) && filter.test(stack)) return stack;
+                }
+            } else {
+                for (ItemStack stack : stacks(player, area))
+                    if (stack.is(item) && filter.test(stack)) return stack;
+            }
+        }
+        if (allowed(item, "curios"))
+            return CuriosApi.getCuriosInventory(player)
+                    .map(
+                            h ->
+                                    h.findCurios(item).stream()
+                                            .filter(
+                                                    r ->
+                                                            !r.slotContext().cosmetic()
+                                                                    && filter.test(r.stack()))
+                                            .map(r -> r.stack())
+                                            .findFirst()
+                                            .orElse(ItemStack.EMPTY))
+                    .orElse(ItemStack.EMPTY);
+        return ItemStack.EMPTY;
     }
 
     private static List<ItemStack> stacks(ServerPlayer p, String area) {

@@ -47,7 +47,7 @@
   "item.the_long_travail.lorentz_fantasy": "洛倫茲幻想",
   "message.the_long_travail.lorentz.on": "§6箭不墜§r：已§a啟§r",
   "message.the_long_travail.lorentz.off": "§6箭不墜§r：已§c禁§r",
-  "tooltip.the_long_travail.little_prince.base": "隨身攜之，予攜者§6創造飛行§r，且至少可直登§a%s高§r之方塊。",
+  "tooltip.the_long_travail.little_prince.base": "攜之，予攜者§6創造飛行§r，且至少可直登§a%s高§r之方塊。",
   "tooltip.the_long_travail.lorentz.base": "佩者所射之箭§6不墜§r，§6穿透§r§a+%s§r。",
   "tooltip.the_long_travail.lorentz.toggle": "持之時§a潛行右擊§r，可啟禁§6箭不墜§r之能，止及後射之箭。",
   "tooltip.the_long_travail.lorentz.witness": "佩者之箭§a中敵§r時，另加§a目標現有生命%s%%§r之§6虛空傷害§r，雖免投射物之傷者亦然。",

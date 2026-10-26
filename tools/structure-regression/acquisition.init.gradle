@@ -1,0 +1,40 @@
+allprojects {
+    afterEvaluate {
+        def directory = project.file('build/acquisition-server')
+        sourceSets {
+            acquisition {
+                java.srcDir 'tools/structure-regression/acquisition'
+                resources.srcDir 'tools/structure-regression/coloring-resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        minecraft.runs.server {
+            workingDirectory directory
+            args '--nogui'
+            property 'mixin.debug.countInjections', 'true'
+            mods { travail_smoke { source sourceSets.acquisition } }
+        }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            doFirst {
+                directory.mkdirs()
+                def config = new File(directory, 'config/the_long_travail/general.toml')
+                config.parentFile.mkdirs()
+                if (config.exists()) new File(directory, 'general-before-test.toml').bytes = config.bytes
+                def defaults = new groovy.json.JsonSlurper().parse(project.file('src/main/resources/the_long_travail/default_loot.json'))
+                def text = '[loot]\nenabled = true\n[loot.fishing_treasure]\nitemChance = 0.1\n'
+                defaults.each { id, rule ->
+                    text += '\n[loot.tables."' + id + '"]\nchance = ' + rule.chance + '\nitems = [' + rule.items.collect { '"' + it + '"' }.join(', ') + ']\n'
+                }
+                config.setText(text, 'UTF-8')
+                new File(directory, 'eula.txt').text = project.file('run/eula.txt').text
+                new File(directory, 'server.properties').text = 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25729\nlevel-name=acquisition-test\nlevel-type=minecraft\\:flat\ngenerate-structures=false\nview-distance=2\nsimulation-distance=2\nmax-tick-time=60000\n'
+                new File(directory, 'acquisition-result.txt').text = 'NOT_RUN'
+            }
+            doLast {
+                if (!new File(directory, 'acquisition-result.txt').text.startsWith('PASS '))
+                    throw new GradleException('Acquisition integration checks failed')
+            }
+        }
+    }
+}

@@ -2,13 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    " F ",
-    "FCF",
-    " F "
+    "GBG",
+    "BCB",
+    "GBG"
   ],
   "key": {
-    "F": {
-      "item": "the_long_travail:mistletoe"
+    "G": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "B": {
+      "item": "minecraft:bone_meal"
     },
     "C": {
       "item": "the_long_travail:spring_corner"

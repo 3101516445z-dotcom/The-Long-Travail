@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SLS",
+    "SDS",
+    "SLS"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:string"
+    },
+    "L": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "the_long_travail:underground_velvet",
+    "count": 1
+  }
+}

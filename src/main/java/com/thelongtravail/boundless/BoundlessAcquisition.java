@@ -3,6 +3,7 @@ package com.thelongtravail.boundless;
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.config.BoundlessItemsConfig;
 import com.thelongtravail.registry.ModRegistry;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
@@ -76,8 +77,8 @@ public final class BoundlessAcquisition {
 
     private static MerchantOffer offer() {
         return new MerchantOffer(
-                new ItemStack(Items.EMERALD, 64),
-                new ItemStack(Items.DRAGON_BREATH, 64),
+                new ItemStack(Items.DRAGON_BREATH, 16),
+                new ItemStack(Items.DRAGON_HEAD),
                 new ItemStack(ModRegistry.LORENTZ_FANTASY.get()),
                 1,
                 30,
@@ -103,11 +104,23 @@ public final class BoundlessAcquisition {
                 || v.getVillagerData().getProfession() != VillagerProfession.FLETCHER
                 || v.getVillagerData().getLevel() < 5) return;
         boolean found = false;
-        for (var it = offers.iterator(); it.hasNext(); )
-            if (it.next().getResult().is(ModRegistry.LORENTZ_FANTASY.get())) {
-                if (found) it.remove();
-                else found = true;
+        for (var it = offers.listIterator(); it.hasNext(); ) {
+            var current = it.next();
+            if (!current.getResult().is(ModRegistry.LORENTZ_FANTASY.get())) continue;
+            if (found) it.remove();
+            else {
+                found = true;
+                if (!current.getBaseCostA().is(Items.DRAGON_BREATH)
+                        || current.getBaseCostA().getCount() != 16
+                        || !current.getCostB().is(Items.DRAGON_HEAD)
+                        || current.getCostB().getCount() != 1) {
+                    var tag = current.createTag();
+                    tag.put("buy", new ItemStack(Items.DRAGON_BREATH, 16).save(new CompoundTag()));
+                    tag.put("buyB", new ItemStack(Items.DRAGON_HEAD).save(new CompoundTag()));
+                    it.set(new MerchantOffer(tag));
+                }
             }
+        }
         if (!found) offers.add(offer());
     }
 

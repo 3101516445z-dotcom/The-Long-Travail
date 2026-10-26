@@ -9,10 +9,10 @@
 ## 来源与维护位置
 
 - 可配置饰品/道具奖励：`loot/UnifiedLoot` 及 `src/main/resources/the_long_travail/default_loot.json`，按现有 general.toml 配置流程维护。
-- 材料和精粹来源：`loot/MaterialLoot.java` 与 `src/main/resources/data/the_long_travail/loot_tables/materials/`。其中材料、精粹及固定考古奖励不受饰品奖励的 `loot.enabled` 控制；完美流体钓鱼是例外，其概率来自 `UnifiedLoot.fluidFishingChance`，受 `loot.enabled` 与 `loot.perfect_fluid.fishingChance` 控制。
+- 材料和精粹来源：`loot/MaterialLoot.java` 与 `src/main/resources/data/the_long_travail/loot_tables/materials/`。其中材料、精粹及固定考古奖励不受饰品奖励的 `loot.enabled` 控制；駅、东海道五十三次及完美流体的钓鱼奖励由 `UnifiedLoot.fishingTreasureChance` 提供宝藏子表内的单件概率，受 `loot.enabled` 与 `loot.fishing_treasure.itemChance` 控制。
 - 注入保留原表，使用唯一池名防重复；材料子表不得再次递归注入。支持数据包覆盖及正常重载，已生成过内容的箱子不会补发。多个奖励属于同一互斥池时不能改成独立池，否则会改变联合概率。
 
-`MaterialLoot.injectSpecial` 还将堂吉诃德加入各考古表，将磷叶石加入稀有古迹废墟表，与精粹共享单轮互斥池。完美流体加入钓鱼宝藏表，配置的无幸运基础概率乘以 20 转为宝藏分支内概率；不能把该换算当作改写数据包后的通用概率公式。新增奖励应合并到同次 `SingleRollLootInjector.inject` 调用，保留整池概率约束。
+`MaterialLoot.injectSpecial` 还将堂吉诃德加入各考古表，将磷叶石加入稀有古迹废墟表，与精粹共享单轮互斥池。駅、东海道五十三次和完美流体加入钓鱼宝藏子表，分别直接使用 `loot.fishing_treasure.itemChance`，默认各占子表的 10%；该值不再乘以 20，也不是每次垂钓的总概率。新增奖励应合并到同次 `SingleRollLootInjector.inject` 调用，保留整池概率约束。
 
 ## 抽样与注入
 
@@ -31,7 +31,7 @@
 
 ## 配置错误处理
 
-`UnifiedLoot.reload()` 分别更新总开关、完美流体钓鱼概率和共享奖励表。`parseTables` 逐表校验并构建规则，错误表整体沿用本次运行的上一份有效规则；首次没有旧规则则停用，其他有效表正常更新。不得只删去非法物品条目后继续抽取，否则会改变剩余条目的相对概率。
+`UnifiedLoot.reload()` 分别更新总开关、钓鱼宝藏子表单件概率和共享奖励表。`parseTables` 逐表校验并构建规则，错误表整体沿用本次运行的上一份有效规则；首次没有旧规则则停用，其他有效表正常更新。不得只删去非法物品条目后继续抽取，否则会改变剩余条目的相对概率。
 
 数值概率接受合法数字字符串，但仍要求有限且在范围内。删除表、概率为 0 和合法空列表均表示停用，不能因回退逻辑恢复已经删除的规则。钓鱼概率非法时沿用有效值（首次为默认值），不阻断箱子奖励；总开关关闭时两者停止。语法或编码错误保留整份已加载规则，文件交由统一配置流程处理。
 

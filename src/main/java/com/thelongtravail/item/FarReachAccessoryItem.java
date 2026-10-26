@@ -1,15 +1,18 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
+import com.thelongtravail.abyss.RainTooltips;
 import com.thelongtravail.config.FarReachItemsConfig;
 import com.thelongtravail.helper.DependentAccessories;
 import com.thelongtravail.network.TooltipConfigSync;
-import com.thelongtravail.abyss.RainTooltips;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -22,25 +25,37 @@ public final class FarReachAccessoryItem extends Item implements ICurioItem {
     }
 
     @Override
+    public void inventoryTick(
+            ItemStack stack,
+            Level level,
+            net.minecraft.world.entity.Entity entity,
+            int slot,
+            boolean selected) {
+        if (gold && entity instanceof net.minecraft.server.level.ServerPlayer p)
+            com.thelongtravail.api.CarryingApi.inventoryTick(p, this, slot);
+    }
+
+    @Override
     public Component getName(ItemStack stack) {
         return AspectTheme.FAR_REACH.name(super.getName(stack));
     }
 
     @Override
     public boolean canEquip(SlotContext c, ItemStack s) {
-        return !c.cosmetic()
-                && c.identifier().equals(gold ? "charm" : "back")
+        return !gold
+                && !c.cosmetic()
+                && c.identifier().equals("back")
                 && DependentAccessories.unique(c, this);
     }
 
     @Override
     public boolean canEquipFromUse(SlotContext c, ItemStack s) {
-        return gold || !c.entity().isShiftKeyDown();
+        return !gold && !c.entity().isShiftKeyDown();
     }
 
     @Override
     public boolean canRightClickEquip(ItemStack s) {
-        return true;
+        return !gold;
     }
 
     @Override

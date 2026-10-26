@@ -51,7 +51,7 @@ const overrides = {
   OptionalCompatState:['客户端与兼容','单次启动兼容门控状态'],
   FlourishingAccessoryItem:['繁茂物品入口','春日一隅与喜欢的心情构造分支、交互和装备回调'],
   FarReachAccessoryItem:['穷遐物品入口','黄金时代与伊卡洛斯构造分支和开关'],
-  UnderworldAccessoryItem:['冥府物品入口','一千年后与死者之书佩戴入口'],
+  UnderworldAccessoryItem:['冥府物品入口','一千年后佩戴与死者之书携带入口'],
   BoundlessAccessoryItem:['无垠物品入口','逍遥游与星之声佩戴入口'],
   AbyssItem:['归墟物品入口','完美流体与午夜拉菲名称、说明和佩戴入口'],
   PhosphophylliteItem:['幽谷物品入口','磷叶石佩戴与卸下对账入口'],

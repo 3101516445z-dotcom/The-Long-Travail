@@ -2,11 +2,14 @@ package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
 import com.thelongtravail.helper.AccessoryEquipRules;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
+
 import java.util.List;
 
 public final class DonQuixoteItem extends Item implements ICurioItem, ItemDescription {
@@ -22,7 +25,7 @@ public final class DonQuixoteItem extends Item implements ICurioItem, ItemDescri
     @Override
     public boolean canEquip(SlotContext c, ItemStack s) {
         return !c.cosmetic()
-                && c.identifier().equals("body")
+                && c.identifier().equals("curio")
                 && AccessoryEquipRules.unique(c, this);
     }
 

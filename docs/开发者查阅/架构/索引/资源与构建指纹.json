@@ -18,7 +18,7 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "54a9723e9bef0d1a553e3630eca9f5a83deae4ad2df1bdbe420fbf16b868151e",
+  "fingerprint": "e7994338c97cf7ac60935233630eabce50a48680ede80e1a56316000e174120a",
   "files": [
     {
       "path": "build.gradle",
@@ -70,7 +70,7 @@
     },
     {
       "path": "src/main/lang/en_us/aspects/abyss.json",
-      "sha256": "4af496a31963b8b8e265414cafb5a9dccc7f7f6146d0315afc8aa29873e3fd60"
+      "sha256": "053247349e6c87108b5ab7283c50e1c70a6a8d6f1411affe45d1129b4f9c5fd4"
     },
     {
       "path": "src/main/lang/en_us/aspects/boundless.json",
@@ -82,7 +82,7 @@
     },
     {
       "path": "src/main/lang/en_us/aspects/far_reach.json",
-      "sha256": "b60ec2eef21b2cd050883ecf61fb01c6253ff05c4ce5f0df5527134ae810db07"
+      "sha256": "c033798c0c48613261557026120381db684ddbcfbe615a1dd0f5f8c239eb8d04"
     },
     {
       "path": "src/main/lang/en_us/aspects/flourishing.json",
@@ -90,7 +90,7 @@
     },
     {
       "path": "src/main/lang/en_us/aspects/underworld.json",
-      "sha256": "a2a14cc0ba8a7b8bfafbef5a0cbc7a09786d7624958109ed0991b59dbb110490"
+      "sha256": "b66d4870b75b0f88941654a25018719073237639dc8e4f0130e855f311056e00"
     },
     {
       "path": "src/main/lang/en_us/catalog.json",
@@ -118,11 +118,11 @@
     },
     {
       "path": "src/main/lang/lzh/aspects/abyss.json",
-      "sha256": "aa0a33761d4bac4edc2a37eb511a685aca0605d3f148c20f00140b5b4c751f24"
+      "sha256": "a3554d7469d542db5ad8c7f5319093abbb37ccc1ea83cfb767d28d02e355544b"
     },
     {
       "path": "src/main/lang/lzh/aspects/boundless.json",
-      "sha256": "1b4df0dcac64e462c8ae498372648a724ba5a376badd968261e392c252d230a7"
+      "sha256": "f94257fc02a8aa33556943c00443fb88fc6bf76c5242d0b99fff5dbd8899fdda"
     },
     {
       "path": "src/main/lang/lzh/aspects/deep_valley.json",
@@ -130,7 +130,7 @@
     },
     {
       "path": "src/main/lang/lzh/aspects/far_reach.json",
-      "sha256": "a3cfa4d1ad481da56ddee8f1f27c38909d26e3b2afb5ffe2f49be243c3a9cf59"
+      "sha256": "8ce2b4a120a940cd2bbb9fc43c2a58010947bb55dae55a6ccb6c709f59fb92e9"
     },
     {
       "path": "src/main/lang/lzh/aspects/flourishing.json",
@@ -138,7 +138,7 @@
     },
     {
       "path": "src/main/lang/lzh/aspects/underworld.json",
-      "sha256": "f63e713d5aba047f7b4df09bc81c5bcc93aeb1046118aafe9fed3566d12040f0"
+      "sha256": "0801736921bf44f5cede72de4d3fde974e1ec2a420b42141b2cb5d28cdf41d64"
     },
     {
       "path": "src/main/lang/lzh/catalog.json",
@@ -162,11 +162,11 @@
     },
     {
       "path": "src/main/lang/zh_cn/aspects/abyss.json",
-      "sha256": "be751af231309726330424e36df8d3c7b506497e22b76334bc799974cb8e36e7"
+      "sha256": "8796636df7c78276ad5a8a879284d14089b327b900c1e66031d1a81a037f011b"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/boundless.json",
-      "sha256": "0fd84c274ba366d016ae34ed3cec9a9cb148b6434353746bdce1d0c739229027"
+      "sha256": "e0f75fe44c904525e3ba2dabeb6be930ee0b204a5d9dc585dd7b1cbf42b05867"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/deep_valley.json",
@@ -174,7 +174,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/aspects/far_reach.json",
-      "sha256": "2e73cbd05bc03b433f8c9fc1c6e1abefd7ee2c7735b08d465d4cb9c48bfa031a"
+      "sha256": "925c5746d46499cd6530e575ef24c59b6cf04a9fb1d1b13b5514b3918e9718dc"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/flourishing.json",
@@ -182,7 +182,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/aspects/underworld.json",
-      "sha256": "f9fea9030724b31ea36f66876be280f878278f30746fe33e975faaaf4aa13c6f"
+      "sha256": "dfc21a936be639de5f64ff3428cd2b96b1f08f6750f167f152f3892e59818a7d"
     },
     {
       "path": "src/main/lang/zh_cn/catalog.json",
@@ -206,11 +206,11 @@
     },
     {
       "path": "src/main/lang/zh_hk/aspects/abyss.json",
-      "sha256": "7e8c2c40a906ab363215fadedea38ca16a7bf43b54a90f592c3d14b44c3d5965"
+      "sha256": "71f2ff64727c366db719d19e36d85780719953a85d6b1ead1300d56ab8a6d7e6"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/boundless.json",
-      "sha256": "c62ad9b0fdfbd89d3bb32015669cd5c32e27658866d23db2fe2df940cace3811"
+      "sha256": "9c2e0e7ff3f83971c8b49b27d58a60ae9458b910510e0f59dd37e928715ce44f"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/deep_valley.json",
@@ -218,7 +218,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/aspects/far_reach.json",
-      "sha256": "587cbddee0a8b41cf7a71d16515c3a9b82f9075389190753b93d1f5bbc2d629f"
+      "sha256": "63015b3a7909f193fc8d6d7dd27468422ffb57ba83d7017b34c3450eae34c3d3"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/flourishing.json",
@@ -226,7 +226,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/aspects/underworld.json",
-      "sha256": "0484cf688aa7463866b5a13f6ddfc8b2087eca559d8f61cafc50eed386a563a9"
+      "sha256": "fd8cee86f4843a25e131493e8ca5a91145372eca4cf93b9d8a0ba52a8c0af792"
     },
     {
       "path": "src/main/lang/zh_hk/catalog.json",
@@ -250,11 +250,11 @@
     },
     {
       "path": "src/main/lang/zh_tw/aspects/abyss.json",
-      "sha256": "704fc481a073ca11de74f0b9a6432e20ba0f5ed5a28dfc2cb8dfbed5e4d9e37c"
+      "sha256": "e5580e76cc1e6fd7be16be5d595ae73b50d5c28ab243f1df3dd4b6b2645eb497"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/boundless.json",
-      "sha256": "aced991d7bb2f05d3304b7ef3a740a0ab3214545ef9edb9957a6be2c8581c05f"
+      "sha256": "86bf2562496cce4a947bcfe7b809aa5d335fcc802e269b074ce3d1e87c2dc25c"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/deep_valley.json",
@@ -262,7 +262,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/aspects/far_reach.json",
-      "sha256": "a85dae14cf7ffc04db6737f9cfce85cf331932ec44e1b590de3b7f4a2b031577"
+      "sha256": "e8bd0019e6da36371ec8ec330366ce7dc92d040d3dbe0c8a1f4f5779b01596dc"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/flourishing.json",
@@ -270,7 +270,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/aspects/underworld.json",
-      "sha256": "0484cf688aa7463866b5a13f6ddfc8b2087eca559d8f61cafc50eed386a563a9"
+      "sha256": "fd8cee86f4843a25e131493e8ca5a91145372eca4cf93b9d8a0ba52a8c0af792"
     },
     {
       "path": "src/main/lang/zh_tw/catalog.json",
@@ -302,11 +302,11 @@
     },
     {
       "path": "src/main/resources/assets/the_long_travail/config/configuration-guide.en_us.txt",
-      "sha256": "350d946774f395b3691a62623c510f7568048d55ced41e3d8c8de932ce41e58c"
+      "sha256": "65527dc33e9f96e3dd45eae68c42269318099fe19b68e25da0f1c3762b7282e8"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/config/configuration-guide.zh_cn.txt",
-      "sha256": "1abcf5217f8dd1d2bf8c047b513d6ed7583dacbcbe5959f1c3a82643de9fdf90"
+      "sha256": "626810d745bf8ec1d131a02b1a5dfc4279282046215ebcaa4d2eddd1cb44f2c5"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/models/block/lantern_light.json",
@@ -614,7 +614,7 @@
     },
     {
       "path": "src/main/resources/assets/the_long_travail/textures/item/immortal_bud.png",
-      "sha256": "df8ab2466c6f689b558818ce5705499b11a8a038015066a7c4925286f312b877"
+      "sha256": "3a57d88798965b0acefe9351f80c332b35afc64fb942cef1064353594ab68a98"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/textures/item/little_prince.png",
@@ -714,7 +714,7 @@
     },
     {
       "path": "src/main/resources/data/curios/tags/items/body.json",
-      "sha256": "17b3648cfc1cdd7dfaf73984ca7f6a3503fa303d499a090087275c6fae095c0b"
+      "sha256": "9f918eb9dd5369ef15d00d7b8fcfe94d6e47b9af99eca16f25825e022abfaacf"
     },
     {
       "path": "src/main/resources/data/curios/tags/items/bracelet.json",
@@ -722,11 +722,11 @@
     },
     {
       "path": "src/main/resources/data/curios/tags/items/charm.json",
-      "sha256": "e07d87ee8745e0b31d4486b7f1dece031420d6702d19b660302240cb412923d4"
+      "sha256": "4726cd09c4d45cf3f11e0295006c84294b267b7c7e676a2aa3bfc1cd2f1ae365"
     },
     {
       "path": "src/main/resources/data/curios/tags/items/curio.json",
-      "sha256": "e624bad1e58ce776c7eb9c31dc137f5e12cac76fad15bb80a993f4466238d6d9"
+      "sha256": "f8322d74a46e40624f52d734860a8fea47ce1d6b58381522ec684ca2f8928be2"
     },
     {
       "path": "src/main/resources/data/curios/tags/items/feet.json",
@@ -742,7 +742,7 @@
     },
     {
       "path": "src/main/resources/data/curios/tags/items/necklace.json",
-      "sha256": "e7b8e7110bf0980a6dc1e5fec8b94b07d38f33bdfadb7d38277b0737f47eac1b"
+      "sha256": "0c615d27d6e7932dab70603593b0d4b2098f06e605c17c7e8549a677ec84ef94"
     },
     {
       "path": "src/main/resources/data/curios/tags/items/ring.json",
@@ -930,7 +930,7 @@
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/everlasting_flower.json",
-      "sha256": "343eca3f9778eb39d2d1e217d6b056939f518314c8e971c268ed0f4cca754d9e"
+      "sha256": "93cf00c7cbb4d2306ef52e9a59d7bcd60847f728dc4a25a5b52f34769a9fb6f6"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/far_reach_stone.json",
@@ -962,7 +962,7 @@
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/mistletoe.json",
-      "sha256": "6d9b795d72f8e5d48471da4310480543e0e128cf2534139c6047843cd3a17cfb"
+      "sha256": "c4b9b0828630032778b888f2993b90ace14f4a31e457dcb323ce1d6af52edec3"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/myriad_souls_banner.json",
@@ -1082,7 +1082,11 @@
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/underground_velvet.json",
-      "sha256": "e52271f14d3b5774dfc738333e280c83209e57eb52ed89b92c5eb23f8ff9a9d1"
+      "sha256": "fbe2c49146060edb7a9ac123b90f87bc23a84ba881c6ae4948a0228f8e8c0505"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/underground_velvet_from_string.json",
+      "sha256": "65c18264b4ebcaa24e07c6e19b4f433b8ffee4ac6614a4dc18e2ed8fc89a4a21"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/underworld_stone.json",
@@ -1142,7 +1146,7 @@
     },
     {
       "path": "src/main/resources/the_long_travail/default_loot.json",
-      "sha256": "b6d24520b9039f5caeae4d92a31ae188255b9530322517062866de662ba774f7"
+      "sha256": "2de65df64a184357eabbd8d3e6b0d88d02a1f39871aaa7c04247a2a03bb4227a"
     },
     {
       "path": "tools/generate-language-files.cjs",

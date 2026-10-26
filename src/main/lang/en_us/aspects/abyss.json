@@ -74,7 +74,7 @@
   "key.the_long_travail.rain": "Tokaido: Call Rain",
   "death.attack.the_long_travail.fluid_erosion": "%1$s succumbed to fluid erosion",
   "death.attack.the_long_travail.fluid_erosion.player": "%1$s succumbed to fluid erosion after fighting %2$s",
-  "tooltip.the_long_travail.summary.eki.0": "While wearing The Long Travail and carrying Eki, the wearer gains bonuses in §arain, snow, and thunderstorms§r.",
+  "tooltip.the_long_travail.summary.eki.0": "While wearing The Long Travail and carrying Eki, the carrier gains bonuses in §arain, snow, and thunderstorms§r.",
   "tooltip.the_long_travail.summary.eki.1": "Carrying multiple copies of Eki does not stack these bonuses.",
   "tooltip.the_long_travail.summary.tokaido.0": "While equipped, grants §6the nourishment of rain§r in §arain, snow, and thunderstorms§r.",
   "tooltip.the_long_travail.summary.tokaido.1": "In the §aOverworld§r, press [§a%s§r] to summon §6heavy rain§r.",

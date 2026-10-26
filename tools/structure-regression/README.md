@@ -150,3 +150,27 @@ node tools/structure-regression/suite.mjs soak 启动专用持续场景，目标
 ## 注释与职责整理增量检查
 
 配置套件新增真实文件热重载后的 RuntimePools 快照发布检查。第二轮旅程夹具新增 WayguideCursorChecks，以 FrozenPlacementCursor 保留的提取前算法对照结构候选枚举；测试模组使用独立包，通过反射访问包内生产组件。覆盖候选顺序、负坐标、分段预算和异步环布局结果，不包含完整路引超时及跨重启返还验收。
+
+## 获取方式与概率
+
+    ./gradlew.bat -I tools/structure-regression/acquisition.init.gradle runServer --offline
+
+独立服务端在 build/acquisition-server 运行，结果写入 acquisition-result.txt。检查真实加载后的箱子单件概率、钓鱼宝藏四项各 10%、父表不再追加物品、新旧配方匹配，以及交易成本校正、状态保留、去重和幂等。使用本目录 coloring-resources 提供测试模组元数据；不读取整合包存档。
+
+压力检查使用固定种子 20261026：33 张箱子表各抽取 30,000 次，钓鱼宝藏子表抽取 100,000 次，按 7 倍二项分布标准差加 2 次容差核对频率，同时检查单轮奖励数量。箱子通过真实加载的共享池抽取，钓鱼通过真实宝藏子表抽取，不代表整包全局战利品修改器或完整钓鱼流程验收。
+
+携带检查执行 10,000 轮区域、区域开关、苦旅与槽位状态切换，覆盖背包、副手、护甲、末影箱、功能饰品槽和外观槽；检查死亡时书本定位、已消耗编号拒绝复用及清理不影响其他物品。普通与极限模式的客户端复活流程由下述整包入口检查。
+
+饰品恢复套件 round-03 通过 accessory-data 提供两个通用饰品槽，模拟已配置通用槽的游戏环境，并检查通用槽物品在重生、保存重读后的恢复。该数据仅供测试，不随正式模组发布。
+
+
+## 整包死亡界面与复活
+
+    ./gradlew.bat -I tools/structure-regression/fullpack-revival.init.gradle reobfRevivalAcceptanceJar --offline
+    python tools/structure-regression/fullpack-revival.py --pack <整包目录> --output <新的隔离目录> --java <Java可执行文件>
+
+入口复制整包模组、配置和资源，使用 `build/libs/The_Long_Travail-0.1.3.jar` 和独立客户端测试模组。世界来自 `build/coloring-standalone/coloring-test`，不使用正常游玩存档；隔离配置以获取方式测试配置为基础，再同步当前箱子概率默认表。启动使用本地离线测试账号。
+
+客户端先执行获取方式的概率与携带压力检查，再在普通、极限模式各完成 16 次死亡界面按钮复活。每种模式有 12 次死亡保留物品（背包、副手、末影箱各 4 次），另有 4 次不保留物品（书本位于末影箱）。致死前等待 120 个服务端 tick，避开出生保护；点击真实死亡界面的“死者苏生”按钮，检查存活、原地复活、死亡记录清除、选定书本消耗和备用书保留。截图写入 `screenshots`，结果写入 `client-result.txt` 和 `client-checks.txt`。
+
+`--resume` 复用已有隔离副本及测试世界，并更新测试模组；`--hardcore-only` 仅运行极限模式的 16 轮复活。伤害被整包事件取消时，记录状态后等待 120 个服务端 tick 再试，连续 5 次被拒绝则失败；被取消的攻击不计为死亡或复活通过。重复运行前应归档结果和日志，并确认上次客户端已退出。该入口检查所列场景，不作为所有整包玩法或长期多人性能的结论；箱子随机压力检查针对实际加载的苦旅共享池，钓鱼检查宝藏子表。

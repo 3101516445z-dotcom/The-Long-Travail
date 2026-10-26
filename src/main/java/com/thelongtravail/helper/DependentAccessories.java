@@ -2,14 +2,17 @@ package com.thelongtravail.helper;
 
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.registry.ModRegistry;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
+
 import java.util.*;
 import java.util.function.*;
 
@@ -40,7 +43,6 @@ public final class DependentAccessories {
                 p -> !TravailCurios.stack(p).isEmpty(),
                 com.thelongtravail.valley.Phosphophyllite::tick);
         register(ModRegistry.THOUSAND_YEARS, p -> !TravailCurios.stack(p).isEmpty(), p -> {});
-        register(ModRegistry.BOOK_OF_DEAD, p -> !TravailCurios.stack(p).isEmpty(), p -> {});
         register(
                 ModRegistry.LORENTZ_FANTASY,
                 p -> !TravailCurios.stack(p).isEmpty(),

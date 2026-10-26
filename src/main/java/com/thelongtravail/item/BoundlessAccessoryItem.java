@@ -2,12 +2,15 @@ package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
 import com.thelongtravail.helper.*;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
+
 import java.util.List;
 
 public final class BoundlessAccessoryItem extends Item implements ICurioItem {
@@ -26,7 +29,7 @@ public final class BoundlessAccessoryItem extends Item implements ICurioItem {
     @Override
     public boolean canEquip(SlotContext c, ItemStack s) {
         return !c.cosmetic()
-                && (dream || c.identifier().equals("necklace"))
+                && (dream || c.identifier().equals("curio"))
                 && c.entity() instanceof Player p
                 && (dream || AccessoryEquipRules.hasDiary(p))
                 && DependentAccessories.unique(c, this);

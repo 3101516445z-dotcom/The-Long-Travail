@@ -74,7 +74,7 @@
   "key.the_long_travail.rain": "東海道：喚雨",
   "death.attack.the_long_travail.fluid_erosion": "%1$s在流體的侵蝕中走到了盡頭",
   "death.attack.the_long_travail.fluid_erosion.player": "%1$s在與%2$s交戰後，於流體的侵蝕中走到了盡頭",
-  "tooltip.the_long_travail.summary.eki.0": "佩戴苦旅並隨身攜帶「駅」時，佩戴者可在§a雨雪與雷暴天氣§r獲得強化。",
+  "tooltip.the_long_travail.summary.eki.0": "佩戴苦旅並攜帶「駅」時，攜帶者可在§a雨雪與雷暴天氣§r獲得強化。",
   "tooltip.the_long_travail.summary.eki.1": "若同時攜帶多張「駅」，強化效果不會疊加。",
   "tooltip.the_long_travail.summary.tokaido.0": "佩戴後，可在§a雨雪與雷暴天氣§r獲得§6雨水的滋潤§r。",
   "tooltip.the_long_travail.summary.tokaido.1": "身處§a主世界§r時，按[§a%s§r]可召來§6暴雨§r。",

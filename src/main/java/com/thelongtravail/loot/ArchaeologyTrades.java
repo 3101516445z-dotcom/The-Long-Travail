@@ -1,8 +1,8 @@
 package com.thelongtravail.loot;
 
 import com.thelongtravail.TheLongTravail;
-import com.thelongtravail.TravailAspect;
 import com.thelongtravail.registry.ModRegistry;
+
 import net.minecraft.world.entity.npc.*;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.trading.*;
@@ -16,10 +16,6 @@ public final class ArchaeologyTrades {
     public static final VillagerTrades.ItemListing SHEPHERD = (entity, random) -> offer(true);
     public static final VillagerTrades.ItemListing MASON = (entity, random) -> offer(false);
 
-    private static Item stone() {
-        return ModRegistry.REVELATION_STONES.get(TravailAspect.DEEP_VALLEY.ordinal()).get();
-    }
-
     private static Item result(boolean shepherd) {
         return shepherd ? ModRegistry.DON_QUIXOTE.get() : ModRegistry.PHOSPHOPHYLLITE.get();
     }
@@ -27,7 +23,7 @@ public final class ArchaeologyTrades {
     private static MerchantOffer offer(boolean shepherd) {
         return new MerchantOffer(
                 shepherd ? new ItemStack(Items.SHIELD) : new ItemStack(Items.LAPIS_LAZULI, 64),
-                new ItemStack(shepherd ? Items.NETHERITE_SWORD : stone()),
+                new ItemStack(shepherd ? Items.NETHERITE_SWORD : Items.GREEN_DYE),
                 new ItemStack(result(shepherd)),
                 1,
                 30,
@@ -62,10 +58,25 @@ public final class ArchaeologyTrades {
         boolean shepherd =
                 villager.getVillagerData().getProfession() == VillagerProfession.SHEPHERD;
         boolean found = false;
-        for (var iterator = offers.iterator(); iterator.hasNext(); ) {
-            if (!iterator.next().getResult().is(result(shepherd))) continue;
+        for (var iterator = offers.listIterator(); iterator.hasNext(); ) {
+            var current = iterator.next();
+            if (!current.getResult().is(result(shepherd))) continue;
             if (found) iterator.remove();
-            else found = true;
+            else {
+                found = true;
+                if (!shepherd && !fixed(current)) {
+                    var tag = current.createTag();
+                    tag.put(
+                            "buy",
+                            new ItemStack(Items.LAPIS_LAZULI, 64)
+                                    .save(new net.minecraft.nbt.CompoundTag()));
+                    tag.put(
+                            "buyB",
+                            new ItemStack(Items.GREEN_DYE)
+                                    .save(new net.minecraft.nbt.CompoundTag()));
+                    iterator.set(new MerchantOffer(tag));
+                }
+            }
         }
         if (!found) offers.add(offer(shepherd));
     }
@@ -79,7 +90,7 @@ public final class ArchaeologyTrades {
                 || (offer.getResult().is(ModRegistry.PHOSPHOPHYLLITE.get())
                         && offer.getBaseCostA().is(Items.LAPIS_LAZULI)
                         && offer.getBaseCostA().getCount() == 64
-                        && offer.getCostB().is(stone())
+                        && offer.getCostB().is(Items.GREEN_DYE)
                         && offer.getCostB().getCount() == 1);
     }
 

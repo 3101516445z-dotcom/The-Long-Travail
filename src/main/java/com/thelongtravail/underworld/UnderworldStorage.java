@@ -2,9 +2,11 @@ package com.thelongtravail.underworld;
 
 import com.thelongtravail.data.HotPathMetrics;
 import com.thelongtravail.data.HotPathMetrics.Counter;
+
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.entity.BlockEntity;
+
 import top.theillusivec4.curios.api.CuriosApi;
 
 public final class UnderworldStorage {
@@ -27,6 +29,8 @@ public final class UnderworldStorage {
         try {
             for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++)
                 ledger.reconcile(player.getInventory().getItem(slot));
+            for (int slot = 0; slot < player.getEnderChestInventory().getContainerSize(); slot++)
+                ledger.reconcile(player.getEnderChestInventory().getItem(slot));
             CuriosApi.getCuriosInventory(player)
                     .ifPresent(
                             inventory ->

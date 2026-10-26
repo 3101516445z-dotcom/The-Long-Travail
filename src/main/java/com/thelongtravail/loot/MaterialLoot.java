@@ -1,15 +1,14 @@
 package com.thelongtravail.loot;
 
-import java.util.Map;
-import com.google.gson.JsonObject;
 import com.thelongtravail.TheLongTravail;
-import net.minecraft.world.level.storage.loot.Deserializers;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
-import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+
+import java.util.Map;
 
 public final class MaterialLoot {
     public static final String POOL = "the_long_travail:materials";
@@ -63,9 +62,10 @@ public final class MaterialLoot {
         var rewards = new java.util.ArrayList<SingleRollLootInjector.Reward>();
         rewards.add(new SingleRollLootInjector.Reward(rule.item(), rule.percent() / 100));
         if (source("gameplay/fishing/treasure").equals(table.getLootTableId()))
-            rewards.add(
-                    new SingleRollLootInjector.Reward(
-                            sourceItem("perfect_fluid"), UnifiedLoot.fluidFishingChance * 20));
+            for (String item : java.util.List.of("eki", "tokaido", "perfect_fluid"))
+                rewards.add(
+                        new SingleRollLootInjector.Reward(
+                                sourceItem(item), UnifiedLoot.fishingTreasureChance));
         if (table.getLootTableId().getPath().startsWith("archaeology/"))
             rewards.add(new SingleRollLootInjector.Reward(sourceItem("don_quixote"), .05));
         if (source("archaeology/trail_ruins_rare").equals(table.getLootTableId()))

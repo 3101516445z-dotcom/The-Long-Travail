@@ -19,8 +19,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.*;
 
 public final class UnifiedLoot {
-    public static volatile double fluidFishingChance = .0025;
-    private static double lastFluidChance = .0025;
+    public static volatile double fishingTreasureChance = .1;
+    private static double lastTreasureChance = .1;
     private static boolean enabled = true;
     private static boolean loaded;
     public static final String POOL = "the_long_travail:shared_items";
@@ -41,20 +41,20 @@ public final class UnifiedLoot {
                 ConfigProblems.report(
                         path,
                         "loot.enabled: 必须为布尔值，保留有效开关 / Expected a boolean; kept effective setting");
-            Object rawFluid = config.get("loot.perfect_fluid.fishingChance");
+            Object rawTreasure = config.get("loot.fishing_treasure.itemChance");
             try {
-                double fluid = ConfigValidation.number(rawFluid).doubleValue();
-                if (fluid < 0 || fluid > .045)
-                    throw new IllegalArgumentException("必须为 0~0.045 / Expected 0 to 0.045");
-                lastFluidChance = fluid;
+                double chance = ConfigValidation.number(rawTreasure).doubleValue();
+                if (chance < 0 || chance > .3)
+                    throw new IllegalArgumentException("必须为 0~0.3 / Expected 0 to 0.3");
+                lastTreasureChance = chance;
             } catch (IllegalArgumentException failure) {
                 ConfigProblems.report(
                         path,
-                        "loot.perfect_fluid.fishingChance: "
+                        "loot.fishing_treasure.itemChance: "
                                 + failure.getMessage()
                                 + "; 保留有效值（首次为默认值） / Kept effective value (default on first load)");
             }
-            fluidFishingChance = enabled ? lastFluidChance : 0;
+            fishingTreasureChance = enabled ? lastTreasureChance : 0;
             if (!enabled) {
                 rules = Map.of();
             } else {
@@ -82,7 +82,7 @@ public final class UnifiedLoot {
                             + (loaded
                                     ? "; 保留有效规则 / kept effective rules"
                                     : "; 共享奖励未启用，钓鱼使用默认值 / shared rewards disabled; fishing uses"
-                                          + " default"));
+                                            + " default"));
         }
     }
 
@@ -199,8 +199,8 @@ public final class UnifiedLoot {
 
     static synchronized void reset() {
         rules = Map.of();
-        lastFluidChance = .0025;
-        fluidFishingChance = .0025;
+        lastTreasureChance = .1;
+        fishingTreasureChance = .1;
         enabled = true;
         loaded = false;
     }

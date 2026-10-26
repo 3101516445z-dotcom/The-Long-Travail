@@ -7,7 +7,7 @@
   ],
   "key": {
     "S": {
-      "item": "minecraft:string"
+      "tag": "minecraft:wool"
     },
     "C": {
       "item": "minecraft:sculk"
@@ -18,6 +18,6 @@
   },
   "result": {
     "item": "the_long_travail:underground_velvet",
-    "count": 1
+    "count": 4
   }
 }

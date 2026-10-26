@@ -74,7 +74,7 @@
   "key.the_long_travail.rain": "東海道：喚雨",
   "death.attack.the_long_travail.fluid_erosion": "%1$s命盡於流體之蝕",
   "death.attack.the_long_travail.fluid_erosion.player": "%1$s與%2$s戰後，命盡於流體之蝕",
-  "tooltip.the_long_travail.summary.eki.0": "佩苦旅而持「駅」，佩者可在§a雨雪與雷暴之天§r得強。",
+  "tooltip.the_long_travail.summary.eki.0": "佩苦旅而持「駅」，攜者可在§a雨雪與雷暴之天§r得強。",
   "tooltip.the_long_travail.summary.eki.1": "若同持多紙「駅」，其強不累。",
   "tooltip.the_long_travail.summary.tokaido.0": "佩之，可於§a雨雪與雷暴之天§r得§6雨水之潤§r。",
   "tooltip.the_long_travail.summary.tokaido.1": "在§a主世界§r時，按[§a%s§r]可召§6暴雨§r。",

@@ -171,11 +171,11 @@ public final class ThemeTooltips {
                             "phosphophyllite",
                             "azrael",
                             "a_thousand_years_later",
-                            "book_of_the_dead",
                             "star_voice",
                             "lorentz_fantasy")
                     .contains(id)) out.add(text("requires_diary_equip"));
-            else if (id.equals("eki")) out.add(text("requires_diary_effect"));
+            else if (id.equals("eki") || id.equals("book_of_the_dead"))
+                out.add(text("requires_diary_effect"));
         }
         switch (id) {
             case "demon_king_of_the_sixth_heaven", "myriad_souls_banner" -> {

@@ -71,3 +71,7 @@ desktop.ini
 !/tools/structure-regression/**
 !/tools/worldgen-presets/
 !/tools/worldgen-presets/**
+
+# Python 回归脚本缓存
+/tools/structure-regression/**/__pycache__/
+/tools/structure-regression/**/*.pyc
