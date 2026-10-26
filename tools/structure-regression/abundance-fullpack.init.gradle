@@ -1,0 +1,18 @@
+allprojects {
+    afterEvaluate {
+        sourceSets {
+            abundanceFullpack {
+                java.srcDir 'tools/structure-regression/abundance-client'
+                resources.srcDir 'tools/structure-regression/abundance-resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+            }
+        }
+        tasks.register('abundanceFullpackJar', Jar) {
+            from sourceSets.abundanceFullpack.output
+            archiveFileName = 'travail-abundance-stress.jar'
+            destinationDirectory = project.layout.buildDirectory.dir('abundance-fixture')
+            doFirst { manifest.attributes.remove('MixinConfigs') }
+        }
+        reobf { abundanceFullpackJar { classpath.from sourceSets.main.output, sourceSets.main.compileClasspath } }
+    }
+}

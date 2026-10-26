@@ -2,6 +2,7 @@ package com.thelongtravail.network;
 
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.data.PlayerJourneyData;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -18,7 +19,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public final class TravailNetwork {
-    private static final String PROTOCOL = "21";
+    private static final String PROTOCOL = "23";
     private static final SimpleChannel CHANNEL =
             NetworkRegistry.newSimpleChannel(
                     new ResourceLocation(TheLongTravail.MODID, "main"),
@@ -26,7 +27,29 @@ public final class TravailNetwork {
                     PROTOCOL::equals,
                     PROTOCOL::equals);
 
+    public static void cancelAbundance() {
+        CHANNEL.sendToServer(new AbundanceCancelPacket());
+    }
+
+    public static void syncAbundance(ServerPlayer player, int mode) {
+        CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new AbundanceModePacket(mode));
+    }
+
     public static void register() {
+        CHANNEL.registerMessage(
+                20,
+                AbundanceModePacket.class,
+                AbundanceModePacket::encode,
+                AbundanceModePacket::decode,
+                AbundanceModePacket::handle,
+                java.util.Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(
+                19,
+                AbundanceCancelPacket.class,
+                AbundanceCancelPacket::encode,
+                AbundanceCancelPacket::decode,
+                AbundanceCancelPacket::handle,
+                java.util.Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(
                 18,
                 PrinceFlightPacket.class,
@@ -312,7 +335,8 @@ public final class TravailNetwork {
                     TooltipConfigSync.serverValues(), TooltipConfigSync.serverPools());
         } catch (IllegalArgumentException invalid) {
             TheLongTravail.LOGGER.error(
-                    "Tooltip configuration was not sent: {}. Correct the named pool/value and reload the configuration.",
+                    "Tooltip configuration was not sent: {}. Correct the named pool/value and"
+                            + " reload the configuration.",
                     invalid.getMessage());
             return null;
         }
@@ -354,7 +378,10 @@ public final class TravailNetwork {
         if (snapshot == null) return;
         server.getPlayerList()
                 .getPlayers()
-                .forEach(player -> CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), snapshot));
+                .forEach(
+                        player ->
+                                CHANNEL.send(
+                                        PacketDistributor.PLAYER.with(() -> player), snapshot));
     }
 
     private record TooltipConfigPacket(

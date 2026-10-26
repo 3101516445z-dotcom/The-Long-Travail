@@ -1,22 +1,23 @@
 package com.thelongtravail.registry;
 
 import com.thelongtravail.TheLongTravail;
-import com.thelongtravail.item.ColoringItem;
-import com.thelongtravail.menu.ColoringMenu;
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.item.RevelationStoneItem;
-import com.thelongtravail.item.HomecomingItem;
-import com.thelongtravail.item.RenewalItem;
-import com.thelongtravail.item.WayguideItem;
-import com.thelongtravail.entity.WayguideEntity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
 import com.thelongtravail.effect.StiffEffect;
 import com.thelongtravail.effect.VisualDeprivationEffect;
+import com.thelongtravail.entity.WayguideEntity;
+import com.thelongtravail.item.ColoringItem;
+import com.thelongtravail.item.HomecomingItem;
 import com.thelongtravail.item.LongTravailItem;
+import com.thelongtravail.item.RenewalItem;
+import com.thelongtravail.item.RevelationStoneItem;
+import com.thelongtravail.item.WayguideItem;
+import com.thelongtravail.menu.ColoringMenu;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
@@ -101,6 +102,9 @@ public final class ModRegistry {
                                     new net.minecraft.world.item.crafting
                                             .SimpleCraftingRecipeSerializer<>(
                                             com.thelongtravail.flourishing.ImmortalBudRecipe::new));
+    public static final RegistryObject<Item> LIQUEFIED_ABUNDANCE =
+            ITEMS.register(
+                    "liquefied_abundance", com.thelongtravail.item.LiquefiedAbundanceItem::new);
     public static final RegistryObject<Item> PERFECT_FLUID =
             ITEMS.register("perfect_fluid", () -> new com.thelongtravail.item.AbyssItem(false));
     public static final RegistryObject<Item> MIDNIGHT_LAFITE =
@@ -235,7 +239,8 @@ public final class ModRegistry {
                                                                                 EKI,
                                                                                 TOKAIDO,
                                                                                 PERFECT_FLUID,
-                                                                                MIDNIGHT_LAFITE);
+                                                                                MIDNIGHT_LAFITE,
+                                                                                LIQUEFIED_ABUNDANCE);
                                                                 case FAR_REACH ->
                                                                         java.util.List.of(
                                                                                 GOLDEN_AGE,

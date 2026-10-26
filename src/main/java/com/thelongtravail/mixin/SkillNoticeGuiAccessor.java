@@ -15,4 +15,7 @@ public interface SkillNoticeGuiAccessor {
 
     @Accessor("overlayMessageTime")
     int travail$getOverlayMessageTime();
+
+    @Accessor("overlayMessageTime")
+    void travail$setOverlayMessageTime(int ticks);
 }

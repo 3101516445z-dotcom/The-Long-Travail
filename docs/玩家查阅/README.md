@@ -6,6 +6,7 @@
 | --- | --- |
 | [札记与拾遗阅读](reading-guide.md) | 入口、搜索、返回与退出 |
 | [永生芽](immortal-bud.md) | 合成、赋予、耐久与掉落物保护 |
+| [液化丰饶](液化丰饶.md) | 随机药水、短按与长按、配方和效果黑名单 |
 | [配置说明](configuration-controls.md) | 配置位置、生效方式、联动预设、常用调整与错误处理 |
 | [中文更新日志](更新日志zh/README.md) | 各版本面向玩家的变化 |
 | [English changelog](更新日志en/README.md) | Player-facing release notes in English |

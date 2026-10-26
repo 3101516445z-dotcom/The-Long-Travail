@@ -7,8 +7,9 @@ import net.minecraft.world.inventory.tooltip.TooltipComponent;
 
 public record DiaryProgressTooltip(double progress, int hintWidth) implements TooltipComponent {
     public static final class Renderer implements ClientTooltipComponent {
-        private static final int EMPTY = 0xFF353535, FILLED = 0xFF858585;
-        private static final int TOP_PADDING = 3, BAR_HEIGHT = 3, BOTTOM_PADDING = 5;
+        private static final int TOP_PADDING = 3,
+                BAR_HEIGHT = ThinProgressBar.HEIGHT,
+                BOTTOM_PADDING = 5;
         private final DiaryProgressTooltip value;
 
         public Renderer(DiaryProgressTooltip value) {
@@ -27,11 +28,7 @@ public record DiaryProgressTooltip(double progress, int hintWidth) implements To
 
         @Override
         public void renderImage(Font font, int x, int y, GuiGraphics graphics) {
-            int width = getWidth(font);
-            int filled = (int) Math.floor(Math.max(0, Math.min(1, value.progress())) * width);
-            int top = y + TOP_PADDING;
-            graphics.fill(x, top, x + width, top + BAR_HEIGHT, EMPTY);
-            if (filled > 0) graphics.fill(x, top, x + filled, top + BAR_HEIGHT, FILLED);
+            ThinProgressBar.render(graphics, x, y + TOP_PADDING, getWidth(font), value.progress());
         }
     }
 }

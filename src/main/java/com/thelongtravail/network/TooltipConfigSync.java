@@ -3,6 +3,7 @@ package com.thelongtravail.network;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.config.TravailConfig;
 import com.thelongtravail.data.WeightedEntry;
+
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.LinkedHashMap;
@@ -267,6 +268,14 @@ public final class TooltipConfigSync {
                 values,
                 "abyssItem.saturationLevelBonus",
                 com.thelongtravail.config.AbyssItemsConfig.SATURATION.get());
+        put(
+                values,
+                "abundance.hold",
+                com.thelongtravail.config.AbyssItemsConfig.ABUNDANCE_HOLD.get());
+        put(
+                values,
+                "abundance.fallback",
+                com.thelongtravail.config.AbyssItemsConfig.ABUNDANCE_DURATION.get());
         return values;
     }
 
@@ -290,6 +299,10 @@ public final class TooltipConfigSync {
         pools.put(
                 "abyss.fluidBlacklist",
                 List.copyOf(com.thelongtravail.config.AbyssItemsConfig.BLACKLIST.get()));
+        pools.put("abundance.effects", com.thelongtravail.abyss.AbundanceEffectPool.ids());
+        pools.put(
+                "abundance.blacklist",
+                List.copyOf(com.thelongtravail.config.AbyssItemsConfig.ABUNDANCE_BLACKLIST.get()));
         return pools;
     }
 

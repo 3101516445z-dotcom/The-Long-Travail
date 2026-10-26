@@ -1,0 +1,32 @@
+allprojects {
+    afterEvaluate {
+        sourceSets {
+            abundanceClientTest {
+                java.srcDir 'tools/structure-regression/abundance-client'
+                resources.srcDir 'tools/structure-regression/abundance-resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        def directory = project.file('build/abundance-client')
+        minecraft.runs.client {
+            workingDirectory directory
+            if (project.hasProperty("abundanceOneSecond")) jvmArgs "-Dabundance.oneSecond=true"
+            args '--width', '1000', '--height', '720'
+            mods { travail_smoke { source sourceSets.abundanceClientTest } }
+        }
+        tasks.matching { it.name == 'runClient' }.configureEach {
+            doFirst {
+                directory.mkdirs()
+                if (!new File(directory, 'saves/abundance/level.dat').exists()) {
+                    copy { from project.file('build/abundance-server/abundance'); into new File(directory, 'saves/abundance') }
+                }
+                new File(directory, 'options.txt').text = 'lang:zh_cn\nguiScale:2\npauseOnLostFocus:false\nrenderDistance:3\nsimulationDistance:5\nmaxFps:60\nonboardAccessibility:false\n'
+                new File(directory, 'client-result.txt').text = 'NOT_RUN'
+            }
+            doLast {
+                if (!new File(directory, 'client-result.txt').text.startsWith('PASS')) throw new GradleException('Abundance client regression failed')
+            }
+        }
+    }
+}

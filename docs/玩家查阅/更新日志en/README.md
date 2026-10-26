@@ -6,7 +6,7 @@ Player-facing release notes for The Long Travail. The latest release is `0.1.2-f
 
 | Version | Release date | Last updated | Highlights |
 |---|---|---|---|
-| [0.1.3](0.1.3.md) | Unreleased | 2026-10-26 | Immortal Bud; Coloring with nine item-name styles; Traditional Chinese (Taiwan/Hong Kong) and Classical Chinese (Huaxia); improved mod compatibility, configuration recovery, and loot validation. |
+| [0.1.3](0.1.3.md) | Unreleased | 2026-10-27 | Liquefied Abundance; Immortal Bud; Coloring with nine item-name styles; Traditional Chinese (Taiwan/Hong Kong) and Classical Chinese (Huaxia); improved mod compatibility, configuration recovery, and loot validation. |
 | [0.1.2-fix](0.1.2-fix.md) | 2026-10-23 | 2026-10-23 | New trades, storage-copy integrations and flavor lines; revised equipment and copy restrictions; flight and accessory fixes; admin commands now use /tlt. |
 | [0.1.2](0.1.2.md) | 2026-10-19 | 2026-10-19 | Twelve theme items, the Shiyi catalog, three combat attributes, more flower effects, accessory balance changes, and improvements to dreams, time stops, executions, and maid compatibility. |
 

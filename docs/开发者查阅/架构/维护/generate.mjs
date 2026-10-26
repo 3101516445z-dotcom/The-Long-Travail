@@ -29,6 +29,16 @@ const groups = {
   valley:['幽谷','具体玩法'], underworld:['冥府','具体玩法'], boundless:['无垠','具体玩法']
 };
 const overrides = {
+  LiquefiedAbundanceItem:['归墟物品入口','液化丰饶使用动作、完成与松开回调'],
+  LiquefiedAbundance:['归墟','转换会话、玩家类型持久化与药水交付'],
+  AbundanceEffectPool:['归墟','效果、等级与持续时间的去重抽样表'],
+  AbundanceText:['归墟','摘要、动态配置说明与黑名单名称'],
+  AbundanceUseClient:['客户端与兼容','蓄力输入锁、取消请求与提示所有权'],
+  ThinProgressBar:['客户端与兼容','拾遗与蓄力共用的细横条绘制'],
+  AbundanceCancelPacket:['网络同步','仅取消发送者会话的服务端请求'],
+  AbundanceModePacket:['网络同步','服务端玩家类型同步到客户端'],
+  ModBrewing:['注册与装配','标准 Forge 酿造配方装配'],
+  AbundanceLingeringPotionMixin:['原版注入桥接','仅调整标记产物的滞留效果时长'],
   ColoringItem:['施色与名称显示','物品提示与服务端菜单入口'],
   NameColoring:['施色与名称显示','物品栈样式记录与名称组件变换'],
   ColoringMenu:['施色与名称显示','公共端槽位、选项同步与服务端领取提交'],

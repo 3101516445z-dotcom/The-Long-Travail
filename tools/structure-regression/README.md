@@ -164,6 +164,13 @@ node tools/structure-regression/suite.mjs soak 启动专用持续场景，目标
 饰品恢复套件 round-03 通过 accessory-data 提供两个通用饰品槽，模拟已配置通用槽的游戏环境，并检查通用槽物品在重生、保存重读后的恢复。该数据仅供测试，不随正式模组发布。
 
 
+## 液化丰饶
+
+    ./gradlew.bat -I tools/structure-regression/abundance.init.gradle runServer --offline
+    ./gradlew.bat -I tools/structure-regression/abundance-client.init.gradle runClient --offline
+
+服务端入口检查分层去重抽选、回退时间、主副手、原版长按边界、结算与取消、创造产出、实际药水云 Mixin、酿造台三瓶批次和合成容器返还。客户端入口复制前者测试世界，验证 0.5/1/2/5/10 秒蓄力、三种选择、点按切换、中途松开取消、界面打断、Action Bar 让位和热重载取消。使用 build/abundance-server 与 build/abundance-client，未覆盖完整整包或远程网络延迟。
+
 ## 整包死亡界面与复活
 
     ./gradlew.bat -I tools/structure-regression/fullpack-revival.init.gradle reobfRevivalAcceptanceJar --offline
@@ -174,3 +181,26 @@ node tools/structure-regression/suite.mjs soak 启动专用持续场景，目标
 客户端先执行获取方式的概率与携带压力检查，再在普通、极限模式各完成 16 次死亡界面按钮复活。每种模式有 12 次死亡保留物品（背包、副手、末影箱各 4 次），另有 4 次不保留物品（书本位于末影箱）。致死前等待 120 个服务端 tick，避开出生保护；点击真实死亡界面的“死者苏生”按钮，检查存活、原地复活、死亡记录清除、选定书本消耗和备用书保留。截图写入 `screenshots`，结果写入 `client-result.txt` 和 `client-checks.txt`。
 
 `--resume` 复用已有隔离副本及测试世界，并更新测试模组；`--hardcore-only` 仅运行极限模式的 16 轮复活。伤害被整包事件取消时，记录状态后等待 120 个服务端 tick 再试，连续 5 次被拒绝则失败；被取消的攻击不计为死亡或复活通过。重复运行前应归档结果和日志，并确认上次客户端已退出。该入口检查所列场景，不作为所有整包玩法或长期多人性能的结论；箱子随机压力检查针对实际加载的苦旅共享池，钓鱼检查宝藏子表。
+
+## 液化丰饶整包压力测试
+
+    ./gradlew.bat -I tools/structure-regression/abundance-fullpack.init.gradle reobfAbundanceFullpackJar --offline
+    python tools/structure-regression/abundance-fullpack.py --pack <整包目录> --output <仓库build下的新目录> --java <Java可执行文件>
+
+需要先生成正式 `build/libs/The_Long_Travail-0.1.3.jar` 和 `build/abundance-server/abundance` 测试世界。入口复制当前整包模组、配置、KubeJS 与资源，以新正式 JAR 替换副本中的旧 TLT，并加入独立测试模组。使用离线测试账号；不读取正常游玩存档。运行前后核对原目录 mods/config/defaultconfigs/kubejs/options.txt 的 SHA-256。测试副本保留，不覆盖已有输出目录。
+
+服务端检查 100,000 次完整注册效果池抽样、药水 NBT 往返和滞留时长；随后四个 FakePlayer 交替进行 10,000 次转换尝试，包含 1,000 次取消、500 次背包满载和四次效果池重建。客户端先通过真实 KeyMapping 执行 30 个场景：五种时间与三种类型的蓄满转换，以及每种类型的点按、提前松开、界面打断、其他提示覆盖、配置重载；检查物品描述包含当前类型、拾遗正文不包含个人状态。测试角色使用生存模式和仅用于夹具的免伤保护，死亡存档会先复活。进入世界后等待 400 个服务端 tick；长按检查允许有限同步延迟，避免将启动卡顿误判为逻辑失败。
+
+结果为 `server-stress-result.txt`、`client-result.txt`、`source-integrity.json`；模组清单在 `mod-sha256.json`，日志在 `console.log`。测试视距 4、模拟距离 5、帧率上限 60，JVM 上限 8 GiB。批次耗时仅代表夹具工作量；该入口不测所有效果实际施加后的模组行为，不替代远程多人网络、长期运行或整包 TPS/FPS 基准。
+
+液化丰饶整包入口的 `--resume` 会复用已建立的隔离目录并更新正式 JAR 和测试 JAR，避免重复复制大型资源包；使用前确认上一轮客户端已退出，并将结果、日志及清单另行归档。只接受包含 `process.json` 的既有测试目录。
+
+完整模式测试正常退出后，可用相同命令加 `--resume --persistence-only` 再启一个 JVM，核对末轮选择的滞留类型（2）在服务端读取后仍保留，并在登录时同步到客户端。该阶段不重新设置玩家选择；每阶段结果应分别归档。
+
+若需要独立重建持久化测试起点，先以 `--resume --persistence-seed` 在游戏内设置玩家类型为 2 并正常退出，再归档该轮证据、运行 `--resume --persistence-only`。seed 只负责准备和保存，不算重启验证；只有第二轮通过才证明重启读取和登录同步。单人世界还读取 level.dat 中的本地玩家，不能仅恢复 playerdata 文件代替完整保存流程。
+
+液化丰饶独立客户端检查同时验证细横条在 0.5/1/2/5/10 秒配置下的半程比例、取消时隐藏和其他 Action Bar 消息覆盖时隐藏。截图 `abundance-mode-actionbar.png` 用于核对共享拾遗细横条样式及文字下方位置。运行命令：`./gradlew.bat -I tools/structure-regression/abundance-client.init.gradle runClient --offline`。
+
+液化丰饶服务端入口复用开发环境 `run/eula.txt`，首次运行前须自行阅读并接受 Minecraft EULA，准备该文件；脚本不会代为接受。独立客户端截图阶段会将隔离配置临时设为 3 秒蓄力、7.5 秒回退时间和六项黑名单，截图后恢复为 1 秒、15 秒、空黑名单；只能用于专用测试目录。正式整包配置不参与写入。
+
+追加 `-PabundanceOneSecond` 可仅运行1秒蓄力的三种药水类型及截图配置检查；该模式进入测试世界后先检查缺省值为1秒和风味文本。验证缺省配置时，应先备份隔离配置，再只移除其中 longPressSeconds 项；不得修改正式配置。

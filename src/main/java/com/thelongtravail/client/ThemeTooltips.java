@@ -1,20 +1,20 @@
 package com.thelongtravail.client;
 
 import com.thelongtravail.abyss.RainTooltips;
-import com.thelongtravail.compat.maid.client.MaidAccessoryTooltips;
 import com.thelongtravail.client.catalog.*;
-import com.thelongtravail.config.FlourishingItemsConfig;
+import com.thelongtravail.compat.maid.client.MaidAccessoryTooltips;
 import com.thelongtravail.farreach.IcarusFlight;
 import com.thelongtravail.flourishing.*;
 import com.thelongtravail.helper.AccessoryEquipRules;
 import com.thelongtravail.item.ItemDescription;
-import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.valley.LanternSources;
+
 import net.minecraft.client.KeyMapping;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -89,6 +89,18 @@ public final class ThemeTooltips {
                                     style.withInsertion("the_long_travail:prose:flavor:" + width)));
         }
         block.addAll(summary(entry.id(), stack, viewer));
+        if (entry.id().equals("liquefied_abundance"))
+            block.add(
+                    Component.translatable(
+                                    "tooltip.the_long_travail.abundance.current",
+                                    com.thelongtravail.abyss.LiquefiedAbundance.modeName(
+                                                    AbundanceUseClient.selectedMode())
+                                            .copy()
+                                            .withStyle(
+                                                    style ->
+                                                            style.withColor(
+                                                                    RainTooltips.ACCENT_COLOR)))
+                            .withStyle(style -> style.withColor(RainTooltips.BODY_COLOR)));
         block.addAll(attributes);
         block.add(catalogPrompt());
         if (!maid.isEmpty()) {
@@ -225,6 +237,10 @@ public final class ThemeTooltips {
                 for (int i = 0; i < (id.equals("underground_velvet") ? 3 : 2); i++)
                     out.add(text(id + "." + i));
             }
+            case "liquefied_abundance" ->
+                    out.addAll(
+                            com.thelongtravail.client.catalog.CatalogTextStyle.apply(
+                                    com.thelongtravail.abyss.AbundanceText.summary()));
             case "midnight_lafite" -> out.addAll(com.thelongtravail.abyss.AbyssItemText.summary());
             case "spring_corner" -> {
                 out.add(text(id + ".0"));

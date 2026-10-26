@@ -18,7 +18,7 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "e7994338c97cf7ac60935233630eabce50a48680ede80e1a56316000e174120a",
+  "fingerprint": "2c691fa57ae2747e966f08595a2253146f9c31e1395d98ef50a88b20f1827018",
   "files": [
     {
       "path": "build.gradle",
@@ -70,7 +70,7 @@
     },
     {
       "path": "src/main/lang/en_us/aspects/abyss.json",
-      "sha256": "053247349e6c87108b5ab7283c50e1c70a6a8d6f1411affe45d1129b4f9c5fd4"
+      "sha256": "4b16d4fe5787fd11f46677a7bb11a91dd802d61d1a60661c44c677be0a36e310"
     },
     {
       "path": "src/main/lang/en_us/aspects/boundless.json",
@@ -118,7 +118,7 @@
     },
     {
       "path": "src/main/lang/lzh/aspects/abyss.json",
-      "sha256": "a3554d7469d542db5ad8c7f5319093abbb37ccc1ea83cfb767d28d02e355544b"
+      "sha256": "56338190293d4614864d52ffd05c2037a96948efe9fe0c2fee920df66c538694"
     },
     {
       "path": "src/main/lang/lzh/aspects/boundless.json",
@@ -162,7 +162,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/aspects/abyss.json",
-      "sha256": "8796636df7c78276ad5a8a879284d14089b327b900c1e66031d1a81a037f011b"
+      "sha256": "a9f3ebea2246903acbeb7661cb7e14cdde50ab9662957d2a47d8c0f29509b3b2"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/boundless.json",
@@ -206,7 +206,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/aspects/abyss.json",
-      "sha256": "71f2ff64727c366db719d19e36d85780719953a85d6b1ead1300d56ab8a6d7e6"
+      "sha256": "a53c012c8a012c3b578f3eb1833f301973bcc4d42d6885f375aaa2049dde26fa"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/boundless.json",
@@ -250,7 +250,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/aspects/abyss.json",
-      "sha256": "e5580e76cc1e6fd7be16be5d595ae73b50d5c28ab243f1df3dd4b6b2645eb497"
+      "sha256": "a790fc9854c97c749bba995f4d7d5ab1226caf311755f2838a792cfb0580946e"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/boundless.json",
@@ -407,6 +407,10 @@
     {
       "path": "src/main/resources/assets/the_long_travail/models/item/immortal_bud.json",
       "sha256": "187aadddf79c032d626ffd7563cf2fc3a0e83af6b968961051f080c9e09512f7"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/liquefied_abundance.json",
+      "sha256": "e867ffcb28cf967403eb0b139c5f1df73db780be9843ecfa7692dbf5dee9b8c6"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/models/item/little_prince.json",
@@ -617,6 +621,10 @@
       "sha256": "3a57d88798965b0acefe9351f80c332b35afc64fb942cef1064353594ab68a98"
     },
     {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/liquefied_abundance.png",
+      "sha256": "638c304d3555d3b933c283abc3023ca4da1c5a9aa326d40afd563ace66435786"
+    },
+    {
       "path": "src/main/resources/assets/the_long_travail/textures/item/little_prince.png",
       "sha256": "0a90f14f2c8a9229c97d3a94d8361cc46cc28b7a80e3cb6fec755f35e53b09f5"
     },
@@ -801,6 +809,10 @@
       "sha256": "bb1f211f21c8b7780487e12cef3c16994d8f94cb6c6274e3f30756c0b2272d96"
     },
     {
+      "path": "src/main/resources/data/the_long_travail/advancements/recipes/misc/liquefied_abundance.json",
+      "sha256": "48bf89f677cd63ed5247c0f009d596154a38380432ce2e302361d7667719fc3e"
+    },
+    {
       "path": "src/main/resources/data/the_long_travail/advancements/root.json",
       "sha256": "2a80909de5a8670f2eff32e2deb78680e66f4b65b1270bbe9e0dedcd13dd1521"
     },
@@ -959,6 +971,10 @@
     {
       "path": "src/main/resources/data/the_long_travail/recipes/immortal_bud_apply.json",
       "sha256": "dc185879f869467a227d5f36a503b64e2aee4eb24735c33cb3d473ede3054b1e"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/liquefied_abundance.json",
+      "sha256": "6a4740fd40bfa1e7480abc9c764b6a090a53723c980beb4a864c2fffcff5c105"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/mistletoe.json",
@@ -1138,7 +1154,7 @@
     },
     {
       "path": "src/main/resources/mixins.the_long_travail.json",
-      "sha256": "423c2a87b24d718e87a49053f8cf2381b8ea4f478e8920c157630e11d5c84076"
+      "sha256": "f1cc53af5b6dd1aed50946752c415c6d0dc893d87aa76dbde7a0c4e8c99433a7"
     },
     {
       "path": "src/main/resources/pack.mcmeta",

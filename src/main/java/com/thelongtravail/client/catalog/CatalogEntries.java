@@ -1,5 +1,7 @@
 package com.thelongtravail.client.catalog;
 
+import static com.thelongtravail.registry.ModRegistry.*;
+
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.abyss.RainTooltips;
 import com.thelongtravail.boundless.BoundlessTooltips;
@@ -9,15 +11,15 @@ import com.thelongtravail.client.UnderworldClient;
 import com.thelongtravail.helper.TravailCurios;
 import com.thelongtravail.item.FarReachAccessoryItem;
 import com.thelongtravail.item.UnderworldAccessoryItem;
-import com.thelongtravail.registry.ModRegistry;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.item.*;
+
 import java.util.*;
 import java.util.function.Supplier;
-import static com.thelongtravail.registry.ModRegistry.*;
 
 public final class CatalogEntries {
     public enum Category {
@@ -261,6 +263,14 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.ABYSS,
                 "wuyelafei|wylf|midnightlafite",
+                CatalogEntries::ordinary);
+        add(
+                entries,
+                "liquefied_abundance",
+                LIQUEFIED_ABUNDANCE,
+                Category.THEME,
+                TravailAspect.ABYSS,
+                "yehuafengrao|yhfr|liquefiedabundance",
                 CatalogEntries::ordinary);
         add(
                 entries,

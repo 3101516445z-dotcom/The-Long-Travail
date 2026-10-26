@@ -118,7 +118,8 @@
     "LootEntryAccess",
     "LorentzArrowMixin",
     "PrinceBlockBreakMixin",
-    "LorentzArrowAccessor"
+    "LorentzArrowAccessor",
+    "AbundanceLingeringPotionMixin"
   ],
   "client": [
     "AltitudeLocalFlightMixin",

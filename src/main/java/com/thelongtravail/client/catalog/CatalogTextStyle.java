@@ -17,11 +17,10 @@ public final class CatalogTextStyle {
     private static final Pattern VALUES =
             Pattern.compile(
                     "[+-]?\\d+(?:\\.\\d+)?(?:[%％]|(?:\\s*|-)(?:seconds?|minutes?|blocks?|levels?(?:\\(s\\))?|points?|times?)(?!\\w)|秒|分钟|格|级|点|倍|朵|条|张|颗|本|个|份|件|种|種)?"
-                            + "|[一二两三四五六七八九十]+(?:朵|条|张|级|格|秒|分钟|件|份|个)"
-                            + "|[0-9一二三四五六七八九十]+[种種]"
-                            + "|\\bnine(?= special text styles\\b)"
-                            + "|\\bone(?= Perfect Fluid\\b)"
-                            + "|\\b(?:one|two|three|four|five|six) (?:flowers?|records?|levels?|blocks?|seconds?|items?|copies|copy)\\b",
+                        + "|[一二两三四五六七八九十]+(?:朵|条|张|级|格|秒|分钟|件|份|个)|[0-9一二三四五六七八九十]+[种種]|\\bnine(?="
+                        + " special text styles\\b)|\\bone(?= Perfect"
+                        + " Fluid\\b)|\\b(?:one|two|three|four|five|six)"
+                        + " (?:flowers?|records?|levels?|blocks?|seconds?|items?|copies|copy)\\b",
                     Pattern.CASE_INSENSITIVE);
     private static final Pattern KEYS = Pattern.compile("(?<=\\[)[^\\[\\]\\r\\n]+(?=\\])");
     private static final Pattern STACK_SCOPE =
@@ -128,6 +127,40 @@ public final class CatalogTextStyle {
                     "rainstorm",
                     "Wither");
 
+    // 词表仅用于液化丰饶，不改变其他物品页面。
+    private static final List<String> ABUNDANCE_TERMS =
+            List.of(
+                    "液化丰饶",
+                    "液化豐饒",
+                    "Liquefied Abundance",
+                    "随机药水",
+                    "隨機藥水",
+                    "random potion",
+                    "状态效果",
+                    "狀態效果",
+                    "status effect",
+                    "status effects",
+                    "普通药水",
+                    "普通藥水",
+                    "喷溅型药水",
+                    "噴濺型藥水",
+                    "飛濺型藥水",
+                    "滞留型药水",
+                    "滯留型藥水",
+                    "splash",
+                    "lingering",
+                    "瞬时效果",
+                    "瞬時效果",
+                    "Instant",
+                    "黑名单",
+                    "黑名單",
+                    "blacklist");
+    private static final Pattern ABUNDANCE_VALUES =
+            Pattern.compile(
+                    "长按右键|長按右鍵|点按右键|點按右鍵|Ⅰ级|Ⅰ級|四分之一|无限持续|無限持續"
+                            + "|right-click|level I\\b|one quarter|infinite|每次长按|每次長按",
+                    Pattern.CASE_INSENSITIVE);
+
     // 仅用于永生芽条目，避免术语匹配改变其他页面的染色。
     private static final List<String> IMMORTAL_BUD_TERMS =
             List.of(
@@ -180,7 +213,8 @@ public final class CatalogTextStyle {
                     "void");
     private static final Pattern IMMORTAL_BUD_SCOPE =
             Pattern.compile(
-                    "有耐久的物品|有耐久之物|掉落物状态下|掉落物狀態下|落地|a damageable item|when dropped|\\bone(?= Immortal Bud)|一個|一枚",
+                    "有耐久的物品|有耐久之物|掉落物状态下|掉落物狀態下|落地|a damageable item|when dropped|\\bone(?="
+                        + " Immortal Bud)|一個|一枚",
                     Pattern.CASE_INSENSITIVE);
 
     private record Flat(String text, List<Style> styles) {}
@@ -313,6 +347,14 @@ public final class CatalogTextStyle {
         HighlightState highlights = new HighlightState();
         boolean blacklistNamesNext = false;
         for (Component source : paragraphs) {
+            boolean abundance =
+                    source.getContents()
+                                    instanceof
+                                    net.minecraft.network.chat.contents.TranslatableContents
+                                                    abundanceTranslation
+                            && abundanceTranslation
+                                    .getKey()
+                                    .startsWith("tooltip.the_long_travail.abundance.");
             boolean immortalBud =
                     source.getContents()
                                     instanceof
@@ -325,7 +367,8 @@ public final class CatalogTextStyle {
             String text = f.text;
             boolean objectList =
                     blacklistNamesNext
-                            || matchesParameterLine(text, "abyss_items.fluid.blacklist_current");
+                            || matchesParameterLine(text, "abyss_items.fluid.blacklist_current")
+                            || abundance && matchesParameterLine(text, "abundance.effects");
             blacklistNamesNext =
                     text.equals(
                             plain(
@@ -375,7 +418,7 @@ public final class CatalogTextStyle {
                         f.styles,
                         result,
                         highlights,
-                        immortalBud ? IMMORTAL_BUD_TERMS : TERMS);
+                        abundance ? ABUNDANCE_TERMS : immortalBud ? IMMORTAL_BUD_TERMS : TERMS);
             } else if (heading) highlights.sentenceCount = 0;
             else highlights.advance(text, 0, text.length());
             if (!supplement && !objectList) {
@@ -385,6 +428,21 @@ public final class CatalogTextStyle {
                 while (keys.find()) paint(result, f.styles, keys.start(), keys.end(), VALUE);
                 var scope = STACK_SCOPE.matcher(text);
                 while (scope.find()) paint(result, f.styles, scope.start(), scope.end(), VALUE);
+            }
+            // 仅为这句并列药水类型补色，不放宽通用强调数量限制。
+            if (source.getContents()
+                            instanceof
+                            net.minecraft.network.chat.contents.TranslatableContents translation
+                    && translation.getKey().equals("tooltip.the_long_travail.abundance.switch")) {
+                var lingering =
+                        Pattern.compile("滞留型药水|滯留型藥水|\\blingering\\b", Pattern.CASE_INSENSITIVE)
+                                .matcher(text);
+                while (lingering.find())
+                    paint(result, f.styles, lingering.start(), lingering.end(), GOLD);
+            }
+            if (abundance && !objectList) {
+                var values = ABUNDANCE_VALUES.matcher(text);
+                while (values.find()) paint(result, f.styles, values.start(), values.end(), VALUE);
             }
             if (immortalBud) {
                 var scope = IMMORTAL_BUD_SCOPE.matcher(text);
