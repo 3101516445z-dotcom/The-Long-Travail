@@ -385,13 +385,13 @@ public final class AbundanceSmoke {
         check(
                 BrewingRecipeRegistry.getOutput(
                                 new ItemStack(Items.DRAGON_BREATH),
-                                new ItemStack(Items.NETHER_WART))
+                                new ItemStack(Items.LAPIS_BLOCK))
                         .is(item),
                 "brew recipe output");
         check(
                 BrewingRecipeRegistry.getOutput(
                                 new ItemStack(Items.DRAGON_BREATH, 2),
-                                new ItemStack(Items.NETHER_WART))
+                                new ItemStack(Items.LAPIS_BLOCK))
                         .isEmpty(),
                 "bottle count guard");
         BlockPos pos = new BlockPos(8, 80, 8);
@@ -402,7 +402,7 @@ public final class AbundanceSmoke {
                 stand.canPlaceItem(0, new ItemStack(Items.DRAGON_BREATH)),
                 "automated bottle insertion");
         for (int i = 0; i < 3; i++) stand.setItem(i, new ItemStack(Items.DRAGON_BREATH));
-        stand.setItem(3, new ItemStack(Items.NETHER_WART));
+        stand.setItem(3, new ItemStack(Items.LAPIS_BLOCK));
         stand.setItem(4, new ItemStack(Items.BLAZE_POWDER));
         for (int i = 0; i < 402; i++)
             BrewingStandBlockEntity.serverTick(world, pos, world.getBlockState(pos), stand);
@@ -410,9 +410,10 @@ public final class AbundanceSmoke {
             check(
                     stand.getItem(i).is(item) && stand.getItem(i).getCount() == 1,
                     "actual brew bottle " + i);
-        check(stand.getItem(3).isEmpty(), "one wart per batch");
+        check(stand.getItem(3).isEmpty(), "one lapis block per batch");
         var crafting = new TransientCraftingContainer(player.inventoryMenu, 3, 3);
         crafting.setItem(0, new ItemStack(Items.HONEY_BOTTLE));
+        for (int slot = 1; slot <= 3; slot++) crafting.setItem(slot, new ItemStack(Items.GLASS_BOTTLE));
         crafting.setItem(4, new ItemStack(Items.LAPIS_LAZULI));
         crafting.setItem(8, new ItemStack(Items.MILK_BUCKET));
         var recipe =
@@ -421,10 +422,10 @@ public final class AbundanceSmoke {
                                 .byKey(new ResourceLocation("the_long_travail:liquefied_abundance"))
                                 .orElseThrow();
         check(recipe.matches(crafting, world), "shapeless match");
-        check(recipe.assemble(crafting, world.registryAccess()).is(item), "craft output");
+        check(recipe.assemble(crafting, world.registryAccess()).is(item) && recipe.assemble(crafting, world.registryAccess()).getCount() == 4, "craft output count four");
         var remainders = recipe.getRemainingItems(crafting);
         check(
-                remainders.get(0).is(Items.GLASS_BOTTLE) && remainders.get(8).is(Items.BUCKET),
+                remainders.get(0).isEmpty() && remainders.get(8).is(Items.BUCKET) && remainders.stream().filter(remainder -> !remainder.isEmpty()).count() == 1,
                 "craft container returns");
     }
 }

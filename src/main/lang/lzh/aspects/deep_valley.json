@@ -22,8 +22,6 @@
   "tooltip.the_long_travail.azrael.witness_title": "若此時幽谷已然見證，則：",
   "tooltip.the_long_travail.azrael.witness": "佩者§a每傷敵§r，皆有§a%s%%§r之率§6處決其敵§r，亦有§a%s%%§r之率§6處決佩者§r。",
   "tooltip.the_long_travail.sword_lantern.light_toggle": "持之，§a潛行右鍵§r可開閉§6照明§r。",
-  "tooltip.the_long_travail.sword_lantern.light_enabled": "開",
-  "tooltip.the_long_travail.sword_lantern.light_disabled": "閉",
   "tooltip.the_long_travail.sword_lantern.bonus": "佩者合下諸條者，§6所傷§r得其應加，諸加可疊：",
   "tooltip.the_long_travail.sword_lantern.light": "§a佩之、持之或為墜物§r時，可§6照其四周§r。",
   "tooltip.the_long_travail.sword_lantern.immunity": "佩之，免§6黑暗§r、§6失明§r與§6反胃§r。",

@@ -14,7 +14,6 @@
   "tooltip.the_long_travail.boundless.malice.effect": "• 飞行与鞘翅飞行时无法造成伤害。\n\n• Y 坐标高于%1$s时，移动速度降低%2$s。",
   "tooltip.the_long_travail.boundless.witness.title": "-- 无垠之见证 --",
   "tooltip.the_long_travail.boundless.witness.effect": "• 通用饰品栏+%1$s。\n\n• 每%3$s秒，击杀佩戴者%2$s格内的幻翼并获得额外战利品。",
-  "tooltip.the_long_travail.free_and_easy_wandering.marker": "入梦",
   "tooltip.the_long_travail.free_and_easy_wandering.effect": "按[§a%s§r]发动技能：§6入梦§r。",
   "tooltip.the_long_travail.free_and_easy_wandering.duration": "入梦后进入§6观察者模式§r，持续§a%s秒§r。再次按键可§6提前梦醒§r。",
   "tooltip.the_long_travail.free_and_easy_wandering.wake": "梦醒时，若位于§a实心方块、高空、虚空等不安全位置§r，则§6返回入梦位置§r。",

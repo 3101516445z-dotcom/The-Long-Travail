@@ -74,6 +74,8 @@ public final class ModRegistry {
             RECIPES =
                     DeferredRegister.create(
                             ForgeRegistries.RECIPE_SERIALIZERS, TheLongTravail.MODID);
+    public static final RegistryObject<net.minecraft.world.item.crafting.RecipeSerializer<com.thelongtravail.abyss.LiquefiedAbundanceRecipe>> LIQUEFIED_ABUNDANCE_RECIPE =
+            RECIPES.register("liquefied_abundance", com.thelongtravail.abyss.LiquefiedAbundanceRecipe.Serializer::new);
     public static final RegistryObject<
                     net.minecraft.world.item.crafting.RecipeSerializer<
                             com.thelongtravail.flourishing.SpringRecipes.Crown>>

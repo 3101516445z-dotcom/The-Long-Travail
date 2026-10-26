@@ -93,7 +93,7 @@ public final class BoundlessItemsConfig {
         n(
                 b,
                 "dream.cooldown",
-                60,
+                30,
                 0,
                 86400,
                 "入梦成功后开始计算的技能冷却时间，单位：秒。每名玩家单独计时，离线时暂停。\nSkill cooldown starting after a successful dream entry, in seconds. Tracked separately for each player and paused while offline.");

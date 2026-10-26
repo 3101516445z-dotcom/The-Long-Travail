@@ -14,7 +14,6 @@
   "tooltip.the_long_travail.boundless.malice.effect": "• Cannot deal damage while flying or gliding with an elytra.\n\n• While the Y coordinate is above %1$s, movement speed is reduced by %2$s.",
   "tooltip.the_long_travail.boundless.witness.title": "-- Boundless Witness --",
   "tooltip.the_long_travail.boundless.witness.effect": "• Generic Curios slots +%1$s.\n\n• Every %3$s seconds, kill phantoms within %2$s blocks of the wearer and obtain extra loot.",
-  "tooltip.the_long_travail.free_and_easy_wandering.marker": "Enter Dream",
   "tooltip.the_long_travail.free_and_easy_wandering.effect": "Press [§a%s§r] to activate: §6Enter Dream§r.",
   "tooltip.the_long_travail.free_and_easy_wandering.duration": "Entering a dream puts the wearer in §6spectator mode§r for §a%s seconds§r. Press the key again to §6wake early§r.",
   "tooltip.the_long_travail.free_and_easy_wandering.wake": "If the wearer is §ainside solid blocks, high in the air, in the void, or at another unsafe location§r when the dream ends, they are §6returned to the dream's starting position§r.",

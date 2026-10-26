@@ -268,7 +268,7 @@ public final class RainConfig {
                 number(
                         b,
                         "items.tokaido.skill.cooldownSeconds",
-                        300,
+                        120,
                         0,
                         1000000,
                         "技能冷却时间，单位：秒；0表示无冷却。离线时暂停计时，修改不影响已有冷却。\n"

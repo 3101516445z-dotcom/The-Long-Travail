@@ -14,7 +14,6 @@
   "tooltip.the_long_travail.boundless.malice.effect": "• 飛行及鞘翅之行，皆不能傷。\n\n• Y 座標高於%1$s，移動之速減%2$s。",
   "tooltip.the_long_travail.boundless.witness.title": "-- 無垠之見證 --",
   "tooltip.the_long_travail.boundless.witness.effect": "• 通用飾品欄+%1$s。\n\n• 每%3$s秒，殺佩者%2$s格內之夜魅，得額外戰利品。",
-  "tooltip.the_long_travail.free_and_easy_wandering.marker": "入夢",
   "tooltip.the_long_travail.free_and_easy_wandering.effect": "按[§a%s§r]以發其技：§6入夢§r。",
   "tooltip.the_long_travail.free_and_easy_wandering.duration": "入夢則為§6旁觀者§r，歷§a%s秒§r。再按可§6先醒§r。",
   "tooltip.the_long_travail.free_and_easy_wandering.wake": "夢醒時，若在§a實心之方塊、高空、虛空諸不安之地§r，則§6歸入夢之處§r。",

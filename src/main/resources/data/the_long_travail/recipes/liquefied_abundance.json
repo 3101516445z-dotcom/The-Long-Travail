@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "the_long_travail:liquefied_abundance",
   "category": "misc",
   "ingredients": [
     {
@@ -10,10 +10,19 @@
     },
     {
       "item": "minecraft:milk_bucket"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
     }
   ],
   "result": {
     "item": "the_long_travail:liquefied_abundance",
-    "count": 1
+    "count": 4
   }
 }

@@ -22,8 +22,6 @@
   "tooltip.the_long_travail.azrael.witness_title": "Once the Deep Valley has been witnessed:",
   "tooltip.the_long_travail.azrael.witness": "§aEach time the wearer deals damage§r, there is a §a%s%%§r chance to §6execute the target§r and a §a%s%%§r chance to §6execute the wearer§r.",
   "tooltip.the_long_travail.sword_lantern.light_toggle": "§aSneak and right-click§r while holding to enable or disable §6illumination§r.",
-  "tooltip.the_long_travail.sword_lantern.light_enabled": "Enabled",
-  "tooltip.the_long_travail.sword_lantern.light_disabled": "Disabled",
   "tooltip.the_long_travail.sword_lantern.bonus": "The following conditions grant the wearer the corresponding §6damage dealt§r bonuses. These bonuses stack:",
   "tooltip.the_long_travail.sword_lantern.light": "§6Illuminates the surroundings§r while §aequipped, held, or dropped§r.",
   "tooltip.the_long_travail.sword_lantern.immunity": "While equipped, grants immunity to §6Darkness§r, §6Blindness§r and §6Nausea§r.",
