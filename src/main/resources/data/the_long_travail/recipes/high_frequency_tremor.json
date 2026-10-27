@@ -4,9 +4,9 @@
   "repair": true,
   "nbt_source": { "item": "minecraft:netherite_pickaxe" },
   "pattern": [
-    "E A",
+    "EAE",
     " P ",
-    "B E"
+    " B "
   ],
   "key": {
     "E": {

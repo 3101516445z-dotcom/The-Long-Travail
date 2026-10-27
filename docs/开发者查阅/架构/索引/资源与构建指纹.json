@@ -18,7 +18,7 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "478e515844deb4d0fd644a7bf957549faf2b1704b4fdb432c59885e3b48e966e",
+  "fingerprint": "40b78f3db58992350a684beefc43ae5a1a8c06da024a3a0a8a536e1c80698508",
   "files": [
     {
       "path": "build.gradle",
@@ -978,7 +978,7 @@
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/high_frequency_tremor.json",
-      "sha256": "6d3154cddaaaf24c27798082016556345aea2f137d1ade4ed133e2ed2d69030a"
+      "sha256": "c185b925e770df2b5776e04c20a5e4b9fc7660582882d8544ede280d1effadfe"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/homecoming.json",
