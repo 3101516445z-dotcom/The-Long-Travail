@@ -126,7 +126,6 @@ public final class CatalogTextStyle {
                     "elytra flight",
                     "rainstorm",
                     "Wither");
-
     // 词表仅用于液化丰饶，不改变其他物品页面。
     private static final List<String> ABUNDANCE_TERMS =
             List.of(
@@ -160,7 +159,6 @@ public final class CatalogTextStyle {
                     "长按右键|長按右鍵|点按右键|點按右鍵|Ⅰ级|Ⅰ級|四分之一|无限持续|無限持續"
                             + "|right-click|level I\\b|one quarter|infinite|每次长按|每次長按",
                     Pattern.CASE_INSENSITIVE);
-
     // 仅用于永生芽条目，避免术语匹配改变其他页面的染色。
     private static final List<String> IMMORTAL_BUD_TERMS =
             List.of(
@@ -364,6 +362,34 @@ public final class CatalogTextStyle {
                                     .getKey()
                                     .startsWith("tooltip.the_long_travail.immortal_bud.details.");
             Flat f = flatten(source);
+            // 保留译文各片段的语义染色，避免通用规则覆盖整行样式。
+            if (source.getContents()
+                            instanceof
+                            net.minecraft.network.chat.contents.TranslatableContents tremor
+                    && tremor.getKey()
+                            .startsWith("tooltip.the_long_travail.high_frequency_tremor.")) {
+                MutableComponent line = Component.empty();
+                for (int i = 0; i < f.text.length(); i++) {
+                    int original = color(f.styles.get(i));
+                    int mapped =
+                            original == 0xFF55FF || original == CONDITION
+                                    ? CONDITION
+                                    : original == 0x55FF55 || original == VALUE
+                                            ? VALUE
+                                            : original == 0xFFAA00
+                                                    ? GOLD
+                                                    : original == 0x555555 ? MUTED : BODY;
+                    line.append(
+                            Component.literal(f.text.substring(i, i + 1))
+                                    .withStyle(
+                                            Style.EMPTY
+                                                    .withColor(mapped)
+                                                    .withBold(mapped == CONDITION)));
+                }
+                out.add(line);
+                highlights.reset();
+                continue;
+            }
             String text = f.text;
             boolean objectList =
                     blacklistNamesNext

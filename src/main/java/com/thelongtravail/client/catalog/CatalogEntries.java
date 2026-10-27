@@ -1,7 +1,6 @@
 package com.thelongtravail.client.catalog;
 
 import static com.thelongtravail.registry.ModRegistry.*;
-
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.abyss.RainTooltips;
 import com.thelongtravail.boundless.BoundlessTooltips;
@@ -11,13 +10,11 @@ import com.thelongtravail.client.UnderworldClient;
 import com.thelongtravail.helper.TravailCurios;
 import com.thelongtravail.item.FarReachAccessoryItem;
 import com.thelongtravail.item.UnderworldAccessoryItem;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.item.*;
-
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -314,6 +311,14 @@ public final class CatalogEntries {
                 CatalogEntries::ordinary);
         add(
                 entries,
+                "high_frequency_tremor",
+                HIGH_FREQUENCY_TREMOR,
+                Category.THEME,
+                TravailAspect.DEEP_VALLEY,
+                "gaopinzhanli|gpzl|highfrequencytremor",
+                CatalogEntries::ordinary);
+        add(
+                entries,
                 "underground_velvet",
                 UNDERGROUND_VELVET,
                 Category.THEME,
@@ -475,6 +480,7 @@ public final class CatalogEntries {
                                         "myriad_souls_banner",
                                         "phosphophyllite",
                                         "don_quixote",
+                                        "high_frequency_tremor",
                                         "tower_of_babel",
                                         "everlasting_flower",
                                         "eki",

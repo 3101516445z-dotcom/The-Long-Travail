@@ -14,7 +14,9 @@
     "maid.MaidSwimMixin",
     "maid.UnderworldMaidAttackMixin",
     "maid.MaidPersonalityStorageMixin",
-    "maid.MaidRelicSlotMixin"
+    "maid.MaidRelicSlotMixin",
+    "ftbultimine.TremorDispatchMixin",
+    "ftbultimine.TremorPlatformMixin"
   ],
   "client": [
     "apotheosis.AffixNameMixin",

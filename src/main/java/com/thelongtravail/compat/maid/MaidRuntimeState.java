@@ -21,7 +21,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 
-// 管理女仆临时状态、延后任务、身份恢复及生命周期清理。
 final class MaidRuntimeState {
     private static final String ID = MaidAccess.IDENTITY_KEY;
     private static final Map<EntityMaid, State> STATES = new WeakHashMap<>();

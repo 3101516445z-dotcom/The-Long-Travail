@@ -5,7 +5,6 @@ import com.thelongtravail.data.RuntimePools;
 import com.thelongtravail.farreach.GoldenAgeActions;
 import com.thelongtravail.flourishing.Affection;
 import com.thelongtravail.network.TravailNetwork;
-
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
@@ -20,6 +19,7 @@ public final class ConfigReloadCoordinator {
             server.execute(
                     () -> {
                         if (server.isStopped()) return;
+                        DeepValleyItemsConfig.checkTremorBlacklist();
                         RuntimePools.reload();
                         com.thelongtravail.abyss.LiquefiedAbundance.reload();
                         GoldenAgeActions.reload();

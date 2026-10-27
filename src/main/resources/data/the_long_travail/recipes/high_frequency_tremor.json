@@ -1,0 +1,29 @@
+{
+  "type": "the_long_travail:nbt_inheriting_shaped",
+  "category": "equipment",
+  "repair": true,
+  "nbt_source": { "item": "minecraft:netherite_pickaxe" },
+  "pattern": [
+    "E A",
+    " P ",
+    "B E"
+  ],
+  "key": {
+    "E": {
+      "item": "the_long_travail:deep_valley_essence"
+    },
+    "A": {
+      "item": "the_long_travail:azrael"
+    },
+    "P": {
+      "item": "minecraft:netherite_pickaxe"
+    },
+    "B": {
+      "item": "the_long_travail:immortal_bud"
+    }
+  },
+  "result": {
+    "item": "the_long_travail:high_frequency_tremor",
+    "count": 1
+  }
+}

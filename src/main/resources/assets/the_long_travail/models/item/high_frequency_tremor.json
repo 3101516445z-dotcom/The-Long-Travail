@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "the_long_travail:item/high_frequency_tremor"
+  }
+}

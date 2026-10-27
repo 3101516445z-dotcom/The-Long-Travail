@@ -17,14 +17,14 @@ public final class AbyssItemsConfig {
     public static void define(ForgeConfigSpec.Builder b) {
         ABUNDANCE_HOLD =
                 b.comment(
-                                "液化丰饶：长按转换为所选类型药水所需秒数，按游戏刻计时。\n"
+                                "液化丰饶：长按转换为所选类型药水所需的时间，单位：秒；按游戏刻计时。\n"
                                         + "Seconds held to create the selected potion type, measured in"
                                         + " game ticks.")
                         .defineInRange(
                                 "items.liquefied_abundance.longPressSeconds", 1.0, 0.5, 3600.0);
         ABUNDANCE_DURATION =
                 b.comment(
-                                "对于没有有效已注册药水样本的非瞬时状态效果，使用此默认持续时间，单位：秒。瞬时效果不使用此值。\n"
+                                "非瞬时状态效果没有可用的已注册药水样本时，使用此默认持续时间，单位：秒。瞬时效果不使用此值。\n"
                                         + "Fallback duration in seconds for effects without valid"
                                         + " registered potion samples; ignored for instant effects.")
                         .defineInRange(

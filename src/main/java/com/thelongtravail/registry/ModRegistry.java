@@ -76,7 +76,8 @@ public final class ModRegistry {
             DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, TheLongTravail.MODID);
     public static final RegistryObject<RecipeSerializer<LiquefiedAbundanceRecipe>>
             LIQUEFIED_ABUNDANCE_RECIPE =
-                    RECIPES.register("liquefied_abundance", LiquefiedAbundanceRecipe.Serializer::new);
+                    RECIPES.register(
+                            "liquefied_abundance", LiquefiedAbundanceRecipe.Serializer::new);
     public static final RegistryObject<
                     RecipeSerializer<com.thelongtravail.flourishing.SpringRecipes.Crown>>
             SPRING_CROWN_RECIPE =
@@ -161,6 +162,15 @@ public final class ModRegistry {
     public static final RegistryObject<Item> UNDERGROUND_VELVET =
             ITEMS.register(
                     "underground_velvet", com.thelongtravail.item.UndergroundVelvetItem::new);
+    public static final RegistryObject<Item> HIGH_FREQUENCY_TREMOR =
+            ITEMS.register(
+                    "high_frequency_tremor", com.thelongtravail.item.HighFrequencyTremorItem::new);
+    public static final RegistryObject<
+                    RecipeSerializer<com.thelongtravail.valley.NbtInheritingShapedRecipe>>
+            TREMOR_RECIPE =
+                    RECIPES.register(
+                            "nbt_inheriting_shaped",
+                            com.thelongtravail.valley.NbtInheritingShapedRecipe.Serializer::new);
     public static final RegistryObject<Item> AZRAEL =
             ITEMS.register("azrael", com.thelongtravail.item.AzraelItem::new);
     public static final RegistryObject<Item> DON_QUIXOTE =
@@ -254,7 +264,8 @@ public final class ModRegistry {
                                                                                 AZRAEL,
                                                                                 SWORD_AND_LANTERN,
                                                                                 PHOSPHOPHYLLITE,
-                                                                                UNDERGROUND_VELVET);
+                                                                                UNDERGROUND_VELVET,
+                                                                                HIGH_FREQUENCY_TREMOR);
                                                                 case UNDERWORLD ->
                                                                         java.util.List.of(
                                                                                 THOUSAND_YEARS,

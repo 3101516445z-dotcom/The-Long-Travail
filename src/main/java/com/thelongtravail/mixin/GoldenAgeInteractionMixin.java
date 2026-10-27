@@ -22,6 +22,7 @@ public abstract class GoldenAgeInteractionMixin {
             Operation<PlayerInteractEvent.RightClickBlock> original) {
         var event = original.call(player, hand, pos, hit);
         GoldenAgeActions.dig(event);
+        com.thelongtravail.valley.HighFrequencyTremorActions.use(event);
         return event;
     }
 }

@@ -20,6 +20,8 @@ public abstract class ImmortalBudHurtMixin {
             ServerPlayer player,
             CallbackInfoReturnable<Boolean> cir) {
         // hurt() 根据局部计算值判断破损，仅阻止损伤写入不足以保护物品。
-        if (amount > 0 && ImmortalBud.marked((ItemStack) (Object) this)) cir.setReturnValue(false);
+        if (amount > 0
+                && com.thelongtravail.item.ItemDurabilityProtection.protects(
+                        (ItemStack) (Object) this)) cir.setReturnValue(false);
     }
 }

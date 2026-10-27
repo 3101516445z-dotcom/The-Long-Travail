@@ -1,16 +1,31 @@
 package com.thelongtravail.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
-
 import java.util.*;
 
 public final class DeepValleyItemsConfig {
     public static final Map<String, ForgeConfigSpec.DoubleValue> VALUES = new LinkedHashMap<>();
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> EXCLUDED_ATTRIBUTES;
-
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> EXTRA_ORES, EXTRA_INGOTS;
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> TREMOR_BLACKLIST;
 
     public static void define(ForgeConfigSpec.Builder b) {
+        TREMOR_BLACKLIST =
+                b.comment(
+                                "高频战栗在幽谷见证状态下，潜行右键破坏所使用的方块黑名单；同样适用于 FTB 连锁破坏。默认禁止屏障；允许空列表。必须填写完整 namespace:path，未知 ID 保留并警告。",
+                                "Block IDs excluded from Witness breaking, including FTB Ultimine. Defaults to barrier; an empty list is allowed. Use full namespace:path IDs; unknown IDs are retained with a warning.")
+                        .defineListAllowEmpty(
+                                "items.high_frequency_tremor.witnessBreakBlacklist",
+                                List.of("minecraft:barrier"),
+                                x ->
+                                        x instanceof String id
+                                                && id.equals(
+                                                        String.valueOf(
+                                                                net.minecraft.resources
+                                                                        .ResourceLocation.tryParse(
+                                                                        id)))
+                                                && id.contains(":")
+                                                && !id.endsWith(":"));
         number(
                 b,
                 "phosphophyllite.maliceAttributes",
@@ -100,6 +115,21 @@ public final class DeepValleyItemsConfig {
                 0,
                 1200,
                 "使用冷却时间，单位：游戏刻；小数向上取整。\nUse cooldown in game ticks; fractional values are rounded up.");
+    }
+
+    // 注册表就绪后在服务端线程检查，保留未安装可选模组的合法 ID。
+    public static void checkTremorBlacklist() {
+        for (String id : TREMOR_BLACKLIST.get()) {
+            if (!net.minecraftforge.registries.ForgeRegistries.BLOCKS.containsKey(
+                    new net.minecraft.resources.ResourceLocation(id))) {
+                ConfigProblems.report(
+                        net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR
+                                .get()
+                                .resolve("the_long_travail/aspects/deep_valley.toml"),
+                        "items.high_frequency_tremor.witnessBreakBlacklist: 未注册的方块 ID，保留原值；请检查拼写或模组是否安装 / Unknown block ID retained: "
+                                + id);
+            }
+        }
     }
 
     private static ForgeConfigSpec.ConfigValue<List<? extends String>> extraItems(

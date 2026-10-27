@@ -1,7 +1,7 @@
 {
   "curios.identifier.feet": "足饰",
   "curios.identifier.travel_diary": "旅行日记",
-  "tooltip.the_long_travail.maid_compat.basic": "作为女仆的饰品时仅在女仆的原生饰品栏中生效。",
+  "tooltip.the_long_travail.maid_compat.basic": "作为女仆的饰品时仅在女仆的原生饰品栏中生效",
   "tooltip.the_long_travail.maid_compat.diary": "恶意与见证效果根据主人所佩戴苦旅的状态生效",
   "tooltip.the_long_travail.maid_compat.tokaido": "女仆无法使用需要玩家发动的饰品技能",
   "jei.the_long_travail.flowers": "春日一隅最多容纳三朵花，且花朵种类不能重复。\n与水桶合成会洗去配花，返还空桶，但不会重置主花。\n未选择主花的饰品与一朵花合成，即可将该花朵设为永久保留的主花。",
@@ -15,7 +15,7 @@
   "jei.the_long_travail.block_drop.prince_poppy": "玩家破坏虞美人时，有%s%%的概率获得1个小王子，创造模式不触发。",
   "jei.the_long_travail.block_drop.prince_rose": "玩家破坏玫瑰丛时，有%s%%的概率获得1个小王子，每株只判定一次，创造模式不触发。",
   "tooltip.the_long_travail.jade.pick_up_for_details": "完整说明请拾取后在背包中查看。",
-  "tooltip.the_long_travail.maid_compat.lafite.basic": "作为女仆的饰品时仅在女仆的原生饰品栏中生效。",
+  "tooltip.the_long_travail.maid_compat.lafite.basic": "作为女仆的饰品时仅在女仆的原生饰品栏中生效",
   "tooltip.the_long_travail.maid_compat.lafite.diary": "恶意与见证效果根据主人所佩戴苦旅的状态生效",
   "jei.the_long_travail.perfect_fluid.title": "完美流体复制（示例）",
   "jei.the_long_travail.perfect_fluid.stackable": "示例：消耗一份完美流体和一颗钻石，获得两颗钻石。完美流体自身、《苦旅》及配置黑名单中的物品不能复制；复制品容器及其嵌套容器中的完美流体与《苦旅》会被清除。",

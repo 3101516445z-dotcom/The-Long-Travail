@@ -1,9 +1,7 @@
 package com.thelongtravail.config;
 
 import com.thelongtravail.TravailAspect;
-
 import net.minecraftforge.common.ForgeConfigSpec;
-
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +50,6 @@ public final class TravailConfig {
             BIOME_POOLS = new EnumMap<>(TravailAspect.class);
     public static final Map<TravailAspect, ForgeConfigSpec.ConfigValue<List<? extends String>>>
             STRUCTURE_POOLS = new EnumMap<>(TravailAspect.class);
-
     public static final ForgeConfigSpec.IntValue BIOME_DRAW_COUNT;
     public static final ForgeConfigSpec.IntValue STRUCTURE_DRAW_COUNT;
     public static final ForgeConfigSpec.IntValue WAYGUIDE_RADIUS,
@@ -108,7 +105,6 @@ public final class TravailConfig {
     public static final ForgeConfigSpec.IntValue BOUNDLESS_EXTRA_CURIO_SLOTS;
     public static final ForgeConfigSpec.IntValue PHANTOM_RANGE;
     public static final ForgeConfigSpec.DoubleValue PHANTOM_CHECK_INTERVAL_SECONDS;
-
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>>
             FAR_REACH_POSITIVE_EFFECTS;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>>
@@ -120,7 +116,6 @@ public final class TravailConfig {
     static {
         Map<String, ForgeConfigSpec.Builder> builders = new java.util.LinkedHashMap<>();
         ForgeConfigSpec.Builder builder;
-
         builder = builders.computeIfAbsent("general.toml", key -> new ForgeConfigSpec.Builder());
         com.thelongtravail.loot.UnifiedLootConfig.define(builder);
         JourneyDetectionConfig.define(builder);
@@ -207,7 +202,6 @@ public final class TravailConfig {
                                                 && net.minecraft.resources.ResourceLocation
                                                                 .tryParse(id)
                                                         != null);
-
         builder =
                 builders.computeIfAbsent(
                         "utility_items.toml", key -> new ForgeConfigSpec.Builder());
@@ -309,7 +303,6 @@ public final class TravailConfig {
                         "Search-result cache duration, in game ticks; 0 disables caching. Moving"
                                 + " more than 128 blocks, changing dimensions, or changing Long Travail"
                                 + " progress invalidates the cache.");
-
         builder = builders.computeIfAbsent("general.toml", key -> new ForgeConfigSpec.Builder());
         REWARD_ENTITIES_PER_TICK =
                 integer(
@@ -352,7 +345,6 @@ public final class TravailConfig {
                         4096,
                         "LIMIT模式下，每次奖励最多发放的物品堆数。",
                         "Maximum item stacks delivered per reward in LIMIT mode.");
-
         builder =
                 builders.computeIfAbsent(
                         "aspects/flourishing.toml", key -> new ForgeConfigSpec.Builder());
@@ -370,11 +362,11 @@ public final class TravailConfig {
                 decimal(
                         builder,
                         "travail.malice.healingReduction",
-                        0.80D,
+                        0.50D,
                         0.0D,
                         1.0D,
-                        "受到的治疗量降低的比例；0.8表示削减80%。",
-                        "Fractional reduction in healing received; 0.8 means an 80% reduction.");
+                        "受到的治疗量降低的比例；0.5表示削减50%。",
+                        "Fractional reduction in healing received; 0.5 means a 50% reduction.");
         FLOURISHING_HEALTH_THRESHOLD =
                 decimal(
                         builder,
@@ -417,7 +409,6 @@ public final class TravailConfig {
                 List.of(
                         "minecraft:village_plains|@structure.minecraft.village_plains|1",
                         "minecraft:mansion|@structure.minecraft.mansion|1"));
-
         builder =
                 builders.computeIfAbsent(
                         "aspects/abyss.toml", key -> new ForgeConfigSpec.Builder());
@@ -518,7 +509,6 @@ public final class TravailConfig {
                 List.of(
                         "minecraft:monument|@structure.minecraft.monument|1",
                         "minecraft:ruined_portal_ocean|@structure.minecraft.ruined_portal_ocean|1"));
-
         builder =
                 builders.computeIfAbsent(
                         "aspects/far_reach.toml", key -> new ForgeConfigSpec.Builder());
@@ -633,7 +623,6 @@ public final class TravailConfig {
                                 "travail.witness.positiveEffects",
                                 defaultFarReachEffects(),
                                 TravailConfig::validEffectEntry);
-
         builder =
                 builders.computeIfAbsent(
                         "aspects/deep_valley.toml", key -> new ForgeConfigSpec.Builder());
@@ -763,7 +752,6 @@ public final class TravailConfig {
                                 "travail.witness.positiveEffects",
                                 defaultDeepValleyEffects(),
                                 TravailConfig::validEffectEntry);
-
         builder =
                 builders.computeIfAbsent(
                         "aspects/underworld.toml", key -> new ForgeConfigSpec.Builder());
@@ -865,7 +853,6 @@ public final class TravailConfig {
                                 "travail.witness.fishing.fishingEntities",
                                 defaultFishingEntities(),
                                 TravailConfig::validWeightedEntry);
-
         builder =
                 builders.computeIfAbsent(
                         "aspects/boundless.toml", key -> new ForgeConfigSpec.Builder());
@@ -883,11 +870,11 @@ public final class TravailConfig {
                 decimal(
                         builder,
                         "travail.malice.speedReduction",
-                        0.80D,
+                        0.50D,
                         0.0D,
                         1.0D,
-                        "高空速度削减比例；0.8表示削减80%。",
-                        "Fractional movement speed reduction at high altitude; 0.8 means an 80%"
+                        "高空速度削减比例；0.5表示削减50%。",
+                        "Fractional movement speed reduction at high altitude; 0.5 means a 50%"
                                 + " reduction.");
         BOUNDLESS_EXTRA_CURIO_SLOTS =
                 integer(
@@ -953,7 +940,6 @@ public final class TravailConfig {
                                 "travail.witness.phantom.phantomDrops",
                                 defaultPhantomDrops(),
                                 TravailConfig::validRewardEntry);
-
         builder =
                 builders.computeIfAbsent(
                         "aspects/deep_valley.toml", key -> new ForgeConfigSpec.Builder());
@@ -1036,7 +1022,6 @@ public final class TravailConfig {
                                         + " actively removed, for example by drinking milk, in game"
                                         + " ticks. The status effect itself is removed immediately.")
                         .defineInRange("travail.visualDeprivation.clearFadeOutTicks", 4, 0, 100);
-
         CarryingConfig.define(builders.get("general.toml"));
         BoundlessItemsConfig.define(builders.get("aspects/boundless.toml"));
         RainConfig.define(builders.get("aspects/abyss.toml"));

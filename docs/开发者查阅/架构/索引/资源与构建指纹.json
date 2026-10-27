@@ -18,7 +18,7 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "da0649f43886b5b232df24b00c79c02b18fc664942180a33db9837bb7bc8d20b",
+  "fingerprint": "478e515844deb4d0fd644a7bf957549faf2b1704b4fdb432c59885e3b48e966e",
   "files": [
     {
       "path": "build.gradle",
@@ -78,7 +78,7 @@
     },
     {
       "path": "src/main/lang/en_us/aspects/deep_valley.json",
-      "sha256": "bb077abec2896e1ed79397faa0344255df1e9c5de690d60d8befc7d931b2922d"
+      "sha256": "98e8c40cf3be11d6a69f8fd121724932aa9d5a53ae08b3180a7e2bd0e2a20952"
     },
     {
       "path": "src/main/lang/en_us/aspects/far_reach.json",
@@ -126,7 +126,7 @@
     },
     {
       "path": "src/main/lang/lzh/aspects/deep_valley.json",
-      "sha256": "e48112c3eb2c629f856fc677ccc21cea6cb7dbfdaaa56dac3254cf1f4b4651b7"
+      "sha256": "868f2533ab75f7243a7c5a0fca2636ec5fad513e80b01e9270811aff07cbba43"
     },
     {
       "path": "src/main/lang/lzh/aspects/far_reach.json",
@@ -170,7 +170,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/aspects/deep_valley.json",
-      "sha256": "dac9c6c4b365eb318efa2bb4b54b3f73e51f2d893c6a2861a9321c3217ea7e6d"
+      "sha256": "73179d3d3f7b9dd217329423593407bf66a68e76383904ad3a8bd052548d7c93"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/far_reach.json",
@@ -194,7 +194,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/compatibility.json",
-      "sha256": "7802c844ced771ba4270182e02431f27806896017fd11229dc2b5db723e8c33e"
+      "sha256": "1858c55aaca2458d7eb53c210b5b5557f0fa4a142b6393286cd8c69fa0366b4d"
     },
     {
       "path": "src/main/lang/zh_cn/diary.json",
@@ -214,7 +214,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/aspects/deep_valley.json",
-      "sha256": "5ff29232dd94b52dca5892563960944923857e08d8519ac6111264656977f38b"
+      "sha256": "63245995ff76a6419a6ba0475a49b26e686b6cc80cf66d8d264a916a9cab95c4"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/far_reach.json",
@@ -258,7 +258,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/aspects/deep_valley.json",
-      "sha256": "4e9a637202d3eb49c47e2d92a2fdc30b1aa5b5505f6634eecfa730caf489d98a"
+      "sha256": "8c76007a0a22f2ff3aae35c4db428798c61616549d42809b4086660f0364d3a7"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/far_reach.json",
@@ -302,11 +302,11 @@
     },
     {
       "path": "src/main/resources/assets/the_long_travail/config/configuration-guide.en_us.txt",
-      "sha256": "89cf828d2096fc0dd2c1983cdf6da323f60e469a56250e54adb516278879973d"
+      "sha256": "4a0394068f35951756b6514ba2e1700e7f4cbdbcb0a8024ba1249d250f6f6433"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/config/configuration-guide.zh_cn.txt",
-      "sha256": "2f506330f5cf35f884ab7b13f6e486be109926fcbd94d6ec65550c1000d95335"
+      "sha256": "5efcd67f7774253975eecf4d3bee1041a224d0954df77c37ccc83d0e1f547e42"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/models/block/lantern_light.json",
@@ -395,6 +395,10 @@
     {
       "path": "src/main/resources/assets/the_long_travail/models/item/golden_age.json",
       "sha256": "c70ef09ec413116a62903d62b2e1e20368c10a8fa2c9f59bc867460e4f1e8819"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/high_frequency_tremor.json",
+      "sha256": "25905401e0965d010c7c23a323c00b1a03b094659795fea4c66c18b94f91ec42"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/models/item/homecoming.json",
@@ -609,6 +613,10 @@
       "sha256": "608dbf366c3282c2a8d680afa0de03122e4504a8132b9ba0b2eb9200d8f5d1f9"
     },
     {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/high_frequency_tremor.png",
+      "sha256": "760bf00fcde04921161f1a745ddf0310b9371799633919c41bb9a880c8af0f90"
+    },
+    {
       "path": "src/main/resources/assets/the_long_travail/textures/item/homecoming.png",
       "sha256": "fb3043f970738ad9bb01114a5908a1b5f2249b452d6c633236839ec5c6f28cbd"
     },
@@ -765,6 +773,10 @@
       "sha256": "2a658458515cf9f457e03434f462f5f78f2741067f4dacc28bbb7b0a8652d9e4"
     },
     {
+      "path": "src/main/resources/data/forge/tags/items/tools/pickaxes.json",
+      "sha256": "08ca1c831051a6c84a3a759b69442463b002f62051535ead875829375646dd65"
+    },
+    {
       "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_armor.json",
       "sha256": "d77e8deedb073a20f388ad553a9fbfbcf01e796a7319b960a5242249cf011fd2"
     },
@@ -801,6 +813,10 @@
       "sha256": "f9fb31af08b11bad0b1dc4bf84943caed566ee3419ac424d6fafea337f5f4018"
     },
     {
+      "path": "src/main/resources/data/minecraft/tags/items/pickaxes.json",
+      "sha256": "08ca1c831051a6c84a3a759b69442463b002f62051535ead875829375646dd65"
+    },
+    {
       "path": "src/main/resources/data/the_long_travail/advancements/recipes/coloring.json",
       "sha256": "29ddaf64d525d3123655fdd04c5eb492c179710205cab17067729712c0e7c0e4"
     },
@@ -811,6 +827,10 @@
     {
       "path": "src/main/resources/data/the_long_travail/advancements/recipes/misc/liquefied_abundance.json",
       "sha256": "48bf89f677cd63ed5247c0f009d596154a38380432ce2e302361d7667719fc3e"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/advancements/recipes/tools/high_frequency_tremor.json",
+      "sha256": "1d2b97b6de8afb4dbf405aa4334d9fa35642ddda88efcbd6d813ac5151970ef7"
     },
     {
       "path": "src/main/resources/data/the_long_travail/advancements/root.json",
@@ -955,6 +975,10 @@
     {
       "path": "src/main/resources/data/the_long_travail/recipes/golden_age.json",
       "sha256": "1bce8866f496ec0fa7350a83c5c3c71cb33d0384a2e2fe6e74f755fb2c35cf64"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/high_frequency_tremor.json",
+      "sha256": "6d3154cddaaaf24c27798082016556345aea2f137d1ade4ed133e2ed2d69030a"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/homecoming.json",
@@ -1150,11 +1174,11 @@
     },
     {
       "path": "src/main/resources/mixins.the_long_travail.compat.json",
-      "sha256": "cdeb45526ef69fe3d432ea9388d6170a885407e10fd09fc2207240b06b86c589"
+      "sha256": "44d61ca580d01bc1998ee886faaa02e2980d2908513bd38b28fc53ced7585abb"
     },
     {
       "path": "src/main/resources/mixins.the_long_travail.json",
-      "sha256": "f1cc53af5b6dd1aed50946752c415c6d0dc893d87aa76dbde7a0c4e8c99433a7"
+      "sha256": "cf847c384fc49ac8db6fe47b8c8d875ce6954ecb1775ca8e3ac4c8714f0e430e"
     },
     {
       "path": "src/main/resources/pack.mcmeta",

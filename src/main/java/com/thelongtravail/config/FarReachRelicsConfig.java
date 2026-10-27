@@ -76,7 +76,7 @@ public final class FarReachRelicsConfig {
                 4,
                 0,
                 3600,
-                "从触发开始计算的玩家全局冷却秒数；离线暂停。\n"
+                "从触发时开始计算的玩家全局冷却时间，单位：秒；离线时暂停计时。\n"
                         + "Player-wide cooldown starting when protection triggers, in seconds; paused"
                         + " while offline.");
         n(

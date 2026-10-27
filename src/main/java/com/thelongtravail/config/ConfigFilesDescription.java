@@ -253,7 +253,7 @@ public final class ConfigFilesDescription {
                 section(
                         builder,
                         "items.liquefied_abundance",
-                        "液化丰饶：随机药水转换；长按阈值、回退持续时间与效果白名单、黑名单。\n"
+                        "液化丰饶：随机药水转换；长按所需时间、默认持续时间与效果白名单、黑名单。\n"
                                 + "Liquefied Abundance: random potion conversion, hold threshold,"
                                 + " fallback duration, effect whitelist and blacklist.");
                 section(
@@ -341,6 +341,11 @@ public final class ConfigFilesDescription {
                                 + "Visual Deprivation: duration, transitions, and appearance. Trigger"
                                 + " chance is under travail.malice.");
                 section(builder, "items", "幽谷主题关联物品。\nItems associated with Deep Valley.");
+                section(
+                        builder,
+                        "items.high_frequency_tremor",
+                        "高频战栗：见证状态潜行右键破坏黑名单；同样作用于 FTB 连锁。\n"
+                                + "High Frequency Tremor: Witness sneak-use block blacklist, also applied to FTB Ultimine selections.");
                 section(
                         builder,
                         "items.azrael",

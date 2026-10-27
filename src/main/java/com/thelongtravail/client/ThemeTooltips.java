@@ -239,6 +239,9 @@ public final class ThemeTooltips {
                 out.add(text("perfect_fluid.0"));
                 out.add(text("perfect_fluid.1"));
             }
+            case "high_frequency_tremor" -> {
+                for (int i = 0; i < 3; i++) out.add(text(id + "." + i));
+            }
             case "phosphophyllite", "underground_velvet" -> {
                 for (int i = 0; i < (id.equals("underground_velvet") ? 3 : 2); i++)
                     out.add(text(id + "." + i));

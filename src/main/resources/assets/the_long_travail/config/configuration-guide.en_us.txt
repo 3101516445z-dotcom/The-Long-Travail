@@ -509,3 +509,7 @@ Liquefied Abundance: aspects/abyss.toml → items.liquefied_abundance
 - Use full status effect IDs. Unknown or malformed whitelist IDs are ignored with a warning; duplicate entries add no weight. A nonempty but entirely invalid whitelist never falls back to all effects.
 - Both lists filter effect types only. Selection remains uniform within each tier: effect → level → duration. Reducing the pool increases each remaining effect's selection probability without changing its levels, durations or fallback rules.
 - If no eligible effects remain, conversion is cancelled with a message and consumes no Liquefied Abundance. Existing potions are unchanged. Reloading configuration cancels ongoing conversions; later uses draw from the updated pool.
+
+High Frequency Tremor: aspects/deep_valley.toml → items.high_frequency_tremor
+- witnessBreakBlacklist defaults to ["minecraft:barrier"]. Full block IDs prevent Witness sneak-use breaking, including FTB Ultimine selections.
+- An empty list permits breaking bedrock but does not invent a bedrock item drop. Protection and cancelled break events remain effective.

@@ -3,9 +3,7 @@ package com.thelongtravail.network;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.config.TravailConfig;
 import com.thelongtravail.data.WeightedEntry;
-
 import net.minecraft.resources.ResourceLocation;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -317,6 +315,10 @@ public final class TooltipConfigSync {
         pools.put(
                 "abundance.blacklist",
                 List.copyOf(com.thelongtravail.config.AbyssItemsConfig.ABUNDANCE_BLACKLIST.get()));
+        pools.put(
+                "deepValley.tremorBlacklist",
+                List.copyOf(
+                        com.thelongtravail.config.DeepValleyItemsConfig.TREMOR_BLACKLIST.get()));
         return pools;
     }
 

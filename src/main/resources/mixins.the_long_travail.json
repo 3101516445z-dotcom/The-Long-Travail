@@ -119,7 +119,9 @@
     "LorentzArrowMixin",
     "PrinceBlockBreakMixin",
     "LorentzArrowAccessor",
-    "AbundanceLingeringPotionMixin"
+    "AbundanceLingeringPotionMixin",
+    "TremorBlockDropsMixin",
+    "TremorFortuneMixin"
   ],
   "client": [
     "AltitudeLocalFlightMixin",

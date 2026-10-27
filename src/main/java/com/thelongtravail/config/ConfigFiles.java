@@ -4,7 +4,6 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,6 +13,9 @@ public final class ConfigFiles {
 
     public static void register(FMLJavaModLoadingContext context) {
         context.getModEventBus().addListener(ConfigFiles::afterConfigLoading);
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
+                (net.minecraftforge.event.server.ServerStartingEvent event) ->
+                        DeepValleyItemsConfig.checkTremorBlacklist());
         context.getModEventBus().addListener(PerfectFluidCompatDefaults::loaded);
         context.getModEventBus().addListener(BiomeCompatDefaults::loaded);
         context.getModEventBus().addListener(StructureCompatDefaults::loaded);
