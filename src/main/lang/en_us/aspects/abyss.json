@@ -115,5 +115,6 @@
   "tooltip.the_long_travail.abundance.mode.2": "Lingering Potion",
   "tooltip.the_long_travail.abundance.summary_switch": "Tap right-click to change the resulting potion type (normal/splash/lingering).",
   "tooltip.the_long_travail.abundance.switch": "While holding Liquefied Abundance, tap right-click to cycle the resulting potion type through normal, splash and lingering potions.",
-  "tooltip.the_long_travail.flavor.liquefied_abundance": "A gentle breeze and soft rain today. Cheers, my friend."
+  "tooltip.the_long_travail.flavor.liquefied_abundance": "A gentle breeze and soft rain today. Cheers, my friend.",
+  "tooltip.the_long_travail.abundance.whitelist": "The whitelist allows only these effects, with the blacklist taking precedence. An empty result cancels conversion without consuming materials: %s."
 }

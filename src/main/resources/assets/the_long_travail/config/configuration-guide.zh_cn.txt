@@ -392,13 +392,13 @@ items.azrael.genericKillFallback
 items.azrael.directDeathFallback
 前两个阶段均失败后，跳过可取消死亡检查并锁定旧实体生命值；玩家保留重生流程，非玩家调用原版死亡方法后强制终结，可能绕过自定义掉落或Boss清理。
 
-创造与观察者模式
+创造与旁观者模式
 ~~~~~~~~~~~~~~~~~~~~~~~~
 items.azrael.selfExecutionAffectsCreativeAndSpectator
-死告天使对佩戴者自身的处决是否对创造模式或观察者模式的玩家生效。
+死告天使对佩戴者自身的处决是否对创造模式或旁观者模式的玩家生效。
 
 items.azrael.targetExecutionAffectsCreativeAndSpectator
-死告天使对其他玩家的处决是否对创造模式或观察者模式的玩家生效。
+死告天使对其他玩家的处决是否对创造模式或旁观者模式的玩家生效。
 
 [M04] 路引搜索与缓存
 ------------------------------------------------
@@ -496,3 +496,21 @@ timeStop.boundaryLevel
 一位主人的苦旅可以支持多名女仆；每名女仆仍须装备对应饰品。
 駅的 carrying 开关与饰品的 Curios 槽位设置仅适用于玩家。
 女仆的东海道五十三次仅提供生命值恢复和火焰免疫。
+
+[M06] 主题物品的适用范围与判定条件
+
+永生芽：aspects/flourishing.toml → items.immortal_bud
+- repairOnApply 默认 true：赋予时修满目标耐久；false 保留目标原有损伤，仍赋予耐久保护。
+- itemBlacklist 默认为 []，按完整物品 ID 排除新的赋予；已有标记及其保护不受影响。
+
+剑与灯：aspects/deep_valley.toml → items.swordAndLantern
+- detectionRadius 默认 64 格，可设为 8～64 格；玩家与女仆的敌人、亡灵和独行判定共用此半径。
+- crowdMinimumEnemies 默认 11，可设为 2～64；敌人数达到此值时应用 crowdBonus。
+
+液化丰饶：aspects/abyss.toml → items.liquefied_abundance
+- 注意：effectWhitelist 只要不是空列表，就只会生成名单内的药水效果，所有名单外的效果都不会再出现。此列表用于限制效果，不是追加效果。
+- 例如，只填写 ["minecraft:speed"] 时，只会生成速度效果的药水。默认 [] 表示不启用白名单限制；清空列表可恢复，但仍受 effectBlacklist 限制。
+- effectBlacklist 始终优先。例如白名单为 ["minecraft:speed", "minecraft:poison"]、黑名单为 ["minecraft:poison"] 时，只能抽到速度。
+- 使用完整状态效果 ID。白名单中的未知或格式错误 ID 会被忽略并记录警告；重复项不增加权重。非空白名单全部无效时不会退回全部效果。
+- 两张名单只筛选效果种类；保留效果仍按“效果 → 等级 → 时长”逐层等概率抽取。缩小效果池会提高剩余效果各自的抽取概率，不会改变它们已有的等级、时长及回退规则。
+- 筛选后没有可用效果时，取消转换并提示，不消耗液化丰饶；已有药水不变。配置重载会取消正在进行的转换，之后使用新的效果池。

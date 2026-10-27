@@ -17,10 +17,10 @@ public final class CatalogTextStyle {
     private static final Pattern VALUES =
             Pattern.compile(
                     "[+-]?\\d+(?:\\.\\d+)?(?:[%％]|(?:\\s*|-)(?:seconds?|minutes?|blocks?|levels?(?:\\(s\\))?|points?|times?)(?!\\w)|秒|分钟|格|级|点|倍|朵|条|张|颗|本|个|份|件|种|種)?"
-                        + "|[一二两三四五六七八九十]+(?:朵|条|张|级|格|秒|分钟|件|份|个)|[0-9一二三四五六七八九十]+[种種]|\\bnine(?="
-                        + " special text styles\\b)|\\bone(?= Perfect"
-                        + " Fluid\\b)|\\b(?:one|two|three|four|five|six)"
-                        + " (?:flowers?|records?|levels?|blocks?|seconds?|items?|copies|copy)\\b",
+                            + "|[一二两三四五六七八九十]+(?:朵|条|张|级|格|秒|分钟|件|份|个)|[0-9一二三四五六七八九十]+[种種]|\\bnine(?="
+                            + " special text styles\\b)|\\bone(?= Perfect"
+                            + " Fluid\\b)|\\b(?:one|two|three|four|five|six)"
+                            + " (?:flowers?|records?|levels?|blocks?|seconds?|items?|copies|copy)\\b",
                     Pattern.CASE_INSENSITIVE);
     private static final Pattern KEYS = Pattern.compile("(?<=\\[)[^\\[\\]\\r\\n]+(?=\\])");
     private static final Pattern STACK_SCOPE =
@@ -214,7 +214,7 @@ public final class CatalogTextStyle {
     private static final Pattern IMMORTAL_BUD_SCOPE =
             Pattern.compile(
                     "有耐久的物品|有耐久之物|掉落物状态下|掉落物狀態下|落地|a damageable item|when dropped|\\bone(?="
-                        + " Immortal Bud)|一個|一枚",
+                            + " Immortal Bud)|一個|一枚",
                     Pattern.CASE_INSENSITIVE);
 
     private record Flat(String text, List<Style> styles) {}

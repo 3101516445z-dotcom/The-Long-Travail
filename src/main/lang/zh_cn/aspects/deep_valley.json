@@ -25,7 +25,7 @@
   "tooltip.the_long_travail.sword_lantern.bonus": "佩戴者满足以下条件时，§6造成的伤害§r获得对应加成，各项加成可叠加：",
   "tooltip.the_long_travail.sword_lantern.light": "§a佩戴、手持或作为掉落物§r时，可以§6照亮周围§r。",
   "tooltip.the_long_travail.sword_lantern.immunity": "佩戴时，免疫§6黑暗§r、§6失明§r与§6反胃§r效果。",
-  "tooltip.the_long_travail.sword_lantern.crowd": "- 敌人数量§a大于10§r：提高§a%s%%§r；",
+  "tooltip.the_long_travail.sword_lantern.crowd": "- 敌人数量§a至少为%s§r：提高§a%s%%§r；",
   "tooltip.the_long_travail.sword_lantern.undead": "- 敌人中包含§6亡灵生物§r：提高§a%s%%§r；",
   "tooltip.the_long_travail.sword_lantern.duration": "- 持续战斗§a超过%s分钟§r：提高§a%s%%§r；",
   "tooltip.the_long_travail.sword_lantern.alone": "- §a孤身一人战斗§r：提高§a%s%%§r；",
@@ -55,5 +55,6 @@
   "tooltip.the_long_travail.summary.phosphophyllite.1": "§d幽谷已然见证时，§r上述属性加成与伤害增幅降低，受击时有概率恢复§6生命值§r，溢出的治疗量转化为§6伤害吸收§r。",
   "tooltip.the_long_travail.summary.underground_velvet.0": "右键使用，消耗§a1个§r，获得随机§a一种§r矿石或锭。",
   "tooltip.the_long_travail.summary.underground_velvet.1": "§d幽谷尚有恶意时，§r使用有概率额外获得废弃矿井或远古城市的战利品。",
-  "tooltip.the_long_travail.summary.underground_velvet.2": "§d幽谷已然见证时，§r使用增加使用者的§6经验等级§r。"
+  "tooltip.the_long_travail.summary.underground_velvet.2": "§d幽谷已然见证时，§r使用增加使用者的§6经验等级§r。",
+  "tooltip.the_long_travail.sword_lantern.radius": "周围敌人、亡灵与独行条件的判定半径为§a%s格§r。"
 }

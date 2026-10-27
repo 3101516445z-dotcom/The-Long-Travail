@@ -11,12 +11,12 @@ import net.minecraft.world.damagesource.DamageSource;
 import java.util.*;
 
 public final class MaidLanternCombat {
-    public static final double RANGE_SQR = 64 * 64;
     private static final Map<UUID, State> STATES = new HashMap<>();
 
     private static final class State {
         final Map<UUID, Long> enemies = new HashMap<>();
         List<LivingEntity> nearby = List.of();
+        double radius = -1;
         long scan = Long.MIN_VALUE, start = -1, last = -1;
     }
 
@@ -41,7 +41,7 @@ public final class MaidLanternCombat {
                 && !e.isRemoved()
                 && !e.isSpectator()
                 && e.level() == p.level()
-                && p.distanceToSqr(e) <= RANGE_SQR;
+                && p.distanceToSqr(e) <= SwordLanternConfig.radiusSquared();
     }
 
     private static boolean eligible(EntityMaid p, LivingEntity e) {
@@ -71,12 +71,14 @@ public final class MaidLanternCombat {
                                     || !(e instanceof LivingEntity living)
                                     || !eligible(p, living);
                         });
-        if (s.scan == Long.MIN_VALUE || now - s.scan >= 10) {
+        double radius = SwordLanternConfig.RADIUS.get();
+        if (s.scan == Long.MIN_VALUE || now - s.scan >= 10 || s.radius != radius) {
+            s.radius = radius;
             s.nearby =
                     p.level()
                             .getEntitiesOfClass(
                                     LivingEntity.class,
-                                    p.getBoundingBox().inflate(64),
+                                    p.getBoundingBox().inflate(radius),
                                     e -> nearby(p, e));
             s.scan = now;
         }
@@ -126,7 +128,7 @@ public final class MaidLanternCombat {
                             && p.getOwnerUUID() != null) alone = false;
         }
         return SwordLanternConfig.damageBonus(
-                enemies > 10,
+                enemies >= SwordLanternConfig.CROWD_MINIMUM.get(),
                 undead,
                 alone,
                 s.start >= 0
@@ -149,7 +151,7 @@ public final class MaidLanternCombat {
         if (!equipped(p)
                 || other == p
                 || other.level() != p.level()
-                || p.distanceToSqr(other) > RANGE_SQR
+                || p.distanceToSqr(other) > SwordLanternConfig.radiusSquared()
                 || other.isSpectator()
                 || friendly(p, other)
                 || other instanceof Player target

@@ -29,6 +29,7 @@ const groups = {
   valley:['幽谷','具体玩法'], underworld:['冥府','具体玩法'], boundless:['无垠','具体玩法']
 };
 const overrides = {
+  LiquefiedAbundanceRecipe:['归墟','液化丰饶无序合成、序列化与蜂蜜瓶容器消耗'],
   LiquefiedAbundanceItem:['归墟物品入口','液化丰饶使用动作、完成与松开回调'],
   LiquefiedAbundance:['归墟','转换会话、玩家类型持久化与药水交付'],
   AbundanceEffectPool:['归墟','效果、等级与持续时间的去重抽样表'],

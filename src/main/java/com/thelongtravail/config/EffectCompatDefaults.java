@@ -117,7 +117,10 @@ public final class EffectCompatDefaults {
     static void define(ForgeConfigSpec.Builder builder, TravailAspect aspect) {
         for (Preset preset : PRESETS) {
             if (preset.entries(aspect).isEmpty()) continue;
-            builder.comment(preset.name()).define(marker(preset), false);
+            builder.comment(
+                            ConfigFilesDescription.presetMarker(
+                                    preset.name(), "状态效果", "status effect"))
+                    .define(marker(preset), false);
         }
     }
 

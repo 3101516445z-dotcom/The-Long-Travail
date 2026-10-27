@@ -126,7 +126,8 @@ public final class ConfigDiagnosticsTest {
                                         diagnostics.report(
                                                 Path.of("worker-" + id + ".toml"), "bad-" + i);
                                         if (diagnostics.size() > 1024)
-                                            throw new AssertionError("concurrent capacity overflow");
+                                            throw new AssertionError(
+                                                    "concurrent capacity overflow");
                                     }
                                 }));
             }

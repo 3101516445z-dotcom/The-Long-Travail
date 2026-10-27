@@ -26,7 +26,8 @@ public final class AnvilCompatPlugin implements IMixinConfigPlugin {
                     boolean server =
                             removesLevelLimit(
                                     bytecode.getClassNode(
-                                            "dev.shadowsoffire.apotheosis.mixin.AnvilMenuMixin", true));
+                                            "dev.shadowsoffire.apotheosis.mixin.AnvilMenuMixin",
+                                            true));
                     return server
                             && (!FMLLoader.getDist().isClient()
                                     || removesLevelLimit(

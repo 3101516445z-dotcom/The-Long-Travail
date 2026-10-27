@@ -6,7 +6,8 @@ import org.slf4j.LoggerFactory;
 public final class OptionalCompatState {
     public static final Gate GRAVESTONE = new Gate("Gravestone item reconciliation");
     public static final Gate CAELUS = new Gate("Caelus Icarus flight adapter");
-    public static final Gate APOTHEOSIS_ANVIL = new Gate("Apotheosis anvil level-limit coordination");
+    public static final Gate APOTHEOSIS_ANVIL =
+            new Gate("Apotheosis anvil level-limit coordination");
 
     @FunctionalInterface
     public interface Probe {

@@ -2,6 +2,7 @@ package com.thelongtravail.registry;
 
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.TravailAspect;
+import com.thelongtravail.abyss.LiquefiedAbundanceRecipe;
 import com.thelongtravail.effect.StiffEffect;
 import com.thelongtravail.effect.VisualDeprivationEffect;
 import com.thelongtravail.entity.WayguideEntity;
@@ -23,6 +24,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -70,15 +72,13 @@ public final class ModRegistry {
     public static final RegistryObject<Item> AFFECTION =
             ITEMS.register(
                     "affection", () -> new com.thelongtravail.item.FlourishingAccessoryItem(false));
-    private static final DeferredRegister<net.minecraft.world.item.crafting.RecipeSerializer<?>>
-            RECIPES =
-                    DeferredRegister.create(
-                            ForgeRegistries.RECIPE_SERIALIZERS, TheLongTravail.MODID);
-    public static final RegistryObject<net.minecraft.world.item.crafting.RecipeSerializer<com.thelongtravail.abyss.LiquefiedAbundanceRecipe>> LIQUEFIED_ABUNDANCE_RECIPE =
-            RECIPES.register("liquefied_abundance", com.thelongtravail.abyss.LiquefiedAbundanceRecipe.Serializer::new);
+    private static final DeferredRegister<RecipeSerializer<?>> RECIPES =
+            DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, TheLongTravail.MODID);
+    public static final RegistryObject<RecipeSerializer<LiquefiedAbundanceRecipe>>
+            LIQUEFIED_ABUNDANCE_RECIPE =
+                    RECIPES.register("liquefied_abundance", LiquefiedAbundanceRecipe.Serializer::new);
     public static final RegistryObject<
-                    net.minecraft.world.item.crafting.RecipeSerializer<
-                            com.thelongtravail.flourishing.SpringRecipes.Crown>>
+                    RecipeSerializer<com.thelongtravail.flourishing.SpringRecipes.Crown>>
             SPRING_CROWN_RECIPE =
                     RECIPES.register(
                             "spring_crown",

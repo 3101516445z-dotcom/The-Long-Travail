@@ -10,7 +10,8 @@ public final class AccessoryEquipRules {
     public static boolean hasEquipped(Player player, String slot, Item item) {
         var scope = AccessoryRestore.current(player);
         if (scope != null) return scope.contains(slot, item);
-        return CurioLookup.hasFunctional(player, item, context -> context.identifier().equals(slot));
+        return CurioLookup.hasFunctional(
+                player, item, context -> context.identifier().equals(slot));
     }
 
     public static boolean hasDiary(Player player) {

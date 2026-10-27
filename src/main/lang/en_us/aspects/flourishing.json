@@ -121,5 +121,8 @@
   "tooltip.the_long_travail.immortal_bud.details.2": "Crafting only adds the mark; the item’s original name, enchantments, and other data are preserved.",
   "tooltip.the_long_travail.immortal_bud.details.3": "Items bearing “Evergreen” are protected against durability loss, including breakage caused by an excessive single durability cost.",
   "tooltip.the_long_travail.immortal_bud.details.4": "The Immortal Bud itself and protected items resist fire, lava, and explosions when dropped, and do not naturally despawn.",
-  "tooltip.the_long_travail.immortal_bud.details.5": "“Evergreen” does not protect against consumption through crafting, placement, or use. Protected items that fall into the void cannot be recovered."
+  "tooltip.the_long_travail.immortal_bud.details.5": "“Evergreen” does not protect against consumption through crafting, placement, or use. Protected items that fall into the void cannot be recovered.",
+  "tooltip.the_long_travail.summary.immortal_bud.no_repair": "Craft shapelessly with §aan eligible damageable item§r to grant “§6Evergreen§r” while preserving existing damage.",
+  "tooltip.the_long_travail.immortal_bud.details.no_repair": "Craft an Immortal Bud shapelessly with an eligible damageable item to grant the “Evergreen” mark while preserving existing damage.",
+  "tooltip.the_long_travail.immortal_bud.blacklist": "These items cannot receive new applications; existing marks are unaffected: %s."
 }

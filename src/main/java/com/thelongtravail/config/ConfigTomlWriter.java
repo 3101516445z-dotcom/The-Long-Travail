@@ -230,8 +230,8 @@ final class ConfigTomlWriter {
                 + "].\n"
                 + (category == 7
                         ? "完整重启游戏或服务器时处理；须安装对应模组，且该组预设物品全部已注册。\n"
-                              + "Processed on full game/server startup, only with the mod installed"
-                              + " and every item in that group registered.\n"
+                                + "Processed on full game/server startup, only with the mod installed"
+                                + " and every item in that group registered.\n"
                         : "");
     }
 

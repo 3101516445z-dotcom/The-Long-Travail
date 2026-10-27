@@ -25,7 +25,7 @@
   "tooltip.the_long_travail.sword_lantern.bonus": "佩者合下諸條者，§6所傷§r得其應加，諸加可疊：",
   "tooltip.the_long_travail.sword_lantern.light": "§a佩之、持之或為墜物§r時，可§6照其四周§r。",
   "tooltip.the_long_travail.sword_lantern.immunity": "佩之，免§6黑暗§r、§6失明§r與§6反胃§r。",
-  "tooltip.the_long_travail.sword_lantern.crowd": "- 敵數§a逾十§r：增§a%s%%§r；",
+  "tooltip.the_long_travail.sword_lantern.crowd": "- 敵數§a不少於%s§r：增§a%s%%§r；",
   "tooltip.the_long_travail.sword_lantern.undead": "- 敵中有§6不死之物§r：增§a%s%%§r；",
   "tooltip.the_long_travail.sword_lantern.duration": "- 戰§a逾%s分鐘§r：增§a%s%%§r；",
   "tooltip.the_long_travail.sword_lantern.alone": "- §a孤身而戰§r：增§a%s%%§r；",
@@ -55,5 +55,6 @@
   "tooltip.the_long_travail.summary.phosphophyllite.1": "§d幽谷已然見證時，§r上之性加與傷增皆減，受擊時有率復§6命§r，溢者化為§6傷害吸收§r。",
   "tooltip.the_long_travail.summary.underground_velvet.0": "右鍵用之，耗§a1§r，得隨機§a一種§r之礦或錠。",
   "tooltip.the_long_travail.summary.underground_velvet.1": "§d幽谷尚有惡意時，§r用之有率額得廢礦或遠古城市之利。",
-  "tooltip.the_long_travail.summary.underground_velvet.2": "§d幽谷已然見證時，§r用之增用者之§6經驗之級§r。"
+  "tooltip.the_long_travail.summary.underground_velvet.2": "§d幽谷已然見證時，§r用之增用者之§6經驗之級§r。",
+  "tooltip.the_long_travail.sword_lantern.radius": "察敵、亡靈及獨行之境，半徑§a%s格§r。"
 }

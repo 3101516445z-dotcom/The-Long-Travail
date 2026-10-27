@@ -129,13 +129,13 @@ public final class TravailConfig {
                                 "佩戴苦旅且拥有穷遐之见证或幽谷之见证时，关闭Sounds模组在获得正面药水效果时播放的提示音，不限效果来源。\n"
                                         + "不影响饮用、装备操作和减益效果的提示音。关闭此选项后，仍保留苦旅自身效果原有的静音规则。",
                                 "While wearing The Long Travail with Far Reach Witness or Deep"
-                                    + " Valley Witness, suppress the Sounds mod's notification"
-                                    + " sound for gaining beneficial potion effects, regardless of"
-                                    + " their source.\n"
-                                    + "Does not affect drinking sounds, equipment interaction"
-                                    + " sounds, or harmful-effect notifications. Disabling this"
-                                    + " option preserves The Long Travail's existing rules for"
-                                    + " silencing its own effects.")
+                                        + " Valley Witness, suppress the Sounds mod's notification"
+                                        + " sound for gaining beneficial potion effects, regardless of"
+                                        + " their source.\n"
+                                        + "Does not affect drinking sounds, equipment interaction"
+                                        + " sounds, or harmful-effect notifications. Disabling this"
+                                        + " option preserves The Long Travail's existing rules for"
+                                        + " silencing its own effects.")
                         .define("compatibility.muteBeneficialEffectGainSounds", true);
         GIVE_STARTER_ITEM =
                 builder.comment(
@@ -220,9 +220,9 @@ public final class TravailConfig {
                         3600,
                         "路引找到目标后的引导时长，单位：秒。\n从开始飞出到变成掉落物为止，包含飞行和悬停，不包含搜索等待。\n修改后也会影响正在指路的路引。",
                         "Duration of guidance after the Wayguide finds a target, in seconds.\n"
-                            + "Measured from launch until becoming a dropped item, including flight"
-                            + " and hovering but excluding search time.\n"
-                            + "Changes also affect Wayguides already in flight.");
+                                + "Measured from launch until becoming a dropped item, including flight"
+                                + " and hovering but excluding search time.\n"
+                                + "Changes also affect Wayguides already in flight.");
         WAYGUIDE_RADIUS =
                 integer(
                         builder,
@@ -243,9 +243,9 @@ public final class TravailConfig {
                         300,
                         "单次搜索的最长等待时间，按现实时间计秒。\n从请求被接受时开始计时，包含准备和排队。检测到超时后停止搜索并返还路引。",
                         "Maximum waiting time for a search request, in real-world seconds.\n"
-                            + "Measured from acceptance of the request, including preparation and"
-                            + " queueing. When a timeout is detected, the search stops and the"
-                            + " Wayguide is returned.");
+                                + "Measured from acceptance of the request, including preparation and"
+                                + " queueing. When a timeout is detected, the search stops and the"
+                                + " Wayguide is returned.");
         WAYGUIDE_BIOME_SPACING =
                 integer(
                         builder,
@@ -285,9 +285,9 @@ public final class TravailConfig {
                         50,
                         "每游戏刻的搜索时间预算，单位：毫秒。\n包含准备、检查、采样和收尾。单次操作及必要清理可能使实际耗时超过预算。",
                         "Target time spent on normal search processing per game tick, in"
-                            + " milliseconds.\n"
-                            + "Includes preparation, checks, sampling, and completion. Individual"
-                            + " operations and necessary state cleanup may exceed this budget.");
+                                + " milliseconds.\n"
+                                + "Includes preparation, checks, sampling, and completion. Individual"
+                                + " operations and necessary state cleanup may exceed this budget.");
         WAYGUIDE_MAX_SAMPLES =
                 integer(
                         builder,
@@ -307,8 +307,8 @@ public final class TravailConfig {
                         72000,
                         "搜索结果的缓存时间，单位：游戏刻；0表示不缓存。移动超过128格、切换维度或苦旅进度变化后，缓存失效。",
                         "Search-result cache duration, in game ticks; 0 disables caching. Moving"
-                            + " more than 128 blocks, changing dimensions, or changing Long Travail"
-                            + " progress invalidates the cache.");
+                                + " more than 128 blocks, changing dimensions, or changing Long Travail"
+                                + " progress invalidates the cache.");
 
         builder = builders.computeIfAbsent("general.toml", key -> new ForgeConfigSpec.Builder());
         REWARD_ENTITIES_PER_TICK =
@@ -338,10 +338,10 @@ public final class TravailConfig {
                                         + "LIMIT：每次最多发放 rewardMaxEntitiesPerReward 堆物品，超出部分不发放。\n"
                                         + "两种方式均受全服每游戏刻发放上限限制。",
                                 "DEFER: deliver all rewards in batches.\n"
-                                    + "LIMIT: deliver at most rewardMaxEntitiesPerReward item"
-                                    + " stacks per reward; discard the excess.\n"
-                                    + "Both modes are subject to the server-wide per-tick delivery"
-                                    + " limit.")
+                                        + "LIMIT: deliver at most rewardMaxEntitiesPerReward item"
+                                        + " stacks per reward; discard the excess.\n"
+                                        + "Both modes are subject to the server-wide per-tick delivery"
+                                        + " limit.")
                         .defineEnum("rewardDelivery.rewardOverflowPolicy", RewardOverflow.DEFER);
         REWARD_LIMIT =
                 integer(
@@ -439,8 +439,8 @@ public final class TravailConfig {
                         1_000_000.0D,
                         "流体伤害的触发间隔，单位：秒；0表示每游戏刻触发。间隔过短可能增加游戏负担，多人时更明显。",
                         "Interval between fluid damage triggers, in seconds; 0 triggers every game"
-                            + " tick. Short intervals may increase processing load, especially with"
-                            + " multiple players.");
+                                + " tick. Short intervals may increase processing load, especially with"
+                                + " multiple players.");
         ABYSS_MINING_REDUCTION =
                 decimal(
                         builder,
@@ -472,27 +472,27 @@ public final class TravailConfig {
         FLUID_EROSION_UNAVOIDABLE =
                 builder.comment(
                                 "是否防止流体真实伤害在攻击、受伤和伤害结算事件中被取消或降为零，并保留苦旅自身倍率计算后的伤害下限。\n"
-                                    + "Prevent fluid true damage from being canceled or reduced to"
-                                    + " zero in attack, hurt, and damage-calculation events, and"
-                                    + " preserve a damage floor after The Long Travail's own"
-                                    + " multipliers are applied.",
+                                        + "Prevent fluid true damage from being canceled or reduced to"
+                                        + " zero in attack, hurt, and damage-calculation events, and"
+                                        + " preserve a damage floor after The Long Travail's own"
+                                        + " multipliers are applied.",
                                 "仍遵守苦旅自身的免伤和输出限制，不绕过伤害事件之前的无敌判定、图腾或死亡事件。关闭后仍保留流体伤害原有的护甲等穿透规则。",
                                 "Still follows The Long Travail's own damage immunity and output"
-                                    + " limits. Does not bypass invulnerability checks before"
-                                    + " damage events, totems, or death events. Disabling this"
-                                    + " preserves fluid damage's existing armor and other bypass"
-                                    + " rules.")
+                                        + " limits. Does not bypass invulnerability checks before"
+                                        + " damage events, totems, or death events. Disabling this"
+                                        + " preserves fluid damage's existing armor and other bypass"
+                                        + " rules.")
                         .define("travail.malice.fluidErosionUnavoidable", true);
         FLUID_PROTECTION =
                 builder.comment(
                                 "ENFORCED：防止事件取消伤害，并保留伤害下限。\n"
-                                    + "RESPECT_CANCELLATION：允许事件取消伤害；伤害未被取消时，保留下限。\n"
-                                    + "STANDARD：允许事件取消伤害或降低伤害。\n"
-                                    + "ENFORCED: prevent events from canceling damage and preserve"
-                                    + " a damage floor.\n"
-                                    + "RESPECT_CANCELLATION: allow events to cancel damage;"
-                                    + " preserve the floor if damage is not canceled.\n"
-                                    + "STANDARD: allow events to cancel or reduce damage.",
+                                        + "RESPECT_CANCELLATION：允许事件取消伤害；伤害未被取消时，保留下限。\n"
+                                        + "STANDARD：允许事件取消伤害或降低伤害。\n"
+                                        + "ENFORCED: prevent events from canceling damage and preserve"
+                                        + " a damage floor.\n"
+                                        + "RESPECT_CANCELLATION: allow events to cancel damage;"
+                                        + " preserve the floor if damage is not canceled.\n"
+                                        + "STANDARD: allow events to cancel or reduce damage.",
                                 "fluidErosionUnavoidable=false 时，始终使用 STANDARD。\n"
                                         + "所有模式均保留流体伤害原有的护甲和吸收生命值穿透规则。\n"
                                         + "When fluidErosionUnavoidable=false, STANDARD is always"
@@ -564,10 +564,10 @@ public final class TravailConfig {
                                 "不接受穷遐之见证等级加成的效果ID列表，例如 minecraft:night_vision。\n"
                                         + "仅跳过等级提升，不阻止获得效果，也不改变随机效果池。空列表表示不排除任何效果。",
                                 "Effect IDs excluded from Far Reach Witness's level bonus, such as"
-                                    + " minecraft:night_vision.\n"
-                                    + "Only skips the level increase. Does not prevent gaining the"
-                                    + " effect or change random effect pools. An empty list"
-                                    + " excludes no effects.")
+                                        + " minecraft:night_vision.\n"
+                                        + "Only skips the level increase. Does not prevent gaining the"
+                                        + " effect or change random effect pools. An empty list"
+                                        + " excludes no effects.")
                         .defineListAllowEmpty(
                                 "travail.witness.beneficialLevelBonusBlacklist",
                                 List.of("minecraft:night_vision", "minecraft:water_breathing"),
@@ -722,8 +722,8 @@ public final class TravailConfig {
                         64,
                         "每次成功攻击给予的随机增益效果数量。数量过多且增益冷却过短时，可能增加游戏负担。",
                         "Number of random beneficial effects granted per successful attack. Large"
-                            + " counts combined with short buff cooldowns may increase processing"
-                            + " load.");
+                                + " counts combined with short buff cooldowns may increase processing"
+                                + " load.");
         VALLEY_RANDOM_EFFECT_DURATION_SECONDS =
                 decimal(
                         builder,
@@ -1033,8 +1033,8 @@ public final class TravailConfig {
                 builder.comment(
                                 "通过饮用牛奶等方式主动解除视觉剥夺后，遮蔽画面逐渐消退所需的时间，单位：游戏刻。视觉剥夺状态本身会立即解除。",
                                 "Time for the visual mask to fade after Visual Deprivation is"
-                                    + " actively removed, for example by drinking milk, in game"
-                                    + " ticks. The status effect itself is removed immediately.")
+                                        + " actively removed, for example by drinking milk, in game"
+                                        + " ticks. The status effect itself is removed immediately.")
                         .defineInRange("travail.visualDeprivation.clearFadeOutTicks", 4, 0, 100);
 
         CarryingConfig.define(builders.get("general.toml"));
@@ -1079,8 +1079,8 @@ public final class TravailConfig {
                 aspect,
                 builder.comment(
                                 "格式：结构ID|显示名称|正整数权重。例：minecraft:stronghold|要塞|1。\n"
-                                    + "Format: structure_id|display_name|positive_integer_weight."
-                                    + " Example: minecraft:stronghold|Stronghold|1.")
+                                        + "Format: structure_id|display_name|positive_integer_weight."
+                                        + " Example: minecraft:stronghold|Stronghold|1.")
                         .defineListAllowEmpty(
                                 "travail.requirements.structures",
                                 structures,

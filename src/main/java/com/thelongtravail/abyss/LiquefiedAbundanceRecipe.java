@@ -12,11 +12,15 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 
-/** Uses the honey bottle as the fourth output container. */
+// 蜂蜜瓶作为第四个产物的容器，合成后不再返还玻璃瓶。
 public final class LiquefiedAbundanceRecipe extends ShapelessRecipe {
     public LiquefiedAbundanceRecipe(ResourceLocation id, ShapelessRecipe base) {
-        super(id, base.getGroup(), base.category(),
-                base.getResultItem(RegistryAccess.EMPTY), base.getIngredients());
+        super(
+                id,
+                base.getGroup(),
+                base.category(),
+                base.getResultItem(RegistryAccess.EMPTY),
+                base.getIngredients());
     }
 
     @Override

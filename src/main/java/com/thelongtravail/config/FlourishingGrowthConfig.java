@@ -16,7 +16,8 @@ public final class FlourishingGrowthConfig {
                 45,
                 .05,
                 1000000,
-                "每次使用槲寄生增加的持续时间，单位：秒；首次使用也采用此时长。\nDuration added by each use of Mistletoe, in seconds. Also used for the first application.");
+                "每次使用槲寄生增加的持续时间，单位：秒；首次使用也采用此时长。\nDuration added by each use of Mistletoe, "
+                        + "in seconds. Also used for the first application.");
         number(
                 b,
                 "mistletoe.speedBonusPerLevel",
@@ -37,28 +38,32 @@ public final class FlourishingGrowthConfig {
                 .1,
                 0,
                 1,
-                "每级槲寄生提供的伤害减免比例；总减免比例最高为 100%。\nFractional damage reduction per Mistletoe level, capped at 100% in total.");
+                "每级槲寄生提供的伤害减免比例；总减免比例最高为 100%。\nFractional damage reduction per Mistletoe "
+                        + "level, capped at 100% in total.");
         number(
                 b,
                 "mistletoe.expiryDamagePerLevel",
                 .05,
                 0,
                 1,
-                "槲寄生到期时，每级效果造成的魔法伤害占最大生命值的比例。\nMagic damage dealt when Mistletoe expires, per effect level, as a fraction of maximum health.");
+                "槲寄生到期时，每级效果造成的魔法伤害占最大生命值的比例。\nMagic damage dealt when Mistletoe expires, "
+                        + "per effect level, as a fraction of maximum health.");
         number(
                 b,
                 "mistletoe.lootChancePerLevel",
                 .1,
                 0,
                 1,
-                "每级槲寄生增加的整套战利品掉落概率；总概率最高为 100%。\nChance per Mistletoe level to drop the full loot table, capped at 100% in total.");
+                "每级槲寄生增加的整套战利品掉落概率；总概率最高为 100%。\nChance per Mistletoe level to drop the "
+                        + "full loot table, capped at 100% in total.");
         GROWTH =
                 b.comment(
                                 "是否允许无穷花在服务端催生植物。\nAllow Everlasting Flower to accelerate plant growth on the server.")
                         .define("items.everlasting_flower.growth.enabled", true);
         DEFAULT_GROWTH =
                 b.comment(
-                                "尚未保存催生开关状态的物品，是否默认开启催生。\nEnable growth acceleration by default for stacks that have no saved toggle state.")
+                                "尚未保存催生开关状态的物品，是否默认开启催生。\nEnable growth acceleration by default for stacks "
+                                        + "that have no saved toggle state.")
                         .define("items.everlasting_flower.growth.defaultEnabled", true);
         RADIUS =
                 b.comment(
@@ -67,11 +72,15 @@ public final class FlourishingGrowthConfig {
                                 "items.everlasting_flower.growth.horizontalRadius", 8, 1, 32);
         HEIGHT =
                 b.comment(
-                                "催生范围从中心向上、向下各延伸的距离，单位：方块。\nDistance the growth area extends above and below its center, in blocks.")
+                                "催生范围从中心向上、向下各延伸的距离，单位：方块。\nDistance the growth area extends above and "
+                                        + "below its center, in blocks.")
                         .defineInRange("items.everlasting_flower.growth.verticalRadius", 4, 0, 16);
         INTERVAL =
                 b.comment(
-                                "对同一植物执行额外随机刻的最短间隔，单位：游戏刻。处理预算不足时降低执行频率，不补发跳过的随机刻。\nMinimum interval between extra random ticks for the same plant, in game ticks. If the processing budget is exhausted, ticks occur less often; skipped ticks are not made up later.")
+                                "对同一植物执行额外随机刻的最短间隔，单位：游戏刻。处理预算不足时降低执行频率，不补发跳过的随机刻。\nMinimum interval "
+                                        + "between extra random ticks for the same plant, in game ticks. If the "
+                                        + "processing budget is exhausted, ticks occur less often; skipped ticks are "
+                                        + "not made up later.")
                         .defineInRange(
                                 "items.everlasting_flower.growth.intervalTicks", 20, 1, 1200000);
         number(
@@ -119,7 +128,8 @@ public final class FlourishingGrowthConfig {
                 .2,
                 0,
                 1,
-                "触发追加伤害的概率；每次续接均使用此概率。\nChance to trigger an extra hit, also used for each subsequent hit in the chain.");
+                "触发追加伤害的概率；每次续接均使用此概率。\nChance to trigger an extra hit, also used for each "
+                        + "subsequent hit in the chain.");
     }
 
     private static void number(

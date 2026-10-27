@@ -32,7 +32,7 @@ public enum ModeEffectRules {
     STAR_FREEZE(
             "aspects/boundless.toml",
             "items.boundless.star.affectCreativeAndSpectator",
-            "星之声对范围内玩家的时停",
+            "星之声在范围内施加的时停",
             "Star Voice freezing players within its area"),
     FLOWER_EFFECTS(
             "aspects/flourishing.toml",
@@ -46,8 +46,9 @@ public enum ModeEffectRules {
             "Rose Bush retaliation from A Corner of Spring"),
     LAFITE_NAUSEA(
             "aspects/abyss.toml",
-                    "items.midnight_lafite.nauseaExtensionAffectsCreativeAndSpectator",
-            "午夜拉菲的反胃时长延长", "Nausea extension from Midnight Lafite"),
+            "items.midnight_lafite.nauseaExtensionAffectsCreativeAndSpectator",
+            "午夜拉菲的反胃时长延长",
+            "Nausea extension from Midnight Lafite"),
     ICARUS_FIRE(
             "aspects/far_reach.toml",
             "items.icarus.ignitionAffectsCreativeAndSpectator",
@@ -69,7 +70,7 @@ public enum ModeEffectRules {
             rule.config =
                     builders.get(rule.file)
                             .comment(
-                                    rule.description + "是否对创造模式或观察者模式的玩家生效。",
+                                    rule.description + "是否对处于创造模式或旁观者模式的玩家生效。",
                                     rule.descriptionEnglish
                                             + ": apply this effect to players in Creative or"
                                             + " Spectator mode.")

@@ -117,7 +117,8 @@ public final class StructureCompatDefaults {
     static void define(ForgeConfigSpec.Builder builder, TravailAspect aspect) {
         for (Preset preset : PRESETS) {
             if (preset.structures().apply(aspect).isEmpty()) continue;
-            builder.comment(preset.name()).define(preset.marker(), false);
+            builder.comment(ConfigFilesDescription.presetMarker(preset.name(), "结构", "structure"))
+                    .define(preset.marker(), false);
         }
     }
 

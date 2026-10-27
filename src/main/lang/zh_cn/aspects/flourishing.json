@@ -121,5 +121,8 @@
   "tooltip.the_long_travail.immortal_bud.details.2": "合成仅为物品添加标记，物品原有的名称、附魔及其他数据将会被保留。",
   "tooltip.the_long_travail.immortal_bud.details.3": "带有「恒久长青」的物品受到耐久保护，不会降低耐久，同样也不会被过高的一次性消耗破坏。",
   "tooltip.the_long_travail.immortal_bud.details.4": "永生芽自身及受保护的物品，在掉落物状态下防火、防岩浆、防爆，且不会自然消失。",
-  "tooltip.the_long_travail.immortal_bud.details.5": "合成消耗、物品放置或使用消耗不受「恒久长青」保护。另外，受保护物品若坠入虚空，也无法找回。"
+  "tooltip.the_long_travail.immortal_bud.details.5": "合成消耗、物品放置或使用消耗不受「恒久长青」保护。另外，受保护物品若坠入虚空，也无法找回。",
+  "tooltip.the_long_travail.summary.immortal_bud.no_repair": "与§a可赋予的耐久物品§r无序合成，保留原有损伤并赋予「§6恒久长青§r」。",
+  "tooltip.the_long_travail.immortal_bud.details.no_repair": "将永生芽与一件可赋予的耐久物品无序合成，保留目标原有损伤并赋予「恒久长青」标记。",
+  "tooltip.the_long_travail.immortal_bud.blacklist": "以下物品不能接受新的赋予，已有标记不受影响：%s。"
 }

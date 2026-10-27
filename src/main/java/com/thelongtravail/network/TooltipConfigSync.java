@@ -97,6 +97,14 @@ public final class TooltipConfigSync {
                 "underworldItem.protection",
                 (double) com.thelongtravail.config.UnderworldItemsConfig.PROTECTION.get());
         values.put(
+                "bud.repair",
+                com.thelongtravail.config.FlourishingItemsConfig.BUD_REPAIR.get() ? 1D : 0D);
+        values.put(
+                "swordLantern.radius", com.thelongtravail.valley.SwordLanternConfig.RADIUS.get());
+        values.put(
+                "swordLantern.crowdMinimum",
+                (double) com.thelongtravail.valley.SwordLanternConfig.CROWD_MINIMUM.get());
+        values.put(
                 "swordLantern.memory", com.thelongtravail.valley.SwordLanternConfig.MEMORY.get());
         values.put(
                 "swordLantern.timeout", com.thelongtravail.valley.SwordLanternConfig.TIMEOUT.get());
@@ -299,6 +307,12 @@ public final class TooltipConfigSync {
         pools.put(
                 "abyss.fluidBlacklist",
                 List.copyOf(com.thelongtravail.config.AbyssItemsConfig.BLACKLIST.get()));
+        pools.put(
+                "bud.blacklist",
+                List.copyOf(com.thelongtravail.config.FlourishingItemsConfig.BUD_BLACKLIST.get()));
+        pools.put(
+                "abundance.whitelist",
+                List.copyOf(com.thelongtravail.config.AbyssItemsConfig.ABUNDANCE_WHITELIST.get()));
         pools.put("abundance.effects", com.thelongtravail.abyss.AbundanceEffectPool.ids());
         pools.put(
                 "abundance.blacklist",

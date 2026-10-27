@@ -16,8 +16,8 @@ public final class FarReachRelicsConfig {
                 0,
                 100,
                 "综合尺寸每比标准玩家多出一倍时，增加的伤害加成比例。\n"
-                    + "Fractional damage bonus for each additional multiple of the standard player"
-                    + " size in the combined size metric.");
+                        + "Fractional damage bonus for each additional multiple of the standard player"
+                        + " size in the combined size metric.");
         n(
                 b,
                 "don_quixote.maxBonus",
@@ -32,7 +32,7 @@ public final class FarReachRelicsConfig {
                 500,
                 1,
                 1e12,
-                "目标当前生命至少为佩戴者当前生命的此倍数，才追加真伤。\n"
+                "当目标当前生命值不低于佩戴者当前生命值乘以此倍率时，追加真实伤害。\n"
                         + "Deals additional true damage only when the target's current health is at"
                         + " least this multiple of the wearer's current health.");
         n(
@@ -50,7 +50,7 @@ public final class FarReachRelicsConfig {
                 .05,
                 0,
                 1,
-                "单次原攻击实际伤害须严格超过目标最大生命的此比例。\n"
+                "原攻击单次实际造成的伤害须严格大于目标最大生命值乘以此比例。\n"
                         + "Actual damage from a single original attack must strictly exceed this"
                         + " fraction of the target's maximum health.");
         n(
@@ -69,7 +69,7 @@ public final class FarReachRelicsConfig {
                 .05,
                 3600,
                 "针对对应目标的减伤持续时间，单位：秒。\n"
-                    + "Duration of damage reduction against the corresponding target, in seconds.");
+                        + "Duration of damage reduction against the corresponding target, in seconds.");
         n(
                 b,
                 "don_quixote.cooldown",
@@ -77,8 +77,8 @@ public final class FarReachRelicsConfig {
                 0,
                 3600,
                 "从触发开始计算的玩家全局冷却秒数；离线暂停。\n"
-                    + "Player-wide cooldown starting when protection triggers, in seconds; paused"
-                    + " while offline.");
+                        + "Player-wide cooldown starting when protection triggers, in seconds; paused"
+                        + " while offline.");
         n(
                 b,
                 "babel.priceFactor",
@@ -86,8 +86,8 @@ public final class FarReachRelicsConfig {
                 .001,
                 1,
                 "恶意状态下，交易第一项材料的价格倍率；计算结果向上取整，且至少为 1。\n"
-                    + "Price multiplier for the first trade ingredient while Malice is active. The"
-                    + " result is rounded up to a minimum of 1.");
+                        + "Price multiplier for the first trade ingredient while Malice is active. The"
+                        + " result is rounded up to a minimum of 1.");
         n(
                 b,
                 "babel.restockRange",
@@ -104,8 +104,8 @@ public final class FarReachRelicsConfig {
                 .05,
                 1200,
                 "加速补货的最短间隔，单位：秒；仍须满足村民正常工作的条件。\n"
-                    + "Minimum interval between accelerated restocks, in seconds. The villager must"
-                    + " still meet its normal work requirements.");
+                        + "Minimum interval between accelerated restocks, in seconds. The villager must"
+                        + " still meet its normal work requirements.");
         n(
                 b,
                 "babel.restocksPerDay",
@@ -113,8 +113,8 @@ public final class FarReachRelicsConfig {
                 2,
                 128,
                 "加速补货期间，每个世界日实际补货的次数上限；普通补货也计入。\n"
-                    + "Maximum number of actual restocks per world day while accelerated restocking"
-                    + " is active. Normal restocks also count toward this limit.");
+                        + "Maximum number of actual restocks per world day while accelerated restocking"
+                        + " is active. Normal restocks also count toward this limit.");
         for (String area :
                 List.of(
                         "inventory",
@@ -130,9 +130,9 @@ public final class FarReachRelicsConfig {
         SIZES =
                 b.comment(
                                 "体积指标覆盖值，格式：实体 ID=宽度平方×高度。仅用于堂吉诃德的计算，不改变实体碰撞箱。\n"
-                                    + "Size metric overrides in the format"
-                                    + " entity_id=width_squared_times_height. These affect only Don"
-                                    + " Quixote calculations and do not change entity hitboxes.")
+                                        + "Size metric overrides in the format"
+                                        + " entity_id=width_squared_times_height. These affect only Don"
+                                        + " Quixote calculations and do not change entity hitboxes.")
                         .defineListAllowEmpty(
                                 "items.don_quixote.sizeOverrides",
                                 List.of(),

@@ -66,7 +66,8 @@ public final class ConfigFileIO {
 
     // 核对磁盘版本后写入，并返回写入后读取的磁盘字节。
     // 活动配置的发布及失败处理由调用方负责。
-    static byte[] writeChecked(Path path, CommentedConfig config, byte[] expected) throws IOException {
+    static byte[] writeChecked(Path path, CommentedConfig config, byte[] expected)
+            throws IOException {
         ConfigRecovery.checkUnchanged(path, expected);
         write(path, config);
         return Files.readAllBytes(path);

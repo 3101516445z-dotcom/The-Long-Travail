@@ -27,7 +27,15 @@ final class CombatDamageRecord {
         recordedDamage += amount;
     }
 
-    boolean committed() { return committed; }
-    double total() { return recordedDamage; }
-    double healthLoss() { return relicHealthLoss; }
+    boolean committed() {
+        return committed;
+    }
+
+    double total() {
+        return recordedDamage;
+    }
+
+    double healthLoss() {
+        return relicHealthLoss;
+    }
 }

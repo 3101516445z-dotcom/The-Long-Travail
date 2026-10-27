@@ -89,8 +89,13 @@ public final class SwordLanternItem extends Item implements ICurioItem, ItemDesc
         out.add(Component.empty());
         line(out, "immunity");
         line(out, "bonus");
+        line(out, "radius", num("radius", SwordLanternConfig.RADIUS.get(), 1));
         line(out, "alone", num("aloneBonus", SwordLanternConfig.ALONE_BONUS.get(), 100));
-        line(out, "crowd", num("crowdBonus", SwordLanternConfig.CROWD_BONUS.get(), 100));
+        line(
+                out,
+                "crowd",
+                num("crowdMinimum", SwordLanternConfig.CROWD_MINIMUM.get(), 1),
+                num("crowdBonus", SwordLanternConfig.CROWD_BONUS.get(), 100));
         line(out, "undead", num("undeadBonus", SwordLanternConfig.UNDEAD_BONUS.get(), 100));
         line(
                 out,

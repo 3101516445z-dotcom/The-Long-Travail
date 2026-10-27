@@ -98,7 +98,8 @@ public class TravailEvents {
     @SubscribeEvent
     public void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            JourneyRuntimeMaintenance.resetRuntime(player, VisualDeprivation.ClearReason.DIMENSION_CHANGE);
+            JourneyRuntimeMaintenance.resetRuntime(
+                    player, VisualDeprivation.ClearReason.DIMENSION_CHANGE);
             TravailNetwork.sendJourney(player);
             WayguideReturns.get(player.server).activate(player);
         }

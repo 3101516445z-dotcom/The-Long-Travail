@@ -491,3 +491,21 @@ Without an online owner wearing the diary, those effects do not apply.
 One owner's diary can support several maids, each wearing its own accessories.
 Eki carrying switches and Curios slot settings apply only to players.
 Tokaido provides only healing and fire immunity to maids.
+
+[M06] Theme item eligibility and detection conditions
+
+Immortal Bud: aspects/flourishing.toml → items.immortal_bud
+- repairOnApply defaults to true: fully repair the target when applying the mark. False preserves existing damage while still granting durability protection.
+- itemBlacklist defaults to []; exact item IDs block new applications only. Existing marks and protection remain effective.
+
+Sword and Lantern: aspects/deep_valley.toml → items.swordAndLantern
+- detectionRadius defaults to 64 blocks, with a range of 8–64. Players and maids use this radius for enemy, undead and alone checks.
+- crowdMinimumEnemies defaults to 11, with a range of 2–64. Reaching this count activates crowdBonus.
+
+Liquefied Abundance: aspects/abyss.toml → items.liquefied_abundance
+- IMPORTANT: Once effectWhitelist is nonempty, ONLY listed potion effects can be generated. ALL effects outside the list are excluded. This list restricts effects; it does not add effects to the original pool.
+- For example, ["minecraft:speed"] allows only Speed potions. The default [] disables whitelist restrictions; clearing the list restores this behavior, while effectBlacklist still applies.
+- effectBlacklist always takes precedence. For example, whitelist ["minecraft:speed", "minecraft:poison"] with blacklist ["minecraft:poison"] allows only Speed.
+- Use full status effect IDs. Unknown or malformed whitelist IDs are ignored with a warning; duplicate entries add no weight. A nonempty but entirely invalid whitelist never falls back to all effects.
+- Both lists filter effect types only. Selection remains uniform within each tier: effect → level → duration. Reducing the pool increases each remaining effect's selection probability without changing its levels, durations or fallback rules.
+- If no eligible effects remain, conversion is cancelled with a message and consumes no Liquefied Abundance. Existing potions are unchanged. Reloading configuration cancels ongoing conversions; later uses draw from the updated pool.

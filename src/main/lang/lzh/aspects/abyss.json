@@ -115,5 +115,6 @@
   "tooltip.the_long_travail.abundance.mode.2": "滯留型藥水",
   "tooltip.the_long_travail.abundance.summary_switch": "若點按右鍵，則可易所化藥水之類（普通/噴濺/滯留）。",
   "tooltip.the_long_travail.abundance.switch": "手持液化豐饒時點按右鍵，可易所化藥水之類，依次為普通藥水、噴濺型藥水與滯留型藥水。",
-  "tooltip.the_long_travail.flavor.liquefied_abundance": "今日和風細雨。舉杯，吾友。"
+  "tooltip.the_long_travail.flavor.liquefied_abundance": "今日和風細雨。舉杯，吾友。",
+  "tooltip.the_long_travail.abundance.whitelist": "白名冊所列方可抽取，黑名冊所禁為先；篩後無物則止轉化，不耗其材：%s。"
 }

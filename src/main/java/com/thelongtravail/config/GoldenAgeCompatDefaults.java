@@ -68,7 +68,14 @@ public final class GoldenAgeCompatDefaults {
 
     static void define(ForgeConfigSpec.Builder builder) {
         for (Preset preset : PRESETS)
-            builder.comment(preset.name()).define(preset.pool().marker(preset.mod()), false);
+            builder.comment(
+                            ConfigFilesDescription.presetMarker(
+                                    preset.name(),
+                                    preset.pool() == Pool.FOOD ? "食物黑名单" : "附魔黑名单",
+                                    preset.pool() == Pool.FOOD
+                                            ? "food blacklist"
+                                            : "enchantment blacklist"))
+                    .define(preset.pool().marker(preset.mod()), false);
     }
 
     static void loaded(ModConfigEvent.Loading event) {

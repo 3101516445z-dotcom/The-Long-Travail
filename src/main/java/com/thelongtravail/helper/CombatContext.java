@@ -170,7 +170,9 @@ public final class CombatContext implements AutoCloseable {
 
     public static void recordHealthLoss(LivingEntity target, float before, float after) {
         CombatContext context = CURRENT.get();
-        if (context != null && context.target == target && context.damageRecord.healthLost(before, after)) {
+        if (context != null
+                && context.target == target
+                && context.damageRecord.healthLost(before, after)) {
             context.recordProvocation();
             context.confirmDamage();
         }
@@ -178,7 +180,9 @@ public final class CombatContext implements AutoCloseable {
 
     public static void recordAbsorptionLoss(LivingEntity target, float before, float after) {
         CombatContext context = CURRENT.get();
-        if (context != null && context.target == target && context.damageRecord.absorptionLost(before, after)) {
+        if (context != null
+                && context.target == target
+                && context.damageRecord.absorptionLost(before, after)) {
             context.recordProvocation();
             context.confirmDamage();
         }

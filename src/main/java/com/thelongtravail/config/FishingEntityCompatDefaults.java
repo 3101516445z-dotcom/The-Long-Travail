@@ -50,7 +50,11 @@ public final class FishingEntityCompatDefaults {
     }
 
     static void define(ForgeConfigSpec.Builder builder) {
-        for (Preset preset : PRESETS) builder.comment(preset.name()).define(marker(preset), false);
+        for (Preset preset : PRESETS)
+            builder.comment(
+                            ConfigFilesDescription.presetMarker(
+                                    preset.name(), "钓鱼实体", "fishing entity"))
+                    .define(marker(preset), false);
     }
 
     static void loaded(ModConfigEvent.Loading event) {

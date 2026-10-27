@@ -25,7 +25,7 @@
   "tooltip.the_long_travail.sword_lantern.bonus": "The following conditions grant the wearer the corresponding §6damage dealt§r bonuses. These bonuses stack:",
   "tooltip.the_long_travail.sword_lantern.light": "§6Illuminates the surroundings§r while §aequipped, held, or dropped§r.",
   "tooltip.the_long_travail.sword_lantern.immunity": "While equipped, grants immunity to §6Darkness§r, §6Blindness§r and §6Nausea§r.",
-  "tooltip.the_long_travail.sword_lantern.crowd": "- Having §amore than 10§r enemies: +§a%s%%§r;",
+  "tooltip.the_long_travail.sword_lantern.crowd": "- At least §a%s enemies§r: deal §a%s%%§r more damage;",
   "tooltip.the_long_travail.sword_lantern.undead": "- Enemies include an §6undead creature§r: +§a%s%%§r;",
   "tooltip.the_long_travail.sword_lantern.duration": "- Remaining in combat for §amore than %s minutes§r: +§a%s%%§r;",
   "tooltip.the_long_travail.sword_lantern.alone": "- §aFighting alone§r: +§a%s%%§r;",
@@ -55,5 +55,6 @@
   "tooltip.the_long_travail.summary.phosphophyllite.1": "§dOnce Deep Valley has borne Witness,§r the attribute bonus and damage increase are reduced. Hits may restore §6health§r, converting excess healing into §6absorption§r.",
   "tooltip.the_long_travail.summary.underground_velvet.0": "Right-click to consume §a1§r and obtain ores or ingots of §aone§r random type.",
   "tooltip.the_long_travail.summary.underground_velvet.1": "§dWhile Deep Valley still bears Malice,§r using this item may grant additional mineshaft or ancient city loot.",
-  "tooltip.the_long_travail.summary.underground_velvet.2": "§dOnce Deep Valley has borne Witness,§r using this item increases the user's §6experience level§r."
+  "tooltip.the_long_travail.summary.underground_velvet.2": "§dOnce Deep Valley has borne Witness,§r using this item increases the user's §6experience level§r.",
+  "tooltip.the_long_travail.sword_lantern.radius": "Nearby enemies, undead and the alone condition are checked within §a%s blocks§r."
 }

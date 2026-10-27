@@ -99,7 +99,12 @@ public final class RewardCompatDefaults {
             if (pool.aspect() != aspect) continue;
             for (Preset preset : PRESETS) {
                 if (preset.entries(aspect).isEmpty()) continue;
-                builder.comment(preset.name()).define(marker(pool, preset), false);
+                builder.comment(
+                                ConfigFilesDescription.presetMarker(
+                                        preset.name(),
+                                        pool == FISHING ? "钓鱼物品" : "幻翼掉落物",
+                                        pool == FISHING ? "fishing item" : "phantom drop"))
+                        .define(marker(pool, preset), false);
             }
         }
     }

@@ -18,7 +18,28 @@ public final class FlourishingItemsConfig {
             AFFECTION_SLOTS,
             BLACKLIST;
 
+    public static ForgeConfigSpec.BooleanValue BUD_REPAIR;
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> BUD_BLACKLIST;
+
     public static void define(ForgeConfigSpec.Builder b) {
+        BUD_REPAIR =
+                b.comment(
+                                "启用时，永生芽赋予标记时修满目标耐久；禁用时保留原有损伤。仅影响之后的赋予。",
+                                "When enabled, applying Immortal Bud fully repairs the target; when disabled,"
+                                        + " existing damage is preserved. Affects future applications only.")
+                        .define("items.immortal_bud.repairOnApply", true);
+        BUD_BLACKLIST =
+                b.comment(
+                                "禁止永生芽赋予的物品 ID，精确匹配；空列表不额外限制。不会撤销已有标记。",
+                                "Exact item IDs excluded from Immortal Bud application; an empty list adds"
+                                        + " no restriction. Existing marks are not revoked.")
+                        .defineListAllowEmpty(
+                                "items.immortal_bud.itemBlacklist",
+                                List.of(),
+                                v ->
+                                        v instanceof String s
+                                                && s.contains(":")
+                                                && ResourceLocation.tryParse(s) != null);
         FlourishingGrowthConfig.define(b);
         for (Flower f : Flower.values()) {
             String p = "items.spring_corner.flowers." + f.id;
@@ -63,8 +84,8 @@ public final class FlourishingItemsConfig {
                 0,
                 1,
                 "佩戴者当前生命值占最大生命值的比例低于此值时生效。\n"
-                    + "Applies while the wearer's current health as a fraction of maximum health is"
-                    + " below this value.");
+                        + "Applies while the wearer's current health as a fraction of maximum health is"
+                        + " below this value.");
         extra(
                 b,
                 "white_tulip",
@@ -73,8 +94,8 @@ public final class FlourishingItemsConfig {
                 0,
                 1,
                 "佩戴者当前生命值占最大生命值的比例低于此值时生效。\n"
-                    + "Applies while the wearer's current health as a fraction of maximum health is"
-                    + " below this value.");
+                        + "Applies while the wearer's current health as a fraction of maximum health is"
+                        + " below this value.");
         extra(
                 b,
                 "oxeye_daisy",
@@ -113,7 +134,7 @@ public final class FlourishingItemsConfig {
                 0,
                 1000,
                 "移动速度增加比例；固定要求白天且露天。\n"
-                    + "Fractional movement speed increase; always requires daytime and open sky.");
+                        + "Fractional movement speed increase; always requires daytime and open sky.");
         extra(
                 b,
                 "rose_bush",
@@ -141,9 +162,9 @@ public final class FlourishingItemsConfig {
                 0,
                 1000,
                 "绑定的伙伴生物可获得的最大伤害加成比例；实际加成随佩戴者已损失生命值占最大生命值的比例线性提高。\n"
-                    + "Maximum fractional damage bonus for the bound companion. The actual bonus"
-                    + " scales linearly with the fraction of the wearer's maximum health that is"
-                    + " missing.");
+                        + "Maximum fractional damage bonus for the bound companion. The actual bonus"
+                        + " scales linearly with the fraction of the wearer's maximum health that is"
+                        + " missing.");
         affinity(
                 b,
                 "servantDamageReduction",
@@ -151,9 +172,9 @@ public final class FlourishingItemsConfig {
                 0,
                 1,
                 "绑定的伙伴生物可获得的最大伤害减免比例；实际减免随佩戴者已损失生命值占最大生命值的比例线性提高。\n"
-                    + "Maximum fractional damage reduction for the bound companion. The actual"
-                    + " reduction scales linearly with the fraction of the wearer's maximum health"
-                    + " that is missing.");
+                        + "Maximum fractional damage reduction for the bound companion. The actual"
+                        + " reduction scales linearly with the fraction of the wearer's maximum health"
+                        + " that is missing.");
         affinity(
                 b,
                 "playerDamageBonus",
@@ -161,9 +182,9 @@ public final class FlourishingItemsConfig {
                 0,
                 1000,
                 "佩戴者可获得的最大伤害加成比例；实际加成随绑定的伙伴生物已损失生命值占最大生命值的比例线性提高。\n"
-                    + "Maximum fractional damage bonus for the wearer. The actual bonus scales"
-                    + " linearly with the fraction of the bound companion's maximum health that is"
-                    + " missing.");
+                        + "Maximum fractional damage bonus for the wearer. The actual bonus scales"
+                        + " linearly with the fraction of the bound companion's maximum health that is"
+                        + " missing.");
         affinity(
                 b,
                 "playerDamageReduction",
@@ -171,9 +192,9 @@ public final class FlourishingItemsConfig {
                 0,
                 1,
                 "佩戴者可获得的最大伤害减免比例；实际减免随绑定的伙伴生物已损失生命值占最大生命值的比例线性提高。\n"
-                    + "Maximum fractional damage reduction for the wearer. The actual reduction"
-                    + " scales linearly with the fraction of the bound companion's maximum health"
-                    + " that is missing.");
+                        + "Maximum fractional damage reduction for the wearer. The actual reduction"
+                        + " scales linearly with the fraction of the bound companion's maximum health"
+                        + " that is missing.");
         affinity(
                 b,
                 "playerSpeedBonus",
@@ -181,9 +202,9 @@ public final class FlourishingItemsConfig {
                 0,
                 1000,
                 "佩戴者可获得的最大移动速度加成比例；实际加成随绑定的伙伴生物已损失生命值占最大生命值的比例线性提高。\n"
-                    + "Maximum fractional movement speed bonus for the wearer. The actual bonus"
-                    + " scales linearly with the fraction of the bound companion's maximum health"
-                    + " that is missing.");
+                        + "Maximum fractional movement speed bonus for the wearer. The actual bonus"
+                        + " scales linearly with the fraction of the bound companion's maximum health"
+                        + " that is missing.");
         affinity(
                 b,
                 "range",
@@ -191,8 +212,8 @@ public final class FlourishingItemsConfig {
                 0,
                 1024,
                 "生效距离，单位：方块；双方须处于同一维度。\n"
-                    + "Maximum distance at which the effects apply, in blocks. Both entities must"
-                    + " be in the same dimension.");
+                        + "Maximum distance at which the effects apply, in blocks. Both entities must"
+                        + " be in the same dimension.");
         SPRING_SLOTS = slots(b, "spring_corner", "head");
         AFFECTION_SLOTS = slots(b, "affection", "body");
         BLACKLIST =
@@ -230,8 +251,8 @@ public final class FlourishingItemsConfig {
                 switch (f) {
                     case DANDELION ->
                             "食物恢复的饱食度提高的比例；不足1点的部分会保留，并在之后进食时累计计算。\n"
-                                + "Fractional increase in hunger restored by food. Fractions below"
-                                + " 1 point are retained and accumulated across later meals.";
+                                    + "Fractional increase in hunger restored by food. Fractions below"
+                                    + " 1 point are retained and accumulated across later meals.";
                     case POPPY, RED_TULIP, SUNFLOWER ->
                             "造成的伤害提高的比例。\nFractional increase in damage dealt.";
                     case BLUE_ORCHID -> "水中移动速度的增加比例。\nFractional increase in swimming speed.";
@@ -252,12 +273,12 @@ public final class FlourishingItemsConfig {
                                     + "Fractional reduction in fire, burning, and lava damage.";
                     case LILAC ->
                             "施加的中毒、凋零、缓慢和虚弱效果持续时间延长的比例。\n"
-                                + "Fractional increase in the duration of Poison, Wither, Slowness,"
-                                + " and Weakness effects applied.";
+                                    + "Fractional increase in the duration of Poison, Wither, Slowness,"
+                                    + " and Weakness effects applied.";
                     case ROSE_BUSH ->
                             "反伤占玩家当前最大生命值的比例；真实伤害，不受增伤影响。\n"
-                                + "Retaliation damage as a fraction of the player's current maximum"
-                                + " health. Deals true damage and is unaffected by damage bonuses.";
+                                    + "Retaliation damage as a fraction of the player's current maximum"
+                                    + " health. Deals true damage and is unaffected by damage bonuses.";
                     case PEONY -> "最大生命值的增加比例。\nFractional increase in maximum health.";
                     case PITCHER_PLANT ->
                             "每次击杀敌对生物时，恢复量占佩戴者最大生命值的比例。\n"
@@ -269,8 +290,8 @@ public final class FlourishingItemsConfig {
                                     + " damage.";
                     case SPORE_BLOSSOM ->
                             "新施加的有限时长负面效果持续时间缩短的比例；不影响瞬间或无限持续效果。\n"
-                                + "Fractional duration reduction for newly applied finite harmful"
-                                + " effects; excludes instant and infinite effects.";
+                                    + "Fractional duration reduction for newly applied finite harmful"
+                                    + " effects; excludes instant and infinite effects.";
                     case PINK_PETALS -> "移动速度的增加比例。\nFractional increase in movement speed.";
                     default -> "效果比例。\nEffect fraction.";
                 };
@@ -322,8 +343,8 @@ public final class FlourishingItemsConfig {
         return b.comment(
                         "饰品可生效的Curios槽位。使用自定义槽位时，还需配置允许该饰品装备到该槽位的物品标签。",
                         "Curios slots in which the accessory can take effect. Custom slots also"
-                            + " require item tags allowing the accessory to be equipped in those"
-                            + " slots.")
+                                + " require item tags allowing the accessory to be equipped in those"
+                                + " slots.")
                 .defineListAllowEmpty(
                         "items." + id + ".slots",
                         List.of(slot),

@@ -57,7 +57,8 @@ public final class BiomeCompatDefaults {
     static void define(ForgeConfigSpec.Builder builder, TravailAspect aspect) {
         for (Preset preset : PRESETS) {
             if (preset.biomes().apply(aspect).isEmpty()) continue;
-            builder.comment(preset.name()).define(preset.marker(), false);
+            builder.comment(ConfigFilesDescription.presetMarker(preset.name(), "群系", "biome"))
+                    .define(preset.marker(), false);
         }
     }
 

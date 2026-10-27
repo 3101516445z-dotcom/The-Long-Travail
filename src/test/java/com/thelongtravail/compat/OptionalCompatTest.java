@@ -73,39 +73,44 @@ public final class OptionalCompatTest {
                         }));
         expect(!new OptionalCompatState.Gate("test mismatch").check(true, () -> false));
         expect(
-                !new OptionalCompatState.Gate("test missing").check(
-                        true,
-                        () -> {
-                            throw new ClassNotFoundException();
-                        }));
+                !new OptionalCompatState.Gate("test missing")
+                        .check(
+                                true,
+                                () -> {
+                                    throw new ClassNotFoundException();
+                                }));
         expect(
-                !new OptionalCompatState.Gate("test unreadable").check(
-                        true,
-                        () -> {
-                            throw new IOException();
-                        }));
+                !new OptionalCompatState.Gate("test unreadable")
+                        .check(
+                                true,
+                                () -> {
+                                    throw new IOException();
+                                }));
         expect(
-                !new OptionalCompatState.Gate("test linkage").check(
-                        true,
-                        () -> {
-                            throw new NoSuchMethodError();
-                        }));
+                !new OptionalCompatState.Gate("test linkage")
+                        .check(
+                                true,
+                                () -> {
+                                    throw new NoSuchMethodError();
+                                }));
         try {
-            new OptionalCompatState.Gate("test programming error").check(
-                    true,
-                    () -> {
-                        throw new IllegalArgumentException();
-                    });
+            new OptionalCompatState.Gate("test programming error")
+                    .check(
+                            true,
+                            () -> {
+                                throw new IllegalArgumentException();
+                            });
             throw new AssertionError("Programming error swallowed");
         } catch (IllegalArgumentException expected) {
             passed++;
         }
         try {
-            new OptionalCompatState.Gate("test fatal error").check(
-                    true,
-                    () -> {
-                        throw new OutOfMemoryError("fixture");
-                    });
+            new OptionalCompatState.Gate("test fatal error")
+                    .check(
+                            true,
+                            () -> {
+                                throw new OutOfMemoryError("fixture");
+                            });
             throw new AssertionError("Fatal error swallowed");
         } catch (OutOfMemoryError expected) {
             passed++;
@@ -118,7 +123,8 @@ public final class OptionalCompatTest {
         nodes.put(GravestoneAccess.TILE, tile);
         nodes.put(GravestoneAccess.DEATH, death);
         method(tile, GravestoneAccess.GET_DEATH, GravestoneAccess.GET_DEATH_DESC, 0);
-        MethodNode setter = method(tile, GravestoneAccess.SET_DEATH, GravestoneAccess.SET_DEATH_DESC, 0);
+        MethodNode setter =
+                method(tile, GravestoneAccess.SET_DEATH, GravestoneAccess.SET_DEATH_DESC, 0);
         method(death, GravestoneAccess.GET_ITEMS, GravestoneAccess.GET_ITEMS_DESC, 0);
         expect(OptionalCompatChecks.gravestone(source(nodes)));
         setter.desc = "()V";
@@ -147,7 +153,7 @@ public final class OptionalCompatTest {
                 "(Lnet/minecraft/world/entity/LivingEntity;)" + result,
                 Opcodes.ACC_ABSTRACT);
         method(impl, "canFallFly", "(Lnet/minecraft/world/entity/LivingEntity;)" + result, 0);
-        for (String name : new String[] { "DEFAULT", "ALLOW", "DENY" })
+        for (String name : new String[] {"DEFAULT", "ALLOW", "DENY"})
             tri.fields.add(
                     new FieldNode(
                             Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC | Opcodes.ACC_ENUM,
@@ -175,15 +181,16 @@ public final class OptionalCompatTest {
 
     private static void artifact(String path) throws Exception {
         try (JarFile jar = new JarFile(path)) {
-            OptionalCompatChecks.Classes classes = name -> {
-                var entry = jar.getJarEntry(name.replace('.', '/') + ".class");
-                if (entry == null) throw new ClassNotFoundException(name);
-                try (var input = jar.getInputStream(entry)) {
-                    ClassNode node = new ClassNode();
-                    new ClassReader(input).accept(node, 0);
-                    return node;
-                }
-            };
+            OptionalCompatChecks.Classes classes =
+                    name -> {
+                        var entry = jar.getJarEntry(name.replace('.', '/') + ".class");
+                        if (entry == null) throw new ClassNotFoundException(name);
+                        try (var input = jar.getInputStream(entry)) {
+                            ClassNode node = new ClassNode();
+                            new ClassReader(input).accept(node, 0);
+                            return node;
+                        }
+                    };
             if (jar.getJarEntry(GravestoneAccess.TILE.replace('.', '/') + ".class") != null)
                 expect(OptionalCompatChecks.gravestone(classes));
             else if (jar.getJarEntry("top/theillusivec4/caelus/api/CaelusApi.class") != null)
@@ -194,7 +201,8 @@ public final class OptionalCompatTest {
                                 classes.read("dev.shadowsoffire.apotheosis.mixin.AnvilMenuMixin")));
                 expect(
                         OptionalCompatChecks.anvil(
-                                classes.read("dev.shadowsoffire.apotheosis.mixin.client.AnvilScreenMixin")));
+                                classes.read(
+                                        "dev.shadowsoffire.apotheosis.mixin.client.AnvilScreenMixin")));
             }
             System.out.println("PASS artifact: " + jar.getName());
         }

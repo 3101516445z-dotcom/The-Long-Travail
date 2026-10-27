@@ -76,7 +76,7 @@ final class FluidBeyondStore {
                     graph.transform(serialized, depth + 6);
                     ItemStack output = ItemStack.of(serialized);
                     if (output.isEmpty())
-                        continue; // 仅沿用现有保护规则移除资源。
+                        continue; // 转换结果为空时移除对应存储条目。
                     key = type(ITEM).getConstructor(ItemStack.class).newInstance(output);
                 }
                 CompoundTag encoded = encode(key, amount);

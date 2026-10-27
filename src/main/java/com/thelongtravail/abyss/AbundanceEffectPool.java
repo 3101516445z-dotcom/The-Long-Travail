@@ -80,8 +80,19 @@ public final class AbundanceEffectPool {
                 TheLongTravail.LOGGER.warn(
                         "Unknown liquefied abundance effect blacklist ID: {}", text);
         }
+        var whitelist = AbyssItemsConfig.ABUNDANCE_WHITELIST.get();
+        Set<MobEffect> allowed = new HashSet<>();
+        for (String text : new LinkedHashSet<>(whitelist)) {
+            ResourceLocation id = ResourceLocation.tryParse(text);
+            if (id != null && text.contains(":") && ForgeRegistries.MOB_EFFECTS.containsKey(id))
+                allowed.add(ForgeRegistries.MOB_EFFECTS.getValue(id));
+            else
+                TheLongTravail.LOGGER.warn(
+                        "Unknown liquefied abundance effect whitelist ID: {}", text);
+        }
         var effects =
                 ForgeRegistries.MOB_EFFECTS.getValues().stream()
+                        .filter(effect -> whitelist.isEmpty() || allowed.contains(effect))
                         .sorted(
                                 Comparator.comparing(
                                         e -> ForgeRegistries.MOB_EFFECTS.getKey(e).toString()))

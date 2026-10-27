@@ -115,5 +115,6 @@
   "tooltip.the_long_travail.abundance.mode.2": "滞留型药水",
   "tooltip.the_long_travail.abundance.summary_switch": "若点按右键，则可以切换转化结果的药水类型（普通/喷溅/滞留）。",
   "tooltip.the_long_travail.abundance.switch": "手持液化丰饶时点按右键，可切换转化结果的药水类型，依次为普通药水、喷溅型药水与滞留型药水。",
-  "tooltip.the_long_travail.flavor.liquefied_abundance": "今日和风细雨。干杯，我的朋友。"
+  "tooltip.the_long_travail.flavor.liquefied_abundance": "今日和风细雨。干杯，我的朋友。",
+  "tooltip.the_long_travail.abundance.whitelist": "白名单仅允许抽取以下效果，黑名单优先；筛选后为空时取消转换且不消耗材料：%s。"
 }

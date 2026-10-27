@@ -75,8 +75,8 @@ public final class RainConfig {
                         0,
                         1,
                         "归墟之见证生效时，駅额外取消伤害的概率。\n"
-                            + "Additional chance for Eki to negate damage while Abyss Witness is"
-                            + " active.");
+                                + "Additional chance for Eki to negate damage while Abyss Witness is"
+                                + " active.");
         MALICE_SKIP =
                 flag(
                         b,
@@ -91,9 +91,9 @@ public final class RainConfig {
                         "items.eki.skipPenaltyOnImmunity",
                         true,
                         "駅免伤成功时，跳过苦旅的受击惩罚；关闭后仍按配置的受击触发方式处理。\n"
-                            + "Skip The Long Travail's on-hit penalties when Eki negates damage."
-                            + " When disabled, penalties still follow the configured received-hit"
-                            + " trigger mode.");
+                                + "Skip The Long Travail's on-hit penalties when Eki negates damage."
+                                + " When disabled, penalties still follow the configured received-hit"
+                                + " trigger mode.");
         FALLBACK =
                 flag(
                         b,
@@ -105,8 +105,8 @@ public final class RainConfig {
         IMMUNITY_EXCLUSIONS =
                 b.comment(
                                 "只排除駅额外免伤的伤害类型ID；minecraft:generic_kill始终排除。\n"
-                                    + "Damage type IDs excluded only from Eki's additional damage"
-                                    + " immunity; minecraft:generic_kill is always excluded.")
+                                        + "Damage type IDs excluded only from Eki's additional damage"
+                                        + " immunity; minecraft:generic_kill is always excluded.")
                         .defineListAllowEmpty(
                                 "items.eki.immunityExclusions", List.of(), RainConfig::id);
         EKI_LOCAL =
@@ -115,15 +115,15 @@ public final class RainConfig {
                         "items.eki.requireLocalPrecipitation",
                         false,
                         "启用后，仅在允许降雨或降雪的群系中生效；是否要求露天由 requireOpenSky 控制。\n"
-                            + "When enabled, applies only in biomes that allow rain or snow. The"
-                            + " open-sky requirement is controlled by requireOpenSky.");
+                                + "When enabled, applies only in biomes that allow rain or snow. The"
+                                + " open-sky requirement is controlled by requireOpenSky.");
         EKI_SKY =
                 flag(
                         b,
                         "items.eki.requireOpenSky",
                         false,
                         "启用后，仅在玩家头顶无遮挡时生效。\n"
-                            + "When enabled, applies only while the player has open sky overhead.");
+                                + "When enabled, applies only while the player has open sky overhead.");
 
         INVENTORY =
                 flag(
@@ -167,10 +167,10 @@ public final class RainConfig {
         SLOTS =
                 b.comment(
                                 "东海道五十三次可生效的Curios槽位。自定义槽位还需通过数据包允许装备此物品；装备多个时效果不叠加。\n"
-                                    + "Curios slots in which Tokaido can take effect. Custom slots"
-                                    + " also require a data pack allowing this item to be equipped"
-                                    + " there. Equipping multiple copies does not stack their"
-                                    + " effects.")
+                                        + "Curios slots in which Tokaido can take effect. Custom slots"
+                                        + " also require a data pack allowing this item to be equipped"
+                                        + " there. Equipping multiple copies does not stack their"
+                                        + " effects.")
                         .defineListAllowEmpty(
                                 "items.tokaido.slots",
                                 List.of("feet"),
@@ -191,7 +191,7 @@ public final class RainConfig {
                         "items.tokaido.requireOpenSky",
                         false,
                         "启用后，仅在玩家头顶无遮挡时生效。\n"
-                            + "When enabled, applies only while the player has open sky overhead.");
+                                + "When enabled, applies only while the player has open sky overhead.");
         HEAL =
                 number(
                         b,
@@ -210,20 +210,20 @@ public final class RainConfig {
                         .05,
                         1000000,
                         "治疗间隔，单位：秒，最短0.05秒（1游戏刻）。\n"
-                            + "Healing interval, in seconds; minimum 0.05 seconds (1 game tick).");
+                                + "Healing interval, in seconds; minimum 0.05 seconds (1 game tick).");
         FIRE =
                 flag(
                         b,
                         "items.tokaido.fireResistance",
                         true,
                         "提供与原版抗火相同的伤害免疫，但不添加抗火状态效果。\n"
-                            + "Provide the same damage immunity as vanilla Fire Resistance without"
-                            + " adding the Fire Resistance status effect.");
+                                + "Provide the same damage immunity as vanilla Fire Resistance without"
+                                + " adding the Fire Resistance status effect.");
         FOOD =
                 b.comment(
                                 "每次恢复的饱食度；设为0时仍可恢复饱和度。\n"
-                                    + "Hunger restored each time; setting this to 0 still allows"
-                                    + " saturation restoration.")
+                                        + "Hunger restored each time; setting this to 0 still allows"
+                                        + " saturation restoration.")
                         .defineInRange("items.tokaido.food", 1, 0, 20);
         SATURATION =
                 number(
@@ -243,7 +243,7 @@ public final class RainConfig {
                         .05,
                         1000000,
                         "饱食度与饱和度的恢复间隔，单位：秒。\n"
-                            + "Interval between hunger and saturation restorations, in seconds.");
+                                + "Interval between hunger and saturation restorations, in seconds.");
 
         SKILL_ENABLED =
                 flag(
@@ -251,9 +251,9 @@ public final class RainConfig {
                         "items.tokaido.skill.enabled",
                         true,
                         "启用主动唤雨；关闭后被动效果仍然生效，并恢复技能生效前的天气。\n"
-                            + "Enable the active Call Rain skill. Disabling it leaves passive"
-                            + " effects active and restores the weather from before the skill took"
-                            + " effect.");
+                                + "Enable the active Call Rain skill. Disabling it leaves passive"
+                                + " effects active and restores the weather from before the skill took"
+                                + " effect.");
         DURATION =
                 number(
                         b,
@@ -291,9 +291,9 @@ public final class RainConfig {
         REPEAT =
                 b.comment(
                                 "REFRESH：重新开始计算完整持续时间。\n"
-                                    + "REJECT：拒绝重复释放，且不进入冷却。\n"
-                                    + "REFRESH: restart the full duration.\n"
-                                    + "REJECT: reject repeat casts without starting a cooldown.")
+                                        + "REJECT：拒绝重复释放，且不进入冷却。\n"
+                                        + "REFRESH: restart the full duration.\n"
+                                        + "REJECT: reject repeat casts without starting a cooldown.")
                         .defineEnum("items.tokaido.skill.repeatCast", Repeat.REFRESH);
     }
 

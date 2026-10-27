@@ -37,9 +37,21 @@ public final class AbundanceText {
         lines.add(text("lingering"));
         lines.add(Component.empty());
         lines.add(text("cost"));
-        var ids =
+        var allowed =
                 TooltipConfigSync.pool(
-                        "abundance.blacklist", AbyssItemsConfig.ABUNDANCE_BLACKLIST.get());
+                        "abundance.whitelist", AbyssItemsConfig.ABUNDANCE_WHITELIST.get());
+        if (!allowed.isEmpty()) lines.add(text("whitelist", names(allowed)));
+        lines.add(
+                text(
+                        "effects",
+                        names(
+                                TooltipConfigSync.pool(
+                                        "abundance.blacklist",
+                                        AbyssItemsConfig.ABUNDANCE_BLACKLIST.get()))));
+        return lines;
+    }
+
+    private static Component names(List<? extends String> ids) {
         var names = Component.empty();
         for (String id : ids) {
             if (!names.getSiblings().isEmpty())
@@ -68,8 +80,7 @@ public final class AbundanceText {
                                             style.withColor(RainTooltips.ACCENT_COLOR)
                                                     .withInsertion(
                                                             "the_long_travail:configured_effect")));
-        lines.add(text("effects", names));
-        return lines;
+        return names;
     }
 
     private AbundanceText() {}

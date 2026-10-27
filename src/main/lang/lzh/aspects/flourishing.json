@@ -121,5 +121,8 @@
   "tooltip.the_long_travail.immortal_bud.details.2": "合成僅添此記，原物之名、附魔及餘資料皆存。",
   "tooltip.the_long_travail.immortal_bud.details.3": "有「恆久長青」者，耐久不減，亦不因一次耗損過甚而毀。",
   "tooltip.the_long_travail.immortal_bud.details.4": "永生芽及受護之物，落地不畏火、岩漿與爆炸，亦不隨時消散。",
-  "tooltip.the_long_travail.immortal_bud.details.5": "合成用料、置物及使用之耗，不在「恆久長青」所護之列。受護之物若墜虛空，亦不可尋回。"
+  "tooltip.the_long_travail.immortal_bud.details.5": "合成用料、置物及使用之耗，不在「恆久長青」所護之列。受護之物若墜虛空，亦不可尋回。",
+  "tooltip.the_long_travail.summary.immortal_bud.no_repair": "與§a可授之耐久物品§r無序合成，留其舊損，授以「§6恆久長青§r」。",
+  "tooltip.the_long_travail.immortal_bud.details.no_repair": "永生芽與可授之耐久物品無序合成，留其舊損，授以「恆久長青」之記。",
+  "tooltip.the_long_travail.immortal_bud.blacklist": "下列諸物不可新授，既有之記不改：%s。"
 }

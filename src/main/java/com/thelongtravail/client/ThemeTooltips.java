@@ -173,7 +173,13 @@ public final class ThemeTooltips {
     public static List<Component> summary(String id, ItemStack stack, Player viewer) {
         var out = new ArrayList<Component>();
         if (id.equals("immortal_bud")) {
-            for (int i = 0; i < 2; i++) out.add(text(id + "." + i));
+            out.add(
+                    text(
+                            id
+                                    + (com.thelongtravail.flourishing.ImmortalBud.repairsOnApply()
+                                            ? ".0"
+                                            : ".no_repair")));
+            out.add(text(id + ".1"));
             return out;
         }
         if (viewer != null && !AccessoryEquipRules.hasDiary(viewer)) {
