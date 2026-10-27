@@ -26,7 +26,6 @@ public final class PhosphophylliteItem extends Item implements ICurioItem, ItemD
     @Override
     public boolean canEquip(SlotContext c, ItemStack stack) {
         return !c.cosmetic()
-                && c.identifier().equals("curio")
                 && c.entity() instanceof Player p
                 && AccessoryEquipRules.hasDiary(p)
                 && AccessoryEquipRules.unique(c, this);

@@ -50,8 +50,8 @@ before 必须在该轮源码修改之前运行，after 在修改之后运行；�
     ./gradlew.bat build -I tools/structure-regression/round-03.init.gradle -PstructurePhase=after runServer --offline
 
 结果：build/structure-round-03-before 或 after 下 accessory-restore-result.txt。
-复用 11 类饰品恢复、克隆、重复装备、所有者及已消费书限制夹具；新增固定种子 2,000 组装备布局，对照冻结的旧查询算法作 58,000 次比较，包含外观槽、错误槽位、重复装备、日记前置条件，并检查死亡玩家不启用穷遐装备。
-恢复快照分支仍在 AccessoryEquipRules，CurioLookup 只查询当前 Curios 背包。
+复用 13 类饰品恢复、克隆、重复装备、所有者及已消费书限制夹具；新增固定种子 2,000 组装备布局，对照独立遍历查询作 58,000 次比较，包含外观槽、错误槽位、重复装备、日记前置条件，并检查死亡玩家不启用穷遐装备。
+恢复快照分支仍在 AccessoryEquipRules，CurioLookup 只查询当前 Curios 背包。星之声按任意功能槽生成预期；旧定槽查询仍按原有槽位过滤。堂吉诃德、星之声和磷叶石另覆盖非通用槽克隆恢复。
 
 ## 统一入口
 
@@ -204,3 +204,17 @@ node tools/structure-regression/suite.mjs soak 启动专用持续场景，目标
 液化丰饶服务端入口复用开发环境 `run/eula.txt`，首次运行前须自行阅读并接受 Minecraft EULA，准备该文件；脚本不会代为接受。独立客户端截图阶段会将隔离配置临时设为 3 秒蓄力、7.5 秒回退时间和六项黑名单，截图后恢复为 1 秒、15 秒、空黑名单；只能用于专用测试目录。正式整包配置不参与写入。
 
 追加 `-PabundanceOneSecond` 可仅运行1秒蓄力的三种药水类型及截图配置检查；该模式进入测试世界后先检查缺省值为1秒和风味文本。验证缺省配置时，应先备份隔离配置，再只移除其中 longPressSeconds 项；不得修改正式配置。
+
+
+## 任意功能槽专项回归
+
+```powershell
+./gradlew.bat -I tools/structure-regression/accessory-slots.init.gradle runServer --offline
+./gradlew.bat -I tools/structure-regression/accessory-slots.init.gradle -PslotStage=verify runServer --offline
+```
+
+第一条执行槽位资格矩阵、真实效果入口、三个固定种子各 10,000 次状态转换，以及 8 个测试玩家的 2,400 服务端 tick 检查，最后保存玩家 NBT。第二条必须在第一条成功后运行，在另一 JVM 中读取保存的玩家 NBT，检查非通用槽、物品数量、主题状态和冷却。运行结果在 `build/accessory-slots-server/slot-result.txt`；运行下一阶段前应另存上一阶段日志。
+
+夹具源码为 `src/test/java/travail/accessorytests/AccessorySlotsTest.java`，专用槽定义在 `slot-data`，不进入正式 JAR。测试通过实际 Curios 校验和插入验证可佩戴性；强制外观槽写入仅用于检查异常数据不会生效。自定义拒绝谓词另与逍遥游对照：当前 Curios 的 curio 通用标签匹配可能仍允许放入；槽位准入沿用 Curios 的原生匹配规则。失败记录包含场景、种子、步号、玩家与最近 32 步操作，完整随机序列可由种子重放；首次断言失败立即退出。
+
+战斗入口验证堂吉诃德快照/守护、星之声时停触发和磷叶石伤害/属性变化。模拟玩家的网络发送为空实现，tick 压力由测试驱动调用。真实客户端的拖动、右键穿戴、网络重连及完整整合包多人性能需另行验收。

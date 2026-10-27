@@ -7,6 +7,12 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 
 public final class AccessoryEquipRules {
+    public static boolean hasEquipped(Player player, Item item) {
+        var scope = AccessoryRestore.current(player);
+        if (scope != null) return scope.contains(item);
+        return CurioLookup.hasFunctional(player, item);
+    }
+
     public static boolean hasEquipped(Player player, String slot, Item item) {
         var scope = AccessoryRestore.current(player);
         if (scope != null) return scope.contains(slot, item);

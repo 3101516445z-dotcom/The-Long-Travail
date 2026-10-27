@@ -24,9 +24,7 @@ public final class DonQuixoteItem extends Item implements ICurioItem, ItemDescri
 
     @Override
     public boolean canEquip(SlotContext c, ItemStack s) {
-        return !c.cosmetic()
-                && c.identifier().equals("curio")
-                && AccessoryEquipRules.unique(c, this);
+        return !c.cosmetic() && AccessoryEquipRules.unique(c, this);
     }
 
     @Override

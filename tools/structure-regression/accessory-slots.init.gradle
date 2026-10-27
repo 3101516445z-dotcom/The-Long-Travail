@@ -1,0 +1,41 @@
+allprojects {
+    afterEvaluate {
+        def directory = project.file('build/accessory-slots-server')
+        sourceSets {
+            accessorySlotsTest {
+                java.srcDir 'src/test/java/travail/accessorytests'
+                resources.srcDir 'tools/structure-regression/resources'
+                resources.srcDir 'tools/structure-regression/slot-data'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        minecraft.runs.server {
+            workingDirectory directory
+            property 'travail.slots.stage', (project.findProperty('slotStage') ?: 'full').toString()
+            args '--nogui'
+            mods { travail_smoke { source sourceSets.accessorySlotsTest } }
+        }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            doFirst {
+                directory.mkdirs()
+                new File(directory, 'eula.txt').text = project.file('run/eula.txt').text
+                new File(directory, 'server.properties').text =
+                        'online-mode=false\n' +
+                        'server-ip=127.0.0.1\n' +
+                        'server-port=25665\n' +
+                        'level-name=slot-test\n' +
+                        'level-type=minecraft\\:flat\n' +
+                        'generate-structures=false\n' +
+                        'view-distance=2\n' +
+                        'simulation-distance=2\n' +
+                        'max-tick-time=60000\n'
+                new File(directory, 'slot-result.txt').text = 'NOT_RUN'
+            }
+            doLast {
+                if (!new File(directory, 'slot-result.txt').text.startsWith('PASS'))
+                    throw new GradleException('Accessory slot regression failed')
+            }
+        }
+    }
+}

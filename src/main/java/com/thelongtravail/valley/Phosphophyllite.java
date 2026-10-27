@@ -46,8 +46,7 @@ public final class Phosphophyllite {
     public static int phase(LivingEntity entity) {
         if (!entity.isAlive() || entity.isSpectator()) return 0;
         if (entity instanceof ServerPlayer p) {
-            if (!AccessoryEquipRules.hasEquipped(p, "curio", ModRegistry.PHOSPHOPHYLLITE.get()))
-                return 0;
+            if (!AccessoryEquipRules.hasEquipped(p, ModRegistry.PHOSPHOPHYLLITE.get())) return 0;
             return TravailStateApi.hasDeepValleyWitness(p)
                     ? 2
                     : TravailStateApi.hasDeepValleyMalice(p) ? 1 : 0;

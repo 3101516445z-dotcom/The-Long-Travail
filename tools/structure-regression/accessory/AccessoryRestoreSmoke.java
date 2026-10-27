@@ -110,9 +110,7 @@ public final class AccessoryRestoreSmoke {
                 }
             for (boolean mode : new boolean[] {false, true}) {
                 boolean diary = !com.thelongtravail.helper.TravailCurios.stack(p).isEmpty();
-                boolean expected =
-                        (mode || diary)
-                                && legacy(p, mode ? items[1] : items[0], mode ? null : "curio");
+                boolean expected = (mode || diary) && legacy(p, mode ? items[1] : items[0], null);
                 check(
                         com.thelongtravail.boundless.BoundlessEquipment.equipped(p, mode)
                                 == expected,
@@ -174,6 +172,7 @@ public final class AccessoryRestoreSmoke {
     private static boolean dependent(Item i) {
         return i == ModRegistry.AZRAEL.get()
                 || i == ModRegistry.STAR_VOICE.get()
+                || i == ModRegistry.PHOSPHOPHYLLITE.get()
                 || i == ModRegistry.THOUSAND_YEARS.get()
                 || i == ModRegistry.BOOK_OF_DEAD.get();
     }
@@ -240,9 +239,24 @@ public final class AccessoryRestoreSmoke {
             level.getGameRules()
                     .getRule(net.minecraft.world.level.GameRules.RULE_KEEPINVENTORY)
                     .set(true, event.getServer());
+            var slotProbe = new TestPlayer(level);
+            equip(slotProbe);
+            for (var item :
+                    List.of(
+                            ModRegistry.DON_QUIXOTE.get(),
+                            ModRegistry.STAR_VOICE.get(),
+                            ModRegistry.PHOSPHOPHYLLITE.get())) {
+                check(
+                        ((ICurioItem) item)
+                                .canEquip(
+                                        new SlotContext("ring", slotProbe, 0, false, true),
+                                        new ItemStack(item)),
+                        "universal functional slot: " + item);
+            }
             ITEMS.put(ModRegistry.AZRAEL.get(), "head");
-            ITEMS.put(ModRegistry.STAR_VOICE.get(), "curio");
-            ITEMS.put(ModRegistry.DON_QUIXOTE.get(), "curio");
+            ITEMS.put(ModRegistry.STAR_VOICE.get(), "ring");
+            ITEMS.put(ModRegistry.PHOSPHOPHYLLITE.get(), "head");
+            ITEMS.put(ModRegistry.DON_QUIXOTE.get(), "ring");
             ITEMS.put(ModRegistry.GOLDEN_AGE.get(), "charm");
             ITEMS.put(ModRegistry.BOOK_OF_DEAD.get(), "charm");
             ITEMS.put(ModRegistry.THOUSAND_YEARS.get(), "ring");
@@ -326,7 +340,7 @@ public final class AccessoryRestoreSmoke {
             }
 
             System.out.println(
-                    "ACCESSORY_RESTORE_PASS: 12 items, clone, same-player reload, prerequisites, NBT, duplicate rejection, scope isolation");
+                    "ACCESSORY_RESTORE_PASS: 13 items, clone, same-player reload, prerequisites, NBT, duplicate rejection, scope isolation");
             queryPressure(level);
             passed = true;
         } catch (Throwable failure) {

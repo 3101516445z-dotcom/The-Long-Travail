@@ -11,8 +11,7 @@ public final class BoundlessEquipment {
         if (!dream && TravailCurios.stack(p).isEmpty()) return false;
         return CurioLookup.hasFunctional(
                 p,
-                dream ? ModRegistry.FREE_AND_EASY_WANDERING.get() : ModRegistry.STAR_VOICE.get(),
-                context -> dream || context.identifier().equals("curio"));
+                dream ? ModRegistry.FREE_AND_EASY_WANDERING.get() : ModRegistry.STAR_VOICE.get());
     }
 
     private BoundlessEquipment() {}

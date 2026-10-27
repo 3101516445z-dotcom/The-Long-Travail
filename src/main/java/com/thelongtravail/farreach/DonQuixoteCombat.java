@@ -4,14 +4,13 @@ import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.compat.maid.MaidAccessories;
 import com.thelongtravail.config.FarReachRelicsConfig;
 import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.helper.CurioLookup;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.*;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.*;
 import net.minecraft.world.entity.*;
-
-import top.theillusivec4.curios.api.CuriosApi;
 
 public final class DonQuixoteCombat {
     public static final ResourceKey<DamageType> STRIKE =
@@ -24,17 +23,7 @@ public final class DonQuixoteCombat {
     public static boolean equipped(ServerPlayer p) {
         return p.isAlive()
                 && !p.isSpectator()
-                && CuriosApi.getCuriosInventory(p)
-                        .map(
-                                h ->
-                                        h.findCurios(ModRegistry.DON_QUIXOTE.get()).stream()
-                                                .anyMatch(
-                                                        r ->
-                                                                !r.slotContext().cosmetic()
-                                                                        && r.slotContext()
-                                                                                .identifier()
-                                                                                .equals("curio")))
-                        .orElse(false);
+                && CurioLookup.hasFunctional(p, ModRegistry.DON_QUIXOTE.get());
     }
 
     public static boolean equipped(LivingEntity e) {

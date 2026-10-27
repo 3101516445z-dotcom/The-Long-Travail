@@ -41,6 +41,10 @@ public final class AccessoryRestore implements AutoCloseable {
         return scope != null && scope.wearer == wearer ? scope : null;
     }
 
+    boolean contains(Item item) {
+        return equipped.values().stream().anyMatch(items -> items.contains(item));
+    }
+
     boolean contains(String slot, Item item) {
         return equipped.getOrDefault(slot, Set.of()).contains(item);
     }

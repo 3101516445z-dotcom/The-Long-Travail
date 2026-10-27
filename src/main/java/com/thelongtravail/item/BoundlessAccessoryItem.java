@@ -29,7 +29,6 @@ public final class BoundlessAccessoryItem extends Item implements ICurioItem {
     @Override
     public boolean canEquip(SlotContext c, ItemStack s) {
         return !c.cosmetic()
-                && (dream || c.identifier().equals("curio"))
                 && c.entity() instanceof Player p
                 && (dream || AccessoryEquipRules.hasDiary(p))
                 && DependentAccessories.unique(c, this);
