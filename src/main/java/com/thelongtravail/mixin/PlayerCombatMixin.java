@@ -1,11 +1,13 @@
 package com.thelongtravail.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.thelongtravail.helper.CombatContext;
+
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -40,14 +42,8 @@ public abstract class PlayerCombatMixin {
             DamageSource source, float amount, Operation<Boolean> original) {
         Player target = (Player) (Object) this;
         if (target.level().isClientSide) return original.call(source, amount);
-        if (!CombatContext.acceptsInput(target, source, amount)) return false;
-        CombatContext context = CombatContext.open(target, source);
-        boolean result;
-        try (context) {
-            result = original.call(source, amount);
-        }
-        context.finish();
-        return result;
+        return com.thelongtravail.combat.DamageScope.hurt(
+                target, source, amount, (effective, value) -> original.call(effective, value));
     }
 
     @WrapOperation(

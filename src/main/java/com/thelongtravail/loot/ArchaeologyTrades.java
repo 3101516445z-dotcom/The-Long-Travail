@@ -13,6 +13,21 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
 public final class ArchaeologyTrades {
+    public static final VillagerTrades.ItemListing FLETCHER = (entity, random) -> sunOffer();
+
+    private static MerchantOffer sunOffer() {
+        return new MerchantOffer(
+                new ItemStack(ModRegistry.ICARUS.get()),
+                new ItemStack(
+                        ModRegistry.ESSENCES
+                                .get(com.thelongtravail.TravailAspect.FAR_REACH.ordinal())
+                                .get()),
+                new ItemStack(ModRegistry.SUN_CHASER.get()),
+                1,
+                30,
+                0F);
+    }
+
     public static final VillagerTrades.ItemListing SHEPHERD = (entity, random) -> offer(true);
     public static final VillagerTrades.ItemListing MASON = (entity, random) -> offer(false);
 
@@ -33,6 +48,11 @@ public final class ArchaeologyTrades {
     @SubscribeEvent
     public static void register(VillagerTradesEvent event) {
         var profession = event.getType();
+        if (profession == VillagerProfession.FLETCHER) {
+            if (!event.getTrades().get(5).contains(FLETCHER))
+                event.getTrades().get(5).add(FLETCHER);
+            return;
+        }
         if (profession != VillagerProfession.SHEPHERD && profession != VillagerProfession.MASON)
             return;
         var listing = profession == VillagerProfession.SHEPHERD ? SHEPHERD : MASON;
@@ -50,11 +70,23 @@ public final class ArchaeologyTrades {
         var profession = villager.getVillagerData().getProfession();
         return villager.getVillagerData().getLevel() >= 5
                 && (profession == VillagerProfession.SHEPHERD
-                        || profession == VillagerProfession.MASON);
+                        || profession == VillagerProfession.MASON
+                        || profession == VillagerProfession.FLETCHER);
     }
 
     public static void ensure(Villager villager, MerchantOffers offers) {
         if (villager.level().isClientSide || !eligible(villager)) return;
+        if (villager.getVillagerData().getProfession() == VillagerProfession.FLETCHER) {
+            boolean found = false;
+            for (var iterator = offers.iterator(); iterator.hasNext(); ) {
+                var offer = iterator.next();
+                if (!offer.getResult().is(ModRegistry.SUN_CHASER.get())) continue;
+                if (found) iterator.remove();
+                else found = true;
+            }
+            if (!found) offers.add(sunOffer());
+            return;
+        }
         boolean shepherd =
                 villager.getVillagerData().getProfession() == VillagerProfession.SHEPHERD;
         boolean found = false;
@@ -82,7 +114,18 @@ public final class ArchaeologyTrades {
     }
 
     public static boolean fixed(MerchantOffer offer) {
-        return (offer.getResult().is(ModRegistry.DON_QUIXOTE.get())
+        return (offer.getResult().is(ModRegistry.SUN_CHASER.get())
+                        && offer.getBaseCostA().is(ModRegistry.ICARUS.get())
+                        && offer.getBaseCostA().getCount() == 1
+                        && offer.getCostB()
+                                .is(
+                                        ModRegistry.ESSENCES
+                                                .get(
+                                                        com.thelongtravail.TravailAspect.FAR_REACH
+                                                                .ordinal())
+                                                .get())
+                        && offer.getCostB().getCount() == 1)
+                || (offer.getResult().is(ModRegistry.DON_QUIXOTE.get())
                         && offer.getBaseCostA().is(Items.SHIELD)
                         && offer.getBaseCostA().getCount() == 1
                         && offer.getCostB().is(Items.NETHERITE_SWORD)

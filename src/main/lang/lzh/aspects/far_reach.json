@@ -1,4 +1,5 @@
 {
+  "tooltip.the_long_travail.flavor.sun_chaser": "周天翻覆，金烏為何瞑目？黑日漫卷，只期挽弓高呼！",
   "tooltip.the_long_travail.flavor.icarus": "遊於天球與大地之間……",
   "tooltip.the_long_travail.flavor.golden_age": "其將如電而歸。",
   "tooltip.the_long_travail.flavor.don_quixote": "與我共馳！",
@@ -62,5 +63,17 @@
   "tooltip.the_long_travail.tower_of_babel.limit": "巴別塔至多一效，攜多則不疊。",
   "tooltip.the_long_travail.summary.don_quixote.2": "§d窮遐已然見證時，§r佩者傷敵§a甚重§r後，暫減此敵於佩者§6之傷§r。",
   "tooltip.the_long_travail.don_quixote.size": "形以敵今之碰撞箱為準，以常人之體為基，二者體積比之立方根為形率。以1:1為本，敵率每多一，佩者之傷多增%s%%。",
-  "tooltip.the_long_travail.summary.tower_of_babel.2": "§d窮遐尚有惡意時，§r與村民易有§6折§r，近村之§6補貨愈速§r。"
+  "tooltip.the_long_travail.summary.tower_of_babel.2": "§d窮遐尚有惡意時，§r與村民易有§6折§r，近村之§6補貨愈速§r。",
+  "item.the_long_travail.sun_chaser": "逐日",
+  "tooltip.the_long_travail.summary.sun_chaser.0": "攜之免火與熔漿之傷，處熔漿則復生機。窮遐惡意與見證各有所用。",
+  "tooltip.the_long_travail.sun_chaser.base": "攜之，免火焰、熔岩之傷，且不燃。",
+  "tooltip.the_long_travail.sun_chaser.healing": "身處熔岩，攜者每秒復%s點生命值。",
+  "tooltip.the_long_travail.sun_chaser.lava": "身處熔岩，攜者免受歸墟惡意之週期流體傷害。",
+  "tooltip.the_long_travail.sun_chaser.malice_heading": "若佩苦旅，且此時窮遐尚有惡意，則：",
+  "tooltip.the_long_travail.sun_chaser.reflect": "反彈將中攜者之彈射物，反彈後歸於攜者。",
+  "tooltip.the_long_travail.sun_chaser.projectile": "攜者所致彈射物傷害提高%s%%。",
+  "tooltip.the_long_travail.sun_chaser.burning": "攜者對燃燒目標所致傷害提高%s%%。",
+  "tooltip.the_long_travail.sun_chaser.witness_heading": "若佩苦旅，且此時窮遐已然見證，則：",
+  "tooltip.the_long_travail.sun_chaser.suppression": "攜者造成傷害時，使目標於%s秒內不得由常規治療復生命，亦不得受傷無敵幀；再傷之，則重計其時。",
+  "tooltip.the_long_travail.sun_chaser.strike": "攜者傷燃燒之目標時，另致相當於目標最大生命值%s%%之直擊傷害。"
 }

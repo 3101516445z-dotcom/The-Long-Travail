@@ -180,6 +180,20 @@ public final class ModRegistry {
     public static final RegistryObject<Item> GOLDEN_AGE =
             ITEMS.register(
                     "golden_age", () -> new com.thelongtravail.item.FarReachAccessoryItem(true));
+    public static final RegistryObject<Item> SUN_CHASER =
+            ITEMS.register("sun_chaser", com.thelongtravail.item.SunChaserItem::new);
+    public static final RegistryObject<Item> KAGOTSURUBE =
+            ITEMS.register("kagotsurube", com.thelongtravail.item.KagotsurubeItem::new);
+    public static final RegistryObject<
+                    net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer<
+                            com.thelongtravail.underworld.KagotsurubeRecipe>>
+            KAGOTSURUBE_RECIPE =
+                    RECIPES.register(
+                            "kagotsurube",
+                            () ->
+                                    new net.minecraft.world.item.crafting
+                                            .SimpleCraftingRecipeSerializer<>(
+                                            com.thelongtravail.underworld.KagotsurubeRecipe::new));
     public static final RegistryObject<Item> ICARUS =
             ITEMS.register(
                     "icarus", () -> new com.thelongtravail.item.FarReachAccessoryItem(false));
@@ -258,7 +272,8 @@ public final class ModRegistry {
                                                                                 GOLDEN_AGE,
                                                                                 ICARUS,
                                                                                 DON_QUIXOTE,
-                                                                                TOWER_OF_BABEL);
+                                                                                TOWER_OF_BABEL,
+                                                                                SUN_CHASER);
                                                                 case DEEP_VALLEY ->
                                                                         java.util.List.of(
                                                                                 AZRAEL,
@@ -271,7 +286,8 @@ public final class ModRegistry {
                                                                                 THOUSAND_YEARS,
                                                                                 BOOK_OF_DEAD,
                                                                                 DEMON_KING,
-                                                                                SOUL_BANNER);
+                                                                                SOUL_BANNER,
+                                                                                KAGOTSURUBE);
                                                                 case BOUNDLESS ->
                                                                         java.util.List.of(
                                                                                 FREE_AND_EASY_WANDERING,

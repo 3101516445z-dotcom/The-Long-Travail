@@ -18,7 +18,7 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "cd0b1d66e9fb612a6e99bb36fa9849031da757bec028fcfc518c7ca4e8379698",
+  "fingerprint": "d7ea84a0b28d7141d99d1ed4ad0de0b3c31fa4882a5326c36545c937e04c29ad",
   "files": [
     {
       "path": "build.gradle",
@@ -82,7 +82,7 @@
     },
     {
       "path": "src/main/lang/en_us/aspects/far_reach.json",
-      "sha256": "a713cfd628ea74067dad1eda844071b4b7fb52a67c99ac1aed9e38a0148b1b81"
+      "sha256": "1ca266e2ad04d304b3523657fefca3b14d9fa9798706dd5395ec70ad6eef93f5"
     },
     {
       "path": "src/main/lang/en_us/aspects/flourishing.json",
@@ -90,7 +90,7 @@
     },
     {
       "path": "src/main/lang/en_us/aspects/underworld.json",
-      "sha256": "b66d4870b75b0f88941654a25018719073237639dc8e4f0130e855f311056e00"
+      "sha256": "3c63a5a29304a213d87fa909347305c2dad3324b8135869040fbfd4651129d2c"
     },
     {
       "path": "src/main/lang/en_us/catalog.json",
@@ -130,7 +130,7 @@
     },
     {
       "path": "src/main/lang/lzh/aspects/far_reach.json",
-      "sha256": "c32ca27089ec4e2bb8a2430263483ad665d5baf2f505f422b2112f9249de833e"
+      "sha256": "3b28f6b97926a48f52907bc1ab3d93c46b2ccffe1008a4bc96a9fdca0ec6e487"
     },
     {
       "path": "src/main/lang/lzh/aspects/flourishing.json",
@@ -138,7 +138,7 @@
     },
     {
       "path": "src/main/lang/lzh/aspects/underworld.json",
-      "sha256": "0801736921bf44f5cede72de4d3fde974e1ec2a420b42141b2cb5d28cdf41d64"
+      "sha256": "32549d7dfc7fbd9dbe73793d76f77f02a6503f705573ca30f061e07191fb1642"
     },
     {
       "path": "src/main/lang/lzh/catalog.json",
@@ -174,7 +174,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/aspects/far_reach.json",
-      "sha256": "01abdd9a5f0ac38a091bc11ef452e99f11fcf1d1f94014742fface1e47be997a"
+      "sha256": "03eddad331aac69765675db7f9a11935fbf05be09a40a4d4bfaf6427dcfa1fd3"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/flourishing.json",
@@ -182,7 +182,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/aspects/underworld.json",
-      "sha256": "dfc21a936be639de5f64ff3428cd2b96b1f08f6750f167f152f3892e59818a7d"
+      "sha256": "f6a0f54f2af1dd20bf0de869e3f8c20030031d046d20516d3d0518b9a4f868dd"
     },
     {
       "path": "src/main/lang/zh_cn/catalog.json",
@@ -218,7 +218,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/aspects/far_reach.json",
-      "sha256": "6310087df88d5e4564527eb7bcc40b7f9dacafd28bf74b8cac7177fff0e3545a"
+      "sha256": "2e2280b41db383d69501878e06aebc2a2f76435035751a138e6e60febfa7b32b"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/flourishing.json",
@@ -226,7 +226,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/aspects/underworld.json",
-      "sha256": "fd8cee86f4843a25e131493e8ca5a91145372eca4cf93b9d8a0ba52a8c0af792"
+      "sha256": "6f24b24becd26020952e4628f35319f8144a644204414d8a04004a4d9bbe435d"
     },
     {
       "path": "src/main/lang/zh_hk/catalog.json",
@@ -262,7 +262,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/aspects/far_reach.json",
-      "sha256": "fde1682f677c6dc0163d98e8f2c6e668ea0243f6d0fd5b9477c9e2a28aaa186c"
+      "sha256": "4d0ba710ea3042b277ae7a16d897fd1be785f3507ca594c41200921c8c019bcc"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/flourishing.json",
@@ -270,7 +270,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/aspects/underworld.json",
-      "sha256": "fd8cee86f4843a25e131493e8ca5a91145372eca4cf93b9d8a0ba52a8c0af792"
+      "sha256": "6f24b24becd26020952e4628f35319f8144a644204414d8a04004a4d9bbe435d"
     },
     {
       "path": "src/main/lang/zh_tw/catalog.json",
@@ -413,6 +413,10 @@
       "sha256": "187aadddf79c032d626ffd7563cf2fc3a0e83af6b968961051f080c9e09512f7"
     },
     {
+      "path": "src/main/resources/assets/the_long_travail/models/item/kagotsurube.json",
+      "sha256": "a62440db9947e6e958564933b53e948a95d415be59acb5e3c23b9858d0c3dc15"
+    },
+    {
       "path": "src/main/resources/assets/the_long_travail/models/item/liquefied_abundance.json",
       "sha256": "e867ffcb28cf967403eb0b139c5f1df73db780be9843ecfa7692dbf5dee9b8c6"
     },
@@ -455,6 +459,10 @@
     {
       "path": "src/main/resources/assets/the_long_travail/models/item/star_voice.json",
       "sha256": "ba8ad262e0297dee86ecb8704a1a3fdca67d976f39688f4be04f145a6f2656d3"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/sun_chaser.json",
+      "sha256": "5433cf9ec093386258c12d0b1e547f3516680cb58e53f97dfb4fa24399b9051e"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/models/item/sword_and_lantern.json",
@@ -629,6 +637,10 @@
       "sha256": "3a57d88798965b0acefe9351f80c332b35afc64fb942cef1064353594ab68a98"
     },
     {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/kagotsurube.png",
+      "sha256": "33960b8cdf59e452e3ad0fcb1602ecc6c6ad434560ad974991cc5a2dced90835"
+    },
+    {
       "path": "src/main/resources/assets/the_long_travail/textures/item/liquefied_abundance.png",
       "sha256": "638c304d3555d3b933c283abc3023ca4da1c5a9aa326d40afd563ace66435786"
     },
@@ -673,6 +685,10 @@
       "sha256": "784ff337cc74df86420c0fa80577249710abfbb8207ebc4b9c42eb509d75ff4c"
     },
     {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/sun_chaser.png",
+      "sha256": "9cc0590249390245d03101094f2238348e57b7b649302567c10f978a5df4c061"
+    },
+    {
       "path": "src/main/resources/assets/the_long_travail/textures/item/sword_and_lantern.png",
       "sha256": "ab1f13c717777be760565c5534a3298c5c25b720a825b9d5a9e21d1f0268cd41"
     },
@@ -710,11 +726,11 @@
     },
     {
       "path": "src/main/resources/assets/the_long_travail/textures/mob_effect/stiff.png",
-      "sha256": "4009f09ca6c1a0e322be8920373e77faf0028ae89b8d23b30733e087cf5eef50"
+      "sha256": "226465c998ebf1342470217541d6156cbcc46fa719486c94b7a62f7c90a05bdc"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/textures/mob_effect/visual_deprivation.png",
-      "sha256": "c5ef44f26d1ec4409857ff277173496151636a938972a881332c152b95286daf"
+      "sha256": "2ef1b383fb154b940403651c097a278ec828f51430f21d217a44d6053e2598ed"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/textures/slot/travel_diary.png",
@@ -726,7 +742,7 @@
     },
     {
       "path": "src/main/resources/data/curios/tags/items/belt.json",
-      "sha256": "a7b1d2bb05ac91e0fa6d693256219cb43fa16de5c8daea5d2054c703a99039bd"
+      "sha256": "aa6d0edb4f1bf30f10c256afd44cb3109d3f9a23baae001c4deab1cf2e8cfd0e"
     },
     {
       "path": "src/main/resources/data/curios/tags/items/body.json",
@@ -1001,6 +1017,10 @@
       "sha256": "dc185879f869467a227d5f36a503b64e2aee4eb24735c33cb3d473ede3054b1e"
     },
     {
+      "path": "src/main/resources/data/the_long_travail/recipes/kagotsurube.json",
+      "sha256": "e955c336baa7c75735384467b2c7c34445636e90a38a2d562c1574ae8896e8f3"
+    },
+    {
       "path": "src/main/resources/data/the_long_travail/recipes/liquefied_abundance.json",
       "sha256": "47e136cd84813a6dc890d3fe4746328cc9b53af2d5250a84dcbf98a83b47340b"
     },
@@ -1182,7 +1202,7 @@
     },
     {
       "path": "src/main/resources/mixins.the_long_travail.json",
-      "sha256": "cf847c384fc49ac8db6fe47b8c8d875ce6954ecb1775ca8e3ac4c8714f0e430e"
+      "sha256": "5700fa30a725d232c681d1a481ff2031e804f3c0981e98659a171c02b1f9188c"
     },
     {
       "path": "src/main/resources/pack.mcmeta",

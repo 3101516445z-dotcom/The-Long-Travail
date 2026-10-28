@@ -1,6 +1,7 @@
 package com.thelongtravail.flourishing;
 
 import com.thelongtravail.config.FlourishingItemsConfig;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.*;
 import net.minecraft.server.level.ServerPlayer;
@@ -16,6 +17,7 @@ public final class FloralCombat {
                     new ResourceLocation("the_long_travail", "rose_retaliation"));
 
     public static boolean rose(DamageSource s) {
+        s = com.thelongtravail.combat.DamageIdentity.original(s);
         return s.is(ROSE);
     }
 

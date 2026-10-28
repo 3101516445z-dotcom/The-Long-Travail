@@ -7,17 +7,18 @@ import com.thelongtravail.data.*;
 import com.thelongtravail.helper.TravailCurios;
 import com.thelongtravail.helper.TrueDamage;
 import com.thelongtravail.network.TravailNetwork;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
-import net.minecraftforge.event.entity.player.PlayerXpEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.entity.player.PlayerXpEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -180,6 +181,7 @@ public class TravailEvents {
         if (ModeEffectRules.diaryApplies(player)
                 && !LongTravailData.hasWitness(travail, TravailAspect.ABYSS)
                 && touchesFluid(player)
+                && !com.thelongtravail.farreach.SunChaser.lavaExempt(player)
                 && isDue(
                         player,
                         TravailConfig.ABYSS_FLUID_INTERVAL_SECONDS.get(),

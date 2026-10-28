@@ -66,8 +66,10 @@ public final class MaterialLoot {
                 rewards.add(
                         new SingleRollLootInjector.Reward(
                                 sourceItem(item), UnifiedLoot.fishingTreasureChance));
-        if (table.getLootTableId().getPath().startsWith("archaeology/"))
+        if (table.getLootTableId().getPath().startsWith("archaeology/")) {
             rewards.add(new SingleRollLootInjector.Reward(sourceItem("don_quixote"), .05));
+            rewards.add(new SingleRollLootInjector.Reward(sourceItem("sun_chaser"), .05));
+        }
         if (source("archaeology/trail_ruins_rare").equals(table.getLootTableId()))
             rewards.add(new SingleRollLootInjector.Reward(sourceItem("phosphophyllite"), .05));
         if (!SingleRollLootInjector.inject(table, POOL, rewards)) unsupported(table);

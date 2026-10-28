@@ -6,6 +6,7 @@ import static com.thelongtravail.compat.maid.MaidAccess.owner;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.abyss.RainState;
+import com.thelongtravail.api.TravailStateApi.AspectState;
 import com.thelongtravail.compat.maid.MaidAccessoryRuntime.Phase;
 import com.thelongtravail.config.RainConfig;
 import com.thelongtravail.data.LongTravailData;
@@ -14,15 +15,29 @@ import com.thelongtravail.flourishing.Flower;
 import com.thelongtravail.helper.TravailCurios;
 import com.thelongtravail.registry.ModRegistry;
 import com.thelongtravail.valley.LanternSources;
+
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 // 查询资格与数值，效果执行和状态清理由对应运行组件负责。
 // Phase 沿用公开类型以保持兼容；仅查询阶段不代表已装备对应饰品或女仆仍存活。
 public final class MaidAccessoryRules {
+    public static boolean hasEquipped(LivingEntity entity, Item item) {
+        return entity instanceof EntityMaid maid && has(maid, item);
+    }
+
+    public static AspectState aspectState(LivingEntity entity, TravailAspect aspect) {
+        if (!(entity instanceof EntityMaid maid)) return AspectState.INACTIVE;
+        return switch (phase(maid, aspect)) {
+            case MALICE -> AspectState.MALICE;
+            case WITNESS -> AspectState.WITNESS;
+            default -> AspectState.INACTIVE;
+        };
+    }
+
     static boolean has(EntityMaid m, Item item) {
         return !equipped(m, item).isEmpty();
     }

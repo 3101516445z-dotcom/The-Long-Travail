@@ -71,6 +71,9 @@ desktop.ini
 !/tools/structure-regression/**
 !/tools/worldgen-presets/
 !/tools/worldgen-presets/**
+!/tools/sun-blade.init.gradle
+!/tools/sun-blade-smoke/
+!/tools/sun-blade-smoke/**
 
 # Python 回归脚本缓存
 /tools/structure-regression/**/__pycache__/

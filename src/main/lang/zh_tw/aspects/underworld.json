@@ -1,4 +1,5 @@
 {
+  "tooltip.the_long_travail.flavor.kagotsurube": "竹籠汲水夜，八橋月冷花魁影，秋暮春月深。",
   "tooltip.the_long_travail.flavor.a_thousand_years_later": "隨時間的流逝而消散吧……",
   "tooltip.the_long_travail.flavor.book_of_the_dead": "一篇長詩，獻給冥府之主。",
   "tooltip.the_long_travail.flavor.demon_king_of_the_sixth_heaven": "天！下！布！武！",
@@ -49,5 +50,13 @@
   "tooltip.the_long_travail.summary.myriad_souls_banner.1": "§d冥府尚有惡意時，§r佩戴者的§6必殺§r隨魂數提高。",
   "tooltip.the_long_travail.summary.myriad_souls_banner.state": "魂數：§a%1$s§r / §a%2$s§r",
   "tooltip.the_long_travail.relic.banner.persistence": "摘下萬魂幡、轉交他人或切換冥府狀態時，已有魂數不會清零。",
-  "tooltip.the_long_travail.summary.myriad_souls_banner.2": "§d冥府已然見證時，§r佩戴者的§6見切§r與§6必殺§r隨魂數提高。"
+  "tooltip.the_long_travail.summary.myriad_souls_banner.2": "§d冥府已然見證時，§r佩戴者的§6見切§r與§6必殺§r隨魂數提高。",
+  "item.the_long_travail.kagotsurube": "籠釣瓶",
+  "tooltip.the_long_travail.summary.kagotsurube.0": "腰帶。造成傷害時施加或延長凋零；冥府惡意強化見切與霸主，見證將玩家來源傷害轉為直擊。",
+  "tooltip.the_long_travail.kagotsurube.base": "佩戴者造成傷害時，對目標施加凋零Ⅰ，持續%s秒。",
+  "tooltip.the_long_travail.kagotsurube.extend": "若目標已有凋零效果，則保留原等級，持續時間延長%s秒。",
+  "tooltip.the_long_travail.kagotsurube.malice_heading": "若佩戴了苦旅，且此時冥府尚有惡意，則：",
+  "tooltip.the_long_travail.kagotsurube.malice": "佩戴者的見切提高%s，霸主提高%s。",
+  "tooltip.the_long_travail.kagotsurube.witness_heading": "若佩戴了苦旅，且此時冥府已然見證，則：",
+  "tooltip.the_long_travail.kagotsurube.witness": "將所有歸屬於佩戴者的傷害轉化為直擊傷害。"
 }

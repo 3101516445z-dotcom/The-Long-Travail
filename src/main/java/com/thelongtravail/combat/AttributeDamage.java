@@ -37,6 +37,7 @@ public final class AttributeDamage {
         if (started) return active;
         started = true;
         if (excluded) return false;
+        com.thelongtravail.underworld.Kagotsurube.refresh(target);
         com.thelongtravail.underworld.UnderworldRelics.refresh(target);
         if (source.getEntity() instanceof LivingEntity actor)
             com.thelongtravail.boundless.LorentzFantasy.refresh(actor);
@@ -52,6 +53,7 @@ public final class AttributeDamage {
             if (source.getEntity() != null && source.getEntity() != target)
                 insight = CombatAttributes.insight(target);
             if (!com.thelongtravail.boundless.LorentzFantasy.secondary(source)
+                    && !com.thelongtravail.farreach.SunChaser.strike(source)
                     && source.getEntity() instanceof LivingEntity attacker
                     && attacker != target) chance = CombatAttributes.criticalChance(attacker);
         }

@@ -3,7 +3,9 @@ package com.thelongtravail.network;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.config.TravailConfig;
 import com.thelongtravail.data.WeightedEntry;
+
 import net.minecraft.resources.ResourceLocation;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +78,8 @@ public final class TooltipConfigSync {
 
     static Map<String, Double> serverValues() {
         Map<String, Double> values = new LinkedHashMap<>();
+        com.thelongtravail.config.SunBladeConfig.VALUES.forEach(
+                (k, v) -> values.put("sunBlade." + k, v.get()));
         values.put(
                 "underworldRelic.banner.capacity",
                 (double) com.thelongtravail.config.UnderworldItemsConfig.SOUL_CAPACITY.get());

@@ -2,37 +2,38 @@ package travail.smoke;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.item.ItemFilm;
-import com.github.tartaricacid.touhoulittlemaid.api.event.MaidAndItemTransformEvent;
 import com.mojang.authlib.GameProfile;
 import com.thelongtravail.*;
-import com.thelongtravail.compat.maid.*;
-import com.thelongtravail.registry.ModRegistry;
-import com.thelongtravail.data.LongTravailData;
-import com.thelongtravail.flourishing.*;
-import com.thelongtravail.config.*;
 import com.thelongtravail.boundless.*;
+import com.thelongtravail.compat.maid.*;
+import com.thelongtravail.config.*;
+import com.thelongtravail.data.LongTravailData;
 import com.thelongtravail.farreach.*;
-import com.thelongtravail.helper.CombatContext;
+import com.thelongtravail.flourishing.*;
+import com.thelongtravail.registry.ModRegistry;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.*;
+import net.minecraft.world.effect.*;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.effect.*;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.*;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.*;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
+
 import top.theillusivec4.curios.api.*;
-import top.theillusivec4.curios.api.type.capability.ICurio;
 import top.theillusivec4.curios.api.event.CurioEquipEvent;
+import top.theillusivec4.curios.api.type.capability.ICurio;
 import top.theillusivec4.curios.common.inventory.CurioStacksHandler;
+
 import java.util.*;
 
 @Mod("travail_smoke")
@@ -764,7 +765,8 @@ public final class MaidCompatSmoke {
                 else com.thelongtravail.valley.AzraelState.drain(level.getServer());
                 check(
                         !target.isAlive() && blocked.isAlive(),
-                        "canceled received arms Azrael; blocked outgoing preserves opportunity maid="
+                        "canceled received arms Azrael; blocked outgoing preserves opportunity"
+                                + " maid="
                                 + maid);
                 var second = cow(level);
                 second.hurt(wearer.damageSources().mobAttack(wearer), 1);
@@ -1706,6 +1708,199 @@ public final class MaidCompatSmoke {
         }
     }
 
+    private static void sunBladeChecks(ServerLevel level) throws Exception {
+        var owner = new TestPlayer(level);
+        ownerOnline(level, owner, true);
+        var book = diary(owner);
+        var a = maid(level, owner, 24);
+        var b = maid(level, owner, 26);
+        var target = cow(level);
+        try {
+            equip(a, ModRegistry.SUN_CHASER.get(), ModRegistry.KAGOTSURUBE.get());
+            equip(b, ModRegistry.SUN_CHASER.get(), ModRegistry.KAGOTSURUBE.get());
+            check(SunChaser.carrying(a), "sun maid native bauble equipped");
+            check(
+                    com.thelongtravail.underworld.Kagotsurube.equipped(a),
+                    "blade maid native bauble equipped");
+            a.setSecondsOnFire(10);
+            check(!a.isOnFire(), "sun maid cannot ignite");
+            check(!a.hurt(a.damageSources().lava(), 4), "sun maid lava immunity");
+            check(!a.hurt(a.damageSources().inFire(), 4), "sun maid fire immunity");
+            var lavaPos = a.blockPosition();
+            var oldBlock = level.getBlockState(lavaPos);
+            try {
+                level.setBlockAndUpdate(lavaPos, Blocks.LAVA.defaultBlockState());
+                a.baseTick();
+                check(a.isInLava(), "maid lava fixture enters actual fluid");
+                fixtureHealth(a, a.getMaxHealth() - 5);
+                float before = a.getHealth();
+                a.tickCount = 19;
+                SunChaser.maintain(a);
+                near(a.getHealth(), before, "maid lava heal waits for interval");
+                a.tickCount = 20;
+                SunChaser.maintain(a);
+                near(a.getHealth(), before + 1, "maid lava heals one health per interval");
+            } finally {
+                level.setBlockAndUpdate(lavaPos, oldBlock);
+                a.baseTick();
+            }
+            target.setSecondsOnFire(10);
+            var original = a.damageSources().mobAttack(a);
+            float ownerHealth = owner.getHealth();
+            owner.setSecondsOnFire(10);
+            com.thelongtravail.combat.DamageScope.hurt(
+                    owner,
+                    original,
+                    1,
+                    (source, amount) -> {
+                        SunChaser.finish(owner, original, new SunChaser.Hit(true, true, 1000, 0));
+                        return false;
+                    });
+            near(owner.getHealth(), ownerHealth, "maid sun extra obeys existing owner protection");
+            owner.clearFire();
+            var converted = com.thelongtravail.underworld.Kagotsurube.convert(target, original);
+            check(
+                    converted.is(com.thelongtravail.combat.DirectStrikeDamage.TYPE),
+                    "maid direct conversion");
+            check(
+                    converted.getEntity() == a
+                            && com.thelongtravail.combat.DamageIdentity.original(converted)
+                                    == original,
+                    "maid conversion preserves source identity");
+            target.hurt(original, 10);
+            near(target.getHealth(), 965, "maid 10 hit and exact 25 sun strike");
+            check(
+                    target.getEffect(MobEffects.WITHER).getDuration() == 200,
+                    "maid primary and extra each extend wither");
+            target.heal(5);
+            near(target.getHealth(), 965, "maid sun normal healing blocked");
+            check(target.invulnerableTime == 0, "maid sun hurt cooldown suppressed");
+            target.hurt(b.damageSources().mobAttack(b), 10);
+            near(target.getHealth(), 930, "second maid sharing owner independently strikes");
+            check(
+                    target.getEffect(MobEffects.WITHER).getDuration() == 400,
+                    "two maids four confirmations");
+            var numbersField = FlourishingItemsConfig.class.getDeclaredField("NUMBERS");
+            numbersField.setAccessible(true);
+            var numbers =
+                    (Map<String, net.minecraftforge.common.ForgeConfigSpec.DoubleValue>)
+                            numbersField.get(null);
+            var chance = numbers.get("everlasting_flower.witness.repeatChance");
+            double oldChance = chance.get();
+            var queuesField =
+                    com.thelongtravail.combat.DamageReplay.class.getDeclaredField("QUEUES");
+            queuesField.setAccessible(true);
+            var queues = (Map<?, ?>) queuesField.get(null);
+            var combo = cow(level);
+            try {
+                chance.set(1.0);
+                equip(
+                        a,
+                        ModRegistry.SUN_CHASER.get(),
+                        ModRegistry.KAGOTSURUBE.get(),
+                        ModRegistry.EVERLASTING_FLOWER.get());
+                combo.setSecondsOnFire(10);
+                combo.hurt(original, 10);
+                near(
+                        combo.getHealth(),
+                        965 - 10 * EverlastingFlower.bonus(a),
+                        "three accessories retain exact sun strike");
+                check(
+                        combo.getEffect(MobEffects.WITHER).getDuration() == 200,
+                        "three accessories confirm primary and sun only synchronously");
+                check(
+                        ((ArrayDeque<?>) queues.get(level.getServer())).size() == 1,
+                        "sun extra does not enqueue second flower replay");
+                EverlastingFlower.unequipped(a);
+                check(
+                        ((ArrayDeque<?>) queues.get(level.getServer())).isEmpty(),
+                        "maid flower removal cancels pending combination replay");
+            } finally {
+                chance.set(oldChance);
+                EverlastingFlower.unequipped(a);
+                combo.discard();
+                equip(a, ModRegistry.SUN_CHASER.get(), ModRegistry.KAGOTSURUBE.get());
+            }
+            LongTravailData.setWitness(book, TravailAspect.FAR_REACH, false);
+            LongTravailData.setWitness(book, TravailAspect.UNDERWORLD, false);
+            com.thelongtravail.underworld.Kagotsurube.refresh(a);
+            near(
+                    a.getAttributeValue(com.thelongtravail.registry.ModAttributes.INSIGHT.get()),
+                    15,
+                    "maid blade insight");
+            near(
+                    a.getAttributeValue(com.thelongtravail.registry.ModAttributes.OVERLORD.get()),
+                    .1,
+                    "maid blade overlord");
+            var arrow = new net.minecraft.world.entity.projectile.Arrow(level, owner);
+            arrow.setDeltaMovement(1, 0, 0);
+            near(
+                    SunChaser.snapshot(target, a.damageSources().arrow(arrow, a)).bonus(),
+                    .5,
+                    "maid projectile and burning bonuses additive");
+            check(
+                    !SunChaser.snapshot(target, original).witness(),
+                    "maid malice does not inherit witness");
+            MinecraftForge.EVENT_BUS.post(
+                    new net.minecraftforge.event.entity.ProjectileImpactEvent(
+                            arrow, new net.minecraft.world.phys.EntityHitResult(a)));
+            check(
+                    arrow.getOwner() == a && arrow.getDeltaMovement().x == -1,
+                    "maid reflection event changes owner and reverses velocity");
+            ownerOnline(level, owner, false);
+            com.thelongtravail.underworld.Kagotsurube.refresh(a);
+            near(
+                    a.getAttributeValue(com.thelongtravail.registry.ModAttributes.INSIGHT.get()),
+                    0,
+                    "owner offline removes maid insight");
+            near(
+                    a.getAttributeValue(com.thelongtravail.registry.ModAttributes.OVERLORD.get()),
+                    0,
+                    "owner offline removes maid overlord");
+            check(
+                    SunChaser.carrying(a) && !SunChaser.reflects(a),
+                    "owner offline preserves base but disables branch");
+            var base = cow(level);
+            base.hurt(a.damageSources().mobAttack(a), 1);
+            check(
+                    base.getEffect(MobEffects.WITHER).getDuration() == 100,
+                    "owner offline still grants base wither");
+            base.addEffect(new MobEffectInstance(MobEffects.WITHER, 500, 3));
+            base.invulnerableTime = 0;
+            base.hurt(a.damageSources().mobAttack(a), 1);
+            check(
+                    base.getEffect(MobEffects.WITHER).getAmplifier() == 3
+                            && base.getEffect(MobEffects.WITHER).getDuration() == 600,
+                    "maid preserves stronger wither level and extends");
+            base.discard();
+            ownerOnline(level, owner, true);
+            com.thelongtravail.underworld.Kagotsurube.refresh(a);
+            equip(a);
+            com.thelongtravail.underworld.Kagotsurube.refresh(a);
+            near(
+                    a.getAttributeValue(com.thelongtravail.registry.ModAttributes.INSIGHT.get()),
+                    0,
+                    "unequip removes maid insight");
+            check(!SunChaser.carrying(a), "unequip disables sun base");
+            equip(a, ModRegistry.KAGOTSURUBE.get());
+            com.thelongtravail.underworld.Kagotsurube.refresh(a);
+            near(
+                    a.getAttributeValue(com.thelongtravail.registry.ModAttributes.INSIGHT.get()),
+                    15,
+                    "maid blade reequips without accumulation");
+            a.discard();
+            near(
+                    a.getAttributeValue(com.thelongtravail.registry.ModAttributes.INSIGHT.get()),
+                    0,
+                    "maid leaving level clears blade attributes");
+        } finally {
+            a.discard();
+            b.discard();
+            target.discard();
+            ownerOnline(level, owner, false);
+        }
+    }
+
     @SubscribeEvent
     public void started(ServerStartedEvent event) {
         var server = event.getServer();
@@ -1720,6 +1915,7 @@ public final class MaidCompatSmoke {
             var m = maid(level, p, 0);
             var other = maid(level, p, 2);
             var victim = cow(level);
+            sunBladeChecks(level);
             accessPressure(level);
             rulePressure(level);
             // 本场景显式设置 99% 减伤。
@@ -2213,7 +2409,8 @@ public final class MaidCompatSmoke {
                             new TickEvent.ServerTickEvent(TickEvent.Phase.END, () -> true, server));
             check(
                     !first.isAlive() && second.isAlive(),
-                    "unrelated accessory change preserves Azrael opportunity; only first actual hit consumes it first="
+                    "unrelated accessory change preserves Azrael opportunity; only first actual hit"
+                            + " consumes it first="
                             + first.getHealth()
                             + " second="
                             + second.getHealth());

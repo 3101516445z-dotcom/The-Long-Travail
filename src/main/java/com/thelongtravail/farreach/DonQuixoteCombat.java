@@ -3,8 +3,8 @@ package com.thelongtravail.farreach;
 import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.compat.maid.MaidAccessories;
 import com.thelongtravail.config.FarReachRelicsConfig;
-import com.thelongtravail.registry.ModRegistry;
 import com.thelongtravail.helper.CurioLookup;
+import com.thelongtravail.registry.ModRegistry;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.*;
@@ -45,6 +45,7 @@ public final class DonQuixoteCombat {
     }
 
     public static boolean secondary(DamageSource source) {
+        source = com.thelongtravail.combat.DamageIdentity.original(source);
         return source.is(STRIKE);
     }
 
@@ -130,7 +131,8 @@ public final class DonQuixoteCombat {
         try {
             target.hurt(source, (float) Math.min(Float.MAX_VALUE, amount));
         } finally {
-            target.invulnerableTime = invulnerable;
+            target.invulnerableTime =
+                    com.thelongtravail.farreach.SunChaser.suppressed(target) ? 0 : invulnerable;
             state.travail$lastHurt(last);
         }
     }

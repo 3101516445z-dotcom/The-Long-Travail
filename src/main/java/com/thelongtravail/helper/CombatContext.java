@@ -5,6 +5,7 @@ import com.thelongtravail.config.ModeEffectRules;
 import com.thelongtravail.config.TravailConfig;
 import com.thelongtravail.data.LongTravailData;
 import com.thelongtravail.event.TravailEvents;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -17,6 +18,10 @@ public final class CombatContext implements AutoCloseable {
     private final CombatContext previous;
     private final LivingEntity target;
     private final DamageSource source;
+    private final DamageSource effectiveSource;
+    private final boolean sunStrike;
+    private final com.thelongtravail.farreach.SunChaser.Hit sun;
+    private boolean sunFinished;
     private final ServerPlayer attacker;
     private final boolean penetrating;
     private final TravailConfig.FluidProtection protection;
@@ -67,7 +72,11 @@ public final class CombatContext implements AutoCloseable {
 
     // 重放与毒伤认领会消耗本次伤害状态，必须保持此处的调用顺序。
     // 构造过程包含上述状态变更，不能作为纯只读快照处理。
-    private CombatContext(LivingEntity target, DamageSource source) {
+    private CombatContext(LivingEntity target, DamageSource source, DamageSource effectiveSource) {
+        this.effectiveSource = effectiveSource;
+        source = com.thelongtravail.combat.DamageIdentity.original(source);
+        this.sunStrike = com.thelongtravail.farreach.SunChaser.strike(source);
+        this.sun = com.thelongtravail.farreach.SunChaser.snapshot(target, source);
         this.lorentzVoid = com.thelongtravail.boundless.LorentzFantasy.secondary(source);
         this.lorentzBonus =
                 lorentzVoid ? 0 : com.thelongtravail.boundless.LorentzFantasy.bonus(target, source);
@@ -90,7 +99,12 @@ public final class CombatContext implements AutoCloseable {
                                 || source.is(com.thelongtravail.valley.AzraelExecution.SELF),
                         replay != null || quixoteStrike);
         this.quixote =
-                lorentzVoid || execution || replay != null || quixoteStrike || insightRetaliation
+                sunStrike
+                                || lorentzVoid
+                                || execution
+                                || replay != null
+                                || quixoteStrike
+                                || insightRetaliation
                         ? null
                         : com.thelongtravail.farreach.DonQuixoteCombat.snapshot(target, source);
         this.witherBonus =
@@ -154,12 +168,20 @@ public final class CombatContext implements AutoCloseable {
     }
 
     public static CombatContext open(LivingEntity target, DamageSource source) {
-        return new CombatContext(target, source);
+        return new CombatContext(target, source, source);
+    }
+
+    public static CombatContext open(
+            LivingEntity target, DamageSource source, DamageSource effectiveSource) {
+        return new CombatContext(target, source, effectiveSource);
     }
 
     public static CombatContext current(LivingEntity target, DamageSource source) {
         CombatContext context = CURRENT.get();
-        return context != null && context.target == target && context.source == source
+        return context != null
+                        && context.target == target
+                        && context.source
+                                == com.thelongtravail.combat.DamageIdentity.original(source)
                 ? context
                 : null;
     }
@@ -210,6 +232,9 @@ public final class CombatContext implements AutoCloseable {
         if (damageConfirmed || execution || com.thelongtravail.valley.AzraelExecution.active())
             return;
         damageConfirmed = true;
+        com.thelongtravail.underworld.Kagotsurube.confirmed(target, source);
+        com.thelongtravail.farreach.SunChaser.confirmed(target, source, sun);
+        if (sunStrike) return;
         if (quixoteStrike) return;
         if (replay != null) {
             replay.confirmed = true;
@@ -222,10 +247,18 @@ public final class CombatContext implements AutoCloseable {
     }
 
     public void finish() {
+        if (damageConfirmed && !execution && !sunFinished) {
+            sunFinished = true;
+            com.thelongtravail.farreach.SunChaser.finish(target, source, sun);
+        }
         if (attributeDamage.zeroed() && !damageConfirmed && !nestedDamageConfirmed) {
             target.invulnerableTime = previousInvulnerability;
             ((com.thelongtravail.mixin.DamageReplayStateAccessor) target)
                     .travail$lastHurt(previousLastHurt);
+        }
+        if (sunStrike) {
+            attributeDamage.finish();
+            return;
         }
         if (execution || replay != null || quixoteStrike) return;
         if (insightRetaliation) return;
@@ -272,7 +305,7 @@ public final class CombatContext implements AutoCloseable {
     private boolean accessoryAttack;
 
     public boolean prepareAttack(float amount) {
-        if (quixoteStrike) return true;
+        if (quixoteStrike || sunStrike) return true;
         if (replay == null
                 && !accessoryAttack
                 && !execution
@@ -292,9 +325,11 @@ public final class CombatContext implements AutoCloseable {
         if (!immunityEvaluated) {
             immunityEvaluated = true;
             maidImmune =
-                    com.thelongtravail.compat.maid.MaidAccessories.immune(target, source, amount);
+                    com.thelongtravail.compat.maid.MaidAccessories.immune(
+                            target, effectiveSource, amount);
             if (target instanceof ServerPlayer player) {
-                icarusImmune = com.thelongtravail.farreach.FarReachCombat.immune(player, source);
+                icarusImmune =
+                        com.thelongtravail.farreach.FarReachCombat.immune(player, effectiveSource);
                 ItemStack diary = TravailCurios.stack(player);
                 boolean ekiActive =
                         com.thelongtravail.abyss.RainState.ekiState(player, diary)
@@ -328,7 +363,7 @@ public final class CombatContext implements AutoCloseable {
                         && !diary.isEmpty()
                         && LongTravailData.hasWitness(diary, TravailAspect.ABYSS)) {
                     victimInternallyImmune =
-                            CombatRules.abyssEnvironmentDamage(source)
+                            CombatRules.abyssEnvironmentDamage(effectiveSource)
                                     || (amount > 0
                                             && !source.is(DamageTypes.GENERIC_KILL)
                                             && (player.isInFluidType()
@@ -369,7 +404,7 @@ public final class CombatContext implements AutoCloseable {
     }
 
     public double outgoingBonus() {
-        if (quixoteStrike || insightRetaliation || lorentzVoid) return 0;
+        if (sunStrike || quixoteStrike || insightRetaliation || lorentzVoid) return 0;
         return (quixote == null ? 0 : quixote.bonus())
                 + ekiDamageBonus
                 + floralBonus
@@ -380,7 +415,8 @@ public final class CombatContext implements AutoCloseable {
                 + growthBonus
                 + witherBonus
                 + relicBonus
-                + lorentzBonus;
+                + lorentzBonus
+                + sun.bonus();
     }
 
     public boolean penetrating() {
@@ -422,7 +458,7 @@ public final class CombatContext implements AutoCloseable {
         if (execution) return external;
         external = safeDamage(external);
         if (blocked() || externallyCancelled) return 0;
-        if (quixoteStrike || replay != null) {
+        if (sunStrike || quixoteStrike || replay != null) {
             attributeDamage.begin();
             return external;
         }
@@ -447,7 +483,7 @@ public final class CombatContext implements AutoCloseable {
             if (roseDamage) return protectedDamage;
             return penetrating && !attributeDamage.settled() ? protect(external) : external;
         }
-        if (quixoteStrike) return external;
+        if (sunStrike || quixoteStrike) return external;
         if (replay != null) return blocked() || externallyCancelled ? 0 : external;
         if (execution) return external;
         if (roseDamage) return multiply(protectedDamage, 1 + witherBonus);
@@ -461,7 +497,9 @@ public final class CombatContext implements AutoCloseable {
     public float beforeAbsorption(float amount) {
         if (execution) return amount;
         if (!roseDamage && replay == null && !penetrating && !quixoteStrike) {
-            amount = com.thelongtravail.underworld.DemonKingCombat.reduce(target, source, amount);
+            amount =
+                    com.thelongtravail.underworld.DemonKingCombat.reduce(
+                            target, effectiveSource, amount);
             amount = com.thelongtravail.farreach.DonQuixoteState.reduce(target, source, amount);
             if (!source.is(net.minecraft.tags.DamageTypeTags.BYPASSES_INVULNERABILITY))
                 amount =
@@ -481,10 +519,12 @@ public final class CombatContext implements AutoCloseable {
             outputApplied = true;
         }
         if (!penetrating && replay == null && !quixoteStrike) {
-            amount = com.thelongtravail.flourishing.FloralCombat.reduce(target, source, amount);
+            amount =
+                    com.thelongtravail.flourishing.FloralCombat.reduce(
+                            target, effectiveSource, amount);
             amount =
                     com.thelongtravail.compat.maid.MaidAccessories.reduce(
-                            target, source, amount, floralPoison);
+                            target, effectiveSource, amount, floralPoison);
         }
         if (!attributeDamage.begin()) return safeDamage(amount);
         if (penetrating && !attributeDamage.settled()) {
@@ -507,9 +547,9 @@ public final class CombatContext implements AutoCloseable {
     }
 
     private float internalAmount(float amount) {
-        if (lorentzVoid) return amount;
+        if (sunStrike || lorentzVoid) return amount;
         return CombatRules.internalAmount(
-                target, insightRetaliation ? null : attacker, roseDamage, source, amount);
+                target, insightRetaliation ? null : attacker, roseDamage, effectiveSource, amount);
     }
 
     private static float multiply(float amount, double multiplier) {

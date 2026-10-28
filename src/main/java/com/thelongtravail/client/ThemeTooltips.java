@@ -196,6 +196,7 @@ public final class ThemeTooltips {
                 out.add(text("requires_diary_effect"));
         }
         switch (id) {
+            case "sun_chaser", "kagotsurube" -> out.add(text(id + ".0"));
             case "demon_king_of_the_sixth_heaven", "myriad_souls_banner" -> {
                 out.add(text(id + ".0"));
                 out.add(text(id + ".1"));

@@ -1,4 +1,5 @@
 {
+  "tooltip.the_long_travail.flavor.kagotsurube": "A night of drawing water with a bamboo basket; beneath the cold moon at Yatsuhashi, the silhouette of an oiran—autumn dusk, the spring moon deep.",
   "tooltip.the_long_travail.flavor.a_thousand_years_later": "Fade away with the passage of time…",
   "tooltip.the_long_travail.flavor.book_of_the_dead": "A long poem, dedicated to the lord of the underworld.",
   "tooltip.the_long_travail.flavor.demon_king_of_the_sixth_heaven": "Rule! The! World! By! Force!",
@@ -49,5 +50,13 @@
   "tooltip.the_long_travail.summary.myriad_souls_banner.1": "§dWhile the Underworld still bears Malice, §rthe wearer's §6Critical Chance§r increases with the number of souls.",
   "tooltip.the_long_travail.summary.myriad_souls_banner.state": "Souls: §a%1$s§r / §a%2$s§r",
   "tooltip.the_long_travail.relic.banner.persistence": "Souls are retained when the banner is unequipped, passed to another wearer, or the Underworld state changes.",
-  "tooltip.the_long_travail.summary.myriad_souls_banner.2": "§dOnce the Underworld has borne Witness, §rthe wearer's §6Insight§r and §6Critical Chance§r increase with the number of souls."
+  "tooltip.the_long_travail.summary.myriad_souls_banner.2": "§dOnce the Underworld has borne Witness, §rthe wearer's §6Insight§r and §6Critical Chance§r increase with the number of souls.",
+  "item.the_long_travail.kagotsurube": "Kagotsurube",
+  "tooltip.the_long_travail.summary.kagotsurube.0": "Belt. Dealing damage applies or extends Wither. Underworld Malice grants Insight and Overlord; Witness converts player-attributed damage to direct strikes.",
+  "tooltip.the_long_travail.kagotsurube.base": "When the wearer deals damage, inflicts Wither I on the target for %s seconds.",
+  "tooltip.the_long_travail.kagotsurube.extend": "If the target already has Wither, its level is preserved and its duration is extended by %s seconds.",
+  "tooltip.the_long_travail.kagotsurube.malice_heading": "If The Long Travail is equipped and Underworld still bears Malice:",
+  "tooltip.the_long_travail.kagotsurube.malice": "The wearer’s Insight increases by %s and Overlord by %s.",
+  "tooltip.the_long_travail.kagotsurube.witness_heading": "If The Long Travail is equipped and Underworld has borne Witness:",
+  "tooltip.the_long_travail.kagotsurube.witness": "Converts all damage attributed to the wearer into direct strike damage."
 }

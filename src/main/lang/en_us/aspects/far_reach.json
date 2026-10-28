@@ -1,4 +1,5 @@
 {
+  "tooltip.the_long_travail.flavor.sun_chaser": "The heavens overturn—why does the golden crow close its eyes? As the black sun unfurls, I long only to draw my bow and cry aloud!",
   "tooltip.the_long_travail.flavor.icarus": "Wandering between the celestial sphere and the earth…",
   "tooltip.the_long_travail.flavor.golden_age": "They shall return like lightning.",
   "tooltip.the_long_travail.flavor.don_quixote": "Ride with me!",
@@ -62,5 +63,17 @@
   "tooltip.the_long_travail.tower_of_babel.limit": "Only one Tower of Babel takes effect; carrying more does not stack its effects.",
   "tooltip.the_long_travail.summary.don_quixote.2": "§dOnce Far Reach has been witnessed, §rdealing §ahigh damage§r to a target briefly reduces the §6damage§r that target deals to the wearer.",
   "tooltip.the_long_travail.don_quixote.size": "Target size is based on its current hitbox, using a standard player's volume as the reference. The size multiplier is the cube root of the ratio between these volumes. Starting from 1:1, each additional 1 in the target's multiplier increases the wearer's damage dealt by a further %s%%.",
-  "tooltip.the_long_travail.summary.tower_of_babel.2": "§dWhile Far Reach bears Malice, §rvillager trades receive a §6discount§r and nearby villagers §6restock faster§r."
+  "tooltip.the_long_travail.summary.tower_of_babel.2": "§dWhile Far Reach bears Malice, §rvillager trades receive a §6discount§r and nearby villagers §6restock faster§r.",
+  "item.the_long_travail.sun_chaser": "Sun Chaser",
+  "tooltip.the_long_travail.summary.sun_chaser.0": "While carried, grants immunity to fire and lava damage and restores health in lava. Far Reach Malice and Witness grant separate combat abilities.",
+  "tooltip.the_long_travail.sun_chaser.base": "While carried, grants immunity to fire and lava damage and prevents ignition.",
+  "tooltip.the_long_travail.sun_chaser.healing": "While in lava, the carrier restores %s health per second.",
+  "tooltip.the_long_travail.sun_chaser.lava": "While in lava, the carrier is unaffected by the periodic fluid damage from Abyss Malice.",
+  "tooltip.the_long_travail.sun_chaser.malice_heading": "If The Long Travail is equipped and Far Reach still bears Malice:",
+  "tooltip.the_long_travail.sun_chaser.reflect": "Reflects projectiles about to hit the carrier, transferring their ownership to the carrier.",
+  "tooltip.the_long_travail.sun_chaser.projectile": "The carrier’s projectile damage dealt increases by %s%%.",
+  "tooltip.the_long_travail.sun_chaser.burning": "The carrier’s damage dealt to burning targets increases by %s%%.",
+  "tooltip.the_long_travail.sun_chaser.witness_heading": "If The Long Travail is equipped and Far Reach has borne Witness:",
+  "tooltip.the_long_travail.sun_chaser.suppression": "When the carrier deals damage, the target cannot recover health through normal healing or gain damage invulnerability frames for %s seconds. Dealing damage again refreshes the duration.",
+  "tooltip.the_long_travail.sun_chaser.strike": "When the carrier deals damage to a burning target, deals additional direct strike damage equal to %s%% of the target’s maximum health."
 }

@@ -121,7 +121,10 @@
     "LorentzArrowAccessor",
     "AbundanceLingeringPotionMixin",
     "TremorBlockDropsMixin",
-    "TremorFortuneMixin"
+    "TremorFortuneMixin",
+    "SunFireMixin",
+    "ReflectedProjectileAccessor",
+    "ReflectedShulkerAccessor"
   ],
   "client": [
     "AltitudeLocalFlightMixin",

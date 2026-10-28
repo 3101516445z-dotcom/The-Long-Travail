@@ -18,9 +18,7 @@ import com.thelongtravail.farreach.IcarusEnvironment;
 import com.thelongtravail.flourishing.FloralCombat;
 import com.thelongtravail.flourishing.Flower;
 import com.thelongtravail.registry.ModRegistry;
-import java.util.Collections;
-import java.util.IdentityHashMap;
-import java.util.Set;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.DamageTypeTags;
@@ -32,8 +30,17 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.Set;
+
 // 计算伤害与免疫规则；短路判断顺序和随机数消耗属于行为约定。
 public final class MaidCombatCalculations {
+    // 安全门面的调用签名只暴露原版类型，避免缺少女仆模组时验证 EntityMaid 的继承关系。
+    public static LivingEntity damageActor(DamageSource source) {
+        return attacker(source);
+    }
+
     public static EntityMaid attacker(Entity source) {
         Set<Entity> seen = Collections.newSetFromMap(new IdentityHashMap<>());
         while (source != null && seen.add(source)) {

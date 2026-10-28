@@ -4,6 +4,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.StringDecomposer;
+
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -17,10 +18,10 @@ public final class CatalogTextStyle {
     private static final Pattern VALUES =
             Pattern.compile(
                     "[+-]?\\d+(?:\\.\\d+)?(?:[%％]|(?:\\s*|-)(?:seconds?|minutes?|blocks?|levels?(?:\\(s\\))?|points?|times?)(?!\\w)|秒|分钟|格|级|点|倍|朵|条|张|颗|本|个|份|件|种|種)?"
-                            + "|[一二两三四五六七八九十]+(?:朵|条|张|级|格|秒|分钟|件|份|个)|[0-9一二三四五六七八九十]+[种種]|\\bnine(?="
-                            + " special text styles\\b)|\\bone(?= Perfect"
-                            + " Fluid\\b)|\\b(?:one|two|three|four|five|six)"
-                            + " (?:flowers?|records?|levels?|blocks?|seconds?|items?|copies|copy)\\b",
+                        + "|[一二两三四五六七八九十]+(?:朵|条|张|级|格|秒|分钟|件|份|个)|[0-9一二三四五六七八九十]+[种種]|\\bnine(?="
+                        + " special text styles\\b)|\\bone(?= Perfect"
+                        + " Fluid\\b)|\\b(?:one|two|three|four|five|six)"
+                        + " (?:flowers?|records?|levels?|blocks?|seconds?|items?|copies|copy)\\b",
                     Pattern.CASE_INSENSITIVE);
     private static final Pattern KEYS = Pattern.compile("(?<=\\[)[^\\[\\]\\r\\n]+(?=\\])");
     private static final Pattern STACK_SCOPE =
@@ -126,6 +127,48 @@ public final class CatalogTextStyle {
                     "elytra flight",
                     "rainstorm",
                     "Wither");
+    // 逐日与籠釣瓶详情专用，复用通用句内限额与段内去重。
+    private static final List<String> SUN_BLADE_TERMS =
+            List.of(
+                    "火焰、岩浆伤害",
+                    "火焰、熔岩傷害",
+                    "火焰、熔岩之傷",
+                    "fire and lava damage",
+                    "归墟之恶意",
+                    "歸墟之惡意",
+                    "歸墟惡意",
+                    "Abyss Malice",
+                    "流体伤害",
+                    "流體傷害",
+                    "fluid damage",
+                    "反弹",
+                    "反彈",
+                    "Reflects",
+                    "弹射物伤害",
+                    "彈射物傷害",
+                    "projectile damage",
+                    "正常治疗",
+                    "正常治療",
+                    "常規治療",
+                    "normal healing",
+                    "受伤无敌帧",
+                    "受傷無敵幀",
+                    "damage invulnerability frames",
+                    "直击伤害",
+                    "直擊傷害",
+                    "direct strike damage",
+                    "凋零",
+                    "Wither",
+                    "见切",
+                    "見切",
+                    "Insight",
+                    "霸主",
+                    "Overlord");
+    private static final Pattern SUN_BLADE_VALUES =
+            Pattern.compile(
+                    "(?<=凋零)Ⅰ|(?<=Wither )I\\b|\\b\\d+(?:\\.\\d+)?\\s+health\\b",
+                    Pattern.CASE_INSENSITIVE);
+
     // 词表仅用于液化丰饶，不改变其他物品页面。
     private static final List<String> ABUNDANCE_TERMS =
             List.of(
@@ -345,6 +388,17 @@ public final class CatalogTextStyle {
         HighlightState highlights = new HighlightState();
         boolean blacklistNamesNext = false;
         for (Component source : paragraphs) {
+            boolean sunBlade =
+                    source.getContents()
+                                    instanceof
+                                    net.minecraft.network.chat.contents.TranslatableContents
+                                                    sunBladeTranslation
+                            && (sunBladeTranslation
+                                            .getKey()
+                                            .startsWith("tooltip.the_long_travail.sun_chaser.")
+                                    || sunBladeTranslation
+                                            .getKey()
+                                            .startsWith("tooltip.the_long_travail.kagotsurube."));
             boolean abundance =
                     source.getContents()
                                     instanceof
@@ -444,7 +498,11 @@ public final class CatalogTextStyle {
                         f.styles,
                         result,
                         highlights,
-                        abundance ? ABUNDANCE_TERMS : immortalBud ? IMMORTAL_BUD_TERMS : TERMS);
+                        sunBlade
+                                ? SUN_BLADE_TERMS
+                                : abundance
+                                        ? ABUNDANCE_TERMS
+                                        : immortalBud ? IMMORTAL_BUD_TERMS : TERMS);
             } else if (heading) highlights.sentenceCount = 0;
             else highlights.advance(text, 0, text.length());
             if (!supplement && !objectList) {
@@ -465,6 +523,10 @@ public final class CatalogTextStyle {
                                 .matcher(text);
                 while (lingering.find())
                     paint(result, f.styles, lingering.start(), lingering.end(), GOLD);
+            }
+            if (sunBlade) {
+                var values = SUN_BLADE_VALUES.matcher(text);
+                while (values.find()) paint(result, f.styles, values.start(), values.end(), VALUE);
             }
             if (abundance && !objectList) {
                 var values = ABUNDANCE_VALUES.matcher(text);

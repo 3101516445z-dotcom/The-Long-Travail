@@ -6,6 +6,7 @@ import com.thelongtravail.compat.maid.MaidAccessories;
 import com.thelongtravail.config.BoundlessItemsConfig;
 import com.thelongtravail.helper.*;
 import com.thelongtravail.registry.*;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.*;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,6 +23,7 @@ import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
 import java.util.*;
 
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
@@ -341,7 +343,8 @@ public final class LorentzFantasy {
         try {
             hitEntity.hurt(source, (float) Math.min(Float.MAX_VALUE, amount));
         } finally {
-            target.invulnerableTime = invul;
+            target.invulnerableTime =
+                    com.thelongtravail.farreach.SunChaser.suppressed(target) ? 0 : invul;
             state.travail$lastHurt(last);
         }
     }

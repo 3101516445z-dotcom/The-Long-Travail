@@ -9,6 +9,12 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.compat.maid.MaidAccessoryRuntime.Phase;
 import com.thelongtravail.registry.ModRegistry;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
+
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.List;
@@ -16,10 +22,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.WeakHashMap;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 
 final class MaidRuntimeState {
     private static final String ID = MaidAccess.IDENTITY_KEY;
@@ -140,6 +142,7 @@ final class MaidRuntimeState {
     }
 
     static void forget(EntityMaid m) {
+        com.thelongtravail.underworld.Kagotsurube.clear(m);
         STATES.remove(m);
         com.thelongtravail.farreach.DonQuixoteState.forget(m);
         MaidLanternCombat.forget(m);

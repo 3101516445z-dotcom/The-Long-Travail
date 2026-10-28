@@ -1,4 +1,5 @@
 {
+  "tooltip.the_long_travail.flavor.sun_chaser": "周天翻覆，金乌为何瞑目？黑日漫卷，只期挽弓高呼！",
   "tooltip.the_long_travail.flavor.icarus": "漫游在天球与大地之间……",
   "tooltip.the_long_travail.flavor.golden_age": "祂将如闪电般归来。",
   "tooltip.the_long_travail.flavor.don_quixote": "与我一同驰骋吧！",
@@ -62,5 +63,17 @@
   "tooltip.the_long_travail.tower_of_babel.limit": "巴别塔最多生效一个，携带多个时效果不叠加。",
   "tooltip.the_long_travail.summary.don_quixote.2": "§d穷遐已然见证时，§r佩戴者对目标造成§a高额伤害§r后，将短暂降低该目标对佩戴者§6造成的伤害§r。",
   "tooltip.the_long_travail.don_quixote.size": "体型以目标当前碰撞箱为准，以标准玩家体积为基准，两者体积之比的立方根为体型倍率。以1:1为基础，目标的倍率每额外高出1，佩戴者造成的伤害额外提高%s%%。",
-  "tooltip.the_long_travail.summary.tower_of_babel.2": "§d穷遐尚有恶意时，§r村民交易享有§6折扣§r，附近村民的§6补货速度§r加快。"
+  "tooltip.the_long_travail.summary.tower_of_babel.2": "§d穷遐尚有恶意时，§r村民交易享有§6折扣§r，附近村民的§6补货速度§r加快。",
+  "item.the_long_travail.sun_chaser": "逐日",
+  "tooltip.the_long_travail.summary.sun_chaser.0": "携带时免疫火焰与岩浆伤害，并在岩浆中恢复生命。随穷遐恶意或见证获得不同战斗能力。",
+  "tooltip.the_long_travail.sun_chaser.base": "携带时，免疫火焰、岩浆伤害且不会被点燃。",
+  "tooltip.the_long_travail.sun_chaser.healing": "在岩浆中时，携带者每秒恢复%s点生命值。",
+  "tooltip.the_long_travail.sun_chaser.lava": "在岩浆中时，携带者不受归墟之恶意的周期性流体伤害影响。",
+  "tooltip.the_long_travail.sun_chaser.malice_heading": "若佩戴了苦旅，且此时穷遐尚有恶意，则：",
+  "tooltip.the_long_travail.sun_chaser.reflect": "反弹即将命中携带者的弹射物，反弹后的弹射物归属于携带者。",
+  "tooltip.the_long_travail.sun_chaser.projectile": "携带者造成的弹射物伤害提高%s%%。",
+  "tooltip.the_long_travail.sun_chaser.burning": "携带者对燃烧目标造成的伤害提高%s%%。",
+  "tooltip.the_long_travail.sun_chaser.witness_heading": "若佩戴了苦旅，且此时穷遐已然见证，则：",
+  "tooltip.the_long_travail.sun_chaser.suppression": "携带者造成伤害时，使目标在%s秒内无法通过正常治疗恢复生命值且无法获得受伤无敌帧，再次造成伤害时刷新持续时间。",
+  "tooltip.the_long_travail.sun_chaser.strike": "携带者对燃烧目标造成伤害时，额外造成相当于目标最大生命值%s%%的直击伤害。"
 }

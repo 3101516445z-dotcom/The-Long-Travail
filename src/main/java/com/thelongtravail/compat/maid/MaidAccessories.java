@@ -1,16 +1,21 @@
 package com.thelongtravail.compat.maid;
 
+import com.thelongtravail.api.TravailStateApi.AspectState;
 import com.thelongtravail.registry.ModRegistry;
-import net.minecraft.world.entity.*;
-import net.minecraft.world.item.*;
+
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.item.*;
+
 import java.util.*;
 
 public final class MaidAccessories {
     public static List<Item> items() {
         return List.of(
+                ModRegistry.SUN_CHASER.get(),
+                ModRegistry.KAGOTSURUBE.get(),
                 ModRegistry.DEMON_KING.get(),
                 ModRegistry.SOUL_BANNER.get(),
                 ModRegistry.SPRING_CORNER.get(),
@@ -26,6 +31,18 @@ public final class MaidAccessories {
                 ModRegistry.MIDNIGHT_LAFITE.get(),
                 ModRegistry.TOKAIDO.get(),
                 ModRegistry.EKI.get());
+    }
+
+    public static boolean equipped(LivingEntity entity, Item item) {
+        return loaded() && MaidAccessoryRules.hasEquipped(entity, item);
+    }
+
+    public static AspectState phase(LivingEntity entity, com.thelongtravail.TravailAspect aspect) {
+        return loaded() ? MaidAccessoryRules.aspectState(entity, aspect) : AspectState.INACTIVE;
+    }
+
+    public static LivingEntity damageActor(DamageSource source) {
+        return loaded() ? MaidCombatCalculations.damageActor(source) : null;
     }
 
     public static LivingEntity quixoteAttacker(DamageSource source) {

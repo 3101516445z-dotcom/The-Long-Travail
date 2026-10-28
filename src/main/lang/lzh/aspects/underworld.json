@@ -1,4 +1,5 @@
 {
+  "tooltip.the_long_travail.flavor.kagotsurube": "竹籠汲水夜，八橋月冷花魁影，秋暮春月深。",
   "tooltip.the_long_travail.flavor.a_thousand_years_later": "隨時之逝而散……",
   "tooltip.the_long_travail.flavor.book_of_the_dead": "長詩一篇，獻於冥府之主。",
   "tooltip.the_long_travail.flavor.demon_king_of_the_sixth_heaven": "天下布武！",
@@ -49,5 +50,13 @@
   "tooltip.the_long_travail.summary.myriad_souls_banner.1": "§d冥府尚有惡意時，§r佩者之§6必殺§r隨魂而增。",
   "tooltip.the_long_travail.summary.myriad_souls_banner.state": "魂數：§a%1$s§r / §a%2$s§r",
   "tooltip.the_long_travail.relic.banner.persistence": "解萬魂幡、授他人，或易冥府之態，已成之魂不歸於零。",
-  "tooltip.the_long_travail.summary.myriad_souls_banner.2": "§d冥府已見證時，§r佩者之§6見切§r與§6必殺§r隨魂而增。"
+  "tooltip.the_long_travail.summary.myriad_souls_banner.2": "§d冥府已見證時，§r佩者之§6見切§r與§6必殺§r隨魂而增。",
+  "item.the_long_travail.kagotsurube": "籠釣瓶",
+  "tooltip.the_long_travail.summary.kagotsurube.0": "束於腰，傷敵則施凋零，已有則延之。冥府惡意增見切與霸主，見證化自身所致之傷為直擊。",
+  "tooltip.the_long_travail.kagotsurube.base": "佩者造成傷害時，施目標以凋零Ⅰ，持續%s秒。",
+  "tooltip.the_long_travail.kagotsurube.extend": "若目標已有凋零，則存其原級，延時%s秒。",
+  "tooltip.the_long_travail.kagotsurube.malice_heading": "若佩苦旅，且此時冥府尚有惡意，則：",
+  "tooltip.the_long_travail.kagotsurube.malice": "佩者之見切提高%s，霸主提高%s。",
+  "tooltip.the_long_travail.kagotsurube.witness_heading": "若佩苦旅，且此時冥府已然見證，則：",
+  "tooltip.the_long_travail.kagotsurube.witness": "凡傷之來源歸於佩者，皆化直擊傷害。"
 }

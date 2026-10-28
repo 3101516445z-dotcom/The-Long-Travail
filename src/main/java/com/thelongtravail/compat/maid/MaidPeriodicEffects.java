@@ -17,13 +17,15 @@ import com.thelongtravail.flourishing.FloralCombat;
 import com.thelongtravail.flourishing.Flower;
 import com.thelongtravail.flourishing.FlowerData;
 import com.thelongtravail.registry.ModRegistry;
-import java.util.UUID;
+
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.common.ForgeMod;
+
+import java.util.UUID;
 
 // 按固定顺序维护每个女仆的属性、治疗与冷却。
 final class MaidPeriodicEffects {
@@ -85,7 +87,9 @@ final class MaidPeriodicEffects {
                     new MobEffect[] {
                         MobEffects.BLINDNESS, MobEffects.DARKNESS, MobEffects.CONFUSION
                     }) if (m.hasEffect(effect)) m.removeEffect(effect);
+        com.thelongtravail.underworld.Kagotsurube.refresh(m);
         if (TimeStopManager.frozen(m)) return;
+        com.thelongtravail.farreach.SunChaser.maintain(m);
         if (FlowerData.active(crown, Flower.OXEYE_DAISY)) {
             if (++s.heal
                     >= FlourishingItemsConfig.ticks(

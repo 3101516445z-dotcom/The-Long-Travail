@@ -1,6 +1,10 @@
 package com.thelongtravail.combat;
 
+import static com.thelongtravail.diagnostics.RuntimeDiagnostics.Metric.*;
+
 import com.thelongtravail.TheLongTravail;
+import com.thelongtravail.diagnostics.RuntimeDiagnostics;
+
 import net.minecraft.core.Holder;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -11,10 +15,9 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
 import java.lang.ref.WeakReference;
 import java.util.*;
-import com.thelongtravail.diagnostics.RuntimeDiagnostics;
-import static com.thelongtravail.diagnostics.RuntimeDiagnostics.Metric.*;
 
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
 public final class DamageReplay {
@@ -154,7 +157,8 @@ public final class DamageReplay {
             target.invulnerableTime = 0;
             target.hurt(source, t.amount);
         } finally {
-            target.invulnerableTime = invulnerable;
+            target.invulnerableTime =
+                    com.thelongtravail.farreach.SunChaser.suppressed(target) ? 0 : invulnerable;
             state.travail$lastHurt(lastHurt);
             if (previous == null) CURRENT.remove();
             else CURRENT.set(previous);

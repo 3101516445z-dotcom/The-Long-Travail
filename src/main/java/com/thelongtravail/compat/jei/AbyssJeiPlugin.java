@@ -1,6 +1,7 @@
 package com.thelongtravail.compat.jei;
 
 import com.thelongtravail.registry.ModRegistry;
+
 import mezz.jei.api.*;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -10,10 +11,12 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.*;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.registration.*;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
+
 import java.util.List;
 
 @JeiPlugin
@@ -35,6 +38,8 @@ public final class AbyssJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration r) {
+        r.addRecipes(
+                mezz.jei.api.constants.RecipeTypes.CRAFTING, List.of(KagotsurubeDisplay.recipe()));
         r.addRecipes(TYPE, List.of(new Example(true), new Example(false)));
     }
 

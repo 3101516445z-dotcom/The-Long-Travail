@@ -100,3 +100,6 @@
 - [主题功能维护路径](主题功能维护路径.md)
 
 [返回项目书](../README.md)
+
+- [逐日与籠釣瓶：伤害与获取](../../sun-chaser-kagotsurube.md)
+- [逐日与籠釣瓶：女仆装备及生命周期](../../sun-blade-maid-integration-plan.md)

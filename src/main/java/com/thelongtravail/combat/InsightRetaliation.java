@@ -27,10 +27,12 @@ public final class InsightRetaliation {
     }
 
     public static boolean isInsight(DamageSource source) {
+        source = com.thelongtravail.combat.DamageIdentity.original(source);
         return source instanceof Source;
     }
 
     public static boolean isRetaliation(DamageSource source) {
+        source = DamageIdentity.original(source);
         return CHAIN.get()
                 || source.is(RETALIATION)
                 || isInsight(source)

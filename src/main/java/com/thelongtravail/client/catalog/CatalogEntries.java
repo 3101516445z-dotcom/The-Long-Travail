@@ -1,6 +1,7 @@
 package com.thelongtravail.client.catalog;
 
 import static com.thelongtravail.registry.ModRegistry.*;
+
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.abyss.RainTooltips;
 import com.thelongtravail.boundless.BoundlessTooltips;
@@ -10,11 +11,13 @@ import com.thelongtravail.client.UnderworldClient;
 import com.thelongtravail.helper.TravailCurios;
 import com.thelongtravail.item.FarReachAccessoryItem;
 import com.thelongtravail.item.UnderworldAccessoryItem;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.item.*;
+
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -303,6 +306,22 @@ public final class CatalogEntries {
                 CatalogEntries::ordinary);
         add(
                 entries,
+                "sun_chaser",
+                SUN_CHASER,
+                Category.THEME,
+                TravailAspect.FAR_REACH,
+                "zhuri|zr|sunchaser",
+                CatalogEntries::ordinary);
+        add(
+                entries,
+                "kagotsurube",
+                KAGOTSURUBE,
+                Category.THEME,
+                TravailAspect.UNDERWORLD,
+                "longdiaoping|ldp|kagotsurube|笼钓瓶",
+                CatalogEntries::ordinary);
+        add(
+                entries,
                 "phosphophyllite",
                 PHOSPHOPHYLLITE,
                 Category.THEME,
@@ -481,6 +500,8 @@ public final class CatalogEntries {
                                         "phosphophyllite",
                                         "don_quixote",
                                         "high_frequency_tremor",
+                                        "sun_chaser",
+                                        "kagotsurube",
                                         "tower_of_babel",
                                         "everlasting_flower",
                                         "eki",

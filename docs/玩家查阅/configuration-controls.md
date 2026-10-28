@@ -292,6 +292,12 @@
 午夜拉菲默认加入沉船补给箱、林地府邸各 7%，古城冰箱 10%，每次一件，使用既有 `loot.tables`。已有配置需要补入新增来源，不会因更新源码自动覆盖。
 
 
+## 逐日与籠釣瓶
+
+`aspects/far_reach.toml` 的 `items.sun_chaser` 管理逐日：`projectileBonus`、`burningBonus` 默认0.30、0.20，均为恶意分支增伤比例；`healing` 默认1，为岩浆内每秒恢复的生命值；`suppressionSeconds` 默认10，为见证禁疗及受伤冷却抑制秒数；`strikeFraction` 默认0.025，为燃烧目标最大生命值对应的追加直击比例。数值为0时禁用对应效果，不改变其他能力。
+
+`aspects/underworld.toml` 的 `items.kagotsurube` 管理籠釣瓶：`witherSeconds` 默认5，为每笔实际伤害施加或延长凋零的秒数；`insight` 默认15、`overlord` 默认0.1，为恶意分支的属性加值。数值为0时禁用该项；见证直击转换不受这两个恶意属性值影响。拾遗说明显示服务器有效参数。
+
 ## 第六天魔王与万魂幡
 
 `aspects/underworld.toml` 中 `items.relics.king` 配置第六天魔王的燃烧增伤、吸血、亡灵减伤、霸主及环境增伤；`items.relics.banner` 配置万魂幡容量、每魂必杀与见切系数、见切上限。收益系数为0时禁用该项。降低容量仅限制有效魂数，不删除已经保存的累计值；恢复容量后可重新使用原有魂数。实际生效值与物品详情使用服务端配置。
