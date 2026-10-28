@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "method": "lexical-candidates-not-call-graph",
-  "sourceFingerprint": "9a432da0bd9c3b905a23b7028a271df230bae33f5acb1ae396766221ebf868fa",
+  "sourceFingerprint": "9391054dd2aa34a129ea285350b860797eb44f88f01f4610a15bb9a4d0db778a",
   "files": [
     {
       "path": "src/main/java/com/thelongtravail/AspectTheme.java",
@@ -1142,6 +1142,18 @@
       "side": "待按方法核对",
       "entry": "Forge事件",
       "sha256": "57212db18e78f1235bd8fe59a5d46417c14866b1b62bfb3c233ad76c0c7b45ea"
+    },
+    {
+      "path": "src/main/java/com/thelongtravail/combat/DirectStrikeDamage.java",
+      "name": "DirectStrikeDamage",
+      "pkg": "com.thelongtravail.combat",
+      "type": "com.thelongtravail.combat.DirectStrikeDamage",
+      "module": "战斗结算",
+      "role": "直击伤害类型键与来源工厂",
+      "classification": "重点归类",
+      "side": "待按方法核对",
+      "entry": "普通调用/待核对",
+      "sha256": "43a80084352fab80a694331a2c43c146d4c931a5f8becf34575410b6e9ffa320"
     },
     {
       "path": "src/main/java/com/thelongtravail/combat/InsightRetaliation.java",
@@ -10031,6 +10043,14 @@
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/combat/DamageReplay.java",
       "tokenLine": 19,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.combat.DirectStrikeDamage",
+      "to": "com.thelongtravail.TheLongTravail",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/combat/DirectStrikeDamage.java",
+      "tokenLine": 18,
       "basis": "explicit-import"
     },
     {

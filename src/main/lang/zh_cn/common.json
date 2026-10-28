@@ -1,4 +1,8 @@
 {
+  "damage_type.the_long_travail.direct_strike": "直击伤害",
+  "death.attack.the_long_travail.direct_strike": "%1$s死于直击伤害",
+  "death.attack.the_long_travail.direct_strike.player": "%1$s被%2$s的直击击杀了",
+  "death.attack.the_long_travail.direct_strike.item": "%1$s被%2$s的直击击杀了",
   "attribute.name.the_long_travail.insight": "见切",
   "attribute.name.the_long_travail.critical_chance": "必杀",
   "attribute.name.the_long_travail.overlord": "霸主",

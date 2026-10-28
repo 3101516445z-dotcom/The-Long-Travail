@@ -18,7 +18,7 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "40b78f3db58992350a684beefc43ae5a1a8c06da024a3a0a8a536e1c80698508",
+  "fingerprint": "cd0b1d66e9fb612a6e99bb36fa9849031da757bec028fcfc518c7ca4e8379698",
   "files": [
     {
       "path": "build.gradle",
@@ -98,7 +98,7 @@
     },
     {
       "path": "src/main/lang/en_us/common.json",
-      "sha256": "bc632de9285cc1eb29adf8495878350c23ac86f0bd3066eb8d61203c05e19afd"
+      "sha256": "7195a3ed6390628dfa11d692604a0b103e756d7aaf65055820f15bc244ae3a9a"
     },
     {
       "path": "src/main/lang/en_us/compatibility.json",
@@ -146,7 +146,7 @@
     },
     {
       "path": "src/main/lang/lzh/common.json",
-      "sha256": "3bebff916976632d849749c99cb1da5112254a148e5b26f6268d57320914f172"
+      "sha256": "ddaca59e94934e7395da391a73d86e4da0929248747bd9f7c64d6121dd78a787"
     },
     {
       "path": "src/main/lang/lzh/compatibility.json",
@@ -190,7 +190,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/common.json",
-      "sha256": "9e08ef44ea66011c2f17b50c68f80dfe88fc4fcfeeca81ea03e49f019cd1b0f5"
+      "sha256": "2f09ff5d32ceaf5179106b34c53c8895feea0a04b551254b2e9cd173ec4d967a"
     },
     {
       "path": "src/main/lang/zh_cn/compatibility.json",
@@ -234,7 +234,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/common.json",
-      "sha256": "710b6ec0ded490fefafedbbfa8c37f6d70bf3711f25958669fc2df88d1dc3de1"
+      "sha256": "00c49d0ad31af85d571a369775f97e626cfa153ed56fc271e30e73ae929697cb"
     },
     {
       "path": "src/main/lang/zh_hk/compatibility.json",
@@ -278,7 +278,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/common.json",
-      "sha256": "710b6ec0ded490fefafedbbfa8c37f6d70bf3711f25958669fc2df88d1dc3de1"
+      "sha256": "00c49d0ad31af85d571a369775f97e626cfa153ed56fc271e30e73ae929697cb"
     },
     {
       "path": "src/main/lang/zh_tw/compatibility.json",
@@ -610,7 +610,7 @@
     },
     {
       "path": "src/main/resources/assets/the_long_travail/textures/item/golden_age.png",
-      "sha256": "608dbf366c3282c2a8d680afa0de03122e4504a8132b9ba0b2eb9200d8f5d1f9"
+      "sha256": "8c4dd37210e53350acdaf545985ebe919af6435055c4382ac8a9fd1524063f45"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/textures/item/high_frequency_tremor.png",
@@ -778,11 +778,11 @@
     },
     {
       "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_armor.json",
-      "sha256": "d77e8deedb073a20f388ad553a9fbfbcf01e796a7319b960a5242249cf011fd2"
+      "sha256": "b7dab5f40f83fb14a98d519b71f512b78781e2c6fc2e29819a2435431d63294f"
     },
     {
       "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_cooldown.json",
-      "sha256": "d77e8deedb073a20f388ad553a9fbfbcf01e796a7319b960a5242249cf011fd2"
+      "sha256": "b7dab5f40f83fb14a98d519b71f512b78781e2c6fc2e29819a2435431d63294f"
     },
     {
       "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_effects.json",
@@ -790,7 +790,7 @@
     },
     {
       "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_enchantments.json",
-      "sha256": "d77e8deedb073a20f388ad553a9fbfbcf01e796a7319b960a5242249cf011fd2"
+      "sha256": "b7dab5f40f83fb14a98d519b71f512b78781e2c6fc2e29819a2435431d63294f"
     },
     {
       "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_invulnerability.json",
@@ -798,7 +798,7 @@
     },
     {
       "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_resistance.json",
-      "sha256": "d77e8deedb073a20f388ad553a9fbfbcf01e796a7319b960a5242249cf011fd2"
+      "sha256": "b7dab5f40f83fb14a98d519b71f512b78781e2c6fc2e29819a2435431d63294f"
     },
     {
       "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_shield.json",
@@ -891,6 +891,10 @@
     {
       "path": "src/main/resources/data/the_long_travail/damage_type/azrael_self.json",
       "sha256": "6e0673c97dcae2239aa83423ecd22289dbf8fd8b55397ff8776964e30cb814db"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/damage_type/direct_strike.json",
+      "sha256": "9870b7e84f2ce08715ede232fe818c6ec5be5f0aeb8bf0cc2a9df9afd7c26258"
     },
     {
       "path": "src/main/resources/data/the_long_travail/damage_type/don_quixote_strike.json",

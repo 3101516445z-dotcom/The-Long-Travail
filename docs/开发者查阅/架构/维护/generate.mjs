@@ -255,6 +255,7 @@ const overrides = {
   RuntimePools:['配置与运行时数据','运行池快照与缓存失效协调'],
   ModAttributes:['战斗结算','实体属性注册与挂载'],
   CombatAttributes:['战斗结算','三属性安全读取'],
+  DirectStrikeDamage:['战斗结算','直击伤害类型键与来源工厂'],
   AttributeDamage:['战斗结算','单次属性防御与反击安排'],
   CombatConsequences:['战斗结算','尝试与确认阶段玩法分发'],
   DamageReplay:['战斗结算','延迟已结算伤害队列与续链'],
