@@ -37,12 +37,7 @@ public final class AttributeDamage {
         if (started) return active;
         started = true;
         if (excluded) return false;
-        com.thelongtravail.underworld.Kagotsurube.refresh(target);
-        com.thelongtravail.underworld.UnderworldRelics.refresh(target);
-        if (source.getEntity() instanceof LivingEntity actor)
-            com.thelongtravail.boundless.LorentzFantasy.refresh(actor);
-        if (source.getEntity() instanceof LivingEntity actor && actor != target)
-            com.thelongtravail.underworld.UnderworldRelics.refresh(actor);
+        CombatAttributePreparation.prepare(target, source);
         double max = target.getMaxHealth();
         // 使用与原版伤害相同的 float 精度，确保伤害恰好等于小数阈值时仍能免疫。
         threshold =

@@ -1451,6 +1451,195 @@ public final class MaidCompatSmoke {
         }
     }
 
+    private static void attributePreparationChecks(ServerLevel level) throws Exception {
+        var p = new TestPlayer(level);
+        var book = diary(p);
+        LongTravailData.setWitness(book, TravailAspect.UNDERWORLD, false);
+        var belt =
+                CuriosApi.getCuriosInventory(p)
+                        .resolve()
+                        .orElseThrow()
+                        .getStacksHandler("belt")
+                        .orElseThrow()
+                        .getStacks();
+        var insight = com.thelongtravail.registry.ModAttributes.INSIGHT.get();
+        var source = p.damageSources().generic();
+        try {
+            belt.setStackInSlot(0, new ItemStack(ModRegistry.KAGOTSURUBE.get()));
+            var execution = new com.thelongtravail.combat.AttributeDamage(p, source, true, false);
+            check(!execution.begin(), "preparation: execution excluded");
+            near(p.getAttributeValue(insight), 0, "preparation: excluded hit does not refresh");
+            var fluidSource =
+                    new net.minecraft.world.damagesource.DamageSource(
+                            level.registryAccess()
+                                    .registryOrThrow(
+                                            net.minecraft.core.registries.Registries.DAMAGE_TYPE)
+                                    .getHolderOrThrow(com.thelongtravail.helper.TrueDamage.FLUID));
+            var fluid = new com.thelongtravail.combat.AttributeDamage(p, fluidSource, false, false);
+            check(!fluid.begin(), "preparation: fluid excluded");
+            near(p.getAttributeValue(insight), 0, "preparation: fluid does not refresh");
+            var first = new com.thelongtravail.combat.AttributeDamage(p, source, false, false);
+            check(first.begin(), "preparation: equipment effective before attribute read");
+            near(
+                    p.getAttributeValue(insight),
+                    SunBladeConfig.value("kagotsurube.insight"),
+                    "preparation: target refreshed");
+            belt.setStackInSlot(0, ItemStack.EMPTY);
+            first.begin();
+            near(
+                    p.getAttributeValue(insight),
+                    SunBladeConfig.value("kagotsurube.insight"),
+                    "preparation: repeated begin keeps same snapshot");
+            new com.thelongtravail.combat.AttributeDamage(p, source, false, true).begin();
+            near(
+                    p.getAttributeValue(insight),
+                    0,
+                    "preparation: next settled hit removes stale modifier");
+            belt.setStackInSlot(0, new ItemStack(ModRegistry.KAGOTSURUBE.get()));
+            new com.thelongtravail.combat.AttributeDamage(
+                            p, p.damageSources().playerAttack(p), false, false)
+                    .begin();
+            near(
+                    p.getAttributeValue(insight),
+                    SunBladeConfig.value("kagotsurube.insight"),
+                    "preparation: self source does not accumulate modifiers");
+        } finally {
+            belt.setStackInSlot(0, ItemStack.EMPTY);
+            com.thelongtravail.underworld.Kagotsurube.refresh(p);
+        }
+    }
+
+    private static void sharedRulesParity(ServerLevel level) throws Exception {
+        int initial = checks;
+        var p = new TestPlayer(level);
+        p.setPos(40, 120, 0);
+        ownerOnline(level, p, true);
+        var book = diary(p);
+        var inv = CuriosApi.getCuriosInventory(p).resolve().orElseThrow();
+        var back = inv.getStacksHandler("back").orElseThrow().getStacks();
+        var head = inv.getStacksHandler("head").orElseThrow().getStacks();
+        var diarySlot = inv.getStacksHandler("travel_diary").orElseThrow().getStacks();
+        var m = maid(level, p, 42);
+        var victim = cow(level);
+        long time = level.getDayTime();
+        boolean rain = level.getLevelData().isRaining();
+        boolean thunder = level.getLevelData().isThundering();
+        var immunities = FarReachItemsConfig.EXTRA_IMMUNITIES.get();
+        var roof = p.blockPosition().above(3);
+        var maidRoof = m.blockPosition().above(3);
+        var oldRoof = level.getBlockState(roof);
+        var oldMaidRoof = level.getBlockState(maidRoof);
+        long[] times = {-1, 0, 1, 6000, 11999, 12000, 18000, 24000};
+        float[] amounts = {0, -1, .5F, 10, Float.MAX_VALUE, Float.NaN, Float.POSITIVE_INFINITY};
+        var random = new Random(20261029L);
+        try {
+            FarReachItemsConfig.EXTRA_IMMUNITIES.set(
+                    List.of(
+                            "invalid id",
+                            "#minecraft:is_fire",
+                            "minecraft:generic",
+                            "#missing:tag"));
+            for (int trial = 0; trial < 384; trial++) {
+                int stage = trial % 3;
+                diarySlot.setStackInSlot(0, stage == 0 ? ItemStack.EMPTY : book);
+                LongTravailData.setWitness(book, TravailAspect.FAR_REACH, stage == 2);
+                level.setDayTime(times[(trial / 3) % times.length]);
+                level.setWeatherParameters(6000, 6000, trial % 2 == 0, trial % 5 == 0);
+                var block =
+                        switch ((trial / 24) % 3) {
+                            case 0 -> Blocks.AIR;
+                            case 1 -> Blocks.GLASS;
+                            default -> Blocks.STONE;
+                        };
+                level.setBlockAndUpdate(roof, block.defaultBlockState());
+                level.setBlockAndUpdate(maidRoof, block.defaultBlockState());
+                back.setStackInSlot(
+                        0,
+                        trial % 7 == 0 ? ItemStack.EMPTY : new ItemStack(ModRegistry.ICARUS.get()));
+                var flowers = new ArrayList<>(List.of(Flower.values()));
+                Collections.shuffle(flowers, random);
+                var crown = new ItemStack(ModRegistry.SPRING_CORNER.get());
+                FlowerData.write(crown, flowers.subList(0, 3));
+                head.setStackInSlot(0, crown);
+                equip(m, ModRegistry.SPRING_CORNER.get(), ModRegistry.ICARUS.get());
+                m.getMaidBauble().setStackInSlot(0, crown.copy());
+                p.setHealth(trial % 2 == 0 ? 1 : p.getMaxHealth());
+                fixtureHealth(m, trial % 2 == 0 ? 1 : m.getMaxHealth());
+                var sources =
+                        new net.minecraft.world.damagesource.DamageSource[] {
+                            p.damageSources().playerAttack(p),
+                            p.damageSources()
+                                    .arrow(
+                                            new net.minecraft.world.entity.projectile.Arrow(
+                                                    level, p),
+                                            p),
+                            p.damageSources().fall(),
+                            p.damageSources().inFire(),
+                            p.damageSources().magic(),
+                            p.damageSources().indirectMagic(p, p),
+                            p.damageSources().generic(),
+                            p.damageSources().flyIntoWall(),
+                            p.damageSources().genericKill()
+                        };
+                check(
+                        Double.doubleToLongBits(FarReachCombat.bonus(p))
+                                == Double.doubleToLongBits(LegacyPlayerFarReachCombat.bonus(p)),
+                        "shared: player Icarus phase, time, weather and roof exact");
+                for (var source : sources) {
+                    check(
+                            FarReachCombat.immune(p, source)
+                                    == LegacyPlayerFarReachCombat.immune(p, source),
+                            "shared: player immunity tags, ids and invalid entries exact");
+                    check(
+                            Double.doubleToLongBits(FloralCombat.bonus(victim, source))
+                                    == Double.doubleToLongBits(
+                                            LegacyPlayerFloralCombat.bonus(victim, source)),
+                            "shared: player flower output exact");
+                    float amount = amounts[trial % amounts.length];
+                    check(
+                            Float.floatToIntBits(FloralCombat.reduce(p, source, amount))
+                                    == Float.floatToIntBits(
+                                            LegacyPlayerFloralCombat.reduce(p, source, amount)),
+                            "shared: player flower reduction exact");
+                    m.getRandom().setSeed(trial);
+                    boolean expected = LegacyMaidCombatMath.immune(m, source, amount);
+                    long next = m.getRandom().nextLong();
+                    m.getRandom().setSeed(trial);
+                    check(
+                            expected == MaidAccessories.immune(m, source, amount),
+                            "shared: maid immunity exact");
+                    check(next == m.getRandom().nextLong(), "shared: maid random sequence exact");
+                    check(
+                            Float.floatToIntBits(
+                                            LegacyMaidCombatMath.reduce(m, source, amount, true))
+                                    == Float.floatToIntBits(
+                                            MaidAccessories.reduce(m, source, amount, true)),
+                            "shared: maid flower poison and other reduction exact");
+                }
+                var maidSource =
+                        m.damageSources()
+                                .arrow(
+                                        new net.minecraft.world.entity.projectile.Arrow(level, m),
+                                        m);
+                check(
+                        Double.doubleToLongBits(LegacyMaidCombatMath.bonus(victim, maidSource))
+                                == Double.doubleToLongBits(
+                                        MaidAccessories.bonus(victim, maidSource)),
+                        "shared: maid flower and Icarus output exact");
+            }
+            System.out.println("SHARED_COMBAT_RULES_PASS checks=" + (checks - initial));
+        } finally {
+            FarReachItemsConfig.EXTRA_IMMUNITIES.set(immunities);
+            level.setDayTime(time);
+            level.setWeatherParameters(6000, 6000, rain, thunder);
+            level.setBlockAndUpdate(roof, oldRoof);
+            level.setBlockAndUpdate(maidRoof, oldMaidRoof);
+            ownerOnline(level, p, false);
+            m.discard();
+            victim.discard();
+        }
+    }
+
     private static void calculationPressure(ServerLevel level) throws Exception {
         int initial = checks;
         var p = new TestPlayer(level);
@@ -1715,7 +1904,15 @@ public final class MaidCompatSmoke {
         var a = maid(level, owner, 24);
         var b = maid(level, owner, 26);
         var target = cow(level);
+        var testValues =
+                Map.of(
+                        "sun_chaser.strikeFraction", .025,
+                        "sun_chaser.projectileBonus", .3,
+                        "sun_chaser.burningBonus", .2);
+        var savedValues = new HashMap<String, Double>();
+        testValues.forEach((key, value) -> savedValues.put(key, SunBladeConfig.value(key)));
         try {
+            testValues.forEach((key, value) -> SunBladeConfig.VALUES.get(key).set(value));
             equip(a, ModRegistry.SUN_CHASER.get(), ModRegistry.KAGOTSURUBE.get());
             equip(b, ModRegistry.SUN_CHASER.get(), ModRegistry.KAGOTSURUBE.get());
             check(SunChaser.carrying(a), "sun maid native bauble equipped");
@@ -1894,6 +2091,7 @@ public final class MaidCompatSmoke {
                     0,
                     "maid leaving level clears blade attributes");
         } finally {
+            savedValues.forEach((key, value) -> SunBladeConfig.VALUES.get(key).set(value));
             a.discard();
             b.discard();
             target.discard();
@@ -2441,6 +2639,8 @@ public final class MaidCompatSmoke {
             if (net.minecraftforge.fml.ModList.get().isLoaded("touhou_little_maid_personality"))
                 socialChecks(level);
             receivedChecks(level);
+            attributePreparationChecks(level);
+            sharedRulesParity(level);
             calculationPressure(level);
             periodicPressure(level);
             lifecyclePressure(level);

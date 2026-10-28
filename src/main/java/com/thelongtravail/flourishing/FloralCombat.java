@@ -29,13 +29,7 @@ public final class FloralCombat {
         double result = 0;
         if (player != null && player != victim) {
             ItemStack crown = Affection.equipped(player, true);
-            result += value(crown, Flower.POPPY);
-            if (player.getHealth()
-                    < player.getMaxHealth()
-                            * FlourishingItemsConfig.extra(Flower.RED_TULIP, "healthThreshold"))
-                result += value(crown, Flower.RED_TULIP);
-            if (source.is(DamageTypeTags.IS_PROJECTILE)) result += value(crown, Flower.CORNFLOWER);
-            if (sunny(player)) result += value(crown, Flower.SUNFLOWER);
+            result += crownBonus(player, crown, source);
             if (direct == player) {
                 LivingEntity pet = Affection.target(player);
                 if (pet != null)
@@ -60,16 +54,8 @@ public final class FloralCombat {
         if (victim instanceof ServerPlayer p) {
             ItemStack crown = Affection.equipped(p, true);
             var context = com.thelongtravail.helper.CombatContext.current(victim, source);
-            if (context != null && context.isFloralPoison())
-                multiplier *= 1 - value(crown, Flower.ALLIUM);
-            if (source.is(DamageTypeTags.IS_FALL))
-                multiplier *= 1 - value(crown, Flower.AZURE_BLUET);
-            if (source.is(DamageTypeTags.IS_FIRE))
-                multiplier *= 1 - value(crown, Flower.TORCHFLOWER);
-            if (p.getHealth()
-                    < p.getMaxHealth()
-                            * FlourishingItemsConfig.extra(Flower.WHITE_TULIP, "healthThreshold"))
-                multiplier *= 1 - value(crown, Flower.WHITE_TULIP);
+            multiplier =
+                    crownReduction(p, crown, source, context != null && context.isFloralPoison());
             LivingEntity pet = Affection.target(p);
             if (pet != null)
                 multiplier *=
@@ -85,6 +71,31 @@ public final class FloralCombat {
                                         * Affection.lost(master);
         }
         return safe(amount * multiplier);
+    }
+
+    public static double crownBonus(LivingEntity wearer, ItemStack crown, DamageSource source) {
+        double bonus = value(crown, Flower.POPPY);
+        if (wearer.getHealth()
+                < wearer.getMaxHealth()
+                        * FlourishingItemsConfig.extra(Flower.RED_TULIP, "healthThreshold"))
+            bonus += value(crown, Flower.RED_TULIP);
+        if (source.is(DamageTypeTags.IS_PROJECTILE)) bonus += value(crown, Flower.CORNFLOWER);
+        if (sunny(wearer)) bonus += value(crown, Flower.SUNFLOWER);
+        return bonus;
+    }
+
+    // 保持 double 精度，调用方叠加其他减伤后再转换为最终伤害。
+    public static double crownReduction(
+            LivingEntity wearer, ItemStack crown, DamageSource source, boolean poison) {
+        double multiplier = 1;
+        if (poison) multiplier *= 1 - value(crown, Flower.ALLIUM);
+        if (source.is(DamageTypeTags.IS_FALL)) multiplier *= 1 - value(crown, Flower.AZURE_BLUET);
+        if (source.is(DamageTypeTags.IS_FIRE)) multiplier *= 1 - value(crown, Flower.TORCHFLOWER);
+        if (wearer.getHealth()
+                < wearer.getMaxHealth()
+                        * FlourishingItemsConfig.extra(Flower.WHITE_TULIP, "healthThreshold"))
+            multiplier *= 1 - value(crown, Flower.WHITE_TULIP);
+        return multiplier;
     }
 
     public static void roseHit(ServerPlayer player, LivingEntity attacker) {
@@ -106,6 +117,10 @@ public final class FloralCombat {
     }
 
     public static boolean sunny(ServerPlayer p) {
+        return sunny((LivingEntity) p);
+    }
+
+    private static boolean sunny(LivingEntity p) {
         return p.level().isDay() && p.level().canSeeSky(p.blockPosition());
     }
 

@@ -353,7 +353,10 @@
         "src/main/java/com/thelongtravail/helper/CombatContext.java",
         "src/main/java/com/thelongtravail/helper/CombatRules.java",
         "src/main/java/com/thelongtravail/combat/AttributeDamage.java",
-        "src/main/java/com/thelongtravail/compat/maid/MaidCombatCalculations.java"
+        "src/main/java/com/thelongtravail/compat/maid/MaidCombatCalculations.java",
+        "src/main/java/com/thelongtravail/combat/CombatAttributePreparation.java",
+        "src/main/java/com/thelongtravail/farreach/IcarusCombat.java",
+        "src/main/java/com/thelongtravail/flourishing/FloralCombat.java"
       ],
       "successors": []
     },
