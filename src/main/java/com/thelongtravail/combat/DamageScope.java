@@ -1,5 +1,6 @@
 package com.thelongtravail.combat;
 
+import com.thelongtravail.diagnostics.DamageTrace;
 import com.thelongtravail.farreach.SunChaser;
 import com.thelongtravail.helper.CombatContext;
 import com.thelongtravail.underworld.Kagotsurube;
@@ -18,10 +19,30 @@ public final class DamageScope {
 
     public static boolean claimSun(UUID attacker) {
         var chain = SUN_CHAIN.get();
-        return chain != null && chain.add(attacker);
+        boolean claimed = chain != null && chain.add(attacker);
+        if (DamageTrace.ENABLED)
+            DamageTrace.event("sunClaim actor=" + attacker + " accepted=" + claimed);
+        return claimed;
     }
 
     public static boolean hurt(
+            LivingEntity target,
+            DamageSource source,
+            float amount,
+            BiFunction<DamageSource, Float, Boolean> original) {
+        try (var trace = DamageTrace.open(target, source, amount)) {
+            try {
+                boolean result = settle(target, source, amount, original);
+                if (DamageTrace.ENABLED) DamageTrace.event("returned=" + result);
+                return result;
+            } catch (RuntimeException | Error failure) {
+                DamageTrace.event("failed");
+                throw failure;
+            }
+        }
+    }
+
+    private static boolean settle(
             LivingEntity target,
             DamageSource source,
             float amount,

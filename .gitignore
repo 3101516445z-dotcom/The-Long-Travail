@@ -74,6 +74,8 @@ desktop.ini
 !/tools/sun-blade.init.gradle
 !/tools/sun-blade-smoke/
 !/tools/sun-blade-smoke/**
+!/tools/damage-contracts/
+!/tools/damage-contracts/**
 
 # Python 回归脚本缓存
 /tools/structure-regression/**/__pycache__/

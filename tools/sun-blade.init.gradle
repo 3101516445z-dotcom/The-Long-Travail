@@ -13,6 +13,10 @@ allprojects {
             workingDirectory directory
             args '--nogui'
             property 'mixin.debug.countInjections', 'true'
+            if (project.hasProperty('damageTrace')) {
+                property 'thelongtravail.damageTrace', 'true'
+                property 'thelongtravail.damageTrace.limit', '256'
+            }
             mods { travail_smoke { source sourceSets.sunBladeTest } }
         }
         tasks.register('sunBladeTestJar', Jar) {

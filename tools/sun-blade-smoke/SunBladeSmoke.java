@@ -40,6 +40,7 @@ public final class SunBladeSmoke {
     private ItemStack diary;
     private CurioStacksHandler belt;
     private Cow replayTarget;
+    private DamageReplayCases replayCases;
     private int replayStarted;
     private float environmentLoss, replayOwnedLoss, replayOwnedInput;
     private int replayHurtDepth;
@@ -98,6 +99,7 @@ public final class SunBladeSmoke {
                 return;
             }
             combat();
+            new DamageChainCases(level, this::check).run();
             acquisition();
             if (level.getEntity(player.getUUID()) != player) level.addNewPlayer(player);
             new SunBladeExtreme(level, player, diary, belt, this::check).run();
@@ -277,6 +279,13 @@ public final class SunBladeSmoke {
         }
         if (replayTarget != null && event.phase == net.minecraftforge.event.TickEvent.Phase.START) {
             int elapsed = event.getServer().getTickCount() - replayStarted;
+            if (!realClient && !Boolean.getBoolean("travail.sun.replayOnly")) {
+                if (elapsed == 5) {
+                    replayCases = new DamageReplayCases(level, player, this::check);
+                    replayCases.start();
+                }
+                if (replayCases != null) replayCases.tick();
+            }
             if (elapsed < 10 || elapsed % 20 == 0)
                 replayLog(
                         "tick elapsed="
@@ -305,6 +314,7 @@ public final class SunBladeSmoke {
                 || event.getServer().getTickCount() < replayStarted + 120) return;
         String result;
         try {
+            if (replayCases != null) replayCases.verify();
             // 常规燃烧和凋零持续运行，归属仍保持四笔玩家伤害。
             near(replayOwnedInput, 70, "submitted two 10 replays and two 25 strikes");
             replayLog("owned actual loss=" + replayOwnedLoss + " submitted=" + replayOwnedInput);

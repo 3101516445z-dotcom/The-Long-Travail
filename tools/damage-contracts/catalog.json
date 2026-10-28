@@ -1,0 +1,399 @@
+{
+  "version": 1,
+  "edgeMeaning": "successors 表示具备其他条件时可进入的效果；递归约束同时由同步作用域、来源标记和跨刻续接规则决定。",
+  "effects": [
+    {
+      "id": "scope",
+      "name": "服务端伤害作用域",
+      "stage": "hurt 外层",
+      "amount": "有限正数；匹配处决实例例外",
+      "ownership": "保留原来源与有效来源",
+      "guard": "SUN_CHAIN 在根调用 finally 清理；finish 在同步范围内",
+      "sources": [
+        "src/main/java/com/thelongtravail/combat/DamageScope.java",
+        "src/main/java/com/thelongtravail/helper/CombatContext.java",
+        "src/main/java/com/thelongtravail/mixin/LivingCombatMixin.java",
+        "src/main/java/com/thelongtravail/mixin/PlayerCombatMixin.java",
+        "src/main/java/com/thelongtravail/combat/DamagePolicy.java",
+        "src/main/java/com/thelongtravail/diagnostics/DamageTrace.java"
+      ],
+      "successors": [
+        "sun",
+        "blade",
+        "quixote",
+        "replay",
+        "insight",
+        "rose",
+        "feedback"
+      ]
+    },
+    {
+      "id": "amount",
+      "name": "金额与确认",
+      "stage": "Hurt、吸收前、Damage、实际写入",
+      "amount": "total 包含生命与吸收；healthLoss 仅实际生命损失",
+      "ownership": "原来源决定资格，有效来源决定适用类型防御",
+      "guard": "每上下文确认一次；同目标嵌套确认影响冷却恢复",
+      "sources": [
+        "src/main/java/com/thelongtravail/helper/CombatDamageRecord.java",
+        "src/main/java/com/thelongtravail/helper/CombatRules.java",
+        "src/main/java/com/thelongtravail/mixin/FluidErosionUnavoidableMixin.java",
+        "src/main/java/com/thelongtravail/mixin/DamageReplayMixin.java"
+      ],
+      "successors": []
+    },
+    {
+      "id": "identity",
+      "name": "籠釣瓶直击转换",
+      "stage": "hurt 前",
+      "amount": "只改变来源类型，不增加次数",
+      "ownership": "DamageIdentity 保存原 DamageSource 实例、责任实体、直接实体及位置",
+      "guard": "已是直击时保留来源；特殊来源用 original 识别",
+      "sources": [
+        "src/main/java/com/thelongtravail/combat/DamageIdentity.java",
+        "src/main/java/com/thelongtravail/combat/DirectStrikeDamage.java",
+        "src/main/java/com/thelongtravail/underworld/Kagotsurube.java",
+        "src/main/java/com/thelongtravail/combat/SunBladeActors.java"
+      ],
+      "successors": []
+    },
+    {
+      "id": "sun",
+      "name": "逐日见证追加",
+      "stage": "确认后 finish",
+      "amount": "开始时最大生命快照乘比例；不获本模组增伤或必杀",
+      "ownership": "玩家或女仆自身",
+      "guard": "自身 Strike 拒绝；同步范围每攻击者 UUID 一次",
+      "sources": [
+        "src/main/java/com/thelongtravail/farreach/SunChaser.java",
+        "src/main/java/com/thelongtravail/combat/DamageScope.java"
+      ],
+      "successors": [
+        "blade",
+        "insight"
+      ]
+    },
+    {
+      "id": "blade",
+      "name": "籠釣瓶凋零",
+      "stage": "首次确认",
+      "amount": "新增凋零 I 或原等级延长；无限时长保留",
+      "ownership": "玩家或女仆自身",
+      "guard": "添加状态，后续由效果 tick 结算；死亡/旁观/创造目标筛选；原地延长绕开时长再放大",
+      "sources": [
+        "src/main/java/com/thelongtravail/underworld/Kagotsurube.java"
+      ],
+      "successors": [
+        "status"
+      ]
+    },
+    {
+      "id": "quixote",
+      "name": "堂吉诃德追加",
+      "stage": "确认后 finish",
+      "amount": "目标最大生命比例；已结算金额",
+      "ownership": "来源责任实体",
+      "guard": "专用类型；不重复必杀、见切或普通成功分派",
+      "sources": [
+        "src/main/java/com/thelongtravail/farreach/DonQuixoteCombat.java",
+        "src/main/java/com/thelongtravail/farreach/DonQuixoteState.java"
+      ],
+      "successors": [
+        "sun",
+        "blade"
+      ]
+    },
+    {
+      "id": "insight",
+      "name": "见切反击",
+      "stage": "防御记录，最后 finish",
+      "amount": "完整见切值；允许必杀，普通输出加成为零",
+      "ownership": "防御者作为责任实体",
+      "guard": "CHAIN 包住嵌套 hurt；来源标记、THORNS、ROSE、retaliation 标签阻断继续反击",
+      "sources": [
+        "src/main/java/com/thelongtravail/combat/AttributeDamage.java",
+        "src/main/java/com/thelongtravail/combat/InsightRetaliation.java"
+      ],
+      "successors": [
+        "sun",
+        "blade"
+      ]
+    },
+    {
+      "id": "rose",
+      "name": "玫瑰丛反伤",
+      "stage": "符合条件的近身受击尝试收尾",
+      "amount": "防御者最大生命比例；专用保护与凋零加成",
+      "ownership": "佩戴花冠的玩家或女仆",
+      "guard": "反伤识别；先写冷却；排除弹射物和爆炸；不进入无穷花普通入队",
+      "sources": [
+        "src/main/java/com/thelongtravail/flourishing/FloralCombat.java",
+        "src/main/java/com/thelongtravail/flourishing/FloralEvents.java",
+        "src/main/java/com/thelongtravail/compat/maid/MaidCombatFeedback.java"
+      ],
+      "successors": [
+        "sun",
+        "blade",
+        "feedback"
+      ]
+    },
+    {
+      "id": "replay",
+      "name": "无穷花重放",
+      "stage": "确认后入队；服务器 END tick",
+      "amount": "已确认总损失；重放不重复必杀、见切及原版护甲/魔法防御",
+      "ownership": "保存责任实体、直接实体、来源类型和位置",
+      "guard": "Frame 单次认领；每 tick 一笔 FIFO；容量 4096；Policy 独立续接",
+      "sources": [
+        "src/main/java/com/thelongtravail/combat/DamageReplay.java",
+        "src/main/java/com/thelongtravail/flourishing/EverlastingFlower.java"
+      ],
+      "successors": [
+        "sun",
+        "blade",
+        "replay"
+      ]
+    },
+    {
+      "id": "lorentz",
+      "name": "洛伦兹虚空追加",
+      "stage": "弹射物命中包装后",
+      "amount": "命中包装采样生命量乘比例",
+      "ownership": "施法者；可向命中部位 hurt",
+      "guard": "施法身份与目标冷却；专用 VOID；不要求主伤害确认",
+      "sources": [
+        "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java"
+      ],
+      "successors": [
+        "sun",
+        "blade",
+        "insight"
+      ]
+    },
+    {
+      "id": "execution",
+      "name": "死告天使处决",
+      "stage": "状态触发后执行",
+      "amount": "专用 hurt 输入与终结路径",
+      "ownership": "处决 Frame 与目标和来源实例匹配",
+      "guard": "active/实例匹配；普通确认分派排除；终结锁与 finally 清理",
+      "sources": [
+        "src/main/java/com/thelongtravail/valley/AzraelExecution.java",
+        "src/main/java/com/thelongtravail/valley/FinalExecution.java",
+        "src/main/java/com/thelongtravail/valley/ExecutionData.java",
+        "src/main/java/com/thelongtravail/valley/VanillaExecution.java",
+        "src/main/java/com/thelongtravail/mixin/ExecutionDataMixin.java"
+      ],
+      "successors": [
+        "death"
+      ]
+    },
+    {
+      "id": "fluid",
+      "name": "归墟流体侵蚀",
+      "stage": "周期惩罚",
+      "amount": "配置周期金额与保护模式",
+      "ownership": "无责任实体",
+      "guard": "专用 FLUID 排除战斗属性；逐日在岩浆中豁免",
+      "sources": [
+        "src/main/java/com/thelongtravail/helper/TrueDamage.java"
+      ],
+      "successors": []
+    },
+    {
+      "id": "mistletoe",
+      "name": "槲寄生到期结算",
+      "stage": "效果到期后遍历结束",
+      "amount": "到期最大生命快照乘等级与比例",
+      "ownership": "无责任实体的 magic",
+      "guard": "PENDING.remove 单次取出；SETTLING finally 恢复；掉落抽取独立判定",
+      "sources": [
+        "src/main/java/com/thelongtravail/flourishing/Mistletoe.java",
+        "src/main/java/com/thelongtravail/mixin/MistletoeExpiryMixin.java"
+      ],
+      "successors": []
+    },
+    {
+      "id": "phantom",
+      "name": "幻翼清除",
+      "stage": "旅程奖励",
+      "amount": "Float.MAX_VALUE",
+      "ownership": "playerAttack 的玩家归属",
+      "guard": "普通伤害入口，未设置追加专用排除标记",
+      "sources": [
+        "src/main/java/com/thelongtravail/event/TravailRewards.java"
+      ],
+      "successors": [
+        "sun",
+        "blade",
+        "quixote",
+        "replay",
+        "insight",
+        "feedback"
+      ]
+    },
+    {
+      "id": "reflection",
+      "name": "逐日反射",
+      "stage": "弹射物即将命中",
+      "amount": "只改变运动与归属",
+      "ownership": "后续碰撞使用反射后的所有者",
+      "guard": "当前入口不立即 hurt；碰撞是新的伤害事件",
+      "sources": [
+        "src/main/java/com/thelongtravail/combat/ProjectileReflection.java"
+      ],
+      "successors": []
+    },
+    {
+      "id": "feedback",
+      "name": "常规确认及受击分派",
+      "stage": "confirmedLoss 实际损失确认或 attackAttempt 攻击尝试",
+      "amount": "点燃、状态更新、时停或处决资格",
+      "ownership": "玩家与女仆分别解析",
+      "guard": "特殊派生在分派前早退；玫瑰在各子项中的筛选不同",
+      "sources": [
+        "src/main/java/com/thelongtravail/helper/CombatConsequences.java",
+        "src/main/java/com/thelongtravail/compat/maid/MaidCombatFeedback.java",
+        "src/main/java/com/thelongtravail/farreach/FarReachCombat.java",
+        "src/main/java/com/thelongtravail/valley/AzraelState.java",
+        "src/main/java/com/thelongtravail/boundless/StarVoiceState.java",
+        "src/main/java/com/thelongtravail/valley/SwordLanternState.java",
+        "src/main/java/com/thelongtravail/compat/maid/MaidLanternCombat.java"
+      ],
+      "successors": [
+        "execution",
+        "status"
+      ]
+    },
+    {
+      "id": "status",
+      "name": "中毒凋零与火焰后续",
+      "stage": "原版效果 tick 或火焰 tick",
+      "amount": "原版状态伤害；非施加时的伤害快照",
+      "ownership": "效果施加者参数不把持续伤害改为玩家责任来源",
+      "guard": "原版无源伤害不具备玩家追加资格；PoisonScope 单次认领并 finally 恢复",
+      "sources": [
+        "src/main/java/com/thelongtravail/flourishing/FloralEvents.java",
+        "src/main/java/com/thelongtravail/compat/maid/MaidCombatFeedback.java",
+        "src/main/java/com/thelongtravail/mixin/FloralPoisonMixin.java"
+      ],
+      "successors": []
+    },
+    {
+      "id": "healing",
+      "name": "第六天魔王吸血与治疗",
+      "stage": "收尾或治疗事件",
+      "amount": "吸血只用 healthLoss；溢出治疗单独记录",
+      "ownership": "同一装备 ItemStack 与当前阶段复查",
+      "guard": "派生早退；heal 经事件，逐日禁疗可取消；溢出请求有作用域",
+      "sources": [
+        "src/main/java/com/thelongtravail/underworld/DemonKingCombat.java",
+        "src/main/java/com/thelongtravail/common/OverflowHealing.java",
+        "src/main/java/com/thelongtravail/mixin/OverflowHealingMixin.java"
+      ],
+      "successors": []
+    },
+    {
+      "id": "received",
+      "name": "日记受击惩罚和磷叶石",
+      "stage": "ATTACK_ATTEMPT 或 HEALTH_LOSS",
+      "amount": "后者仅生命提交；不含仅吸收损失",
+      "ownership": "受击者状态",
+      "guard": "ReceivedHitGate 去重；配置选择触发口径",
+      "sources": [
+        "src/main/java/com/thelongtravail/helper/ReceivedMalice.java",
+        "src/main/java/com/thelongtravail/common/ReceivedHitGate.java",
+        "src/main/java/com/thelongtravail/valley/Phosphophyllite.java",
+        "src/main/java/com/thelongtravail/event/TravailEvents.java"
+      ],
+      "successors": []
+    },
+    {
+      "id": "death",
+      "name": "击杀、死亡与复活",
+      "stage": "死亡事件、END tick、复活流程",
+      "amount": "猪笼草回血、幡计数、书资格与旅程",
+      "ownership": "击杀归属另行解析；幡回溯弹射物 owner",
+      "guard": "复查取消与存活；幡 COUNTED 去重及装备实例；书匹配原死亡会话",
+      "sources": [
+        "src/main/java/com/thelongtravail/underworld/SoulBannerKills.java",
+        "src/main/java/com/thelongtravail/underworld/BookRevival.java",
+        "src/main/java/com/thelongtravail/flourishing/AffectionDeaths.java",
+        "src/main/java/com/thelongtravail/flourishing/FloralEvents.java",
+        "src/main/java/com/thelongtravail/compat/maid/MaidCombatFeedback.java"
+      ],
+      "successors": [
+        "healing"
+      ]
+    },
+    {
+      "id": "health_write",
+      "name": "直接生命与吸收写入",
+      "stage": "属性修整、女仆法术同步或处决修复",
+      "amount": "按各入口当前上限/恢复值写入",
+      "ownership": "目标实体",
+      "guard": "不自动确认攻击；FloralEvents 属性上限下降时压回上限",
+      "sources": [
+        "src/main/java/com/thelongtravail/common/AttributeModifierSet.java",
+        "src/main/java/com/thelongtravail/compat/maidspell/MaidSpellHealth.java",
+        "src/main/java/com/thelongtravail/flourishing/FloralEvents.java",
+        "src/main/java/com/thelongtravail/valley/AzraelExecution.java",
+        "src/main/java/com/thelongtravail/common/OverflowHealing.java"
+      ],
+      "successors": []
+    },
+    {
+      "id": "modifiers",
+      "name": "输出增幅与防御汇总",
+      "stage": "Hurt、吸收前",
+      "amount": "普通输出为 1 加各 bonus 总和；必杀独立乘 2；减伤按阶段",
+      "ownership": "普通玩家来源和女仆来源各自查询",
+      "guard": "outputApplied 与 attributeOutputApplied 防重复；特殊来源另有早退",
+      "sources": [
+        "src/main/java/com/thelongtravail/helper/CombatContext.java",
+        "src/main/java/com/thelongtravail/helper/CombatRules.java",
+        "src/main/java/com/thelongtravail/combat/AttributeDamage.java",
+        "src/main/java/com/thelongtravail/compat/maid/MaidCombatCalculations.java"
+      ],
+      "successors": []
+    },
+    {
+      "id": "dummy",
+      "name": "试验假人确认",
+      "stage": "兼容入口",
+      "amount": "有效有限正伤害记 total",
+      "ownership": "匹配目标和原来源实例",
+      "guard": "不伪造 healthLoss；沿用每上下文单次确认",
+      "sources": [
+        "src/main/java/com/thelongtravail/compat/mixin/dummmmmmy/DummyDamageMixin.java"
+      ],
+      "successors": [
+        "sun",
+        "blade",
+        "feedback"
+      ]
+    }
+  ],
+  "entryOwners": {
+    "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java": "lorentz",
+    "src/main/java/com/thelongtravail/combat/DamageReplay.java": "replay",
+    "src/main/java/com/thelongtravail/combat/InsightRetaliation.java": "insight",
+    "src/main/java/com/thelongtravail/common/AttributeModifierSet.java": "health_write",
+    "src/main/java/com/thelongtravail/common/OverflowHealing.java": "healing",
+    "src/main/java/com/thelongtravail/compat/maid/MaidCombatFeedback.java": "rose",
+    "src/main/java/com/thelongtravail/compat/maidspell/MaidSpellHealth.java": "health_write",
+    "src/main/java/com/thelongtravail/event/TravailRewards.java": "phantom",
+    "src/main/java/com/thelongtravail/farreach/DonQuixoteCombat.java": "quixote",
+    "src/main/java/com/thelongtravail/farreach/SunChaser.java": "sun",
+    "src/main/java/com/thelongtravail/flourishing/FloralCombat.java": "rose",
+    "src/main/java/com/thelongtravail/flourishing/FloralEvents.java": "rose",
+    "src/main/java/com/thelongtravail/flourishing/Mistletoe.java": "mistletoe",
+    "src/main/java/com/thelongtravail/helper/TrueDamage.java": "fluid",
+    "src/main/java/com/thelongtravail/mixin/ExecutionDataMixin.java": "execution",
+    "src/main/java/com/thelongtravail/mixin/LivingCombatMixin.java": "scope",
+    "src/main/java/com/thelongtravail/mixin/PlayerCombatMixin.java": "scope",
+    "src/main/java/com/thelongtravail/valley/AzraelExecution.java": "execution",
+    "src/main/java/com/thelongtravail/valley/ExecutionData.java": "execution",
+    "src/main/java/com/thelongtravail/valley/FinalExecution.java": "execution"
+  }
+}

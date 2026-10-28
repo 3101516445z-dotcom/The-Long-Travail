@@ -20,6 +20,7 @@ public final class CombatContext implements AutoCloseable {
     private final DamageSource source;
     private final DamageSource effectiveSource;
     private final boolean sunStrike;
+    private final com.thelongtravail.combat.DamagePolicy policy;
     private final com.thelongtravail.farreach.SunChaser.Hit sun;
     private boolean sunFinished;
     private final ServerPlayer attacker;
@@ -90,6 +91,15 @@ public final class CombatContext implements AutoCloseable {
         this.execution = com.thelongtravail.valley.AzraelExecution.matches(target, source);
         this.quixoteStrike = com.thelongtravail.farreach.DonQuixoteCombat.secondary(source);
         this.insightRetaliation = com.thelongtravail.combat.InsightRetaliation.isInsight(source);
+        this.policy =
+                new com.thelongtravail.combat.DamagePolicy(
+                        sunStrike,
+                        quixoteStrike,
+                        replay != null,
+                        insightRetaliation,
+                        lorentzVoid,
+                        execution);
+        com.thelongtravail.diagnostics.DamageTrace.policy(policy);
         this.attributeDamage =
                 new com.thelongtravail.combat.AttributeDamage(
                         target,
@@ -97,16 +107,11 @@ public final class CombatContext implements AutoCloseable {
                         execution
                                 || source.is(com.thelongtravail.valley.AzraelExecution.TYPE)
                                 || source.is(com.thelongtravail.valley.AzraelExecution.SELF),
-                        replay != null || quixoteStrike);
+                        policy.settled());
         this.quixote =
-                sunStrike
-                                || lorentzVoid
-                                || execution
-                                || replay != null
-                                || quixoteStrike
-                                || insightRetaliation
-                        ? null
-                        : com.thelongtravail.farreach.DonQuixoteCombat.snapshot(target, source);
+                policy.quixoteSnapshot()
+                        ? com.thelongtravail.farreach.DonQuixoteCombat.snapshot(target, source)
+                        : null;
         this.witherBonus =
                 execution
                         ? 0
@@ -126,11 +131,11 @@ public final class CombatContext implements AutoCloseable {
                                 + com.thelongtravail.flourishing.EverlastingFlower.bonus(living)
                         : 0;
         this.relicBonus =
-                execution || replay != null || quixoteStrike || insightRetaliation || roseDamage
+                !policy.relicSnapshot(roseDamage)
                         ? 0
                         : com.thelongtravail.underworld.DemonKingCombat.bonus(target, source);
         this.relicHealing =
-                execution || replay != null || quixoteStrike || insightRetaliation || roseDamage
+                !policy.relicSnapshot(roseDamage)
                         ? ItemStack.EMPTY
                         : com.thelongtravail.underworld.DemonKingCombat.healingStack(
                                 target, source);
@@ -232,6 +237,8 @@ public final class CombatContext implements AutoCloseable {
         if (damageConfirmed || execution || com.thelongtravail.valley.AzraelExecution.active())
             return;
         damageConfirmed = true;
+        com.thelongtravail.diagnostics.DamageTrace.confirmed(
+                damageRecord.total(), damageRecord.healthLoss());
         com.thelongtravail.underworld.Kagotsurube.confirmed(target, source);
         com.thelongtravail.farreach.SunChaser.confirmed(target, source, sun);
         if (sunStrike) return;
@@ -240,9 +247,8 @@ public final class CombatContext implements AutoCloseable {
             replay.confirmed = true;
             return;
         }
-        if (insightRetaliation) return;
-        if (lorentzVoid) return;
-        CombatConsequences.confirmed(target, source, attacker, roseDamage);
+        if (!policy.commonConfirmation()) return;
+        CombatConsequences.confirmedLoss(target, source, attacker, roseDamage);
         com.thelongtravail.compat.maid.MaidAccessories.confirmed(target, source, roseDamage);
     }
 
@@ -256,20 +262,14 @@ public final class CombatContext implements AutoCloseable {
             ((com.thelongtravail.mixin.DamageReplayStateAccessor) target)
                     .travail$lastHurt(previousLastHurt);
         }
-        if (sunStrike) {
-            attributeDamage.finish();
-            return;
-        }
-        if (execution || replay != null || quixoteStrike) return;
-        if (insightRetaliation) return;
-        if (lorentzVoid) {
-            attributeDamage.finish();
+        if (!policy.commonFinish()) {
+            if (policy.finishAttributes()) attributeDamage.finish();
             return;
         }
         if (damageConfirmed)
             com.thelongtravail.farreach.DonQuixoteCombat.finish(
                     target, source, quixote, damageRecord.total());
-        if (accessoryAttack) {
+        if (attackAttemptObserved) {
             com.thelongtravail.flourishing.FloralEvents.received(target, source);
             com.thelongtravail.compat.maid.MaidAccessories.retaliate(target, source);
         }
@@ -302,23 +302,19 @@ public final class CombatContext implements AutoCloseable {
         else CURRENT.set(previous);
     }
 
-    private boolean accessoryAttack;
+    private boolean attackAttemptObserved;
 
     public boolean prepareAttack(float amount) {
         if (quixoteStrike || sunStrike) return true;
-        if (replay == null
-                && !accessoryAttack
-                && !execution
-                && !roseDamage
-                && !insightRetaliation
-                && !lorentzVoid
+        if (!attackAttemptObserved
+                && policy.attackAttempt(roseDamage)
                 && !com.thelongtravail.valley.AzraelExecution.active()
                 && amount > 0
                 && Float.isFinite(amount)
                 && target.isAlive()
                 && !target.isSpectator()) {
-            accessoryAttack = true;
-            CombatConsequences.received(target, source);
+            attackAttemptObserved = true;
+            CombatConsequences.attackAttempt(target, source);
         }
         if (execution) return true;
         if (roseDamage) return true;
@@ -404,7 +400,7 @@ public final class CombatContext implements AutoCloseable {
     }
 
     public double outgoingBonus() {
-        if (sunStrike || quixoteStrike || insightRetaliation || lorentzVoid) return 0;
+        if (!policy.outgoingBonus()) return 0;
         return (quixote == null ? 0 : quixote.bonus())
                 + ekiDamageBonus
                 + floralBonus
