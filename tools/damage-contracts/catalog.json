@@ -156,11 +156,11 @@
     },
     {
       "id": "lorentz",
-      "name": "洛伦兹虚空追加",
+      "name": "洛伦兹直击追加",
       "stage": "弹射物命中包装后",
       "amount": "命中包装采样生命量乘比例",
       "ownership": "施法者；可向命中部位 hurt",
-      "guard": "施法身份与目标冷却；专用 VOID；不要求主伤害确认",
+      "guard": "施法身份与目标冷却；direct_strike 类型与私有 Strike 身份；不要求主伤害确认",
       "sources": [
         "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java"
       ],

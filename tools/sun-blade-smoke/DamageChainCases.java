@@ -105,6 +105,12 @@ final class DamageChainCases {
         public boolean hurt(DamageSource source, float amount) {
             if (++calls > 64) throw new AssertionError("unbounded cross-effect calls");
             maximum = Math.max(maximum, ++depth);
+            if (com.thelongtravail.boundless.LorentzFantasy.secondary(source)) {
+                check.accept(source.is(DirectStrikeDamage.TYPE), "Lorentz uses direct strike type");
+                check.accept(!source.is(net.minecraft.tags.DamageTypeTags.IS_PROJECTILE), "Lorentz strike is not projectile");
+                check.accept(!source.is(net.minecraft.tags.DamageTypeTags.BYPASSES_INVULNERABILITY), "Lorentz preserves invulnerability");
+                check.accept(!SunChaser.strike(source), "Lorentz and Sun identities remain distinct");
+            }
             if (SunChaser.strike(source)) sun++;
             if (InsightRetaliation.isInsight(source)) insight++;
             if (FloralCombat.rose(source)) rose++;
@@ -152,7 +158,7 @@ final class DamageChainCases {
             for (var type :
                     List.of(
                             com.thelongtravail.farreach.DonQuixoteCombat.STRIKE,
-                            com.thelongtravail.boundless.LorentzFantasy.VOID,
+                            DirectStrikeDamage.TYPE,
                             FloralCombat.ROSE)) {
                 calls = depth = maximum = 0;
                 Actor a = new Actor("TypedA", 0, false);
@@ -165,7 +171,15 @@ final class DamageChainCases {
                                                         .DAMAGE_TYPE)
                                         .getHolderOrThrow(type),
                                 a);
-                b.hurt(source, 10);
+                if (type == DirectStrikeDamage.TYPE) {
+                    a.getAttribute(ModAttributes.CRITICAL_CHANCE.get()).setBaseValue(1);
+                    b.getAttribute(Attributes.ARMOR).setBaseValue(30);
+                    b.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 200, 4));
+                    b.setAbsorptionAmount(5);
+                    com.thelongtravail.boundless.LorentzFantasy.hurtStrike(a, b, 10);
+                    check.accept(Math.abs(b.getHealth() - 970) < .001 && b.getAbsorptionAmount() == 0,
+                            "Lorentz bypasses armor/resistance, retains absorption and excludes critical");
+                } else b.hurt(source, 10);
                 check.accept(b.sun == 1 && calls == 2, "typed secondary permits one Sun: " + type);
                 check.accept(
                         b.getEffect(MobEffects.WITHER).getDuration() == 200,

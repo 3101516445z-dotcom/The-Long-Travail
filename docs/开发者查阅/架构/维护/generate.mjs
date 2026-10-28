@@ -173,7 +173,7 @@ const overrides = {
   UnderworldRelics:['六主题玩法','冥府遗物装备、魂数与属性对账'],
   LorentzArrowAccessor:['六主题玩法','洛伦兹幻想箭矢入地状态访问'],
   LorentzArrowMixin:['六主题玩法','洛伦兹幻想箭矢受击作用域桥接'],
-  LorentzFantasy:['六主题玩法','洛伦兹幻想箭矢快照、命中与虚空结算'],
+  LorentzFantasy:['六主题玩法','洛伦兹幻想箭矢快照、命中与直击结算'],
   LorentzGeometryConfig:['六主题玩法','洛伦兹幻想爆头几何修正配置'],
   Affection:['六主题玩法','喜欢的心情绑定与有效目标缓存'],
   AffectionDeaths:['六主题玩法','喜欢的心情死亡绑定持久化账本'],

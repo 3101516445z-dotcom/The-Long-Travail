@@ -6,7 +6,7 @@ public record DamagePolicy(
         boolean quixoteStrike,
         boolean replay,
         boolean insightRetaliation,
-        boolean lorentzVoid,
+        boolean lorentzStrike,
         boolean execution) {
 
     public boolean settled() {
@@ -14,7 +14,7 @@ public record DamagePolicy(
     }
 
     public boolean commonConfirmation() {
-        return !sunStrike && !quixoteStrike && !replay && !insightRetaliation && !lorentzVoid;
+        return !sunStrike && !quixoteStrike && !replay && !insightRetaliation && !lorentzStrike;
     }
 
     public boolean commonFinish() {
@@ -35,7 +35,7 @@ public record DamagePolicy(
     }
 
     public boolean outgoingBonus() {
-        return !sunStrike && !quixoteStrike && !insightRetaliation && !lorentzVoid;
+        return !sunStrike && !quixoteStrike && !insightRetaliation && !lorentzStrike;
     }
 
     // 保持逐日优先于处决/重放早退的顺序，避免合并判断改变重叠身份行为。

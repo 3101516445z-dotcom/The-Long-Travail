@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "method": "lexical-candidates-not-call-graph",
-  "sourceFingerprint": "0785f2bfa1045de19a8b8ccf22d76e5c56650b29526eb52a75217cd03a3609ba",
+  "sourceFingerprint": "40adbbfc8e03054790e99ec3d0970b216065fc0f894d1842f5edd0b0672a58d8",
   "files": [
     {
       "path": "src/main/java/com/thelongtravail/AspectTheme.java",
@@ -429,11 +429,11 @@
       "pkg": "com.thelongtravail.boundless",
       "type": "com.thelongtravail.boundless.LorentzFantasy",
       "module": "六主题玩法",
-      "role": "洛伦兹幻想箭矢快照、命中与虚空结算",
+      "role": "洛伦兹幻想箭矢快照、命中与直击结算",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Forge事件",
-      "sha256": "bbb9a01de75668831c828e9c59648224b93b2ac769effb6cedc2eec5188cb1b9"
+      "sha256": "74d3a5ffe8b67dd140ab824378556ed91a9ea41c171dad256b1cb0ccfb76d074"
     },
     {
       "path": "src/main/java/com/thelongtravail/boundless/PrinceFlightPermission.java",
@@ -1153,7 +1153,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "e816e5cb04514eed8641ab4f51a9a38d25903378413262d5b82272abe633af19"
+      "sha256": "c1c985799810e3049bd5d9331bd6612435158a080eb512ddbca8ea9abc40715b"
     },
     {
       "path": "src/main/java/com/thelongtravail/combat/DamageReplay.java",
@@ -2725,7 +2725,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "5f52733a82e752ac08d7b107340fa89d2df4442346bdc4d6999dfd22b42e407c"
+      "sha256": "af383c6b92bc108d5717906206200c3418fca943676fdac9b2b8a5de8926980a"
     },
     {
       "path": "src/main/java/com/thelongtravail/config/CarryingConfig.java",
@@ -4165,7 +4165,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "b83ed50b486b9b1b51eb66911d1a78cbef608e23f6f00556843c02d067267af2"
+      "sha256": "622a81e0db6d4b382d6f45078edca439c7c40dfa75b21181d8bccff363621d9a"
     },
     {
       "path": "src/main/java/com/thelongtravail/helper/CombatDamageRecord.java",
@@ -8318,7 +8318,7 @@
       "to": "com.thelongtravail.api.TravailStateApi",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java",
-      "tokenLine": 76,
+      "tokenLine": 78,
       "basis": "explicit-import"
     },
     {
@@ -8326,15 +8326,31 @@
       "to": "com.thelongtravail.boundless.TimeStopManager",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java",
-      "tokenLine": 150,
+      "tokenLine": 152,
       "basis": "same-package"
+    },
+    {
+      "from": "com.thelongtravail.boundless.LorentzFantasy",
+      "to": "com.thelongtravail.combat.DamageIdentity",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java",
+      "tokenLine": 50,
+      "basis": "fully-qualified"
+    },
+    {
+      "from": "com.thelongtravail.boundless.LorentzFantasy",
+      "to": "com.thelongtravail.combat.DirectStrikeDamage",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java",
+      "tokenLine": 33,
+      "basis": "explicit-import"
     },
     {
       "from": "com.thelongtravail.boundless.LorentzFantasy",
       "to": "com.thelongtravail.compat.ftbteams.FtbTeamsCompat",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java",
-      "tokenLine": 218,
+      "tokenLine": 220,
       "basis": "fully-qualified"
     },
     {
@@ -8342,7 +8358,7 @@
       "to": "com.thelongtravail.compat.maid.MaidAccessories",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java",
-      "tokenLine": 70,
+      "tokenLine": 72,
       "basis": "explicit-import"
     },
     {
@@ -8350,7 +8366,7 @@
       "to": "com.thelongtravail.config.BoundlessItemsConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java",
-      "tokenLine": 87,
+      "tokenLine": 89,
       "basis": "explicit-import"
     },
     {
@@ -8358,7 +8374,7 @@
       "to": "com.thelongtravail.config.LorentzGeometryConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java",
-      "tokenLine": 237,
+      "tokenLine": 239,
       "basis": "fully-qualified"
     },
     {
@@ -8366,7 +8382,7 @@
       "to": "com.thelongtravail.config.ModeEffectRules",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java",
-      "tokenLine": 286,
+      "tokenLine": 288,
       "basis": "fully-qualified"
     },
     {
@@ -8374,7 +8390,7 @@
       "to": "com.thelongtravail.farreach.SunChaser",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java",
-      "tokenLine": 347,
+      "tokenLine": 343,
       "basis": "fully-qualified"
     },
     {
@@ -8382,7 +8398,7 @@
       "to": "com.thelongtravail.helper.TravailCurios",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java",
-      "tokenLine": 54,
+      "tokenLine": 56,
       "basis": "wildcard-import"
     },
     {
@@ -8390,7 +8406,7 @@
       "to": "com.thelongtravail.mixin.DamageReplayStateAccessor",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java",
-      "tokenLine": 341,
+      "tokenLine": 337,
       "basis": "fully-qualified"
     },
     {
@@ -8398,7 +8414,7 @@
       "to": "com.thelongtravail.mixin.LorentzArrowAccessor",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java",
-      "tokenLine": 148,
+      "tokenLine": 150,
       "basis": "fully-qualified"
     },
     {
@@ -8406,7 +8422,7 @@
       "to": "com.thelongtravail.registry.ModAttributes",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java",
-      "tokenLine": 85,
+      "tokenLine": 87,
       "basis": "wildcard-import"
     },
     {
@@ -8414,7 +8430,7 @@
       "to": "com.thelongtravail.registry.ModRegistry",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java",
-      "tokenLine": 59,
+      "tokenLine": 61,
       "basis": "wildcard-import"
     },
     {
@@ -8430,7 +8446,7 @@
       "to": "com.thelongtravail.TravailAspect",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/boundless/LorentzFantasy.java",
-      "tokenLine": 76,
+      "tokenLine": 78,
       "basis": "wildcard-import"
     },
     {

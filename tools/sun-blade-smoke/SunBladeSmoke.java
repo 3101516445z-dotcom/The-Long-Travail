@@ -593,7 +593,7 @@ public final class SunBladeSmoke {
                 "converted special and sun both count");
         Cow lorentz = cow();
         lorentz.setSecondsOnFire(10);
-        com.thelongtravail.boundless.LorentzFantasy.hurtVoid(player, lorentz, 10);
+        com.thelongtravail.boundless.LorentzFantasy.hurtStrike(player, lorentz, 10);
         near(lorentz.getHealth(), 965, "Lorentz special triggers one sun strike");
         check(lorentz.invulnerableTime == 0, "Lorentz restoration respects suppression");
         var noOwner = target.damageSources().wither();

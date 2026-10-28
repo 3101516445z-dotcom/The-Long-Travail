@@ -58,7 +58,7 @@ public final class CombatContext implements AutoCloseable {
     private final double growthBonus;
     private boolean outputApplied;
     private final com.thelongtravail.combat.AttributeDamage attributeDamage;
-    private final boolean lorentzVoid;
+    private final boolean lorentzStrike;
     private final double lorentzBonus;
     private final boolean insightRetaliation;
     private boolean attributeOutputApplied;
@@ -78,9 +78,9 @@ public final class CombatContext implements AutoCloseable {
         source = com.thelongtravail.combat.DamageIdentity.original(source);
         this.sunStrike = com.thelongtravail.farreach.SunChaser.strike(source);
         this.sun = com.thelongtravail.farreach.SunChaser.snapshot(target, source);
-        this.lorentzVoid = com.thelongtravail.boundless.LorentzFantasy.secondary(source);
+        this.lorentzStrike = com.thelongtravail.boundless.LorentzFantasy.secondary(source);
         this.lorentzBonus =
-                lorentzVoid ? 0 : com.thelongtravail.boundless.LorentzFantasy.bonus(target, source);
+                lorentzStrike ? 0 : com.thelongtravail.boundless.LorentzFantasy.bonus(target, source);
         this.previous = CURRENT.get();
         this.target = target;
         this.source = source;
@@ -97,7 +97,7 @@ public final class CombatContext implements AutoCloseable {
                         quixoteStrike,
                         replay != null,
                         insightRetaliation,
-                        lorentzVoid,
+                        lorentzStrike,
                         execution);
         com.thelongtravail.diagnostics.DamageTrace.policy(policy);
         this.attributeDamage =
@@ -380,7 +380,7 @@ public final class CombatContext implements AutoCloseable {
         }
         if (replay == null && !feedbackHandled) {
             feedbackHandled = true;
-            if (!lorentzVoid
+            if (!lorentzStrike
                     && !maidImmune
                     && !icarusImmune
                     && !victimInternallyImmune
@@ -543,7 +543,7 @@ public final class CombatContext implements AutoCloseable {
     }
 
     private float internalAmount(float amount) {
-        if (sunStrike || lorentzVoid) return amount;
+        if (sunStrike || lorentzStrike) return amount;
         return CombatRules.internalAmount(
                 target, insightRetaliation ? null : attacker, roseDamage, effectiveSource, amount);
     }

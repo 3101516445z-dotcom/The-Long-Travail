@@ -18,7 +18,7 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "d7ea84a0b28d7141d99d1ed4ad0de0b3c31fa4882a5326c36545c937e04c29ad",
+  "fingerprint": "a1cb8c33260c8c72dc83659834f81dbac6186f3cc20f47269699c2f6b5b08499",
   "files": [
     {
       "path": "build.gradle",
@@ -74,7 +74,7 @@
     },
     {
       "path": "src/main/lang/en_us/aspects/boundless.json",
-      "sha256": "5007f421099e538a6f1cd75d65259242409632c60d712e9b805e51c30a70cc9e"
+      "sha256": "5e774409fedca07b84a92cac255281a812e744a0f69b8518c922a5ccda360eba"
     },
     {
       "path": "src/main/lang/en_us/aspects/deep_valley.json",
@@ -122,7 +122,7 @@
     },
     {
       "path": "src/main/lang/lzh/aspects/boundless.json",
-      "sha256": "b6e5b275826c9c99cf3dcbad82798922917de5d2481ad6251259a02a7eb2274c"
+      "sha256": "66a361d90d7458103fd34e936c2b7e8e0c18a0e167eba638f88eaf64cebc9338"
     },
     {
       "path": "src/main/lang/lzh/aspects/deep_valley.json",
@@ -166,7 +166,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/aspects/boundless.json",
-      "sha256": "95a00b7ab851db334f38c1293fb826d1eef22427deb18d44c4381bd52df017e8"
+      "sha256": "0162af35299cf7bac2c936491589c2f390faf54e293204f5b327614306491702"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/deep_valley.json",
@@ -210,7 +210,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/aspects/boundless.json",
-      "sha256": "1ab8a31b5ebb546d5a21bd951ce5403ad66c7d779760025434b88bb4ab4eff77"
+      "sha256": "9e6cfaf7a3eba2a28b5e1771f85664176525e441585f6776d2de84b1d3d4b234"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/deep_valley.json",
@@ -254,7 +254,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/aspects/boundless.json",
-      "sha256": "9d1f60afefda764be36de4b405532853a6c63a7330232d33b5f10c755a410ecc"
+      "sha256": "70884fdfe7c9989cf8e42e6b11c3edb58c60f0fc841ef92d1890c737d301873c"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/deep_valley.json",
@@ -794,19 +794,19 @@
     },
     {
       "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_armor.json",
-      "sha256": "b7dab5f40f83fb14a98d519b71f512b78781e2c6fc2e29819a2435431d63294f"
+      "sha256": "acd8d1dc23e87c5a6974c24cb77b4cadb9eeaccdba85b5abf56a05dcec3faee8"
     },
     {
       "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_cooldown.json",
-      "sha256": "b7dab5f40f83fb14a98d519b71f512b78781e2c6fc2e29819a2435431d63294f"
+      "sha256": "acd8d1dc23e87c5a6974c24cb77b4cadb9eeaccdba85b5abf56a05dcec3faee8"
     },
     {
       "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_effects.json",
-      "sha256": "d77e8deedb073a20f388ad553a9fbfbcf01e796a7319b960a5242249cf011fd2"
+      "sha256": "9677c2e45a849c1423b909cec46368b5c1558e988e02868362c972516a2e57d3"
     },
     {
       "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_enchantments.json",
-      "sha256": "b7dab5f40f83fb14a98d519b71f512b78781e2c6fc2e29819a2435431d63294f"
+      "sha256": "acd8d1dc23e87c5a6974c24cb77b4cadb9eeaccdba85b5abf56a05dcec3faee8"
     },
     {
       "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_invulnerability.json",
@@ -814,11 +814,11 @@
     },
     {
       "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_resistance.json",
-      "sha256": "b7dab5f40f83fb14a98d519b71f512b78781e2c6fc2e29819a2435431d63294f"
+      "sha256": "acd8d1dc23e87c5a6974c24cb77b4cadb9eeaccdba85b5abf56a05dcec3faee8"
     },
     {
       "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_shield.json",
-      "sha256": "d77e8deedb073a20f388ad553a9fbfbcf01e796a7319b960a5242249cf011fd2"
+      "sha256": "9677c2e45a849c1423b909cec46368b5c1558e988e02868362c972516a2e57d3"
     },
     {
       "path": "src/main/resources/data/minecraft/tags/damage_type/no_impact.json",
@@ -919,10 +919,6 @@
     {
       "path": "src/main/resources/data/the_long_travail/damage_type/fluid_erosion.json",
       "sha256": "3b3d29d4e63e658f0a861b0906ce63888990f65fb52751f8201d32391432cc43"
-    },
-    {
-      "path": "src/main/resources/data/the_long_travail/damage_type/lorentz_void.json",
-      "sha256": "c1a27550655de74dc41bd7de72af73e6d63470716c7add790c069970b091b146"
     },
     {
       "path": "src/main/resources/data/the_long_travail/damage_type/rose_retaliation.json",

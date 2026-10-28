@@ -3,11 +3,11 @@ package com.thelongtravail.boundless;
 import com.thelongtravail.*;
 import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.compat.maid.MaidAccessories;
+import com.thelongtravail.combat.DirectStrikeDamage;
 import com.thelongtravail.config.BoundlessItemsConfig;
 import com.thelongtravail.helper.*;
 import com.thelongtravail.registry.*;
 
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.*;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
@@ -28,10 +28,12 @@ import java.util.*;
 
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
 public final class LorentzFantasy {
-    public static final ResourceKey<DamageType> VOID =
-            ResourceKey.create(
-                    Registries.DAMAGE_TYPE,
-                    new ResourceLocation(TheLongTravail.MODID, "lorentz_void"));
+    private static final class Strike extends DamageSource {
+        Strike(LivingEntity target, LivingEntity shooter) {
+            super(DirectStrikeDamage.source(target.level(), shooter, shooter).typeHolder(), shooter);
+        }
+    }
+
     private static final UUID CRITICAL = UUID.fromString("1c32e413-3b0f-41c0-9edf-69b584d01f02");
     private static final String MARK = "TravailLorentz",
             PHASE = "TravailLorentzPhase",
@@ -45,7 +47,7 @@ public final class LorentzFantasy {
     private static final Map<LivingEntity, Map<UUID, Long>> COOLDOWNS = new WeakHashMap<>();
 
     public static boolean secondary(DamageSource s) {
-        return s.is(VOID);
+        return com.thelongtravail.combat.DamageIdentity.original(s) instanceof Strike;
     }
 
     public static ItemStack equipped(LivingEntity e) {
@@ -305,7 +307,7 @@ public final class LorentzFantasy {
             long until = cooldowns.getOrDefault(caster, Long.MIN_VALUE);
             if (now >= until) {
                 cooldowns.put(caster, now + BoundlessItemsConfig.ticks("lorentz.interval"));
-                hurtVoid(
+                hurtStrike(
                         shooter,
                         target,
                         entity,
@@ -315,13 +317,13 @@ public final class LorentzFantasy {
         return result;
     }
 
-    public static void hurtVoid(LivingEntity shooter, LivingEntity target, double amount) {
-        hurtVoid(shooter, target, target, amount);
+    public static void hurtStrike(LivingEntity shooter, LivingEntity target, double amount) {
+        hurtStrike(shooter, target, target, amount);
     }
 
     // 生命值采样、冷却和受伤状态恢复均以父实体为准。
     // 实际伤害仍传给原命中部位，保留该部位的阶段和受击规则。
-    private static void hurtVoid(
+    private static void hurtStrike(
             LivingEntity shooter, LivingEntity target, Entity hitEntity, double amount) {
         if (!(amount > 0)
                 || !Double.isFinite(amount)
@@ -330,13 +332,7 @@ public final class LorentzFantasy {
                 || hitEntity.isRemoved()
                 || hitEntity.level() != target.level()
                 || livingTarget(hitEntity) != target) return;
-        DamageSource source =
-                new DamageSource(
-                        shooter.level()
-                                .registryAccess()
-                                .registryOrThrow(Registries.DAMAGE_TYPE)
-                                .getHolderOrThrow(VOID),
-                        shooter);
+        DamageSource source = new Strike(target, shooter);
         int invul = target.invulnerableTime;
         var state = (com.thelongtravail.mixin.DamageReplayStateAccessor) target;
         float last = state.travail$lastHurt();

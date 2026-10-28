@@ -77,7 +77,7 @@ public final class BoundlessItemsConfig {
                 .02,
                 0,
                 1,
-                "见证状态下，虚空伤害占命中时目标当前生命值的比例。\nVoid damage with Witness, as a fraction of the "
+                "见证状态下，直击伤害占命中时目标当前生命值的比例。\nDirect-strike damage with Witness, as a fraction of the "
                         + "target's current health at the time of impact.");
         n(
                 b,
