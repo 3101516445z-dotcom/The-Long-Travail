@@ -3,18 +3,27 @@
   "category": "misc",
   "pattern": [
     "ABA",
-    "BCB",
-    "ABA"
+    "CDC",
+    "EFE"
   ],
   "key": {
     "A": {
-      "item": "minecraft:dragon_breath"
+      "item": "minecraft:glowstone_dust"
     },
     "B": {
-      "item": "minecraft:nether_star"
+      "item": "minecraft:echo_shard"
     },
     "C": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "D": {
       "item": "minecraft:feather"
+    },
+    "E": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "F": {
+      "item": "minecraft:black_dye"
     }
   },
   "result": {

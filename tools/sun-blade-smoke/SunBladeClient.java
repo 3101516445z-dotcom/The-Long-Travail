@@ -50,7 +50,14 @@ public final class SunBladeClient {
                     for (var line : com.thelongtravail.item.SunBladeText.details(sun))
                         report.append(line.getString()).append("\n");
                 if (net.minecraftforge.fml.ModList.get().isLoaded("jei")) {
-                    var recipe = com.thelongtravail.compat.jei.KagotsurubeDisplay.recipe();
+                    var recipe =
+                            net.minecraft.client.Minecraft.getInstance()
+                                    .level
+                                    .getRecipeManager()
+                                    .byKey(
+                                            new net.minecraft.resources.ResourceLocation(
+                                                    "the_long_travail", "kagotsurube"))
+                                    .orElseThrow();
                     if (recipe.getIngredients().size() != 9
                             || recipe.getIngredients().get(1).getItems().length == 0)
                         throw new AssertionError("JEI display ingredients");

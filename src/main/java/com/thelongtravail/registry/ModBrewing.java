@@ -18,7 +18,7 @@ public final class ModBrewing {
                 () ->
                         BrewingRecipeRegistry.addRecipe(
                                 Ingredient.of(Items.DRAGON_BREATH),
-                                Ingredient.of(Items.LAPIS_BLOCK),
+                                Ingredient.of(Items.AMETHYST_SHARD),
                                 new ItemStack(ModRegistry.LIQUEFIED_ABUNDANCE.get())));
     }
 

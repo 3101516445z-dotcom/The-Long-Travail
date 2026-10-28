@@ -143,7 +143,7 @@ Invalid configuration and preserved originals: [T01].
 
 Fishing treasure item chance (separate setting)
 loot.fishing_treasure.itemChance
-Individual chance of Eki, Tokaido and Perfect Fluid within fishing treasure, default 0.1 (10% each). Abyss Essence retains 10%, leaving 60% for vanilla entries. Range: 0 to 0.3; 0 disables these three rewards. Requires loot.enabled. Save and run /reload to apply.
+Individual chance of Eki, Tokaido and Perfect Fluid within fishing treasure, default 0.1 (10% each). Abyss Essence retains 20%, leaving 50% for vanilla entries. Range: 0 to 0.2; 0 disables these three rewards. Requires loot.enabled. Save and run /reload to apply.
 
 ====================================================================
 Presets

@@ -15,31 +15,31 @@ public final class UnifiedLootConfig {
     public static void define(ForgeConfigSpec.Builder builder) {
         builder.comment(
                         "启用苦旅共享战利品及钓鱼宝藏物品奖励。\n"
-                                + "Enable shared Long Travail loot and fishing treasure item rewards.")
+                            + "Enable shared Long Travail loot and fishing treasure item rewards.")
                 .define("loot.enabled", true);
         builder.comment(
                         "駅、东海道五十三次和完美流体在钓鱼宝藏子表内各自的概率；0.1 表示各 10%。\n"
-                                + "Individual chance of Eki, Tokaido and Perfect Fluid within fishing"
-                                + " treasure; 0.1 means 10% each.\n"
-                                + "范围 0~0.3，0 禁用这三件奖励；同时受 loot.enabled 控制。\n"
-                                + "Range 0 to 0.3; 0 disables these three rewards. Also requires"
-                                + " loot.enabled.")
-                .defineInRange("loot.fishing_treasure.itemChance", .1, 0, .3);
+                            + "Individual chance of Eki, Tokaido and Perfect Fluid within fishing"
+                            + " treasure; 0.1 means 10% each.\n"
+                            + "范围 0~0.2，0 禁用这三件奖励；同时受 loot.enabled 控制。\n"
+                            + "Range 0 to 0.2; 0 disables these three rewards. Also requires"
+                            + " loot.enabled.")
+                .defineInRange("loot.fishing_treasure.itemChance", .1, 0, .2);
         builder.comment(
                         "按完整战利品表ID分组，可手动增加原版或模组表。ID须用双引号包围。\n"
-                                + "Grouped by full loot table ID; vanilla or modded tables can be added"
-                                + " manually. IDs must be enclosed in double quotes.",
+                            + "Grouped by full loot table ID; vanilla or modded tables can be added"
+                            + " manually. IDs must be enclosed in double quotes.",
                         "chance为总概率(0~1)；items格式：物品ID|正整数权重|最小数量|最大数量。\n"
                                 + "chance is the overall probability (0 to 1); items format:"
                                 + " item_id|positive_integer_weight|min_count|max_count.",
                         "触发奖励后，按权重选择一个条目；数量为1~1时只出一件；数量范围1~2304。空列表或概率0关闭本表。\n"
-                                + "When a reward triggers, select one entry by weight. A quantity range"
-                                + " of 1 to 1 gives exactly one item; supported quantities are 1 to"
-                                + " 2304. An empty list or a chance of 0 disables rewards from this"
-                                + " table.",
+                            + "When a reward triggers, select one entry by weight. A quantity range"
+                            + " of 1 to 1 gives exactly one item; supported quantities are 1 to"
+                            + " 2304. An empty list or a chance of 0 disables rewards from this"
+                            + " table.",
                         "父表与子表独立抽取；不额外附加抢夺、时运、精准采集或玩家击杀条件。\n"
-                                + "Parent and child tables roll independently. No additional Looting,"
-                                + " Fortune, Silk Touch, or player-kill requirements are imposed.")
+                            + "Parent and child tables roll independently. No additional Looting,"
+                            + " Fortune, Silk Touch, or player-kill requirements are imposed.")
                 .define(
                         "loot.tables",
                         UnifiedLootConfig::defaults,

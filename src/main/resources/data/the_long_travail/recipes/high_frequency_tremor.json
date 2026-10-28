@@ -2,7 +2,9 @@
   "type": "the_long_travail:nbt_inheriting_shaped",
   "category": "equipment",
   "repair": true,
-  "nbt_source": { "item": "minecraft:netherite_pickaxe" },
+  "nbt_source": {
+    "item": "minecraft:netherite_pickaxe"
+  },
   "pattern": [
     "EAE",
     " P ",
@@ -10,7 +12,7 @@
   ],
   "key": {
     "E": {
-      "item": "the_long_travail:deep_valley_essence"
+      "item": "minecraft:echo_shard"
     },
     "A": {
       "item": "the_long_travail:azrael"

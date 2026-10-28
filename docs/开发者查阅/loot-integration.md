@@ -12,7 +12,7 @@
 - 材料和精粹来源：`loot/MaterialLoot.java` 与 `src/main/resources/data/the_long_travail/loot_tables/materials/`。其中材料、精粹及固定考古奖励不受饰品奖励的 `loot.enabled` 控制；駅、东海道五十三次及完美流体的钓鱼奖励由 `UnifiedLoot.fishingTreasureChance` 提供宝藏子表内的单件概率，受 `loot.enabled` 与 `loot.fishing_treasure.itemChance` 控制。
 - 注入保留原表，使用唯一池名防重复；材料子表不得再次递归注入。支持数据包覆盖及正常重载，已生成过内容的箱子不会补发。多个奖励属于同一互斥池时不能改成独立池，否则会改变联合概率。
 
-`MaterialLoot.injectSpecial` 还将堂吉诃德加入各考古表，将磷叶石加入稀有古迹废墟表，与精粹共享单轮互斥池。駅、东海道五十三次和完美流体加入钓鱼宝藏子表，分别直接使用 `loot.fishing_treasure.itemChance`，默认各占子表的 10%；该值不再乘以 20，也不是每次垂钓的总概率。新增奖励应合并到同次 `SingleRollLootInjector.inject` 调用，保留整池概率约束。
+`MaterialLoot.injectSpecial` 将堂吉诃德和逐日各以 15% 加入沙漠神殿、沙漠水井考古；完美流体以 15% 加入冷、暖海底废墟考古；磷叶石以 10% / 20% 加入普通 / 稀有古迹废墟考古。沙漠水井的穷遐精粹占 20%，其他考古精粹占 15%，钓鱼宝藏的归墟精粹占 20%。各来源共享单轮互斥池。駅、东海道五十三次和完美流体加入钓鱼宝藏子表，分别直接使用 `loot.fishing_treasure.itemChance`，默认各占子表的 10%；该值不再乘以 20，也不是每次垂钓的总概率。新增奖励应合并到同次 `SingleRollLootInjector.inject` 调用，保留整池概率约束。
 
 ## 抽样与注入
 

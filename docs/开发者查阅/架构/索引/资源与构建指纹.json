@@ -18,7 +18,7 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "a1cb8c33260c8c72dc83659834f81dbac6186f3cc20f47269699c2f6b5b08499",
+  "fingerprint": "e69eb7da30bad2b3312d6822e3c41db352f54f9a13ca346a9131344d52c1ae4d",
   "files": [
     {
       "path": "build.gradle",
@@ -302,11 +302,11 @@
     },
     {
       "path": "src/main/resources/assets/the_long_travail/config/configuration-guide.en_us.txt",
-      "sha256": "4a0394068f35951756b6514ba2e1700e7f4cbdbcb0a8024ba1249d250f6f6433"
+      "sha256": "6384a0bea26840c11c4c071b459ed025d404349ee3a3fca47f87492b39b5e842"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/config/configuration-guide.zh_cn.txt",
-      "sha256": "5efcd67f7774253975eecf4d3bee1041a224d0954df77c37ccc83d0e1f547e42"
+      "sha256": "19ac1fa7a1716f0771b7626b5d0e86688042d7de2501ad1e90df3a55ec1979be"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/models/block/lantern_light.json",
@@ -990,11 +990,11 @@
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/golden_age.json",
-      "sha256": "1bce8866f496ec0fa7350a83c5c3c71cb33d0384a2e2fe6e74f755fb2c35cf64"
+      "sha256": "b345f92118d5ea7192d7e31dc40f3ab40d4b04a0fd07730583f060d3d8eecca4"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/high_frequency_tremor.json",
-      "sha256": "c185b925e770df2b5776e04c20a5e4b9fc7660582882d8544ede280d1effadfe"
+      "sha256": "5da8bf4907decc4512e3e6afbeabef3c52b6fca1879a6e35d021688a792a6c1d"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/homecoming.json",
@@ -1002,11 +1002,11 @@
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/icarus.json",
-      "sha256": "3f123504767e281c1253a8a0fa159f1f86ec5f1136fbdc293beb7b42b907d81d"
+      "sha256": "8d6bd7571a87f8a4ce9fe1af9d2ac9c6ef45974345f8845b32b4fcb94d30b861"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/immortal_bud.json",
-      "sha256": "b916e1836273d9ca0d689f4060dfdf0d1bdc77e220abb5d35682b5ad1299fe68"
+      "sha256": "6048158f671355026023be8aac031171a324ea74fe63bbe372b5eab2295b4836"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/immortal_bud_apply.json",
@@ -1014,11 +1014,11 @@
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/kagotsurube.json",
-      "sha256": "e955c336baa7c75735384467b2c7c34445636e90a38a2d562c1574ae8896e8f3"
+      "sha256": "a6ea20aa05626f1cea40daac5b1514522688d9999714fecf43e66178e77742ed"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/liquefied_abundance.json",
-      "sha256": "47e136cd84813a6dc890d3fe4746328cc9b53af2d5250a84dcbf98a83b47340b"
+      "sha256": "c2ad8cb82f3f99be9e00fc93f5ee0380e66c3bfe7a80c0f0270f26d9f6e1554f"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/mistletoe.json",
@@ -1034,7 +1034,7 @@
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/renewal.json",
-      "sha256": "7299a1b5ec3c758179e8a738a28ff0b1109c88939132acbe65fac94f123da967"
+      "sha256": "10f9741366e52b53e7ed891136661926894b807c3a6f538a65989aec57c7190e"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_change.json",
@@ -1142,7 +1142,7 @@
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/underground_velvet.json",
-      "sha256": "fbe2c49146060edb7a9ac123b90f87bc23a84ba881c6ae4948a0228f8e8c0505"
+      "sha256": "d224874c6deed5f6eca664d3c0c5eebd1d1651519a4d2acb1f6a0389a532567d"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/underground_velvet_from_string.json",
@@ -1154,7 +1154,7 @@
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/wayguide.json",
-      "sha256": "9e40cbb9b362fa22be24dc57ec6d247d46d8c934967307f2ed3f3b4d54d217a7"
+      "sha256": "03ea87d2020f9c2da972668207e31029553027c3ab8df82744152fd1d36ff7a0"
     },
     {
       "path": "src/main/resources/data/the_long_travail/tags/blocks/growth_exclude.json",

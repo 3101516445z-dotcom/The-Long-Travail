@@ -184,16 +184,6 @@ public final class ModRegistry {
             ITEMS.register("sun_chaser", com.thelongtravail.item.SunChaserItem::new);
     public static final RegistryObject<Item> KAGOTSURUBE =
             ITEMS.register("kagotsurube", com.thelongtravail.item.KagotsurubeItem::new);
-    public static final RegistryObject<
-                    net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer<
-                            com.thelongtravail.underworld.KagotsurubeRecipe>>
-            KAGOTSURUBE_RECIPE =
-                    RECIPES.register(
-                            "kagotsurube",
-                            () ->
-                                    new net.minecraft.world.item.crafting
-                                            .SimpleCraftingRecipeSerializer<>(
-                                            com.thelongtravail.underworld.KagotsurubeRecipe::new));
     public static final RegistryObject<Item> ICARUS =
             ITEMS.register(
                     "icarus", () -> new com.thelongtravail.item.FarReachAccessoryItem(false));

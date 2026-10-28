@@ -1,10 +1,15 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
-    { "tag": "minecraft:saplings" },
-    { "item": "minecraft:bone_meal" },
-    { "item": "the_long_travail:everlasting_flower" }
-  ],
-  "result": { "item": "the_long_travail:immortal_bud", "count": 1 }
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "minecraft:wild_armor_trim_smithing_template"
+  },
+  "base": {
+    "tag": "minecraft:leaves"
+  },
+  "addition": {
+    "item": "the_long_travail:flourishing_stone"
+  },
+  "result": {
+    "item": "the_long_travail:immortal_bud"
+  }
 }

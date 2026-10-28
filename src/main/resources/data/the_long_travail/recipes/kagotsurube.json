@@ -1,4 +1,27 @@
 {
-  "type": "the_long_travail:kagotsurube",
-  "category": "equipment"
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " B ",
+    " E ",
+    "RSR"
+  ],
+  "key": {
+    "B": {
+      "type": "the_long_travail:cursed_book"
+    },
+    "E": {
+      "item": "the_long_travail:underworld_stone"
+    },
+    "R": {
+      "item": "minecraft:wither_rose"
+    },
+    "S": {
+      "item": "minecraft:netherite_sword"
+    }
+  },
+  "result": {
+    "item": "the_long_travail:kagotsurube",
+    "count": 1
+  }
 }

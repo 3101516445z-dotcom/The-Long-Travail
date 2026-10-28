@@ -6,10 +6,12 @@ import com.thelongtravail.config.ConfigReloadCoordinator;
 import com.thelongtravail.event.TravailEvents;
 import com.thelongtravail.network.TravailNetwork;
 import com.thelongtravail.registry.ModRegistry;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+
 import org.slf4j.Logger;
 
 @Mod(TheLongTravail.MODID)
@@ -19,6 +21,7 @@ public class TheLongTravail {
 
     public TheLongTravail(FMLJavaModLoadingContext context) {
         IEventBus modBus = context.getModEventBus();
+        com.thelongtravail.underworld.CursedBookIngredient.register();
         ModRegistry.register(modBus);
         TravailNetwork.register();
         modBus.addListener(ConfigReloadCoordinator::onConfigReloading);

@@ -44,8 +44,8 @@ public final class UnifiedLoot {
             Object rawTreasure = config.get("loot.fishing_treasure.itemChance");
             try {
                 double chance = ConfigValidation.number(rawTreasure).doubleValue();
-                if (chance < 0 || chance > .3)
-                    throw new IllegalArgumentException("必须为 0~0.3 / Expected 0 to 0.3");
+                if (chance < 0 || chance > .2)
+                    throw new IllegalArgumentException("必须为 0~0.2 / Expected 0 to 0.2");
                 lastTreasureChance = chance;
             } catch (IllegalArgumentException failure) {
                 ConfigProblems.report(

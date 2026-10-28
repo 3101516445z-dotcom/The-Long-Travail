@@ -708,17 +708,22 @@ public final class SunBladeSmoke {
                 };
         var grid = new TransientCraftingContainer(menu, 3, 3);
         var recipe =
-                new KagotsurubeRecipe(
-                        new net.minecraft.resources.ResourceLocation(
-                                "the_long_travail", "kagotsurube"),
-                        net.minecraft.world.item.crafting.CraftingBookCategory.EQUIPMENT);
+                (net.minecraft.world.item.crafting.CraftingRecipe)
+                        level.getRecipeManager()
+                                .byKey(
+                                        new net.minecraft.resources.ResourceLocation(
+                                                "the_long_travail", "kagotsurube"))
+                                .orElseThrow();
         ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
         EnchantedBookItem.addEnchantment(
                 book, new EnchantmentInstance(Enchantments.VANISHING_CURSE, 1));
         grid.setItem(1, book);
         grid.setItem(
                 4,
-                new ItemStack(ModRegistry.ESSENCES.get(TravailAspect.UNDERWORLD.ordinal()).get()));
+                new ItemStack(
+                        ModRegistry.REVELATION_STONES
+                                .get(TravailAspect.UNDERWORLD.ordinal())
+                                .get()));
         grid.setItem(6, new ItemStack(Items.WITHER_ROSE));
         grid.setItem(7, new ItemStack(Items.NETHERITE_SWORD));
         grid.setItem(8, new ItemStack(Items.WITHER_ROSE));

@@ -38,8 +38,6 @@ public final class AbyssJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration r) {
-        r.addRecipes(
-                mezz.jei.api.constants.RecipeTypes.CRAFTING, List.of(KagotsurubeDisplay.recipe()));
         r.addRecipes(TYPE, List.of(new Example(true), new Example(false)));
     }
 

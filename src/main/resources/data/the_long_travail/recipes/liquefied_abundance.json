@@ -3,13 +3,22 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "minecraft:honey_bottle"
-    },
-    {
-      "item": "minecraft:lapis_lazuli"
+      "item": "minecraft:amethyst_shard"
     },
     {
       "item": "minecraft:milk_bucket"
+    },
+    {
+      "item": "minecraft:nether_wart"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "minecraft:glass_bottle"
     },
     {
       "item": "minecraft:glass_bottle"
@@ -23,6 +32,6 @@
   ],
   "result": {
     "item": "the_long_travail:liquefied_abundance",
-    "count": 4
+    "count": 6
   }
 }

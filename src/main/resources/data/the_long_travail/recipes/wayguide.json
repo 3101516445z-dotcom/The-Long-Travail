@@ -1,11 +1,27 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "pattern": ["LDL", "DSD", "LDL"],
+  "pattern": [
+    "ABA",
+    "CDC",
+    "ABA"
+  ],
   "key": {
-    "L": { "item": "minecraft:lapis_lazuli" },
-    "D": { "item": "minecraft:diamond" },
-    "S": { "item": "minecraft:nether_star" }
+    "A": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "B": {
+      "item": "minecraft:diamond"
+    },
+    "C": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "D": {
+      "item": "minecraft:ender_eye"
+    }
   },
-  "result": { "item": "the_long_travail:wayguide", "count": 1 }
+  "result": {
+    "item": "the_long_travail:wayguide",
+    "count": 1
+  }
 }

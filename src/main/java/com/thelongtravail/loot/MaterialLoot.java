@@ -32,13 +32,13 @@ public final class MaterialLoot {
     private static final Map<ResourceLocation, SpecialReward> SPECIAL_REWARDS =
             Map.ofEntries(
                     special("archaeology/desert_pyramid", "underworld", 15),
-                    special("archaeology/desert_well", "far_reach", 15),
+                    special("archaeology/desert_well", "far_reach", 20),
                     special("archaeology/ocean_ruin_cold", "abyss", 15),
                     special("archaeology/ocean_ruin_warm", "abyss", 15),
                     special("archaeology/trail_ruins_common", "deep_valley", 15),
                     special("archaeology/trail_ruins_rare", "deep_valley", 15),
                     special("gameplay/cat_morning_gift", "boundless", 20),
-                    special("gameplay/fishing/treasure", "abyss", 10),
+                    special("gameplay/fishing/treasure", "abyss", 20),
                     special("gameplay/hero_of_the_village/cartographer_gift", "far_reach", 15),
                     special("gameplay/hero_of_the_village/farmer_gift", "flourishing", 15),
                     special("gameplay/piglin_bartering", "underworld", 0.5),
@@ -66,12 +66,21 @@ public final class MaterialLoot {
                 rewards.add(
                         new SingleRollLootInjector.Reward(
                                 sourceItem(item), UnifiedLoot.fishingTreasureChance));
-        if (table.getLootTableId().getPath().startsWith("archaeology/")) {
-            rewards.add(new SingleRollLootInjector.Reward(sourceItem("don_quixote"), .05));
-            rewards.add(new SingleRollLootInjector.Reward(sourceItem("sun_chaser"), .05));
+        switch (table.getLootTableId().getPath()) {
+            case "archaeology/desert_pyramid", "archaeology/desert_well" -> {
+                rewards.add(new SingleRollLootInjector.Reward(sourceItem("don_quixote"), .15));
+                rewards.add(new SingleRollLootInjector.Reward(sourceItem("sun_chaser"), .15));
+            }
+            case "archaeology/ocean_ruin_cold", "archaeology/ocean_ruin_warm" ->
+                    rewards.add(
+                            new SingleRollLootInjector.Reward(sourceItem("perfect_fluid"), .15));
+            case "archaeology/trail_ruins_common" ->
+                    rewards.add(
+                            new SingleRollLootInjector.Reward(sourceItem("phosphophyllite"), .10));
+            case "archaeology/trail_ruins_rare" ->
+                    rewards.add(
+                            new SingleRollLootInjector.Reward(sourceItem("phosphophyllite"), .20));
         }
-        if (source("archaeology/trail_ruins_rare").equals(table.getLootTableId()))
-            rewards.add(new SingleRollLootInjector.Reward(sourceItem("phosphophyllite"), .05));
         if (!SingleRollLootInjector.inject(table, POOL, rewards)) unsupported(table);
     }
 
