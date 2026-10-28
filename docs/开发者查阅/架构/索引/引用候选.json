@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "method": "lexical-candidates-not-call-graph",
-  "sourceFingerprint": "40adbbfc8e03054790e99ec3d0970b216065fc0f894d1842f5edd0b0672a58d8",
+  "sourceFingerprint": "138fb1e0d92d2ebd96a375fd3737c1e17b14c87137434fd8e7353cb1dcf307b7",
   "files": [
     {
       "path": "src/main/java/com/thelongtravail/AspectTheme.java",
@@ -2689,7 +2689,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "07fad383d5abd878641885b212cb768a129b5036ff68c4c8fe875b265b3258be"
+      "sha256": "26f27eecf40d07aeb6394d62d422f462f553a14fb4271f110dd78ef43abd4f52"
     },
     {
       "path": "src/main/java/com/thelongtravail/config/AzraelConfig.java",
@@ -2725,7 +2725,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "af383c6b92bc108d5717906206200c3418fca943676fdac9b2b8a5de8926980a"
+      "sha256": "f031868bf79fa68c9e8f2f3c62874c2d3ef94803642eb13fe871e537108d65a5"
     },
     {
       "path": "src/main/java/com/thelongtravail/config/CarryingConfig.java",
@@ -2941,7 +2941,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "2643af7ad02b9431b5a76a80c358c3cef8d036e6e10170cb2570193c04601a8d"
+      "sha256": "0715bdae76606d2dfba2777709f3c9cdde1a54b201d469141be4f09919e08878"
     },
     {
       "path": "src/main/java/com/thelongtravail/config/FarReachRelicsConfig.java",
@@ -2953,7 +2953,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "8755d3e7dc96deded170b25ff269f8142965ce147e6af6cee8fabb20f47d1e4f"
+      "sha256": "61a7160ac3f7f50f5511082151a13da0b5565815e956b4beab558fbb43d3f0c2"
     },
     {
       "path": "src/main/java/com/thelongtravail/config/FishingEntityCompatDefaults.java",
@@ -2977,7 +2977,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "0448c8ea7584f8d3f0ae12119b2c62c1f40f85f577b2155227e8809a9fe34c72"
+      "sha256": "ffca775d5d3e0aeb600f81ed1e0a47e05364ec99e75edc3e05c342a0ee5eef31"
     },
     {
       "path": "src/main/java/com/thelongtravail/config/FlourishingItemsConfig.java",
@@ -3073,7 +3073,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "6bdd2f15ba9b8d330b5b45ae235e4c60bc534f2f2948f80cf9bedb1de20e72e2"
+      "sha256": "ce53169a2c22fd697ba0e1628790ed78bd0dd67186ec9341046112e48185f2d6"
     },
     {
       "path": "src/main/java/com/thelongtravail/config/RewardCompatDefaults.java",
@@ -3109,7 +3109,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "d6c5554a9a8eb653aa77afe4886666560061c96ab44f2937e323895ef3bbbe00"
+      "sha256": "09ad8b71fb41605df30379192f67458f4aadd47b56e581a7a1809a3834414e74"
     },
     {
       "path": "src/main/java/com/thelongtravail/config/TravailClientConfig.java",
@@ -3145,7 +3145,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "f6f7b5c098a14ca7ad540d5582ac0a345cb908e71cc85fd5f5f24e8f7f66bc8e"
+      "sha256": "ad509a57377787bc81be33591b67eea4655f071df130855b6c71a6b73c0ecf8e"
     },
     {
       "path": "src/main/java/com/thelongtravail/config/WeightedPresetEntries.java",
@@ -3997,7 +3997,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "389408ab97073ca97a3f927d77c9dd38ef28ba182b31831fdba66d53bde3ef31"
+      "sha256": "1d10e41897f535947df704aaf594e5f75e2b7f362d928fbc077d67daf388b6aa"
     },
     {
       "path": "src/main/java/com/thelongtravail/flourishing/FlowerData.java",
@@ -7225,7 +7225,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "4b7ab1a8ff15f4906827bfd93d8a2f5197327bdf3ff848705a08ad410df8616c"
+      "sha256": "280c9d2569f98a61ca61df95f855b7160072879454b36ab19c88a70b18ce8a59"
     },
     {
       "path": "src/main/java/com/thelongtravail/valley/SwordLanternEvents.java",

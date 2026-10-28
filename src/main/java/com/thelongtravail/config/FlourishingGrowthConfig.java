@@ -118,7 +118,7 @@ public final class FlourishingGrowthConfig {
         number(
                 b,
                 "everlasting_flower.witness.damageBonus",
-                .12,
+                .20,
                 0,
                 1000,
                 "位于花卉群系时，造成的伤害加成比例。\nFractional damage bonus in flower biomes.");

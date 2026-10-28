@@ -130,16 +130,16 @@ public final class AbyssItemsConfig {
         number(
                 b,
                 "malicePeak",
-                .4,
+                .5,
                 0,
                 1000,
-                "恶意状态下，普通环境中午夜时的伤害加成比例；0.4 表示提高 40%，0 表示不提供加成。",
-                "Midnight damage bonus with Malice in ordinary conditions; 0.4 means a 40%"
+                "恶意状态下，普通环境中午夜时的伤害加成比例；0.5 表示提高 50%，0 表示不提供加成。",
+                "Midnight damage bonus with Malice in ordinary conditions; 0.5 means a 50%"
                         + " increase, and 0 disables the bonus.");
         number(
                 b,
                 "shelteredNonClearPeak",
-                .6,
+                .75,
                 0,
                 1000,
                 "未处于露天环境且天气非晴朗时，恶意状态下午夜的伤害加成比例，替代普通环境中的峰值。末地始终视为晴天，下界始终不视为晴天。",
@@ -149,11 +149,11 @@ public final class AbyssItemsConfig {
         number(
                 b,
                 "witnessBonus",
-                .15,
+                .20,
                 0,
                 1000,
-                "见证状态下，夜间的固定伤害加成比例；0.15 表示提高 15%，0 表示不提供加成。",
-                "Fixed nighttime damage bonus with Witness; 0.15 means a 15% increase, and 0"
+                "见证状态下，夜间的固定伤害加成比例；0.20 表示提高 20%，0 表示不提供加成。",
+                "Fixed nighttime damage bonus with Witness; 0.20 means a 20% increase, and 0"
                         + " disables the bonus.");
     }
 

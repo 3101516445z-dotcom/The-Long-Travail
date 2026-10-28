@@ -51,14 +51,14 @@ public final class BoundlessItemsConfig {
         n(
                 b,
                 "lorentz.damage",
-                .25,
+                .50,
                 0,
                 100,
                 "洛伦兹幻想：恶意状态下，投射物伤害的加成比例。\nLorentz Fantasy: fractional projectile damage bonus while Malice is active.");
         n(
                 b,
                 "lorentz.headshot",
-                .25,
+                .40,
                 0,
                 100,
                 "洛伦兹幻想：恶意状态下，箭矢爆头的额外伤害加成比例，与普通伤害加成相加。\nLorentz Fantasy: additional "

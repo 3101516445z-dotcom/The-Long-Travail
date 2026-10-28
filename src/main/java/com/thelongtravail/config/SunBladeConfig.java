@@ -10,8 +10,8 @@ public final class SunBladeConfig {
     public static final Map<String, ForgeConfigSpec.DoubleValue> VALUES = new LinkedHashMap<>();
 
     public static void sun(ForgeConfigSpec.Builder b) {
-        define(b, "sun_chaser.projectileBonus", .30, 100, "弹射物增伤比例 / Projectile damage bonus");
-        define(b, "sun_chaser.burningBonus", .20, 100, "燃烧目标增伤比例 / Burning target damage bonus");
+        define(b, "sun_chaser.projectileBonus", .50, 100, "弹射物增伤比例 / Projectile damage bonus");
+        define(b, "sun_chaser.burningBonus", .30, 100, "燃烧目标增伤比例 / Burning target damage bonus");
         define(
                 b,
                 "sun_chaser.healing",
@@ -27,7 +27,7 @@ public final class SunBladeConfig {
         define(
                 b,
                 "sun_chaser.strikeFraction",
-                .025,
+                .01,
                 1,
                 "追加直击占目标最大生命比例，不再增伤或必杀 / Additional direct strike fraction of target maximum"
                         + " health; no bonus or critical");

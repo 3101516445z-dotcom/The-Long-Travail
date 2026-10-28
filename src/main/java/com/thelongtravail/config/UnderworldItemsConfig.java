@@ -15,7 +15,7 @@ public final class UnderworldItemsConfig {
                     case "king.burningBonus" ->
                             "冥府之恶意下，对燃烧目标造成的伤害加成比例；0.15 表示增加 15%。\n"
                                 + "Under Underworld Malice, fractional damage bonus against burning"
-                                + " targets; 0.15 means +15%.";
+                                + " targets; 0.30 means +30%.";
                     case "king.lifesteal" ->
                             "冥府之恶意下，按目标实际损失生命值恢复自身生命的比例；0.05 表示 5%。见切反伤不触发。\n"
                                 + "Under Underworld Malice, heal for this fraction of the target's"
@@ -35,13 +35,13 @@ public final class UnderworldItemsConfig {
                                     + "Under Underworld Witness, fractional damage bonus in a"
                                     + " Nether-tagged biome or without open sky; 0.1 means +10%.";
                     case "banner.maliceCriticalPerSoul" ->
-                            "冥府之恶意下，每点有效魂数增加的暴击率；0.00002 表示增加 0.002 个百分点。\n"
+                            "冥府之恶意下，每点有效魂数增加的暴击率；0.00005 表示增加 0.005 个百分点。\n"
                                 + "Under Underworld Malice, critical-chance increase per effective"
-                                + " soul; 0.00002 adds 0.002 percentage points.";
+                                + " soul; 0.00005 adds 0.005 percentage points.";
                     case "banner.witnessCriticalPerSoul" ->
-                            "冥府之见证下，每点有效魂数增加的暴击率；0.00001 表示增加 0.001 个百分点。\n"
+                            "冥府之见证下，每点有效魂数增加的暴击率；0.00002 表示增加 0.002 个百分点。\n"
                                 + "Under Underworld Witness, critical-chance increase per effective"
-                                + " soul; 0.00001 adds 0.001 percentage points.";
+                                + " soul; 0.00002 adds 0.002 percentage points.";
                     case "banner.insightPerSoul" ->
                             "冥府之见证下，每点有效魂数增加的见切属性值；总加值受 insightCap 限制。\n"
                                 + "Under Underworld Witness, flat Insight increase per effective"
@@ -64,11 +64,11 @@ public final class UnderworldItemsConfig {
 
     public static void define(ForgeConfigSpec.Builder b) {
         SunBladeConfig.blade(b);
-        relic(b, "king.burningBonus", .15, 1000);
+        relic(b, "king.burningBonus", .30, 1000);
         relic(b, "king.lifesteal", .05, 1);
-        relic(b, "king.undeadReduction", .20, 1);
+        relic(b, "king.undeadReduction", .25, 1);
         relic(b, "king.overlord", .10, 1);
-        relic(b, "king.environmentBonus", .10, 1000);
+        relic(b, "king.environmentBonus", .15, 1000);
         SOUL_CAPACITY =
                 b.comment(
                                 "万魂幡的容量上限；调低后只限制实际生效的魂数，不删除已储存的魂。\n"
@@ -76,17 +76,17 @@ public final class UnderworldItemsConfig {
                                     + " limits the number of souls that take effect without"
                                     + " deleting stored souls.")
                         .defineInRange("items.relics.banner.capacity", 10000, 1, 1000000000);
-        relic(b, "banner.maliceCriticalPerSoul", .00002, 1);
-        relic(b, "banner.witnessCriticalPerSoul", .00001, 1);
+        relic(b, "banner.maliceCriticalPerSoul", .00005, 1);
+        relic(b, "banner.witnessCriticalPerSoul", .00002, 1);
         relic(b, "banner.insightPerSoul", .001, 1000000);
         relic(b, "banner.insightCap", 10, 1000000);
         WITHER_BONUS =
                 b.comment(
-                                "一千年后：每级凋零提供的伤害加成比例；0.15表示提高15%。此加成与本模组其他同类伤害加成相加。\n"
+                                "一千年后：每级凋零提供的伤害加成比例；0.30表示提高30%。此加成与本模组其他同类伤害加成相加。\n"
                                     + "A Thousand Years Later: fractional damage bonus per Wither"
-                                    + " level; 0.15 means +15%. Adds to other damage bonuses of the"
+                                    + " level; 0.30 means +30%. Adds to other damage bonuses of the"
                                     + " same kind from this mod.")
-                        .defineInRange("items.thousandYears.witherBonusPerLevel", .15, 0, 1000000);
+                        .defineInRange("items.thousandYears.witherBonusPerLevel", .30, 0, 1000000);
         KILL_THRESHOLD =
                 b.comment(
                                 "死者之书：generic_kill伤害在减免前达到此值时，无法触发死者苏生与冥府之见证。\n"

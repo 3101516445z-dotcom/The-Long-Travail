@@ -116,32 +116,32 @@ public final class FarReachItemsConfig {
         n(
                 b,
                 "icarus.malicePeak",
-                .4,
+                .5,
                 0,
                 1000,
-                "穷遐之恶意生效时，未同时满足露天和晴天条件的环境中，正午时的伤害加成比例；0.4表示提高40%。夜晚不提供此项加成。\n"
+                "穷遐之恶意生效时，未同时满足露天和晴天条件的环境中，正午时的伤害加成比例；0.5表示提高50%。夜晚不提供此项加成。\n"
                     + "Noon damage bonus with Far Reach Malice active when the open-sky and"
-                    + " clear-weather conditions are not both met; 0.4 means +40%. This bonus is"
+                    + " clear-weather conditions are not both met; 0.5 means +50%. This bonus is"
                     + " zero at night.");
         n(
                 b,
                 "icarus.sunnyPeak",
-                .6,
+                .75,
                 0,
                 1000,
                 "穷遐之恶意生效时，露天且晴天条件下的正午伤害加成比例；\n"
-                        + "0.6表示提高60%。\n"
+                        + "0.75表示提高75%。\n"
                         + "末地始终视为晴天，下界始终不视为晴天；\n"
                         + "昼夜均按世界时间判断。\n"
                         + "Noon damage bonus with Far Reach Malice active under open sky in clear"
                         + " weather.\n"
-                        + "0.6 means +60%.\n"
+                        + "0.75 means +75%.\n"
                         + "The End always counts as clear weather, and the Nether never does.\n"
                         + "Day and night are determined by world time in all dimensions.");
         n(
                 b,
                 "icarus.witnessBonus",
-                .15,
+                .20,
                 0,
                 1000,
                 "见证分支露天时的固定增伤比例，不受时间与天气限制。\n"

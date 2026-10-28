@@ -12,7 +12,7 @@ public final class FarReachRelicsConfig {
         n(
                 b,
                 "don_quixote.sizeFactor",
-                .25,
+                .40,
                 0,
                 100,
                 "综合尺寸每比标准玩家多出一倍时，增加的伤害加成比例。\n"
@@ -38,7 +38,7 @@ public final class FarReachRelicsConfig {
         n(
                 b,
                 "don_quixote.trueFraction",
-                .02,
+                .04,
                 0,
                 1,
                 "追加真伤占目标最大生命的比例，不重复获得输出加成。\n"

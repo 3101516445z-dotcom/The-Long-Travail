@@ -48,11 +48,11 @@ public final class SwordLanternConfig {
                                         + "seconds. Unequipping the accessory resets the timer.")
                         .defineInRange("prolongedCombatSeconds", 300D, 0D, 1_000_000D);
         CROWD_BONUS =
-                bonus(b, "crowdBonus", .25, "敌人数达到围攻阈值", "Enemy count reaches the crowd threshold");
-        UNDEAD_BONUS = bonus(b, "undeadBonus", .08, "存在亡灵敌人", "Undead enemy present");
-        ALONE_BONUS = bonus(b, "aloneBonus", .05, "独行", "Fighting alone");
-        PROLONGED_BONUS = bonus(b, "prolongedBonus", .25, "持续战斗超过阈值", "Prolonged combat");
-        LOW_HEALTH_BONUS = bonus(b, "lowHealthBonus", .20, "生命低于阈值", "Low health");
+                bonus(b, "crowdBonus", .40, "敌人数达到围攻阈值", "Enemy count reaches the crowd threshold");
+        UNDEAD_BONUS = bonus(b, "undeadBonus", .15, "存在亡灵敌人", "Undead enemy present");
+        ALONE_BONUS = bonus(b, "aloneBonus", .10, "独行", "Fighting alone");
+        PROLONGED_BONUS = bonus(b, "prolongedBonus", .50, "持续战斗超过阈值", "Prolonged combat");
+        LOW_HEALTH_BONUS = bonus(b, "lowHealthBonus", .25, "生命低于阈值", "Low health");
         HEALTH =
                 b.comment(
                                 "佩戴者当前生命值占最大生命值的比例低于此值时，获得伤害加成；计算时不计入吸收生命值。\nGrants a damage bonus while "

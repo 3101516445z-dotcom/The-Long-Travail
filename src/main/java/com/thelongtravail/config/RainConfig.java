@@ -71,7 +71,7 @@ public final class RainConfig {
                 number(
                         b,
                         "items.eki.immunityChance",
-                        .75,
+                        .40,
                         0,
                         1,
                         "归墟之见证生效时，駅额外取消伤害的概率。\n"
