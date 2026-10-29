@@ -20,8 +20,7 @@ public abstract class FluidAbsorptionMixin {
     private float theLongTravail$fluidBypassesAbsorption(
             Player player, DamageSource source, float amount) {
         return (source.is(TrueDamage.FLUID)
-                        || (com.thelongtravail.flourishing.FloralCombat.rose(source)
-                                || com.thelongtravail.farreach.DonQuixoteCombat.secondary(source)))
+                        || source.is(com.thelongtravail.combat.DirectStrikeDamage.TYPE))
                 ? 0F
                 : player.getAbsorptionAmount();
     }

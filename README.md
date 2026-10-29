@@ -128,3 +128,7 @@ Caelus、Embeddium、Jade、JEI、女仆、Apotheosis、Placebo、Quark 和 Zeta
 本项目的源代码、资源与文档均采用 [Mozilla Public License 2.0](LICENSE) 许可。
 
 仓库附带的 Gradle Wrapper 保留其原有 Apache-2.0 许可声明；第三方依赖保留各自的许可证。
+
+## 札记与古今语怪
+
+旅行札记包含卷首、题记与六主题篇章；拾遗为直击伤害、处决、见切、必杀、霸主提供首次出现处的悬浮解释。无垠主题物品[古今语怪](docs/玩家查阅/古今语怪.md)可通过合成提取或赋予附魔，并按诅咒类型筛选。

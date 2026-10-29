@@ -52,7 +52,7 @@
   "tooltip.the_long_travail.relic.banner.persistence": "解萬魂幡、授他人，或易冥府之態，已成之魂不歸於零。",
   "tooltip.the_long_travail.summary.myriad_souls_banner.2": "§d冥府已見證時，§r佩者之§6見切§r與§6必殺§r隨魂而增。",
   "item.the_long_travail.kagotsurube": "籠釣瓶",
-  "tooltip.the_long_travail.summary.kagotsurube.0": "束於腰，傷敵則施凋零，已有則延之。冥府惡意增見切與霸主，見證化自身所致之傷為直擊。",
+  "tooltip.the_long_travail.summary.kagotsurube.0": "束於腰，傷敵則施凋零，已有則延之。冥府惡意增見切與霸主，見證化自身所致之傷為直擊傷害。",
   "tooltip.the_long_travail.kagotsurube.base": "佩者造成傷害時，施目標以凋零Ⅰ，持續%s秒。",
   "tooltip.the_long_travail.kagotsurube.extend": "若目標已有凋零，則存其原級，延時%s秒。",
   "tooltip.the_long_travail.kagotsurube.malice_heading": "若佩苦旅，且此時冥府尚有惡意，則：",

@@ -41,7 +41,7 @@
   "message.the_long_travail.journey.invalid_pool": "旅途條件設定有誤，暫時無法開啟新的旅途。請聯絡管理員；原有進度與道具已保留。",
   "message.the_long_travail.journey.no_diary": "請先佩戴苦旅。",
   "message.the_long_travail.journey.uninitialized": "苦旅的旅程尚未生成，請檢查條件設定。",
-  "message.the_long_travail.journey.invalid_data": "旅程資料無效，未進行修改。",
+  "message.the_long_travail.journey.invalid_data": "旅程資料無效，未進行修改",
   "message.the_long_travail.journey.no_conditions": "該主題沒有可供抽取的反轉條件。",
   "message.the_long_travail.journey.no_records": "該主題沒有未完成的旅程記錄。",
   "message.the_long_travail.journey.stale": "旅程或手持物品已發生變化，請重試。",
@@ -66,5 +66,10 @@
   "structure.minecraft.fortress": "地獄要塞",
   "structure.minecraft.bastion_remnant": "堡壘遺跡",
   "structure.minecraft.stronghold": "要塞",
-  "structure.minecraft.end_city": "終界城"
+  "structure.minecraft.end_city": "終界城",
+  "gui.the_long_travail.diary.preface.title": "卷首",
+  "gui.the_long_travail.diary.preface.bookmark_hint": "苦旅之扉頁",
+  "gui.the_long_travail.diary.preface.right_title": "題記",
+  "gui.the_long_travail.diary.preface.left": "世界啊，世界；\n我從伊始的來由向你走去。\n你目光垂落，惡意浸潤我魂；\n我啖你血肉，遍走八方全地。\n\n你將永恆，我將踏足。\n你要見證我心我為；\n於是拂去我肩頭的沉疴。",
+  "gui.the_long_travail.diary.preface.right": "我在你中，與你同行。\n森，海，荒，地；\n受身惡火，至於終境。\n\n你擲出石頭，賜我試煉；\n讓千瘡百孔的苦難流淌。\n而我將你喚醒；\n使你遠離不可抗拮的命運。"
 }

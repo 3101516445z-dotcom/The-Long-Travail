@@ -55,10 +55,9 @@ public abstract class LivingCombatMixin {
                             target =
                                     "Lnet/minecraft/world/entity/LivingEntity;getAbsorptionAmount()F",
                             ordinal = 0))
-    private float travail$roseAbsorption(
+    private float travail$directStrikeAbsorption(
             LivingEntity entity, Operation<Float> original, DamageSource source, float amount) {
-        return (com.thelongtravail.flourishing.FloralCombat.rose(source)
-                        || com.thelongtravail.farreach.DonQuixoteCombat.secondary(source))
+        return source.is(com.thelongtravail.combat.DirectStrikeDamage.TYPE)
                 ? 0F
                 : original.call(entity);
     }
@@ -71,15 +70,14 @@ public abstract class LivingCombatMixin {
                             target =
                                     "Lnet/minecraft/world/entity/LivingEntity;setAbsorptionAmount(F)V",
                             ordinal = 1))
-    private void travail$preserveRoseAbsorption(
+    private void travail$preserveDirectStrikeAbsorption(
             LivingEntity entity,
             float absorption,
             Operation<Void> original,
             DamageSource source,
             float amount) {
         float before = entity.getAbsorptionAmount();
-        if (!(com.thelongtravail.flourishing.FloralCombat.rose(source)
-                || com.thelongtravail.farreach.DonQuixoteCombat.secondary(source)))
+        if (!source.is(com.thelongtravail.combat.DirectStrikeDamage.TYPE))
             original.call(
                     entity,
                     com.thelongtravail.valley.AzraelExecution.matches(entity, source)
@@ -104,7 +102,7 @@ public abstract class LivingCombatMixin {
             DamageSource source,
             float amount) {
         float before = entity.getAbsorptionAmount();
-        if (!com.thelongtravail.farreach.DonQuixoteCombat.secondary(source))
+        if (!source.is(com.thelongtravail.combat.DirectStrikeDamage.TYPE))
             original.call(
                     entity,
                     com.thelongtravail.valley.AzraelExecution.matches(entity, source)

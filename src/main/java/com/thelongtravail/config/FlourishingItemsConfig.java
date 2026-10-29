@@ -276,9 +276,9 @@ public final class FlourishingItemsConfig {
                                     + "Fractional increase in the duration of Poison, Wither, Slowness,"
                                     + " and Weakness effects applied.";
                     case ROSE_BUSH ->
-                            "反伤占玩家当前最大生命值的比例；真实伤害，不受增伤影响。\n"
+                            "反伤占玩家当前最大生命值的比例；直击伤害，不受增伤影响。\n"
                                     + "Retaliation damage as a fraction of the player's current maximum"
-                                    + " health. Deals true damage and is unaffected by damage bonuses.";
+                                    + " health. Deals direct strike damage and is unaffected by damage bonuses.";
                     case PEONY -> "最大生命值的增加比例。\nFractional increase in maximum health.";
                     case PITCHER_PLANT ->
                             "每次击杀敌对生物时，恢复量占佩戴者最大生命值的比例。\n"

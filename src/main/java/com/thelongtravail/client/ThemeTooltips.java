@@ -247,6 +247,12 @@ public final class ThemeTooltips {
                 for (int i = 0; i < (id.equals("underground_velvet") ? 3 : 2); i++)
                     out.add(text(id + "." + i));
             }
+            case "ancient_strange_tales" ->
+                    out.addAll(
+                            com.thelongtravail.client.catalog.CatalogTextStyle.apply(
+                                    java.util.List.of(
+                                            Component.translatable(PREFIX + id + ".0"),
+                                            Component.translatable(PREFIX + id + ".1"))));
             case "liquefied_abundance" ->
                     out.addAll(
                             com.thelongtravail.client.catalog.CatalogTextStyle.apply(

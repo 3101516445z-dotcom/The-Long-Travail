@@ -41,7 +41,7 @@
   "message.the_long_travail.journey.invalid_pool": "途之條件有誤，暫不能啟新途。請告有司；舊有進度與道具皆存。",
   "message.the_long_travail.journey.no_diary": "請先佩苦旅。",
   "message.the_long_travail.journey.uninitialized": "苦旅之途未生，請察其條件。",
-  "message.the_long_travail.journey.invalid_data": "途之數據無效，未改。",
+  "message.the_long_travail.journey.invalid_data": "途之數據無效，未改",
   "message.the_long_travail.journey.no_conditions": "該主題無逆條可抽。",
   "message.the_long_travail.journey.no_records": "該主題無未竟之記。",
   "message.the_long_travail.journey.stale": "途或所持已變，請重試。",
@@ -66,5 +66,10 @@
   "structure.minecraft.fortress": "下界要塞",
   "structure.minecraft.bastion_remnant": "堡壘遺址",
   "structure.minecraft.stronghold": "要塞",
-  "structure.minecraft.end_city": "終界城"
+  "structure.minecraft.end_city": "終界城",
+  "gui.the_long_travail.diary.preface.title": "卷首",
+  "gui.the_long_travail.diary.preface.bookmark_hint": "苦旅之扉頁",
+  "gui.the_long_travail.diary.preface.right_title": "題記",
+  "gui.the_long_travail.diary.preface.left": "天地兮，天地；\n吾自肇始之由，行而向汝。\n汝垂其目，惡意浸吾魂；\n吾啖汝血肉，遍履八方。\n\n汝將長存，吾將躬至。\n汝欲見證吾心吾行；\n遂拂吾肩之沉疴。",
+  "gui.the_long_travail.diary.preface.right": "吾處汝中，與汝偕往。\n森，海，荒，地；\n身受惡火，至於終境。\n\n汝擲石頭，授吾以試；\n任百孔千瘡之苦流淌。\n而吾將喚汝醒；\n使汝遠不可抗之命。"
 }

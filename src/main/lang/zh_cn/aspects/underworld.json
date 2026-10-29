@@ -52,7 +52,7 @@
   "tooltip.the_long_travail.relic.banner.persistence": "摘下万魂幡、转交他人或切换冥府状态时，已有魂数不会清零。",
   "tooltip.the_long_travail.summary.myriad_souls_banner.2": "§d冥府已然见证时，§r佩戴者的§6见切§r与§6必杀§r随魂数提高。",
   "item.the_long_travail.kagotsurube": "籠釣瓶",
-  "tooltip.the_long_travail.summary.kagotsurube.0": "腰带。造成伤害时施加或延长凋零；冥府恶意强化见切与霸主，见证将玩家来源伤害转为直击。",
+  "tooltip.the_long_travail.summary.kagotsurube.0": "腰带。造成伤害时施加或延长凋零；冥府恶意强化见切与霸主，见证将玩家来源伤害转为直击伤害。",
   "tooltip.the_long_travail.kagotsurube.base": "佩戴者造成伤害时，对目标施加凋零Ⅰ，持续%s秒。",
   "tooltip.the_long_travail.kagotsurube.extend": "若目标已有凋零效果，则保留原等级，持续时间延长%s秒。",
   "tooltip.the_long_travail.kagotsurube.malice_heading": "若佩戴了苦旅，且此时冥府尚有恶意，则：",

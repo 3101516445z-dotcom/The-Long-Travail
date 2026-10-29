@@ -14,7 +14,7 @@
   "gui.the_long_travail.diary.prose.deep_valley.witness": "旅人循谷徑而前，\n自幽深處仰觀，\n見霧氣、苔痕、蛛絲，\n共映不可及之高天。\n\n回響之囈語不知何時而默，\n無人知曉之事，\n於水窪輕輕而暈。\n有無垢之物，\n循溪緩流。",
   "gui.the_long_travail.diary.prose.deep_valley.malice": "日輪在上，月影在下，\n谷底搖搖，\n若誰遺落之搖籃。\n\n來，來，更下少許。\n聲將近矣，\n名亦同矣。\n\n此岸也，彼世也，\n汝亦此地之人乎？",
   "tooltip.the_long_travail.deep_valley.malice.title": "幽谷尚有惡意時：",
-  "tooltip.the_long_travail.deep_valley.malice.effect": "• 受擊，有%1$s之率得奪視，持續%2$s秒。\n\n• 傷敵時，有%3$s之率得僵硬，持續%4$s秒。",
+  "tooltip.the_long_travail.deep_valley.malice.effect": "• 受擊，有%1$s之率得奪視，持續%2$s秒。奪視使受效者視野昏暗，所見之域縮小。\n\n• 傷敵時，有%3$s之率得僵硬，持續%4$s秒。僵硬使受效者不得移動。",
   "tooltip.the_long_travail.deep_valley.witness.title": "幽谷已然見證時：",
   "tooltip.the_long_travail.deep_valley.witness.effect": "• 免黑暗與失明之效。\n\n• 傷敵時，得迅捷%1$s，持續%2$s秒；得%3$s隨機增益，持續%4$s秒。此每%5$s秒至多一次。",
   "tooltip.the_long_travail.azrael.malice_title": "若此時幽谷尚有惡意，則：",
@@ -51,7 +51,7 @@
   "tooltip.the_long_travail.underground_velvet.base": "右鍵用之，耗§a1§r「§6地下絲絨§r」，有§a%s%%§r之率得§a8§r同種之礦，有§a%s%%§r之率得§a8§r同種之錠。",
   "tooltip.the_long_travail.underground_velvet.malice": "用地下絲絨後，另作一隨機之判：§a%3$s%%§r之率無所額得，§a%1$s%%§r之率得§a4§r廢礦之利，§a%2$s%%§r之率得§a2§r遠古城市之利。",
   "tooltip.the_long_travail.underground_velvet.witness": "用地下絲絨後，用者之§6經驗之級§r增§a15級§r。",
-  "message.the_long_travail.underground_velvet.failed": "不得全賞，此次未耗地下絲絨。",
+  "message.the_long_travail.underground_velvet.failed": "不得全賞，此次未耗地下絲絨",
   "tooltip.the_long_travail.summary.phosphophyllite.0": "§d幽谷尚有惡意時，§r佩者§6所有屬性§r增，§6所受之傷§r增。",
   "tooltip.the_long_travail.summary.phosphophyllite.1": "§d幽谷已然見證時，§r上之性加與傷增皆減，受擊時有率復§6命§r，溢者化為§6傷害吸收§r。",
   "tooltip.the_long_travail.summary.underground_velvet.0": "右鍵用之，耗§a1§r，得隨機§a一種§r之礦或錠。",
@@ -71,6 +71,6 @@
   "tooltip.the_long_travail.summary.high_frequency_tremor.0": "「§6高頻戰慄§r」採掘之能同獄髓鎬，而§6掘速§r更疾，§6耐久不損§r。",
   "tooltip.the_long_travail.summary.high_frequency_tremor.1": "§d幽谷尚有惡意時，§r§a主手持之§r並§a潛行右擊§r方塊，可立掘而多得其物。",
   "tooltip.the_long_travail.summary.high_frequency_tremor.2": "§d幽谷已然見證時，§r§a主手持之§r並§a潛行右擊§r方塊，可破§a任意§r方塊。",
-  "message.the_long_travail.high_frequency_tremor.failure": "高頻戰慄：特殊破壞有異，此次操作已止。",
+  "message.the_long_travail.high_frequency_tremor.failure": "特殊破壞有異，高頻戰慄此次操作已止",
   "message.the_long_travail.high_frequency_tremor.blacklisted": "高頻戰慄：此方塊列於禁毀名錄。"
 }

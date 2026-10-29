@@ -37,7 +37,34 @@ public final class AbundanceSmoke {
     private int checks;
     private boolean done;
 
+    private static boolean throwInstant, throwDisplay;
+    private static final net.minecraftforge.registries.DeferredRegister<MobEffect> EFFECTS =
+            net.minecraftforge.registries.DeferredRegister.create(
+                    ForgeRegistries.MOB_EFFECTS, "travail_smoke");
+    private static final net.minecraftforge.registries.RegistryObject<MobEffect> FAULT =
+            EFFECTS.register(
+                    "fault",
+                    () ->
+                            new MobEffect(MobEffectCategory.NEUTRAL, 0) {
+                                @Override
+                                public boolean isInstantenous() {
+                                    if (throwInstant)
+                                        throw new IllegalStateException("injected registry effect");
+                                    return false;
+                                }
+
+                                @Override
+                                public net.minecraft.network.chat.Component getDisplayName() {
+                                    if (throwDisplay)
+                                        throw new IllegalStateException(
+                                                "injected potion presentation");
+                                    return super.getDisplayName();
+                                }
+                            });
+
     public AbundanceSmoke() {
+        EFFECTS.register(
+                net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext.get().getModEventBus());
         MinecraftForge.EVENT_BUS.addListener(this::start);
         MinecraftForge.EVENT_BUS.addListener(this::tick);
     }
@@ -94,6 +121,58 @@ public final class AbundanceSmoke {
                 "level/duration association");
         check(table.get(1).levels().get(0).durations().equals(List.of(1)), "instant placeholder");
         check(table.get(2).levels().get(0).durations().equals(List.of(300)), "15-second fallback");
+        Potion throwingPotion =
+                new Potion() {
+                    @Override
+                    public List<MobEffectInstance> getEffects() {
+                        throw new IllegalStateException("injected potion");
+                    }
+                };
+        Potion nullEffects =
+                new Potion() {
+                    @Override
+                    public List<MobEffectInstance> getEffects() {
+                        return null;
+                    }
+                };
+        Potion nullEntry =
+                new Potion() {
+                    @Override
+                    public List<MobEffectInstance> getEffects() {
+                        return Arrays.asList(null, new MobEffectInstance(speed, 80, 1));
+                    }
+                };
+        MobEffect brokenEffect =
+                new MobEffect(MobEffectCategory.NEUTRAL, 0) {
+                    @Override
+                    public boolean isInstantenous() {
+                        throw new IllegalStateException("injected effect");
+                    }
+                };
+        var resilient =
+                AbundanceEffectPool.build(
+                        Arrays.asList(speed, glow, brokenEffect, null),
+                        Arrays.asList(throwingPotion, nullEffects, nullEntry, null),
+                        Set.of(),
+                        300);
+        check(
+                resilient.size() == 2
+                        && resilient.get(0).effect() == speed
+                        && resilient.get(1).effect() == glow,
+                "isolate malformed potion and effect entries");
+        check(
+                resilient.get(0).levels().get(0).durations().equals(List.of(80)),
+                "valid sample survives null sibling");
+        check(
+                resilient.get(1).levels().get(0).durations().equals(List.of(300)),
+                "normal effect fallback survives potion failures");
+        var brokenSample =
+                AbundanceEffectPool.build(
+                        List.of(brokenEffect),
+                        List.of(new Potion(new MobEffectInstance(brokenEffect, 100))),
+                        Set.of(),
+                        300);
+        check(brokenSample.isEmpty(), "broken callback excluded instead of fallback");
         var random = RandomSource.create(54321);
         Set<String> seen = new HashSet<>();
         for (int i = 0; i < 2000; i++) {
@@ -385,13 +464,13 @@ public final class AbundanceSmoke {
         check(
                 BrewingRecipeRegistry.getOutput(
                                 new ItemStack(Items.DRAGON_BREATH),
-                                new ItemStack(Items.LAPIS_BLOCK))
+                                new ItemStack(Items.AMETHYST_SHARD))
                         .is(item),
                 "brew recipe output");
         check(
                 BrewingRecipeRegistry.getOutput(
                                 new ItemStack(Items.DRAGON_BREATH, 2),
-                                new ItemStack(Items.LAPIS_BLOCK))
+                                new ItemStack(Items.AMETHYST_SHARD))
                         .isEmpty(),
                 "bottle count guard");
         BlockPos pos = new BlockPos(8, 80, 8);
@@ -402,7 +481,7 @@ public final class AbundanceSmoke {
                 stand.canPlaceItem(0, new ItemStack(Items.DRAGON_BREATH)),
                 "automated bottle insertion");
         for (int i = 0; i < 3; i++) stand.setItem(i, new ItemStack(Items.DRAGON_BREATH));
-        stand.setItem(3, new ItemStack(Items.LAPIS_BLOCK));
+        stand.setItem(3, new ItemStack(Items.AMETHYST_SHARD));
         stand.setItem(4, new ItemStack(Items.BLAZE_POWDER));
         for (int i = 0; i < 402; i++)
             BrewingStandBlockEntity.serverTick(world, pos, world.getBlockState(pos), stand);
@@ -410,11 +489,12 @@ public final class AbundanceSmoke {
             check(
                     stand.getItem(i).is(item) && stand.getItem(i).getCount() == 1,
                     "actual brew bottle " + i);
-        check(stand.getItem(3).isEmpty(), "one lapis block per batch");
+        check(stand.getItem(3).isEmpty(), "one amethyst shard per batch");
         var crafting = new TransientCraftingContainer(player.inventoryMenu, 3, 3);
-        crafting.setItem(0, new ItemStack(Items.HONEY_BOTTLE));
-        for (int slot = 1; slot <= 3; slot++) crafting.setItem(slot, new ItemStack(Items.GLASS_BOTTLE));
-        crafting.setItem(4, new ItemStack(Items.LAPIS_LAZULI));
+        for (int slot = 0; slot < 6; slot++)
+            crafting.setItem(slot, new ItemStack(Items.GLASS_BOTTLE));
+        crafting.setItem(6, new ItemStack(Items.AMETHYST_SHARD));
+        crafting.setItem(7, new ItemStack(Items.NETHER_WART));
         crafting.setItem(8, new ItemStack(Items.MILK_BUCKET));
         var recipe =
                 (net.minecraft.world.item.crafting.CraftingRecipe)
@@ -422,10 +502,51 @@ public final class AbundanceSmoke {
                                 .byKey(new ResourceLocation("the_long_travail:liquefied_abundance"))
                                 .orElseThrow();
         check(recipe.matches(crafting, world), "shapeless match");
-        check(recipe.assemble(crafting, world.registryAccess()).is(item) && recipe.assemble(crafting, world.registryAccess()).getCount() == 4, "craft output count four");
+        check(
+                recipe.assemble(crafting, world.registryAccess()).is(item)
+                        && recipe.assemble(crafting, world.registryAccess()).getCount() == 6,
+                "craft output count six");
         var remainders = recipe.getRemainingItems(crafting);
         check(
                 remainders.get(0).isEmpty() && remainders.get(8).is(Items.BUCKET) && remainders.stream().filter(remainder -> !remainder.isEmpty()).count() == 1,
                 "craft container returns");
+        var oldWhitelist = AbyssItemsConfig.ABUNDANCE_WHITELIST.get();
+        try {
+            AbyssItemsConfig.ABUNDANCE_WHITELIST.set(List.of("travail_smoke:fault"));
+            AbundanceEffectPool.reload();
+            throwDisplay = true;
+            player.getInventory().clearContent();
+            var protectedInput = new ItemStack(item, 3);
+            player.setItemInHand(InteractionHand.MAIN_HAND, protectedInput);
+            item.use(world, player, InteractionHand.MAIN_HAND);
+            check(
+                    item.finishUsingItem(protectedInput, world, player) == protectedInput
+                            && protectedInput.getCount() == 3,
+                    "output preparation failure preserves input");
+            player.stopUsingItem();
+            throwDisplay = false;
+            throwInstant = true;
+            AbundanceEffectPool.reload();
+            check(
+                    AbundanceEffectPool.ids().isEmpty() && AbundanceEffectPool.hasDataErrors(),
+                    "all broken effects produce diagnostic empty pool");
+            item.use(world, player, InteractionHand.MAIN_HAND);
+            check(
+                    item.finishUsingItem(protectedInput, world, player) == protectedInput
+                            && protectedInput.getCount() == 3,
+                    "broken empty pool preserves input");
+            player.stopUsingItem();
+            throwInstant = false;
+            AbundanceEffectPool.reload();
+            check(
+                    AbundanceEffectPool.ids().equals(List.of("travail_smoke:fault"))
+                            && !AbundanceEffectPool.hasDataErrors(),
+                    "reload recovers repaired effects");
+        } finally {
+            throwInstant = false;
+            throwDisplay = false;
+            AbyssItemsConfig.ABUNDANCE_WHITELIST.set(oldWhitelist);
+            AbundanceEffectPool.reload();
+        }
     }
 }

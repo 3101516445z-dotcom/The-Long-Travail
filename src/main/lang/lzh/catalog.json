@@ -33,5 +33,20 @@
   "gui.the_long_travail.catalog.details.essence.10": "此後須重竟%1$s之途，方復得見證。",
   "gui.the_long_travail.catalog.details.essence.11": "新抽之條或與舊同。",
   "gui.the_long_travail.catalog.details.essence.13": "精粹止及其屬，他主題之條、進度與見證如故。",
-  "gui.the_long_travail.catalog.details.essence.14": "用成耗一；未佩苦旅，或無可成之記，則不耗。"
+  "gui.the_long_travail.catalog.details.essence.14": "用成耗一；未佩苦旅，或無可成之記，則不耗。",
+  "gui.the_long_travail.catalog.glossary.direct_strike.title": "直擊傷害",
+  "gui.the_long_travail.catalog.glossary.direct_strike.aliases": "直擊傷害",
+  "gui.the_long_travail.catalog.glossary.direct_strike.body": "此傷可越護甲與韌性、附魔減傷、抗性提升、受傷無敵幀、盾牌格擋及傷害吸收（黃心），不耗原有黃心。",
+  "gui.the_long_travail.catalog.glossary.execution.title": "處決",
+  "gui.the_long_travail.catalog.glossary.execution.aliases": "處決",
+  "gui.the_long_travail.catalog.glossary.execution.body": "嘗試徑殺其目標；殺之後，未必循尋常擊殺之例結算。",
+  "gui.the_long_travail.catalog.glossary.insight.title": "見切",
+  "gui.the_long_travail.catalog.glossary.insight.aliases": "見切",
+  "gui.the_long_travail.catalog.glossary.insight.body": "受他源之傷時，依見切之值減其傷，並以等量傷害反擊其源。",
+  "gui.the_long_travail.catalog.glossary.critical.title": "必殺",
+  "gui.the_long_travail.catalog.glossary.critical.aliases": "必殺",
+  "gui.the_long_travail.catalog.glossary.critical.body": "造成傷害時，依其機率使此傷倍增。",
+  "gui.the_long_travail.catalog.glossary.overlord.title": "霸主",
+  "gui.the_long_travail.catalog.glossary.overlord.aliases": "霸主",
+  "gui.the_long_travail.catalog.glossary.overlord.body": "傷害不逾「霸主值×自身生命上限」者，免之。"
 }

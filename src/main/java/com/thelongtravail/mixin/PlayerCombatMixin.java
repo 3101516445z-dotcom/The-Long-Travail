@@ -27,7 +27,7 @@ public abstract class PlayerCombatMixin {
             DamageSource source,
             float amount) {
         float before = player.getAbsorptionAmount();
-        if (!com.thelongtravail.farreach.DonQuixoteCombat.secondary(source))
+        if (!source.is(com.thelongtravail.combat.DirectStrikeDamage.TYPE))
             original.call(
                     player,
                     com.thelongtravail.valley.AzraelExecution.matches(player, source)

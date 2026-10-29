@@ -14,7 +14,7 @@
   "gui.the_long_travail.diary.prose.deep_valley.witness": "旅人沿谷徑向前，\n身在幽深之處向上望去，\n看見霧氣、苔痕、蛛絲，\n共映出不可及的高天。\n\n迴響的囈語不知何時沉默，\n無人知曉的故事，\n在水窪輕輕暈開。\n有無垢之物，\n沿著溪流緩慢流淌。",
   "gui.the_long_travail.diary.prose.deep_valley.malice": "日輪在上，月影在下，\n谷底搖搖晃晃，\n像是誰遺落的搖籃。\n\n來吧，來吧，再往下一些。\n聲音會變得很近，\n名字也會變得一樣。\n\n此岸也好，彼世也罷，\n你也是這裡的人嗎？",
   "tooltip.the_long_travail.deep_valley.malice.title": "幽谷尚有惡意時：",
-  "tooltip.the_long_travail.deep_valley.malice.effect": "• 受擊時，有%1$s的機率獲得視覺剝奪，持續%2$s秒。\n\n• 造成傷害時，有%3$s的機率獲得僵硬，持續%4$s秒。",
+  "tooltip.the_long_travail.deep_valley.malice.effect": "• 受擊時，有%1$s的機率獲得視覺剝奪，持續%2$s秒。視覺剝奪會使效果持有者的視野變暗、可視範圍縮小。\n\n• 造成傷害時，有%3$s的機率獲得僵硬，持續%4$s秒。僵硬會使效果持有者無法移動。",
   "tooltip.the_long_travail.deep_valley.witness.title": "幽谷已然見證時：",
   "tooltip.the_long_travail.deep_valley.witness.effect": "• 免疫黑暗與失明效果。\n\n• 造成傷害時，獲得迅捷%1$s，持續%2$s秒；獲得%3$s個隨機增益效果，持續%4$s秒。此項每%5$s秒最多觸發1次。",
   "tooltip.the_long_travail.azrael.malice_title": "若此時幽谷尚有惡意，則：",
@@ -51,7 +51,7 @@
   "tooltip.the_long_travail.underground_velvet.base": "右鍵使用消耗§a1個§r「§6地下絲絨§r」，有§a%s%%§r的機率獲得§a8個§r同種礦石，有§a%s%%§r的機率獲得§a8個§r同種錠。",
   "tooltip.the_long_travail.underground_velvet.malice": "使用地下絲絨後額外進行一次隨機判定，§a%3$s%%§r的機率不獲得額外戰利品，§a%1$s%%§r的機率獲得§a4件§r廢棄礦坑戰利品，§a%2$s%%§r的機率獲得§a2件§r遠古城市戰利品。",
   "tooltip.the_long_travail.underground_velvet.witness": "使用地下絲絨後，用戶的§6經驗等級§r增加§a15級§r。",
-  "message.the_long_travail.underground_velvet.failed": "無法生成完整獎勵，本次未消耗地下絲絨。",
+  "message.the_long_travail.underground_velvet.failed": "無法生成完整獎勵，本次未消耗地下絲絨",
   "tooltip.the_long_travail.summary.phosphophyllite.0": "§d幽谷尚有惡意時，§r佩戴者§6所有屬性§r提高，§6受到的傷害§r提高。",
   "tooltip.the_long_travail.summary.phosphophyllite.1": "§d幽谷已然見證時，§r上述屬性加成與傷害增幅降低，受擊時有機率恢復§6生命值§r，溢出的治療量轉化為§6傷害吸收§r。",
   "tooltip.the_long_travail.summary.underground_velvet.0": "右鍵使用，消耗§a1個§r，獲得隨機§a一種§r礦石或錠。",
@@ -71,6 +71,6 @@
   "tooltip.the_long_travail.summary.high_frequency_tremor.0": "「§6高頻戰慄§r」具有獄髓鎬的採掘能力，且§6挖掘速度§r更快、§6不會損失耐久§r。",
   "tooltip.the_long_travail.summary.high_frequency_tremor.1": "§d幽谷尚有惡意時，§r§a主手持有§r並§a潛行右鍵§r方塊，可立即挖掘並獲得更多掉落物。",
   "tooltip.the_long_travail.summary.high_frequency_tremor.2": "§d幽谷已然見證時，§r§a主手持有§r並§a潛行右鍵§r方塊，可破壞§a任意§r方塊。",
-  "message.the_long_travail.high_frequency_tremor.failure": "高頻戰慄：特殊破壞發生異常，本次操作已停止。",
+  "message.the_long_travail.high_frequency_tremor.failure": "特殊破壞發生異常，高頻戰慄本次操作已停止",
   "message.the_long_travail.high_frequency_tremor.blacklisted": "高頻戰慄：該方塊已被列入破壞黑名單。"
 }

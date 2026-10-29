@@ -41,7 +41,7 @@
   "message.the_long_travail.journey.invalid_pool": "The journey configuration is invalid. Please contact the administrator. Your existing progress and items have been preserved.",
   "message.the_long_travail.journey.no_diary": "Equip the Long Travail first.",
   "message.the_long_travail.journey.uninitialized": "The Long Travail's journey has not been generated yet. Check its requirement configuration.",
-  "message.the_long_travail.journey.invalid_data": "Invalid journey data. No changes were made.",
+  "message.the_long_travail.journey.invalid_data": "Invalid journey data, no changes were made",
   "message.the_long_travail.journey.no_conditions": "This aspect has no journey requirements available to draw.",
   "message.the_long_travail.journey.no_records": "This aspect has no unfinished journey records.",
   "message.the_long_travail.journey.stale": "The journey or held item changed. Try again.",
@@ -66,5 +66,10 @@
   "structure.minecraft.fortress": "Nether Fortress",
   "structure.minecraft.bastion_remnant": "Bastion Remnant",
   "structure.minecraft.stronghold": "Stronghold",
-  "structure.minecraft.end_city": "End City"
+  "structure.minecraft.end_city": "End City",
+  "gui.the_long_travail.diary.preface.title": "Preface",
+  "gui.the_long_travail.diary.preface.bookmark_hint": "The Long Travail: Frontispiece",
+  "gui.the_long_travail.diary.preface.right_title": "Inscription",
+  "gui.the_long_travail.diary.preface.left": "O world, O world;\nfrom the cause of all beginnings\nI walk toward you.\nYour gaze falls, malice seeps into my soul;\nI eat your flesh and blood,\nand tread the earth in every direction.\n\nYou shall endure; I shall arrive.\nYou shall bear witness to my heart and deeds,\nand brush the old affliction from my shoulders.",
+  "gui.the_long_travail.diary.preface.right": "Within you, beside you, I go.\nForest, sea, waste, and earth;\nthrough cruel fire, to the final shore.\n\nYou cast a stone and grant me trials;\nlet suffering flow through a thousand wounds.\nAnd I shall wake you,\nand lead you far from inescapable fate."
 }

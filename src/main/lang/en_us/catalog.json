@@ -33,5 +33,20 @@
   "gui.the_long_travail.catalog.details.essence.10": "The journey of %1$s must then be completed again to regain its Witness.",
   "gui.the_long_travail.catalog.details.essence.11": "The new requirements may be the same as before.",
   "gui.the_long_travail.catalog.details.essence.13": "An essence only affects its corresponding theme. The requirements, progress, and Witnesses of other themes remain unchanged.",
-  "gui.the_long_travail.catalog.details.essence.14": "One essence is consumed on successful use. It is not consumed if The Long Travail is not equipped or there are no journey records available to complete."
+  "gui.the_long_travail.catalog.details.essence.14": "One essence is consumed on successful use. It is not consumed if The Long Travail is not equipped or there are no journey records available to complete.",
+  "gui.the_long_travail.catalog.glossary.direct_strike.title": "Direct Strike Damage",
+  "gui.the_long_travail.catalog.glossary.direct_strike.aliases": "direct strike damage|direct strike",
+  "gui.the_long_travail.catalog.glossary.direct_strike.body": "Damage that bypasses armor and toughness, enchantment protection, Resistance, damage immunity frames, shield blocking, and absorption (yellow hearts). Existing absorption is not consumed.",
+  "gui.the_long_travail.catalog.glossary.execution.title": "Execution",
+  "gui.the_long_travail.catalog.glossary.execution.aliases": "execution|execute|executes|executed",
+  "gui.the_long_travail.catalog.glossary.execution.body": "Attempts to kill the target directly. A successful kill may not follow normal kill processing.",
+  "gui.the_long_travail.catalog.glossary.insight.title": "Insight",
+  "gui.the_long_travail.catalog.glossary.insight.aliases": "Insight",
+  "gui.the_long_travail.catalog.glossary.insight.body": "When damaged by another source, reduces the damage by the Insight value and retaliates against that source for the same amount.",
+  "gui.the_long_travail.catalog.glossary.critical.title": "Critical Chance",
+  "gui.the_long_travail.catalog.glossary.critical.aliases": "Critical Chance",
+  "gui.the_long_travail.catalog.glossary.critical.body": "When dealing damage, has the corresponding chance to double that damage.",
+  "gui.the_long_travail.catalog.glossary.overlord.title": "Overlord",
+  "gui.the_long_travail.catalog.glossary.overlord.aliases": "Overlord",
+  "gui.the_long_travail.catalog.glossary.overlord.body": "Negates damage no greater than Overlord multiplied by your maximum health."
 }

@@ -46,6 +46,10 @@ public final class ModRegistry {
             MENUS.register(
                     "coloring",
                     () -> new MenuType<>(ColoringMenu::new, FeatureFlags.DEFAULT_FLAGS));
+    public static final RegistryObject<Item> ANCIENT_STRANGE_TALES =
+            ITEMS.register(
+                    "ancient_strange_tales", com.thelongtravail.item.AncientStrangeTalesItem::new);
+
     public static final RegistryObject<Item> COLORING =
             ITEMS.register("coloring", ColoringItem::new);
 
@@ -133,6 +137,17 @@ public final class ModRegistry {
     public static final RegistryObject<Item> LITTLE_PRINCE =
             ITEMS.register(
                     "little_prince", () -> new com.thelongtravail.item.BoundlessRelicItem(true));
+    public static final RegistryObject<
+                    RecipeSerializer<com.thelongtravail.boundless.EnchantmentTransferRecipe>>
+            ENCHANTMENT_TRANSFER =
+                    RECIPES.register(
+                            "enchantment_transfer",
+                            () ->
+                                    new net.minecraft.world.item.crafting
+                                            .SimpleCraftingRecipeSerializer<>(
+                                            com.thelongtravail.boundless.EnchantmentTransferRecipe
+                                                    ::new));
+
     public static final RegistryObject<Item> LORENTZ_FANTASY =
             ITEMS.register(
                     "lorentz_fantasy", () -> new com.thelongtravail.item.BoundlessRelicItem(false));
@@ -283,7 +298,8 @@ public final class ModRegistry {
                                                                                 FREE_AND_EASY_WANDERING,
                                                                                 STAR_VOICE,
                                                                                 LITTLE_PRINCE,
-                                                                                LORENTZ_FANTASY);
+                                                                                LORENTZ_FANTASY,
+                                                                                ANCIENT_STRANGE_TALES);
                                                             };
                                                     items.forEach(
                                                             item -> output.accept(item.get()));

@@ -1,5 +1,5 @@
 {
-  "message.the_long_travail.perfect_fluid.copy_failed": "完美流体复制失败：库存性质特殊，拒绝复制，材料已保留。",
+  "message.the_long_travail.perfect_fluid.copy_failed": "库存性质特殊，为规避异常，完美流体拒绝复制，材料已保留",
   "tooltip.the_long_travail.flavor.tokaido": "踏过樱花第几桥……",
   "tooltip.the_long_travail.flavor.eki": "穿过县界长长的隧道，便是雪国。",
   "tooltip.the_long_travail.flavor.perfect_fluid": "一即是全，全即是一。",
@@ -101,7 +101,7 @@
   "item.the_long_travail.abundance.drink": "%s药水",
   "item.the_long_travail.abundance.splash": "喷溅型%s药水",
   "item.the_long_travail.abundance.lingering": "滞留型%s药水",
-  "message.the_long_travail.abundance.empty": "没有可用的状态效果，未消耗液化丰饶。",
+  "message.the_long_travail.abundance.empty": "没有可用的状态效果，未消耗液化丰饶",
   "message.the_long_travail.abundance.charging": "蓄满后转化为随机%s",
   "tooltip.the_long_travail.abundance.summary": "手持时，长按右键蓄满后，可以将液化丰饶转化为随机药水。",
   "tooltip.the_long_travail.abundance.use": "手持「液化丰饶」时长按右键蓄力满%s秒，消耗一份液化丰饶，转化为随机药水。对堆叠的液化丰饶，每次长按只能转化一份，松开后才能再次使用。",
@@ -116,5 +116,7 @@
   "tooltip.the_long_travail.abundance.summary_switch": "若点按右键，则可以切换转化结果的药水类型（普通/喷溅/滞留）。",
   "tooltip.the_long_travail.abundance.switch": "手持液化丰饶时点按右键，可切换转化结果的药水类型，依次为普通药水、喷溅型药水与滞留型药水。",
   "tooltip.the_long_travail.flavor.liquefied_abundance": "今日和风细雨。干杯，我的朋友。",
-  "tooltip.the_long_travail.abundance.whitelist": "白名单仅允许抽取以下效果，黑名单优先；筛选后为空时取消转换且不消耗材料：%s。"
+  "tooltip.the_long_travail.abundance.whitelist": "白名单仅允许抽取以下效果，黑名单优先；筛选后为空时取消转换且不消耗材料：%s。",
+  "message.the_long_travail.abundance.data_error": "部分状态效果或药水数据异常，当前没有可用效果，未消耗液化丰饶",
+  "message.the_long_travail.abundance.failed": "本次转化发生异常，已取消本次操作，未消耗液化丰饶"
 }

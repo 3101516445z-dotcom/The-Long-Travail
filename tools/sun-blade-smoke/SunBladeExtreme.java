@@ -166,10 +166,10 @@ final class SunBladeExtreme {
                 t.hurt(source, amount);
                 float sum = amount + (burning ? 25 : 0);
                 check.accept(
-                        Math.abs(t.getHealth() - (1000 - Math.max(0, sum - absorption))) < .001,
+                        Math.abs(t.getHealth() - (1000 - sum)) < .001,
                         "independent absorption oracle " + i);
                 check.accept(
-                        Math.abs(t.getAbsorptionAmount() - Math.max(0, absorption - sum)) < .001,
+                        Math.abs(t.getAbsorptionAmount() - absorption) < .001,
                         "absorption remainder " + i);
                 check.accept(
                         t.calls == (burning ? 2 : 1) && t.extras == (burning ? 1 : 0),

@@ -1,0 +1,26 @@
+allprojects {
+ afterEvaluate {
+  dependencies { runtimeOnly files(project.findProperty('previewJeiJar') ?: new File(gradle.gradleUserHomeDir, 'caches/forge_gradle/deobf_dependencies/preview/jei-1.20.1-forge/15.20.0.132_mapped_official_1.20.1/jei-1.20.1-forge-15.20.0.132_mapped_official_1.20.1.jar')) }
+  sourceSets { glossaryPreview {
+   java.srcDir 'tools/structure-regression/glossary-preview'
+   resources.srcDir 'tools/structure-regression/abundance-resources'
+   compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+   runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+  } }
+  def directory=project.file('build/glossary-preview')
+  minecraft.runs.client {
+   workingDirectory directory
+   args '--width','1280','--height','900'
+   mods { travail_smoke { source sourceSets.glossaryPreview } }
+  }
+  tasks.matching { it.name=='runClient' }.configureEach {
+   doFirst {
+    directory.mkdirs()
+    if(!new File(directory,'saves/preview/level.dat').exists()) {
+     copy { from project.file('build/abundance-server/abundance'); into new File(directory,'saves/preview') }
+    }
+    new File(directory,'options.txt').text='lang:zh_cn\nguiScale:2\npauseOnLostFocus:false\nrenderDistance:3\nsimulationDistance:5\nmaxFps:60\nonboardAccessibility:false\n'
+   }
+  }
+ }
+}

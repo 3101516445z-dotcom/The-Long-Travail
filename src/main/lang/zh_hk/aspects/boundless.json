@@ -64,5 +64,19 @@
   "tooltip.the_long_travail.lorentz.damage": "佩戴者§6造成的投射物傷害§r提高§a%1$s%%§r；射出的箭矢§a命中目標頭部§r時，造成的傷害額外提高§a%2$s%%§r。",
   "tooltip.the_long_travail.lorentz.witness_heading": "若此時無垠已然見證，則：",
   "tooltip.the_long_travail.lorentz.interval": "對§a同一目標§r的§6判定冷卻§r為§a%s秒§r。",
-  "tooltip.the_long_travail.little_prince.height": "%s格"
+  "tooltip.the_long_travail.little_prince.height": "%s格",
+  "item.the_long_travail.ancient_strange_tales": "古今語怪",
+  "tooltip.the_long_travail.summary.ancient_strange_tales.0": "以石英收錄附魔，以青金石將附魔轉移至物品。",
+  "tooltip.the_long_travail.ancient_strange_tales.details.0": "物品、地獄石英與古今語怪無序合成：將物品上的可接受附魔轉入本書。",
+  "tooltip.the_long_travail.ancient_strange_tales.details.1": "物品、青金石與古今語怪無序合成：將本書上的可接受附魔轉入物品。",
+  "tooltip.the_long_travail.ancient_strange_tales.details.2": "額外加入蜂蜜瓶只轉移非詛咒；加入發酵蜘蛛眼只轉移詛咒。兩者不能同時加入。",
+  "tooltip.the_long_travail.ancient_strange_tales.details.3": "同種附魔等級相加，上限255；溢出、衝突、不適用及被篩選排除的附魔留在來源。",
+  "tooltip.the_long_travail.ancient_strange_tales.details.4": "僅消耗石英或青金石以及篩選材料；蜂蜜瓶返還玻璃瓶。雙方物品與其他資料保留，每次處理一件。",
+  "tooltip.the_long_travail.ancient_strange_tales.details.5": "沒有可轉移附魔時不消耗材料；兩本古今語怪不能互轉。",
+  "tooltip.the_long_travail.ancient_strange_tales.details.6": "可放入雕紋書架，使用附魔台附魔，或在鐵砧改名、接受附魔書；本書不能作為鐵砧附魔材料。",
+  "tooltip.the_long_travail.ancient_strange_tales.details.7": "鐵砧沿用正常等級與費用規則；合併同種附魔可能將超限等級降回正常上限。",
+  "tooltip.the_long_travail.summary.ancient_strange_tales.1": "若再額外搭配蜂蜜瓶或發酵蜘蛛眼，還可以更明確地控制詛咒附魔的轉移。",
+  "tooltip.the_long_travail.flavor.ancient_strange_tales": "實博物之權輿，異苑之嚆矢。",
+  "message.the_long_travail.transfer.enchantment_failed": "附魔「%s」在轉移檢查時發生異常，已取消本次操作，材料未消耗",
+  "message.the_long_travail.transfer.failed": "本次附魔轉移發生異常，已取消本次操作，材料未消耗"
 }

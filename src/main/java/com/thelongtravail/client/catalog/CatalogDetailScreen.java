@@ -36,7 +36,7 @@ public final class CatalogDetailScreen extends Screen {
         this.session = session;
         this.fromParent = session.parent() != null;
         this.stack = stack.copy();
-        this.paragraphs = List.copyOf(paragraphs);
+        this.paragraphs = CatalogGlossary.annotate(paragraphs);
     }
 
     @Override
@@ -234,6 +234,7 @@ public final class CatalogDetailScreen extends Screen {
         emblem(g, left + panelWidth / 2, top + 78, 0xFFAD8754);
         session.scissor(g, left + 30, bodyTop, left + panelWidth - 46, bodyBottom);
         int contentOffsetY = Math.max(0, (viewport() - contentHeight) / 2);
+        String hoveredTerm = null;
         for (Row row : rows) {
             int y = bodyTop + contentOffsetY + row.y - (int) scroll;
             int alpha = rowAlpha(y);
@@ -249,7 +250,22 @@ public final class CatalogDetailScreen extends Screen {
                         0,
                         (alpha << 24) | (CatalogTextStyle.BODY & 0xFFFFFF),
                         false);
+                CatalogGlossary.drawUnderlines(g, font, row.text, alpha);
                 g.pose().popPose();
+                if (!dragging
+                        && alpha >= 128
+                        && mouseY >= bodyTop
+                        && mouseY < bodyBottom
+                        && mouseY >= y
+                        && mouseY < y + font.lineHeight * bodyTextScale
+                        && mouseX >= left + 34
+                        && mouseX < left + panelWidth - 46) {
+                    int textX = (int) ((mouseX - left - 34) / bodyTextScale);
+                    if (textX < font.width(row.text))
+                        hoveredTerm =
+                                CatalogGlossary.term(
+                                        font.getSplitter().componentStyleAtWidth(row.text, textX));
+                }
             }
         }
         g.disableScissor();
@@ -301,6 +317,9 @@ public final class CatalogDetailScreen extends Screen {
         String back = escapeHint().getString();
         g.drawString(
                 font, back, left + panelWidth - 33 - font.width(back), footerY, 0x9E886C, false);
+        if (hoveredTerm != null)
+            CatalogGlossary.render(
+                    g, font, hoveredTerm, mouseX, mouseY, width, height, bodyTextScale);
     }
 
     private Component escapeHint() {

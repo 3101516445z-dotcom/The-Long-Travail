@@ -1,0 +1,57 @@
+allprojects {
+    afterEvaluate {
+        def ftbMods = project.findProperty('tremorFtbMods')
+        def pressure = project.hasProperty('tremorPressure')
+        def directory = project.file(project.findProperty('tremorDirectory') ?: (pressure ? (ftbMods ? 'build/tremor-pressure-ftb' : 'build/tremor-pressure-core') : (ftbMods ? 'build/tremor-ftb-server' : 'build/tremor-server')))
+        if (ftbMods) {
+            def repo = project.file('build/tremor-ftb-repo')
+            repo.mkdirs()
+            repositories { flatDir { dirs repo } }
+            def testMods = ['ftb-ultimine', 'ftb-library', 'ftb-teams', 'architectury']
+            if (project.hasProperty('tremorExtras')) testMods.addAll(project.property('tremorExtras').split(','))
+            testMods.each { name ->
+                def input = project.file(ftbMods).listFiles().find { it.name.contains(name) && it.name.endsWith('.jar') }
+                if (!input) throw new GradleException('Missing test mod: ' + name)
+                project.copy { from input; into repo; rename { name + '-test.jar' } }
+                dependencies.add('runtimeOnly', fg.deobf('tremortest:' + name + ':test'))
+            }
+        }
+        sourceSets {
+            tremor {
+                java.srcDir 'tools/structure-regression/tremor'
+                resources.srcDir 'tools/structure-regression/tremor-resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        minecraft.runs.server {
+            workingDirectory directory
+            args '--nogui'
+            args '--mixin.config', 'tremor-pressure.mixins.json'
+            if (pressure) property 'travail.tremor.pressure', 'true'
+            if (project.hasProperty('tremorRestart')) property 'travail.tremor.restart', 'true'
+            if (project.hasProperty('tremorTargeted')) property 'travail.tremor.targeted', 'true'
+            property 'mixin.debug.countInjections', 'true'
+            mods { travail_smoke { source sourceSets.tremor } }
+        }
+        tasks.register('tremorTestJar', Jar) {
+            from sourceSets.tremor.output
+            archiveBaseName = 'travail-tremor-test'
+            archiveVersion = '1'
+            manifest { attributes 'MixinConfigs': 'tremor-pressure.mixins.json' }
+        }
+        reobf { tremorTestJar { classpath.from sourceSets.tremor.compileClasspath } }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            doFirst {
+                directory.mkdirs()
+                new File(directory, 'eula.txt').text = project.file('run/eula.txt').text
+                new File(directory, 'server.properties').text = 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25739\nlevel-name=tremor-test\nlevel-type=minecraft\\:flat\ngenerate-structures=false\nview-distance=2\nsimulation-distance=2\nmax-tick-time=60000\n'
+                new File(directory, 'tremor-result.txt').text = 'NOT_RUN'
+            }
+            doLast {
+                if (!new File(directory, 'tremor-result.txt').text.startsWith('PASS '))
+                    throw new GradleException('Tremor integration checks failed')
+            }
+        }
+    }
+}

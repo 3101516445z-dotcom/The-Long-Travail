@@ -11,6 +11,20 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.item.ItemStack;
 
 public final class FloralCombat {
+    private static final class Rose extends DamageSource {
+        Rose(LivingEntity actor) {
+            super(
+                    com.thelongtravail.combat.DirectStrikeDamage.source(actor.level(), actor, actor)
+                            .typeHolder(),
+                    actor);
+        }
+    }
+
+    public static DamageSource roseSource(LivingEntity actor) {
+        return new Rose(actor);
+    }
+
+    // 保留旧类型键供已有数据包使用；本模组新伤害统一由直击伤害来源工厂创建。
     public static final ResourceKey<DamageType> ROSE =
             ResourceKey.create(
                     Registries.DAMAGE_TYPE,
@@ -18,7 +32,7 @@ public final class FloralCombat {
 
     public static boolean rose(DamageSource s) {
         s = com.thelongtravail.combat.DamageIdentity.original(s);
-        return s.is(ROSE);
+        return s instanceof Rose || s.is(ROSE);
     }
 
     public static double bonus(LivingEntity victim, DamageSource source) {
@@ -100,13 +114,7 @@ public final class FloralCombat {
 
     public static void roseHit(ServerPlayer player, LivingEntity attacker) {
         if (!com.thelongtravail.config.ModeEffectRules.FLOWER_THORNS.applies(attacker)) return;
-        DamageSource source =
-                new DamageSource(
-                        player.serverLevel()
-                                .registryAccess()
-                                .registryOrThrow(Registries.DAMAGE_TYPE)
-                                .getHolderOrThrow(ROSE),
-                        player);
+        DamageSource source = roseSource(player);
         attacker.hurt(
                 source,
                 safe(player.getMaxHealth() * FlourishingItemsConfig.value(Flower.ROSE_BUSH)));

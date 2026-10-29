@@ -13,6 +13,20 @@ import net.minecraft.world.damagesource.*;
 import net.minecraft.world.entity.*;
 
 public final class DonQuixoteCombat {
+    private static final class Strike extends DamageSource {
+        Strike(LivingEntity actor) {
+            super(
+                    com.thelongtravail.combat.DirectStrikeDamage.source(actor.level(), actor, actor)
+                            .typeHolder(),
+                    actor);
+        }
+    }
+
+    public static DamageSource strikeSource(LivingEntity actor) {
+        return new Strike(actor);
+    }
+
+    // 保留旧类型键供已有数据包使用；本模组新伤害统一由直击伤害来源工厂创建。
     public static final ResourceKey<DamageType> STRIKE =
             ResourceKey.create(
                     Registries.DAMAGE_TYPE,
@@ -46,7 +60,7 @@ public final class DonQuixoteCombat {
 
     public static boolean secondary(DamageSource source) {
         source = com.thelongtravail.combat.DamageIdentity.original(source);
-        return source.is(STRIKE);
+        return source instanceof Strike || source.is(STRIKE);
     }
 
     public static double sizeBonus(double volume) {
@@ -118,13 +132,7 @@ public final class DonQuixoteCombat {
                 && !(p instanceof ServerPlayer sp
                         ? sp.canHarmPlayer(player)
                         : MaidAccessories.canHarm(p, player))) return;
-        DamageSource source =
-                new DamageSource(
-                        p.level()
-                                .registryAccess()
-                                .registryOrThrow(Registries.DAMAGE_TYPE)
-                                .getHolderOrThrow(STRIKE),
-                        p);
+        DamageSource source = strikeSource(p);
         int invulnerable = target.invulnerableTime;
         var state = (com.thelongtravail.mixin.DamageReplayStateAccessor) target;
         float last = state.travail$lastHurt();

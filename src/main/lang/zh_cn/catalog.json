@@ -33,5 +33,20 @@
   "gui.the_long_travail.catalog.details.essence.10": "此后需要重新完成%1$s的旅程，才能再次获得见证。",
   "gui.the_long_travail.catalog.details.essence.11": "新抽取的条件可能与原条件相同。",
   "gui.the_long_travail.catalog.details.essence.13": "精粹只影响对应主题，其他主题的条件、进度与见证保持不变。",
-  "gui.the_long_travail.catalog.details.essence.14": "成功使用后消耗一枚精粹，未佩戴苦旅或没有可完成的旅程记录时不会消耗。"
+  "gui.the_long_travail.catalog.details.essence.14": "成功使用后消耗一枚精粹，未佩戴苦旅或没有可完成的旅程记录时不会消耗。",
+  "gui.the_long_travail.catalog.glossary.direct_strike.title": "直击伤害",
+  "gui.the_long_travail.catalog.glossary.direct_strike.aliases": "直击伤害",
+  "gui.the_long_travail.catalog.glossary.direct_strike.body": "一种可以绕过护甲及韧性、附魔减伤、抗性提升、受伤无敌帧、盾牌格挡和伤害吸收（黄心）的伤害。不会消耗原有黄心。",
+  "gui.the_long_travail.catalog.glossary.execution.title": "处决",
+  "gui.the_long_travail.catalog.glossary.execution.aliases": "处决",
+  "gui.the_long_travail.catalog.glossary.execution.body": "一种尝试直接杀死目标的处理方式，击杀目标后可能不按普通击杀结算。",
+  "gui.the_long_travail.catalog.glossary.insight.title": "见切",
+  "gui.the_long_travail.catalog.glossary.insight.aliases": "见切",
+  "gui.the_long_travail.catalog.glossary.insight.body": "受到其他来源的伤害时，按见切值减少此次伤害，并对伤害来源造成等量反击伤害。",
+  "gui.the_long_travail.catalog.glossary.critical.title": "必杀",
+  "gui.the_long_travail.catalog.glossary.critical.aliases": "必杀",
+  "gui.the_long_travail.catalog.glossary.critical.body": "造成伤害时，有对应概率使本次伤害翻倍。",
+  "gui.the_long_travail.catalog.glossary.overlord.title": "霸主",
+  "gui.the_long_travail.catalog.glossary.overlord.aliases": "霸主",
+  "gui.the_long_travail.catalog.glossary.overlord.body": "免疫不超过「霸主值×自身最大生命值」的伤害。"
 }

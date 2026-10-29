@@ -294,9 +294,9 @@
 
 ## 逐日与籠釣瓶
 
-`aspects/far_reach.toml` 的 `items.sun_chaser` 管理逐日：`projectileBonus`、`burningBonus` 默认0.30、0.20，均为恶意分支增伤比例；`healing` 默认1，为岩浆内每秒恢复的生命值；`suppressionSeconds` 默认10，为见证禁疗及受伤冷却抑制秒数；`strikeFraction` 默认0.025，为燃烧目标最大生命值对应的追加直击比例。数值为0时禁用对应效果，不改变其他能力。
+`aspects/far_reach.toml` 的 `items.sun_chaser` 管理逐日：`projectileBonus`、`burningBonus` 默认0.30、0.20，均为恶意分支增伤比例；`healing` 默认1，为岩浆内每秒恢复的生命值；`suppressionSeconds` 默认10，为见证禁疗及受伤冷却抑制秒数；`strikeFraction` 默认0.025，为燃烧目标最大生命值对应的追加直击伤害比例。数值为0时禁用对应效果，不改变其他能力。
 
-`aspects/underworld.toml` 的 `items.kagotsurube` 管理籠釣瓶：`witherSeconds` 默认5，为每笔实际伤害施加或延长凋零的秒数；`insight` 默认15、`overlord` 默认0.1，为恶意分支的属性加值。数值为0时禁用该项；见证直击转换不受这两个恶意属性值影响。拾遗说明显示服务器有效参数。
+`aspects/underworld.toml` 的 `items.kagotsurube` 管理籠釣瓶：`witherSeconds` 默认5，为每笔实际伤害施加或延长凋零的秒数；`insight` 默认15、`overlord` 默认0.1，为恶意分支的属性加值。数值为0时禁用该项；见证直击伤害转换不受这两个恶意属性值影响。拾遗说明显示服务器有效参数。
 
 ## 第六天魔王与万魂幡
 

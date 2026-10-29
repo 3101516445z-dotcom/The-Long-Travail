@@ -1,38 +1,25 @@
 package com.thelongtravail.client;
 
-import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ElytraModel;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 
 public final class IcarusWingModel<T extends LivingEntity> extends ElytraModel<T> {
     private final ModelPart left, right;
     private final boolean[][] solid = new boolean[20][10];
 
-    public IcarusWingModel(ResourceLocation texture) {
-        this(ElytraModel.createLayer().bakeRoot(), texture);
+    public IcarusWingModel() {
+        this(ElytraModel.createLayer().bakeRoot());
     }
 
-    private IcarusWingModel(ModelPart root, ResourceLocation texture) {
+    private IcarusWingModel(ModelPart root) {
         super(root);
         left = root.getChild("left_wing");
         right = root.getChild("right_wing");
-        try (var stream =
-                        Minecraft.getInstance()
-                                .getResourceManager()
-                                .getResourceOrThrow(texture)
-                                .open();
-                var pixels = NativeImage.read(stream)) {
-            for (int y = 0; y < 20; y++)
-                for (int x = 0; x < 10; x++)
-                    solid[y][x] = ((pixels.getPixelRGBA(36 + x, 2 + y) >>> 24) & 255) > 0;
-        } catch (java.io.IOException e) {
-            throw new IllegalStateException("Cannot load Icarus wing outline", e);
-        }
+        boolean[][] outline = IcarusWingTexture.outline();
+        for (int y = 0; y < 20; y++) System.arraycopy(outline[y], 0, solid[y], 0, 10);
     }
 
     private boolean filled(int x, int y) {

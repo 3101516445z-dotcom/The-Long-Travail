@@ -3,6 +3,7 @@ package com.thelongtravail.mixin;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.thelongtravail.compat.fluid.FluidCrafting;
+import com.thelongtravail.boundless.TransferNotices;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,6 +21,7 @@ public abstract class FluidCraftingClickMixin {
             original.call(slot, button, click, player);
             return;
         }
+        if (TransferNotices.blocked((AbstractContainerMenu) (Object) this, player)) return;
         FluidCrafting.take(
                 (AbstractContainerMenu) (Object) this,
                 player,

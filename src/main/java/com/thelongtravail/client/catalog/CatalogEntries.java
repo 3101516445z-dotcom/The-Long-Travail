@@ -314,38 +314,6 @@ public final class CatalogEntries {
                 CatalogEntries::ordinary);
         add(
                 entries,
-                "kagotsurube",
-                KAGOTSURUBE,
-                Category.THEME,
-                TravailAspect.UNDERWORLD,
-                "longdiaoping|ldp|kagotsurube|笼钓瓶",
-                CatalogEntries::ordinary);
-        add(
-                entries,
-                "phosphophyllite",
-                PHOSPHOPHYLLITE,
-                Category.THEME,
-                TravailAspect.DEEP_VALLEY,
-                "linyeshi|lys|phosphophyllite",
-                CatalogEntries::ordinary);
-        add(
-                entries,
-                "high_frequency_tremor",
-                HIGH_FREQUENCY_TREMOR,
-                Category.THEME,
-                TravailAspect.DEEP_VALLEY,
-                "gaopinzhanli|gpzl|highfrequencytremor",
-                CatalogEntries::ordinary);
-        add(
-                entries,
-                "underground_velvet",
-                UNDERGROUND_VELVET,
-                Category.THEME,
-                TravailAspect.DEEP_VALLEY,
-                "dixiasirong|dxsr|undergroundvelvet",
-                CatalogEntries::ordinary);
-        add(
-                entries,
                 "azrael",
                 AZRAEL,
                 Category.THEME,
@@ -359,6 +327,30 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.DEEP_VALLEY,
                 "jianyudeng|jyd|swordandlantern",
+                CatalogEntries::ordinary);
+        add(
+                entries,
+                "phosphophyllite",
+                PHOSPHOPHYLLITE,
+                Category.THEME,
+                TravailAspect.DEEP_VALLEY,
+                "linyeshi|lys|phosphophyllite",
+                CatalogEntries::ordinary);
+        add(
+                entries,
+                "underground_velvet",
+                UNDERGROUND_VELVET,
+                Category.THEME,
+                TravailAspect.DEEP_VALLEY,
+                "dixiasirong|dxsr|undergroundvelvet",
+                CatalogEntries::ordinary);
+        add(
+                entries,
+                "high_frequency_tremor",
+                HIGH_FREQUENCY_TREMOR,
+                Category.THEME,
+                TravailAspect.DEEP_VALLEY,
+                "gaopinzhanli|gpzl|highfrequencytremor",
                 CatalogEntries::ordinary);
         add(
                 entries,
@@ -392,6 +384,14 @@ public final class CatalogEntries {
                 TravailAspect.UNDERWORLD,
                 "wanhunfan|whf",
                 s -> com.thelongtravail.underworld.UnderworldRelicText.details(true));
+        add(
+                entries,
+                "kagotsurube",
+                KAGOTSURUBE,
+                Category.THEME,
+                TravailAspect.UNDERWORLD,
+                "longdiaoping|ldp|kagotsurube|笼钓瓶",
+                CatalogEntries::ordinary);
         add(
                 entries,
                 "free_and_easy_wandering",
@@ -433,6 +433,14 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.BOUNDLESS,
                 "luolunzihuanxiang|llzhx|lorentzfantasy",
+                CatalogEntries::ordinary);
+        add(
+                entries,
+                "ancient_strange_tales",
+                ANCIENT_STRANGE_TALES,
+                Category.THEME,
+                TravailAspect.BOUNDLESS,
+                "gujinyuguai|gjyg|ancientstrangetales",
                 CatalogEntries::ordinary);
         if (entries.stream().map(Entry::id).distinct().count() != entries.size())
             throw new IllegalStateException("Duplicate catalogue entry");

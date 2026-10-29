@@ -1,5 +1,5 @@
 {
-  "message.the_long_travail.perfect_fluid.copy_failed": "Perfect Fluid copy failed: copying was refused due to the special nature of the inventory. Your ingredients have been retained.",
+  "message.the_long_travail.perfect_fluid.copy_failed": "Perfect Fluid refused to copy this unusual inventory to avoid errors, materials have been retained",
   "tooltip.the_long_travail.flavor.tokaido": "How many bridges beneath the cherry blossoms…",
   "tooltip.the_long_travail.flavor.eki": "Beyond the long tunnel through the prefectural border lies snow country.",
   "tooltip.the_long_travail.flavor.perfect_fluid": "One is all, all is one.",
@@ -101,7 +101,7 @@
   "item.the_long_travail.abundance.drink": "Potion of %s",
   "item.the_long_travail.abundance.splash": "Splash Potion of %s",
   "item.the_long_travail.abundance.lingering": "Lingering Potion of %s",
-  "message.the_long_travail.abundance.empty": "No eligible status effects. Liquefied Abundance was not consumed.",
+  "message.the_long_travail.abundance.empty": "No eligible status effects, Liquefied Abundance was not consumed",
   "message.the_long_travail.abundance.charging": "Fully charge to create a random %s",
   "tooltip.the_long_travail.abundance.summary": "While held, hold right-click until fully charged to turn Liquefied Abundance into a random potion.",
   "tooltip.the_long_travail.abundance.use": "While holding Liquefied Abundance, hold right-click for %s seconds to consume one and create a random potion. For a stack of Liquefied Abundance, each hold converts only one; release before using again.",
@@ -116,5 +116,7 @@
   "tooltip.the_long_travail.abundance.summary_switch": "Tap right-click to change the resulting potion type (normal/splash/lingering).",
   "tooltip.the_long_travail.abundance.switch": "While holding Liquefied Abundance, tap right-click to cycle the resulting potion type through normal, splash and lingering potions.",
   "tooltip.the_long_travail.flavor.liquefied_abundance": "A gentle breeze and soft rain today. Cheers, my friend.",
-  "tooltip.the_long_travail.abundance.whitelist": "The whitelist allows only these effects, with the blacklist taking precedence. An empty result cancels conversion without consuming materials: %s."
+  "tooltip.the_long_travail.abundance.whitelist": "The whitelist allows only these effects, with the blacklist taking precedence. An empty result cancels conversion without consuming materials: %s.",
+  "message.the_long_travail.abundance.data_error": "Some status effect or potion data is invalid and no usable effects remain, Liquefied Abundance was not consumed",
+  "message.the_long_travail.abundance.failed": "The conversion failed; the operation was cancelled, Liquefied Abundance was not consumed"
 }

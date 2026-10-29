@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "method": "lexical-candidates-not-call-graph",
-  "sourceFingerprint": "6723b92b30faee9f0c9bafeac79e338f2f204ba206685da9e709591dd2bf8949",
+  "sourceFingerprint": "6dfbe2b9804808cf9ca16cf97c8121cd9f118062db93efdcbb45e0367a89c05a",
   "files": [
     {
       "path": "src/main/java/com/thelongtravail/AspectTheme.java",
@@ -45,11 +45,11 @@
       "pkg": "com.thelongtravail.abyss",
       "type": "com.thelongtravail.abyss.AbundanceEffectPool",
       "module": "归墟",
-      "role": "效果、等级与持续时间的去重抽样表",
+      "role": "药水异常隔离、去重抽样表与诊断快照发布",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "df27acbaae4d4160cf4f458b36eb63c4bf18986611c5ccd2cd08942bc1ac01d8"
+      "sha256": "9392a8cbb32419098e16dfa270381438496bfd7465f116702571cbd36aa5244f"
     },
     {
       "path": "src/main/java/com/thelongtravail/abyss/AbundanceText.java",
@@ -85,7 +85,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Forge事件",
-      "sha256": "792da67cbc5c621875f2b896f52d4f0545026b66d586c70e0a85cffa6a1bc512"
+      "sha256": "315f29acdd0b83df76651f1ac26a4a6ec10db4c1e0ae84eab89d9f115add4901"
     },
     {
       "path": "src/main/java/com/thelongtravail/abyss/LiquefiedAbundanceRecipe.java",
@@ -328,6 +328,30 @@
       "sha256": "589648802818c35868fc2284d0abf299cd9776703e07e1a96e05e4c2b2456cfb"
     },
     {
+      "path": "src/main/java/com/thelongtravail/boundless/EnchantmentTransfer.java",
+      "name": "EnchantmentTransfer",
+      "pkg": "com.thelongtravail.boundless",
+      "type": "com.thelongtravail.boundless.EnchantmentTransfer",
+      "module": "无垠",
+      "role": "单件附魔转移、回调异常隔离与完整结果计算",
+      "classification": "重点归类",
+      "side": "待按方法核对",
+      "entry": "普通调用/待核对",
+      "sha256": "61f5b3e69c9e7b62db897d8f4d50c85e40095d22175fad1c355bca46bf402f7a"
+    },
+    {
+      "path": "src/main/java/com/thelongtravail/boundless/EnchantmentTransferRecipe.java",
+      "name": "EnchantmentTransferRecipe",
+      "pkg": "com.thelongtravail.boundless",
+      "type": "com.thelongtravail.boundless.EnchantmentTransferRecipe",
+      "module": "无垠",
+      "role": "合成输入角色解析、计划缓存与来源返还",
+      "classification": "重点归类",
+      "side": "待按方法核对",
+      "entry": "Forge事件",
+      "sha256": "c181a98b111ca6260470d67bcad7e7c4e44db6b42685cd7697e864c69831ef4d"
+    },
+    {
       "path": "src/main/java/com/thelongtravail/boundless/FrozenBlockEvents.java",
       "name": "FrozenBlockEvents",
       "pkg": "com.thelongtravail.boundless",
@@ -429,7 +453,7 @@
       "pkg": "com.thelongtravail.boundless",
       "type": "com.thelongtravail.boundless.LorentzFantasy",
       "module": "六主题玩法",
-      "role": "洛伦兹幻想箭矢快照、命中与直击结算",
+      "role": "洛伦兹幻想箭矢快照、命中与直击伤害结算",
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Forge事件",
@@ -518,6 +542,18 @@
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
       "sha256": "7aa21f125edefe7266803ed8e5ce7195008ed184444f2705b0a967d8ac9db997"
+    },
+    {
+      "path": "src/main/java/com/thelongtravail/boundless/TransferNotices.java",
+      "name": "TransferNotices",
+      "pkg": "com.thelongtravail.boundless",
+      "type": "com.thelongtravail.boundless.TransferNotices",
+      "module": "无垠",
+      "role": "服务端失败提示去重与原版合成结果领取拦截",
+      "classification": "重点归类",
+      "side": "待按方法核对",
+      "entry": "Forge事件",
+      "sha256": "45085388d55ce0e60d5686c63fb1ddeffcdbab209d51774dc0f4b3cb8d5ca8fb"
     },
     {
       "path": "src/main/java/com/thelongtravail/client/AbundanceUseClient.java",
@@ -664,6 +700,18 @@
       "sha256": "64f43ca3762b418b8566b2791b162946fc64f614f7bb205e225fa9424691f315"
     },
     {
+      "path": "src/main/java/com/thelongtravail/client/DiaryPreface.java",
+      "name": "DiaryPreface",
+      "pkg": "com.thelongtravail.client",
+      "type": "com.thelongtravail.client.DiaryPreface",
+      "module": "客户端展示与输入",
+      "role": "客户端接入",
+      "classification": "目录初分，待逐类复核",
+      "side": "客户端职责",
+      "entry": "普通调用/待核对",
+      "sha256": "fc6279382aecd821e494a73b7b62a6810dccb78c3dc892df099384910f757ed6"
+    },
+    {
       "path": "src/main/java/com/thelongtravail/client/DiaryProgressTooltip.java",
       "name": "DiaryProgressTooltip",
       "pkg": "com.thelongtravail.client",
@@ -728,12 +776,24 @@
       "name": "IcarusWingModel",
       "pkg": "com.thelongtravail.client",
       "type": "com.thelongtravail.client.IcarusWingModel",
-      "module": "客户端展示与输入",
-      "role": "客户端接入",
-      "classification": "目录初分，待逐类复核",
+      "module": "客户端与兼容",
+      "role": "缓存轮廓到翅膀几何的绘制",
+      "classification": "重点归类",
       "side": "客户端职责",
       "entry": "普通调用/待核对",
-      "sha256": "ae8ca170a8cbe8e229d435b1fa1192ee7c9384a83aa956e007610535c4db7ce8"
+      "sha256": "1978d28b43107e1f351578deae4995dbc9a023484965591190e2d8ddf229bec9"
+    },
+    {
+      "path": "src/main/java/com/thelongtravail/client/IcarusWingTexture.java",
+      "name": "IcarusWingTexture",
+      "pkg": "com.thelongtravail.client",
+      "type": "com.thelongtravail.client.IcarusWingTexture",
+      "module": "客户端与兼容",
+      "role": "翅膀轮廓校验、内置贴图回退与重载释放",
+      "classification": "重点归类",
+      "side": "客户端职责",
+      "entry": "Forge事件",
+      "sha256": "398660743af373d59093029db12634b885c57c29e3347dd0ca02a605de534421"
     },
     {
       "path": "src/main/java/com/thelongtravail/client/LanternLightSnapshot.java",
@@ -853,7 +913,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "客户端职责",
       "entry": "普通调用/待核对",
-      "sha256": "6d165fb8702a336cc39456a1eea1ff4a3851fd2ab88acfd6053a87b26222580c"
+      "sha256": "938a3c6d1fdc27f65660f3829b32b7ba70714ccf939c67e97275721ed5ac4216"
     },
     {
       "path": "src/main/java/com/thelongtravail/client/ThinProgressBar.java",
@@ -925,7 +985,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "客户端职责",
       "entry": "普通调用/待核对",
-      "sha256": "9a305ec950019da73e8f47b6a06a9afa4811bcfbbc1ea36652db12c6a973236e"
+      "sha256": "9f1a18974db629e068598ac56c759fe404017b9723162a00632b9a33f5babcf0"
     },
     {
       "path": "src/main/java/com/thelongtravail/client/UnderworldClient.java",
@@ -1009,7 +1069,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "客户端职责",
       "entry": "普通调用/待核对",
-      "sha256": "3400502f3041f22340ee4407822f051782031b243a1c220cc8be18fc867d455a"
+      "sha256": "33543cd60863b37b50ac0cbe96bc6ad8a895475491c5fb1ae5c9943d8fd16da1"
     },
     {
       "path": "src/main/java/com/thelongtravail/client/catalog/CatalogEntries.java",
@@ -1021,7 +1081,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "客户端职责",
       "entry": "普通调用/待核对",
-      "sha256": "d46edc895fdd534aad93d29a038f729bb4fc3f5f2a08b2f4fd36eebc7e684a3e"
+      "sha256": "a853818005561bb5e0d0e39a4cffd72bb9b261e0298ee7b4ea3b4107cca6827e"
     },
     {
       "path": "src/main/java/com/thelongtravail/client/catalog/CatalogFrame.java",
@@ -1034,6 +1094,18 @@
       "side": "客户端职责",
       "entry": "普通调用/待核对",
       "sha256": "93e1abfd2b4547d7d32ffbc2e399a76786b9974c25172952ad613c7f2fc6fb11"
+    },
+    {
+      "path": "src/main/java/com/thelongtravail/client/catalog/CatalogGlossary.java",
+      "name": "CatalogGlossary",
+      "pkg": "com.thelongtravail.client.catalog",
+      "type": "com.thelongtravail.client.catalog.CatalogGlossary",
+      "module": "客户端展示与输入",
+      "role": "客户端接入",
+      "classification": "目录初分，待逐类复核",
+      "side": "客户端职责",
+      "entry": "普通调用/待核对",
+      "sha256": "ad1c93761555c71737b30bd2f829d9b6d15c1b9fb42905bdc88b795f301fc4b5"
     },
     {
       "path": "src/main/java/com/thelongtravail/client/catalog/CatalogIconAlignment.java",
@@ -1093,7 +1165,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "客户端职责",
       "entry": "普通调用/待核对",
-      "sha256": "fafbb74453e5e1dfd16ebac606edaa722c391d35d3f40c335d6c34f3c1cca833"
+      "sha256": "9403f11e91f3c3d10ac605883492a5c6570bd4df628a260453dd5a71d3cc0d2e"
     },
     {
       "path": "src/main/java/com/thelongtravail/client/catalog/CatalogUtilityDetails.java",
@@ -1201,7 +1273,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "43a80084352fab80a694331a2c43c146d4c931a5f8becf34575410b6e9ffa320"
+      "sha256": "3504e201d441b36d318da03f33efc10127f3b9108f13b94f3cb7fb2113317590"
     },
     {
       "path": "src/main/java/com/thelongtravail/combat/InsightRetaliation.java",
@@ -1286,6 +1358,18 @@
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
       "sha256": "d29f9351e1a9eab93105267d999433485d8e8835c8642b8ef8252b59c5efa526"
+    },
+    {
+      "path": "src/main/java/com/thelongtravail/common/RuntimeFailures.java",
+      "name": "RuntimeFailures",
+      "pkg": "com.thelongtravail.common",
+      "type": "com.thelongtravail.common.RuntimeFailures",
+      "module": "公共基础",
+      "role": "按来源限频记录运行时异常堆栈",
+      "classification": "重点归类",
+      "side": "待按方法核对",
+      "entry": "普通调用/待核对",
+      "sha256": "7b97f6fab5ca121366a18b56e359a39bf8d69c66b6f39769bf639afc76469d77"
     },
     {
       "path": "src/main/java/com/thelongtravail/common/TagItemSampler.java",
@@ -2008,6 +2092,18 @@
       "sha256": "9b11eb37fb16d04b125adb876f8037f7381f6448805c02c9653b7432361fa470"
     },
     {
+      "path": "src/main/java/com/thelongtravail/compat/jei/BoundlessJeiPlugin.java",
+      "name": "BoundlessJeiPlugin",
+      "pkg": "com.thelongtravail.compat.jei",
+      "type": "com.thelongtravail.compat.jei.BoundlessJeiPlugin",
+      "module": "外部模组适配",
+      "role": "兼容接入",
+      "classification": "目录初分，待逐类复核",
+      "side": "待按方法核对",
+      "entry": "普通调用/待核对",
+      "sha256": "b7154fd6163aaea62c769c398d65c5a8ac89b6aed8ccfef0e1506a7142a3cf1c"
+    },
+    {
       "path": "src/main/java/com/thelongtravail/compat/jei/EssenceJeiPlugin.java",
       "name": "EssenceJeiPlugin",
       "pkg": "com.thelongtravail.compat.jei",
@@ -2173,7 +2269,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "4cfc659bdc7b8bc791cb70e51098b465531c060817d626344ecb15b669800bd8"
+      "sha256": "5d25570cda03eb7f7f6ad78cbddf856f2111fd6b093194e342305d9fbaa5c084"
     },
     {
       "path": "src/main/java/com/thelongtravail/compat/maid/MaidFishingDefaults.java",
@@ -2953,7 +3049,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "61a7160ac3f7f50f5511082151a13da0b5565815e956b4beab558fbb43d3f0c2"
+      "sha256": "f4ec1d7610cf1fa561b3d1d77338fa377936ab598117c72797653d31217e6634"
     },
     {
       "path": "src/main/java/com/thelongtravail/config/FishingEntityCompatDefaults.java",
@@ -2989,7 +3085,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "081836802f2e800f85107db87d3d5646943bbed64264e72a26b001e4ac3c686a"
+      "sha256": "207eceef06f104cc70dd6e92b6ebb7a931bd06a23a143a3b3e10679c6adc2104"
     },
     {
       "path": "src/main/java/com/thelongtravail/config/GoldenAgeCompatDefaults.java",
@@ -3109,7 +3205,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "09ad8b71fb41605df30379192f67458f4aadd47b56e581a7a1809a3834414e74"
+      "sha256": "74a8236fc4b99d72fc15d86e27db9db29747da54f8316192daeb029cad79858f"
     },
     {
       "path": "src/main/java/com/thelongtravail/config/TravailClientConfig.java",
@@ -3781,7 +3877,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "11bfcd2b40f176140d46b83a5486cba420f47199e7a69b76e1577dcc34aca0fa"
+      "sha256": "1bb783b778ba1fb686c52a3506871a8c74a579c58d67e272f43c7152e7a3aff1"
     },
     {
       "path": "src/main/java/com/thelongtravail/farreach/DonQuixoteState.java",
@@ -3949,7 +4045,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "bc794cf213040138f5aa265067639f98a54171fb1a11a5c373692bd29975fb3f"
+      "sha256": "653278c305d35811ca03ee67f623d4195b542e56eda74b1dd13c69659ce6e4bd"
     },
     {
       "path": "src/main/java/com/thelongtravail/flourishing/FloralEvents.java",
@@ -4286,6 +4382,18 @@
       "side": "待按方法核对",
       "entry": "Curios回调",
       "sha256": "3bb2b319e8c6532099b59be81e16991040c2487fb078958351ef4c0c765a666c"
+    },
+    {
+      "path": "src/main/java/com/thelongtravail/item/AncientStrangeTalesItem.java",
+      "name": "AncientStrangeTalesItem",
+      "pkg": "com.thelongtravail.item",
+      "type": "com.thelongtravail.item.AncientStrangeTalesItem",
+      "module": "物品入口",
+      "role": "玩法入口",
+      "classification": "目录初分，待逐类复核",
+      "side": "待按方法核对",
+      "entry": "普通调用/待核对",
+      "sha256": "6662f4362c6a5791f52e7502c07222e7f347535faf4981d9bd7eac46c602c941"
     },
     {
       "path": "src/main/java/com/thelongtravail/item/AspectEssenceItem.java",
@@ -5533,7 +5641,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "Mixin",
-      "sha256": "7c11748e4efadbc39b5df2c420e796c7f6d8162cb13a76467016d8b120a52b7d"
+      "sha256": "737ca91d0adba4e0881df126b7c5921bb3cb7b0fbe0091daf6328b4d97ebaf80"
     },
     {
       "path": "src/main/java/com/thelongtravail/mixin/FluidCraftingClickMixin.java",
@@ -5545,7 +5653,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Mixin",
-      "sha256": "011537b49d69910100096f5c2027372a4469bef2d2de02f37ec18f446a3d3f9b"
+      "sha256": "a5cd6d3065714f301f31662c0d47d36517088b07ffe13aac6766b7bb67c5079d"
     },
     {
       "path": "src/main/java/com/thelongtravail/mixin/FluidCraftingGridAccessor.java",
@@ -5569,7 +5677,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Mixin",
-      "sha256": "9205ed379d23d18517b5a1b6c91bf0db874b9f3121a304bc5048b8453b66856b"
+      "sha256": "4d3bc6c3cb026e557d22b57e07dc4094c88984739701846d64e3419272edb7ed"
     },
     {
       "path": "src/main/java/com/thelongtravail/mixin/FluidErosionUnavoidableMixin.java",
@@ -5665,7 +5773,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Mixin",
-      "sha256": "f4f6ee5add3b6bb59d8ee3416e3e9de1b2da5c3eb9405bbebcbbc0eb4a8d1cdc"
+      "sha256": "2f23b3fc25f7e364d6e6b11db04d8db7eb42aa6f0422f6f942d86455827fef50"
     },
     {
       "path": "src/main/java/com/thelongtravail/mixin/IcarusLivingFlightMixin.java",
@@ -5797,7 +5905,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Mixin",
-      "sha256": "327764ede58f55181f9dc2840a92d0c5916d21b53c87616226cbcf781d558bc0"
+      "sha256": "4b9dd955cd25c7fb135875b00a9dd59ae222c631dabe642b47eb541e0083877b"
     },
     {
       "path": "src/main/java/com/thelongtravail/mixin/LootEntryAccess.java",
@@ -5917,7 +6025,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Mixin",
-      "sha256": "5f0ed344f3dad248ee23770b19177e73c02ec29945132126bf55c79acfd97dfd"
+      "sha256": "28322121591d8ba2d3f0fa55a437e5128942f9bdd6b52b5adb65d9aedc78885f"
     },
     {
       "path": "src/main/java/com/thelongtravail/mixin/PrinceBlockBreakMixin.java",
@@ -6110,6 +6218,42 @@
       "side": "待按方法核对",
       "entry": "Mixin",
       "sha256": "ee7fa7a3699ced0d3ddf035b690a256f06feec7218cf26584a13e92be2bc24f2"
+    },
+    {
+      "path": "src/main/java/com/thelongtravail/mixin/TalesAnvilMixin.java",
+      "name": "TalesAnvilMixin",
+      "pkg": "com.thelongtravail.mixin",
+      "type": "com.thelongtravail.mixin.TalesAnvilMixin",
+      "module": "原版注入桥接",
+      "role": "平台接入",
+      "classification": "目录初分，待逐类复核",
+      "side": "待按方法核对",
+      "entry": "Mixin",
+      "sha256": "c24eb966f3fd36db2c081eb3eedbadc2bf46d0c2113e950374f79559bffd7b5b"
+    },
+    {
+      "path": "src/main/java/com/thelongtravail/mixin/TalesEnchantmentCandidatesMixin.java",
+      "name": "TalesEnchantmentCandidatesMixin",
+      "pkg": "com.thelongtravail.mixin",
+      "type": "com.thelongtravail.mixin.TalesEnchantmentCandidatesMixin",
+      "module": "原版注入桥接",
+      "role": "平台接入",
+      "classification": "目录初分，待逐类复核",
+      "side": "待按方法核对",
+      "entry": "Mixin",
+      "sha256": "bd148616f679e829317954604a58c8e713b7e7b8821c3f6316bc832aabef37e6"
+    },
+    {
+      "path": "src/main/java/com/thelongtravail/mixin/TalesEnchantmentMenuMixin.java",
+      "name": "TalesEnchantmentMenuMixin",
+      "pkg": "com.thelongtravail.mixin",
+      "type": "com.thelongtravail.mixin.TalesEnchantmentMenuMixin",
+      "module": "原版注入桥接",
+      "role": "平台接入",
+      "classification": "目录初分，待逐类复核",
+      "side": "待按方法核对",
+      "entry": "Mixin",
+      "sha256": "1a08efb45af1438252c572e8dcacaa387282eefed4c29bbf7529e6a3c7910ecb"
     },
     {
       "path": "src/main/java/com/thelongtravail/mixin/ThemeTooltipMixin.java",
@@ -6793,7 +6937,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "246c76575162ca930db75b961656007f39b424466bf4edea3d7214171ad699c1"
+      "sha256": "476679f1c6a840176263c55fbc336fee8bbcbfc5ad3ff627394528b55b1f3676"
     },
     {
       "path": "src/main/java/com/thelongtravail/underworld/BookRevival.java",
@@ -7303,10 +7447,18 @@
   "edges": [
     {
       "from": "com.thelongtravail.abyss.AbundanceEffectPool",
+      "to": "com.thelongtravail.common.RuntimeFailures",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/abyss/AbundanceEffectPool.java",
+      "tokenLine": 69,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.abyss.AbundanceEffectPool",
       "to": "com.thelongtravail.config.AbyssItemsConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/abyss/AbundanceEffectPool.java",
-      "tokenLine": 75,
+      "tokenLine": 158,
       "basis": "explicit-import"
     },
     {
@@ -7314,7 +7466,7 @@
       "to": "com.thelongtravail.TheLongTravail",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/abyss/AbundanceEffectPool.java",
-      "tokenLine": 80,
+      "tokenLine": 163,
       "basis": "explicit-import"
     },
     {
@@ -7370,7 +7522,7 @@
       "to": "com.thelongtravail.abyss.AbundanceEffectPool",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/abyss/LiquefiedAbundance.java",
-      "tokenLine": 72,
+      "tokenLine": 74,
       "basis": "same-package"
     },
     {
@@ -7378,20 +7530,20 @@
       "to": "com.thelongtravail.common.ItemDelivery",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/abyss/LiquefiedAbundance.java",
-      "tokenLine": 128,
+      "tokenLine": 144,
       "basis": "fully-qualified"
     },
     {
       "from": "com.thelongtravail.abyss.LiquefiedAbundance",
-      "to": "com.thelongtravail.config.AbyssItemsConfig",
+      "to": "com.thelongtravail.common.RuntimeFailures",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/abyss/LiquefiedAbundance.java",
-      "tokenLine": 69,
+      "tokenLine": 131,
       "basis": "explicit-import"
     },
     {
       "from": "com.thelongtravail.abyss.LiquefiedAbundance",
-      "to": "com.thelongtravail.network.TooltipConfigSync",
+      "to": "com.thelongtravail.config.AbyssItemsConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/abyss/LiquefiedAbundance.java",
       "tokenLine": 71,
@@ -7399,10 +7551,18 @@
     },
     {
       "from": "com.thelongtravail.abyss.LiquefiedAbundance",
+      "to": "com.thelongtravail.network.TooltipConfigSync",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/abyss/LiquefiedAbundance.java",
+      "tokenLine": 73,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.abyss.LiquefiedAbundance",
       "to": "com.thelongtravail.network.TravailNetwork",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/abyss/LiquefiedAbundance.java",
-      "tokenLine": 44,
+      "tokenLine": 46,
       "basis": "fully-qualified"
     },
     {
@@ -7410,7 +7570,7 @@
       "to": "com.thelongtravail.TheLongTravail",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/abyss/LiquefiedAbundance.java",
-      "tokenLine": 26,
+      "tokenLine": 28,
       "basis": "explicit-import"
     },
     {
@@ -8158,6 +8318,46 @@
       "basis": "fully-qualified"
     },
     {
+      "from": "com.thelongtravail.boundless.EnchantmentTransfer",
+      "to": "com.thelongtravail.common.RuntimeFailures",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/boundless/EnchantmentTransfer.java",
+      "tokenLine": 78,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.boundless.EnchantmentTransfer",
+      "to": "com.thelongtravail.item.AncientStrangeTalesItem",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/boundless/EnchantmentTransfer.java",
+      "tokenLine": 101,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.boundless.EnchantmentTransferRecipe",
+      "to": "com.thelongtravail.boundless.EnchantmentTransfer",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/boundless/EnchantmentTransferRecipe.java",
+      "tokenLine": 27,
+      "basis": "same-package"
+    },
+    {
+      "from": "com.thelongtravail.boundless.EnchantmentTransferRecipe",
+      "to": "com.thelongtravail.common.RuntimeFailures",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/boundless/EnchantmentTransferRecipe.java",
+      "tokenLine": 65,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.boundless.EnchantmentTransferRecipe",
+      "to": "com.thelongtravail.registry.ModRegistry",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/boundless/EnchantmentTransferRecipe.java",
+      "tokenLine": 170,
+      "basis": "explicit-import"
+    },
+    {
       "from": "com.thelongtravail.boundless.FrozenBlockEvents",
       "to": "com.thelongtravail.boundless.FrozenCoverage",
       "kind": "lexical-reference-candidate",
@@ -8606,6 +8806,30 @@
       "basis": "fully-qualified"
     },
     {
+      "from": "com.thelongtravail.boundless.TransferNotices",
+      "to": "com.thelongtravail.boundless.EnchantmentTransfer",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/boundless/TransferNotices.java",
+      "tokenLine": 16,
+      "basis": "same-package"
+    },
+    {
+      "from": "com.thelongtravail.boundless.TransferNotices",
+      "to": "com.thelongtravail.boundless.EnchantmentTransferRecipe",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/boundless/TransferNotices.java",
+      "tokenLine": 25,
+      "basis": "same-package"
+    },
+    {
+      "from": "com.thelongtravail.boundless.TransferNotices",
+      "to": "com.thelongtravail.TheLongTravail",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/boundless/TransferNotices.java",
+      "tokenLine": 14,
+      "basis": "explicit-import"
+    },
+    {
       "from": "com.thelongtravail.client.AbundanceUseClient",
       "to": "com.thelongtravail.abyss.LiquefiedAbundance",
       "kind": "lexical-reference-candidate",
@@ -8783,6 +9007,14 @@
     },
     {
       "from": "com.thelongtravail.client.catalog.CatalogDetailScreen",
+      "to": "com.thelongtravail.client.catalog.CatalogGlossary",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/client/catalog/CatalogDetailScreen.java",
+      "tokenLine": 39,
+      "basis": "same-package"
+    },
+    {
+      "from": "com.thelongtravail.client.catalog.CatalogDetailScreen",
       "to": "com.thelongtravail.client.catalog.CatalogSession",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/catalog/CatalogDetailScreen.java",
@@ -8794,7 +9026,7 @@
       "to": "com.thelongtravail.client.catalog.CatalogTextStyle",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/catalog/CatalogDetailScreen.java",
-      "tokenLine": 250,
+      "tokenLine": 251,
       "basis": "same-package"
     },
     {
@@ -8818,7 +9050,7 @@
       "to": "com.thelongtravail.client.AzraelTooltips",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/catalog/CatalogEntries.java",
-      "tokenLine": 354,
+      "tokenLine": 322,
       "basis": "explicit-import"
     },
     {
@@ -8834,7 +9066,7 @@
       "to": "com.thelongtravail.client.catalog.CatalogTextStyle",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/catalog/CatalogEntries.java",
-      "tokenLine": 519,
+      "tokenLine": 527,
       "basis": "same-package"
     },
     {
@@ -8850,7 +9082,7 @@
       "to": "com.thelongtravail.client.RainClient",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/catalog/CatalogEntries.java",
-      "tokenLine": 473,
+      "tokenLine": 481,
       "basis": "explicit-import"
     },
     {
@@ -8858,7 +9090,7 @@
       "to": "com.thelongtravail.client.ThemeTooltips",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/catalog/CatalogEntries.java",
-      "tokenLine": 472,
+      "tokenLine": 480,
       "basis": "fully-qualified"
     },
     {
@@ -8866,7 +9098,7 @@
       "to": "com.thelongtravail.client.UnderworldClient",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/catalog/CatalogEntries.java",
-      "tokenLine": 487,
+      "tokenLine": 495,
       "basis": "explicit-import"
     },
     {
@@ -8882,7 +9114,7 @@
       "to": "com.thelongtravail.helper.TravailCurios",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/catalog/CatalogEntries.java",
-      "tokenLine": 495,
+      "tokenLine": 503,
       "basis": "explicit-import"
     },
     {
@@ -8890,7 +9122,7 @@
       "to": "com.thelongtravail.item.FarReachAccessoryItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/catalog/CatalogEntries.java",
-      "tokenLine": 481,
+      "tokenLine": 489,
       "basis": "explicit-import"
     },
     {
@@ -8898,7 +9130,7 @@
       "to": "com.thelongtravail.item.ItemDescription",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/catalog/CatalogEntries.java",
-      "tokenLine": 455,
+      "tokenLine": 463,
       "basis": "fully-qualified"
     },
     {
@@ -8906,7 +9138,7 @@
       "to": "com.thelongtravail.item.UnderworldAccessoryItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/catalog/CatalogEntries.java",
-      "tokenLine": 488,
+      "tokenLine": 496,
       "basis": "explicit-import"
     },
     {
@@ -8922,8 +9154,16 @@
       "to": "com.thelongtravail.underworld.UnderworldRelicText",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/catalog/CatalogEntries.java",
-      "tokenLine": 386,
+      "tokenLine": 378,
       "basis": "fully-qualified"
+    },
+    {
+      "from": "com.thelongtravail.client.catalog.CatalogGlossary",
+      "to": "com.thelongtravail.client.catalog.CatalogFrame",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/client/catalog/CatalogGlossary.java",
+      "tokenLine": 155,
+      "basis": "same-package"
     },
     {
       "from": "com.thelongtravail.client.catalog.CatalogScreen",
@@ -9150,6 +9390,14 @@
       "basis": "explicit-import"
     },
     {
+      "from": "com.thelongtravail.client.DiaryPreface",
+      "to": "com.thelongtravail.client.ProseAlignment",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/client/DiaryPreface.java",
+      "tokenLine": 114,
+      "basis": "same-package"
+    },
+    {
       "from": "com.thelongtravail.client.DiaryProgressTooltip",
       "to": "com.thelongtravail.client.ThinProgressBar",
       "kind": "lexical-reference-candidate",
@@ -9220,6 +9468,22 @@
       "evidence": "src/main/java/com/thelongtravail/client/ExecutionTerminationClient.java",
       "tokenLine": 33,
       "basis": "wildcard-import"
+    },
+    {
+      "from": "com.thelongtravail.client.IcarusWingModel",
+      "to": "com.thelongtravail.client.IcarusWingTexture",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/client/IcarusWingModel.java",
+      "tokenLine": 21,
+      "basis": "same-package"
+    },
+    {
+      "from": "com.thelongtravail.client.IcarusWingTexture",
+      "to": "com.thelongtravail.TheLongTravail",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/client/IcarusWingTexture.java",
+      "tokenLine": 18,
+      "basis": "explicit-import"
     },
     {
       "from": "com.thelongtravail.client.LanternLightingClient",
@@ -9434,7 +9698,7 @@
       "to": "com.thelongtravail.abyss.AbundanceText",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/ThemeTooltips.java",
-      "tokenLine": 253,
+      "tokenLine": 259,
       "basis": "fully-qualified"
     },
     {
@@ -9442,7 +9706,7 @@
       "to": "com.thelongtravail.abyss.AbyssItemText",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/ThemeTooltips.java",
-      "tokenLine": 254,
+      "tokenLine": 260,
       "basis": "fully-qualified"
     },
     {
@@ -9474,7 +9738,7 @@
       "to": "com.thelongtravail.boundless.BoundlessRelicText",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/ThemeTooltips.java",
-      "tokenLine": 318,
+      "tokenLine": 324,
       "basis": "fully-qualified"
     },
     {
@@ -9490,7 +9754,7 @@
       "to": "com.thelongtravail.client.BoundlessClient",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/ThemeTooltips.java",
-      "tokenLine": 311,
+      "tokenLine": 317,
       "basis": "same-package"
     },
     {
@@ -9522,7 +9786,7 @@
       "to": "com.thelongtravail.client.RainClient",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/ThemeTooltips.java",
-      "tokenLine": 293,
+      "tokenLine": 299,
       "basis": "same-package"
     },
     {
@@ -9546,7 +9810,7 @@
       "to": "com.thelongtravail.farreach.IcarusFlight",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/ThemeTooltips.java",
-      "tokenLine": 302,
+      "tokenLine": 308,
       "basis": "explicit-import"
     },
     {
@@ -9554,7 +9818,7 @@
       "to": "com.thelongtravail.flourishing.Affection",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/ThemeTooltips.java",
-      "tokenLine": 279,
+      "tokenLine": 285,
       "basis": "wildcard-import"
     },
     {
@@ -9570,7 +9834,7 @@
       "to": "com.thelongtravail.flourishing.FlowerData",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/ThemeTooltips.java",
-      "tokenLine": 258,
+      "tokenLine": 264,
       "basis": "wildcard-import"
     },
     {
@@ -9610,7 +9874,7 @@
       "to": "com.thelongtravail.valley.LanternSources",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/ThemeTooltips.java",
-      "tokenLine": 303,
+      "tokenLine": 309,
       "basis": "explicit-import"
     },
     {
@@ -9938,7 +10202,7 @@
       "to": "com.thelongtravail.AspectTheme",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/TravelDiaryScreen.java",
-      "tokenLine": 137,
+      "tokenLine": 160,
       "basis": "fully-qualified"
     },
     {
@@ -9946,7 +10210,7 @@
       "to": "com.thelongtravail.client.BookmarkAnimation",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/TravelDiaryScreen.java",
-      "tokenLine": 133,
+      "tokenLine": 154,
       "basis": "same-package"
     },
     {
@@ -9954,7 +10218,7 @@
       "to": "com.thelongtravail.client.DiaryActionSounds",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/TravelDiaryScreen.java",
-      "tokenLine": 542,
+      "tokenLine": 588,
       "basis": "same-package"
     },
     {
@@ -9962,7 +10226,7 @@
       "to": "com.thelongtravail.client.DiaryFontEffects",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/TravelDiaryScreen.java",
-      "tokenLine": 78,
+      "tokenLine": 91,
       "basis": "same-package"
     },
     {
@@ -9970,7 +10234,15 @@
       "to": "com.thelongtravail.client.DiaryPageProse",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/TravelDiaryScreen.java",
-      "tokenLine": 258,
+      "tokenLine": 306,
+      "basis": "same-package"
+    },
+    {
+      "from": "com.thelongtravail.client.TravelDiaryScreen",
+      "to": "com.thelongtravail.client.DiaryPreface",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/client/TravelDiaryScreen.java",
+      "tokenLine": 46,
       "basis": "same-package"
     },
     {
@@ -9978,7 +10250,7 @@
       "to": "com.thelongtravail.client.ProseAlignment",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/TravelDiaryScreen.java",
-      "tokenLine": 297,
+      "tokenLine": 345,
       "basis": "same-package"
     },
     {
@@ -9986,7 +10258,7 @@
       "to": "com.thelongtravail.data.JourneyState",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/TravelDiaryScreen.java",
-      "tokenLine": 381,
+      "tokenLine": 429,
       "basis": "fully-qualified"
     },
     {
@@ -9994,7 +10266,7 @@
       "to": "com.thelongtravail.data.LongTravailData",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/TravelDiaryScreen.java",
-      "tokenLine": 54,
+      "tokenLine": 67,
       "basis": "explicit-import"
     },
     {
@@ -10002,7 +10274,7 @@
       "to": "com.thelongtravail.item.LongTravailItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/TravelDiaryScreen.java",
-      "tokenLine": 394,
+      "tokenLine": 442,
       "basis": "explicit-import"
     },
     {
@@ -10010,7 +10282,7 @@
       "to": "com.thelongtravail.network.JourneySync",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/TravelDiaryScreen.java",
-      "tokenLine": 74,
+      "tokenLine": 87,
       "basis": "fully-qualified"
     },
     {
@@ -10018,7 +10290,7 @@
       "to": "com.thelongtravail.network.TooltipConfigSync",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/TravelDiaryScreen.java",
-      "tokenLine": 77,
+      "tokenLine": 90,
       "basis": "explicit-import"
     },
     {
@@ -10026,7 +10298,7 @@
       "to": "com.thelongtravail.registry.ModRegistry",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/TravelDiaryScreen.java",
-      "tokenLine": 109,
+      "tokenLine": 129,
       "basis": "explicit-import"
     },
     {
@@ -10034,7 +10306,7 @@
       "to": "com.thelongtravail.TheLongTravail",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/TravelDiaryScreen.java",
-      "tokenLine": 91,
+      "tokenLine": 104,
       "basis": "explicit-import"
     },
     {
@@ -10042,7 +10314,7 @@
       "to": "com.thelongtravail.TravailAspect",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/client/TravelDiaryScreen.java",
-      "tokenLine": 34,
+      "tokenLine": 47,
       "basis": "explicit-import"
     },
     {
@@ -10443,6 +10715,14 @@
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/combat/SunBladeActors.java",
       "tokenLine": 19,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.common.RuntimeFailures",
+      "to": "com.thelongtravail.TheLongTravail",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/common/RuntimeFailures.java",
+      "tokenLine": 18,
       "basis": "explicit-import"
     },
     {
@@ -10867,6 +11147,14 @@
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/compat/jei/AbyssJeiPlugin.java",
       "tokenLine": 46,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.compat.jei.BoundlessJeiPlugin",
+      "to": "com.thelongtravail.registry.ModRegistry",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/compat/jei/BoundlessJeiPlugin.java",
+      "tokenLine": 25,
       "basis": "explicit-import"
     },
     {
@@ -11378,7 +11666,7 @@
       "to": "com.thelongtravail.config.FlourishingItemsConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/compat/maid/MaidCombatFeedback.java",
-      "tokenLine": 180,
+      "tokenLine": 174,
       "basis": "explicit-import"
     },
     {
@@ -11418,7 +11706,7 @@
       "to": "com.thelongtravail.mixin.EffectDurationAccessor",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/compat/maid/MaidCombatFeedback.java",
-      "tokenLine": 229,
+      "tokenLine": 223,
       "basis": "fully-qualified"
     },
     {
@@ -15018,7 +15306,7 @@
       "to": "com.thelongtravail.api.TravailStateApi",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/farreach/DonQuixoteCombat.java",
-      "tokenLine": 35,
+      "tokenLine": 49,
       "basis": "explicit-import"
     },
     {
@@ -15026,7 +15314,15 @@
       "to": "com.thelongtravail.combat.DamageIdentity",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/farreach/DonQuixoteCombat.java",
-      "tokenLine": 48,
+      "tokenLine": 62,
+      "basis": "fully-qualified"
+    },
+    {
+      "from": "com.thelongtravail.farreach.DonQuixoteCombat",
+      "to": "com.thelongtravail.combat.DirectStrikeDamage",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/farreach/DonQuixoteCombat.java",
+      "tokenLine": 19,
       "basis": "fully-qualified"
     },
     {
@@ -15034,7 +15330,7 @@
       "to": "com.thelongtravail.compat.maid.MaidAccessories",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/farreach/DonQuixoteCombat.java",
-      "tokenLine": 30,
+      "tokenLine": 44,
       "basis": "explicit-import"
     },
     {
@@ -15042,7 +15338,7 @@
       "to": "com.thelongtravail.config.FarReachRelicsConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/farreach/DonQuixoteCombat.java",
-      "tokenLine": 55,
+      "tokenLine": 69,
       "basis": "explicit-import"
     },
     {
@@ -15050,7 +15346,7 @@
       "to": "com.thelongtravail.farreach.DonQuixoteState",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/farreach/DonQuixoteCombat.java",
-      "tokenLine": 104,
+      "tokenLine": 118,
       "basis": "same-package"
     },
     {
@@ -15058,7 +15354,7 @@
       "to": "com.thelongtravail.farreach.SunChaser",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/farreach/DonQuixoteCombat.java",
-      "tokenLine": 135,
+      "tokenLine": 143,
       "basis": "fully-qualified"
     },
     {
@@ -15066,7 +15362,7 @@
       "to": "com.thelongtravail.flourishing.FloralCombat",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/farreach/DonQuixoteCombat.java",
-      "tokenLine": 67,
+      "tokenLine": 81,
       "basis": "fully-qualified"
     },
     {
@@ -15074,7 +15370,7 @@
       "to": "com.thelongtravail.helper.CurioLookup",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/farreach/DonQuixoteCombat.java",
-      "tokenLine": 26,
+      "tokenLine": 40,
       "basis": "explicit-import"
     },
     {
@@ -15082,7 +15378,7 @@
       "to": "com.thelongtravail.mixin.DamageReplayStateAccessor",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/farreach/DonQuixoteCombat.java",
-      "tokenLine": 129,
+      "tokenLine": 137,
       "basis": "fully-qualified"
     },
     {
@@ -15090,7 +15386,7 @@
       "to": "com.thelongtravail.registry.ModRegistry",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/farreach/DonQuixoteCombat.java",
-      "tokenLine": 26,
+      "tokenLine": 40,
       "basis": "explicit-import"
     },
     {
@@ -15546,7 +15842,15 @@
       "to": "com.thelongtravail.combat.DamageIdentity",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/flourishing/FloralCombat.java",
-      "tokenLine": 20,
+      "tokenLine": 34,
+      "basis": "fully-qualified"
+    },
+    {
+      "from": "com.thelongtravail.flourishing.FloralCombat",
+      "to": "com.thelongtravail.combat.DirectStrikeDamage",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/flourishing/FloralCombat.java",
+      "tokenLine": 17,
       "basis": "fully-qualified"
     },
     {
@@ -15554,7 +15858,7 @@
       "to": "com.thelongtravail.config.FlourishingItemsConfig",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/flourishing/FloralCombat.java",
-      "tokenLine": 37,
+      "tokenLine": 51,
       "basis": "explicit-import"
     },
     {
@@ -15562,7 +15866,7 @@
       "to": "com.thelongtravail.config.ModeEffectRules",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/flourishing/FloralCombat.java",
-      "tokenLine": 102,
+      "tokenLine": 116,
       "basis": "fully-qualified"
     },
     {
@@ -15570,7 +15874,7 @@
       "to": "com.thelongtravail.flourishing.Affection",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/flourishing/FloralCombat.java",
-      "tokenLine": 27,
+      "tokenLine": 41,
       "basis": "same-package"
     },
     {
@@ -15578,7 +15882,7 @@
       "to": "com.thelongtravail.flourishing.Flower",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/flourishing/FloralCombat.java",
-      "tokenLine": 77,
+      "tokenLine": 91,
       "basis": "same-package"
     },
     {
@@ -15586,7 +15890,7 @@
       "to": "com.thelongtravail.flourishing.FlowerData",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/flourishing/FloralCombat.java",
-      "tokenLine": 116,
+      "tokenLine": 124,
       "basis": "same-package"
     },
     {
@@ -15594,7 +15898,7 @@
       "to": "com.thelongtravail.helper.CombatContext",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/flourishing/FloralCombat.java",
-      "tokenLine": 56,
+      "tokenLine": 70,
       "basis": "fully-qualified"
     },
     {
@@ -16579,6 +16883,22 @@
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/item/AbyssItem.java",
       "tokenLine": 13,
+      "basis": "same-package"
+    },
+    {
+      "from": "com.thelongtravail.item.AncientStrangeTalesItem",
+      "to": "com.thelongtravail.AspectTheme",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/item/AncientStrangeTalesItem.java",
+      "tokenLine": 22,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.item.AncientStrangeTalesItem",
+      "to": "com.thelongtravail.item.ItemDescription",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/item/AncientStrangeTalesItem.java",
+      "tokenLine": 15,
       "basis": "same-package"
     },
     {
@@ -18711,15 +19031,7 @@
     },
     {
       "from": "com.thelongtravail.mixin.FluidAbsorptionMixin",
-      "to": "com.thelongtravail.farreach.DonQuixoteCombat",
-      "kind": "lexical-reference-candidate",
-      "evidence": "src/main/java/com/thelongtravail/mixin/FluidAbsorptionMixin.java",
-      "tokenLine": 24,
-      "basis": "fully-qualified"
-    },
-    {
-      "from": "com.thelongtravail.mixin.FluidAbsorptionMixin",
-      "to": "com.thelongtravail.flourishing.FloralCombat",
+      "to": "com.thelongtravail.combat.DirectStrikeDamage",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/mixin/FluidAbsorptionMixin.java",
       "tokenLine": 23,
@@ -18735,10 +19047,26 @@
     },
     {
       "from": "com.thelongtravail.mixin.FluidCraftingClickMixin",
+      "to": "com.thelongtravail.boundless.TransferNotices",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/mixin/FluidCraftingClickMixin.java",
+      "tokenLine": 24,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.mixin.FluidCraftingClickMixin",
       "to": "com.thelongtravail.compat.fluid.FluidCrafting",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/mixin/FluidCraftingClickMixin.java",
-      "tokenLine": 23,
+      "tokenLine": 25,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.mixin.FluidCraftingQuickMoveMixin",
+      "to": "com.thelongtravail.boundless.TransferNotices",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/mixin/FluidCraftingQuickMoveMixin.java",
+      "tokenLine": 17,
       "basis": "explicit-import"
     },
     {
@@ -18746,7 +19074,7 @@
       "to": "com.thelongtravail.compat.fluid.FluidCrafting",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/mixin/FluidCraftingQuickMoveMixin.java",
-      "tokenLine": 16,
+      "tokenLine": 19,
       "basis": "explicit-import"
     },
     {
@@ -18818,15 +19146,23 @@
       "to": "com.thelongtravail.client.IcarusWingModel",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/mixin/IcarusElytraLayerMixin.java",
-      "tokenLine": 22,
-      "basis": "fully-qualified"
+      "tokenLine": 23,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.mixin.IcarusElytraLayerMixin",
+      "to": "com.thelongtravail.client.IcarusWingTexture",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/mixin/IcarusElytraLayerMixin.java",
+      "tokenLine": 49,
+      "basis": "explicit-import"
     },
     {
       "from": "com.thelongtravail.mixin.IcarusElytraLayerMixin",
       "to": "com.thelongtravail.farreach.IcarusFlight",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/mixin/IcarusElytraLayerMixin.java",
-      "tokenLine": 49,
+      "tokenLine": 47,
       "basis": "explicit-import"
     },
     {
@@ -18927,26 +19263,18 @@
     },
     {
       "from": "com.thelongtravail.mixin.LivingCombatMixin",
+      "to": "com.thelongtravail.combat.DirectStrikeDamage",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/mixin/LivingCombatMixin.java",
+      "tokenLine": 60,
+      "basis": "fully-qualified"
+    },
+    {
+      "from": "com.thelongtravail.mixin.LivingCombatMixin",
       "to": "com.thelongtravail.compat.maid.MaidAccessories",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/mixin/LivingCombatMixin.java",
       "tokenLine": 31,
-      "basis": "fully-qualified"
-    },
-    {
-      "from": "com.thelongtravail.mixin.LivingCombatMixin",
-      "to": "com.thelongtravail.farreach.DonQuixoteCombat",
-      "kind": "lexical-reference-candidate",
-      "evidence": "src/main/java/com/thelongtravail/mixin/LivingCombatMixin.java",
-      "tokenLine": 61,
-      "basis": "fully-qualified"
-    },
-    {
-      "from": "com.thelongtravail.mixin.LivingCombatMixin",
-      "to": "com.thelongtravail.flourishing.FloralCombat",
-      "kind": "lexical-reference-candidate",
-      "evidence": "src/main/java/com/thelongtravail/mixin/LivingCombatMixin.java",
-      "tokenLine": 60,
       "basis": "fully-qualified"
     },
     {
@@ -18970,7 +19298,7 @@
       "to": "com.thelongtravail.helper.CombatContext",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/mixin/LivingCombatMixin.java",
-      "tokenLine": 89,
+      "tokenLine": 87,
       "basis": "explicit-import"
     },
     {
@@ -18978,7 +19306,7 @@
       "to": "com.thelongtravail.valley.AzraelExecution",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/mixin/LivingCombatMixin.java",
-      "tokenLine": 85,
+      "tokenLine": 83,
       "basis": "fully-qualified"
     },
     {
@@ -19047,7 +19375,7 @@
     },
     {
       "from": "com.thelongtravail.mixin.PlayerCombatMixin",
-      "to": "com.thelongtravail.farreach.DonQuixoteCombat",
+      "to": "com.thelongtravail.combat.DirectStrikeDamage",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/mixin/PlayerCombatMixin.java",
       "tokenLine": 30,
@@ -19187,6 +19515,30 @@
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/mixin/SunFireMixin.java",
       "tokenLine": 20,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.mixin.TalesAnvilMixin",
+      "to": "com.thelongtravail.boundless.EnchantmentTransfer",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/mixin/TalesAnvilMixin.java",
+      "tokenLine": 29,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.mixin.TalesEnchantmentCandidatesMixin",
+      "to": "com.thelongtravail.boundless.EnchantmentTransfer",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/mixin/TalesEnchantmentCandidatesMixin.java",
+      "tokenLine": 28,
+      "basis": "explicit-import"
+    },
+    {
+      "from": "com.thelongtravail.mixin.TalesEnchantmentMenuMixin",
+      "to": "com.thelongtravail.boundless.EnchantmentTransfer",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/mixin/TalesEnchantmentMenuMixin.java",
+      "tokenLine": 29,
       "basis": "explicit-import"
     },
     {
@@ -20058,7 +20410,7 @@
       "to": "com.thelongtravail.abyss.LiquefiedAbundanceRecipe",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 77,
+      "tokenLine": 81,
       "basis": "explicit-import"
     },
     {
@@ -20066,7 +20418,15 @@
       "to": "com.thelongtravail.abyss.PerfectFluidRecipe",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 117,
+      "tokenLine": 121,
+      "basis": "fully-qualified"
+    },
+    {
+      "from": "com.thelongtravail.registry.ModRegistry",
+      "to": "com.thelongtravail.boundless.EnchantmentTransferRecipe",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
+      "tokenLine": 141,
       "basis": "fully-qualified"
     },
     {
@@ -20074,7 +20434,7 @@
       "to": "com.thelongtravail.effect.MistletoeEffect",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 71,
+      "tokenLine": 75,
       "basis": "fully-qualified"
     },
     {
@@ -20082,7 +20442,7 @@
       "to": "com.thelongtravail.effect.StiffEffect",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 219,
+      "tokenLine": 234,
       "basis": "explicit-import"
     },
     {
@@ -20090,7 +20450,7 @@
       "to": "com.thelongtravail.effect.VisualDeprivationEffect",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 221,
+      "tokenLine": 236,
       "basis": "explicit-import"
     },
     {
@@ -20098,7 +20458,7 @@
       "to": "com.thelongtravail.entity.WayguideEntity",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 190,
+      "tokenLine": 205,
       "basis": "explicit-import"
     },
     {
@@ -20106,7 +20466,7 @@
       "to": "com.thelongtravail.flourishing.ImmortalBudRecipe",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 100,
+      "tokenLine": 104,
       "basis": "fully-qualified"
     },
     {
@@ -20114,7 +20474,7 @@
       "to": "com.thelongtravail.flourishing.SpringRecipes",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 82,
+      "tokenLine": 86,
       "basis": "fully-qualified"
     },
     {
@@ -20122,7 +20482,15 @@
       "to": "com.thelongtravail.item.AbyssItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 112,
+      "tokenLine": 116,
+      "basis": "fully-qualified"
+    },
+    {
+      "from": "com.thelongtravail.registry.ModRegistry",
+      "to": "com.thelongtravail.item.AncientStrangeTalesItem",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
+      "tokenLine": 51,
       "basis": "fully-qualified"
     },
     {
@@ -20130,7 +20498,7 @@
       "to": "com.thelongtravail.item.AspectEssenceItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 215,
+      "tokenLine": 230,
       "basis": "fully-qualified"
     },
     {
@@ -20138,7 +20506,7 @@
       "to": "com.thelongtravail.item.AzraelItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 175,
+      "tokenLine": 190,
       "basis": "fully-qualified"
     },
     {
@@ -20146,7 +20514,7 @@
       "to": "com.thelongtravail.item.BabelItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 179,
+      "tokenLine": 194,
       "basis": "fully-qualified"
     },
     {
@@ -20154,7 +20522,7 @@
       "to": "com.thelongtravail.item.BoundlessAccessoryItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 132,
+      "tokenLine": 136,
       "basis": "fully-qualified"
     },
     {
@@ -20162,7 +20530,7 @@
       "to": "com.thelongtravail.item.BoundlessRelicItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 135,
+      "tokenLine": 139,
       "basis": "fully-qualified"
     },
     {
@@ -20170,7 +20538,7 @@
       "to": "com.thelongtravail.item.ColoringItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 50,
+      "tokenLine": 54,
       "basis": "explicit-import"
     },
     {
@@ -20178,7 +20546,7 @@
       "to": "com.thelongtravail.item.DonQuixoteItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 177,
+      "tokenLine": 192,
       "basis": "fully-qualified"
     },
     {
@@ -20186,7 +20554,7 @@
       "to": "com.thelongtravail.item.EkiItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 126,
+      "tokenLine": 130,
       "basis": "fully-qualified"
     },
     {
@@ -20194,7 +20562,7 @@
       "to": "com.thelongtravail.item.EverlastingFlowerItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 67,
+      "tokenLine": 71,
       "basis": "fully-qualified"
     },
     {
@@ -20202,7 +20570,7 @@
       "to": "com.thelongtravail.item.FarReachAccessoryItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 182,
+      "tokenLine": 197,
       "basis": "fully-qualified"
     },
     {
@@ -20210,7 +20578,7 @@
       "to": "com.thelongtravail.item.FlourishingAccessoryItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 62,
+      "tokenLine": 66,
       "basis": "fully-qualified"
     },
     {
@@ -20218,7 +20586,7 @@
       "to": "com.thelongtravail.item.HighFrequencyTremorItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 167,
+      "tokenLine": 182,
       "basis": "fully-qualified"
     },
     {
@@ -20226,7 +20594,7 @@
       "to": "com.thelongtravail.item.HomecomingItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 56,
+      "tokenLine": 60,
       "basis": "explicit-import"
     },
     {
@@ -20234,7 +20602,7 @@
       "to": "com.thelongtravail.item.ImmortalBudItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 69,
+      "tokenLine": 73,
       "basis": "fully-qualified"
     },
     {
@@ -20242,7 +20610,7 @@
       "to": "com.thelongtravail.item.KagotsurubeItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 186,
+      "tokenLine": 201,
       "basis": "fully-qualified"
     },
     {
@@ -20250,7 +20618,7 @@
       "to": "com.thelongtravail.item.LiquefiedAbundanceItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 110,
+      "tokenLine": 114,
       "basis": "fully-qualified"
     },
     {
@@ -20258,7 +20626,7 @@
       "to": "com.thelongtravail.item.LongTravailItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 53,
+      "tokenLine": 57,
       "basis": "explicit-import"
     },
     {
@@ -20266,7 +20634,7 @@
       "to": "com.thelongtravail.item.MistletoeItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 64,
+      "tokenLine": 68,
       "basis": "fully-qualified"
     },
     {
@@ -20274,7 +20642,7 @@
       "to": "com.thelongtravail.item.PhosphophylliteItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 161,
+      "tokenLine": 176,
       "basis": "fully-qualified"
     },
     {
@@ -20282,7 +20650,7 @@
       "to": "com.thelongtravail.item.RenewalItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 54,
+      "tokenLine": 58,
       "basis": "explicit-import"
     },
     {
@@ -20290,7 +20658,7 @@
       "to": "com.thelongtravail.item.RevelationStoneItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 206,
+      "tokenLine": 221,
       "basis": "explicit-import"
     },
     {
@@ -20298,7 +20666,7 @@
       "to": "com.thelongtravail.item.SunChaserItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 184,
+      "tokenLine": 199,
       "basis": "fully-qualified"
     },
     {
@@ -20306,7 +20674,7 @@
       "to": "com.thelongtravail.item.SwordLanternItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 143,
+      "tokenLine": 158,
       "basis": "fully-qualified"
     },
     {
@@ -20314,7 +20682,7 @@
       "to": "com.thelongtravail.item.TokaidoItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 128,
+      "tokenLine": 132,
       "basis": "fully-qualified"
     },
     {
@@ -20322,7 +20690,7 @@
       "to": "com.thelongtravail.item.UndergroundVelvetItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 164,
+      "tokenLine": 179,
       "basis": "fully-qualified"
     },
     {
@@ -20330,7 +20698,7 @@
       "to": "com.thelongtravail.item.UnderworldAccessoryItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 147,
+      "tokenLine": 162,
       "basis": "fully-qualified"
     },
     {
@@ -20338,7 +20706,7 @@
       "to": "com.thelongtravail.item.UnderworldRelicItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 155,
+      "tokenLine": 170,
       "basis": "fully-qualified"
     },
     {
@@ -20346,7 +20714,7 @@
       "to": "com.thelongtravail.item.WayguideItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 58,
+      "tokenLine": 62,
       "basis": "explicit-import"
     },
     {
@@ -20362,7 +20730,7 @@
       "to": "com.thelongtravail.registry.ModAttributes",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 295,
+      "tokenLine": 311,
       "basis": "same-package"
     },
     {
@@ -20378,7 +20746,7 @@
       "to": "com.thelongtravail.TravailAspect",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 201,
+      "tokenLine": 216,
       "basis": "explicit-import"
     },
     {
@@ -20386,7 +20754,7 @@
       "to": "com.thelongtravail.valley.LanternLight",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 296,
+      "tokenLine": 312,
       "basis": "fully-qualified"
     },
     {
@@ -20394,7 +20762,7 @@
       "to": "com.thelongtravail.valley.NbtInheritingShapedRecipe",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/registry/ModRegistry.java",
-      "tokenLine": 169,
+      "tokenLine": 184,
       "basis": "fully-qualified"
     },
     {

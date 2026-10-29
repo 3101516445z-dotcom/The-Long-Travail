@@ -36,7 +36,7 @@
   "tooltip.the_long_travail.flower.torchflower": "所受§6火焰、燃燒與熔岩之傷§r減§a%s%%§r。",
   "tooltip.the_long_travail.flower.sunflower": "§a晝且露天§r時，§6行速§r增§a%s%%§r，§6所造之傷§r增§a%s%%§r。",
   "tooltip.the_long_travail.flower.lilac": "所施§6中毒§r、§6凋零§r、§6緩速§r、§6虛弱§r之效，為時延§a%s%%§r。",
-  "tooltip.the_long_travail.flower.rose_bush": "§a受近戰之擊§r時，創敵§6真實之傷§r，其數如佩者§6最大生命值§r§a%s%%§r；再觸冷卻§a%s秒§r。",
+  "tooltip.the_long_travail.flower.rose_bush": "§a受近戰之擊§r時，創敵§6直擊傷害§r，其數如佩者§6最大生命值§r§a%s%%§r；再觸冷卻§a%s秒§r。",
   "tooltip.the_long_travail.flower.peony": "§6最大生命值§r增§a%s%%§r。",
   "tooltip.the_long_travail.flower.pitcher_plant": "§a誅敵對之獸§r時，復§6生命§r，其數如佩者§6最大生命值§r§a%s%%§r；再觸冷卻§a%s秒§r。",
   "tooltip.the_long_travail.flower.pink_petals": "§6行速§r增§a%s%%§r。",

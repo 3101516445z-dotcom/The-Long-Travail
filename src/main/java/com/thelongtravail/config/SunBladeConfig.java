@@ -29,7 +29,7 @@ public final class SunBladeConfig {
                 "sun_chaser.strikeFraction",
                 .01,
                 1,
-                "追加直击占目标最大生命比例，不再增伤或必杀 / Additional direct strike fraction of target maximum"
+                "追加直击伤害占目标最大生命比例，不再增伤或必杀 / Additional direct strike fraction of target maximum"
                         + " health; no bonus or critical");
     }
 

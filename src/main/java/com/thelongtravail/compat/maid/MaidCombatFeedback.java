@@ -166,13 +166,7 @@ public final class MaidCombatFeedback {
                     && ready(now, s.rose, Flower.ROSE_BUSH)
                     && ModeEffectRules.FLOWER_THORNS.applies(other)) {
                 s.rose = now;
-                var damage =
-                        new DamageSource(
-                                defender.level()
-                                        .registryAccess()
-                                        .registryOrThrow(Registries.DAMAGE_TYPE)
-                                        .getHolderOrThrow(FloralCombat.ROSE),
-                                defender);
+                var damage = FloralCombat.roseSource(defender);
                 other.hurt(
                         damage,
                         FloralCombat.safe(

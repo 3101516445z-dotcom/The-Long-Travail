@@ -1,0 +1,18 @@
+allprojects {
+    afterEvaluate {
+        sourceSets {
+            prefaceFullpack {
+                java.srcDir 'tools/structure-regression/preface-preview'
+                resources.srcDir 'tools/structure-regression/preface-preview/resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+            }
+        }
+        tasks.register('prefaceFullpackJar', Jar) {
+            from sourceSets.prefaceFullpack.output
+            archiveFileName = 'travail-preface-acceptance.jar'
+            destinationDirectory = project.layout.buildDirectory.dir('preface-fixture')
+            doFirst { manifest.attributes.remove('MixinConfigs') }
+        }
+        reobf { prefaceFullpackJar { classpath.from sourceSets.main.output, sourceSets.main.compileClasspath } }
+    }
+}

@@ -1,5 +1,6 @@
 package com.thelongtravail.abyss;
 
+import com.thelongtravail.common.RuntimeFailures;
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.config.AbyssItemsConfig;
 import com.thelongtravail.network.TooltipConfigSync;
@@ -19,6 +20,7 @@ import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.util.thread.EffectiveSide;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -109,19 +111,33 @@ public final class LiquefiedAbundance {
             }
             return stack;
         }
-        MobEffectInstance effect = AbundanceEffectPool.sample(player.getRandom());
-        if (effect == null) {
+        ItemStack output;
+        MobEffectInstance effect = null;
+        try {
+            effect = AbundanceEffectPool.sample(player.getRandom());
+            if (effect == null) {
+                player.displayClientMessage(
+                        Component.translatable(AbundanceEffectPool.emptyMessage()), true);
+                return stack;
+            }
+            Item item =
+                    switch (session.mode()) {
+                        case 1 -> Items.SPLASH_POTION;
+                        case 2 -> Items.LINGERING_POTION;
+                        default -> Items.POTION;
+                    };
+            output = potion(item, effect);
+        } catch (RuntimeException failure) {
+            RuntimeFailures.report(
+                    "abundance potion preparation effect="
+                            + (effect == null
+                                    ? "unknown"
+                                    : ForgeRegistries.MOB_EFFECTS.getKey(effect.getEffect())),
+                    failure);
             player.displayClientMessage(
-                    Component.translatable("message.the_long_travail.abundance.empty"), true);
+                    Component.translatable("message.the_long_travail.abundance.failed"), true);
             return stack;
         }
-        Item item =
-                switch (session.mode()) {
-                    case 1 -> Items.SPLASH_POTION;
-                    case 2 -> Items.LINGERING_POTION;
-                    default -> Items.POTION;
-                };
-        ItemStack output = potion(item, effect);
         ItemStack result;
         if (player.getAbilities().instabuild) {
             // 创造模式的 Inventory.add 可能丢弃溢出物品，改用统一交付入口。

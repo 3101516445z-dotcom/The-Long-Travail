@@ -32,8 +32,8 @@ public final class FarReachRelicsConfig {
                 500,
                 1,
                 1e12,
-                "当目标当前生命值不低于佩戴者当前生命值乘以此倍率时，追加真实伤害。\n"
-                        + "Deals additional true damage only when the target's current health is at"
+                "当目标当前生命值不低于佩戴者当前生命值乘以此倍率时，追加直击伤害。\n"
+                        + "Deals additional direct strike damage only when the target's current health is at"
                         + " least this multiple of the wearer's current health.");
         n(
                 b,
@@ -41,8 +41,8 @@ public final class FarReachRelicsConfig {
                 .04,
                 0,
                 1,
-                "追加真伤占目标最大生命的比例，不重复获得输出加成。\n"
-                        + "Additional true damage as a fraction of the target's maximum health;"
+                "追加直击伤害占目标最大生命的比例，不重复获得输出加成。\n"
+                        + "Additional direct strike damage as a fraction of the target's maximum health;"
                         + " outgoing damage bonuses are not applied again.");
         n(
                 b,

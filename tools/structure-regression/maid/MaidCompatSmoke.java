@@ -666,14 +666,7 @@ public final class MaidCompatSmoke {
                 check(
                         !TimeStopManager.locked(id) && data.getInt(key) == 0,
                         "zero environment self do not roll maid=" + maid);
-                var roseSource =
-                        new net.minecraft.world.damagesource.DamageSource(
-                                level.registryAccess()
-                                        .registryOrThrow(
-                                                net.minecraft.core.registries.Registries
-                                                        .DAMAGE_TYPE)
-                                        .getHolderOrThrow(FloralCombat.ROSE),
-                                enemy);
+                var roseSource = FloralCombat.roseSource(enemy);
                 wearer.hurt(roseSource, 1);
                 check(
                         !TimeStopManager.locked(id),

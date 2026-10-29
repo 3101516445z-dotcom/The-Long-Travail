@@ -1,0 +1,33 @@
+allprojects {
+    afterEvaluate {
+        sourceSets {
+            icarusTest {
+                java.srcDir 'tools/structure-regression/icarus-hardening'
+                resources.srcDir 'tools/structure-regression/tales-resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        def directory = project.file('build/icarus-hardening-client')
+        minecraft.runs.client {
+            workingDirectory directory
+            args '--width', '800', '--height', '600'
+            mods { travail_smoke { source sourceSets.icarusTest } }
+        }
+        tasks.matching { it.name == 'runClient' }.configureEach {
+            doFirst {
+                directory.mkdirs()
+                def pack = new File(directory, 'resourcepacks/icarus-broken')
+                def image = new File(pack, 'assets/the_long_travail/textures/entity/icarus_elytra.png')
+                image.parentFile.mkdirs()
+                image.text = 'intentionally corrupt PNG'
+                new File(pack, 'pack.mcmeta').text = '{"pack":{"pack_format":15,"description":"Icarus failure injection"}}'
+                new File(directory, 'options.txt').text = 'lang:zh_cn\nguiScale:2\nmaxFps:30\nonboardAccessibility:false\nresourcePacks:["vanilla","mod_resources","file/icarus-broken"]\n'
+                new File(directory, 'icarus-result.txt').text = 'NOT_RUN'
+            }
+            doLast {
+                if (!new File(directory, 'icarus-result.txt').text.startsWith('PASS ')) throw new GradleException('Icarus hardening regression failed')
+            }
+        }
+    }
+}

@@ -64,5 +64,19 @@
   "tooltip.the_long_travail.lorentz.damage": "The wearer's §6projectile damage dealt§r increases by §a%1$s%%§r; arrows that §ahit a target's head§r deal an additional §a%2$s%%§r damage.",
   "tooltip.the_long_travail.lorentz.witness_heading": "Once Boundless has borne Witness:",
   "tooltip.the_long_travail.lorentz.interval": "The §6roll cooldown§r against §athe same target§r is §a%s seconds§r.",
-  "tooltip.the_long_travail.little_prince.height": "%s blocks"
+  "tooltip.the_long_travail.little_prince.height": "%s blocks",
+  "item.the_long_travail.ancient_strange_tales": "Ancient Strange Tales",
+  "tooltip.the_long_travail.summary.ancient_strange_tales.0": "Collect enchantments with quartz; transfer them to items with lapis lazuli.",
+  "tooltip.the_long_travail.ancient_strange_tales.details.0": "Craft an item, nether quartz and Ancient Strange Tales in any order to transfer acceptable enchantments from the item into this book.",
+  "tooltip.the_long_travail.ancient_strange_tales.details.1": "Craft an item, lapis lazuli and Ancient Strange Tales in any order to transfer acceptable enchantments from this book to the item.",
+  "tooltip.the_long_travail.ancient_strange_tales.details.2": "Add a honey bottle for non-curse enchantments only, or a fermented spider eye for curses only. These filters cannot be combined.",
+  "tooltip.the_long_travail.ancient_strange_tales.details.3": "Matching levels add up to 255. Overflow, conflicting, inapplicable and filtered-out enchantments stay on the source.",
+  "tooltip.the_long_travail.ancient_strange_tales.details.4": "Only quartz or lapis and the filter are consumed; honey returns a glass bottle. Both items and their other data are retained. One item is processed per craft.",
+  "tooltip.the_long_travail.ancient_strange_tales.details.5": "No materials are consumed if nothing can transfer. Two copies of Ancient Strange Tales cannot transfer to each other.",
+  "tooltip.the_long_travail.ancient_strange_tales.details.6": "Supports chiseled bookshelves, enchanting tables, and anvil renaming or receiving enchanted books. This book cannot be consumed as an anvil enchantment ingredient.",
+  "tooltip.the_long_travail.ancient_strange_tales.details.7": "Anvils retain normal level and cost rules. Combining the same enchantment may reduce an over-level enchantment to its normal maximum.",
+  "tooltip.the_long_travail.summary.ancient_strange_tales.1": "Add a honey bottle or fermented spider eye to control whether curse enchantments are transferred.",
+  "tooltip.the_long_travail.flavor.ancient_strange_tales": "The beginnings of collected lore, the herald of a garden of wonders.",
+  "message.the_long_travail.transfer.enchantment_failed": "Enchantment \"%s\" failed its transfer check; the operation was cancelled, materials were not consumed",
+  "message.the_long_travail.transfer.failed": "The enchantment transfer failed; the operation was cancelled, materials were not consumed"
 }

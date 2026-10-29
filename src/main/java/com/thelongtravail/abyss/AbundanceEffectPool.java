@@ -1,5 +1,6 @@
 package com.thelongtravail.abyss;
 
+import com.thelongtravail.common.RuntimeFailures;
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.config.AbyssItemsConfig;
 
@@ -26,51 +27,133 @@ public final class AbundanceEffectPool {
         }
     }
 
-    private static List<Entry> entries = List.of();
+    private record Snapshot(List<Entry> entries, boolean dataErrors, boolean rebuildFailed) {}
+
+    private static volatile Snapshot snapshot = new Snapshot(List.of(), false, false);
+
+    public static boolean hasDataErrors() {
+        return snapshot.dataErrors();
+    }
+
+    public static String emptyMessage() {
+        Snapshot current = snapshot;
+        return current.rebuildFailed()
+                ? "message.the_long_travail.abundance.failed"
+                : current.dataErrors()
+                        ? "message.the_long_travail.abundance.data_error"
+                        : "message.the_long_travail.abundance.empty";
+    }
 
     public static List<Entry> build(
             Collection<MobEffect> effects,
             Collection<Potion> potions,
             Set<MobEffect> excluded,
             int fallbackTicks) {
+        return buildSnapshot(effects, potions, excluded, fallbackTicks).entries();
+    }
+
+    private static Snapshot buildSnapshot(
+            Collection<MobEffect> effects,
+            Collection<Potion> potions,
+            Set<MobEffect> excluded,
+            int fallbackTicks) {
         Map<MobEffect, Map<Integer, SortedSet<Integer>>> samples = new HashMap<>();
+        Set<MobEffect> broken = new HashSet<>();
+        boolean errors = false;
         for (Potion potion : potions) {
-            for (MobEffectInstance effect : potion.getEffects()) {
-                int duration = effect.getEffect().isInstantenous() ? 1 : effect.getDuration();
-                if (duration != -1 && duration <= 0 || effect.getAmplifier() < 0) continue;
-                samples.computeIfAbsent(effect.getEffect(), unused -> new TreeMap<>())
-                        .computeIfAbsent(effect.getAmplifier(), unused -> new TreeSet<>())
-                        .add(duration);
+            List<MobEffectInstance> instances;
+            try {
+                instances = new ArrayList<>(Objects.requireNonNull(potion).getEffects());
+            } catch (RuntimeException failure) {
+                errors = true;
+                RuntimeFailures.report(
+                        "abundance potion "
+                                + (potion == null
+                                        ? "null"
+                                        : ForgeRegistries.POTIONS.getKey(potion)),
+                        failure);
+                continue;
+            }
+            for (MobEffectInstance instance : instances) {
+                MobEffect effect = null;
+                try {
+                    effect = Objects.requireNonNull(Objects.requireNonNull(instance).getEffect());
+                    boolean instant;
+                    try {
+                        instant = effect.isInstantenous();
+                    } catch (RuntimeException failure) {
+                        broken.add(effect);
+                        throw failure;
+                    }
+                    int duration = instant ? 1 : instance.getDuration();
+                    if (duration != -1 && duration <= 0 || instance.getAmplifier() < 0) continue;
+                    samples.computeIfAbsent(effect, unused -> new TreeMap<>())
+                            .computeIfAbsent(instance.getAmplifier(), unused -> new TreeSet<>())
+                            .add(duration);
+                } catch (RuntimeException failure) {
+                    errors = true;
+                    RuntimeFailures.report(
+                            "abundance potion sample "
+                                    + (effect == null
+                                            ? "null"
+                                            : ForgeRegistries.MOB_EFFECTS.getKey(effect)),
+                            failure);
+                }
             }
         }
         List<Entry> result = new ArrayList<>();
         for (MobEffect effect : effects) {
-            if (excluded.contains(effect)) continue;
-            var levels = samples.get(effect);
-            if (levels == null || levels.isEmpty()) {
-                result.add(
-                        new Entry(
-                                effect,
-                                List.of(
-                                        new Level(
-                                                0,
-                                                List.of(
-                                                        effect.isInstantenous()
-                                                                ? 1
-                                                                : fallbackTicks)))));
-            } else {
-                result.add(
-                        new Entry(
-                                effect,
-                                levels.entrySet().stream()
-                                        .map(e -> new Level(e.getKey(), List.copyOf(e.getValue())))
-                                        .toList()));
+            try {
+                Objects.requireNonNull(effect);
+                if (excluded.contains(effect) || broken.contains(effect)) continue;
+                var levels = samples.get(effect);
+                if (levels == null || levels.isEmpty()) {
+                    result.add(
+                            new Entry(
+                                    effect,
+                                    List.of(
+                                            new Level(
+                                                    0,
+                                                    List.of(
+                                                            effect.isInstantenous()
+                                                                    ? 1
+                                                                    : Math.max(
+                                                                            1, fallbackTicks))))));
+                } else {
+                    result.add(
+                            new Entry(
+                                    effect,
+                                    levels.entrySet().stream()
+                                            .map(
+                                                    e ->
+                                                            new Level(
+                                                                    e.getKey(),
+                                                                    List.copyOf(e.getValue())))
+                                            .toList()));
+                }
+            } catch (RuntimeException failure) {
+                errors = true;
+                RuntimeFailures.report(
+                        "abundance effect "
+                                + (effect == null
+                                        ? "null"
+                                        : ForgeRegistries.MOB_EFFECTS.getKey(effect)),
+                        failure);
             }
         }
-        return List.copyOf(result);
+        return new Snapshot(List.copyOf(result), errors, false);
     }
 
     public static void reload() {
+        try {
+            reloadPool();
+        } catch (RuntimeException failure) {
+            snapshot = new Snapshot(List.of(), false, true);
+            RuntimeFailures.report("abundance pool rebuild", failure);
+        }
+    }
+
+    private static void reloadPool() {
         Set<MobEffect> excluded = new HashSet<>();
         for (String text : AbyssItemsConfig.ABUNDANCE_BLACKLIST.get()) {
             ResourceLocation id = ResourceLocation.tryParse(text);
@@ -97,8 +180,8 @@ public final class AbundanceEffectPool {
                                 Comparator.comparing(
                                         e -> ForgeRegistries.MOB_EFFECTS.getKey(e).toString()))
                         .toList();
-        entries =
-                build(
+        snapshot =
+                buildSnapshot(
                         effects,
                         ForgeRegistries.POTIONS.getValues(),
                         excluded,
@@ -118,17 +201,17 @@ public final class AbundanceEffectPool {
     }
 
     public static MobEffectInstance sample(RandomSource random) {
-        return sample(entries, random);
+        return sample(snapshot.entries(), random);
     }
 
     public static List<String> ids() {
-        return entries.stream()
+        return snapshot.entries().stream()
                 .map(e -> ForgeRegistries.MOB_EFFECTS.getKey(e.effect()).toString())
                 .toList();
     }
 
     public static void clear() {
-        entries = List.of();
+        snapshot = new Snapshot(List.of(), false, false);
     }
 
     private AbundanceEffectPool() {}

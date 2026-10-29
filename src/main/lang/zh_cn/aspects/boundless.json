@@ -64,5 +64,19 @@
   "tooltip.the_long_travail.lorentz.damage": "佩戴者§6造成的弹射物伤害§r提高§a%1$s%%§r；射出的箭矢§a命中目标头部§r时，造成的伤害额外提高§a%2$s%%§r。",
   "tooltip.the_long_travail.lorentz.witness_heading": "若此时无垠已然见证，则：",
   "tooltip.the_long_travail.lorentz.interval": "对§a同一目标§r的§6判定冷却§r为§a%s秒§r。",
-  "tooltip.the_long_travail.little_prince.height": "%s格"
+  "tooltip.the_long_travail.little_prince.height": "%s格",
+  "item.the_long_travail.ancient_strange_tales": "古今语怪",
+  "tooltip.the_long_travail.summary.ancient_strange_tales.0": "搭配下界石英或青金石，可以通过合成来从物品提取附魔或为物品添加附魔。",
+  "tooltip.the_long_travail.ancient_strange_tales.details.0": "将古今语怪与一件物品、一个下界石英无序合成，可将物品上的附魔转移至本书。",
+  "tooltip.the_long_travail.ancient_strange_tales.details.1": "将下界石英替换为青金石进行合成，则会将本书上的附魔转移至物品。",
+  "tooltip.the_long_travail.ancient_strange_tales.details.2": "合成时额外加入一个蜂蜜瓶，附魔转移将只转移非诅咒附魔；若额外加入一个发酵蜘蛛眼，则只转移诅咒附魔。",
+  "tooltip.the_long_travail.ancient_strange_tales.details.3": "转移附魔时，同种附魔的等级直接相加，上限为255级，超出上限的部分会保留在来源物品上。",
+  "tooltip.the_long_travail.ancient_strange_tales.details.4": "附魔转移过程中，只能转移与目标物品类型及目标已有附魔不冲突的附魔，冲突附魔会保留在原处。",
+  "tooltip.the_long_travail.ancient_strange_tales.details.5": "古今语怪本身支持收录任何类型的附魔。两本古今语怪不能互相转移附魔。",
+  "tooltip.the_long_travail.ancient_strange_tales.details.6": "古今语怪可以放入雕纹书架，未附魔时可以在附魔台附魔。",
+  "tooltip.the_long_travail.ancient_strange_tales.details.7": "可以使用铁砧为其改名或打入附魔书的附魔，但不能将其作为附魔书消耗。",
+  "tooltip.the_long_travail.summary.ancient_strange_tales.1": "若再额外搭配蜂蜜瓶或发酵蜘蛛眼，还可以更明确地控制诅咒附魔的转移。",
+  "tooltip.the_long_travail.flavor.ancient_strange_tales": "实博物之权舆，异苑之嚆矢。",
+  "message.the_long_travail.transfer.enchantment_failed": "附魔「%s」在转移检查时发生异常，已取消本次操作，材料未消耗",
+  "message.the_long_travail.transfer.failed": "本次附魔转移发生异常，已取消本次操作，材料未消耗"
 }

@@ -2,6 +2,8 @@ package com.thelongtravail.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.thelongtravail.farreach.IcarusFlight;
+import com.thelongtravail.client.IcarusWingModel;
+import com.thelongtravail.client.IcarusWingTexture;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -10,7 +12,6 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.ElytraLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
@@ -19,11 +20,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ElytraLayer.class)
 public abstract class IcarusElytraLayerMixin<T extends LivingEntity, M extends EntityModel<T>>
         extends RenderLayer<T, M> {
-    @Unique private com.thelongtravail.client.IcarusWingModel<T> travail$wingModel;
-
-    @Unique
-    private static final ResourceLocation TRAVAIL_ICARUS =
-            new ResourceLocation("the_long_travail", "textures/entity/icarus_elytra.png");
+    @Unique private IcarusWingModel<T> travail$wingModel;
+    @Unique private long travail$generation = -1;
 
     protected IcarusElytraLayerMixin(RenderLayerParent<T, M> parent) {
         super(parent);
@@ -48,8 +46,11 @@ public abstract class IcarusElytraLayerMixin<T extends LivingEntity, M extends E
             CallbackInfo ci) {
         var stack = IcarusFlight.visibleStack(entity);
         if (stack.isEmpty()) return;
-        if (travail$wingModel == null)
-            travail$wingModel = new com.thelongtravail.client.IcarusWingModel<>(TRAVAIL_ICARUS);
+        long generation = IcarusWingTexture.generation();
+        if (travail$wingModel == null || travail$generation != generation) {
+            travail$wingModel = new IcarusWingModel<>();
+            travail$generation = generation;
+        }
         pose.pushPose();
         pose.translate(0, 0, 0.125F);
         getParentModel().copyPropertiesTo(travail$wingModel);
@@ -57,7 +58,7 @@ public abstract class IcarusElytraLayerMixin<T extends LivingEntity, M extends E
         var consumer =
                 ItemRenderer.getArmorFoilBuffer(
                         buffers,
-                        RenderType.armorCutoutNoCull(TRAVAIL_ICARUS),
+                        RenderType.armorCutoutNoCull(IcarusWingTexture.texture()),
                         false,
                         stack.hasFoil());
         travail$wingModel.renderToBuffer(

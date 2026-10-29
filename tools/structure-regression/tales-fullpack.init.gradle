@@ -1,0 +1,18 @@
+allprojects {
+    afterEvaluate {
+        sourceSets {
+            talesFullpack {
+                java.srcDir 'tools/structure-regression/tales-fullpack'
+                resources.srcDir 'tools/structure-regression/tales-fullpack-resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+            }
+        }
+        tasks.register('talesFullpackJar', Jar) {
+            from sourceSets.talesFullpack.output
+            archiveFileName = 'travail-tales-stress.jar'
+            destinationDirectory = project.layout.buildDirectory.dir('tales-fixture')
+            doFirst { manifest.attributes.remove('MixinConfigs') }
+        }
+        reobf { talesFullpackJar { classpath.from sourceSets.main.output, sourceSets.main.compileClasspath } }
+    }
+}

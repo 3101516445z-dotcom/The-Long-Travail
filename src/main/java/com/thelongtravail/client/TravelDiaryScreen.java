@@ -1,18 +1,20 @@
 package com.thelongtravail.client;
 
-import com.thelongtravail.TheLongTravail;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.data.LongTravailData;
 import com.thelongtravail.item.LongTravailItem;
 import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.registry.ModRegistry;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.ItemStack;
+
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -22,7 +24,15 @@ import java.util.function.Supplier;
 public final class TravelDiaryScreen extends Screen {
     private static final ResourceLocation BACKGROUND = texture("diary_base");
     private static final ResourceLocation BOOKMARK = texture("diary_bookmark");
+    private static final ResourceLocation PAGE_OVERLAY = texture("diary_page_overlay");
     private static final int WIDTH = 524, HEIGHT = 360, BOOK_X = 40, BOOK_WIDTH = 480;
+    // 前景提取工具也读取这些常量，数值保持整数字面量。
+    private static final int BOOKMARK_FIRST_Y = 59;
+    private static final int BOOKMARK_STEP = 34;
+    private static final int BOOKMARK_HEIGHT = 27;
+    private static final int BOOKMARK_COUNT = 7;
+    private static final int BOOKMARK_LEFT = 28;
+    private static final int BOOKMARK_INSERT_SOURCE_X = 69;
     private static final int HEADER_Y = 74, HEADER_RULE_Y = HEADER_Y + 17;
     private static final int RIGHT_X = 302,
             RIGHT_WIDTH = 179,
@@ -31,11 +41,14 @@ public final class TravelDiaryScreen extends Screen {
     private static final int LINE_HEIGHT = 15,
             VISIBLE_LINES = (BODY_BOTTOM - BODY_TOP) / LINE_HEIGHT;
     private static final int INK = 0xFF493626, MUTED_INK = 0xFF80664C;
+    private static boolean lastPreface = true;
+    private boolean preface = lastPreface;
+    private final DiaryPreface prefacePage = new DiaryPreface();
     private static TravailAspect lastSelected = TravailAspect.FLOURISHING;
 
     private final Supplier<ItemStack> source;
     private final Runnable closeAction;
-    private final float[] bookmarkExtensions = new float[6];
+    private final float[] bookmarkExtensions = new float[BOOKMARK_COUNT];
     private TravailAspect selected = lastSelected;
     private boolean journeyPage;
     private int scroll;
@@ -84,11 +97,18 @@ public final class TravelDiaryScreen extends Screen {
         super(Component.translatable("gui.the_long_travail.diary.title"));
         this.source = source;
         this.closeAction = closeAction;
-        bookmarkExtensions[selected.ordinal()] = 8;
+        bookmarkExtensions[preface ? 0 : selected.ordinal() + 1] = 8;
     }
 
     private static ResourceLocation texture(String name) {
         return new ResourceLocation(TheLongTravail.MODID, "textures/gui/" + name + ".png");
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        // 打开或调整窗口后，输入可能先于首帧绘制到达。
+        updateLayout();
     }
 
     private Component text(String key, Object... args) {
@@ -125,17 +145,21 @@ public final class TravelDiaryScreen extends Screen {
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        for (TravailAspect aspect : TravailAspect.values()) {
-            int index = aspect.ordinal();
+        graphics.blit(BACKGROUND, BOOK_X, 0, BOOK_WIDTH, HEIGHT, 0, 0, 1448, 1086, 1448, 1086);
+        for (int index = 0; index < bookmarkExtensions.length; index++) {
+            boolean active = index == 0 ? preface : !preface && selected.ordinal() == index - 1;
             boolean hovered = overBookmark(localX, localY, index);
-            float target = aspect == selected ? (hovered ? 10 : 8) : hovered ? 4 : 0;
+            float target = active ? (hovered ? 10 : 8) : hovered ? 4 : 0;
             bookmarkExtensions[index] =
                     BookmarkAnimation.approach(bookmarkExtensions[index], target, elapsed);
-            float x = 14 - bookmarkExtensions[index];
+            float x = BOOKMARK_LEFT - bookmarkExtensions[index];
             int y = bookmarkY(index);
             int color =
-                    com.thelongtravail.AspectTheme.forAspect(TravailAspect.values()[index])
-                            .bookAccent;
+                    index == 0
+                            ? 0xBE713D
+                            : com.thelongtravail.AspectTheme.forAspect(
+                                            TravailAspect.values()[index - 1])
+                                    .bookAccent;
             graphics.setColor(
                     ((color >> 16) & 255) / 255F,
                     ((color >> 8) & 255) / 255F,
@@ -143,20 +167,37 @@ public final class TravelDiaryScreen extends Screen {
                     1);
             graphics.pose().pushPose();
             graphics.pose().translate(x, y, 0);
-            graphics.blit(BOOKMARK, 0, 0, 88, 27, 150, 140, 1870, 430, 2172, 724);
+            graphics.blit(BOOKMARK, 0, 0, 74, BOOKMARK_HEIGHT, 150, 140, 1572, 430, 2172, 724);
             graphics.pose().popPose();
         }
         graphics.setColor(1, 1, 1, 1);
-        graphics.blit(BACKGROUND, BOOK_X, 0, BOOK_WIDTH, HEIGHT, 0, 0, 1448, 1086, 1448, 1086);
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        // 固定前景遮住书签末端，使插入口不随伸缩动画移动。
+        graphics.pose().pushPose();
+        graphics.pose().translate(BOOK_X, 0, 0);
+        graphics.pose().scale(BOOK_WIDTH / 1448F, HEIGHT / 1086F, 1);
+        graphics.blit(PAGE_OVERLAY, 0, 0, 0, 0, 220, 1086, 220, 1086);
+        graphics.pose().popPose();
         RenderSystem.disableBlend();
-        renderIdentity(graphics);
-        renderTabs(graphics, localX, localY);
-        renderContent(graphics);
+        if (preface) {
+            prefacePage.render(graphics, font, localX, localY);
+        } else {
+            renderIdentity(graphics);
+            renderTabs(graphics, localX, localY);
+            renderContent(graphics);
+        }
         renderClose(graphics, localX, localY);
         graphics.pose().popPose();
 
+        if (overBookmark(localX, localY, 0))
+            renderBookmarkHud(
+                    graphics,
+                    Component.translatable("gui.the_long_travail.diary.preface.bookmark_hint"),
+                    mouseX,
+                    mouseY);
         for (TravailAspect aspect : TravailAspect.values()) {
-            if (overBookmark(localX, localY, aspect.ordinal())) {
+            if (overBookmark(localX, localY, aspect.ordinal() + 1)) {
                 renderBookmarkHud(
                         graphics,
                         Component.translatable(
@@ -175,14 +216,18 @@ public final class TravelDiaryScreen extends Screen {
     }
 
     private void renderBookmarkHud(GuiGraphics graphics, Component label, int mouseX, int mouseY) {
-        float scale = 0.8F;
+        float scale = 1.2F;
         int panelWidth = font.width(label) + 10, panelHeight = font.lineHeight + 8;
         int renderedWidth = (int) Math.ceil(panelWidth * scale);
         int renderedHeight = (int) Math.ceil(panelHeight * scale);
-        int x = mouseX + 9, y = mouseY - renderedHeight - 3;
-        if (x + renderedWidth > width - 3) x = mouseX - renderedWidth - 9;
-        x = Math.max(3, Math.min(x, width - renderedWidth - 3));
-        y = Math.max(3, Math.min(y, height - renderedHeight - 3));
+        // 小窗紧邻鼠标右上方；仅在接近屏幕边缘时翻转，所有尺寸使用屏幕 GUI 坐标。
+        int screenMargin = 2;
+        int x = mouseX;
+        int y = mouseY - renderedHeight;
+        if (x + renderedWidth > width - screenMargin) x = mouseX - renderedWidth;
+        if (y < screenMargin) y = mouseY;
+        x = Math.max(screenMargin, Math.min(x, width - renderedWidth - screenMargin));
+        y = Math.max(screenMargin, Math.min(y, height - renderedHeight - screenMargin));
 
         graphics.pose().pushPose();
         graphics.pose().translate(x, y, 400);
@@ -217,11 +262,14 @@ public final class TravelDiaryScreen extends Screen {
     }
 
     private static int bookmarkY(int index) {
-        return 61 + index * 39;
+        return BOOKMARK_FIRST_Y + index * BOOKMARK_STEP;
     }
 
     private boolean overBookmark(double x, double y, int index) {
-        return inside(x, y, 4, bookmarkY(index), 57, bookmarkY(index) + 28);
+        return x >= BOOKMARK_LEFT - bookmarkExtensions[index]
+                && x < BOOK_X + BOOKMARK_INSERT_SOURCE_X * BOOK_WIDTH / 1448F
+                && y >= bookmarkY(index)
+                && y < bookmarkY(index) + BOOKMARK_HEIGHT + 1;
     }
 
     private void renderIdentity(GuiGraphics graphics) {
@@ -536,9 +584,15 @@ public final class TravelDiaryScreen extends Screen {
             onClose();
             return true;
         }
+        if (overBookmark(x, y, 0)) {
+            if (!preface) DiaryActionSounds.switchPage(true);
+            preface = lastPreface = true;
+            return true;
+        }
         for (TravailAspect aspect : TravailAspect.values()) {
-            if (overBookmark(x, y, aspect.ordinal())) {
-                if (selected != aspect) {
+            if (overBookmark(x, y, aspect.ordinal() + 1)) {
+                if (preface || selected != aspect) {
+                    preface = lastPreface = false;
                     DiaryActionSounds.switchPage(true);
                     selected = aspect;
                     lastSelected = aspect;
@@ -548,6 +602,7 @@ public final class TravelDiaryScreen extends Screen {
                 return true;
             }
         }
+        if (preface) return true;
         if (inside(x, y, 302, 68, 381, 94) && journeyPage) {
             DiaryActionSounds.switchPage(false);
             journeyPage = false;
@@ -563,6 +618,10 @@ public final class TravelDiaryScreen extends Screen {
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
         double x = (mouseX - bookLeft) / bookScale, y = (mouseY - bookTop) / bookScale;
+        if (preface) {
+            prefacePage.scroll(x, y, delta);
+            return true;
+        }
         if (delta != 0 && inside(x, y, RIGHT_X - 4, BODY_TOP - 5, 499, 326))
             scroll = Math.max(0, Math.min(maxScroll, scroll + (delta < 0 ? 2 : -2)));
         return true;
@@ -571,6 +630,7 @@ public final class TravelDiaryScreen extends Screen {
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (keyCode == GLFW.GLFW_KEY_ESCAPE) onClose();
+        else if (preface) prefacePage.key(keyCode);
         else if (keyCode == GLFW.GLFW_KEY_DOWN) scroll = Math.min(maxScroll, scroll + 1);
         else if (keyCode == GLFW.GLFW_KEY_UP) scroll = Math.max(0, scroll - 1);
         else if (keyCode == GLFW.GLFW_KEY_PAGE_DOWN)

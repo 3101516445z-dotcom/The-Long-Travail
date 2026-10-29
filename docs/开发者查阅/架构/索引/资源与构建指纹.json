@@ -18,7 +18,7 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "e69eb7da30bad2b3312d6822e3c41db352f54f9a13ca346a9131344d52c1ae4d",
+  "fingerprint": "6b04baacfdd5222c15128d9ef0b894cd15012908c2b798d81e4f20b6a5e338c5",
   "files": [
     {
       "path": "build.gradle",
@@ -70,23 +70,23 @@
     },
     {
       "path": "src/main/lang/en_us/aspects/abyss.json",
-      "sha256": "9397ab43c3921e0660c0ed01012a342abab209ece59eae162ccd0b49f4ff1fff"
+      "sha256": "192c9ca7c913dd1e9616c1592554d3f2110df323cc77df5aead6c94caf1b1970"
     },
     {
       "path": "src/main/lang/en_us/aspects/boundless.json",
-      "sha256": "5e774409fedca07b84a92cac255281a812e744a0f69b8518c922a5ccda360eba"
+      "sha256": "3ea5f75f766e732366815ff7d49f1b9f307c068158d9507826321244c7ff583a"
     },
     {
       "path": "src/main/lang/en_us/aspects/deep_valley.json",
-      "sha256": "98e8c40cf3be11d6a69f8fd121724932aa9d5a53ae08b3180a7e2bd0e2a20952"
+      "sha256": "3ec15765b9560b4ebdea166c4456d4323c49644a5876ece90d9eaced6156a4d3"
     },
     {
       "path": "src/main/lang/en_us/aspects/far_reach.json",
-      "sha256": "1ca266e2ad04d304b3523657fefca3b14d9fa9798706dd5395ec70ad6eef93f5"
+      "sha256": "21f778dcdf3efe6f85d472181a347e1473070ec9fb5678dd570626cb53c14e1f"
     },
     {
       "path": "src/main/lang/en_us/aspects/flourishing.json",
-      "sha256": "a700d8958514c91c36e4e2fbca5710e75e4d32dee9794fb4b9137d539daab50c"
+      "sha256": "0db35485838bb17852e6cbfddf0fd95759d50ab4d79011dc1359dd89eba81fe0"
     },
     {
       "path": "src/main/lang/en_us/aspects/underworld.json",
@@ -94,7 +94,7 @@
     },
     {
       "path": "src/main/lang/en_us/catalog.json",
-      "sha256": "9eca66fcb76afa47f85bf8946bf0217fa0927a5ca3be74a76b86fd81a35633ce"
+      "sha256": "4bbe93ce684b52e8453aa1b0451e4dbec6b7abe18e09564957cefb77b95c92fc"
     },
     {
       "path": "src/main/lang/en_us/common.json",
@@ -106,11 +106,11 @@
     },
     {
       "path": "src/main/lang/en_us/diary.json",
-      "sha256": "1617097df6455424ed87d39bab1910e6f54a1d09a1abc83ea69896cdc8e7f688"
+      "sha256": "d711b387108cd9c663f81ec6dc50c2cf097f27c902eb388030264a0f4ca91b95"
     },
     {
       "path": "src/main/lang/en_us/utility_items.json",
-      "sha256": "5f2b8118fde85476dae32b5efa6c661560d8fade62dd0e921d8014a342c00678"
+      "sha256": "ebae6ab128e7cb8cc0da1bc5650a73ccba8a9a738e4213878979ba18c45050cd"
     },
     {
       "path": "src/main/lang/groups.json",
@@ -118,35 +118,35 @@
     },
     {
       "path": "src/main/lang/lzh/aspects/abyss.json",
-      "sha256": "2e21c8525961e67913c54ad2aec7f5001e458bbb3c58ac9ea3c563f1d817aae8"
+      "sha256": "5a5a056dabd97ccf35ad088831fb0ae5c5d51d93d7215ed60e67fd36f7009a86"
     },
     {
       "path": "src/main/lang/lzh/aspects/boundless.json",
-      "sha256": "66a361d90d7458103fd34e936c2b7e8e0c18a0e167eba638f88eaf64cebc9338"
+      "sha256": "cc6dcc5ad8fe623616f6aead7cc68898952c57bcc325ab17ee3f851216ecb34c"
     },
     {
       "path": "src/main/lang/lzh/aspects/deep_valley.json",
-      "sha256": "868f2533ab75f7243a7c5a0fca2636ec5fad513e80b01e9270811aff07cbba43"
+      "sha256": "99fe46a501b012af8f85fb732f6f62c46d8417238c155fbc8eb8e993e42e4ce7"
     },
     {
       "path": "src/main/lang/lzh/aspects/far_reach.json",
-      "sha256": "3b28f6b97926a48f52907bc1ab3d93c46b2ccffe1008a4bc96a9fdca0ec6e487"
+      "sha256": "1e80c963d55b107226bb0cb05f2f45be651dc89529adf4b664f815f39098bd4c"
     },
     {
       "path": "src/main/lang/lzh/aspects/flourishing.json",
-      "sha256": "524b8512787e4b5b3b672433808982bd752f579053f46c3f96992951cc73f9fb"
+      "sha256": "0ec94e24f5534d1e257b18e9ede9fbc11680ca689137c7ed8ab66e48e039bbcf"
     },
     {
       "path": "src/main/lang/lzh/aspects/underworld.json",
-      "sha256": "32549d7dfc7fbd9dbe73793d76f77f02a6503f705573ca30f061e07191fb1642"
+      "sha256": "2773401100dbbdef4e48fd7748e87175a3e2998895cac010a0aab7f0f0e68036"
     },
     {
       "path": "src/main/lang/lzh/catalog.json",
-      "sha256": "f00a6990d5de75b9ee76fb59db773439a370064e1e9018c94ae675c159d263f3"
+      "sha256": "e63a4e3032bfff592acd421c7534f5f4d99b7186058f2bfe9e21efdc32d8365d"
     },
     {
       "path": "src/main/lang/lzh/common.json",
-      "sha256": "ddaca59e94934e7395da391a73d86e4da0929248747bd9f7c64d6121dd78a787"
+      "sha256": "5a8e62376bc64a5028d6b6376829a4f264bd1bc03090e6a32c6971d2812450e8"
     },
     {
       "path": "src/main/lang/lzh/compatibility.json",
@@ -154,43 +154,43 @@
     },
     {
       "path": "src/main/lang/lzh/diary.json",
-      "sha256": "0e8e88332819d45af933e310542aba12da05ec0f8f53e49bc98adf6a0f9f7a39"
+      "sha256": "3eae0acb08e2135ad995e2de8ab9183273dc4dffa43e9a53d03fcd64099bcf97"
     },
     {
       "path": "src/main/lang/lzh/utility_items.json",
-      "sha256": "112fb914790547d3631b0c1503fadae61d5e472c4c97119159e06f2b172d01aa"
+      "sha256": "a26e4d03ee7ad4c5cc161e24af91ea5a68b6e2354eeb4c7bb3e0769ce0716ba8"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/abyss.json",
-      "sha256": "ceee1835506d7e006d069de622fcc5fa1ef47bbe6f7c4098e411385fdd1ac299"
+      "sha256": "74604c1541f14ee7e1c88bce0b38e94b777f64f4aa418b50dd4ca15ccf67303b"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/boundless.json",
-      "sha256": "0162af35299cf7bac2c936491589c2f390faf54e293204f5b327614306491702"
+      "sha256": "f2dcc020a7422d45d8358abc5e40229fdc2683c617c4d97ac7be66ff183cc81e"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/deep_valley.json",
-      "sha256": "73179d3d3f7b9dd217329423593407bf66a68e76383904ad3a8bd052548d7c93"
+      "sha256": "5c4aedd604e8cd1beeb1cad70cc4acd5cd57da34deb0bc46f5cac7d4e024d2b3"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/far_reach.json",
-      "sha256": "03eddad331aac69765675db7f9a11935fbf05be09a40a4d4bfaf6427dcfa1fd3"
+      "sha256": "8bd37d93305ae92906014fffeb1256271f2d0a20f3037f601013f9b3e70934ad"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/flourishing.json",
-      "sha256": "60a1f41cae8cf34a37b891093c4458f33afc637e7150a31e7d9674b69cf00cab"
+      "sha256": "6e2ed675a0733b554c7872b1a2cdd553537fa6a6e3a207d436184d196ec1eadc"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/underworld.json",
-      "sha256": "f6a0f54f2af1dd20bf0de869e3f8c20030031d046d20516d3d0518b9a4f868dd"
+      "sha256": "b4514aa739deeba4b777c58b8a3eb7b359ac3ffed764921a0e8a6bd8d67111cb"
     },
     {
       "path": "src/main/lang/zh_cn/catalog.json",
-      "sha256": "f1daf99144cdfcfb84ae27efea9ce44503e160a00c129a704a05b1aca589dd0a"
+      "sha256": "63d9b53909b516cb67f085eefccd11ae41cb404ff279644757b2e3ac2d83d32e"
     },
     {
       "path": "src/main/lang/zh_cn/common.json",
-      "sha256": "2f09ff5d32ceaf5179106b34c53c8895feea0a04b551254b2e9cd173ec4d967a"
+      "sha256": "98575d9f43131ebfc9e84d5b3ff7b2a3ca45f25d5174fe41a469a97ca3adeb5e"
     },
     {
       "path": "src/main/lang/zh_cn/compatibility.json",
@@ -198,43 +198,43 @@
     },
     {
       "path": "src/main/lang/zh_cn/diary.json",
-      "sha256": "a0890d50609f0b461645fa8d421e52f782a9e6491506df27ae14ab6386589809"
+      "sha256": "aa09080edadbff296ce9f285230e5072bb140d8a863f2dd411d3fea892e1ad37"
     },
     {
       "path": "src/main/lang/zh_cn/utility_items.json",
-      "sha256": "1e218c79d758e3ee6cc58c7ce50b326f632f1dff2bcf9c5f0b00cfc68292bc21"
+      "sha256": "5f5666d729560ca9041f51f5168991e50465dc56b9bf01cf9cc050ae5aa430a4"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/abyss.json",
-      "sha256": "4dddcd9b1e822a984d5cf4e510a30e2a981c8b4f13ef4d0cddeb4d9c6283ab72"
+      "sha256": "e2d391d8c52b0865b0aaca8de0541212bdbf2db7a42af064a53e2be6699051e2"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/boundless.json",
-      "sha256": "9e6cfaf7a3eba2a28b5e1771f85664176525e441585f6776d2de84b1d3d4b234"
+      "sha256": "064d62a394ab80c95c0b8543ec91d78e2f285ef213848c0652be1c6d50817847"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/deep_valley.json",
-      "sha256": "63245995ff76a6419a6ba0475a49b26e686b6cc80cf66d8d264a916a9cab95c4"
+      "sha256": "2cde1a452af962015d1874eb9a1b2073f239b9764436fc6251e3be8d04028c50"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/far_reach.json",
-      "sha256": "2e2280b41db383d69501878e06aebc2a2f76435035751a138e6e60febfa7b32b"
+      "sha256": "cfc1bc75c12cf023533ff420e84be6cc7444d6a66898423a4df75ec895ea38d6"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/flourishing.json",
-      "sha256": "2c8c00e52cbf5e5850cc8e086075e77708702a2fc66d9748975d53b770ba8ea7"
+      "sha256": "062a58c5e4ba7a8ff20d43f2c9f2b63ca4d8097761f318696ca4d5e5d1777e32"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/underworld.json",
-      "sha256": "6f24b24becd26020952e4628f35319f8144a644204414d8a04004a4d9bbe435d"
+      "sha256": "c920b9db232541e036262b525057ed3b29307581fca7b3dd806db1a5842f903c"
     },
     {
       "path": "src/main/lang/zh_hk/catalog.json",
-      "sha256": "18fda5d1d5a3a5f33562f2e68fa6f9fd221c83aa69be87e235ffe5863d8de815"
+      "sha256": "0bc07b30bffaf1ef531354d8a9844d7fd73480287cdfe95dcc6df2914e232c70"
     },
     {
       "path": "src/main/lang/zh_hk/common.json",
-      "sha256": "00c49d0ad31af85d571a369775f97e626cfa153ed56fc271e30e73ae929697cb"
+      "sha256": "0f3adbe0016ca10b7101febe268ad8929357702413c02ba46e4bbca76807d7a2"
     },
     {
       "path": "src/main/lang/zh_hk/compatibility.json",
@@ -242,43 +242,43 @@
     },
     {
       "path": "src/main/lang/zh_hk/diary.json",
-      "sha256": "b249ef05a2fbcb97cb71d9a92bb4db9c2f7fadb338b7903a07046e80e4f48302"
+      "sha256": "b0d6780708b2c642a81510611a195c786bd016fc56cb34bf84deb05cb3f67361"
     },
     {
       "path": "src/main/lang/zh_hk/utility_items.json",
-      "sha256": "fd929243a934944be1190ad9848dacf2defb8881545ce79f9dc975cc0a685d1f"
+      "sha256": "c378a99eb79cb4a45d71a7419d9de99508db94eac44f138e699da8c67b1bde80"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/abyss.json",
-      "sha256": "bc926afa6334d158cd05cb476806016d6c4abda2380aabb3bb12cb5092aaf42a"
+      "sha256": "8baa12fc2cb709c0a7c2c2447a7e8615ec5a693b87c2a6f0c4984a5f51e92cda"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/boundless.json",
-      "sha256": "70884fdfe7c9989cf8e42e6b11c3edb58c60f0fc841ef92d1890c737d301873c"
+      "sha256": "1e10afe3f672960168f99e9dace32b9c90ed0018f629c6c6ccf4666b44e61890"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/deep_valley.json",
-      "sha256": "8c76007a0a22f2ff3aae35c4db428798c61616549d42809b4086660f0364d3a7"
+      "sha256": "c8744ba596e974cec61d9320c0cad6489964ee5e96e3d6de6f5108a818e5e31a"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/far_reach.json",
-      "sha256": "4d0ba710ea3042b277ae7a16d897fd1be785f3507ca594c41200921c8c019bcc"
+      "sha256": "117989c9ba21a5c9a92f913aa3c6c47c2dd62846131bdf88a92d76d4b45bd7ab"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/flourishing.json",
-      "sha256": "95a2690939d4142ca36b3457a72f93938db13954b57a9d12aa7426dcc627221a"
+      "sha256": "093b49af6cfb79cf2dd744a77af5e88c1d91f4eedf15c8923b1a43791b96f1af"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/underworld.json",
-      "sha256": "6f24b24becd26020952e4628f35319f8144a644204414d8a04004a4d9bbe435d"
+      "sha256": "c920b9db232541e036262b525057ed3b29307581fca7b3dd806db1a5842f903c"
     },
     {
       "path": "src/main/lang/zh_tw/catalog.json",
-      "sha256": "af8e7fbaa319fb6c762af843657dc79c1bc252793312a8b43c6edf16e88b9092"
+      "sha256": "abd85018bcab24e2f681898ad81a83707faac00b6506d19bc95342b3adc3a640"
     },
     {
       "path": "src/main/lang/zh_tw/common.json",
-      "sha256": "00c49d0ad31af85d571a369775f97e626cfa153ed56fc271e30e73ae929697cb"
+      "sha256": "0f3adbe0016ca10b7101febe268ad8929357702413c02ba46e4bbca76807d7a2"
     },
     {
       "path": "src/main/lang/zh_tw/compatibility.json",
@@ -286,11 +286,11 @@
     },
     {
       "path": "src/main/lang/zh_tw/diary.json",
-      "sha256": "246e947b6e32dd7da3cdd0c3770265b5749e1b0e0ceab688a509b8dc721d0bd4"
+      "sha256": "d584ba7e266be3d7ef3c9b0be7e54c07a7d9eabd6fbcb52d8d9e7bf582185ba9"
     },
     {
       "path": "src/main/lang/zh_tw/utility_items.json",
-      "sha256": "2d4161c8a2f5b58bf77c8a56e215a688e301daabf497263139a7085a10f9a40d"
+      "sha256": "5308b90867a3cbe4ac2154395ca1c4a3099d35e5799a5eaab8c1d8fe4df3b8cc"
     },
     {
       "path": "src/main/resources/META-INF/mods.toml",
@@ -327,6 +327,10 @@
     {
       "path": "src/main/resources/assets/the_long_travail/models/item/affection.json",
       "sha256": "cb698e8aa5da0dc666173317eb5f6a6fcce8d7d34f5be8155a379b16a4bcae2b"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/models/item/ancient_strange_tales.json",
+      "sha256": "0c72a51a29dc4095c2983f7225b1d1a4b232d69050597c4754cb16e963cc8a02"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/models/item/azrael.json",
@@ -530,11 +534,15 @@
     },
     {
       "path": "src/main/resources/assets/the_long_travail/textures/gui/diary_base.png",
-      "sha256": "521481091f0bff213e3e211920198377eb4ca444d12f8727a5439583b42a7f95"
+      "sha256": "6c93b6bef4ef7ebd52aa2cca4af5372ae51092ef14e620934cf26fdafb00ef8a"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/textures/gui/diary_bookmark.png",
       "sha256": "86eb6c61df8f16811b8b57ebce4dc99f26022d6adf302316f33dbcc6fec26296"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/gui/diary_page_overlay.png",
+      "sha256": "c6f1f3f3add8cfbe81aab65889fc144b22ecabfafaa0069d6e9c756860059628"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/textures/item/a_thousand_years_later.png",
@@ -551,6 +559,10 @@
     {
       "path": "src/main/resources/assets/the_long_travail/textures/item/affection.png",
       "sha256": "71307c9d0a856b9a2112c9476928594a1f9afc1b50f90137f84981386ee93770"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/item/ancient_strange_tales.png",
+      "sha256": "e79db02b0ae06b062887529f597c71faf0f72a10081ae5f19ae01e31c8d83ed8"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/textures/item/azrael.png",
@@ -829,12 +841,20 @@
       "sha256": "f9fb31af08b11bad0b1dc4bf84943caed566ee3419ac424d6fafea337f5f4018"
     },
     {
+      "path": "src/main/resources/data/minecraft/tags/items/bookshelf_books.json",
+      "sha256": "7061eefc889bc43fc44c9a3bff7a12ad8e33ceb0f91230b8e1f96672cf528807"
+    },
+    {
       "path": "src/main/resources/data/minecraft/tags/items/pickaxes.json",
       "sha256": "08ca1c831051a6c84a3a759b69442463b002f62051535ead875829375646dd65"
     },
     {
       "path": "src/main/resources/data/the_long_travail/advancements/recipes/coloring.json",
       "sha256": "29ddaf64d525d3123655fdd04c5eb492c179710205cab17067729712c0e7c0e4"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/advancements/recipes/misc/ancient_strange_tales.json",
+      "sha256": "aa96783f7b7b33fd0a9d614e3e393c5852b3521d0f39b6efae013558a0e4d67c"
     },
     {
       "path": "src/main/resources/data/the_long_travail/advancements/recipes/misc/immortal_bud.json",
@@ -965,6 +985,10 @@
       "sha256": "4348ab5ccc5d2dc6b1fa888f88b13e46693736084bc24cda26b9128b462a6dac"
     },
     {
+      "path": "src/main/resources/data/the_long_travail/recipes/ancient_strange_tales.json",
+      "sha256": "892044e22a7c23115425b9ea8040146225ffb1947b3e5d60d416c4a832984f97"
+    },
+    {
       "path": "src/main/resources/data/the_long_travail/recipes/boundless_stone.json",
       "sha256": "bb380cddfd1eb7521dac8d616e1240f004414859cf16a8a181970223548176f9"
     },
@@ -975,6 +999,10 @@
     {
       "path": "src/main/resources/data/the_long_travail/recipes/deep_valley_stone.json",
       "sha256": "deb860a1c62f1e25988aa6e548634da640145f133893726483f424f15a351f1d"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/recipes/enchantment_transfer.json",
+      "sha256": "b805242a1366bbc7256e716d6aa5fa55b63dec1ad16be0fff9d277f26e933418"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/everlasting_flower.json",
@@ -1198,7 +1226,7 @@
     },
     {
       "path": "src/main/resources/mixins.the_long_travail.json",
-      "sha256": "5700fa30a725d232c681d1a481ff2031e804f3c0981e98659a171c02b1f9188c"
+      "sha256": "976a85b72019a942790217fbc0017a9fd622c9b1a518e297903dafa2b306be88"
     },
     {
       "path": "src/main/resources/pack.mcmeta",

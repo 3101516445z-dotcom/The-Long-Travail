@@ -36,7 +36,7 @@
   "tooltip.the_long_travail.flower.torchflower": "§6Fire, burning and lava damage§r taken is reduced by §a%s%%§r.",
   "tooltip.the_long_travail.flower.sunflower": "During §adaytime under open skies§r, §6movement speed§r increases by §a%s%%§r and §6damage dealt§r increases by §a%s%%§r.",
   "tooltip.the_long_travail.flower.lilac": "§6Poison§r, §6Wither§r, §6Slowness§r and §6Weakness§r effects applied by the wearer last §a%s%%§r longer.",
-  "tooltip.the_long_travail.flower.rose_bush": "When §astruck by a melee attack§r, deal §6true damage§r to the attacker equal to §a%s%%§r of the wearer's §6maximum health§r. Trigger cooldown: §a%s seconds§r.",
+  "tooltip.the_long_travail.flower.rose_bush": "When §astruck by a melee attack§r, deal §6direct strike damage§r to the attacker equal to §a%s%%§r of the wearer's §6maximum health§r. Trigger cooldown: §a%s seconds§r.",
   "tooltip.the_long_travail.flower.peony": "§6Maximum health§r increases by §a%s%%§r.",
   "tooltip.the_long_travail.flower.pitcher_plant": "When §akilling a hostile mob§r, restore §6health§r equal to §a%s%%§r of the wearer's §6maximum health§r. Trigger cooldown: §a%s seconds§r.",
   "tooltip.the_long_travail.flower.pink_petals": "§6Movement speed§r increases by §a%s%%§r.",

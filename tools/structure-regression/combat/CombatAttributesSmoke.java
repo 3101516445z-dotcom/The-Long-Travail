@@ -157,10 +157,20 @@ public final class CombatAttributesSmoke {
         }
         cancelTarget=null;
         a=cow(); b=cow(); attr(a,ModAttributes.CRITICAL_CHANCE.get(),1); attr(b,ModAttributes.OVERLORD.get(),.1);
-        hit(b,source(com.thelongtravail.flourishing.FloralCombat.ROSE,a),4); near(b.getHealth(),100,"forced rose remains zero after overlord");
-        b=cow(); hit(b,source(com.thelongtravail.flourishing.FloralCombat.ROSE,a),4); near(b.getHealth(),92,"rose can critical");
-        b=cow(); amplifyTarget=b; hit(b,source(com.thelongtravail.flourishing.FloralCombat.ROSE,a),4); near(b.getHealth(),92,"rose critical still ignores external damage amplification"); amplifyTarget=null;
-        b=cow(); attr(b,ModAttributes.INSIGHT.get(),2); hit(b,source(com.thelongtravail.flourishing.FloralCombat.ROSE,a),4); near(b.getHealth(),94,"forced rose insight not restored");
+        hit(b, com.thelongtravail.flourishing.FloralCombat.roseSource(a), 4);
+        near(b.getHealth(), 100, "forced rose remains zero after overlord");
+        b = cow();
+        hit(b, com.thelongtravail.flourishing.FloralCombat.roseSource(a), 4);
+        near(b.getHealth(), 92, "rose can critical");
+        b = cow();
+        amplifyTarget = b;
+        hit(b, com.thelongtravail.flourishing.FloralCombat.roseSource(a), 4);
+        near(b.getHealth(), 92, "rose critical still ignores external damage amplification");
+        amplifyTarget = null;
+        b = cow();
+        attr(b, ModAttributes.INSIGHT.get(), 2);
+        hit(b, com.thelongtravail.flourishing.FloralCombat.roseSource(a), 4);
+        near(b.getHealth(), 94, "forced rose insight not restored");
         var p=player(); attr(p,ModAttributes.INSIGHT.get(),99); attr(p,ModAttributes.OVERLORD.get(),1); attr(p,ModAttributes.CRITICAL_CHANCE.get(),1);
         for(var mode:TravailConfig.FluidProtection.values()) {
             var old=TravailConfig.FLUID_PROTECTION.get();
@@ -189,8 +199,12 @@ public final class CombatAttributesSmoke {
         near(a.getHealth(),90,"projectile retaliates against shooter");
         a=cow(); b=player(); attr(a,ModAttributes.INSIGHT.get(),5); hit(a,source(DamageTypes.PLAYER_ATTACK,b),8); near(b.getHealth(),95,"mob can retaliate against player");
         b=cow(); attr(b,ModAttributes.OVERLORD.get(),.1); attr(b,ModAttributes.INSIGHT.get(),50);
-        hit(b,source(com.thelongtravail.farreach.DonQuixoteCombat.STRIKE,a),11); near(b.getHealth(),89,"settled strike no insight subtraction");
-        b=cow(); attr(b,ModAttributes.OVERLORD.get(),.1); hit(b,source(com.thelongtravail.farreach.DonQuixoteCombat.STRIKE,a),10); near(b.getHealth(),100,"settled strike checks overlord");
+        hit(b, com.thelongtravail.farreach.DonQuixoteCombat.strikeSource(a), 11);
+        near(b.getHealth(), 89, "settled strike no insight subtraction");
+        b = cow();
+        attr(b, ModAttributes.OVERLORD.get(), .1);
+        hit(b, com.thelongtravail.farreach.DonQuixoteCombat.strikeSource(a), 10);
+        near(b.getHealth(), 100, "settled strike checks overlord");
         b=cow(); attr(b,ModAttributes.INSIGHT.get(),5); attr(b,ModAttributes.CRITICAL_CHANCE.get(),.5); attr(b,ModAttributes.OVERLORD.get(),.1);
         com.thelongtravail.common.AttributeModifierSet.reconcile(b,new net.minecraft.resources.ResourceLocation("travail_smoke","all"),.2,Set.of());
         near(CombatAttributes.insight(b),6,"all-attribute insight"); near(CombatAttributes.criticalChance(b),.6,"all-attribute critical"); near(b.getMaxHealth()*CombatAttributes.overlord(b),14.4,"all-attribute overlord double scaling");

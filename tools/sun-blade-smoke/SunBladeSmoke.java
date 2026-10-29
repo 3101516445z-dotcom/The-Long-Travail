@@ -98,9 +98,10 @@ public final class SunBladeSmoke {
                 startReplay();
                 return;
             }
+            DirectStrikeCases.run(level, this::check);
             combat();
             new DamageChainCases(level, this::check).run();
-            acquisition();
+            if (!Boolean.getBoolean("travail.sun.damageOnly")) acquisition();
             if (level.getEntity(player.getUUID()) != player) level.addNewPlayer(player);
             new SunBladeExtreme(level, player, diary, belt, this::check).run();
             Files.write(Path.of("sun-blade-failures.txt"), failureMessages);
@@ -466,8 +467,10 @@ public final class SunBladeSmoke {
         absorbed.setAbsorptionAmount(20);
         hit(absorbed, 10);
         check(
-                absorbed.getHealth() == 1000 && absorbed.hasEffect(MobEffects.WITHER),
-                "absorption loss confirms damage");
+                absorbed.getHealth() == 990
+                        && absorbed.getAbsorptionAmount() == 20
+                        && absorbed.hasEffect(MobEffects.WITHER),
+                "converted direct strike preserves absorption and confirms health loss");
         Cow immune = cow();
         immune.setInvulnerable(true);
         hit(immune, 10);
@@ -575,14 +578,7 @@ public final class SunBladeSmoke {
         near(retaliation.getHealth(), 965, "player retaliation can trigger one sun strike");
         Cow quixote = cow();
         quixote.setSecondsOnFire(10);
-        var special =
-                new net.minecraft.world.damagesource.DamageSource(
-                        level.registryAccess()
-                                .registryOrThrow(
-                                        net.minecraft.core.registries.Registries.DAMAGE_TYPE)
-                                .getHolderOrThrow(
-                                        com.thelongtravail.farreach.DonQuixoteCombat.STRIKE),
-                        player);
+        var special = com.thelongtravail.farreach.DonQuixoteCombat.strikeSource(player);
         quixote.hurt(special, 10);
         near(
                 quixote.getHealth(),
@@ -641,8 +637,8 @@ public final class SunBladeSmoke {
             }
             if (!realClient)
                 check(
-                        hits >= 390 && hits <= 610,
-                        "archaeology 5% fixed seed tolerance " + name + " hits=" + hits);
+                        name.startsWith("desert_") ? hits >= 1300 && hits <= 1700 : hits == 0,
+                        "current archaeology source and 15% fixed seed tolerance " + name + " hits=" + hits);
             System.out.println("SUN_ARCHAEOLOGY " + name + " " + hits + "/10000");
         }
     }

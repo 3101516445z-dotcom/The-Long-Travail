@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BSB",
+    "BRB",
+    "BSB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:bamboo"
+    },
+    "S": {
+      "item": "minecraft:string"
+    },
+    "R": {
+      "item": "the_long_travail:renewal"
+    }
+  },
+  "result": {
+    "item": "the_long_travail:ancient_strange_tales"
+  }
+}

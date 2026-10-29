@@ -10,7 +10,7 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 
-/** 直击伤害的类型键与来源工厂；穿透范围由伤害类型标签定义，保留正常受伤结算流程。 */
+/** 直击伤害的类型键与来源工厂；穿透防御由类型标签定义，吸收生命由伤害桥接跳过，保留正常受伤结算流程。 */
 public final class DirectStrikeDamage {
     public static final ResourceKey<DamageType> TYPE =
             ResourceKey.create(

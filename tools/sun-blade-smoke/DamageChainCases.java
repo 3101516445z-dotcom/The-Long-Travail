@@ -155,30 +155,25 @@ final class DamageChainCases {
                         !InsightRetaliation.isRetaliation(a.damageSources().playerAttack(a)),
                         "retaliation scope closed");
             }
-            for (var type :
-                    List.of(
-                            com.thelongtravail.farreach.DonQuixoteCombat.STRIKE,
-                            DirectStrikeDamage.TYPE,
-                            FloralCombat.ROSE)) {
+            for (int type = 0; type < 3; type++) {
                 calls = depth = maximum = 0;
                 Actor a = new Actor("TypedA", 0, false);
                 Actor b = new Actor("TypedB", 0, false);
                 var source =
-                        new DamageSource(
-                                level.registryAccess()
-                                        .registryOrThrow(
-                                                net.minecraft.core.registries.Registries
-                                                        .DAMAGE_TYPE)
-                                        .getHolderOrThrow(type),
-                                a);
-                if (type == DirectStrikeDamage.TYPE) {
+                        switch (type) {
+                            case 0 -> com.thelongtravail.farreach.DonQuixoteCombat.strikeSource(a);
+                            case 1 -> DirectStrikeDamage.source(level, a, a);
+                            default -> FloralCombat.roseSource(a);
+                        };
+                if (type == 1) {
                     a.getAttribute(ModAttributes.CRITICAL_CHANCE.get()).setBaseValue(1);
                     b.getAttribute(Attributes.ARMOR).setBaseValue(30);
                     b.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 200, 4));
                     b.setAbsorptionAmount(5);
                     com.thelongtravail.boundless.LorentzFantasy.hurtStrike(a, b, 10);
-                    check.accept(Math.abs(b.getHealth() - 970) < .001 && b.getAbsorptionAmount() == 0,
-                            "Lorentz bypasses armor/resistance, retains absorption and excludes critical");
+                    check.accept(
+                            Math.abs(b.getHealth() - 965) < .001 && b.getAbsorptionAmount() == 5,
+                            "Lorentz bypasses armor/resistance, bypasses absorption and excludes critical");
                 } else b.hurt(source, 10);
                 check.accept(b.sun == 1 && calls == 2, "typed secondary permits one Sun: " + type);
                 check.accept(
@@ -191,8 +186,8 @@ final class DamageChainCases {
             absorbed.setAbsorptionAmount(1000);
             absorbed.hurt(attacker.damageSources().playerAttack(attacker), 100);
             check.accept(
-                    absorbed.getHealth() == 1000 && absorbed.getAbsorptionAmount() == 875,
-                    "all absorption confirms primary and Sun without health loss");
+                    absorbed.getHealth() == 875 && absorbed.getAbsorptionAmount() == 1000,
+                    "converted primary and Sun preserve absorption");
             check.accept(
                     absorbed.sun == 1 && absorbed.getEffect(MobEffects.WITHER).getDuration() == 200,
                     "absorption confirmation count");

@@ -294,6 +294,37 @@ public final class CatalogTextStyle {
         }
     }
 
+    // 古今语怪限定词表，沿用句内限额与段内去重。
+    private static final List<String> TALES_TERMS =
+            List.of(
+                    "下界石英",
+                    "青金石",
+                    "蜂蜜瓶",
+                    "发酵蜘蛛眼",
+                    "發酵蜘蛛眼",
+                    "诅咒附魔",
+                    "詛咒附魔",
+                    "非诅咒附魔",
+                    "非詛咒附魔",
+                    "雕纹书架",
+                    "雕紋書架",
+                    "附魔台",
+                    "铁砧",
+                    "鐵砧",
+                    "附魔书",
+                    "附魔書",
+                    "nether quartz",
+                    "lapis lazuli",
+                    "honey bottle",
+                    "fermented spider eye",
+                    "curse enchantments",
+                    "chiseled bookshelf",
+                    "enchanting table",
+                    "anvil",
+                    "enchanted book");
+    private static final Pattern TALES_VALUES =
+            Pattern.compile("无序合成|無序合成|等级直接相加|等級直接相加|任何类型|任何類型|改名");
+
     private static void highlightTerms(
             String text,
             List<Style> original,
@@ -415,6 +446,19 @@ public final class CatalogTextStyle {
                             && translation
                                     .getKey()
                                     .startsWith("tooltip.the_long_travail.immortal_bud.details.");
+            boolean tales =
+                    source.getContents()
+                                    instanceof
+                                    net.minecraft.network.chat.contents.TranslatableContents
+                                                    talesTranslation
+                            && (talesTranslation
+                                            .getKey()
+                                            .startsWith(
+                                                    "tooltip.the_long_travail.ancient_strange_tales.")
+                                    || talesTranslation
+                                            .getKey()
+                                            .startsWith(
+                                                    "tooltip.the_long_travail.summary.ancient_strange_tales."));
             Flat f = flatten(source);
             // 保留译文各片段的语义染色，避免通用规则覆盖整行样式。
             if (source.getContents()
@@ -498,11 +542,13 @@ public final class CatalogTextStyle {
                         f.styles,
                         result,
                         highlights,
-                        sunBlade
-                                ? SUN_BLADE_TERMS
-                                : abundance
-                                        ? ABUNDANCE_TERMS
-                                        : immortalBud ? IMMORTAL_BUD_TERMS : TERMS);
+                        tales
+                                ? TALES_TERMS
+                                : sunBlade
+                                        ? SUN_BLADE_TERMS
+                                        : abundance
+                                                ? ABUNDANCE_TERMS
+                                                : immortalBud ? IMMORTAL_BUD_TERMS : TERMS);
             } else if (heading) highlights.sentenceCount = 0;
             else highlights.advance(text, 0, text.length());
             if (!supplement && !objectList) {
@@ -530,6 +576,10 @@ public final class CatalogTextStyle {
             }
             if (abundance && !objectList) {
                 var values = ABUNDANCE_VALUES.matcher(text);
+                while (values.find()) paint(result, f.styles, values.start(), values.end(), VALUE);
+            }
+            if (tales) {
+                var values = TALES_VALUES.matcher(text);
                 while (values.find()) paint(result, f.styles, values.start(), values.end(), VALUE);
             }
             if (immortalBud) {

@@ -29,10 +29,16 @@ const groups = {
   valley:['幽谷','具体玩法'], underworld:['冥府','具体玩法'], boundless:['无垠','具体玩法']
 };
 const overrides = {
+  EnchantmentTransfer:['无垠','单件附魔转移、回调异常隔离与完整结果计算'],
+  EnchantmentTransferRecipe:['无垠','合成输入角色解析、计划缓存与来源返还'],
+  TransferNotices:['无垠','服务端失败提示去重与原版合成结果领取拦截'],
+  RuntimeFailures:['公共基础','按来源限频记录运行时异常堆栈'],
+  IcarusWingTexture:['客户端与兼容','翅膀轮廓校验、内置贴图回退与重载释放'],
+  IcarusWingModel:['客户端与兼容','缓存轮廓到翅膀几何的绘制'],
   LiquefiedAbundanceRecipe:['归墟','液化丰饶无序合成、序列化与蜂蜜瓶容器消耗'],
   LiquefiedAbundanceItem:['归墟物品入口','液化丰饶使用动作、完成与松开回调'],
   LiquefiedAbundance:['归墟','转换会话、玩家类型持久化与药水交付'],
-  AbundanceEffectPool:['归墟','效果、等级与持续时间的去重抽样表'],
+  AbundanceEffectPool:['归墟','药水异常隔离、去重抽样表与诊断快照发布'],
   AbundanceText:['归墟','摘要、动态配置说明与黑名单名称'],
   AbundanceUseClient:['客户端与兼容','蓄力输入锁、取消请求与提示所有权'],
   ThinProgressBar:['客户端与兼容','拾遗与蓄力共用的细横条绘制'],
@@ -174,7 +180,7 @@ const overrides = {
   UnderworldRelics:['六主题玩法','冥府遗物装备、魂数与属性对账'],
   LorentzArrowAccessor:['六主题玩法','洛伦兹幻想箭矢入地状态访问'],
   LorentzArrowMixin:['六主题玩法','洛伦兹幻想箭矢受击作用域桥接'],
-  LorentzFantasy:['六主题玩法','洛伦兹幻想箭矢快照、命中与直击结算'],
+  LorentzFantasy:['六主题玩法','洛伦兹幻想箭矢快照、命中与直击伤害结算'],
   LorentzGeometryConfig:['六主题玩法','洛伦兹幻想爆头几何修正配置'],
   Affection:['六主题玩法','喜欢的心情绑定与有效目标缓存'],
   AffectionDeaths:['六主题玩法','喜欢的心情死亡绑定持久化账本'],

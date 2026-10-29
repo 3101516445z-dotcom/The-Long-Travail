@@ -224,3 +224,12 @@ node tools/structure-regression/suite.mjs soak 启动专用持续场景，目标
 `maid` 入口同时对照冻结的玩家与女仆算法。玩家参考位于 `LegacyPlayerFarReachCombat` 和 `LegacyPlayerFloralCombat`，仅供测试，不随生产重构修改。场景覆盖主题阶段、装备缺失、昼夜、天气、透明与不透明遮挡、自定义伤害 ID/标签、花冠组合、特殊浮点输入及免疫随机数序列。
 
 属性准备检查通过 `AttributeDamage.begin` 验证排除分支不刷新、首次读取前装备生效、同笔结算保持快照及后续结算移除过期属性。逐日女仆机制场景显式设置所需参数并在结束时恢复，不依赖实例保留的历史默认值。
+
+## 附魔、药水、翅膀与特殊破坏
+
+- `tales.init.gradle`：古今语怪转移、容器返还、异常回调和失败提示
+- `abundance.init.gradle`：液化丰饶抽样、使用会话和异常数据隔离
+- `icarus-hardening.init.gradle`：伊卡洛斯客户端资源格式、回退及重载恢复
+- [高频战栗入口](tremor/README.md)：核心服务端、可选兼容和正式包隔离运行
+
+前三项分别使用 `gradlew.bat -I tools/structure-regression/<入口> runServer --offline`；伊卡洛斯入口使用 `runClient`。测试辅助模组只加入对应隔离运行环境。
