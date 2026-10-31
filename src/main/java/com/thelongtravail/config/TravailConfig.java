@@ -223,9 +223,9 @@ public final class TravailConfig {
                         "items.wayguide.search.searchRadius",
                         5000,
                         16,
-                        5000,
-                        "路引的最大水平搜索半径，单位：方块，最多5000。未找到目标不代表整个维度都没有目标。",
-                        "Maximum horizontal Wayguide search radius, in blocks, capped at 5000. Not"
+                        30000000,
+                        "路引的最大水平搜索半径，单位：方块，可配置范围16至30000000。未找到目标不代表整个维度都没有目标。",
+                        "Maximum horizontal Wayguide search radius, in blocks, from 16 to 30000000. Not"
                                 + " finding a target does not mean none exists in the entire"
                                 + " dimension.");
         WAYGUIDE_TIMEOUT_SECONDS =

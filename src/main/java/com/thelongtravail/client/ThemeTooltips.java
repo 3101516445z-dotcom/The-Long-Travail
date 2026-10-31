@@ -20,6 +20,41 @@ import java.util.function.Predicate;
 
 public final class ThemeTooltips {
     private static final String PREFIX = "tooltip.the_long_travail.summary.";
+    private static final Set<String> FLOURISHING_SUMMARIES =
+            Set.of("spring_corner", "affection", "mistletoe", "everlasting_flower", "immortal_bud");
+    private static final Set<String> BOUNDLESS_SUMMARIES =
+            Set.of(
+                    "free_and_easy_wandering",
+                    "star_voice",
+                    "little_prince",
+                    "lorentz_fantasy",
+                    "ancient_strange_tales");
+    private static final Set<String> UNDERWORLD_SUMMARIES =
+            Set.of(
+                    "a_thousand_years_later",
+                    "book_of_the_dead",
+                    "demon_king_of_the_sixth_heaven",
+                    "myriad_souls_banner",
+                    "kagotsurube");
+    private static final Set<String> VALLEY_SUMMARIES =
+            Set.of(
+                    "azrael",
+                    "sword_and_lantern",
+                    "phosphophyllite",
+                    "underground_velvet",
+                    "high_frequency_tremor");
+    private static final Set<String> FAR_REACH_SUMMARIES =
+            Set.of("golden_age", "icarus", "don_quixote", "tower_of_babel", "sun_chaser");
+    private static final Set<String> ABYSS_SUMMARIES =
+            Set.of("eki", "tokaido", "perfect_fluid", "midnight_lafite", "liquefied_abundance");
+    private static final Set<String> NON_STACKING_CARRIED_ITEMS =
+            Set.of("eki", "tower_of_babel", "little_prince", "golden_age", "sun_chaser");
+
+    private static boolean utility(String id) {
+        return Set.of("homecoming", "renewal", "wayguide", "coloring").contains(id)
+                || id.endsWith("_stone")
+                || id.endsWith("_essence");
+    }
 
     private static boolean key(Component c, Predicate<String> test) {
         return c.getContents() instanceof TranslatableContents t && test.test(t.getKey())
@@ -54,7 +89,7 @@ public final class ThemeTooltips {
                 line -> key(line, ItemDescription.CATALOG::equals) ? catalogPrompt() : line);
         if (lines.stream().noneMatch(c -> key(c, ItemDescription.SUMMARY::equals))) return;
         var entry = CatalogEntries.forStack(stack).orElse(null);
-        if (entry == null || entry.category() != CatalogEntries.Category.THEME) return;
+        if (entry == null) return;
         var maid = take(lines, MaidAccessoryTooltips::isMaidTooltip);
         Set<Component> attributeLines = Collections.newSetFromMap(new IdentityHashMap<>());
         boolean curiosGroup = false;
@@ -74,35 +109,47 @@ public final class ThemeTooltips {
         var block = new ArrayList<Component>();
         String flavorKey = "tooltip.the_long_travail.flavor." + entry.id();
         if (net.minecraft.locale.Language.getInstance().has(flavorKey)) {
-            var flavor =
-                    Component.translatable(flavorKey)
-                            .withStyle(
-                                    style ->
-                                            style.withColor(0xC4AD75)
-                                                    .withBold(false)
-                                                    .withItalic(false));
-            int width =
-                    Math.max(1, net.minecraft.client.Minecraft.getInstance().font.width(flavor));
-            block.add(
-                    flavor.withStyle(
-                            style ->
-                                    style.withInsertion("the_long_travail:prose:flavor:" + width)));
+            for (String prose : Component.translatable(flavorKey).getString().split("\\n")) {
+                var flavor =
+                        Component.literal(prose)
+                                .withStyle(
+                                        style ->
+                                                style.withColor(0xC4AD75)
+                                                        .withBold(false)
+                                                        .withItalic(false));
+                int width =
+                        Math.max(
+                                1, net.minecraft.client.Minecraft.getInstance().font.width(flavor));
+                block.add(
+                        flavor.withStyle(
+                                style ->
+                                        style.withInsertion(
+                                                "the_long_travail:prose:flavor:" + width)));
+            }
         }
         block.addAll(summary(entry.id(), stack, viewer));
         if (entry.id().equals("liquefied_abundance"))
             block.add(
-                    Component.translatable(
-                                    "tooltip.the_long_travail.abundance.current",
-                                    com.thelongtravail.abyss.LiquefiedAbundance.modeName(
-                                                    AbundanceUseClient.selectedMode())
-                                            .copy()
-                                            .withStyle(
-                                                    style ->
-                                                            style.withColor(
-                                                                    RainTooltips.ACCENT_COLOR)))
-                            .withStyle(style -> style.withColor(RainTooltips.BODY_COLOR)));
+                    text(
+                            "liquefied_abundance.state",
+                            com.thelongtravail.abyss.LiquefiedAbundance.modeName(
+                                    AbundanceUseClient.selectedMode())));
         block.addAll(attributes);
-        block.add(catalogPrompt());
+        if (NON_STACKING_CARRIED_ITEMS.contains(entry.id())) block.add(carryingLimitHint());
+        block.add(
+                (FLOURISHING_SUMMARIES.contains(entry.id()) || utility(entry.id()))
+                        ? catalogPrompt(
+                                entry.id().equals("spring_corner")
+                                        ? "spring_corner.open"
+                                        : "flourishing.open")
+                        : BOUNDLESS_SUMMARIES.contains(entry.id())
+                                        || UNDERWORLD_SUMMARIES.contains(entry.id())
+                                        || VALLEY_SUMMARIES.contains(entry.id())
+                                        || FAR_REACH_SUMMARIES.contains(entry.id())
+                                        || ABYSS_SUMMARIES.contains(entry.id())
+                                        || NON_STACKING_CARRIED_ITEMS.contains(entry.id())
+                                ? catalogPrompt("abyss.open")
+                                : catalogPrompt());
         if (!maid.isEmpty()) {
             block.add(Component.empty());
             block.addAll(maid);
@@ -111,8 +158,17 @@ public final class ThemeTooltips {
     }
 
     public static Component catalogPrompt() {
+        return catalogPrompt("open");
+    }
+
+    private static Component carryingLimitHint() {
+        return Component.translatable(PREFIX + "carrying_non_stacking")
+                .withStyle(style -> style.withColor(0x555555).withBold(false).withItalic(false));
+    }
+
+    private static Component catalogPrompt(String suffix) {
         return Component.translatable(
-                        PREFIX + "open",
+                        PREFIX + suffix,
                         keyName(CatalogSession.OPEN)
                                 .copy()
                                 .withStyle(s -> s.withColor(RainTooltips.ACCENT_COLOR)))
@@ -171,14 +227,61 @@ public final class ThemeTooltips {
     }
 
     public static List<Component> summary(String id, ItemStack stack, Player viewer) {
+        var lines = summaryParts(id, stack, viewer);
+        if (!FLOURISHING_SUMMARIES.contains(id)
+                && !BOUNDLESS_SUMMARIES.contains(id)
+                && !UNDERWORLD_SUMMARIES.contains(id)
+                && !VALLEY_SUMMARIES.contains(id)
+                && !FAR_REACH_SUMMARIES.contains(id)
+                && !ABYSS_SUMMARIES.contains(id)
+                && !NON_STACKING_CARRIED_ITEMS.contains(id)
+                && !utility(id)) return lines;
+        // 将文案中的显式换行拆成独立悬浮行，同时保留各片段的语义染色。
+        var result = new ArrayList<Component>();
+        for (Component line : lines) {
+            MutableComponent[] current = {Component.empty()};
+            line.visit(
+                    (style, fragment) -> {
+                        String[] parts = fragment.split("\\n", -1);
+                        for (int i = 0; i < parts.length; i++) {
+                            if (i > 0) {
+                                result.add(current[0]);
+                                current[0] = Component.empty();
+                            }
+                            if (!parts[i].isEmpty())
+                                current[0].append(Component.literal(parts[i]).setStyle(style));
+                        }
+                        return Optional.empty();
+                    },
+                    Style.EMPTY);
+            result.add(current[0]);
+        }
+        return result;
+    }
+
+    private static List<Component> summaryParts(String id, ItemStack stack, Player viewer) {
         var out = new ArrayList<Component>();
+        if (utility(id)) {
+            if (id.endsWith("_stone") || id.endsWith("_essence")) {
+                String theme = id.substring(0, id.lastIndexOf('_'));
+                out.add(
+                        text(
+                                id.endsWith("_stone") ? "utility.stone" : "utility.essence",
+                                Component.translatable("aspect.the_long_travail." + theme)
+                                        .getString()));
+            } else if (id.equals("wayguide")) {
+                out.add(
+                        text(
+                                "utility.wayguide",
+                                com.thelongtravail.network.TooltipConfigSync.integer(
+                                        "wayguide.radius",
+                                        com.thelongtravail.config.TravailConfig.WAYGUIDE_RADIUS
+                                                .get())));
+            } else out.add(text("utility." + id));
+            return out;
+        }
         if (id.equals("immortal_bud")) {
-            out.add(
-                    text(
-                            id
-                                    + (com.thelongtravail.flourishing.ImmortalBud.repairsOnApply()
-                                            ? ".0"
-                                            : ".no_repair")));
+            out.add(text(id + ".0"));
             out.add(text(id + ".1"));
             return out;
         }
@@ -192,8 +295,8 @@ public final class ThemeTooltips {
                             "star_voice",
                             "lorentz_fantasy")
                     .contains(id)) out.add(text("requires_diary_equip"));
-            else if (id.equals("eki") || id.equals("book_of_the_dead"))
-                out.add(text("requires_diary_effect"));
+            else if (id.equals("eki")) out.add(text("eki.requires_diary_effect"));
+            else if (id.equals("book_of_the_dead")) out.add(text("requires_diary_effect"));
         }
         switch (id) {
             case "sun_chaser", "kagotsurube" -> out.add(text(id + ".0"));
@@ -226,7 +329,7 @@ public final class ThemeTooltips {
                 for (int i = 0; i < 3; i++) out.add(text(id + "." + i));
             }
             case "everlasting_flower" -> {
-                for (int i = 0; i < 4; i++) out.add(text(id + "." + i));
+                for (int i = 0; i < 3; i++) out.add(text(id + "." + i));
                 out.add(
                         text(
                                 id + ".state",
@@ -247,16 +350,15 @@ public final class ThemeTooltips {
                 for (int i = 0; i < (id.equals("underground_velvet") ? 3 : 2); i++)
                     out.add(text(id + "." + i));
             }
-            case "ancient_strange_tales" ->
-                    out.addAll(
-                            com.thelongtravail.client.catalog.CatalogTextStyle.apply(
-                                    java.util.List.of(
-                                            Component.translatable(PREFIX + id + ".0"),
-                                            Component.translatable(PREFIX + id + ".1"))));
+            case "ancient_strange_tales" -> {
+                out.add(text(id + ".0"));
+                out.add(text(id + ".1"));
+            }
             case "liquefied_abundance" ->
                     out.addAll(
-                            com.thelongtravail.client.catalog.CatalogTextStyle.apply(
-                                    com.thelongtravail.abyss.AbundanceText.summary()));
+                            com.thelongtravail.abyss.AbundanceText.summary().stream()
+                                    .map(RainTooltips::coloredLine)
+                                    .toList());
             case "midnight_lafite" -> out.addAll(com.thelongtravail.abyss.AbyssItemText.summary());
             case "spring_corner" -> {
                 out.add(text(id + ".0"));
@@ -291,18 +393,12 @@ public final class ThemeTooltips {
             }
             case "tokaido" -> {
                 out.add(text(id + ".0"));
-                var snapshot =
-                        RainTooltips.clientTokaido.isEmpty()
-                                ? RainTooltips.tokaidoSnapshot()
-                                : RainTooltips.clientTokaido;
-                if (snapshot.stream().anyMatch(c -> key(c, RainTooltips.CAST_KEY::equals)))
-                    out.add(text(id + ".1", keyName(RainClient.CAST)));
+                out.add(text(id + ".1", keyName(RainClient.CAST)));
             }
             case "icarus", "sword_and_lantern" -> {
                 out.add(text(id + ".0"));
                 out.add(text(id + ".1"));
                 if (id.equals("icarus")) out.add(text(id + ".witness"));
-                out.add(text(id + ".2"));
                 boolean enabled =
                         id.equals("icarus")
                                 ? IcarusFlight.enabled(stack)
@@ -314,7 +410,11 @@ public final class ThemeTooltips {
                                         PREFIX + (enabled ? "enabled" : "disabled"))));
             }
             case "free_and_easy_wandering" -> {
-                out.add(text(id + ".0", keyName(BoundlessClient.DREAM)));
+                out.add(
+                        text(
+                                id + ".0",
+                                keyName(BoundlessClient.DREAM),
+                                com.thelongtravail.boundless.BoundlessRelicText.dreamDuration()));
                 out.add(text(id + ".1"));
             }
             case "little_prince" -> {
@@ -322,10 +422,9 @@ public final class ThemeTooltips {
                         text(
                                 id + ".0",
                                 com.thelongtravail.boundless.BoundlessRelicText.princeHeight()));
-                out.add(text(id + ".1"));
             }
             case "lorentz_fantasy" -> {
-                for (int i = 0; i < 4; i++) out.add(text(id + "." + i));
+                for (int i = 0; i < 3; i++) out.add(text(id + "." + i));
                 boolean enabled =
                         !stack.hasTag() || !stack.getTag().getBoolean("LorentzGravityDisabled");
                 out.add(
@@ -343,6 +442,11 @@ public final class ThemeTooltips {
                 out.add(text(id + ".0"));
                 out.add(text(id + ".1"));
             }
+        }
+        if (VALLEY_SUMMARIES.contains(id)
+                && !out.isEmpty()
+                && key(out.get(0), (PREFIX + "requires_diary_equip")::equals)) {
+            out.add(out.remove(0));
         }
         return out;
     }

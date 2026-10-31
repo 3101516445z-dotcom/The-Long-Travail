@@ -2,9 +2,11 @@ package com.thelongtravail.abyss;
 
 import com.thelongtravail.config.AbyssItemsConfig;
 import com.thelongtravail.network.TooltipConfigSync;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
+
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -117,33 +119,40 @@ public final class AbyssItemText {
         out.addAll(basics());
         out.add(Component.empty());
         out.add(line("malice_heading"));
-        double ordinary = value("malicePeak"), sheltered = value("shelteredNonClearPeak");
-        if (ordinary > 0) out.add(line("malice", percent(ordinary)));
-        else out.add(line("malice_zero"));
-        out.add(line("sheltered", percent(sheltered)));
+        double ordinary = value("malicePeak");
+        BigDecimal sheltered =
+                BigDecimal.valueOf(ordinary)
+                        .add(BigDecimal.valueOf(value("shelteredNonClearExtraPeak")));
+        out.add(line("malice", percent(ordinary)));
+        out.add(
+                line(
+                        "sheltered",
+                        sheltered.movePointRight(2).stripTrailingZeros().toPlainString()));
         out.add(line("dimensions"));
         out.add(Component.empty());
         out.add(line("witness_heading"));
         out.add(line("immunity"));
-        if (value("witnessBonus") > 0) out.add(line("witness", percent(value("witnessBonus"))));
+        out.add(line("witness", percent(value("witnessBonus"))));
         return out;
     }
 
     public static List<Component> summary() {
         var out = new ArrayList<Component>();
+        out.add(line("summary.heading"));
         boolean defaults =
                 value("regenerationLevelBonus") > 0
                         && value("saturationLevelBonus") > 0
                         && value("poisonDurationMultiplier") < 1
                         && value("nauseaDurationMultiplier") > 1;
         if (defaults) out.add(line("summary.base"));
-        else out.addAll(basics());
-        if (value("malicePeak") > 0 && value("shelteredNonClearPeak") >= value("malicePeak"))
-            out.add(line("summary.malice"));
-        else if (value("malicePeak") > 0 || value("shelteredNonClearPeak") > 0)
-            out.add(line("summary.malice_custom"));
-        if (value("witnessBonus") > 0) out.add(line("summary.witness"));
-        else out.add(line("summary.witness_zero"));
+        else
+            for (Component basic : basics())
+                out.add(
+                        Component.literal("- ")
+                                .withStyle(style -> style.withColor(RainTooltips.BODY_COLOR))
+                                .append(basic));
+        out.add(line("summary.malice"));
+        out.add(line("summary.witness"));
         return out;
     }
 

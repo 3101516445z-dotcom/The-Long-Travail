@@ -39,8 +39,7 @@ public final class RainConfig {
             TOKAIDO_LOCAL,
             TOKAIDO_SKY,
             DRY_RAIN,
-            SNOW_RAIN,
-            SKILL_ENABLED;
+            SNOW_RAIN;
     public static ForgeConfigSpec.EnumValue<Repeat> REPEAT;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> IMMUNITY_EXCLUSIONS, SLOTS;
 
@@ -245,15 +244,6 @@ public final class RainConfig {
                         "饱食度与饱和度的恢复间隔，单位：秒。\n"
                                 + "Interval between hunger and saturation restorations, in seconds.");
 
-        SKILL_ENABLED =
-                flag(
-                        b,
-                        "items.tokaido.skill.enabled",
-                        true,
-                        "启用主动唤雨；关闭后被动效果仍然生效，并恢复技能生效前的天气。\n"
-                                + "Enable the active Call Rain skill. Disabling it leaves passive"
-                                + " effects active and restores the weather from before the skill took"
-                                + " effect.");
         DURATION =
                 number(
                         b,

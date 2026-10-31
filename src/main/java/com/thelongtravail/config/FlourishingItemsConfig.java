@@ -18,16 +18,9 @@ public final class FlourishingItemsConfig {
             AFFECTION_SLOTS,
             BLACKLIST;
 
-    public static ForgeConfigSpec.BooleanValue BUD_REPAIR;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> BUD_BLACKLIST;
 
     public static void define(ForgeConfigSpec.Builder b) {
-        BUD_REPAIR =
-                b.comment(
-                                "启用时，永生芽赋予标记时修满目标耐久；禁用时保留原有损伤。仅影响之后的赋予。",
-                                "When enabled, applying Immortal Bud fully repairs the target; when disabled,"
-                                        + " existing damage is preserved. Affects future applications only.")
-                        .define("items.immortal_bud.repairOnApply", true);
         BUD_BLACKLIST =
                 b.comment(
                                 "禁止永生芽赋予的物品 ID，精确匹配；空列表不额外限制。不会撤销已有标记。",

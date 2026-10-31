@@ -87,10 +87,6 @@ public final class RainWeather extends SavedData {
 
     public boolean advance(ServerLevel level) {
         if (!active()) return false;
-        if (!RainConfig.SKILL_ENABLED.get()) {
-            restore(level);
-            return true;
-        }
         if (--remaining <= 0) restore(level);
         else {
             force(level);

@@ -141,7 +141,22 @@ public final class FarReachAccessoryItem extends Item implements ICurioItem {
         } else {
             line(out, "icarus.malice_heading");
             line(out, "icarus.malice", n("icarus.malicePeak", 100));
-            line(out, "icarus.sunny", n("icarus.sunnyPeak", 100));
+            line(
+                    out,
+                    "icarus.sunny",
+                    BigDecimal.valueOf(
+                                    TooltipConfigSync.decimal(
+                                            "farItem.icarus.malicePeak",
+                                            FarReachItemsConfig.get("icarus.malicePeak")))
+                            .add(
+                                    BigDecimal.valueOf(
+                                            TooltipConfigSync.decimal(
+                                                    "farItem.icarus.sunnyExtraPeak",
+                                                    FarReachItemsConfig.get(
+                                                            "icarus.sunnyExtraPeak"))))
+                            .multiply(BigDecimal.valueOf(100))
+                            .stripTrailingZeros()
+                            .toPlainString());
             line(out, "icarus.dimensions");
             out.add(Component.empty());
             line(out, "icarus.witness_heading");

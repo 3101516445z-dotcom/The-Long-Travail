@@ -18,10 +18,10 @@ public final class CatalogTextStyle {
     private static final Pattern VALUES =
             Pattern.compile(
                     "[+-]?\\d+(?:\\.\\d+)?(?:[%％]|(?:\\s*|-)(?:seconds?|minutes?|blocks?|levels?(?:\\(s\\))?|points?|times?)(?!\\w)|秒|分钟|格|级|点|倍|朵|条|张|颗|本|个|份|件|种|種)?"
-                        + "|[一二两三四五六七八九十]+(?:朵|条|张|级|格|秒|分钟|件|份|个)|[0-9一二三四五六七八九十]+[种種]|\\bnine(?="
-                        + " special text styles\\b)|\\bone(?= Perfect"
-                        + " Fluid\\b)|\\b(?:one|two|three|four|five|six)"
-                        + " (?:flowers?|records?|levels?|blocks?|seconds?|items?|copies|copy)\\b",
+                            + "|[一二两三四五六七八九十]+(?:朵|条|张|级|格|秒|分钟|件|份|个)|[0-9一二三四五六七八九十]+[种種]|\\bnine(?="
+                            + " special text styles\\b)|\\bone(?= Perfect"
+                            + " Fluid\\b)|\\b(?:one|two|three|four|five|six)"
+                            + " (?:flowers?|records?|levels?|blocks?|seconds?|items?|copies|copy)\\b",
                     Pattern.CASE_INSENSITIVE);
     private static final Pattern KEYS = Pattern.compile("(?<=\\[)[^\\[\\]\\r\\n]+(?=\\])");
     private static final Pattern STACK_SCOPE =
@@ -151,8 +151,8 @@ public final class CatalogTextStyle {
                     "正常治療",
                     "常規治療",
                     "normal healing",
-                    "受伤无敌帧",
-                    "受傷無敵幀",
+                    "无敌帧",
+                    "無敵幀",
                     "damage invulnerability frames",
                     "直击伤害",
                     "直擊傷害",
@@ -460,7 +460,7 @@ public final class CatalogTextStyle {
                                             .startsWith(
                                                     "tooltip.the_long_travail.summary.ancient_strange_tales."));
             Flat f = flatten(source);
-            // 保留译文各片段的语义染色，避免通用规则覆盖整行样式。
+            // 高频战栗沿用译文的分段染色，不再套用通用关键词强调规则。
             if (source.getContents()
                             instanceof
                             net.minecraft.network.chat.contents.TranslatableContents tremor

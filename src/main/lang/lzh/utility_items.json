@@ -42,7 +42,7 @@
   "gui.the_long_travail.catalog.details.wayguide.4": "搜尋時，路引懸於佩者之上。",
   "gui.the_long_travail.catalog.details.wayguide.5": "若得目標，路引即向其水平之方飛出一程，為佩者指路，少頃而落，可拾而復用。",
   "gui.the_long_travail.catalog.details.wayguide.6": "若未得目標，路引則返，可他往再試。",
-  "gui.the_long_travail.catalog.details.wayguide.8": "搜尋之範圍至多5000格，且唯於本維度內求之。",
+  "gui.the_long_travail.catalog.details.wayguide.8": "搜尋之範圍至多%1$s格，且唯於本維度內求之。",
   "item.the_long_travail.coloring": "施色",
   "tooltip.the_long_travail.coloring.0": "此乃一柄刷也。",
   "tooltip.the_long_travail.coloring.1": "持之右擊，以染物名。",
@@ -61,5 +61,14 @@
   "gui.the_long_travail.catalog.details.coloring.1": "式既選定，於右側輸出格取物，施色乃成；亦可一次施於整組之物。",
   "gui.the_long_travail.catalog.details.coloring.3": "施色惟易物名之所見，不改其名中文字、說明、附魔、屬性及其餘內容。",
   "gui.the_long_travail.catalog.details.coloring.4": "欲去本模組所施物名特效，可選「還原樣式」。",
-  "gui.the_long_travail.coloring.clear": "清空"
+  "gui.the_long_travail.coloring.clear": "清空",
+  "tooltip.the_long_travail.flavor.homecoming": "世事維艱，旅途漫漫。\n或宜先歸家中，備足而後行。",
+  "tooltip.the_long_travail.flavor.renewal": "若覺此路難行，不妨另尋他路。",
+  "tooltip.the_long_travail.flavor.coloring": "此物，刷也。",
+  "tooltip.the_long_travail.summary.utility.homecoming": "§a右擊§r用之：\n- 摘下所佩之§6「苦旅」§r",
+  "tooltip.the_long_travail.summary.utility.renewal": "佩§6「苦旅」§r而右擊用之：\n- 重抽六主題之§6見證條件§r\n- 重置當前諸般§6旅程記錄與已獲見證§r",
+  "tooltip.the_long_travail.summary.utility.wayguide": "佩§6「苦旅」§r而右擊投之：\n- 尋訪§a%1$s格§r內的§6應至未至之地§r\n- 優先指向本維度之§6目標群系§r，其次為結構\n- §6無需解密§r即可直接尋路\n- 尋獲目標後飛出指路，未尋獲則§6自動返還§r",
+  "tooltip.the_long_travail.summary.utility.coloring": "手持§a右擊§r用之：\n- 啟施色之窗，為物名施以§6特殊渲染§r",
+  "tooltip.the_long_travail.summary.utility.stone": "§a右擊§r用之：\n- 揭示驅散%1$s之惡意所當至之§6地點§r",
+  "tooltip.the_long_travail.summary.utility.essence": "§d%1$s尚懷惡意時：§r\n- §a右擊§r隨機成此主題之一條§6未竟旅程記錄§r\n§d%1$s已得見證時：§r\n- §a右擊§r重置此主題進度，復抽§6見證條件§r"
 }

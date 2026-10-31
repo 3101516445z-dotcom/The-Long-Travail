@@ -42,7 +42,7 @@
   "gui.the_long_travail.catalog.details.wayguide.4": "During the search, the Wayguide hovers above the user.",
   "gui.the_long_travail.catalog.details.wayguide.5": "If a target is found, it flies a short distance in the target's horizontal direction to show the way. It drops after a short while and can be picked up and used again.",
   "gui.the_long_travail.catalog.details.wayguide.6": "If no target is found, the Wayguide is returned. Move elsewhere and try again.",
-  "gui.the_long_travail.catalog.details.wayguide.8": "The search range is at most 5000 blocks and only includes journey destinations in the current dimension.",
+  "gui.the_long_travail.catalog.details.wayguide.8": "The search range is at most %1$s blocks and only includes journey destinations in the current dimension.",
   "item.the_long_travail.coloring": "Coloring",
   "tooltip.the_long_travail.coloring.0": "First of all, this is a brush.",
   "tooltip.the_long_travail.coloring.1": "Right-click while holding it to color item names.",
@@ -61,5 +61,14 @@
   "gui.the_long_travail.catalog.details.coloring.1": "Once you have chosen a style, take the item from the output slot on the right to apply it. You can also process an entire stack at once.",
   "gui.the_long_travail.catalog.details.coloring.3": "Coloring only changes how item names are displayed. It does not alter the name text, descriptions, enchantments, attributes, or other item details.",
   "gui.the_long_travail.catalog.details.coloring.4": "To remove this mod's item name rendering effects, choose Restore Style.",
-  "gui.the_long_travail.coloring.clear": "Clear"
+  "gui.the_long_travail.coloring.clear": "Clear",
+  "tooltip.the_long_travail.flavor.homecoming": "The world is harsh, and the journey is long.\nPerhaps you should return home and prepare before setting out again.",
+  "tooltip.the_long_travail.flavor.renewal": "If this road proves too difficult, perhaps seek another.",
+  "tooltip.the_long_travail.flavor.coloring": "First of all, this is a brush.",
+  "tooltip.the_long_travail.summary.utility.homecoming": "§aRight-click§r to use:\n- Remove the equipped §6The Long Travail§r",
+  "tooltip.the_long_travail.summary.utility.renewal": "Right-click while wearing §6The Long Travail§r:\n- Reroll the §6Witness requirements§r for all six themes\n- Reset all current §6journey records and acquired Witnesses§r",
+  "tooltip.the_long_travail.summary.utility.wayguide": "Right-click to throw while wearing §6The Long Travail§r:\n- Seek §6unvisited journey destinations§r within §a%1$s blocks§r\n- Prioritize §6target biomes§r in this dimension, then structures\n- Find a route §6without revelation§r\n- Flies toward a found target; §6returns automatically§r if none is found",
+  "tooltip.the_long_travail.summary.utility.coloring": "§aRight-click§r while held:\n- Open the Coloring interface to add §6special rendering§r to item names",
+  "tooltip.the_long_travail.summary.utility.stone": "§aRight-click§r to use:\n- Reveal the §6destinations§r required to dispel the Malice of %1$s",
+  "tooltip.the_long_travail.summary.utility.essence": "§dWhile %1$s holds Malice:§r\n- §aRight-click§r to complete one random §6unfinished journey record§r for this theme\n§dOnce %1$s is witnessed:§r\n- §aRight-click§r to reset this theme and reroll its §6Witness requirements§r"
 }

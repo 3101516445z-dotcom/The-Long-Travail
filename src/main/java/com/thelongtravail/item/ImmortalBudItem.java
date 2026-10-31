@@ -32,12 +32,7 @@ public final class ImmortalBudItem extends Item implements ItemDescription {
             ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
         for (int i = 0; i < 6; i++) {
             if (i == 3) lines.add(Component.empty());
-            String key =
-                    i == 0 && !com.thelongtravail.flourishing.ImmortalBud.repairsOnApply()
-                            ? "no_repair"
-                            : Integer.toString(i);
-            lines.add(
-                    Component.translatable("tooltip.the_long_travail.immortal_bud.details." + key));
+            lines.add(Component.translatable("tooltip.the_long_travail.immortal_bud.details." + i));
         }
         var blocked =
                 com.thelongtravail.network.TooltipConfigSync.pool(

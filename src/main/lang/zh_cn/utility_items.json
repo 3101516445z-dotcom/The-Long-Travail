@@ -4,7 +4,7 @@
   "item.the_long_travail.wayguide": "路引",
   "entity.the_long_travail.wayguide": "路引",
   "tooltip.the_long_travail.homecoming.prose.0": "使用归乡可以摘下苦旅。",
-  "tooltip.the_long_travail.homecoming.prose.1": "世事维艰，旅途艰难。",
+  "tooltip.the_long_travail.homecoming.prose.1": "世事维艰，旅途漫漫。",
   "tooltip.the_long_travail.homecoming.prose.2": "也许应该先回到家中，",
   "tooltip.the_long_travail.homecoming.prose.3": "多做一些准备再出发。",
   "tooltip.the_long_travail.renewal.prose.0": "使用后将刷新使用者佩戴的苦旅。",
@@ -42,7 +42,7 @@
   "gui.the_long_travail.catalog.details.wayguide.4": "搜索时，路引会悬在使用者上方。",
   "gui.the_long_travail.catalog.details.wayguide.5": "若此次搜索找到目标，路引会朝目标所在的水平方向飞出一段距离，为使用者指路，并在片刻后落下，可以拾起再次使用。",
   "gui.the_long_travail.catalog.details.wayguide.6": "若此次搜索未能找到目标，路引会返还，可以前往其他位置后再次尝试。",
-  "gui.the_long_travail.catalog.details.wayguide.8": "搜索范围最多为5000格，且只会搜索本维度内的旅程地点。",
+  "gui.the_long_travail.catalog.details.wayguide.8": "搜索范围最多为%1$s格，且只会搜索本维度内的旅程地点。",
   "item.the_long_travail.coloring": "施色",
   "tooltip.the_long_travail.coloring.0": "首先，这是一把刷子。",
   "tooltip.the_long_travail.coloring.1": "手持右键使用，为物品名染色。",
@@ -61,5 +61,14 @@
   "gui.the_long_travail.catalog.details.coloring.1": "选好样式后，从右侧输出槽位领取物品即可完成施色，也可以一次处理整组物品。",
   "gui.the_long_travail.catalog.details.coloring.3": "施色仅改变物品名称的显示样式，不会改动名称文字、说明、附魔和属性等其他内容。",
   "gui.the_long_travail.catalog.details.coloring.4": "若想去除本模组的物品名渲染特效，可以选择「还原样式」。",
-  "gui.the_long_travail.coloring.clear": "清空"
+  "gui.the_long_travail.coloring.clear": "清空",
+  "tooltip.the_long_travail.flavor.homecoming": "世事维艰，旅途漫漫。\n也许应该先回到家中，多做一些准备再出发。",
+  "tooltip.the_long_travail.flavor.renewal": "若觉此路难行，不妨另寻他路。",
+  "tooltip.the_long_travail.flavor.coloring": "首先，这是一把刷子。",
+  "tooltip.the_long_travail.summary.utility.homecoming": "§a右击§r使用：\n- 摘下已佩戴的§6「苦旅」§r",
+  "tooltip.the_long_travail.summary.utility.renewal": "佩戴§6「苦旅」§r时右击使用：\n- 重新抽取全部六个主题的§6见证条件§r\n- 重置当前所有的§6旅程记录与已获见证§r",
+  "tooltip.the_long_travail.summary.utility.wayguide": "佩戴§6「苦旅」§r时右击投出：\n- 寻访§a%1$s格§r内的§6应至未至之地§r\n- 优先指向本维度的§6目标群系§r，其次为结构\n- §6无需解密§r即可直接寻路\n- 寻获目标后飞出指路，未寻获则§6自动返还§r",
+  "tooltip.the_long_travail.summary.utility.coloring": "手持§a右击§r使用：\n- 打开施色界面，为物品名添加§6特殊渲染§r",
+  "tooltip.the_long_travail.summary.utility.stone": "§a右击§r使用：\n- 揭示驱散%1$s的恶意所需踏足的§6地点§r",
+  "tooltip.the_long_travail.summary.utility.essence": "§d%1$s尚有恶意时：§r\n- §a右击§r随机完成该主题的一条§6未竟旅程记录§r\n§d%1$s已然见证时：§r\n- §a右击§r重置该主题进度，并重新抽取§6见证条件§r"
 }

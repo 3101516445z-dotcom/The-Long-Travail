@@ -384,7 +384,7 @@ items.azrael.selfChance
 处决步骤与后备处理
 ~~~~~~~~~~~~~~~~~~~~~~~~
 items.azrael.damageAttempts
-处决第一阶段使用无限大真实伤害的最大尝试次数。每次尝试前重置原版受伤无敌时间，处决成功后停止尝试。
+处决第一阶段使用无限大真实伤害的最大尝试次数。每次尝试前重置原版无敌帧，处决成功后停止尝试。
 
 items.azrael.genericKillFallback
 第一阶段失败后，尝试一次保留玩家来源的generic_kill伤害。
@@ -412,7 +412,7 @@ items.wayguide.guideDurationSeconds
 修改后也会影响正在指路的路引。
 
 items.wayguide.search.searchRadius
-路引的最大水平搜索半径，单位：方块，最多5000。未找到目标不代表整个维度都没有目标。
+路引的最大水平搜索半径，单位：方块，可配置范围16至30000000。未找到目标不代表整个维度都没有目标。
 
 items.wayguide.search.searchTimeoutSeconds
 单次搜索的最长等待时间，按现实时间计秒。
@@ -500,7 +500,7 @@ timeStop.boundaryLevel
 [M06] 主题物品的适用范围与判定条件
 
 永生芽：aspects/flourishing.toml → items.immortal_bud
-- repairOnApply 默认 true：赋予时修满目标耐久；false 保留目标原有损伤，仍赋予耐久保护。
+- 赋予标记时固定修满目标耐久；不再提供修复开关。
 - itemBlacklist 默认为 []，按完整物品 ID 排除新的赋予；已有标记及其保护不受影响。
 
 剑与灯：aspects/deep_valley.toml → items.swordAndLantern
@@ -518,3 +518,6 @@ timeStop.boundaryLevel
 高频战栗：aspects/deep_valley.toml → items.high_frequency_tremor
 - witnessBreakBlacklist 默认 ["minecraft:barrier"]，按完整方块 ID 限制见证状态的潜行右键破坏；同样作用于 FTB 连锁。
 - 清空名单允许破坏基岩，但按正常战利品规则不会生成基岩物品；领地保护与取消破坏事件仍然有效。
+
+伊卡洛斯与午夜拉菲：aspects/far_reach.toml、aspects/abyss.toml
+- 伊卡洛斯 sunnyExtraPeak 与午夜拉菲 shelteredNonClearExtraPeak 为普通 malicePeak 之上的额外增量，默认0.25。malicePeak 默认0.5，witnessBonus 默认0.2；三项下限均为0.01。旧环境总峰值迁移为 max(0.01, 旧峰值 - 普通峰值)，迁移前配置按现有恢复流程归档。

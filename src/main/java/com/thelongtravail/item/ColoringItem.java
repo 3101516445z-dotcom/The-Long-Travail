@@ -45,10 +45,6 @@ public final class ColoringItem extends Item {
     @Override
     public void appendHoverText(
             ItemStack stack, @Nullable Level level, List<Component> lines, TooltipFlag flag) {
-        for (int i = 0; i < 2; i++)
-            lines.add(
-                    Component.translatable("tooltip.the_long_travail.coloring." + i)
-                            .withStyle(s -> s.withColor(0xBC995E)));
-        lines.add(Component.translatable(ItemDescription.CATALOG));
+        ItemDescription.summary(lines);
     }
 }

@@ -48,7 +48,12 @@ public final class CatalogUtilityDetails {
             var line =
                     Component.translatable(
                             "gui.the_long_travail.catalog.details." + id + "." + row,
-                            theme == null ? Component.empty() : theme,
+                            id.equals("wayguide") && row == 8
+                                    ? com.thelongtravail.network.TooltipConfigSync.integer(
+                                            "wayguide.radius",
+                                            com.thelongtravail.config.TravailConfig.WAYGUIDE_RADIUS
+                                                    .get())
+                                    : theme == null ? Component.empty() : theme,
                             item == null ? Component.empty() : item);
             boolean condition = id.equals("essence") && (row == 3 || row == 8);
             result.add(

@@ -50,7 +50,7 @@ public final class AzraelConfig {
                         .defineInRange("items.azrael.selfChance", .005, 0, 1);
         ATTEMPTS =
                 b.comment(
-                                "处决第一阶段使用无限大真实伤害的最大尝试次数。每次尝试前重置原版受伤无敌时间，处决成功后停止尝试。\n"
+                                "处决第一阶段使用无限大真实伤害的最大尝试次数。每次尝试前重置原版无敌帧，处决成功后停止尝试。\n"
                                         + "Maximum number of attempts to deal infinite true damage"
                                         + " during the first execution stage. Vanilla"
                                         + " damage-invulnerability time is reset before each attempt."

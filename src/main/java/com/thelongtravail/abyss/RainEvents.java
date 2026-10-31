@@ -62,7 +62,6 @@ public final class RainEvents {
     }
 
     public static void cast(ServerPlayer p) {
-        if (!RainConfig.SKILL_ENABLED.get()) return;
         if (!p.isAlive()
                 || p.isSpectator()
                 || p.containerMenu != p.inventoryMenu

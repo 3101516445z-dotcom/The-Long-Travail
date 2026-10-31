@@ -438,8 +438,8 @@ public final class ConfigFilesDescription {
                 section(
                         builder,
                         "items.immortal_bud",
-                        "永生芽：赋予时的修复开关与目标黑名单；仅影响新的赋予。\n"
-                                + "Immortal Bud: repair-on-application switch and target blacklist;"
+                        "永生芽：赋予时固定修满耐久；目标黑名单仅限制新的赋予。\n"
+                                + "Immortal Bud: always repairs on application; the target blacklist"
                                 + " affects new applications only.");
                 section(
                         builder,

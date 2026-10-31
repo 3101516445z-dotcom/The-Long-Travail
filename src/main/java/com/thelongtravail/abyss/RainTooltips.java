@@ -55,7 +55,6 @@ public final class RainTooltips {
                             RainConfig.FOOD_SECONDS.get(),
                             RainConfig.SATURATION.get(),
                             RainConfig.FIRE.get(),
-                            RainConfig.SKILL_ENABLED.get(),
                             RainConfig.DURATION.get(),
                             RainConfig.COOLDOWN.get(),
                             RainConfig.DRY_RAIN.get(),
@@ -216,21 +215,17 @@ public final class RainTooltips {
                         num(RainConfig.SATURATION.get())));
         if (RainConfig.FIRE.get()) out.add(text("tokaido.prose.fire"));
         out.add(Component.empty());
-        if (RainConfig.SKILL_ENABLED.get()) {
-            out.add(
-                    Component.translatable(CAST_KEY)
-                            .withStyle(style -> style.withColor(BODY_COLOR)));
-            String climate =
-                    RainConfig.DRY_RAIN.get()
-                            ? (RainConfig.SNOW_RAIN.get() ? "both" : "dry")
-                            : (RainConfig.SNOW_RAIN.get() ? "cold" : "normal");
-            out.add(
-                    text(
-                            "tokaido.prose.skill",
-                            num(RainConfig.DURATION.get()),
-                            text("tokaido.prose.climate." + climate)));
-            out.add(text("tokaido.prose.cooldown", num(RainConfig.COOLDOWN.get())));
-        } else out.add(text("tokaido.skill_disabled"));
+        out.add(Component.translatable(CAST_KEY).withStyle(style -> style.withColor(BODY_COLOR)));
+        String climate =
+                RainConfig.DRY_RAIN.get()
+                        ? (RainConfig.SNOW_RAIN.get() ? "both" : "dry")
+                        : (RainConfig.SNOW_RAIN.get() ? "cold" : "normal");
+        out.add(
+                text(
+                        "tokaido.prose.skill",
+                        num(RainConfig.DURATION.get()),
+                        text("tokaido.prose.climate." + climate)));
+        out.add(text("tokaido.prose.cooldown", num(RainConfig.COOLDOWN.get())));
         return List.copyOf(out);
     }
 

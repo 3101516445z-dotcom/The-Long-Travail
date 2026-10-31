@@ -47,11 +47,15 @@ public final class MidnightLafite {
         int phase = phase(e);
         if (phase == 2) return AbyssItemsConfig.get("witnessBonus");
         if (phase != 1) return 0;
+        return maliceBonus(e, time);
+    }
+
+    public static double maliceBonus(LivingEntity e, long time) {
         return night(time)
-                * AbyssItemsConfig.get(
-                        !IcarusEnvironment.sunny(e.level()) && !IcarusEnvironment.openSky(e)
-                                ? "shelteredNonClearPeak"
-                                : "malicePeak");
+                * (AbyssItemsConfig.get("malicePeak")
+                        + (!IcarusEnvironment.sunny(e.level()) && !IcarusEnvironment.openSky(e)
+                                ? AbyssItemsConfig.get("shelteredNonClearExtraPeak")
+                                : 0));
     }
 
     public static int levels(LivingEntity e, MobEffect effect) {

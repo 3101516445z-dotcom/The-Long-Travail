@@ -26,11 +26,7 @@ public final class RenewalItem extends Item {
     @Override
     public void appendHoverText(
             ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        for (int index = 0; index < 3; index++)
-            tooltip.add(
-                    Component.translatable("tooltip.the_long_travail.renewal.prose." + index)
-                            .withStyle(style -> style.withColor(0xBC995E)));
-        tooltip.add(Component.translatable(ItemDescription.CATALOG));
+        ItemDescription.summary(tooltip);
     }
 
     @Override

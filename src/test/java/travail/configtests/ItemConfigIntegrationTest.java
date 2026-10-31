@@ -44,7 +44,6 @@ public final class ItemConfigIntegrationTest {
 
     private void verify(MinecraftServer server) throws Exception {
         var oldBud = FlourishingItemsConfig.BUD_BLACKLIST.get();
-        boolean oldRepair = FlourishingItemsConfig.BUD_REPAIR.get();
         var oldWhite = AbyssItemsConfig.ABUNDANCE_WHITELIST.get();
         var oldBlack = AbyssItemsConfig.ABUNDANCE_BLACKLIST.get();
         double oldRadius = SwordLanternConfig.RADIUS.get();
@@ -61,8 +60,7 @@ public final class ItemConfigIntegrationTest {
         var oldSlots = new HashMap<>(inventory.getCurios());
         try {
             check(
-                    oldRepair
-                            && oldBud.isEmpty()
+                    oldBud.isEmpty()
                             && oldWhite.isEmpty()
                             && oldRadius == 64
                             && oldMinimum == 11,
@@ -85,16 +83,15 @@ public final class ItemConfigIntegrationTest {
             check(
                     target.getDamageValue() == 100 && !ImmortalBud.marked(target),
                     "input not mutated");
-            FlourishingItemsConfig.BUD_REPAIR.set(false);
             var preserved = recipe.assemble(grid, world.registryAccess());
             check(
-                    preserved.getDamageValue() == 100 && ImmortalBud.marked(preserved),
-                    "repair disabled");
+                    preserved.getDamageValue() == 0 && ImmortalBud.marked(preserved),
+                    "application always fully repairs");
             check(
                     preserved.getTag().getString("test_data").equals("preserved"),
                     "custom data retained");
             preserved.setDamageValue(101);
-            check(preserved.getDamageValue() == 100, "protection remains with existing damage");
+            check(preserved.getDamageValue() == 0, "repaired item remains protected");
             FlourishingItemsConfig.BUD_BLACKLIST.set(List.of("minecraft:diamond_sword"));
             check(
                     !recipe.matches(grid, world)
@@ -114,9 +111,11 @@ public final class ItemConfigIntegrationTest {
             AbyssItemsConfig.ABUNDANCE_WHITELIST.set(List.of());
             LiquefiedAbundance.reload();
             var baseline = AbundanceEffectPool.ids();
-            var entriesField = AbundanceEffectPool.class.getDeclaredField("entries");
-            entriesField.setAccessible(true);
-            var baselineEntries = (List<?>) entriesField.get(null);
+            var snapshotField = AbundanceEffectPool.class.getDeclaredField("snapshot");
+            snapshotField.setAccessible(true);
+            var entriesMethod = snapshotField.getType().getDeclaredMethod("entries");
+            entriesMethod.setAccessible(true);
+            var baselineEntries = (List<?>) entriesMethod.invoke(snapshotField.get(null));
             var baselineSpeed =
                     baselineEntries.stream()
                             .map(e -> (AbundanceEffectPool.Entry) e)
@@ -142,7 +141,7 @@ public final class ItemConfigIntegrationTest {
                     AbundanceEffectPool.ids().equals(List.of("minecraft:speed")),
                     "blacklist precedence and deduplication");
             check(
-                    ((List<?>) entriesField.get(null)).equals(List.of(baselineSpeed)),
+                    ((List<?>) entriesMethod.invoke(snapshotField.get(null))).equals(List.of(baselineSpeed)),
                     "whitelist preserves all existing levels and durations");
             var random = RandomSource.create(27);
             for (int i = 0; i < 100; i++)
@@ -231,7 +230,8 @@ public final class ItemConfigIntegrationTest {
             var values = (Map<?, ?>) valuesMethod.invoke(null);
             var pools = (Map<?, ?>) poolsMethod.invoke(null);
             check(
-                    values.get("bud.repair").equals(0D)
+                    !values.containsKey("bud.repair")
+                            && values.get("wayguide.radius").equals((double) TravailConfig.WAYGUIDE_RADIUS.get())
                             && values.get("swordLantern.radius").equals(32D)
                             && values.get("swordLantern.crowdMinimum").equals(2D),
                     "numeric synchronization reflects server config");
@@ -261,7 +261,6 @@ public final class ItemConfigIntegrationTest {
             }
         } finally {
             FlourishingItemsConfig.BUD_BLACKLIST.set(oldBud);
-            FlourishingItemsConfig.BUD_REPAIR.set(oldRepair);
             AbyssItemsConfig.ABUNDANCE_WHITELIST.set(oldWhite);
             AbyssItemsConfig.ABUNDANCE_BLACKLIST.set(oldBlack);
             SwordLanternConfig.RADIUS.set(oldRadius);

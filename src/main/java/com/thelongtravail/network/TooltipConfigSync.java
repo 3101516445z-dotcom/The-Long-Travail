@@ -99,8 +99,8 @@ public final class TooltipConfigSync {
                 "underworldItem.protection",
                 (double) com.thelongtravail.config.UnderworldItemsConfig.PROTECTION.get());
         values.put(
-                "bud.repair",
-                com.thelongtravail.config.FlourishingItemsConfig.BUD_REPAIR.get() ? 1D : 0D);
+                "wayguide.radius",
+                (double) com.thelongtravail.config.TravailConfig.WAYGUIDE_RADIUS.get());
         values.put(
                 "swordLantern.radius", com.thelongtravail.valley.SwordLanternConfig.RADIUS.get());
         values.put(

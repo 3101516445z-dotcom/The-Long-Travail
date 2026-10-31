@@ -54,12 +54,6 @@ public final class RevelationStoneItem extends Item {
     @Override
     public void appendHoverText(
             ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(
-                Component.translatable(
-                                "tooltip.the_long_travail.revelation_stone",
-                                Component.translatable("aspect.the_long_travail." + aspect.id())
-                                        .withStyle(style -> style.withColor(0xFFD84D)))
-                        .withStyle(style -> style.withColor(0xB88750)));
-        tooltip.add(Component.translatable(ItemDescription.CATALOG));
+        ItemDescription.summary(tooltip);
     }
 }

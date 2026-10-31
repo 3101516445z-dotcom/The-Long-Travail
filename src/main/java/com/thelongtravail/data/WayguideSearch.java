@@ -117,7 +117,7 @@ public final class WayguideSearch {
                         && Math.hypot(
                                         cached.target.pos.getX() - player.getX(),
                                         cached.target.pos.getZ() - player.getZ())
-                                <= Math.min(5000, TravailConfig.WAYGUIDE_RADIUS.get());
+                                <= TravailConfig.WAYGUIDE_RADIUS.get();
         if (!cacheHit) CACHE.remove(player.getUUID());
         long accepted = System.nanoTime();
         Scanner scanner =
@@ -425,7 +425,7 @@ public final class WayguideSearch {
         Scanner(ServerLevel level, BlockPos origin) {
             this.level = level;
             this.origin = origin.immutable();
-            this.radius = Math.min(5000, TravailConfig.WAYGUIDE_RADIUS.get());
+            this.radius = TravailConfig.WAYGUIDE_RADIUS.get();
         }
 
         abstract boolean step(LoadBudget budget);

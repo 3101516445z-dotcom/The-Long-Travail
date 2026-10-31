@@ -27,19 +27,12 @@ public final class ImmortalBud {
         return !blocked.contains(ForgeRegistries.ITEMS.getKey(stack.getItem()).toString());
     }
 
-    public static boolean repairsOnApply() {
-        boolean repair = FlourishingItemsConfig.BUD_REPAIR.get();
-        return EffectiveSide.get().isClient()
-                ? TooltipConfigSync.integer("bud.repair", repair ? 1 : 0) != 0
-                : repair;
-    }
-
     public static ItemStack apply(ItemStack target) {
         if (!accepts(target)) return ItemStack.EMPTY;
         ItemStack result = target.copy();
         result.setCount(1);
         // 仅赋予时直接归零，兼容禁止普通修复或只允许损伤增加的物品。
-        if (repairsOnApply()) result.getOrCreateTag().putInt("Damage", 0);
+        result.getOrCreateTag().putInt("Damage", 0);
         result.getOrCreateTag().putBoolean(TAG, true);
         return result;
     }

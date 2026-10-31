@@ -131,30 +131,29 @@ public final class AbyssItemsConfig {
                 b,
                 "malicePeak",
                 .5,
-                0,
+                .01,
                 1000,
-                "恶意状态下，普通环境中午夜时的伤害加成比例；0.5 表示提高 50%，0 表示不提供加成。",
+                "恶意状态下，普通环境中午夜时的伤害加成比例；0.5 表示提高 50%。",
                 "Midnight damage bonus with Malice in ordinary conditions; 0.5 means a 50%"
-                        + " increase, and 0 disables the bonus.");
+                        + " increase.");
         number(
                 b,
-                "shelteredNonClearPeak",
-                .75,
-                0,
+                "shelteredNonClearExtraPeak",
+                .25,
+                .01,
                 1000,
-                "未处于露天环境且天气非晴朗时，恶意状态下午夜的伤害加成比例，替代普通环境中的峰值。末地始终视为晴天，下界始终不视为晴天。",
-                "Midnight damage bonus with Malice when sheltered from the sky in non-clear"
-                        + " weather. Replaces the ordinary peak bonus. The End always counts as clear"
+                "未处于露天环境且天气非晴朗时，恶意状态下在普通环境午夜峰值上额外增加的比例；最终峰值为malicePeak加本项。末地始终视为晴天，下界始终不视为晴天。",
+                "Additional midnight damage bonus above malicePeak when sheltered in non-clear"
+                        + " weather. Added to the ordinary peak bonus. The End always counts as clear"
                         + " weather; the Nether never does.");
         number(
                 b,
                 "witnessBonus",
                 .20,
-                0,
+                .01,
                 1000,
-                "见证状态下，夜间的固定伤害加成比例；0.20 表示提高 20%，0 表示不提供加成。",
-                "Fixed nighttime damage bonus with Witness; 0.20 means a 20% increase, and 0"
-                        + " disables the bonus.");
+                "见证状态下，夜间的固定伤害加成比例；0.20 表示提高 20%。",
+                "Fixed nighttime damage bonus with Witness; 0.20 means a 20% increase.");
     }
 
     private static void number(

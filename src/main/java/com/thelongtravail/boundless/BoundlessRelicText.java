@@ -17,6 +17,10 @@ public final class BoundlessRelicText {
                 .toPlainString();
     }
 
+    public static String dreamDuration() {
+        return number("dream.duration", 1);
+    }
+
     public static Component princeHeight() {
         String height = number("prince.stepHeight", 1);
         return height.equals("1")

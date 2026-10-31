@@ -36,7 +36,7 @@
   "gui.the_long_travail.catalog.details.essence.14": "成功使用後消耗一枚精粹，未佩戴苦旅或沒有可完成的旅程記錄時不會消耗。",
   "gui.the_long_travail.catalog.glossary.direct_strike.title": "直擊傷害",
   "gui.the_long_travail.catalog.glossary.direct_strike.aliases": "直擊傷害",
-  "gui.the_long_travail.catalog.glossary.direct_strike.body": "一種可以繞過護甲及韌性、附魔減傷、抗性提升、受傷無敵幀、盾牌格擋和傷害吸收（黃心）的傷害。不會消耗原有黃心。",
+  "gui.the_long_travail.catalog.glossary.direct_strike.body": "一種可以繞過護甲及韌性、附魔減傷、抗性提升、無敵幀、盾牌格擋和傷害吸收（黃心）的傷害。不會消耗原有黃心。",
   "gui.the_long_travail.catalog.glossary.execution.title": "處決",
   "gui.the_long_travail.catalog.glossary.execution.aliases": "處決",
   "gui.the_long_travail.catalog.glossary.execution.body": "一種嘗試直接殺死目標的處理方式，擊殺目標後可能不按普通擊殺結算。",

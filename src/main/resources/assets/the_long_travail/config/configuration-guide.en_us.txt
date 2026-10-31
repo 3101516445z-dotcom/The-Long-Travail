@@ -407,7 +407,7 @@ Measured from launch until becoming a dropped item, including flight and hoverin
 Changes also affect Wayguides already in flight.
 
 items.wayguide.search.searchRadius
-Maximum horizontal Wayguide search radius, in blocks, capped at 5000. Not finding a target does not mean none exists in the entire dimension.
+Maximum horizontal Wayguide search radius, in blocks, from 16 to 30000000. Not finding a target does not mean none exists in the entire dimension.
 
 items.wayguide.search.searchTimeoutSeconds
 Maximum waiting time for a search request, in real-world seconds.
@@ -495,7 +495,7 @@ Tokaido provides only healing and fire immunity to maids.
 [M06] Theme item eligibility and detection conditions
 
 Immortal Bud: aspects/flourishing.toml → items.immortal_bud
-- repairOnApply defaults to true: fully repair the target when applying the mark. False preserves existing damage while still granting durability protection.
+- Applying the mark always fully repairs the target; no repair toggle is exposed.
 - itemBlacklist defaults to []; exact item IDs block new applications only. Existing marks and protection remain effective.
 
 Sword and Lantern: aspects/deep_valley.toml → items.swordAndLantern
@@ -513,3 +513,6 @@ Liquefied Abundance: aspects/abyss.toml → items.liquefied_abundance
 High Frequency Tremor: aspects/deep_valley.toml → items.high_frequency_tremor
 - witnessBreakBlacklist defaults to ["minecraft:barrier"]. Full block IDs prevent Witness sneak-use breaking, including FTB Ultimine selections.
 - An empty list permits breaking bedrock but does not invent a bedrock item drop. Protection and cancelled break events remain effective.
+
+Icarus and Midnight Lafite: aspects/far_reach.toml, aspects/abyss.toml
+- Icarus sunnyExtraPeak and Midnight Lafite shelteredNonClearExtraPeak are added to malicePeak, default 0.25. malicePeak defaults to 0.5 and witnessBonus to 0.2; all have a minimum of 0.01. Legacy total peaks migrate to max(0.01, old peak - ordinary peak), with the original configuration archived by the recovery flow.

@@ -20,10 +20,11 @@ public final class IcarusCombat {
 
     public static double maliceBonus(LivingEntity wearer, double sunlight) {
         return sunlight
-                * FarReachItemsConfig.get(
-                        IcarusEnvironment.sunny(wearer.level()) && IcarusEnvironment.openSky(wearer)
-                                ? "icarus.sunnyPeak"
-                                : "icarus.malicePeak");
+                * (FarReachItemsConfig.get("icarus.malicePeak")
+                        + (IcarusEnvironment.sunny(wearer.level())
+                                        && IcarusEnvironment.openSky(wearer)
+                                ? FarReachItemsConfig.get("icarus.sunnyExtraPeak")
+                                : 0));
     }
 
     public static boolean baseImmune(DamageSource source) {
