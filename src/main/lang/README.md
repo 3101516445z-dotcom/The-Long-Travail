@@ -2,7 +2,7 @@
 
 这里是全部语言翻译的唯一维护源。不要编辑 build 下的生成文件，也不要在 src/main/resources/assets/the_long_travail/lang 中新增同名文件。
 
-现有 5 种语言：`zh_cn`（简体中文）、`zh_tw`（台湾繁体）、`zh_hk`（香港繁体）、`lzh`（文言）、`en_us`（英文）。每种语言各有 11 个分组；groups.json 决定合并顺序。**`zh_cn` 是键名与顺序的基准**，其余 4 种语言必须与它保持相同的键名与键顺序。增加已有功能的文本时，同时修改 5 种语言的对应文件；新增分组时，先添加到 groups.json，再为每种语言建立文件。
+现有 5 种语言：`zh_cn`（简体中文）、`zh_tw`（台湾繁体）、`zh_hk`（香港繁体）、`lzh`（文言）、`en_us`（英文）。每种语言各有 17 个分组；groups.json 决定合并顺序。**`zh_cn` 是键名与顺序的基准**，其余 4 种语言必须与它保持相同的键名与键顺序。增加已有功能的文本时，同时修改 5 种语言的对应文件；新增分组时，先添加到 groups.json，再为每种语言建立文件。
 
 
 | 分组 | 内容 |
@@ -10,6 +10,7 @@
 | common | 共用属性、状态、提示、按键类别等 |
 | diary | 苦旅界面、绑定、探索与反转规则 |
 | catalog | 拾遗界面、通用图鉴说明 |
+| catalog_floral / catalog_abyss / catalog_far_reach / catalog_valley / catalog_underworld / catalog_boundless | 六主题拾遗正文及相关术语卡片 |
 | utility_items | 归乡、全修、路引等通用物品 |
 | compatibility | 女仆、JEI、Jade、Curios 等专用兼容文本 |
 | aspects/flourishing | 繁茂及关联物品、花朵、生长效果 |

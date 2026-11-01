@@ -35,18 +35,10 @@ public final class DependentAccessories {
                 p -> !TravailCurios.stack(p).isEmpty(),
                 com.thelongtravail.underworld.UnderworldRelics::refresh);
         register(
-                ModRegistry.SOUL_BANNER,
-                p -> !TravailCurios.stack(p).isEmpty(),
-                com.thelongtravail.underworld.UnderworldRelics::refresh);
-        register(
                 ModRegistry.PHOSPHOPHYLLITE,
                 p -> !TravailCurios.stack(p).isEmpty(),
                 com.thelongtravail.valley.Phosphophyllite::tick);
         register(ModRegistry.THOUSAND_YEARS, p -> !TravailCurios.stack(p).isEmpty(), p -> {});
-        register(
-                ModRegistry.LORENTZ_FANTASY,
-                p -> !TravailCurios.stack(p).isEmpty(),
-                com.thelongtravail.boundless.LorentzFantasy::refresh);
         register(ModRegistry.STAR_VOICE, p -> !TravailCurios.stack(p).isEmpty(), p -> {});
         register(
                 ModRegistry.AZRAEL,

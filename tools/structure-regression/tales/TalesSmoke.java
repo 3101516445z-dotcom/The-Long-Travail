@@ -129,6 +129,122 @@ public final class TalesSmoke {
         return enchanted(ModRegistry.ANCIENT_STRANGE_TALES.get(), SHARP, level);
     }
 
+    private void mergeMaterials() {
+        check(server.isDedicatedServer(), "dedicated server regression");
+        var world = server.overworld();
+        var player = FakePlayerFactory.getMinecraft(world);
+        var recipe =
+                new EnchantmentTransferRecipe(
+                        ResourceLocation.fromNamespaceAndPath("the_long_travail", "merge_test"),
+                        CraftingBookCategory.MISC);
+        for (int gap : new int[] {0, 10, 11, 100, 101})
+            for (boolean extraction : new boolean[] {false, true})
+                for (boolean higherSource : new boolean[] {false, true})
+                    for (int mask = 0; mask < 8; mask++) {
+                        int source = higherSource ? 20 + gap : 20;
+                        int target = higherSource ? 20 : 20 + gap;
+                        var grid = new TransientCraftingContainer(player.inventoryMenu, 3, 3);
+                        grid.setItem(0, book(extraction ? target : source));
+                        grid.setItem(
+                                1,
+                                enchanted(
+                                        Items.DIAMOND_SWORD, SHARP, extraction ? source : target));
+                        grid.setItem(
+                                2, new ItemStack(extraction ? Items.QUARTZ : Items.LAPIS_LAZULI));
+                        if ((mask & 1) != 0) grid.setItem(3, new ItemStack(Items.ECHO_SHARD));
+                        if ((mask & 2) != 0) grid.setItem(4, new ItemStack(Items.NETHER_STAR));
+                        if ((mask & 4) != 0)
+                            grid.setItem(5, new ItemStack(Items.EXPERIENCE_BOTTLE));
+                        boolean allowed = gap <= 10 || gap <= 100 && (mask & 1) != 0 || mask == 7;
+                        check(
+                                recipe.matches(grid, world) == allowed,
+                                "recipe thresholds and direction " + gap + "/" + mask);
+                        var out = recipe.assemble(grid, world.registryAccess());
+                        check(
+                                allowed
+                                        ? level(out, SHARP) == Math.max(source, target) + 1
+                                        : out.isEmpty(),
+                                "threshold result");
+                    }
+        var grid = new TransientCraftingContainer(player.inventoryMenu, 3, 3);
+        var from = book(1);
+        from.enchant(Enchantments.UNBREAKING, 1);
+        from.enchant(Enchantments.MOB_LOOTING, 1);
+        var to = enchanted(Items.DIAMOND_SWORD, SHARP, 12);
+        to.enchant(Enchantments.UNBREAKING, 101);
+        to.enchant(Enchantments.MOB_LOOTING, 102);
+        grid.setItem(0, from);
+        grid.setItem(1, to);
+        grid.setItem(2, new ItemStack(Items.LAPIS_LAZULI));
+        grid.setItem(3, new ItemStack(Items.ECHO_SHARD));
+        var out = recipe.assemble(grid, world.registryAccess());
+        var remainder = recipe.getRemainingItems(grid).get(0);
+        check(
+                level(out, SHARP) == 13
+                        && level(out, Enchantments.UNBREAKING) == 102
+                        && level(out, Enchantments.MOB_LOOTING) == 102,
+                "one echo shared and high gap skipped");
+        check(
+                level(remainder, SHARP) == 0
+                        && level(remainder, Enchantments.UNBREAKING) == 0
+                        && level(remainder, Enchantments.MOB_LOOTING) == 1,
+                "partial source retained");
+        grid.setItem(4, new ItemStack(Items.ECHO_SHARD));
+        check(!recipe.matches(grid, world), "duplicate upgrade material rejected");
+        grid.setItem(4, new ItemStack(Items.NETHER_STAR));
+        grid.setItem(5, new ItemStack(Items.EXPERIENCE_BOTTLE));
+        check(
+                level(recipe.assemble(grid, world.registryAccess()), Enchantments.MOB_LOOTING)
+                        == 103,
+                "changed inputs invalidate cache");
+
+        // 真正领取结果，验证三种材料各消耗一份，且多个附魔共享同一套材料。
+        for (boolean shift : new boolean[] {false, true}) {
+            player.getInventory().clearContent();
+            var menu =
+                    new CraftingMenu(
+                            20,
+                            player.getInventory(),
+                            ContainerLevelAccess.create(world, new BlockPos(0, 100, 0)));
+            menu.getSlot(1).set(from.copy());
+            menu.getSlot(2).set(to.copy());
+            menu.getSlot(3).set(new ItemStack(Items.LAPIS_LAZULI, 4));
+            menu.getSlot(4).set(new ItemStack(Items.ECHO_SHARD, 4));
+            menu.getSlot(5).set(new ItemStack(Items.NETHER_STAR, 4));
+            menu.getSlot(6).set(new ItemStack(Items.EXPERIENCE_BOTTLE, 4));
+            menu.getSlot(7).set(new ItemStack(Items.HONEY_BOTTLE));
+            check(
+                    level(menu.getSlot(0).getItem(), Enchantments.MOB_LOOTING) == 103,
+                    "real upgrade preview");
+            if (shift) menu.quickMoveStack(player, 0);
+            else {
+                var taken = menu.getSlot(0).remove(1);
+                menu.getSlot(0).onTake(player, taken);
+            }
+            for (int slot = 3; slot <= 6; slot++)
+                check(
+                        menu.getSlot(slot).getItem().getCount() == 3,
+                        "one material per craft " + slot);
+            check(
+                    menu.getSlot(7).getItem().is(Items.GLASS_BOTTLE),
+                    "honey remainder with upgrade materials");
+            check(
+                    level(menu.getSlot(1).getItem(), SHARP) == 0
+                            && level(menu.getSlot(1).getItem(), Enchantments.MOB_LOOTING) == 0,
+                    "no duplicate source after take");
+        }
+        for (int level : new int[] {254, 255}) {
+            var result =
+                    EnchantmentTransfer.transfer(
+                            enchanted(Items.DIAMOND_SWORD, SHARP, 254),
+                            book(level),
+                            EnchantmentTransfer.Filter.ALL);
+            check(
+                    level == 255 ? result == null : level(result.target(), SHARP) == 255,
+                    "cap boundary");
+        }
+    }
+
     private void run() throws Exception {
         var all = EnchantmentTransfer.Filter.ALL;
         ItemStack sword = enchanted(Items.DIAMOND_SWORD, SHARP, 10);
@@ -139,8 +255,8 @@ public final class TalesSmoke {
         ItemStack original = sword.copy();
         var r = EnchantmentTransfer.transfer(sword, book(250), all);
         check(
-                r != null && level(r.target(), SHARP) == 255 && level(r.source(), SHARP) == 5,
-                "overflow conservation source="
+                r != null && level(r.target(), SHARP) == 250 && level(r.source(), SHARP) == 10,
+                "missing materials preserve blocked enchantment source="
                         + sword.save(new CompoundTag())
                         + " result="
                         + (r == null
@@ -183,11 +299,15 @@ public final class TalesSmoke {
                         && level(r.source(), SHARP) == 10,
                 "eye filter");
         r =
-                EnchantmentTransfer.transfer(
-                        enchanted(Items.ENCHANTED_BOOK, SHARP, 10), book(250), all);
+                EnchantmentTransfer.evaluate(
+                                enchanted(Items.ENCHANTED_BOOK, SHARP, 10),
+                                book(250),
+                                all,
+                                new EnchantmentTransfer.Materials(true, true, true))
+                        .result();
         check(
-                level(r.source(), SHARP) == 5 && level(r.target(), SHARP) == 255,
-                "stored enchantment decrease");
+                level(r.source(), SHARP) == 0 && level(r.target(), SHARP) == 251,
+                "stored enchantment merges by one");
         r = EnchantmentTransfer.transfer(enchanted(Items.ENCHANTED_BOOK, SHARP, 10), tales(), all);
         check(
                 r.source().is(Items.ENCHANTED_BOOK) && level(r.source(), SHARP) == 0,
@@ -217,16 +337,25 @@ public final class TalesSmoke {
                                 all);
                 check(
                         targetLevel == 255
+                                        || targetLevel > 0
+                                                && Math.abs(targetLevel - sourceLevel) > 10
                                 ? r == null
                                 : r != null
-                                        && level(r.source(), SHARP) + level(r.target(), SHARP)
-                                                == targetLevel + sourceLevel
+                                        && level(r.source(), SHARP) == 0
+                                        && level(r.target(), SHARP)
+                                                == (targetLevel == 0
+                                                        ? sourceLevel
+                                                        : Math.min(
+                                                                255,
+                                                                Math.max(targetLevel, sourceLevel)
+                                                                        + 1))
                                         && level(r.target(), SHARP) <= 255,
-                        "level conservation matrix");
+                        "merge and no-material threshold matrix");
             }
         }
 
         var world = server.overworld();
+        mergeMaterials();
         var player = FakePlayerFactory.getMinecraft(world);
         player.experienceLevel = 100;
         var recipe =

@@ -28,7 +28,7 @@ public final class CatalogDetailScreen extends Screen {
     private boolean dragging;
     private float bodyTextScale;
 
-    private record Row(FormattedCharSequence text, int y) {}
+    private record Row(FormattedCharSequence text, int y, int indent) {}
 
     public CatalogDetailScreen(
             CatalogSession session, ItemStack stack, List<Component> paragraphs) {
@@ -36,7 +36,12 @@ public final class CatalogDetailScreen extends Screen {
         this.session = session;
         this.fromParent = session.parent() != null;
         this.stack = stack.copy();
-        this.paragraphs = CatalogGlossary.annotate(paragraphs);
+        this.paragraphs =
+                CatalogGlossary.annotate(
+                        paragraphs,
+                        net.minecraftforge.registries.ForgeRegistries.ITEMS
+                                .getKey(stack.getItem())
+                                .getPath());
     }
 
     @Override
@@ -55,10 +60,12 @@ public final class CatalogDetailScreen extends Screen {
                 if (y > 0) y += Math.round(PARAGRAPH_EXTRA_GAP * bodyTextScale);
                 continue;
             }
+            int lineIndex = 0;
+            int continuationIndent = paragraph.getString().startsWith("- ") ? font.width("- ") : 0;
             for (FormattedCharSequence line :
                     wrapParagraph(
                             paragraph, Math.max(1, (int) ((panelWidth - 88) / bodyTextScale)))) {
-                rows.add(new Row(line, y));
+                rows.add(new Row(line, y, lineIndex++ == 0 ? 0 : continuationIndent));
                 y += Math.round(WRAPPED_LINE_STEP * bodyTextScale);
             }
             y += Math.round((SENTENCE_STEP - WRAPPED_LINE_STEP) * bodyTextScale);
@@ -73,8 +80,42 @@ public final class CatalogDetailScreen extends Screen {
 
     // 避免中文句末标点独占末行；移动前一字时保留其原有样式。
     private List<FormattedCharSequence> wrapParagraph(Component paragraph, int width) {
-        var lines = new ArrayList<>(font.split(paragraph, width));
-        if (lines.size() < 2) return lines;
+        boolean bullet = paragraph.getString().startsWith("- ");
+        Component body = paragraph;
+        int bodyWidth = width;
+        if (bullet) {
+            var remainder = Component.empty();
+            int[] skip = {2};
+            paragraph.visit(
+                    (style, fragment) -> {
+                        int start = Math.min(skip[0], fragment.length());
+                        skip[0] -= start;
+                        if (start < fragment.length())
+                            remainder.append(
+                                    Component.literal(fragment.substring(start)).withStyle(style));
+                        return java.util.Optional.empty();
+                    },
+                    net.minecraft.network.chat.Style.EMPTY);
+            body = remainder;
+            bodyWidth = Math.max(1, width - font.width("- "));
+        }
+        var lines = new ArrayList<>(font.split(body, bodyWidth));
+        keepFinalPunctuation(lines, bodyWidth);
+        // 列表符号不参与断行，续行的缩进由 Row 按实际字体宽度记录。
+        if (bullet && !lines.isEmpty())
+            lines.set(
+                    0,
+                    FormattedCharSequence.composite(
+                            FormattedCharSequence.forward(
+                                    "- ",
+                                    net.minecraft.network.chat.Style.EMPTY.withColor(
+                                            CatalogTextStyle.BULLET)),
+                            lines.get(0)));
+        return lines;
+    }
+
+    private void keepFinalPunctuation(List<FormattedCharSequence> lines, int width) {
+        if (lines.size() < 2) return;
         int last = lines.size() - 1;
         StringBuilder tail = new StringBuilder();
         lines.get(last)
@@ -84,7 +125,7 @@ public final class CatalogDetailScreen extends Screen {
                             return true;
                         });
         if (tail.isEmpty() || !tail.codePoints().allMatch(c -> "。，、；：！？）》】」』".indexOf(c) >= 0))
-            return lines;
+            return;
         List<FormattedCharSequence> previous = new ArrayList<>();
         List<Integer> codePoints = new ArrayList<>();
         lines.get(last - 1)
@@ -98,14 +139,13 @@ public final class CatalogDetailScreen extends Screen {
                         });
         if (previous.size() < 2
                 || Character.UnicodeScript.of(codePoints.get(codePoints.size() - 1))
-                        != Character.UnicodeScript.HAN) return lines;
+                        != Character.UnicodeScript.HAN) return;
         var joined =
                 FormattedCharSequence.composite(previous.get(previous.size() - 1), lines.get(last));
-        if (font.width(joined) > width) return lines;
+        if (font.width(joined) > width) return;
         previous.remove(previous.size() - 1);
         lines.set(last - 1, FormattedCharSequence.composite(previous));
         lines.set(last, joined);
-        return lines;
     }
 
     private int viewport() {
@@ -241,7 +281,7 @@ public final class CatalogDetailScreen extends Screen {
             // Font 会将极小的 alpha 值视为未指定透明度，因此直接跳过这些行的绘制。
             if (alpha >= 4 && y + font.lineHeight * bodyTextScale >= bodyTop && y < bodyBottom) {
                 g.pose().pushPose();
-                g.pose().translate(left + 34, y, 0);
+                g.pose().translate(left + 34 + row.indent * bodyTextScale, y, 0);
                 g.pose().scale(bodyTextScale, bodyTextScale, 1);
                 g.drawString(
                         font,
@@ -260,8 +300,8 @@ public final class CatalogDetailScreen extends Screen {
                         && mouseY < y + font.lineHeight * bodyTextScale
                         && mouseX >= left + 34
                         && mouseX < left + panelWidth - 46) {
-                    int textX = (int) ((mouseX - left - 34) / bodyTextScale);
-                    if (textX < font.width(row.text))
+                    int textX = (int) ((mouseX - left - 34) / bodyTextScale) - row.indent;
+                    if (textX >= 0 && textX < font.width(row.text))
                         hoveredTerm =
                                 CatalogGlossary.term(
                                         font.getSplitter().componentStyleAtWidth(row.text, textX));

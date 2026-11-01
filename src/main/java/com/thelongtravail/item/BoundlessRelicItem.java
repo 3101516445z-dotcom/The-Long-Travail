@@ -41,7 +41,6 @@ public final class BoundlessRelicItem extends Item implements ItemDescription, I
                 && !c.cosmetic()
                 && c.identifier().equals("bracelet")
                 && c.entity() instanceof Player p
-                && AccessoryEquipRules.hasDiary(p)
                 && DependentAccessories.unique(c, this);
     }
 

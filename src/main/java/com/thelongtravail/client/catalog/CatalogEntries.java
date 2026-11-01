@@ -195,7 +195,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.FLOURISHING,
                 "chunriyiyu|cryy|春日的游戏|chunrideyouxi|crdyx|springgame|springtimegame",
-                CatalogEntries::ordinary);
+                s -> CatalogFlourishingDetails.details("spring_corner"));
         add(
                 entries,
                 "affection",
@@ -203,7 +203,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.FLOURISHING,
                 "xihuandexinqing|xhdxq|affection",
-                CatalogEntries::ordinary);
+                s -> CatalogFlourishingDetails.details("affection"));
         add(
                 entries,
                 "mistletoe",
@@ -211,7 +211,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.FLOURISHING,
                 "hujisheng|hjs|mistletoe",
-                s -> com.thelongtravail.flourishing.FlourishingItemText.details(false));
+                s -> CatalogFlourishingDetails.details("mistletoe"));
         add(
                 entries,
                 "everlasting_flower",
@@ -219,7 +219,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.FLOURISHING,
                 "wuqionghua|wqh|everlastingflower",
-                s -> com.thelongtravail.flourishing.FlourishingItemText.details(true));
+                s -> CatalogFlourishingDetails.details("everlasting_flower"));
         add(
                 entries,
                 "immortal_bud",
@@ -227,7 +227,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.FLOURISHING,
                 "yongshengya|ysy|immortalbud",
-                CatalogEntries::ordinary);
+                s -> CatalogFlourishingDetails.details("immortal_bud"));
         add(
                 entries,
                 "eki",
@@ -235,11 +235,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.ABYSS,
                 "yi|y|eki|驿",
-                s ->
-                        (RainTooltips.clientEki.isEmpty()
-                                        ? RainTooltips.ekiSnapshot()
-                                        : RainTooltips.clientEki)
-                                .stream().map(RainTooltips::coloredLine).toList());
+                s -> CatalogAbyssDetails.details("eki"));
         add(
                 entries,
                 "tokaido",
@@ -247,7 +243,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.ABYSS,
                 "donghaidaowushisanci|dhdwssc|tokaido|fiftythreestationsofthetokaido",
-                CatalogEntries::ordinary);
+                s -> CatalogAbyssDetails.details("tokaido"));
         add(
                 entries,
                 "perfect_fluid",
@@ -255,7 +251,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.ABYSS,
                 "wanmeiliuti|wmlt|perfectfluid",
-                CatalogEntries::ordinary);
+                s -> CatalogAbyssDetails.details("perfect_fluid"));
         add(
                 entries,
                 "midnight_lafite",
@@ -263,7 +259,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.ABYSS,
                 "wuyelafei|wylf|midnightlafite",
-                CatalogEntries::ordinary);
+                s -> CatalogAbyssDetails.details("midnight_lafite"));
         add(
                 entries,
                 "liquefied_abundance",
@@ -271,7 +267,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.ABYSS,
                 "yehuafengrao|yhfr|liquefiedabundance",
-                CatalogEntries::ordinary);
+                s -> CatalogAbyssDetails.details("liquefied_abundance"));
         add(
                 entries,
                 "golden_age",
@@ -279,7 +275,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.FAR_REACH,
                 "huangjinshidai|hjsd|goldenage",
-                CatalogEntries::far);
+                s -> CatalogFarReachDetails.details("golden_age"));
         add(
                 entries,
                 "icarus",
@@ -287,7 +283,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.FAR_REACH,
                 "yikaluosi|ykls|icarus",
-                CatalogEntries::far);
+                s -> CatalogFarReachDetails.details("icarus"));
         add(
                 entries,
                 "don_quixote",
@@ -295,7 +291,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.FAR_REACH,
                 "tangjihede|tjhd|donquixote",
-                CatalogEntries::ordinary);
+                s -> CatalogFarReachDetails.details("don_quixote"));
         add(
                 entries,
                 "tower_of_babel",
@@ -303,7 +299,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.FAR_REACH,
                 "babieta|bbt|babel",
-                CatalogEntries::ordinary);
+                s -> CatalogFarReachDetails.details("tower_of_babel"));
         add(
                 entries,
                 "sun_chaser",
@@ -311,7 +307,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.FAR_REACH,
                 "zhuri|zr|sunchaser",
-                CatalogEntries::ordinary);
+                s -> CatalogFarReachDetails.details("sun_chaser"));
         add(
                 entries,
                 "azrael",
@@ -319,7 +315,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.DEEP_VALLEY,
                 "sigaotianshi|sgts|azrael",
-                s -> AzraelTooltips.forViewer(Minecraft.getInstance().player, true));
+                s -> CatalogValleyDetails.details("azrael"));
         add(
                 entries,
                 "sword_and_lantern",
@@ -327,7 +323,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.DEEP_VALLEY,
                 "jianyudeng|jyd|swordandlantern",
-                CatalogEntries::ordinary);
+                s -> CatalogValleyDetails.details("sword_and_lantern"));
         add(
                 entries,
                 "phosphophyllite",
@@ -335,7 +331,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.DEEP_VALLEY,
                 "linyeshi|lys|phosphophyllite",
-                CatalogEntries::ordinary);
+                s -> CatalogValleyDetails.details("phosphophyllite"));
         add(
                 entries,
                 "underground_velvet",
@@ -343,7 +339,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.DEEP_VALLEY,
                 "dixiasirong|dxsr|undergroundvelvet",
-                CatalogEntries::ordinary);
+                s -> CatalogValleyDetails.details("underground_velvet"));
         add(
                 entries,
                 "high_frequency_tremor",
@@ -351,7 +347,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.DEEP_VALLEY,
                 "gaopinzhanli|gpzl|highfrequencytremor",
-                CatalogEntries::ordinary);
+                s -> CatalogValleyDetails.details("high_frequency_tremor"));
         add(
                 entries,
                 "a_thousand_years_later",
@@ -359,7 +355,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.UNDERWORLD,
                 "yiqiannianhou|yqnh|athousandyearslater",
-                CatalogEntries::underworld);
+                s -> CatalogUnderworldDetails.details("a_thousand_years_later"));
         add(
                 entries,
                 "book_of_the_dead",
@@ -367,7 +363,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.UNDERWORLD,
                 "sizhezhishu|szzs|bookofthedead",
-                CatalogEntries::underworld);
+                s -> CatalogUnderworldDetails.details("book_of_the_dead"));
         add(
                 entries,
                 "demon_king_of_the_sixth_heaven",
@@ -375,7 +371,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.UNDERWORLD,
                 "diliutianmowang|dltmw",
-                s -> com.thelongtravail.underworld.UnderworldRelicText.details(false));
+                s -> CatalogUnderworldDetails.details("demon_king_of_the_sixth_heaven"));
         add(
                 entries,
                 "myriad_souls_banner",
@@ -383,7 +379,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.UNDERWORLD,
                 "wanhunfan|whf",
-                s -> com.thelongtravail.underworld.UnderworldRelicText.details(true));
+                s -> CatalogUnderworldDetails.details("myriad_souls_banner"));
         add(
                 entries,
                 "kagotsurube",
@@ -391,7 +387,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.UNDERWORLD,
                 "longdiaoping|ldp|kagotsurube|笼钓瓶",
-                CatalogEntries::ordinary);
+                s -> CatalogUnderworldDetails.details("kagotsurube"));
         add(
                 entries,
                 "free_and_easy_wandering",
@@ -399,12 +395,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.BOUNDLESS,
                 "xiaoyaoyou|xyy|freeandeasywandering",
-                s ->
-                        BoundlessTooltips.forViewer(
-                                true,
-                                Minecraft.getInstance().player,
-                                BoundlessTooltips.dreamKey.get(),
-                                true));
+                s -> CatalogBoundlessDetails.details("free_and_easy_wandering"));
         add(
                 entries,
                 "star_voice",
@@ -412,12 +403,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.BOUNDLESS,
                 "xingzhisheng|xzs|starvoice|voiceofthestars",
-                s ->
-                        BoundlessTooltips.forViewer(
-                                false,
-                                Minecraft.getInstance().player,
-                                BoundlessTooltips.dreamKey.get(),
-                                true));
+                s -> CatalogBoundlessDetails.details("star_voice"));
         add(
                 entries,
                 "little_prince",
@@ -425,7 +411,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.BOUNDLESS,
                 "xiaowangzi|xwz|littleprince",
-                CatalogEntries::ordinary);
+                s -> CatalogBoundlessDetails.details("little_prince"));
         add(
                 entries,
                 "lorentz_fantasy",
@@ -433,7 +419,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.BOUNDLESS,
                 "luolunzihuanxiang|llzhx|lorentzfantasy",
-                CatalogEntries::ordinary);
+                s -> CatalogBoundlessDetails.details("lorentz_fantasy"));
         add(
                 entries,
                 "ancient_strange_tales",
@@ -441,7 +427,7 @@ public final class CatalogEntries {
                 Category.THEME,
                 TravailAspect.BOUNDLESS,
                 "gujinyuguai|gjyg|ancientstrangetales",
-                CatalogEntries::ordinary);
+                s -> CatalogBoundlessDetails.details("ancient_strange_tales"));
         if (entries.stream().map(Entry::id).distinct().count() != entries.size())
             throw new IllegalStateException("Duplicate catalogue entry");
         return List.copyOf(entries);
@@ -506,6 +492,7 @@ public final class CatalogEntries {
                                         "demon_king_of_the_sixth_heaven",
                                         "myriad_souls_banner",
                                         "phosphophyllite",
+                                        "underground_velvet",
                                         "don_quixote",
                                         "high_frequency_tremor",
                                         "sun_chaser",

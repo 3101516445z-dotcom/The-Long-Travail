@@ -100,7 +100,11 @@ public final class GoldenAgeActions {
         DIG_COOLDOWNS.put(p, now + FarReachItemsConfig.ticks("golden_age.digCooldown"));
         TravailCurios.returnToInventoryOrDrop(
                 player,
-                new ItemStack(player.getRandom().nextBoolean() ? Items.GOLD_NUGGET : Items.FLINT));
+                new ItemStack(
+                        player.getRandom().nextDouble()
+                                        < FarReachItemsConfig.get("golden_age.digGoldChance")
+                                ? Items.GOLD_NUGGET
+                                : Items.FLINT));
     }
 
     public static void tick(ItemEntity item) {

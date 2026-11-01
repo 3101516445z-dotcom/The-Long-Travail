@@ -288,15 +288,15 @@ public final class ThemeTooltips {
         if (viewer != null && !AccessoryEquipRules.hasDiary(viewer)) {
             if (Set.of(
                             "demon_king_of_the_sixth_heaven",
-                            "myriad_souls_banner",
                             "phosphophyllite",
                             "azrael",
                             "a_thousand_years_later",
-                            "star_voice",
-                            "lorentz_fantasy")
+                            "star_voice")
                     .contains(id)) out.add(text("requires_diary_equip"));
             else if (id.equals("eki")) out.add(text("eki.requires_diary_effect"));
             else if (id.equals("book_of_the_dead")) out.add(text("requires_diary_effect"));
+            else if (Set.of("myriad_souls_banner", "lorentz_fantasy").contains(id))
+                out.add(text("requires_diary_state"));
         }
         switch (id) {
             case "sun_chaser", "kagotsurube" -> out.add(text(id + ".0"));
@@ -324,6 +324,9 @@ public final class ThemeTooltips {
                                     com.thelongtravail.underworld.UnderworldRelicText.number(
                                             com.thelongtravail.underworld.UnderworldRelicText.shown(
                                                     "banner.capacity"))));
+            }
+            case "book_of_the_dead" -> {
+                for (int i = 0; i < 3; i++) out.add(text(id + "." + i));
             }
             case "mistletoe" -> {
                 for (int i = 0; i < 3; i++) out.add(text(id + "." + i));

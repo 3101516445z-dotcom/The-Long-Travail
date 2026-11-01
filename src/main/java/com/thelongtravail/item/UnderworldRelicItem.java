@@ -29,7 +29,7 @@ public final class UnderworldRelicItem extends Item implements ICurioItem {
         return !c.cosmetic()
                 && c.identifier().equals(banner ? "charm" : "bracelet")
                 && c.entity() instanceof Player p
-                && AccessoryEquipRules.hasDiary(p)
+                && (banner || AccessoryEquipRules.hasDiary(p))
                 && AccessoryEquipRules.unique(c, this);
     }
 

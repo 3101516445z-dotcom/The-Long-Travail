@@ -39,6 +39,16 @@ public final class UnderworldRelics {
 
     public static ItemStack equipped(LivingEntity e, boolean banner) {
         if (phase(e) == 0) return ItemStack.EMPTY;
+        return wornStack(e, banner);
+    }
+
+    // 魂数积累只检查实际佩戴，属性加成仍由 equipped 的冥府状态控制。
+    public static ItemStack soulBanner(LivingEntity e) {
+        if (!e.isAlive() || e.isRemoved() || e.isSpectator()) return ItemStack.EMPTY;
+        return wornStack(e, true);
+    }
+
+    private static ItemStack wornStack(LivingEntity e, boolean banner) {
         var item = banner ? ModRegistry.SOUL_BANNER.get() : ModRegistry.DEMON_KING.get();
         if (!(e instanceof Player p))
             return com.thelongtravail.compat.maid.MaidAccessories.relicStack(e, banner);

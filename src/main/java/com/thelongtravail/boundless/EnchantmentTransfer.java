@@ -17,7 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
 
-/** 在单件副本上计算附魔转移，合成输入保持不变。 */
+// 在单件副本上计算附魔转移，合成输入保持不变。
 public final class EnchantmentTransfer {
     private EnchantmentTransfer() {}
 
@@ -32,6 +32,17 @@ public final class EnchantmentTransfer {
     }
 
     public record Result(ItemStack source, ItemStack target) {}
+
+    // 同一次合成共享材料资格，不按附魔数量扣除。
+    public record Materials(boolean echoShard, boolean netherStar, boolean experienceBottle) {
+        public static final Materials NONE = new Materials(false, false, false);
+
+        boolean permits(int source, int target) {
+            long difference = Math.abs((long) source - target);
+            return difference <= 10
+                    || echoShard && (difference <= 100 || netherStar && experienceBottle);
+        }
+    }
 
     public record Failure(String enchantment, String stage) {
         public Component message() {
@@ -68,8 +79,13 @@ public final class EnchantmentTransfer {
     }
 
     public static Evaluation evaluate(ItemStack source, ItemStack target, Filter filter) {
+        return evaluate(source, target, filter, Materials.NONE);
+    }
+
+    public static Evaluation evaluate(
+            ItemStack source, ItemStack target, Filter filter, Materials materials) {
         try {
-            return new Evaluation(compute(source, target, filter), null);
+            return new Evaluation(compute(source, target, filter, materials), null);
         } catch (RuntimeException failure) {
             Failure detail =
                     failure instanceof CallbackFailure callback
@@ -105,7 +121,8 @@ public final class EnchantmentTransfer {
         return evaluate(source, target, filter).result();
     }
 
-    private static Result compute(ItemStack source, ItemStack target, Filter filter) {
+    private static Result compute(
+            ItemStack source, ItemStack target, Filter filter, Materials materials) {
         if (source.isEmpty() || target.isEmpty() || (isTales(source) && isTales(target)))
             return null;
         var from = read(source);
@@ -137,16 +154,20 @@ public final class EnchantmentTransfer {
                 continue;
             int current = to.containsKey(enchantment) ? to.get(enchantment).getInt("lvl") : 0;
             int level = entry.getValue().getInt("lvl");
-            int moved = Math.min(level, Math.max(0, 255 - current));
-            if (moved == 0) continue;
+            if (current >= 255 || current > 0 && !materials.permits(level, current)) continue;
+            int combined =
+                    current == 0
+                            ? Math.min(255, level)
+                            : (int) Math.min(255L, Math.max((long) current, level) + 1);
             CompoundTag received =
                     to.containsKey(enchantment)
                             ? to.get(enchantment).copy()
                             : entry.getValue().copy();
-            received.putShort("lvl", (short) (current + moved));
+            received.putShort("lvl", (short) combined);
             to.put(enchantment, received);
-            if (moved == level) iterator.remove();
-            else entry.getValue().putInt("lvl", level - moved);
+            // 非标准来源超过255级时保留超出部分，避免静默丢失。
+            if (level <= 255) iterator.remove();
+            else entry.getValue().putInt("lvl", level - 255);
             changed = true;
         }
         if (!changed) return null;

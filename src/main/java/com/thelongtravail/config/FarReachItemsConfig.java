@@ -21,6 +21,14 @@ public final class FarReachItemsConfig {
         GoldenAgeCompatDefaults.define(b);
         n(
                 b,
+                "golden_age.digGoldChance",
+                .5,
+                0,
+                1,
+                "每次成功淘金获得金粒的概率，0.5表示50%；否则获得燧石。不影响金块入水转化的概率。\n"
+                        + "Chance to obtain a gold nugget per successful digging interaction; 0.5 means 50%. Otherwise grants flint. Does not affect gold block conversion.");
+        n(
+                b,
                 "golden_age.digCooldown",
                 .1,
                 0,

@@ -22,7 +22,7 @@
   "jei.the_long_travail.perfect_fluid.unstackable": "範例：消耗一份完美流體，獲得一把劍的複製品。右側另一把劍是留在合成欄的原件。原件的容器內容不受複製品清除規則影響。",
   "tooltip.the_long_travail.maid_compat.relic.basic": "作為女僕的飾品時僅在女僕的原生飾品欄中生效",
   "tooltip.the_long_travail.maid_compat.banner.souls": "女僕擊殺生物時，魂數僅計入女僕佩戴的萬魂幡",
-  "tooltip.the_long_travail.maid_compat.banner.diary": "主人未佩戴苦旅時，女僕佩戴的萬魂幡不再累積魂數或提供屬性",
+  "tooltip.the_long_travail.maid_compat.banner.diary": "主人未佩戴苦旅時，仍可積累魂數，但不提供依賴冥府狀態的屬性加成",
   "structure.cataclysm.acropolis": "衛城",
   "structure.cataclysm.sunken_city": "沉沒之城",
   "structure.cataclysm.cursed_pyramid": "詛咒金字塔",

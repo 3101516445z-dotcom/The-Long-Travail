@@ -15,47 +15,40 @@ public final class CatalogUtilityDetails {
         return paragraphs(
                 stone ? "stone" : "essence",
                 Component.translatable("aspect.the_long_travail." + theme.id()),
-                Component.translatable(sample.getDescriptionId()));
+                sample.getHoverName());
     }
 
     private static List<Component> paragraphs(String id, Component theme, Component item) {
-        int count =
+        List<String> rows =
                 switch (id) {
-                    case "coloring" -> 5;
-                    case "renewal" -> 7;
-                    case "homecoming" -> 8;
-                    case "wayguide" -> 9;
-                    case "stone" -> 6;
-                    case "essence" -> 15;
+                    case "coloring" -> List.of("0", "1", "", "3", "4");
+                    case "renewal" -> List.of("0", "3", "", "heading", "4", "1", "revealed", "6");
+                    case "homecoming" -> List.of("0", "2", "", "heading", "1", "4", "5", "7");
+                    case "wayguide" -> List.of("0", "1", "2", "structures", "", "4", "5", "6", "8");
+                    case "stone" -> List.of("0", "1", "", "heading", "2", "persistence", "4", "5");
+                    case "essence" ->
+                            List.of(
+                                    "0", "", "3", "4", "5", "6", "", "8", "9", "10", "11", "", "13",
+                                    "14");
                     default -> throw new IllegalArgumentException("Unknown catalogue text: " + id);
                 };
         List<Component> result = new ArrayList<>();
-        for (int row = 0; row < count; row++) {
-            boolean blank =
-                    switch (id) {
-                        case "coloring" -> row == 2;
-                        case "renewal" -> row == 2 || row == 5;
-                        case "homecoming" -> row == 3 || row == 6;
-                        case "wayguide" -> row == 3 || row == 7;
-                        case "stone" -> row == 3;
-                        case "essence" -> row == 2 || row == 7 || row == 12;
-                        default -> false;
-                    };
-            if (blank) {
+        for (String row : rows) {
+            if (row.isEmpty()) {
                 result.add(Component.empty());
                 continue;
             }
             var line =
                     Component.translatable(
                             "gui.the_long_travail.catalog.details." + id + "." + row,
-                            id.equals("wayguide") && row == 8
+                            id.equals("wayguide") && row.equals("8")
                                     ? com.thelongtravail.network.TooltipConfigSync.integer(
                                             "wayguide.radius",
                                             com.thelongtravail.config.TravailConfig.WAYGUIDE_RADIUS
                                                     .get())
                                     : theme == null ? Component.empty() : theme,
                             item == null ? Component.empty() : item);
-            boolean condition = id.equals("essence") && (row == 3 || row == 8);
+            boolean condition = id.equals("essence") && (row.equals("3") || row.equals("8"));
             result.add(
                     line.withStyle(
                             style ->

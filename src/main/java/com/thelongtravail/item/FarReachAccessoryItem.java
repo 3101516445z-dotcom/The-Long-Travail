@@ -115,7 +115,6 @@ public final class FarReachAccessoryItem extends Item implements ICurioItem {
         if (gold) {
             {
                 line(out, "golden_age.dig_unlocked");
-                line(out, "golden_age.dig_result");
             }
         } else {
             line(out, "icarus.flight");

@@ -23,7 +23,7 @@ public final class BoundlessJeiPlugin implements IModPlugin {
     public void registerRecipes(IRecipeRegistration registration) {
         registration.addItemStackInfo(
                 new ItemStack(ModRegistry.ANCIENT_STRANGE_TALES.get()),
-                IntStream.range(0, 8)
+                IntStream.range(0, 7)
                         .mapToObj(
                                 i ->
                                         Component.translatable(

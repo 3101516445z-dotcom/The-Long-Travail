@@ -101,7 +101,7 @@ public final class EnchantmentTransferRecipe extends CustomRecipe {
                 book = i;
             } else other.add(i);
         }
-        if (book < 0 || other.size() < 2 || other.size() > 3) return null;
+        if (book < 0 || other.size() < 2 || other.size() > 6) return null;
         Plan found = null;
         // 枚举材料角色，使带附魔的材料物品也能作为转移目标。
         for (int catalyst : other) {
@@ -110,20 +110,38 @@ public final class EnchantmentTransferRecipe extends CustomRecipe {
             for (int target : other) {
                 if (target == catalyst) continue;
                 int filterSlot = -1;
-                for (int slot : other) if (slot != catalyst && slot != target) filterSlot = slot;
                 EnchantmentTransfer.Filter filter = EnchantmentTransfer.Filter.ALL;
-                if (filterSlot >= 0) {
-                    ItemStack extra = grid.getItem(filterSlot);
-                    if (extra.is(Items.HONEY_BOTTLE)) filter = EnchantmentTransfer.Filter.NON_CURSE;
-                    else if (extra.is(Items.FERMENTED_SPIDER_EYE))
-                        filter = EnchantmentTransfer.Filter.CURSE;
-                    else continue;
+                boolean echo = false, star = false, bottle = false, valid = true;
+                for (int slot : other) {
+                    if (slot == catalyst || slot == target) continue;
+                    ItemStack extra = grid.getItem(slot);
+                    if (extra.is(Items.HONEY_BOTTLE) || extra.is(Items.FERMENTED_SPIDER_EYE)) {
+                        if (filterSlot >= 0) {
+                            valid = false;
+                            break;
+                        }
+                        filterSlot = slot;
+                        filter =
+                                extra.is(Items.HONEY_BOTTLE)
+                                        ? EnchantmentTransfer.Filter.NON_CURSE
+                                        : EnchantmentTransfer.Filter.CURSE;
+                    } else if (extra.is(Items.ECHO_SHARD) && !echo) echo = true;
+                    else if (extra.is(Items.NETHER_STAR) && !star) star = true;
+                    else if (extra.is(Items.EXPERIENCE_BOTTLE) && !bottle) bottle = true;
+                    else {
+                        valid = false;
+                        break;
+                    }
                 }
+                if (!valid) continue;
                 int source = material.is(Items.QUARTZ) ? target : book;
                 int destination = material.is(Items.QUARTZ) ? book : target;
                 var result =
                         EnchantmentTransfer.evaluate(
-                                grid.getItem(source), grid.getItem(destination), filter);
+                                grid.getItem(source),
+                                grid.getItem(destination),
+                                filter,
+                                new EnchantmentTransfer.Materials(echo, star, bottle));
                 if (result.failure() != null) throw new TransferFailure(result.failure());
                 if (result.result() == null) continue;
                 if (found != null) return null;

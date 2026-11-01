@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 public final class CatalogTextStyle {
     public static final int BODY = 0xB88750,
+            BULLET = 0xB8B8B8,
             CONDITION = 0xC9B8FF,
             GOLD = 0xFFD84D,
             VALUE = 0x55D6B0,
@@ -26,8 +27,57 @@ public final class CatalogTextStyle {
     private static final Pattern KEYS = Pattern.compile("(?<=\\[)[^\\[\\]\\r\\n]+(?=\\])");
     private static final Pattern STACK_SCOPE =
             Pattern.compile("整组物品|整組物品|整組之物|\\bentire stack\\b", Pattern.CASE_INSENSITIVE);
+    // 旅程助力、精粹与解密之石仅在拾遗详情中使用，沿用句内限额和段内去重。
+    private static final List<String> UTILITY_TERMS =
+            List.of(
+                    "苦旅",
+                    "归乡",
+                    "歸鄉",
+                    "全修",
+                    "路引",
+                    "施色",
+                    "还原样式",
+                    "還原樣式",
+                    "解密之石",
+                    "解石",
+                    "精粹",
+                    "见证条件",
+                    "見證條件",
+                    "旅程记录",
+                    "旅程記錄",
+                    "额外饰品槽位",
+                    "額外飾品槽位",
+                    "額外飾品位",
+                    "The Long Travail",
+                    "Homecoming",
+                    "Renewal",
+                    "Wayguide",
+                    "Coloring",
+                    "Restore Style",
+                    "Revelation Stones",
+                    "Revelation Stone",
+                    "essence",
+                    "Witness requirements",
+                    "journey records",
+                    "journey record",
+                    "additional accessory slots");
+    private static final Pattern UTILITY_VALUES =
+            Pattern.compile(
+                    "一枚|六个|六個|六主題|右键|右鍵|右按|\\bright-click\\b|\\bone(?= (?:essence|stone)\\b)|\\bsix(?= themes\\b)",
+                    Pattern.CASE_INSENSITIVE);
     private static final List<String> TERMS =
             List.of(
+                    "可接受属性",
+                    "孤身一人",
+                    "周围敌人",
+                    "持续战斗",
+                    "特殊破坏",
+                    "剑与灯",
+                    "磷叶石",
+                    "高频战栗",
+                    "伤害加成",
+                    "傷害加成",
+                    "damage bonus",
                     "施色",
                     "还原样式",
                     "還原樣式",
@@ -165,9 +215,7 @@ public final class CatalogTextStyle {
                     "霸主",
                     "Overlord");
     private static final Pattern SUN_BLADE_VALUES =
-            Pattern.compile(
-                    "(?<=凋零)Ⅰ|(?<=Wither )I\\b|\\b\\d+(?:\\.\\d+)?\\s+health\\b",
-                    Pattern.CASE_INSENSITIVE);
+            Pattern.compile("\\b\\d+(?:\\.\\d+)?\\s+health\\b", Pattern.CASE_INSENSITIVE);
 
     // 词表仅用于液化丰饶，不改变其他物品页面。
     private static final List<String> ABUNDANCE_TERMS =
@@ -419,6 +467,42 @@ public final class CatalogTextStyle {
         HighlightState highlights = new HighlightState();
         boolean blacklistNamesNext = false;
         for (Component source : paragraphs) {
+            boolean abyss =
+                    source.getContents()
+                                    instanceof
+                                    net.minecraft.network.chat.contents.TranslatableContents
+                                                    abyssTranslation
+                            && (abyssTranslation
+                                            .getKey()
+                                            .startsWith("gui.the_long_travail.catalog.abyss.")
+                                    || abyssTranslation
+                                            .getKey()
+                                            .startsWith("gui.the_long_travail.catalog.far.")
+                                    || abyssTranslation
+                                            .getKey()
+                                            .startsWith("gui.the_long_travail.catalog.valley.")
+                                    || abyssTranslation
+                                            .getKey()
+                                            .startsWith("gui.the_long_travail.catalog.underworld.")
+                                    || abyssTranslation
+                                            .getKey()
+                                            .startsWith("gui.the_long_travail.catalog.boundless."));
+            boolean floral =
+                    source.getContents()
+                                    instanceof
+                                    net.minecraft.network.chat.contents.TranslatableContents
+                                                    floralTranslation
+                            && floralTranslation
+                                    .getKey()
+                                    .startsWith("gui.the_long_travail.catalog.floral.");
+            boolean utility =
+                    source.getContents()
+                                    instanceof
+                                    net.minecraft.network.chat.contents.TranslatableContents
+                                                    utilityTranslation
+                            && utilityTranslation
+                                    .getKey()
+                                    .startsWith("gui.the_long_travail.catalog.details.");
             boolean sunBlade =
                     source.getContents()
                                     instanceof
@@ -542,13 +626,69 @@ public final class CatalogTextStyle {
                         f.styles,
                         result,
                         highlights,
-                        tales
-                                ? TALES_TERMS
-                                : sunBlade
-                                        ? SUN_BLADE_TERMS
-                                        : abundance
-                                                ? ABUNDANCE_TERMS
-                                                : immortalBud ? IMMORTAL_BUD_TERMS : TERMS);
+                        abyss
+                                ? java.util.stream.Stream.concat(
+                                                TERMS.stream(),
+                                                List.of(
+                                                        "黄金时代", "伊卡洛斯", "堂吉诃德", "巴别塔", "逐日", "体型倍率",
+                                                        "佳肴", "仇恨保护", "鞘翅飞行", "魔法伤害", "火焰、岩浆伤害",
+                                                        "直击伤害", "駅", "东海道五十三次", "午夜拉菲", "液化丰饶",
+                                                        "随机药水", "逍遥游", "逍遙遊", "小王子", "洛伦兹幻想",
+                                                        "洛倫茲幻想", "古今语怪", "古今語怪", "回响碎片", "回響碎片",
+                                                        "下界之星", "附魔之瓶", "高空", "死者之书", "死者之書",
+                                                        "死者苏生", "死者蘇生", "万魂幡", "萬魂幡", "籠釣瓶", "火焰伤害",
+                                                        "生命值", "唤雨", "伤害加成", "移动速度", "饱食度", "饱和度")
+                                                        .stream())
+                                        .toList()
+                                : floral
+                                        ? java.util.stream.Stream.concat(
+                                                        TERMS.stream(),
+                                                        List.of(
+                                                                "春日一隅",
+                                                                "喜欢的心情",
+                                                                "永生芽",
+                                                                "缔约",
+                                                                "解除契约",
+                                                                "恒久长青",
+                                                                "已损失生命比例",
+                                                                "伤害加成",
+                                                                "受到的伤害",
+                                                                "移动速度",
+                                                                "攻击速度",
+                                                                "游泳速度",
+                                                                "最大生命值",
+                                                                "治疗量",
+                                                                "投射物伤害",
+                                                                "摔落伤害",
+                                                                "饱食度",
+                                                                "饱和度",
+                                                                "重力",
+                                                                "击退抗性",
+                                                                "护甲韧性",
+                                                                "负面效果",
+                                                                "方块交互距离",
+                                                                "近战攻击距离",
+                                                                "直击伤害",
+                                                                "Spring Corner",
+                                                                "Affection",
+                                                                "Immortal Bud",
+                                                                "Evergreen",
+                                                                "damage bonus",
+                                                                "movement speed",
+                                                                "missing-health fraction")
+                                                                .stream())
+                                                .toList()
+                                        : utility
+                                                ? UTILITY_TERMS
+                                                : tales
+                                                        ? TALES_TERMS
+                                                        : sunBlade
+                                                                ? SUN_BLADE_TERMS
+                                                                : abundance
+                                                                        ? ABUNDANCE_TERMS
+                                                                        : immortalBud
+                                                                                ? IMMORTAL_BUD_TERMS
+                                                                                : TERMS);
             } else if (heading) highlights.sentenceCount = 0;
             else highlights.advance(text, 0, text.length());
             if (!supplement && !objectList) {
@@ -586,6 +726,33 @@ public final class CatalogTextStyle {
                 var scope = IMMORTAL_BUD_SCOPE.matcher(text);
                 while (scope.find()) paint(result, f.styles, scope.start(), scope.end(), VALUE);
             }
+            if (utility) {
+                var values = UTILITY_VALUES.matcher(text);
+                while (values.find()) paint(result, f.styles, values.start(), values.end(), VALUE);
+            }
+            if (floral || abyss) {
+                var values =
+                        Pattern.compile(
+                                        "点按右键|长按右键|潜行右键|右键|无序合成|生命值未满|同一维度|白天且露天|在水中|一朵|两朵|三朵|\\b(?:right-click|sneak-right-click)\\b",
+                                        Pattern.CASE_INSENSITIVE)
+                                .matcher(text);
+                while (values.find()) paint(result, f.styles, values.start(), values.end(), VALUE);
+            }
+            // 物品名苦旅保持强调，红色提示与整行紫色标题仍沿用原样式。
+            var diaryName =
+                    Pattern.compile("苦旅|The Long Travail", Pattern.CASE_INSENSITIVE).matcher(text);
+            while (diaryName.find()) {
+                if (color(f.styles.get(diaryName.start())) != WARNING)
+                    paint(result, f.styles, diaryName.start(), diaryName.end(), GOLD);
+            }
+            // 明确等级属于效果名称的一部分，罗马数字与效果名整体标金。
+            var rankedEffect =
+                    Pattern.compile(
+                                    "(?:凋零|中毒|抗性提升|Wither|Poison|Resistance)\\s*(?:[Ⅰ-Ⅿ]+|[IVXLCDM]+\\b)",
+                                    Pattern.CASE_INSENSITIVE)
+                            .matcher(text);
+            while (rankedEffect.find())
+                paint(result, f.styles, rankedEffect.start(), rankedEffect.end(), GOLD);
             MutableComponent line = Component.empty();
             for (int start = 0; start < result.length; ) {
                 int end = start + 1;

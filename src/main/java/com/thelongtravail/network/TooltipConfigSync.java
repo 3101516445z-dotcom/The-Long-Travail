@@ -286,6 +286,50 @@ public final class TooltipConfigSync {
                 values,
                 "abundance.fallback",
                 com.thelongtravail.config.AbyssItemsConfig.ABUNDANCE_DURATION.get());
+        put(values, "catalogRain.damage", com.thelongtravail.config.RainConfig.DAMAGE.get());
+        put(values, "catalogRain.speed", com.thelongtravail.config.RainConfig.SPEED.get());
+        put(values, "catalogRain.immunity", com.thelongtravail.config.RainConfig.IMMUNITY.get());
+        put(values, "catalogRain.heal", com.thelongtravail.config.RainConfig.HEAL.get());
+        put(
+                values,
+                "catalogRain.healSeconds",
+                com.thelongtravail.config.RainConfig.HEAL_SECONDS.get());
+        put(values, "catalogRain.food", com.thelongtravail.config.RainConfig.FOOD.get());
+        put(
+                values,
+                "catalogRain.foodSeconds",
+                com.thelongtravail.config.RainConfig.FOOD_SECONDS.get());
+        put(
+                values,
+                "catalogRain.saturation",
+                com.thelongtravail.config.RainConfig.SATURATION.get());
+        put(values, "catalogRain.duration", com.thelongtravail.config.RainConfig.DURATION.get());
+        put(values, "catalogRain.cooldown", com.thelongtravail.config.RainConfig.COOLDOWN.get());
+        put(
+                values,
+                "catalogRain.ekiLocal",
+                com.thelongtravail.config.RainConfig.EKI_LOCAL.get() ? 1 : 0);
+        put(
+                values,
+                "catalogRain.ekiSky",
+                com.thelongtravail.config.RainConfig.EKI_SKY.get() ? 1 : 0);
+        put(
+                values,
+                "catalogRain.tokaidoLocal",
+                com.thelongtravail.config.RainConfig.TOKAIDO_LOCAL.get() ? 1 : 0);
+        put(
+                values,
+                "catalogRain.tokaidoSky",
+                com.thelongtravail.config.RainConfig.TOKAIDO_SKY.get() ? 1 : 0);
+        put(
+                values,
+                "catalogRain.immuneSkip",
+                com.thelongtravail.config.RainConfig.IMMUNE_SKIP.get() ? 1 : 0);
+        put(values, "catalogRain.fire", com.thelongtravail.config.RainConfig.FIRE.get() ? 1 : 0);
+        put(
+                values,
+                "farItem.golden_age.allowHarmfulFood",
+                com.thelongtravail.config.FarReachItemsConfig.ALLOW_HARMFUL.get() ? 1 : 0);
         return values;
     }
 

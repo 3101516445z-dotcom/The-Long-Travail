@@ -30,7 +30,9 @@ import java.util.*;
 public final class LorentzFantasy {
     private static final class Strike extends DamageSource {
         Strike(LivingEntity target, LivingEntity shooter) {
-            super(DirectStrikeDamage.source(target.level(), shooter, shooter).typeHolder(), shooter);
+            super(
+                    DirectStrikeDamage.source(target.level(), shooter, shooter).typeHolder(),
+                    shooter);
         }
     }
 
@@ -53,7 +55,7 @@ public final class LorentzFantasy {
     public static ItemStack equipped(LivingEntity e) {
         if (!e.isAlive() || e.isRemoved()) return ItemStack.EMPTY;
         if (e instanceof ServerPlayer p) {
-            if (p.isSpectator() || TravailCurios.stack(p).isEmpty()) return ItemStack.EMPTY;
+            if (p.isSpectator()) return ItemStack.EMPTY;
             return top.theillusivec4.curios.api.CuriosApi.getCuriosInventory(p)
                     .resolve()
                     .flatMap(
@@ -74,6 +76,7 @@ public final class LorentzFantasy {
 
     public static int phase(LivingEntity e) {
         if (equipped(e).isEmpty()) return 0;
+        if (e instanceof ServerPlayer p && TravailCurios.stack(p).isEmpty()) return 0;
         if (e instanceof ServerPlayer p)
             return switch (TravailStateApi.state(p, TravailAspect.BOUNDLESS)) {
                 case MALICE -> 1;

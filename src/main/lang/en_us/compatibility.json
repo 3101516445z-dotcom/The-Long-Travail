@@ -22,7 +22,7 @@
   "jei.the_long_travail.perfect_fluid.unstackable": "Example: consume one Perfect Fluid to obtain a copy of a sword. The far-right sword is the original left in the crafting grid. Removing Perfect Fluid from the copy does not affect the original container contents.",
   "tooltip.the_long_travail.maid_compat.relic.basic": "Functions as a maid accessory only when equipped in the maid's native bauble slots",
   "tooltip.the_long_travail.maid_compat.banner.souls": "Souls from creatures killed by a maid are added only to the banner she wears",
-  "tooltip.the_long_travail.maid_compat.banner.diary": "If the owner is not wearing The Long Travail, the banner worn by the maid stops accumulating souls and granting attributes",
+  "tooltip.the_long_travail.maid_compat.banner.diary": "Souls can still be collected without the owner wearing The Long Travail, but Underworld-state attribute bonuses remain inactive",
   "structure.cataclysm.acropolis": "Acropolis",
   "structure.cataclysm.sunken_city": "Sunken City",
   "structure.cataclysm.cursed_pyramid": "Cursed Pyramid",

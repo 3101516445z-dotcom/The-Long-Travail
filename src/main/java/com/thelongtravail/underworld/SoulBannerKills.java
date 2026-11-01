@@ -36,7 +36,7 @@ public final class SoulBannerKills {
                 || !(actor instanceof Player
                         || com.thelongtravail.compat.maid.MaidAccessories.isMaid(actor)))
             return null;
-        ItemStack stack = UnderworldRelics.equipped(actor, true);
+        ItemStack stack = UnderworldRelics.soulBanner(actor);
         return stack.isEmpty() ? null : new Claim(actor, stack);
     }
 
@@ -71,7 +71,7 @@ public final class SoulBannerKills {
             if (!p.forced && (p.event.isCanceled() || p.victim.isAlive())) continue;
             if (!COUNTED.add(p.victim)) continue;
             var c = p.claim;
-            if (UnderworldRelics.equipped(c.killer, true) != c.banner) continue;
+            if (UnderworldRelics.soulBanner(c.killer) != c.banner) continue;
             if (UnderworldRelics.addSoul(c.banner)) UnderworldRelics.refresh(c.killer);
         }
     }

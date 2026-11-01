@@ -36,7 +36,7 @@ public final class AncientStrangeTalesItem extends BookItem implements ItemDescr
     @Override
     public void appendDetails(
             ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 7; i++) {
             if (i == 3 || i == 6) lines.add(Component.empty());
             lines.add(
                     Component.translatable(

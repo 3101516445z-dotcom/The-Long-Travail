@@ -278,6 +278,8 @@ AD（astral_dimension）、esoteric_spell、projectile_damage、gtbcs_geomancy_p
 效果触发、持续时间与等级处理沿用原规则；穷遐等级加成上限仍取两池同 ID 的较高上限。
 
 [P07] 黄金时代联动黑名单
+
+淘金概率另由 items.golden_age.digGoldChance 控制，范围 0～1，默认 0.5。每次成功交互按该概率获得金粒，否则获得燧石，不改变金块入水转化概率。
 ------------------------------------------------
 通用记录规则与重试步骤见 [P01]。
 

@@ -22,10 +22,11 @@ public abstract class MaidRelicSlotMixin extends SlotItemHandler {
 
     @Override
     public boolean mayPlace(ItemStack stack) {
-        if (stack.getItem() instanceof UnderworldRelicItem) {
+        if (stack.getItem() instanceof UnderworldRelicItem relic) {
             // 客户端无法确认主人的日记状态，装备资格由服务端校验。
-            if (!maid.level().isClientSide && MaidAccessoryRuntime.relicPhase(maid) == 0)
-                return false;
+            if (!relic.banner
+                    && !maid.level().isClientSide
+                    && MaidAccessoryRuntime.relicPhase(maid) == 0) return false;
             var inventory = maid.getMaidBauble();
             for (int i = 0; i < inventory.getSlots(); i++)
                 if (i != getSlotIndex() && inventory.getStackInSlot(i).is(stack.getItem()))

@@ -273,6 +273,8 @@ Each theme file independently stores travail.witness.compatInitialization.<names
 Effect triggers, durations and level handling retain their existing rules. Far Reach's level-bonus cap still uses the higher cap for each ID across both pools.
 
 [P07] Golden Age compatibility blacklists
+
+Gold-panning probability is controlled separately by items.golden_age.digGoldChance (0–1, default 0.5). Each successful interaction grants a gold nugget with this probability, otherwise flint. Gold block conversion probabilities are unchanged.
 ------------------------------------------------
 Shared record rules and retry steps: [P01].
 
