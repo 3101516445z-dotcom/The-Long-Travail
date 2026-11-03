@@ -5,6 +5,7 @@ import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.boundless.timestop.TimeStopManager;
 import com.thelongtravail.config.FarReachItemsConfig;
 import com.thelongtravail.equipment.TravailCurios;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
@@ -17,6 +18,7 @@ import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.*;
 import net.minecraftforge.fml.common.Mod;
+
 import java.util.*;
 
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
@@ -154,7 +156,7 @@ public final class GoldenAgeActions {
             if (!witness && batch.enchantments == null)
                 batch.enchantments = GoldenAgePools.enchantments();
         } catch (RuntimeException failure) {
-            // 候选池不完整时不得抽取；批次失败时不消耗金锭，也不进行随机抽取。
+            // 池整体构建失败时不得抽取；保留金块，单个食物异常由 Pools 隔离。
             batch.poolFailed = true;
             long time = System.nanoTime();
             if (nextPoolWarning == 0 || time - nextPoolWarning >= 0) {

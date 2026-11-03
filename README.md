@@ -2,7 +2,7 @@
 
 由 **Phoebe_Real** 制作的 Minecraft Forge 模组。模组围绕不可轻易卸下的核心饰品“苦旅”展开：玩家需要背负六种恶意踏上旅程，探索随机生成的群系与结构条件，并将恶意反转为见证。见证会持续保留，直到使用全修或对应主题精粹重置旅程。
 
-逐日与籠釣瓶提供穷遐、冥府主题战斗能力，并支持女仆原生饰品栏；具体效果与获取方式见 [1.0.0 更新说明](docs/玩家查阅/更新日志zh/1.0.0.md)。
+六主题玩法、道具用法与配置说明见 [玩家文档](docs/玩家查阅/README.md)，版本变化见 [更新日志](CHANGELOG.md)。
 
 ## 环境要求
 
@@ -23,7 +23,7 @@
 - 通过旅行日记查看旅程记录，用六种解密之石揭开各篇章的反转条件。
 - 活用“归乡”、“全修”、“路引”调整“苦旅”的状态，以控制游玩难度。
 - 收集六大类主题物品，体验多种多样的功能组合，考虑恶意与见证的取舍，提升游戏趣味性。
-- 为在线主人的女仆搭配主题饰品。
+- 为女仆搭配原生饰品栏支持的主题饰品；阶段联动读取在线主人的苦旅状态。
 - 使用六种主题精粹推进或重置对应旅程。
 - 默认长按 [Alt] 打开物品图鉴「拾遗」，查阅物品效果、操作与当前配置数值，悬停划线术语可查看补充说明。
 - 使用见切、必杀、霸主三项战斗属性搭配不同饰品。
@@ -90,7 +90,7 @@
 
 ## 版本与升级
 
-当前版本为 **1.0.1**（待发布；最近更新：2026-11-04），发布状态与各版本变化见 [更新日志](CHANGELOG.md)。更新后生成或重置的旅程数据不支持降级到旧版模组。
+当前版本为 **1.0.1**（2026-11-04），发布状态与各版本变化见 [更新日志](CHANGELOG.md)。更新后生成或重置的旅程数据不支持降级到旧版模组。
 
 - [中文 1.0.1 更新日志](docs/玩家查阅/更新日志zh/1.0.1.md)
 - [English changelog for 1.0.1](docs/玩家查阅/更新日志en/1.0.1.md)
@@ -119,7 +119,7 @@ Linux / macOS：
 
 首次构建需要联网，Gradle 会自动下载依赖；缓存齐全后可追加 `--offline`。当前构建包为 `build/libs/The_Long_Travail-1.0.1.jar`，带 `-slim` 后缀的包不包含内嵌依赖，不用于直接安装。无需复制本机整合包的 `mods`、`config`、`run` 或本地测试工具来完成普通源码构建。
 
-Caelus、Embeddium、Jade、JEI、女仆、Apotheosis、Placebo、Quark 和 Zeta 的可选 API 仅用于编译，不打包进成品，也不会自动加载到开发运行环境。女仆 API 固定为 Forge 1.20.1 的 1.5.3 版本，由 Gradle 自动下载；需要本地替代时使用 `-PmaidApiJar=/absolute/path/to/touhoulittlemaid.jar`。MixinExtras 随正式包内嵌，Curios 需另行安装。具体版本及仓库地址见 `build.gradle` 和 `gradle/optional-compat.gradle`。
+Caelus、Embeddium、Jade、JEI、女仆、Apotheosis、Placebo、Quark 和 Zeta 的可选 API 仅用于编译，不打包进成品。女仆 API 固定为 Forge 1.20.1 的 1.5.3 版本，由 Gradle 自动下载；需要本地替代时使用 `-PmaidApiJar=/absolute/path/to/touhoulittlemaid.jar`。MixinExtras 随正式包内嵌，Curios 需另行安装。具体版本及仓库地址见 `build.gradle` 和 `gradle/optional-compat.gradle`。
 
 其他模组接入苦旅时，可参考 [状态查询与旅程写入 API](docs/开发者查阅/state-api.md) 和 [饰品佩戴与恢复校验](docs/开发者查阅/accessory-equipment.md)。
 

@@ -14,9 +14,16 @@ p.add_argument('--instance', type=pathlib.Path, required=True)
 p.add_argument('--runtime', type=pathlib.Path, required=True)
 p.add_argument('--java', type=pathlib.Path, required=True)
 p.add_argument('--modes', nargs='+', required=True)
+p.add_argument('--production', type=pathlib.Path, required=True, help='Freshly built production jarJar artifact')
 opts = p.parse_args()
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 OUT, RUNTIME = opts.instance.resolve(), opts.runtime.resolve()
+production = opts.production.resolve()
+with zipfile.ZipFile(production) as jar:
+    if not re.search(r'modId\s*=\s*"the_long_travail"', jar.read('META-INF/mods.toml').decode('utf8')):
+        raise SystemExit('Production artifact is not The Long Travail')
+    if 'META-INF/jarjar/metadata.json' not in jar.namelist():
+        raise SystemExit('Requires the bundled jarJar artifact')
 if not OUT.is_relative_to(ROOT / 'build') or not (OUT / 'source-integrity.json').exists():
     raise SystemExit('Requires a completed isolated preface-fullpack run under project/build')
 if not json.loads((OUT / 'source-integrity.json').read_text())['unchanged']:
@@ -98,7 +105,12 @@ for scenario in opts.modes:
     for previous in (OUT / 'mods').glob('travail-*-acceptance.jar'):
         shutil.move(previous, evidence / ('prior-' + previous.name))
     shutil.copy2(artifact, OUT / 'mods' / artifact.name)
-    production = ROOT / 'build/libs/The_Long_Travail-1.0.0.jar'
+    # Identify previous versions by mod ID, including localized filenames.
+    for previous in (OUT / 'mods').glob('*.jar'):
+        with zipfile.ZipFile(previous) as jar:
+            toml = jar.read('META-INF/mods.toml').decode('utf8') if 'META-INF/mods.toml' in jar.namelist() else ''
+        if re.search(r'modId\s*=\s*"the_long_travail"', toml):
+            shutil.move(previous, evidence / ('prior-' + previous.name))
     shutil.copy2(production, OUT / 'mods' / production.name)
     (evidence / 'mod-sha256.json').write_text(json.dumps({f.name: hashlib.sha256(f.read_bytes()).hexdigest() for f in (OUT / 'mods').glob('*.jar')}, ensure_ascii=False, indent=2), encoding='utf8')
     world = OUT / 'saves/visual-world'

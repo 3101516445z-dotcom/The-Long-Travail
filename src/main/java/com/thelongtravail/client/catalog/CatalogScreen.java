@@ -1,15 +1,19 @@
 package com.thelongtravail.client.catalog;
 
+import static com.thelongtravail.client.catalog.CatalogEntries.*;
+import static com.thelongtravail.client.catalog.CatalogFrame.*;
+
 import com.thelongtravail.TravailAspect;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
+
 import org.lwjgl.glfw.GLFW;
+
 import java.util.*;
-import static com.thelongtravail.client.catalog.CatalogFrame.*;
-import static com.thelongtravail.client.catalog.CatalogEntries.*;
 
 public final class CatalogScreen extends Screen {
     private final CatalogSession session;
@@ -154,11 +158,6 @@ public final class CatalogScreen extends Screen {
                                     size));
         contentHeight = themeY + maxRows * (size + 8) + 5;
         scroll = Mth.clamp(scroll, 0, maxScroll());
-    }
-
-    public void setQuery(String text) {
-        search.setValue(text);
-        search.setFocused(true);
     }
 
     public void locate(String id) {

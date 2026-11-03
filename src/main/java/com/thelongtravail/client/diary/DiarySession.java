@@ -40,15 +40,6 @@ public final class DiarySession {
         if (event.getItemStack().is(ModRegistry.LONG_TRAVAIL.get()))
             DiaryDialogue.decorate(
                     event.getToolTip(), "tooltip.the_long_travail.dialogue.", 10, true);
-        else if (event.getItemStack().is(ModRegistry.HOMECOMING.get()))
-            DiaryDialogue.decorate(
-                    event.getToolTip(), "tooltip.the_long_travail.homecoming.prose.", 4, false);
-        else if (event.getItemStack().is(ModRegistry.RENEWAL.get()))
-            DiaryDialogue.decorate(
-                    event.getToolTip(), "tooltip.the_long_travail.renewal.prose.", 3, false);
-        else if (event.getItemStack().is(ModRegistry.WAYGUIDE.get()))
-            DiaryDialogue.decorate(
-                    event.getToolTip(), "tooltip.the_long_travail.wayguide.", 3, false);
 
         if (!event.getItemStack().is(ModRegistry.LONG_TRAVAIL.get())) return;
         event.getToolTip()

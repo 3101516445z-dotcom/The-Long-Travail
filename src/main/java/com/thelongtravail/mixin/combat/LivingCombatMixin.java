@@ -20,20 +20,29 @@ public abstract class LivingCombatMixin {
             net.minecraft.world.effect.MobEffectInstance effect,
             net.minecraft.world.entity.Entity source,
             Operation<Boolean> original) {
-        if (com.thelongtravail.abyss.MidnightLafite.levels(
-                        (LivingEntity) (Object) this, effect.getEffect())
-                > 0) effect = com.thelongtravail.abyss.MidnightLafite.copyEffect(effect);
-        return original.call(
-                com.thelongtravail.flourishing.FloralPassives.shorten(
-                        (LivingEntity) (Object) this,
-                        com.thelongtravail.abyss.MidnightLafite.duration(
-                                (LivingEntity) (Object) this,
-                                com.thelongtravail.integration.MaidIntegration.extend(
-                                        (LivingEntity) (Object) this,
-                                        com.thelongtravail.flourishing.FloralEvents.extendedEffect(
-                                                (LivingEntity) (Object) this, effect, source),
-                                        source))),
-                source);
+        var target = (LivingEntity) (Object) this;
+        try {
+            if (com.thelongtravail.abyss.MidnightLafite.levels(target, effect.getEffect()) > 0)
+                effect = com.thelongtravail.abyss.MidnightLafite.copyEffect(effect);
+            effect =
+                    com.thelongtravail.flourishing.FloralPassives.shorten(
+                            target,
+                            com.thelongtravail.abyss.MidnightLafite.duration(
+                                    target,
+                                    com.thelongtravail.integration.MaidIntegration.extend(
+                                            target,
+                                            com.thelongtravail.flourishing.FloralEvents
+                                                    .extendedEffect(target, effect, source),
+                                            source)));
+        } catch (com.thelongtravail.runtime.effects.EffectCopies.InvalidChain failure) {
+            com.thelongtravail.common.RuntimeFailures.report(
+                    "hidden effect chain "
+                            + net.minecraftforge.registries.ForgeRegistries.MOB_EFFECTS.getKey(
+                                    effect.getEffect()),
+                    failure);
+            return false;
+        }
+        return original.call(effect, source);
     }
 
     @WrapMethod(method = "hurt")

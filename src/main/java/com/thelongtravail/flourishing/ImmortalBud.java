@@ -1,12 +1,12 @@
 package com.thelongtravail.flourishing;
 
-import com.thelongtravail.registry.ModRegistry;
 import com.thelongtravail.config.FlourishingItemsConfig;
 import com.thelongtravail.network.TooltipConfigSync;
-import net.minecraftforge.fml.util.thread.EffectiveSide;
-import net.minecraftforge.registries.ForgeRegistries;
+import com.thelongtravail.registry.ModRegistry;
 
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fml.util.thread.EffectiveSide;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public final class ImmortalBud {
     public static final String TAG = "the_long_travail:immortal_bud";
@@ -24,7 +24,8 @@ public final class ImmortalBud {
         var blocked = FlourishingItemsConfig.BUD_BLACKLIST.get();
         if (EffectiveSide.get().isClient())
             blocked = TooltipConfigSync.pool("bud.blacklist", blocked);
-        return !blocked.contains(ForgeRegistries.ITEMS.getKey(stack.getItem()).toString());
+        var id = ForgeRegistries.ITEMS.getKey(stack.getItem());
+        return id != null && !blocked.contains(id.toString());
     }
 
     public static ItemStack apply(ItemStack target) {

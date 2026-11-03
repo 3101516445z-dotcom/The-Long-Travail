@@ -118,10 +118,6 @@ public final class FtbTeamsCompat {
         return relationship(player, other) != Relationship.DIFFERENT;
     }
 
-    public static boolean timeStopTeammates(ServerPlayer player, ServerPlayer other) {
-        return relationship(player, other) != Relationship.DIFFERENT;
-    }
-
     // 空 Optional 表示查询失败；查询成功但没有队伍时，返回包含空集合的 Optional。
     public static Optional<Set<UUID>> timeStopMembers(ServerPlayer player) {
         try {
@@ -144,10 +140,6 @@ public final class FtbTeamsCompat {
             failure(failure);
             return Optional.empty();
         }
-    }
-
-    public static void addTimeStopMembers(ServerPlayer player, Set<UUID> out) {
-        timeStopMembers(player).ifPresent(out::addAll);
     }
 
     @net.minecraftforge.eventbus.api.SubscribeEvent

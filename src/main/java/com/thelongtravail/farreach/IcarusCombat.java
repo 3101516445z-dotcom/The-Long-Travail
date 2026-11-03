@@ -19,6 +19,7 @@ public final class IcarusCombat {
     }
 
     public static double maliceBonus(LivingEntity wearer, double sunlight) {
+        if (sunlight == 0) return 0;
         return sunlight
                 * (FarReachItemsConfig.get("icarus.malicePeak")
                         + (IcarusEnvironment.sunny(wearer.level())

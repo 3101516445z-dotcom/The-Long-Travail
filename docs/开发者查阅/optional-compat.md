@@ -51,7 +51,7 @@
 
 通过 `ManagedConfig.update` 同次保存池与标记，写入失败不发布初始化结果；随后已有的 `ServerStartedEvent` 调用 `RuntimePools.reload`，更新按权重编译的物品池。无需更改发奖事件和队列逻辑，也不改钓出生物配置。
 
-`TravailConfig.defaultFishingItems()`、`defaultPhantomDrops()` 分别提供原版默认值，目前各 12 项；合法已有列表不做迁移覆盖。`gradlew.bat testRewardCompatDefaults` 检查来源范围、权重数量、合并和标记规则；隔离 Forge 测试另行验证注册表、文件持久化、spec 缓存与运行时奖励表。
+`TravailPoolDefaults.defaultFishingItems()`、`defaultPhantomDrops()` 分别提供原版默认值，目前各 12 项；合法已有列表不做迁移覆盖。`gradlew.bat testRewardCompatDefaults` 检查来源范围、权重数量、合并和标记规则；隔离 Forge 测试另行验证注册表、文件持久化、spec 缓存与运行时奖励表。
 
 ## 钓出生物联动预设
 
@@ -59,7 +59,7 @@
 
 在 `ServerStartingEvent` 使用 `ForgeRegistries.ENTITY_TYPES` 检测来源命名空间并逐项检查 ID。`travail.witness.compatInitialization.<namespace>.fishingEntitiesAdded` 按来源独立记录；与奖励、探索标记分开，来源缺席不标记，零新增仍记录。合并使用 `WeightedPresetEntries` 保留已有同 ID 权重和顺序，保存沿用 `ManagedConfig.update`；已有的 `ServerStartedEvent` 随后通过 `RuntimePools.reload` 更新运行时加权表。
 
-`TravailConfig.defaultFishingEntities()` 单独提供 9 项原版默认配置，不经过联动注入，也没有初始化标记。候选默认值、触发概率和实际实体生成逻辑分别管理。
+`TravailPoolDefaults.defaultFishingEntities()` 单独提供 9 项原版默认配置，不经过联动注入，也没有初始化标记。候选默认值、触发概率和实际实体生成逻辑分别管理。
 
 `gradlew.bat testFishingEntityCompatDefaults testRewardCompatDefaults` 验证实体名单、权重、独立标记及共用合并方法的奖励回归。隔离注册表测试验证文件持久化、缓存与运行时实体表。
 
@@ -67,7 +67,7 @@
 
 `config/EffectCompatDefaults` 在 `ServerStartingEvent` 按 `ForgeRegistries.MOB_EFFECTS` 的命名空间识别来源，仅补入已注册且分类为 `BENEFICIAL` 的预设效果。来源名单包括 12 个命名空间，每池 36 项；AD、`esoteric_spell`、`projectile_damage`、`gtbcs_geomancy_plus` 不在名单中。
 
-数据位于对应 `compat` 子目录的效果预设类；`farReach()` 与 `deepValley()` 分别定义 `效果ID|最高等级|权重` 列表，不互相转调。新增来源时登记 `EffectCompatDefaults.PRESETS`，按主题提供候选，空列表表示该主题不参与。原版默认值由 `TravailConfig.defaultFarReachEffects()` 与 `defaultDeepValleyEffects()` 分别维护。
+数据位于对应 `compat` 子目录的效果预设类；`farReach()` 与 `deepValley()` 分别定义 `效果ID|最高等级|权重` 列表，不互相转调。新增来源时登记 `EffectCompatDefaults.PRESETS`，按主题提供候选，空列表表示该主题不参与。原版默认值由 `TravailPoolDefaults.defaultFarReachEffects()` 与 `defaultDeepValleyEffects()` 分别维护。
 
 每个主题文件独立保存 `travail.witness.compatInitialization.<namespace>.positiveEffectsAdded`。使用 `WeightedPresetEntries` 按 ID 保留手动配置，由 `ManagedConfig.update` 同次保存列表和标记；来源缺席不标记，存在但零新增也标记。随后 `ServerStartedEvent` 的既有 `RuntimePools.reload` 更新运行时表。两个抽取池独立；既有穷遐等级加成上限仍按两池同 ID 的较高等级合并。
 

@@ -3,12 +3,12 @@ package com.thelongtravail.abyss;
 import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.config.AbyssItemsConfig;
 import com.thelongtravail.config.ModeEffectRules;
-import com.thelongtravail.runtime.effects.EffectChanges;
-import com.thelongtravail.farreach.IcarusEnvironment;
 import com.thelongtravail.equipment.AccessoryEquipRules;
+import com.thelongtravail.farreach.IcarusEnvironment;
 import com.thelongtravail.integration.MaidIntegration;
 import com.thelongtravail.mixin.effects.EffectDurationAccessor;
 import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.runtime.effects.EffectChanges;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.*;
@@ -90,11 +90,7 @@ public final class MidnightLafite {
     }
 
     public static MobEffectInstance copyEffect(MobEffectInstance incoming) {
-        var copy = new MobEffectInstance(incoming);
-        var hidden = ((EffectDurationAccessor) incoming).travail$hiddenEffect();
-        if (hidden != null)
-            ((EffectDurationAccessor) copy).travail$hiddenEffect(copyEffect(hidden));
-        return copy;
+        return com.thelongtravail.runtime.effects.EffectCopies.copy(incoming);
     }
 
     public static boolean immune(LivingEntity e, MobEffect effect) {

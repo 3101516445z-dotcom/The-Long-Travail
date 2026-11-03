@@ -14,6 +14,12 @@
 
 部分条目失效但仍有可用效果时不提示玩家。有异常记录的空池与无异常记录的空池使用不同提示；无法确定原因的整体重建失败使用中性提示。抽样及药水准备发生异常时，在交付与扣除物品前取消操作。有效数据的抽样层级、随机调用次数和正常使用时序保持不变。
 
+## 食物、耐久与隐藏药效链
+
+`GoldenAgePools` 按单个食物候选隔离 RuntimeException，保留其他有效候选的顺序。`ImmortalBudRecipe` 在耐久查询或赋予副本处理失败时返回不匹配/空产物，保留输入。两者通过 `RuntimeFailures` 按来源限频报告。
+
+午夜拉菲和孢子花复制隐藏药效链时共用 `EffectCopies`，以对象身份检测环，最多接受含顶层在内的 128 个节点，再迭代创建完整副本。异常链由 `LivingCombatMixin` 取消本次添加；不静默截断，不吞掉原版添加流程的其他异常。未进入复制分支的药效不受此项验证覆盖。
+
 ## 伊卡洛斯
 
 `IcarusWingTexture` 在读取像素前验证 64×32 RGBA 格式。资源包贴图无法使用时，从模组自身读取默认 PNG，并注册独立动态贴图，使外部资源包无法再次覆盖回退内容。内置 PNG 也无法读取时使用缺失贴图与矩形轮廓兜底。
@@ -25,5 +31,6 @@
 - `tools/structure-regression/tales.init.gradle`：正常转移、三类异常回调、失败输入缓存、失效预览与材料保留
 - `tools/structure-regression/abundance.init.gradle`：正常抽样与使用、异常数据隔离、药水准备失败、空池保留材料与重载恢复
 - `tools/structure-regression/icarus-hardening.init.gradle`：隔离客户端验证尺寸/格式拒绝、损坏资源包回退、缓存和修复后资源重载
+- `tools/structure-regression/design-hardening.init.gradle`：异常食物隔离、永生芽材料保留、隐藏链拒绝及正常时长、伊卡洛斯零日照提前返回
 
 运行命令为 `gradlew.bat -I <入口文件> runServer --offline --console=plain`；伊卡洛斯入口改用 `runClient`。

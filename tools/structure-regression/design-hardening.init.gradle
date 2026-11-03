@@ -1,0 +1,30 @@
+allprojects {
+    afterEvaluate {
+        sourceSets {
+            designTest {
+                java.srcDir 'tools/structure-regression/design-hardening'
+                resources.srcDir 'tools/structure-regression/abundance-resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        def directory = project.file('build/design-hardening-server')
+        minecraft.runs.server {
+            workingDirectory directory
+            jvmArgs '-Xmx3G'
+            args '--nogui'
+            mods { travail_smoke { source sourceSets.designTest } }
+        }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            doFirst {
+                directory.mkdirs()
+                new File(directory, 'eula.txt').text = project.file('run/eula.txt').text
+                new File(directory, 'server.properties').text = 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25679\nlevel-name=design\nlevel-type=minecraft\\:flat\ngenerate-structures=false\nview-distance=2\nsimulation-distance=2\nmax-tick-time=180000\n'
+                new File(directory, 'design-result.txt').text = 'NOT_RUN'
+            }
+            doLast {
+                if (!new File(directory, 'design-result.txt').text.startsWith('PASS ')) throw new GradleException('Design hardening regression failed')
+            }
+        }
+    }
+}

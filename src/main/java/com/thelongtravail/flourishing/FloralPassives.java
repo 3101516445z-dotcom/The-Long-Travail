@@ -1,7 +1,5 @@
 package com.thelongtravail.flourishing;
 
-import com.thelongtravail.mixin.effects.EffectDurationAccessor;
-
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -82,18 +80,7 @@ public final class FloralPassives {
                         : com.thelongtravail.integration.MaidIntegration.springCrown(target);
         double reduction = FloralCombat.value(crown, Flower.SPORE_BLOSSOM);
         if (reduction <= 0) return incoming;
-        return copyShortened(incoming, 1 - reduction);
-    }
-
-    private static MobEffectInstance copyShortened(MobEffectInstance incoming, double multiplier) {
-        var copy = new MobEffectInstance(incoming);
-        if (!incoming.isInfiniteDuration() && incoming.getDuration() > 0)
-            ((EffectDurationAccessor) copy)
-                    .travail$duration((int) Math.ceil(incoming.getDuration() * multiplier));
-        var hidden = ((EffectDurationAccessor) incoming).travail$hiddenEffect();
-        if (hidden != null)
-            ((EffectDurationAccessor) copy).travail$hiddenEffect(copyShortened(hidden, multiplier));
-        return copy;
+        return com.thelongtravail.runtime.effects.EffectCopies.shortened(incoming, 1 - reduction);
     }
 
     private FloralPassives() {}

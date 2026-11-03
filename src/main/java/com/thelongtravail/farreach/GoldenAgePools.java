@@ -1,13 +1,15 @@
 package com.thelongtravail.farreach;
 
 import com.thelongtravail.config.FarReachItemsConfig;
+
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.*;
 import net.minecraftforge.registries.ForgeRegistries;
+
 import java.util.*;
 
 @net.minecraftforge.fml.common.Mod.EventBusSubscriber(modid = "the_long_travail")
@@ -99,14 +101,19 @@ public final class GoldenAgePools {
     private static List<ItemStack> collectFoods(ServerPlayer player) {
         List<ItemStack> result = new ArrayList<>();
         for (Item item : foodCandidates()) {
-            // 只缓存基础类型的非空结果，确保脚本修改食物属性后仍能立即生效。
-            if (DEFAULT_FOOD_LOOKUP
-                    && (item.getClass() == Item.class || item.getClass() == BlockItem.class)
-                    && item.getFoodProperties() == null) continue;
-            ItemStack stack = item.getDefaultInstance();
-            if (!stack.isEmpty() && nutritious(stack.getFoodProperties(player))) {
-                stack.setCount(1);
-                result.add(stack);
+            try {
+                // 自定义食物查询保留玩家上下文；异常只排除当前物品。
+                if (DEFAULT_FOOD_LOOKUP
+                        && (item.getClass() == Item.class || item.getClass() == BlockItem.class)
+                        && item.getFoodProperties() == null) continue;
+                ItemStack stack = item.getDefaultInstance();
+                if (!stack.isEmpty() && nutritious(stack.getFoodProperties(player))) {
+                    stack.setCount(1);
+                    result.add(stack);
+                }
+            } catch (RuntimeException failure) {
+                com.thelongtravail.common.RuntimeFailures.report(
+                        "golden age food " + ForgeRegistries.ITEMS.getKey(item), failure);
             }
         }
         return result;

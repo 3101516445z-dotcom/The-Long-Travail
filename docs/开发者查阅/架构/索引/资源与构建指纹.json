@@ -18,7 +18,7 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "0a7328c3dccf3b1a0d67d5c6deb227039a8633a46598fefe7968927393ec3918",
+  "fingerprint": "aada5627529488cf13fac881c09d6b624c3fe18ab50a0682bc7ff206de8974eb",
   "files": [
     {
       "path": "build.gradle",
@@ -138,7 +138,7 @@
     },
     {
       "path": "src/main/lang/en_us/utility_items.json",
-      "sha256": "7eb1673684ba3717c1a4ff63e0c62421b97d33d601f119d58bca5938c39c5c50"
+      "sha256": "e2110cfd90d1559a96697ba55eff06601a10d78d17395b954122865b46d4068b"
     },
     {
       "path": "src/main/lang/groups.json",
@@ -210,7 +210,7 @@
     },
     {
       "path": "src/main/lang/lzh/utility_items.json",
-      "sha256": "10eb4a1ef5c1a36fcc6609a95fa8fd70184be126b31782d178654b22be16a9d9"
+      "sha256": "69a5430f31e895e747966a8ad439f401a8b18e7f41d26a984d7b207c57b996b6"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/abyss.json",
@@ -278,7 +278,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/utility_items.json",
-      "sha256": "9ea25c187fd698b8c1085f024072ee402830b058c622074b2b692f266f76a6bf"
+      "sha256": "69d989e358cccc9896350ce5a1c43e0904cdabcc9a5eb79021cfa219fa1231d8"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/abyss.json",
@@ -346,7 +346,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/utility_items.json",
-      "sha256": "506d12ae94408eee409ea7e60292d08d933c26c277cace0f3e8e2b4b3bc122bd"
+      "sha256": "58bff425c9a791fe6e8fe25c1ee157bda4b03bf552fd9342f0eea41902f0db61"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/abyss.json",
@@ -414,7 +414,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/utility_items.json",
-      "sha256": "418c2539dd467ac5ee211368abda62cd684a881a022685252db0d329b1fbe27a"
+      "sha256": "cd25e1fbf32a24336258c503895ab2533ccdcb01d940949866b7412b8b39d058"
     },
     {
       "path": "src/main/resources/META-INF/mods.toml",

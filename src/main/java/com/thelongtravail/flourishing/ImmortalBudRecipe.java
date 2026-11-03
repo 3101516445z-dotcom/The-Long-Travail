@@ -36,12 +36,36 @@ public final class ImmortalBudRecipe extends CustomRecipe {
 
     @Override
     public boolean matches(CraftingContainer grid, Level level) {
-        return !target(grid).isEmpty();
+        try {
+            return !target(grid).isEmpty();
+        } catch (RuntimeException failure) {
+            report(grid, failure);
+            return false;
+        }
     }
 
     @Override
     public ItemStack assemble(CraftingContainer grid, RegistryAccess access) {
-        return ImmortalBud.apply(target(grid));
+        try {
+            return ImmortalBud.apply(target(grid));
+        } catch (RuntimeException failure) {
+            report(grid, failure);
+            return ItemStack.EMPTY;
+        }
+    }
+
+    private static void report(CraftingContainer grid, RuntimeException failure) {
+        for (int slot = 0; slot < grid.getContainerSize(); slot++) {
+            ItemStack stack = grid.getItem(slot);
+            if (stack.isEmpty() || stack.is(ModRegistry.IMMORTAL_BUD.get())) continue;
+            com.thelongtravail.common.RuntimeFailures.report(
+                    "immortal bud target "
+                            + net.minecraftforge.registries.ForgeRegistries.ITEMS.getKey(
+                                    stack.getItem()),
+                    failure);
+            return;
+        }
+        com.thelongtravail.common.RuntimeFailures.report("immortal bud recipe", failure);
     }
 
     @Override
