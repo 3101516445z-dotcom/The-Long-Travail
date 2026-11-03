@@ -137,17 +137,14 @@ public final class DiarySession {
             var hintLines = new java.util.ArrayList<Component>();
             for (int i = 0; i < elements.size(); i++) {
                 var line = elements.get(i).left().orElse(null);
-                if (line instanceof Component component
-                        && component.getContents() instanceof TranslatableContents contents) {
-                    String key = contents.getKey();
-                    if (key.startsWith("tooltip.the_long_travail.open_diary")
-                            || key.equals("tooltip.the_long_travail.open_catalog")
-                            || key.equals("tooltip.the_long_travail.catalog_unbound")
-                            || key.equals("tooltip.the_long_travail.summary.open")) {
-                        lastHint = i;
-                        hintIndices.add(i);
-                        hintLines.add(component);
-                    }
+                Component prompt =
+                        line instanceof Component component
+                                ? DiaryHintTooltip.findPrompt(component)
+                                : null;
+                if (prompt != null) {
+                    lastHint = i;
+                    hintIndices.add(i);
+                    hintLines.add(prompt);
                 }
             }
             if (lastHint >= 0) {

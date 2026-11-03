@@ -31,7 +31,7 @@ public final class AncientStrangeTalesItem extends BookItem implements ItemDescr
     @Override
     public void appendHoverText(
             ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
-        ItemDescription.summary(lines);
+        ItemDescription.summary(stack, lines);
     }
 
     @Override

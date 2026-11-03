@@ -6,9 +6,11 @@ import com.thelongtravail.client.ThemeTooltips;
 import com.thelongtravail.config.AbyssItemsConfig;
 import com.thelongtravail.config.RainConfig;
 import com.thelongtravail.network.TooltipConfigSync;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
+
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -17,7 +19,7 @@ public final class CatalogAbyssDetails {
     private static final String PREFIX = "gui.the_long_travail.catalog.abyss.";
 
     private static Component line(String key, Object... args) {
-        return Component.translatable(PREFIX + key, args);
+        return com.thelongtravail.client.TooltipTranslations.text(PREFIX + key, args);
     }
 
     private static Component heading(String key) {

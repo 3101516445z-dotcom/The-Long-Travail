@@ -7,7 +7,7 @@
   "gui.the_long_travail.catalog.valley.last": "- %s. ",
   "gui.the_long_travail.catalog.valley.separator": ", ",
   "gui.the_long_travail.catalog.valley.none": "None",
-  "gui.the_long_travail.catalog.valley.azrael.0": "After taking an attack from a source other than themselves, the wearer has a %s%% chance to execute the target the next time they deal damage.",
+  "gui.the_long_travail.catalog.valley.azrael.0": "After taking damage from others, the wearer has a %s%% chance to execute the target the next time they deal damage.",
   "gui.the_long_travail.catalog.valley.azrael.1": "Execution attempts and execution chance do not accumulate.",
   "gui.the_long_travail.catalog.valley.azrael.2": "Each time the wearer deals damage, there is a %s%% chance to execute the target and a %s%% chance to execute themselves.",
   "gui.the_long_travail.catalog.valley.azrael.3": "A single roll cannot execute both participants.",

@@ -29,7 +29,7 @@ public final class SunChaserItem extends Item implements ItemDescription {
     @Override
     public void appendHoverText(
             ItemStack stack, Level level, List<Component> out, TooltipFlag flag) {
-        ItemDescription.summary(out);
+        ItemDescription.summary(stack, out);
     }
 
     @Override

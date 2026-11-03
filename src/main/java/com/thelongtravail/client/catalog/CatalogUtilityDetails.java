@@ -1,10 +1,12 @@
 package com.thelongtravail.client.catalog;
 
 import com.thelongtravail.TravailAspect;
-import java.util.ArrayList;
-import java.util.List;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class CatalogUtilityDetails {
     public static List<Component> aid(String id) {
@@ -14,7 +16,8 @@ public final class CatalogUtilityDetails {
     public static List<Component> themed(boolean stone, TravailAspect theme, ItemStack sample) {
         return paragraphs(
                 stone ? "stone" : "essence",
-                Component.translatable("aspect.the_long_travail." + theme.id()),
+                com.thelongtravail.client.TooltipTranslations.text(
+                        "aspect.the_long_travail." + theme.id()),
                 sample.getHoverName());
     }
 
@@ -39,7 +42,7 @@ public final class CatalogUtilityDetails {
                 continue;
             }
             var line =
-                    Component.translatable(
+                    com.thelongtravail.client.TooltipTranslations.text(
                             "gui.the_long_travail.catalog.details." + id + "." + row,
                             id.equals("wayguide") && row.equals("8")
                                     ? com.thelongtravail.network.TooltipConfigSync.integer(

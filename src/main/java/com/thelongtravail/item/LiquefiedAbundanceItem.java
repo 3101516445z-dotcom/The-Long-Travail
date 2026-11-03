@@ -59,7 +59,7 @@ public final class LiquefiedAbundanceItem extends Item implements ItemDescriptio
     @Override
     public void appendHoverText(
             ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
-        ItemDescription.summary(lines);
+        ItemDescription.summary(stack, lines);
     }
 
     @Override

@@ -1,12 +1,13 @@
 package com.thelongtravail.compat;
 
-import java.util.List;
-import java.util.Set;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import org.spongepowered.asm.service.MixinService;
+
+import java.util.List;
+import java.util.Set;
 
 public final class OptionalCompatPlugin implements IMixinConfigPlugin {
     private Boolean soundsSupported;
@@ -18,6 +19,57 @@ public final class OptionalCompatPlugin implements IMixinConfigPlugin {
     }
 
     public boolean shouldApplyMixin(String target, String mixin) {
+        if (mixin.contains(".fluid.")) {
+            String mod =
+                    mixin.endsWith("BackpackStorageAccessor")
+                            ? "sophisticatedbackpacks"
+                            : "rs_integration";
+            if (!installed(mod)) return false;
+            try {
+                ClassNode node =
+                        MixinService.getService().getBytecodeProvider().getClassNode(target);
+                boolean supported;
+                if (mixin.endsWith("BackpackStorageAccessor")) {
+                    supported =
+                            node.fields.stream()
+                                    .anyMatch(
+                                            f ->
+                                                    f.name.equals("backpackContents")
+                                                            && f.desc.equals("Ljava/util/Map;"));
+                } else if (mixin.endsWith("UnifiedManagerAccessor")) {
+                    supported =
+                            node.fields.stream()
+                                            .anyMatch(
+                                                    f ->
+                                                            f.name.equals("files")
+                                                                    && f.desc.equals(
+                                                                            "Lcom/huanghuang/rsintegration/storage/disk/persistence/DiskFileStore;"))
+                                    && node.fields.stream()
+                                            .anyMatch(
+                                                    f ->
+                                                            f.name.equals("entries")
+                                                                    && f.desc.equals(
+                                                                            "Ljava/util/Map;"))
+                                    && node.fields.stream()
+                                            .anyMatch(
+                                                    f ->
+                                                            f.name.equals("activeBackups")
+                                                                    && f.desc.equals("I"));
+                } else {
+                    supported =
+                            node.methods.stream()
+                                    .anyMatch(
+                                            m ->
+                                                    m.name.equals("<init>")
+                                                            && m.desc.equals(
+                                                                    "(Ljava/util/UUID;)V"));
+                }
+                if (!supported) warn(target, "unsupported storage access layout");
+                return supported;
+            } catch (ClassNotFoundException | java.io.IOException unavailable) {
+                return false;
+            }
+        }
         if (mixin.contains(".ftbultimine."))
             return net.minecraftforge.fml.loading.FMLLoader.getLoadingModList().getMods().stream()
                     .anyMatch(info -> info.getModId().equals("ftbultimine"));
@@ -247,7 +299,8 @@ public final class OptionalCompatPlugin implements IMixinConfigPlugin {
     private static void warn(String target, String reason) {
         org.slf4j.LoggerFactory.getLogger("the_long_travail.compat")
                 .warn(
-                        "Skipping optional compatibility for {}: {}. Its compatibility adapter is unavailable.",
+                        "Skipping optional compatibility for {}: {}. Its compatibility adapter is"
+                                + " unavailable.",
                         target,
                         reason);
     }

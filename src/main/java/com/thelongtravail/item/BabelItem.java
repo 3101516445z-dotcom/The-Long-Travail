@@ -2,11 +2,13 @@ package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
 import com.thelongtravail.farreach.BabelCarrying;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+
 import java.util.List;
 
 public final class BabelItem extends Item implements ItemDescription {
@@ -26,7 +28,7 @@ public final class BabelItem extends Item implements ItemDescription {
 
     @Override
     public void appendHoverText(ItemStack s, Level l, List<Component> out, TooltipFlag f) {
-        ItemDescription.summary(out);
+        ItemDescription.summary(s, out);
     }
 
     @Override

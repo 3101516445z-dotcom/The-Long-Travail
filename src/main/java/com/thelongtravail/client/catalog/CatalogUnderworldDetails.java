@@ -4,14 +4,17 @@ import com.thelongtravail.config.SunBladeConfig;
 import com.thelongtravail.config.UnderworldItemsConfig;
 import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.underworld.UnderworldRelicText;
+
 import net.minecraft.network.chat.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // 冥府拾遗正文，数值沿用服务端同步配置。
 public final class CatalogUnderworldDetails {
     private static Component line(String key, Object... args) {
-        return Component.translatable("gui.the_long_travail.catalog.underworld." + key, args);
+        return com.thelongtravail.client.TooltipTranslations.text(
+                "gui.the_long_travail.catalog.underworld." + key, args);
     }
 
     private static void heading(List<Component> out, String key) {

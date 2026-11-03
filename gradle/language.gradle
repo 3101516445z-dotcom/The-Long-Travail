@@ -29,3 +29,15 @@ def testLanguageGeneration = tasks.register('testLanguageGeneration', Exec) {
 tasks.named('check').configure {
     dependsOn generateLanguageFiles, testLanguageGeneration
 }
+
+def verifyTranslationReferences = tasks.register('verifyTranslationReferences', Exec) {
+    group = 'verification'
+    description = 'Check literal source translation keys and registered glossary keys in every locale.'
+    inputs.dir('src/main/java')
+    inputs.dir(languageSource)
+    inputs.file('tools/verify-translation-references.cjs')
+    workingDir project.projectDir
+    commandLine providers.gradleProperty('nodeExecutable').getOrElse('node'),
+            'tools/verify-translation-references.cjs'
+}
+tasks.named('check').configure { dependsOn verifyTranslationReferences }

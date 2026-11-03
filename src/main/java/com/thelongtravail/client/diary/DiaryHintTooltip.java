@@ -15,6 +15,22 @@ public record DiaryHintTooltip(Parts parts, int prefixWidth, int keyWidth)
         implements TooltipComponent {
     public record Parts(Component original, String prefix, Component key, String suffix) {}
 
+    public static Component findPrompt(Component line) {
+        if (line.getContents() instanceof TranslatableContents text) {
+            String key = text.getKey();
+            if (key.startsWith("tooltip.the_long_travail.open_diary")
+                    || key.equals("tooltip.the_long_travail.open_catalog")
+                    || key.equals("tooltip.the_long_travail.catalog_unbound")
+                    || (key.startsWith("tooltip.the_long_travail.summary.")
+                            && key.endsWith(".open"))) return line;
+        }
+        for (Component child : line.getSiblings()) {
+            Component prompt = findPrompt(child);
+            if (prompt != null) return prompt;
+        }
+        return null;
+    }
+
     public static Parts split(Component line) {
         if (line.getContents() instanceof TranslatableContents text
                 && text.getArgs().length == 1

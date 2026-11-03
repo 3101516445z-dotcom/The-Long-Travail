@@ -1,6 +1,7 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.exploration.WayguideSearch;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -11,7 +12,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+
 import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 public final class WayguideItem extends Item {
@@ -30,7 +33,7 @@ public final class WayguideItem extends Item {
     @Override
     public void appendHoverText(
             ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        ItemDescription.summary(tooltip);
+        ItemDescription.summary(stack, tooltip);
     }
 
     @Override

@@ -65,7 +65,7 @@
   "tooltip.the_long_travail.lorentz.interval": "The §6roll cooldown§r against §athe same target§r is §a%s seconds§r.",
   "tooltip.the_long_travail.little_prince.height": "%s blocks",
   "item.the_long_travail.ancient_strange_tales": "Ancient Strange Tales",
-  "tooltip.the_long_travail.summary.ancient_strange_tales.0": "§6Shapeless-craft§r with the target item to transfer enchantments:\n- Add §aNether Quartz§r to §6extract§r enchantments into this book;\n- Add §aLapis Lazuli§r to §6inject§r this book's enchantments into the item.",
+  "tooltip.the_long_travail.summary.ancient_strange_tales.0": "§6Shapeless-craft§r with the target item to transfer enchantments:\n- Add §aNether Quartz§r to §6extract§r enchantments into this book\n- Add §aLapis Lazuli§r to §6inject§r this book's enchantments into the item",
   "tooltip.the_long_travail.ancient_strange_tales.details.0": "Shapeless-craft \"Ancient Strange Tales\" with an item and 1 Nether Quartz to transfer the item's enchantments into this book.",
   "tooltip.the_long_travail.ancient_strange_tales.details.1": "Replace Nether Quartz with 1 Lapis Lazuli to transfer the book's enchantments into the target item.",
   "tooltip.the_long_travail.ancient_strange_tales.details.2": "If the target does not have the enchantment, transfer it at its original level.\nIf the target already has the enchantment, take the higher of the two levels and add 1, up to level 255.",
@@ -73,7 +73,7 @@
   "tooltip.the_long_travail.ancient_strange_tales.details.4": "Extra materials apply to all enchantments in this craft and are not consumed separately for each enchantment.\nIf an enchantment lacks its required extra materials, it remains on the source item. Other eligible enchantments can still transfer.",
   "tooltip.the_long_travail.ancient_strange_tales.details.5": "You may also add one filtering ingredient:\n- Add 1 Honey Bottle to transfer only non-curse enchantments;\n- Add 1 Fermented Spider Eye to transfer only curses.",
   "tooltip.the_long_travail.ancient_strange_tales.details.6": "Transfer restrictions:\n- An enchantment cannot transfer if the target already has it at level 255;\n- Only enchantments accepted by the target and compatible with its existing enchantments can transfer. Others remain on the source;\n- Ancient Strange Tales can store any enchantment type, but two copies cannot transfer enchantments to each other.",
-  "tooltip.the_long_travail.summary.ancient_strange_tales.1": "\nTransferring matching enchantments can §6raise their level§r. Some cases require extra materials.\nAdd a §aHoney Bottle§r to transfer only §6non-curse enchantments§r.\nAdd a §aFermented Spider Eye§r to transfer only §6curses§r.",
+  "tooltip.the_long_travail.summary.ancient_strange_tales.1": "Transferring matching enchantments can §6raise their level§r; some cases require extra materials\nAdding extra crafting ingredients also lets you §6filter enchantments§r:\n- Add a §aHoney Bottle§r so crafting transfers only §6non-curse enchantments§r\n- Add a §aFermented Spider Eye§r so crafting transfers only §6curses§r",
   "tooltip.the_long_travail.flavor.ancient_strange_tales": "The beginnings of collected lore, the herald of a garden of wonders.",
   "message.the_long_travail.transfer.enchantment_failed": "Enchantment \"%s\" failed its transfer check; the operation was cancelled, materials were not consumed",
   "message.the_long_travail.transfer.failed": "The enchantment transfer failed; the operation was cancelled, materials were not consumed"

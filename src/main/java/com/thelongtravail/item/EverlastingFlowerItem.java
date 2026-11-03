@@ -1,15 +1,18 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
-import com.thelongtravail.flourishing.EverlastingFlower;
 import com.thelongtravail.equipment.AccessoryEquipRules;
+import com.thelongtravail.flourishing.EverlastingFlower;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
+
 import java.util.List;
 
 public final class EverlastingFlowerItem extends Item implements ICurioItem {
@@ -63,6 +66,6 @@ public final class EverlastingFlowerItem extends Item implements ICurioItem {
     @Override
     public void appendHoverText(
             ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
-        ItemDescription.summary(lines);
+        ItemDescription.summary(stack, lines);
     }
 }

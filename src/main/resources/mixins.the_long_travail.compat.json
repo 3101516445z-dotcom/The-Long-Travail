@@ -16,7 +16,10 @@
     "maid.MaidPersonalityStorageMixin",
     "maid.MaidRelicSlotMixin",
     "ftbultimine.TremorDispatchMixin",
-    "ftbultimine.TremorPlatformMixin"
+    "ftbultimine.TremorPlatformMixin",
+    "fluid.BackpackStorageAccessor",
+    "fluid.UnifiedManagerAccessor",
+    "fluid.UnifiedEntryInvoker"
   ],
   "client": [
     "apotheosis.AffixNameMixin",

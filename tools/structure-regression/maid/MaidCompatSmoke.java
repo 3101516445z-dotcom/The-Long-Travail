@@ -1,19 +1,18 @@
 package travail.smoke;
 
-import com.thelongtravail.boundless.timestop.TimeStopManager;
-import com.thelongtravail.boundless.timestop.StarVoiceState;
-
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.item.ItemFilm;
 import com.mojang.authlib.GameProfile;
 import com.thelongtravail.*;
 import com.thelongtravail.boundless.*;
+import com.thelongtravail.boundless.timestop.StarVoiceState;
+import com.thelongtravail.boundless.timestop.TimeStopManager;
 import com.thelongtravail.compat.maid.*;
 import com.thelongtravail.config.*;
-import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.farreach.*;
 import com.thelongtravail.flourishing.*;
 import com.thelongtravail.integration.MaidIntegration;
+import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.registry.ModRegistry;
 
 import net.minecraft.nbt.CompoundTag;
@@ -589,7 +588,9 @@ public final class MaidCompatSmoke {
 
     private static void ownerOnline(ServerLevel level, TestPlayer p, boolean online)
             throws Exception {
-        var field = net.minecraft.server.players.PlayerList.class.getDeclaredField("playersByUUID");
+        var field =
+                net.minecraftforge.fml.util.ObfuscationReflectionHelper.findField(
+                        net.minecraft.server.players.PlayerList.class, "f_11197_");
         field.setAccessible(true);
         var map = (Map<UUID, ServerPlayer>) field.get(level.getServer().getPlayerList());
         if (online) map.put(p.getUUID(), p);
@@ -608,7 +609,9 @@ public final class MaidCompatSmoke {
         var p = new TestPlayer(level);
         p.setPos(0, 120, 0);
         ownerOnline(level, p, true);
-        var spawn = ServerPlayer.class.getDeclaredField("spawnInvulnerableTime");
+        var spawn =
+                net.minecraftforge.fml.util.ObfuscationReflectionHelper.findField(
+                        ServerPlayer.class, "f_8921_");
         spawn.setAccessible(true);
         spawn.setInt(p, 0);
         var diary = diary(p);
@@ -1059,7 +1062,10 @@ public final class MaidCompatSmoke {
         target.hurt(source, 10);
         near(
                 1000 - target.getHealth(),
-                10 * (1 + snap.bonus()) + 20,
+                10 * (1 + snap.bonus())
+                        + target.getMaxHealth()
+                                * com.thelongtravail.config.FarReachRelicsConfig.value(
+                                        "don_quixote.trueFraction"),
                 "quixote: malice real extra damage exactly once");
         target.setHealth(1000);
         var arrow = new net.minecraft.world.entity.projectile.Arrow(level, m);
@@ -1077,7 +1083,10 @@ public final class MaidCompatSmoke {
         target.hurt(m.damageSources().arrow(arrow, m), 10);
         near(
                 1000 - target.getHealth(),
-                10 * (1 + snap.bonus()) + 20,
+                10 * (1 + snap.bonus())
+                        + target.getMaxHealth()
+                                * com.thelongtravail.config.FarReachRelicsConfig.value(
+                                        "don_quixote.trueFraction"),
                 "quixote: real projectile damage and extra strike");
         check(MaidIntegration.quixoteCooldown(m) == 0, "quixote: malice does not trigger witness");
         LongTravailData.setWitness(diary, TravailAspect.FAR_REACH, true);
@@ -1471,7 +1480,8 @@ public final class MaidCompatSmoke {
                             level.registryAccess()
                                     .registryOrThrow(
                                             net.minecraft.core.registries.Registries.DAMAGE_TYPE)
-                                    .getHolderOrThrow(com.thelongtravail.abyss.FluidErosionDamage.FLUID));
+                                    .getHolderOrThrow(
+                                            com.thelongtravail.abyss.FluidErosionDamage.FLUID));
             var fluid = new com.thelongtravail.combat.AttributeDamage(p, fluidSource, false, false);
             check(!fluid.begin(), "preparation: fluid excluded");
             near(p.getAttributeValue(insight), 0, "preparation: fluid does not refresh");

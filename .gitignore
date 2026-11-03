@@ -43,6 +43,7 @@ desktop.ini
 /tools/*
 !/tools/generate-language-files.cjs
 !/tools/verify-language-files.cjs
+!/tools/verify-translation-references.cjs
 !/tools/verify-locale.cjs
 !/tools/test-language-generation.cjs
 

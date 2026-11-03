@@ -28,6 +28,7 @@ final class ClientSetup {
         event.enqueueWork(
                 () -> {
                     AbundanceUseClient.initialize();
+                    com.thelongtravail.item.ItemSummary.append = ThemeTooltips::append;
                     net.minecraft.client.gui.screens.MenuScreens.register(
                             ModRegistry.COLORING_MENU.get(), ColoringScreen::new);
                     com.thelongtravail.network.PrinceFlightPacket.receiver =

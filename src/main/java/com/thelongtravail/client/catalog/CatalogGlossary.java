@@ -16,6 +16,7 @@ public final class CatalogGlossary {
     private static final List<String> IDS =
             List.of(
                     "direct_strike",
+                    "other_entity_damage",
                     "execution",
                     "insight",
                     "critical",
@@ -72,7 +73,9 @@ public final class CatalogGlossary {
             for (String id : IDS) {
                 if (!enabled(id, item)) continue;
                 for (String alias :
-                        Component.translatable(PREFIX + id + ".aliases").getString().split("\\|")) {
+                        com.thelongtravail.client.TooltipTranslations.text(PREFIX + id + ".aliases")
+                                .getString()
+                                .split("\\|")) {
                     if (alias.isBlank()) continue;
                     String boundary = alias.charAt(0) < 128 ? "\\b" : "";
                     var matcher =
@@ -155,7 +158,7 @@ public final class CatalogGlossary {
             return CatalogFarReachCards.body(id);
         return id.equals("growth")
                 ? CatalogFlourishingDetails.growthCard()
-                : Component.translatable(PREFIX + id + ".body");
+                : com.thelongtravail.client.TooltipTranslations.text(PREFIX + id + ".body");
     }
 
     public static String term(Style style) {
@@ -216,13 +219,16 @@ public final class CatalogGlossary {
             float scale) {
         int padding = 10;
         int textWidth = Math.min(210, Math.max(60, (int) ((width - 24) / scale) - padding * 2));
-        var title = Component.translatable(PREFIX + id + ".title");
+        var title = com.thelongtravail.client.TooltipTranslations.text(PREFIX + id + ".title");
         var lines = new ArrayList<net.minecraft.util.FormattedCharSequence>();
         var indents = new ArrayList<Integer>();
-        boolean floral = IDS.indexOf(id) >= 5;
-        if (floral) {
+        var content = body(id);
+        String text = content.getString();
+        // 仅根据正文是否含分段或列表选择文字处理，与术语登记位置无关。
+        boolean structured = text.contains("\n") || text.startsWith("- ");
+        if (structured) {
             var paragraphs =
-                    Arrays.stream(body(id).getString().split("\n", -1))
+                    Arrays.stream(text.split("\n", -1))
                             .map(Component::literal)
                             .map(c -> (Component) c)
                             .toList();
@@ -266,15 +272,16 @@ public final class CatalogGlossary {
                     }
                 }
             }
-        } else lines.addAll(font.split(body(id), textWidth));
+        } else lines.addAll(font.split(content, textWidth));
         int boxWidth = textWidth + padding * 2;
         int boxHeight = padding * 2 + font.lineHeight + 10 + lines.size() * 12;
         int visualWidth = (int) Math.ceil(boxWidth * scale);
         int visualHeight = (int) Math.ceil(boxHeight * scale);
-        int x = mouseX + 12;
-        int y = mouseY + 12;
-        if (x + visualWidth > width - 4) x = mouseX - visualWidth - 12;
-        if (y + visualHeight > height - 4) y = mouseY - visualHeight - 12;
+        int cursorGap = 6;
+        int x = mouseX + cursorGap;
+        int y = mouseY + cursorGap;
+        if (x + visualWidth > width - 4) x = mouseX - visualWidth - cursorGap;
+        if (y + visualHeight > height - 4) y = mouseY - visualHeight - cursorGap;
         x = Math.max(4, Math.min(x, width - visualWidth - 4));
         y = Math.max(4, Math.min(y, height - visualHeight - 4));
         g.pose().pushPose();
@@ -291,7 +298,7 @@ public final class CatalogGlossary {
             g.drawString(
                     font,
                     lines.get(i),
-                    padding + (floral ? indents.get(i) : 0),
+                    padding + (structured ? indents.get(i) : 0),
                     lineY,
                     0xB6AA94,
                     false);

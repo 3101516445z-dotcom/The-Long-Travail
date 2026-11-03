@@ -77,18 +77,54 @@ public final class ThemeTooltips {
         return found;
     }
 
+    private static final String SUMMARY_BLOCK = "the_long_travail:summary_block";
+
+    private static boolean summaryLine(Component line) {
+        return SUMMARY_BLOCK.equals(line.getStyle().getInsertion())
+                || key(line, ItemDescription.SUMMARY::equals)
+                || ItemDescription.SUMMARY.equals(line.getString());
+    }
+
+    public static void append(ItemStack stack, List<Component> lines) {
+        // 在私有列表内完成生成，调用者从不接触占位内容。
+        if (lines.stream().anyMatch(ThemeTooltips::summaryLine)) return;
+        var generated = new ArrayList<Component>();
+        generated.add(Component.empty().withStyle(s -> s.withInsertion(SUMMARY_BLOCK)));
+        rebuild(stack, net.minecraft.client.Minecraft.getInstance().player, generated);
+        lines.addAll(generated);
+    }
+
     public static void finish(ItemStack stack, Player viewer, List<Component> lines) {
-        if (ImmortalBud.marked(stack)) {
+        if (ImmortalBud.marked(stack)
+                && lines.stream()
+                        .noneMatch(
+                                c ->
+                                        key(
+                                                c,
+                                                "tooltip.the_long_travail.immortal_bud.mark"
+                                                        ::equals))) {
             lines.add(
                     Math.min(1, lines.size()),
                     com.thelongtravail.AspectTheme.FLOURISHING.name(
-                            Component.translatable("tooltip.the_long_travail.immortal_bud.mark")));
+                            com.thelongtravail.client.TooltipTranslations.text(
+                                    "tooltip.the_long_travail.immortal_bud.mark")));
         }
         lines.replaceAll(
-                line -> key(line, ItemDescription.CATALOG::equals) ? catalogPrompt() : line);
-        if (lines.stream().noneMatch(c -> key(c, ItemDescription.SUMMARY::equals))) return;
+                line ->
+                        (key(line, ItemDescription.CATALOG::equals)
+                                        || ItemDescription.CATALOG.equals(line.getString()))
+                                ? catalogPrompt()
+                                : line);
+        rebuild(stack, viewer, lines);
+    }
+
+    private static void rebuild(ItemStack stack, Player viewer, List<Component> lines) {
+        if (lines.stream().noneMatch(ThemeTooltips::summaryLine)) return;
         var entry = CatalogEntries.forStack(stack).orElse(null);
-        if (entry == null) return;
+        if (entry == null) {
+            lines.removeIf(ThemeTooltips::summaryLine);
+            return;
+        }
         var maid = take(lines, com.thelongtravail.compat.CompatTooltips::isMaidTooltip);
         Set<Component> attributeLines = Collections.newSetFromMap(new IdentityHashMap<>());
         boolean curiosGroup = false;
@@ -102,13 +138,16 @@ public final class ThemeTooltips {
         }
         var attributes = take(lines, attributeLines::contains);
         int at = 0;
-        while (at < lines.size() && !key(lines.get(at), ItemDescription.SUMMARY::equals)) at++;
-        lines.remove(at);
+        while (at < lines.size() && !summaryLine(lines.get(at))) at++;
+        lines.removeIf(ThemeTooltips::summaryLine);
         while (at > 0 && blank(lines.get(at - 1))) lines.remove(--at);
         var block = new ArrayList<Component>();
         String flavorKey = "tooltip.the_long_travail.flavor." + entry.id();
         if (net.minecraft.locale.Language.getInstance().has(flavorKey)) {
-            for (String prose : Component.translatable(flavorKey).getString().split("\\n")) {
+            for (String prose :
+                    com.thelongtravail.client.TooltipTranslations.text(flavorKey)
+                            .getString()
+                            .split("\\n")) {
                 var flavor =
                         Component.literal(prose)
                                 .withStyle(
@@ -153,7 +192,19 @@ public final class ThemeTooltips {
             block.add(Component.empty());
             block.addAll(maid);
         }
-        lines.addAll(at, block);
+        lines.addAll(
+                at,
+                block.stream()
+                        .map(
+                                line ->
+                                        (Component)
+                                                Component.empty()
+                                                        .withStyle(
+                                                                style ->
+                                                                        style.withInsertion(
+                                                                                SUMMARY_BLOCK))
+                                                        .append(line))
+                        .toList());
     }
 
     public static Component catalogPrompt() {
@@ -161,12 +212,12 @@ public final class ThemeTooltips {
     }
 
     private static Component carryingLimitHint() {
-        return Component.translatable(PREFIX + "carrying_non_stacking")
+        return com.thelongtravail.client.TooltipTranslations.text(PREFIX + "carrying_non_stacking")
                 .withStyle(style -> style.withColor(0x555555).withBold(false).withItalic(false));
     }
 
     private static Component catalogPrompt(String suffix) {
-        return Component.translatable(
+        return com.thelongtravail.client.TooltipTranslations.text(
                         PREFIX + suffix,
                         keyName(CatalogSession.OPEN)
                                 .copy()
@@ -176,12 +227,14 @@ public final class ThemeTooltips {
 
     public static Component keyName(KeyMapping binding) {
         return binding.isUnbound()
-                ? Component.translatable(PREFIX + "unbound")
+                ? com.thelongtravail.client.TooltipTranslations.text(PREFIX + "unbound")
                 : TravailClientEvents.holdKeyLabel(binding);
     }
 
     public static Component text(String suffix, Object... args) {
-        String value = Component.translatable(PREFIX + suffix, args).getString();
+        String value =
+                com.thelongtravail.client.TooltipTranslations.text(PREFIX + suffix, args)
+                        .getString();
         var result = Component.empty();
         var run = new StringBuilder();
         Style[] previous = {null};
@@ -212,7 +265,8 @@ public final class ThemeTooltips {
 
     private static void appendRun(MutableComponent target, String text, Style style) {
         String revival =
-                Component.translatable("tooltip.the_long_travail.book_of_dead.revival_name")
+                com.thelongtravail.client.TooltipTranslations.text(
+                                "tooltip.the_long_travail.book_of_dead.revival_name")
                         .getString();
         int at = text.indexOf(revival);
         if (at < 0) {
@@ -266,7 +320,8 @@ public final class ThemeTooltips {
                 out.add(
                         text(
                                 id.endsWith("_stone") ? "utility.stone" : "utility.essence",
-                                Component.translatable("aspect.the_long_travail." + theme)
+                                com.thelongtravail.client.TooltipTranslations.text(
+                                                "aspect.the_long_travail." + theme)
                                         .getString()));
             } else if (id.equals("wayguide")) {
                 out.add(
@@ -335,7 +390,7 @@ public final class ThemeTooltips {
                 out.add(
                         text(
                                 id + ".state",
-                                Component.translatable(
+                                com.thelongtravail.client.TooltipTranslations.text(
                                         PREFIX
                                                 + (EverlastingFlower.growthEnabled(stack)
                                                         ? "enabled"
@@ -372,14 +427,17 @@ public final class ThemeTooltips {
                     var secondary = Component.empty();
                     for (int i = 1; i < flowers.size(); i++) {
                         if (i > 1)
-                            secondary.append(Component.translatable(PREFIX + "list_separator"));
+                            secondary.append(
+                                    com.thelongtravail.client.TooltipTranslations.text(
+                                            PREFIX + "list_separator"));
                         secondary.append(flowers.get(i).item().getDescription());
                     }
                     out.add(
                             text(
                                     "secondary_flower",
                                     flowers.size() == 1
-                                            ? Component.translatable(PREFIX + "none")
+                                            ? com.thelongtravail.client.TooltipTranslations.text(
+                                                    PREFIX + "none")
                                             : secondary));
                 }
             }
@@ -408,7 +466,7 @@ public final class ThemeTooltips {
                 out.add(
                         text(
                                 id + ".state",
-                                Component.translatable(
+                                com.thelongtravail.client.TooltipTranslations.text(
                                         PREFIX + (enabled ? "enabled" : "disabled"))));
             }
             case "free_and_easy_wandering" -> {
@@ -432,7 +490,7 @@ public final class ThemeTooltips {
                 out.add(
                         text(
                                 id + ".state",
-                                Component.translatable(
+                                com.thelongtravail.client.TooltipTranslations.text(
                                         PREFIX + (enabled ? "enabled" : "disabled"))));
             }
             case "don_quixote", "tower_of_babel" -> {

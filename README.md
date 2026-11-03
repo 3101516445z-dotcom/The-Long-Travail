@@ -90,10 +90,10 @@
 
 ## 版本与升级
 
-当前版本为 **1.0.0**（发布日期：2026-11-03），发布状态与各版本变化见 [更新日志](CHANGELOG.md)。更新后生成或重置的旅程数据不支持降级到旧版模组。
+当前版本为 **1.0.1**（待发布；最近更新：2026-11-04），发布状态与各版本变化见 [更新日志](CHANGELOG.md)。更新后生成或重置的旅程数据不支持降级到旧版模组。
 
-- [中文 1.0.0 更新日志](docs/玩家查阅/更新日志zh/1.0.0.md)
-- [English changelog for 1.0.0](docs/玩家查阅/更新日志en/1.0.0.md)
+- [中文 1.0.1 更新日志](docs/玩家查阅/更新日志zh/1.0.1.md)
+- [English changelog for 1.0.1](docs/玩家查阅/更新日志en/1.0.1.md)
 
 ## 开发文档
 
@@ -117,7 +117,7 @@ Linux / macOS：
 ./gradlew build jarJar
 ```
 
-首次构建需要联网，Gradle 会自动下载依赖；缓存齐全后可追加 `--offline`。当前构建包为 `build/libs/The_Long_Travail-1.0.0.jar`，带 `-slim` 后缀的包不包含内嵌依赖，不用于直接安装。无需复制本机整合包的 `mods`、`config`、`run` 或本地测试工具来完成普通源码构建。
+首次构建需要联网，Gradle 会自动下载依赖；缓存齐全后可追加 `--offline`。当前构建包为 `build/libs/The_Long_Travail-1.0.1.jar`，带 `-slim` 后缀的包不包含内嵌依赖，不用于直接安装。无需复制本机整合包的 `mods`、`config`、`run` 或本地测试工具来完成普通源码构建。
 
 Caelus、Embeddium、Jade、JEI、女仆、Apotheosis、Placebo、Quark 和 Zeta 的可选 API 仅用于编译，不打包进成品，也不会自动加载到开发运行环境。女仆 API 固定为 Forge 1.20.1 的 1.5.3 版本，由 Gradle 自动下载；需要本地替代时使用 `-PmaidApiJar=/absolute/path/to/touhoulittlemaid.jar`。MixinExtras 随正式包内嵌，Curios 需另行安装。具体版本及仓库地址见 `build.gradle` 和 `gradle/optional-compat.gradle`。
 

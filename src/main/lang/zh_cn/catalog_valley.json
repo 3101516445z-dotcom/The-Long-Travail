@@ -7,7 +7,7 @@
   "gui.the_long_travail.catalog.valley.last": "- %s。",
   "gui.the_long_travail.catalog.valley.separator": "、",
   "gui.the_long_travail.catalog.valley.none": "无",
-  "gui.the_long_travail.catalog.valley.azrael.0": "佩戴者受到非自身来源的攻击后，下一次造成伤害时，有%s%%的概率处决目标。",
+  "gui.the_long_travail.catalog.valley.azrael.0": "佩戴者受到他者伤害后，下一次造成伤害时，有%s%%的概率处决目标。",
   "gui.the_long_travail.catalog.valley.azrael.1": "处决判定次数与处决概率均不可累计。",
   "gui.the_long_travail.catalog.valley.azrael.2": "佩戴者每次造成伤害时，有%s%%的概率处决目标，也有%s%%的概率处决自身。",
   "gui.the_long_travail.catalog.valley.azrael.3": "同一次判定不会同时处决双方。",

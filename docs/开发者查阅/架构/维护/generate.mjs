@@ -98,7 +98,7 @@ const overrides = {
   PhosphophylliteItem:['幽谷物品入口','磷叶石佩戴与卸下对账入口'],
   UnderworldLedger:['复活与终结','消耗、见证与死亡事实持久化'],
   UnderworldStorage:['复活与终结','玩家、掉落物和墓碑校正协调'],
-  GravestoneAccess:['复活与终结','墓碑反射访问与运行时契约'],
+  GravestoneAccess:['复活与终结','墓碑直接 API 访问与运行时契约'],
   GravestoneStorage:['复活与终结','墓碑加载队列、校正与位置索引扫描'],
   BookBlockEntityMixin:['复活与终结','墓碑设置世界后的延迟校正入口'],
   BookGravestoneMixin:['复活与终结','墓碑设置死亡记录后的直接校正入口'],

@@ -49,7 +49,7 @@ public final class PhosphophylliteItem extends Item implements ICurioItem, ItemD
 
     @Override
     public void appendHoverText(ItemStack s, Level l, List<Component> out, TooltipFlag f) {
-        ItemDescription.summary(out);
+        ItemDescription.summary(s, out);
     }
 
     @Override

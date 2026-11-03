@@ -45,6 +45,6 @@ public final class ColoringItem extends Item {
     @Override
     public void appendHoverText(
             ItemStack stack, @Nullable Level level, List<Component> lines, TooltipFlag flag) {
-        ItemDescription.summary(lines);
+        ItemDescription.summary(stack, lines);
     }
 }

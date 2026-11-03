@@ -1,12 +1,13 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.abyss.RainState;
-import com.thelongtravail.abyss.RainTooltips;
+
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.network.chat.Component;
+
 import java.util.List;
 
 public final class EkiItem extends Item {
@@ -28,6 +29,6 @@ public final class EkiItem extends Item {
     @Override
     public void appendHoverText(
             ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
-        ItemDescription.summary(lines);
+        ItemDescription.summary(stack, lines);
     }
 }

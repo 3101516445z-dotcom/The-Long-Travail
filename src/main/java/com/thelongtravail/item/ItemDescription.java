@@ -4,6 +4,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+
 import java.util.List;
 
 public interface ItemDescription {
@@ -12,7 +13,7 @@ public interface ItemDescription {
 
     void appendDetails(ItemStack stack, Level level, List<Component> lines, TooltipFlag flag);
 
-    static void summary(List<Component> lines) {
-        lines.add(Component.translatable(SUMMARY));
+    static void summary(ItemStack stack, List<Component> lines) {
+        ItemSummary.append.accept(stack, lines);
     }
 }

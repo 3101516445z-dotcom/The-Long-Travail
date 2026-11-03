@@ -18,11 +18,11 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "45f6aa81677bab416a4c7d299477ebd4c2b5e57216028bc2f1daa3718b3583fd",
+  "fingerprint": "0a7328c3dccf3b1a0d67d5c6deb227039a8633a46598fefe7968927393ec3918",
   "files": [
     {
       "path": "build.gradle",
-      "sha256": "5916b854a685333217e693106f574a4b274b7f6660ef2c709516a5f7d77fd7da"
+      "sha256": "4027bc30e08ffa2d8802c43876cd701e8fdbe735f2b828a43c6cf79285bb01b9"
     },
     {
       "path": "gradle.properties",
@@ -42,11 +42,11 @@
     },
     {
       "path": "gradle/language.gradle",
-      "sha256": "3b93f36aa83ff855253995238db764dd4f15a829ce0a833cf99d36e7a1b4a418"
+      "sha256": "80abf7eba14616fd4ad6669cd62a231339e72742cc2de52704b948c2bd9a18a7"
     },
     {
       "path": "gradle/optional-compat.gradle",
-      "sha256": "b4b5ac8d9986d76d322bb6f0068ae02a7ee963b51d47cd3a8224601a1ce8e3b6"
+      "sha256": "271c89145203ed251767f2559d289c82a8040aee0ab683390e5ec7baf0973176"
     },
     {
       "path": "gradle/wrapper/gradle-wrapper.jar",
@@ -78,7 +78,7 @@
     },
     {
       "path": "src/main/lang/en_us/aspects/boundless.json",
-      "sha256": "62e3820da22c0288a094150bf9995447546f41db4538edecaa68bddf52f96272"
+      "sha256": "639a5bfe27ed4a20dd9492cf40bee57235591fa00df3577a78d7d6c9d2596bf9"
     },
     {
       "path": "src/main/lang/en_us/aspects/deep_valley.json",
@@ -98,7 +98,7 @@
     },
     {
       "path": "src/main/lang/en_us/catalog.json",
-      "sha256": "d1b0c49f8e851aa28b5907cdd62d962d974056865f0c75e8dbebe822b63ccc25"
+      "sha256": "940c29f549584d0a9fab0d567ef7a008d20f2c9952a83c5abe8d8b6755f974fd"
     },
     {
       "path": "src/main/lang/en_us/catalog_abyss.json",
@@ -106,7 +106,7 @@
     },
     {
       "path": "src/main/lang/en_us/catalog_boundless.json",
-      "sha256": "3541631cba7bbd9d85228c0eb314e1aeb2d64c0f7619226da53f93b11ce3ccf2"
+      "sha256": "0e64d2399fa13b27376f0169373ba74da3b8becc389832f867f9614911f833d6"
     },
     {
       "path": "src/main/lang/en_us/catalog_far_reach.json",
@@ -122,7 +122,7 @@
     },
     {
       "path": "src/main/lang/en_us/catalog_valley.json",
-      "sha256": "77ec682629a0d426698425650d8bf699343f75ef6d514853ec5afacf7fe127b5"
+      "sha256": "f4af2fb12b9eebd12c23f53f099805af2fc8461b9d380f14aa181bd840679452"
     },
     {
       "path": "src/main/lang/en_us/common.json",
@@ -150,7 +150,7 @@
     },
     {
       "path": "src/main/lang/lzh/aspects/boundless.json",
-      "sha256": "3aaf7e4898a6eb148d3cfcd0deb3c8684a49f2d3590c0071680b00c0337d4e5c"
+      "sha256": "132b17810f4a552e7c2fe3ee7af1a625178191f65bd4a5bc5cf00415d9f621e8"
     },
     {
       "path": "src/main/lang/lzh/aspects/deep_valley.json",
@@ -170,7 +170,7 @@
     },
     {
       "path": "src/main/lang/lzh/catalog.json",
-      "sha256": "4452986aee38bb7f28345792dc9fc7819d12d5ce1d2a4fa5428c38042cc9ba2a"
+      "sha256": "93c4c2a4e4b94037d837fbef47ad3a54676280af519098211bb58f3e75d476c7"
     },
     {
       "path": "src/main/lang/lzh/catalog_abyss.json",
@@ -178,7 +178,7 @@
     },
     {
       "path": "src/main/lang/lzh/catalog_boundless.json",
-      "sha256": "52a117d5ce03d8c1cf08525883eb300ac4dab987a742578f3107def061f73703"
+      "sha256": "ae280a73a45a3931824c743f3984338b19474da0c52e07a429520c43d00c279c"
     },
     {
       "path": "src/main/lang/lzh/catalog_far_reach.json",
@@ -194,7 +194,7 @@
     },
     {
       "path": "src/main/lang/lzh/catalog_valley.json",
-      "sha256": "be42c9731e40fd3410570f7f695d7604d5a1bcc18a36f96880fe1a0ade022655"
+      "sha256": "d56140c46f0cc0479a79355220da76b041503abbbfdb30c24d62c4304acea970"
     },
     {
       "path": "src/main/lang/lzh/common.json",
@@ -218,7 +218,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/aspects/boundless.json",
-      "sha256": "836559b3dc2fa605285af27a8909b9c6e6e38628d1ae17ed5fc2ee7d3bdf8684"
+      "sha256": "8f4a4407c84cc84321a6ea53af96598cfe7350edd28f08bc4730756139d56f67"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/deep_valley.json",
@@ -238,7 +238,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/catalog.json",
-      "sha256": "4a8df18b2ec322310f6bfba51cc6892f2a453ba89cbfe1702c89fa527f1a06f7"
+      "sha256": "233e86baf8eaad1412066c76a553e83cfbd3622241698cd461b1440eff25dc62"
     },
     {
       "path": "src/main/lang/zh_cn/catalog_abyss.json",
@@ -246,7 +246,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/catalog_boundless.json",
-      "sha256": "4ecddae4da1e1bce7b55c8d3fae19f3c7d5e5f794814850c0869e9d244073b34"
+      "sha256": "e474d8550051a11c2bd0b2e844f90808c291201018d64835fcf671a5eb920341"
     },
     {
       "path": "src/main/lang/zh_cn/catalog_far_reach.json",
@@ -262,7 +262,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/catalog_valley.json",
-      "sha256": "a58687585523d94b4c06082953c85a5e16aebebd38fe7a3e0d42c02a62c93c42"
+      "sha256": "a1b75c1c8f431197b3a91fb34444c2c83bb3febe5db56adc7924e5c82505b7d1"
     },
     {
       "path": "src/main/lang/zh_cn/common.json",
@@ -286,7 +286,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/aspects/boundless.json",
-      "sha256": "30f9827244cc32cb9d5b688badebdf7dce4282c5a73f2cbe92d00dc4bec187d6"
+      "sha256": "377ea60c56b3b74a246a877654b2ae70fc3d1931a7a8501b5a6c093031967d86"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/deep_valley.json",
@@ -306,7 +306,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/catalog.json",
-      "sha256": "b3f635852645cc81012e429fb523decec9fd9d59c1e2a03851d61b5db0f20e95"
+      "sha256": "cb1f948d78a27645345183d5ec26460b4a816656a39e9fb605f2ad57ed4bbc00"
     },
     {
       "path": "src/main/lang/zh_hk/catalog_abyss.json",
@@ -314,7 +314,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/catalog_boundless.json",
-      "sha256": "b808ca0e045bc7f9fabc4679cef99416add2e7000aacc5997e60b9920be318f3"
+      "sha256": "b007070630ba58d9a2c62d374d7550339e6867fb768eb4d5fcd73930275733c4"
     },
     {
       "path": "src/main/lang/zh_hk/catalog_far_reach.json",
@@ -330,7 +330,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/catalog_valley.json",
-      "sha256": "cc0541ba24b520c74a612f2307a5707f765a9b7bb6c16c32fc6bf633b5a711dc"
+      "sha256": "a2531c13f21784acfb74aacd0d93dce007d4204882bbf6b3248e08d124f0ac1f"
     },
     {
       "path": "src/main/lang/zh_hk/common.json",
@@ -354,7 +354,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/aspects/boundless.json",
-      "sha256": "f4e925527981fd93abc53260d585cb997bf090116f3281c04358f86de0f2d389"
+      "sha256": "c3f83a9988eaa1f2d5be16947c9c569428d65e264d6bd053ae3ff13ac36b300a"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/deep_valley.json",
@@ -374,7 +374,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/catalog.json",
-      "sha256": "b3f635852645cc81012e429fb523decec9fd9d59c1e2a03851d61b5db0f20e95"
+      "sha256": "cb1f948d78a27645345183d5ec26460b4a816656a39e9fb605f2ad57ed4bbc00"
     },
     {
       "path": "src/main/lang/zh_tw/catalog_abyss.json",
@@ -382,7 +382,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/catalog_boundless.json",
-      "sha256": "b808ca0e045bc7f9fabc4679cef99416add2e7000aacc5997e60b9920be318f3"
+      "sha256": "b007070630ba58d9a2c62d374d7550339e6867fb768eb4d5fcd73930275733c4"
     },
     {
       "path": "src/main/lang/zh_tw/catalog_far_reach.json",
@@ -398,7 +398,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/catalog_valley.json",
-      "sha256": "cc0541ba24b520c74a612f2307a5707f765a9b7bb6c16c32fc6bf633b5a711dc"
+      "sha256": "a2531c13f21784acfb74aacd0d93dce007d4204882bbf6b3248e08d124f0ac1f"
     },
     {
       "path": "src/main/lang/zh_tw/common.json",
@@ -418,7 +418,7 @@
     },
     {
       "path": "src/main/resources/META-INF/mods.toml",
-      "sha256": "f7889db4a8f758e9c75237a09cfaeb0d7ca397329bdc6ffea182ac3d1ba5e764"
+      "sha256": "0cd4faf7ae8111618fb728f384b482823d6b099a3c01aadf2b26bff2b323f392"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/blockstates/lantern_light.json",
@@ -1346,7 +1346,7 @@
     },
     {
       "path": "src/main/resources/mixins.the_long_travail.compat.json",
-      "sha256": "44d61ca580d01bc1998ee886faaa02e2980d2908513bd38b28fc53ced7585abb"
+      "sha256": "d2f7443f2250a1b3ff3ac618fedc403c184c1a744c629d34d0e880c3af1fdbf8"
     },
     {
       "path": "src/main/resources/mixins.the_long_travail.json",

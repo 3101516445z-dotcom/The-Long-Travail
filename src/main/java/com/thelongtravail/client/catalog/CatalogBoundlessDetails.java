@@ -3,7 +3,9 @@ package com.thelongtravail.client.catalog;
 import com.thelongtravail.boundless.BoundlessTooltips;
 import com.thelongtravail.config.BoundlessItemsConfig;
 import com.thelongtravail.network.TooltipConfigSync;
+
 import net.minecraft.network.chat.Component;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +13,8 @@ import java.util.List;
 // 数值从服务端同步的配置快照读取。
 public final class CatalogBoundlessDetails {
     private static Component line(String key, Object... args) {
-        return Component.translatable("gui.the_long_travail.catalog.boundless." + key, args);
+        return com.thelongtravail.client.TooltipTranslations.text(
+                "gui.the_long_travail.catalog.boundless." + key, args);
     }
 
     private static String n(String key, int multiplier) {

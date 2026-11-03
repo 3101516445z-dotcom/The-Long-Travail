@@ -5,9 +5,11 @@ import com.thelongtravail.config.FlourishingItemsConfig;
 import com.thelongtravail.flourishing.Flower;
 import com.thelongtravail.flourishing.FlowerDescriptions;
 import com.thelongtravail.network.TooltipConfigSync;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
+
 import java.util.*;
 
 // 拾遗专用分区，数值与花朵效果继续使用原有配置读取路径。
@@ -15,7 +17,7 @@ public final class CatalogFlourishingDetails {
     private static final String PREFIX = "gui.the_long_travail.catalog.floral.";
 
     private static Component line(String key, Object... args) {
-        return Component.translatable(PREFIX + key, args);
+        return com.thelongtravail.client.TooltipTranslations.text(PREFIX + key, args);
     }
 
     private static double value(String key) {
@@ -48,7 +50,7 @@ public final class CatalogFlourishingDetails {
 
     public static Component growthCard() {
         double seconds = value("growth.interval") / 20;
-        return Component.translatable(
+        return com.thelongtravail.client.TooltipTranslations.text(
                 "gui.the_long_travail.catalog.glossary.growth."
                         + (seconds == 1 ? "every_second" : "body"),
                 FlowerDescriptions.number(seconds));
@@ -77,7 +79,7 @@ public final class CatalogFlourishingDetails {
                     var disabled =
                             FlourishingItemsConfig.shownEnabled(flower)
                                     ? Component.empty()
-                                    : Component.translatable(
+                                    : com.thelongtravail.client.TooltipTranslations.text(
                                             "tooltip.the_long_travail.flower.catalog_disabled");
                     out.add(
                             line(

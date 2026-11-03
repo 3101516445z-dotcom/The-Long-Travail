@@ -1,12 +1,15 @@
 package com.thelongtravail.item;
 
-import com.thelongtravail.config.RainConfig;
 import com.thelongtravail.abyss.RainTooltips;
+import com.thelongtravail.config.RainConfig;
+
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.network.chat.Component;
-import top.theillusivec4.curios.api.type.capability.ICurioItem;
+
 import top.theillusivec4.curios.api.SlotContext;
+import top.theillusivec4.curios.api.type.capability.ICurioItem;
+
 import java.util.List;
 
 public final class TokaidoItem extends Item implements ICurioItem, ItemDescription {
@@ -43,7 +46,7 @@ public final class TokaidoItem extends Item implements ICurioItem, ItemDescripti
     @Override
     public void appendHoverText(
             ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
-        ItemDescription.summary(lines);
+        ItemDescription.summary(stack, lines);
     }
 
     @Override

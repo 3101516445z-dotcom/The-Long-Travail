@@ -3,6 +3,7 @@ package com.thelongtravail.item;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.journey.PlayerJourneyData;
 import com.thelongtravail.network.TravailNetwork;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -12,7 +13,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+
 import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 public final class RevelationStoneItem extends Item {
@@ -54,6 +57,6 @@ public final class RevelationStoneItem extends Item {
     @Override
     public void appendHoverText(
             ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        ItemDescription.summary(tooltip);
+        ItemDescription.summary(stack, tooltip);
     }
 }

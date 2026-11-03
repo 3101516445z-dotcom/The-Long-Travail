@@ -53,7 +53,7 @@ public final class KagotsurubeItem extends Item implements ICurioItem, ItemDescr
     @Override
     public void appendHoverText(
             ItemStack stack, Level level, List<Component> out, TooltipFlag flag) {
-        ItemDescription.summary(out);
+        ItemDescription.summary(stack, out);
     }
 
     @Override

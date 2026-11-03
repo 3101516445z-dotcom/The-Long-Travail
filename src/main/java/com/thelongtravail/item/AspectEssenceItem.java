@@ -1,17 +1,19 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.abyss.RainTooltips;
-import com.thelongtravail.journey.JourneyService;
 import com.thelongtravail.helper.ActionMessages;
+import com.thelongtravail.journey.JourneyService;
 import com.thelongtravail.network.*;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+
 import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 public final class AspectEssenceItem extends Item {
@@ -30,7 +32,7 @@ public final class AspectEssenceItem extends Item {
     @Override
     public void appendHoverText(
             ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        ItemDescription.summary(tooltip);
+        ItemDescription.summary(stack, tooltip);
     }
 
     @Override

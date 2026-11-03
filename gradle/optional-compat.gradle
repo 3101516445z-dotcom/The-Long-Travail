@@ -26,3 +26,20 @@ if (maidApiOverride.isPresent()) {
     ext.maidApiDependency = 'local:touhoulittlemaid:1.5.3-forge+mc1.20.1'
 }
 dependencies { compileOnly fg.deobf(project.ext.maidApiDependency) }
+
+// 可选 API 只用于编译，不打入发布包，也不自动装入开发服务端。
+// 使用 tools/structure-regression/prepare-direct-compat.py 准备固定版本的 API。
+def directApiDirectory = file(providers.gradleProperty('compatApiDirectory').getOrElse('build/direct-compat-api'))
+def directApiNames = ['attributeslib', 'ftbteams', 'ftbultimine', 'architectury', 'ftblibrary',
+                      'gravestone', 'maidspell', 'refinedstorage', 'sophisticatedbackpacks',
+                      'sophisticatedcore', 'rs_integration', 'appliedenergistics2', 'beyonddimensions']
+def missingDirectApis = directApiNames.findAll { !new File(directApiDirectory, "${it}-local.jar").isFile() }
+if (!missingDirectApis.isEmpty()) {
+    throw new GradleException("Missing compile-only APIs: ${missingDirectApis.join(', ')}. Run tools/structure-regression/prepare-direct-compat.py; see tools/structure-regression/direct-compat/README.md")
+}
+repositories { flatDir { dirs directApiDirectory } }
+dependencies {
+    directApiNames.each { name ->
+        compileOnly fg.deobf("travail.optional:${name}:local")
+    }
+}

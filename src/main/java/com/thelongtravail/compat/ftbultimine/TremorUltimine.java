@@ -5,11 +5,13 @@ import com.thelongtravail.TravailAspect;
 import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.valley.PlayerBlockBreaker;
 import com.thelongtravail.valley.TremorFeedback;
+
 import net.minecraft.core.*;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.fml.ModList;
+
 import java.util.*;
 
 // 可选联动桥接：未安装 FTB 时不链接其类型。
@@ -23,9 +25,7 @@ public final class TremorUltimine {
 
     public static Object pass() {
         try {
-            return Class.forName("dev.architectury.event.EventResult")
-                    .getMethod("pass")
-                    .invoke(null);
+            return com.thelongtravail.compat.DirectCalls.call(Direct::pass);
         } catch (ReflectiveOperationException e) {
             if (e.getCause() instanceof Error error) throw error;
             throw new IllegalStateException("Architectury EventResult contract changed", e);
@@ -38,15 +38,11 @@ public final class TremorUltimine {
         DISPATCH.set(true);
         HANDLED.set(false);
         try {
-            Class<?> type = Class.forName("dev.ftb.mods.ftbultimine.FTBUltimine");
-            Object instance = type.getField("instance").get(null);
-            type.getMethod(
-                            "blockRightClick",
-                            Player.class,
-                            InteractionHand.class,
-                            BlockPos.class,
-                            Direction.class)
-                    .invoke(instance, player, hand, pos, face);
+            com.thelongtravail.compat.DirectCalls.call(
+                    () -> {
+                        Direct.click(player, hand, pos, face);
+                        return null;
+                    });
             return HANDLED.get();
         } catch (ReflectiveOperationException e) {
             if (e.getCause() instanceof Error error) throw error;
@@ -66,7 +62,7 @@ public final class TremorUltimine {
         var held = player.getMainHandItem();
         var mode = TravailStateApi.state(player, TravailAspect.DEEP_VALLEY);
         try {
-            Object raw = data.getClass().getMethod("cachedPositions").invoke(data);
+            Object raw = com.thelongtravail.compat.DirectCalls.call(() -> Direct.positions(data));
             if (!(raw instanceof Collection<?> positions)) return 0;
             Set<BlockPos> snapshot = new LinkedHashSet<>();
             for (Object entry : positions) {
@@ -92,6 +88,20 @@ public final class TremorUltimine {
                     "Unable to read FTB selection for High Frequency Tremor", e);
             TremorFeedback.FAILURE.send(player);
             return 0;
+        }
+    }
+
+    private static final class Direct {
+        static Object pass() {
+            return dev.architectury.event.EventResult.pass();
+        }
+
+        static void click(Player player, InteractionHand hand, BlockPos pos, Direction face) {
+            dev.ftb.mods.ftbultimine.FTBUltimine.instance.blockRightClick(player, hand, pos, face);
+        }
+
+        static Object positions(Object data) {
+            return ((dev.ftb.mods.ftbultimine.FTBUltiminePlayerData) data).cachedPositions();
         }
     }
 

@@ -25,7 +25,12 @@ public final class FluidStorageAdapters {
                                     public void transform(
                                             Context context, CompoundTag data, int depth)
                                             throws Exception {
-                                        FluidBeyondStore.transform(context, data, depth);
+                                        com.thelongtravail.compat.DirectCalls.storage(
+                                                () -> {
+                                                    FluidBeyondStore.transform(
+                                                            context, data, depth);
+                                                    return null;
+                                                });
                                     }
                                 }),
                         new Entry(
@@ -37,7 +42,11 @@ public final class FluidStorageAdapters {
                                     public void transform(
                                             Context context, CompoundTag data, int depth)
                                             throws Exception {
-                                        FluidAeStore.transform(context, data, depth);
+                                        com.thelongtravail.compat.DirectCalls.storage(
+                                                () -> {
+                                                    FluidAeStore.transform(context, data, depth);
+                                                    return null;
+                                                });
                                     }
                                 }),
                         new Entry(
@@ -57,7 +66,11 @@ public final class FluidStorageAdapters {
 
                                     public Write prepare(Context context, Pending pending)
                                             throws Exception {
-                                        return FluidBackpackStore.prepare(context, pending);
+                                        return guarded(
+                                                com.thelongtravail.compat.DirectCalls.storage(
+                                                        () ->
+                                                                FluidBackpackStore.prepare(
+                                                                        context, pending)));
                                     }
                                 }),
                         new Entry(
@@ -81,9 +94,16 @@ public final class FluidStorageAdapters {
 
                                     public Write prepare(Context context, Pending pending)
                                             throws Exception {
-                                        return pending.source().variant().equals("unified")
-                                                ? FluidUnifiedStore.prepare(context, pending)
-                                                : FluidRsStore.prepare(context, pending);
+                                        return guarded(
+                                                com.thelongtravail.compat.DirectCalls.storage(
+                                                        () ->
+                                                                pending.source()
+                                                                                .variant()
+                                                                                .equals("unified")
+                                                                        ? FluidUnifiedStore.prepare(
+                                                                                context, pending)
+                                                                        : FluidRsStore.prepare(
+                                                                                context, pending)));
                                     }
                                 })));
     }
@@ -102,9 +122,7 @@ public final class FluidStorageAdapters {
         var id = ResourceLocation.tryParse(data.getString("id"));
         Object item = id == null ? null : ForgeRegistries.ITEMS.getValue(id);
         try {
-            return FluidReflection.type(
-                            "com.refinedmods.refinedstorage.api.storage.disk.IStorageDiskProvider")
-                    .isInstance(item);
+            return com.thelongtravail.compat.DirectCalls.call(() -> FluidRsStore.identifies(item));
         } catch (ReflectiveOperationException failure) {
             throw new IllegalStateException("RS disk API unavailable", failure);
         }
@@ -123,13 +141,30 @@ public final class FluidStorageAdapters {
         var item = id == null ? null : ForgeRegistries.ITEMS.getValue(id);
         if (item == null) return false;
         try {
-            return FluidReflection.type("appeng.api.storage.cells.ICellWorkbenchItem")
-                            .isInstance(item)
-                    || FluidReflection.type("appeng.api.implementations.items.ISpatialStorageCell")
-                            .isInstance(item);
+            return com.thelongtravail.compat.DirectCalls.call(() -> FluidAeStore.identifies(item));
         } catch (ReflectiveOperationException failure) {
             throw new IllegalStateException("AE2 cell API unavailable", failure);
         }
+    }
+
+    private static Write guarded(Write write) {
+        return new Write() {
+            public void commit() throws Exception {
+                com.thelongtravail.compat.DirectCalls.storage(
+                        () -> {
+                            write.commit();
+                            return null;
+                        });
+            }
+
+            public void rollback() throws Exception {
+                com.thelongtravail.compat.DirectCalls.storage(
+                        () -> {
+                            write.rollback();
+                            return null;
+                        });
+            }
+        };
     }
 
     private FluidStorageAdapters() {}

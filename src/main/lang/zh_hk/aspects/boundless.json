@@ -65,7 +65,7 @@
   "tooltip.the_long_travail.lorentz.interval": "對§a同一目標§r的§6判定冷卻§r為§a%s秒§r。",
   "tooltip.the_long_travail.little_prince.height": "%s格",
   "item.the_long_travail.ancient_strange_tales": "古今語怪",
-  "tooltip.the_long_travail.summary.ancient_strange_tales.0": "與目標物品§6無序合成§r以轉移附魔：\n- 加入§a下界石英§r，將物品附魔§6提取§r至本書；\n- 加入§a青金石§r，將本書附魔§6注入§r物品。",
+  "tooltip.the_long_travail.summary.ancient_strange_tales.0": "與目標物品§6無序合成§r以轉移附魔：\n- 加入§a下界石英§r，將物品附魔§6提取§r至本書\n- 加入§a青金石§r，將本書附魔§6注入§r物品",
   "tooltip.the_long_travail.ancient_strange_tales.details.0": "將「古今語怪」與一件物品、1個下界石英無序合成，可將物品上的附魔轉移至本書。",
   "tooltip.the_long_travail.ancient_strange_tales.details.1": "將下界石英替換為1個青金石，則將本書上的附魔轉移至目標物品。",
   "tooltip.the_long_travail.ancient_strange_tales.details.2": "目標沒有同種附魔時，按原等級轉移。\n目標已有同種附魔時，取雙方較高等級並提高1級，上限為255級。",
@@ -73,7 +73,7 @@
   "tooltip.the_long_travail.ancient_strange_tales.details.4": "額外材料對本次合成中的所有附魔共同生效，不按附魔數量重複消耗。\n若缺少某項附魔所需的額外材料，該附魔不進行轉移，保留在來源物品上，其他符合條件的附魔仍可正常轉移。",
   "tooltip.the_long_travail.ancient_strange_tales.details.5": "合成時可額外加入一種篩選材料：\n- 加入1個蜂蜜瓶，僅轉移非詛咒附魔；\n- 加入1個發酵蜘蛛眼，僅轉移詛咒附魔。",
   "tooltip.the_long_travail.ancient_strange_tales.details.6": "轉移限制：\n- 目標的同種附魔已達255級時，不再轉移該附魔；\n- 僅能轉移目標物品能夠接受、且與其已有附魔不衝突的附魔，其餘附魔留在來源物品上；\n- 古今語怪支持收錄任何類型的附魔，但兩本古今語怪不能互相轉移附魔。",
-  "tooltip.the_long_travail.summary.ancient_strange_tales.1": "\n轉移同種附魔可§6提升等級§r，部分情況需額外材料。\n額外加入§a蜂蜜瓶§r，僅轉移§6非詛咒附魔§r。\n額外加入§a發酵蜘蛛眼§r，僅轉移§6詛咒附魔§r。",
+  "tooltip.the_long_travail.summary.ancient_strange_tales.1": "轉移同種附魔可§6提升等級§r，部分情況需額外材料\n透過新增參與合成的材料還可§6篩選附魔§r：\n- 額外加入§a蜂蜜瓶§r，合成僅轉移§6非詛咒附魔§r\n- 額外加入§a發酵蜘蛛眼§r，合成僅轉移§6詛咒附魔§r",
   "tooltip.the_long_travail.flavor.ancient_strange_tales": "實博物之權輿，異苑之嚆矢。",
   "message.the_long_travail.transfer.enchantment_failed": "附魔「%s」在轉移檢查時發生異常，已取消本次操作，材料未消耗",
   "message.the_long_travail.transfer.failed": "本次附魔轉移發生異常，已取消本次操作，材料未消耗"

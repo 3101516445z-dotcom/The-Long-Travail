@@ -1,10 +1,12 @@
 package com.thelongtravail.compat.ftbteams;
 
 import com.thelongtravail.TheLongTravail;
-import java.util.*;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.fml.ModList;
+
+import java.util.*;
 
 @net.minecraftforge.fml.common.Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
 public final class FtbTeamsCompat {
@@ -30,65 +32,48 @@ public final class FtbTeamsCompat {
         Object members(Object team) throws ReflectiveOperationException;
     }
 
-    private static Access access = new ReflectiveAccess();
+    private static Access access = new DirectAccess();
     private static long nextWarning;
     private static boolean warned;
 
-    private static final class ReflectiveAccess implements Access {
-        private static final String PREFIX = "dev.ftb.mods.ftbteams.api.";
-
+    private static final class DirectAccess implements Access {
         public boolean installed() {
             return ModList.get().isLoaded("ftbteams");
         }
 
         public Object api() throws ReflectiveOperationException {
-            return Objects.requireNonNull(
-                    Class.forName(PREFIX + "FTBTeamsAPI").getMethod("api").invoke(null),
-                    "FTB Teams API is null");
-        }
-
-        private Object invoke(
-                String type, Object owner, String name, Class<?>[] parameters, Object... arguments)
-                throws ReflectiveOperationException {
-            Class<?> contract = Class.forName(PREFIX + type);
-            if (!contract.isInstance(owner))
-                throw new IllegalStateException("Invalid FTB Teams " + type);
-            return contract.getMethod(name, parameters).invoke(owner, arguments);
+            return com.thelongtravail.compat.DirectCalls.call(
+                    () -> dev.ftb.mods.ftbteams.api.FTBTeamsAPI.api());
         }
 
         public Object loaded(Object api) throws ReflectiveOperationException {
-            return invoke("FTBTeamsAPI$API", api, "isManagerLoaded", new Class<?>[0]);
+            return com.thelongtravail.compat.DirectCalls.call(
+                    () -> ((dev.ftb.mods.ftbteams.api.FTBTeamsAPI.API) api).isManagerLoaded());
         }
 
         public Object manager(Object api) throws ReflectiveOperationException {
-            Object result = invoke("FTBTeamsAPI$API", api, "getManager", new Class<?>[0]);
-            if (!Class.forName(PREFIX + "TeamManager").isInstance(result))
-                throw new IllegalStateException("Invalid FTB Teams manager");
-            return result;
+            return com.thelongtravail.compat.DirectCalls.call(
+                    () -> ((dev.ftb.mods.ftbteams.api.FTBTeamsAPI.API) api).getManager());
         }
 
         public Object same(Object manager, UUID a, UUID b) throws ReflectiveOperationException {
-            return invoke(
-                    "TeamManager",
-                    manager,
-                    "arePlayersInSameTeam",
-                    new Class<?>[] {UUID.class, UUID.class},
-                    a,
-                    b);
+            return com.thelongtravail.compat.DirectCalls.call(
+                    () ->
+                            ((dev.ftb.mods.ftbteams.api.TeamManager) manager)
+                                    .arePlayersInSameTeam(a, b));
         }
 
         public Object team(Object manager, ServerPlayer player)
                 throws ReflectiveOperationException {
-            return invoke(
-                    "TeamManager",
-                    manager,
-                    "getTeamForPlayer",
-                    new Class<?>[] {ServerPlayer.class},
-                    player);
+            return com.thelongtravail.compat.DirectCalls.call(
+                    () ->
+                            ((dev.ftb.mods.ftbteams.api.TeamManager) manager)
+                                    .getTeamForPlayer(player));
         }
 
         public Object members(Object team) throws ReflectiveOperationException {
-            return invoke("Team", team, "getMembers", new Class<?>[0]);
+            return com.thelongtravail.compat.DirectCalls.call(
+                    () -> ((dev.ftb.mods.ftbteams.api.Team) team).getMembers());
         }
     }
 
@@ -111,7 +96,8 @@ public final class FtbTeamsCompat {
             warned = true;
             nextWarning = now + 60_000_000_000L;
             TheLongTravail.LOGGER.warn(
-                    "FTB Teams query unavailable; player targets are excluded and time stop is cancelled",
+                    "FTB Teams query unavailable; player targets are excluded and time stop is"
+                            + " cancelled",
                     failure);
         }
     }

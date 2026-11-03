@@ -34,7 +34,7 @@ public final class UndergroundVelvetItem extends Item implements ItemDescription
 
     @Override
     public void appendHoverText(ItemStack s, Level l, List<Component> out, TooltipFlag f) {
-        ItemDescription.summary(out);
+        ItemDescription.summary(s, out);
     }
 
     @Override

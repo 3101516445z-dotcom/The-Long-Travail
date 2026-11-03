@@ -8,10 +8,10 @@ final class CatalogHighlightRules {
     static final Pattern VALUES =
             Pattern.compile(
                     "[+-]?\\d+(?:\\.\\d+)?(?:[%％]|(?:\\s*|-)(?:seconds?|minutes?|blocks?|levels?(?:\\(s\\))?|points?|times?)(?!\\w)|秒|分钟|格|级|点|倍|朵|条|张|颗|本|个|份|件|种|種)?"
-                            + "|[一二两三四五六七八九十]+(?:朵|条|张|级|格|秒|分钟|件|份|个)|[0-9一二三四五六七八九十]+[种種]|\\bnine(?="
-                            + " special text styles\\b)|\\bone(?= Perfect"
-                            + " Fluid\\b)|\\b(?:one|two|three|four|five|six)"
-                            + " (?:flowers?|records?|levels?|blocks?|seconds?|items?|copies|copy)\\b",
+                        + "|[一二两三四五六七八九十]+(?:朵|条|张|级|格|秒|分钟|件|份|个)|[0-9一二三四五六七八九十]+[种種]|\\bnine(?="
+                        + " special text styles\\b)|\\bone(?= Perfect"
+                        + " Fluid\\b)|\\b(?:one|two|three|four|five|six)"
+                        + " (?:flowers?|records?|levels?|blocks?|seconds?|items?|copies|copy)\\b",
                     Pattern.CASE_INSENSITIVE);
     static final Pattern KEYS = Pattern.compile("(?<=\\[)[^\\[\\]\\r\\n]+(?=\\])");
     static final Pattern STACK_SCOPE =
@@ -52,7 +52,8 @@ final class CatalogHighlightRules {
                     "additional accessory slots");
     static final Pattern UTILITY_VALUES =
             Pattern.compile(
-                    "一枚|六个|六個|六主題|右键|右鍵|右按|\\bright-click\\b|\\bone(?= (?:essence|stone)\\b)|\\bsix(?= themes\\b)",
+                    "一枚|六个|六個|六主題|右键|右鍵|右按|\\bright-click\\b|\\bone(?="
+                        + " (?:essence|stone)\\b)|\\bsix(?= themes\\b)",
                     Pattern.CASE_INSENSITIVE);
     static final List<String> TERMS =
             List.of(
@@ -86,6 +87,9 @@ final class CatalogHighlightRules {
                     "creative flight",
                     "void damage",
                     "headshot",
+                    "他者伤害",
+                    "他者傷害",
+                    "damage from others",
                     "见切",
                     "必杀",
                     "霸主",

@@ -1,13 +1,12 @@
 package com.thelongtravail.compat.maidspell;
 
-import java.lang.reflect.Method;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.fml.ModList;
 
 public final class MaidSpellHealth {
     private static boolean inspected;
-    private static Method guardedWrite;
+    private static boolean guardedWrite;
     private static EntityDataAccessor<Float> health;
 
     @SuppressWarnings("unchecked")
@@ -16,15 +15,8 @@ public final class MaidSpellHealth {
         inspected = true;
         if (!ModList.get().isLoaded("touhou_little_maid_spell")) return;
         try {
-            health =
-                    (EntityDataAccessor<Float>)
-                            Class.forName(
-                                            "com.github.yimeng261.maidspell.mixin.accessor.LivingEntityHealthAccessor")
-                                    .getMethod("maidspell$getHealthAccessor")
-                                    .invoke(null);
-            guardedWrite =
-                    Class.forName("com.github.yimeng261.maidspell.utils.MaidHealthWriteGuard")
-                            .getMethod("runBypassing", Runnable.class);
+            health = com.thelongtravail.compat.DirectCalls.call(Direct::health);
+            guardedWrite = true;
         } catch (ReflectiveOperationException failure) {
             org.slf4j.LoggerFactory.getLogger("the_long_travail.compat")
                     .warn(
@@ -37,10 +29,13 @@ public final class MaidSpellHealth {
         float maximum = maid.getMaxHealth();
         if (!Float.isFinite(maximum) || maximum <= 0 || maid.getHealth() <= maximum) return;
         inspect();
-        if (guardedWrite != null) {
+        if (guardedWrite) {
             try {
-                guardedWrite.invoke(
-                        null, (Runnable) () -> maid.getEntityData().set(health, maximum));
+                com.thelongtravail.compat.DirectCalls.call(
+                        () -> {
+                            Direct.write(() -> maid.getEntityData().set(health, maximum));
+                            return null;
+                        });
                 return;
             } catch (ReflectiveOperationException failure) {
                 throw new IllegalStateException(
@@ -48,6 +43,20 @@ public final class MaidSpellHealth {
             }
         }
         maid.setHealth(maximum);
+    }
+
+    private static final class Direct {
+        private static final java.util.function.Consumer<Runnable> WRITE =
+                com.github.yimeng261.maidspell.utils.MaidHealthWriteGuard::runBypassing;
+
+        static EntityDataAccessor<Float> health() {
+            return com.github.yimeng261.maidspell.mixin.accessor.LivingEntityHealthAccessor
+                    .maidspell$getHealthAccessor();
+        }
+
+        static void write(Runnable action) {
+            WRITE.accept(action);
+        }
     }
 
     private MaidSpellHealth() {}

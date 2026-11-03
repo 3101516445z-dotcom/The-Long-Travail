@@ -3,15 +3,17 @@ package com.thelongtravail.item;
 import com.thelongtravail.AspectTheme;
 import com.thelongtravail.config.FlourishingItemsConfig;
 import com.thelongtravail.flourishing.*;
+
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.network.chat.Component;
 
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
+
 import java.util.*;
 
 public final class FlourishingAccessoryItem extends Item implements ICurioItem, ItemDescription {
@@ -98,7 +100,7 @@ public final class FlourishingAccessoryItem extends Item implements ICurioItem, 
     @Override
     public void appendHoverText(
             ItemStack stack, Level level, List<Component> lines, TooltipFlag flag) {
-        ItemDescription.summary(lines);
+        ItemDescription.summary(stack, lines);
     }
 
     @Override

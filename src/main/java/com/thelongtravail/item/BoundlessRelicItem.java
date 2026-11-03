@@ -1,11 +1,10 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
-import com.thelongtravail.boundless.*;
 import com.thelongtravail.api.CarryingApi;
+import com.thelongtravail.boundless.*;
 import com.thelongtravail.equipment.DependentAccessories;
-import com.thelongtravail.network.TooltipConfigSync;
-import com.thelongtravail.config.BoundlessItemsConfig;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
@@ -13,8 +12,10 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
+
 import java.util.*;
 
 public final class BoundlessRelicItem extends Item implements ItemDescription, ICurioItem {
@@ -70,7 +71,7 @@ public final class BoundlessRelicItem extends Item implements ItemDescription, I
 
     @Override
     public void appendHoverText(ItemStack s, Level l, List<Component> out, TooltipFlag f) {
-        ItemDescription.summary(out);
+        ItemDescription.summary(s, out);
     }
 
     @Override

@@ -1,15 +1,18 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
-import com.thelongtravail.equipment.DependentAccessories;
-import com.thelongtravail.valley.SwordLanternConfig;
-import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.abyss.RainTooltips;
+import com.thelongtravail.equipment.DependentAccessories;
+import com.thelongtravail.network.TooltipConfigSync;
+import com.thelongtravail.valley.SwordLanternConfig;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
+
 import java.util.List;
 
 public final class SwordLanternItem extends Item implements ICurioItem, ItemDescription {
@@ -78,7 +81,7 @@ public final class SwordLanternItem extends Item implements ICurioItem, ItemDesc
 
     @Override
     public void appendHoverText(ItemStack s, Level l, List<Component> out, TooltipFlag f) {
-        ItemDescription.summary(out);
+        ItemDescription.summary(s, out);
     }
 
     @Override

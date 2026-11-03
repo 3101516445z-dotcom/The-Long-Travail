@@ -99,7 +99,7 @@ public final class FarReachAccessoryItem extends Item implements ICurioItem {
     @Override
     public void appendHoverText(
             ItemStack stack, Level level, List<Component> out, TooltipFlag flag) {
-        ItemDescription.summary(out);
+        ItemDescription.summary(stack, out);
     }
 
     public void appendDetails(

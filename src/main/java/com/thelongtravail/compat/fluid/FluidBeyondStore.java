@@ -1,8 +1,9 @@
 package com.thelongtravail.compat.fluid;
 
-import static com.thelongtravail.compat.fluid.FluidReflection.*;
-
 import com.thelongtravail.abyss.copy.CopyStorage;
+import com.wintercogs.beyonddimensions.api.storage.key.IStackKey;
+import com.wintercogs.beyonddimensions.api.storage.key.KeyAmount;
+import com.wintercogs.beyonddimensions.api.storage.key.impl.ItemStackKey;
 
 import net.minecraft.nbt.*;
 import net.minecraft.world.item.ItemStack;
@@ -39,17 +40,12 @@ final class FluidBeyondStore {
                 // 解码前先计入遍历预算，避免异常或过深的数据绕过限制。
                 graph.account(raw, depth + 3);
                 CompoundTag normalized = normalize(raw);
-                Object decoded =
-                        call(
-                                type(API + "KeyAmount"),
-                                "deserializeNBT",
-                                new Class<?>[] {CompoundTag.class},
-                                normalized.copy());
-                Object key = call(decoded, "key");
-                long amount = (long) call(decoded, "amount");
+                KeyAmount decoded = KeyAmount.deserializeNBT(normalized.copy());
+                IStackKey<?> key = decoded.key();
+                long amount = decoded.amount();
                 if (amount <= 0
                         || !IMPLEMENTATIONS.contains(key.getClass().getName())
-                        || (boolean) call(key, "isEmpty"))
+                        || key.isEmpty())
                     throw new IllegalStateException("Invalid or unsupported matter ball resource");
                 CompoundTag canonical = encode(key, amount);
                 // 上游解码可能将缺失 ID 转为空资源或丢弃字段，须核对往返结果。
@@ -57,15 +53,8 @@ final class FluidBeyondStore {
                     throw new IllegalStateException(
                             "Matter ball resource cannot roundtrip losslessly");
                 if (key.getClass().getName().equals(ITEM)) {
-                    ItemStack sample =
-                            (ItemStack)
-                                    call(
-                                            key,
-                                            "copyStackWithCount",
-                                            new Class<?>[] {long.class},
-                                            1L);
-                    Object reconstructed =
-                            type(ITEM).getConstructor(ItemStack.class).newInstance(sample);
+                    ItemStack sample = ((ItemStackKey) key).copyStackWithCount(1L);
+                    var reconstructed = new ItemStackKey(sample);
                     if (!encode(reconstructed, amount).equals(canonical))
                         throw new IllegalStateException(
                                 "Matter ball item sample lost resource data");
@@ -73,17 +62,11 @@ final class FluidBeyondStore {
                     graph.transform(serialized, depth + 6);
                     ItemStack output = ItemStack.of(serialized);
                     if (output.isEmpty()) continue; // 转换结果为空时移除对应存储条目。
-                    key = type(ITEM).getConstructor(ItemStack.class).newInstance(output);
+                    key = new ItemStackKey(output);
                 }
                 CompoundTag encoded = encode(key, amount);
-                Object verified =
-                        call(
-                                type(API + "KeyAmount"),
-                                "deserializeNBT",
-                                new Class<?>[] {CompoundTag.class},
-                                encoded.copy());
-                if ((long) call(verified, "amount") != amount
-                        || !encode(call(verified, "key"), amount).equals(encoded))
+                KeyAmount verified = KeyAmount.deserializeNBT(encoded.copy());
+                if (verified.amount() != amount || !encode(verified.key(), amount).equals(encoded))
                     throw new IllegalStateException("Matter ball output roundtrip failed");
                 // 保留条目顺序及各自的 long 数量，不跨资源求和限制总量。
                 result.add(encoded);
@@ -96,13 +79,8 @@ final class FluidBeyondStore {
             if (!key.equals("tag")) graph.transform(data.get(key), depth + 1);
     }
 
-    private static CompoundTag encode(Object key, long amount) throws Exception {
-        Class<?> keyAmount = type(API + "KeyAmount");
-        Object pair =
-                keyAmount
-                        .getConstructor(type(API + "IStackKey"), long.class)
-                        .newInstance(key, amount);
-        return (CompoundTag) call(keyAmount, "serializeNBT", new Class<?>[] {keyAmount}, pair);
+    private static CompoundTag encode(IStackKey<?> key, long amount) {
+        return KeyAmount.serializeNBT(new KeyAmount(key, amount));
     }
 
     private static CompoundTag normalize(CompoundTag raw) {

@@ -2,14 +2,17 @@ package com.thelongtravail.client.catalog;
 
 import com.thelongtravail.config.*;
 import com.thelongtravail.network.TooltipConfigSync;
+
 import net.minecraft.network.chat.Component;
+
 import java.math.BigDecimal;
 import java.util.*;
 
 // 穷遐拾遗正文复用服务端同步参数。
 public final class CatalogFarReachDetails {
     private static Component line(String key, Object... args) {
-        return Component.translatable("gui.the_long_travail.catalog.far." + key, args);
+        return com.thelongtravail.client.TooltipTranslations.text(
+                "gui.the_long_travail.catalog.far." + key, args);
     }
 
     private static void section(List<Component> out, String key) {

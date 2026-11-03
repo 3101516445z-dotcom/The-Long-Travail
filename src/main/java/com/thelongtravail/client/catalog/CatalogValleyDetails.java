@@ -1,11 +1,13 @@
 package com.thelongtravail.client.catalog;
 
 import com.thelongtravail.config.*;
-import com.thelongtravail.valley.SwordLanternConfig;
 import com.thelongtravail.network.TooltipConfigSync;
+import com.thelongtravail.valley.SwordLanternConfig;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
@@ -13,7 +15,8 @@ import java.util.*;
 // 幽谷拾遗正文及补充卡片，复用服务端同步配置。
 public final class CatalogValleyDetails {
     private static Component line(String key, Object... args) {
-        return Component.translatable("gui.the_long_travail.catalog.valley." + key, args);
+        return com.thelongtravail.client.TooltipTranslations.text(
+                "gui.the_long_travail.catalog.valley." + key, args);
     }
 
     private static String number(double value) {
@@ -56,7 +59,7 @@ public final class CatalogValleyDetails {
 
     public static Component card(String id) {
         String key = id.equals("lantern_enemies") ? "memory" : "timeout";
-        return Component.translatable(
+        return com.thelongtravail.client.TooltipTranslations.text(
                 "gui.the_long_travail.catalog.glossary." + id + ".body", number(lantern(key)));
     }
 

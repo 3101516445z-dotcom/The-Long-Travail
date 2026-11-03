@@ -2,6 +2,7 @@ package com.thelongtravail.item;
 
 import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.registry.ModRegistry;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -12,8 +13,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+
 import org.jetbrains.annotations.Nullable;
+
 import top.theillusivec4.curios.api.CuriosApi;
+
 import java.util.List;
 
 public final class HomecomingItem extends Item {
@@ -32,7 +36,7 @@ public final class HomecomingItem extends Item {
     @Override
     public void appendHoverText(
             ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        ItemDescription.summary(tooltip);
+        ItemDescription.summary(stack, tooltip);
     }
 
     @Override

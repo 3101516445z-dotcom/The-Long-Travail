@@ -7,7 +7,9 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+
 import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 public final class RenewalItem extends Item {
@@ -26,7 +28,7 @@ public final class RenewalItem extends Item {
     @Override
     public void appendHoverText(
             ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        ItemDescription.summary(tooltip);
+        ItemDescription.summary(stack, tooltip);
     }
 
     @Override

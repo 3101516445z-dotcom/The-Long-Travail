@@ -1,0 +1,136 @@
+{
+  "appliedenergistics2": {
+    "sha256": "f2ff9ee5122b037d4e93537425ab9fbe49860fc9c3977db13b20a50ca7d30f9e",
+    "mods": [
+      {
+        "id": "ae2",
+        "version": "15.4.11"
+      }
+    ]
+  },
+  "architectury": {
+    "sha256": "218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af",
+    "mods": [
+      {
+        "id": "architectury",
+        "version": "9.2.14"
+      }
+    ]
+  },
+  "attributeslib": {
+    "sha256": "68487b11c0d4e2f67a85f2b04bf65e99ac15294f2923f4391f83e9542293187a",
+    "mods": [
+      {
+        "id": "attributeslib",
+        "version": "1.3.7"
+      }
+    ],
+    "implementationVersion": "1.3.7"
+  },
+  "beyonddimensions": {
+    "sha256": "8dd8bab2c35e4e63fa0cbe49fd1bd61a42395aefb2b632e2927e35ba188a7ce5",
+    "mods": [
+      {
+        "id": "beyonddimensions",
+        "version": "0.7.30"
+      }
+    ]
+  },
+  "ftblibrary": {
+    "sha256": "41810281b65336265cae2c88412022d02f2f0a3f28c66a06173d86f98acf14a7",
+    "mods": [
+      {
+        "id": "ftblibrary",
+        "version": "2001.2.13"
+      }
+    ],
+    "implementationVersion": "2001.2.13"
+  },
+  "ftbteams": {
+    "sha256": "b1cb4d82ea9f137a87e12a7aaf3329619294b56f7d70337dfd557a76e10b6e07",
+    "mods": [
+      {
+        "id": "ftbteams",
+        "version": "2001.3.2"
+      }
+    ],
+    "implementationVersion": "2001.3.2"
+  },
+  "ftbultimine": {
+    "sha256": "b80dde55b2c91fd27f09f15ed2aefb0756c7bd704316e488ae8a06b179e85730",
+    "mods": [
+      {
+        "id": "ftbultimine",
+        "version": "2001.1.8"
+      }
+    ]
+  },
+  "gravestone": {
+    "sha256": "af6de8692229f07d203e118241f31c1dc4d03f8e3b44cacd155d76b449896387",
+    "mods": [
+      {
+        "id": "gravestone",
+        "version": "1.20.1-1.0.35"
+      }
+    ],
+    "implementationVersion": "1.20.1-1.0.35"
+  },
+  "guideme": {
+    "sha256": "cf8052ab3da121012efc59a20e731c24bfe7488dfa556c9b88809f42dea3b24a",
+    "mods": [
+      {
+        "id": "guideme",
+        "version": "20.1.15"
+      }
+    ]
+  },
+  "maidspell": {
+    "sha256": "0483b17900950ac781141f42de8ecab950cb10adeef409b629af65cc837bf29b",
+    "mods": [
+      {
+        "id": "touhou_little_maid_spell",
+        "version": "1.9.2.1-forge+mc1.20.1"
+      }
+    ],
+    "implementationVersion": "1.9.2.1-forge+mc1.20.1"
+  },
+  "refinedstorage": {
+    "sha256": "d8ae3926c2121336efcd6956c43d91f21ce405b77ac7c7201c559d4c19f380d2",
+    "mods": [
+      {
+        "id": "refinedstorage",
+        "version": "1.12.4"
+      }
+    ]
+  },
+  "rs_integration": {
+    "sha256": "e3995ed29dffc71ef8bad944aec1962db214c3338303635556b37535a0c8b8b3",
+    "mods": [
+      {
+        "id": "rs_integration",
+        "version": "1.5.3"
+      }
+    ],
+    "implementationVersion": "1.5.3"
+  },
+  "sophisticatedbackpacks": {
+    "sha256": "4d4be2e6a9988ff08260de621c26d0b43f2e03e3aede00842c66dc136a5303bf",
+    "mods": [
+      {
+        "id": "sophisticatedbackpacks",
+        "version": "3.24.63.2057"
+      }
+    ],
+    "implementationVersion": "1.20.1-3.24.63.2057"
+  },
+  "sophisticatedcore": {
+    "sha256": "e6f9379aafcd0766b878242346a3a479bbe1fa5e5017b1d96c52858a6a049a8b",
+    "mods": [
+      {
+        "id": "sophisticatedcore",
+        "version": "1.3.78.2249"
+      }
+    ],
+    "implementationVersion": "1.20.1-1.3.78.2249"
+  }
+}

@@ -7,7 +7,7 @@
   "gui.the_long_travail.catalog.valley.last": "- %s。",
   "gui.the_long_travail.catalog.valley.separator": "、",
   "gui.the_long_travail.catalog.valley.none": "無",
-  "gui.the_long_travail.catalog.valley.azrael.0": "佩者受非自身之攻擊後，下次造成傷害，有%s%%之機處決目標。",
+  "gui.the_long_travail.catalog.valley.azrael.0": "佩者受他者傷害後，下次造成傷害，有%s%%之機處決目標。",
   "gui.the_long_travail.catalog.valley.azrael.1": "處決判定之次數與概率皆不可累積。",
   "gui.the_long_travail.catalog.valley.azrael.2": "佩者每次造成傷害，有%s%%之機處決目標，亦有%s%%之機處決自身。",
   "gui.the_long_travail.catalog.valley.azrael.3": "同次判定不會兼決雙方。",

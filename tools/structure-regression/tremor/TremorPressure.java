@@ -39,7 +39,7 @@ import top.theillusivec4.curios.common.inventory.CurioStacksHandler;
 import java.nio.file.*;
 import java.util.*;
 
-/** 按实际 tick 分批执行高次数效果检查，不作实体性能基准。 */
+// 按实际 tick 分批执行高次数效果检查，不作实体性能基准。
 public final class TremorPressure {
     private static TremorPressure current;
     private final MinecraftServer server;
@@ -444,15 +444,10 @@ public final class TremorPressure {
                                                 "the_long_travail:high_frequency_tremor"))
                                 .orElseThrow();
         var grid = grid();
-        var essence =
-                new ItemStack(
-                        ForgeRegistries.ITEMS.getValue(
-                                new net.minecraft.resources.ResourceLocation(
-                                        "the_long_travail:deep_valley_essence")));
-        grid.setItem(0, essence);
-        grid.setItem(8, essence.copy());
-        grid.setItem(2, new ItemStack(ModRegistry.AZRAEL.get()));
-        grid.setItem(6, new ItemStack(ModRegistry.IMMORTAL_BUD.get()));
+        grid.setItem(0, new ItemStack(Items.ECHO_SHARD));
+        grid.setItem(2, new ItemStack(Items.ECHO_SHARD));
+        grid.setItem(1, new ItemStack(ModRegistry.AZRAEL.get()));
+        grid.setItem(7, new ItemStack(ModRegistry.IMMORTAL_BUD.get()));
         var source = new ItemStack(Items.NETHERITE_PICKAXE);
         source.setDamageValue(index % 2031);
         source.enchant(
@@ -473,7 +468,7 @@ public final class TremorPressure {
                 "NBT inheritance except repaired damage");
         out.getTag().getCompound("probe").putInt("changed", 1);
         check(!source.getTag().getCompound("probe").contains("changed"), "deep NBT independence");
-        grid.setItem(1, new ItemStack(Items.DIRT));
+        grid.setItem(3, new ItemStack(Items.DIRT));
         check(!recipe.matches(grid, level), "invalid extra ingredient rejected");
         var p = actor(index % 32, false);
         p.getMainHandItem().removeTagKey("Enchantments");
@@ -1021,7 +1016,9 @@ public final class TremorPressure {
                         Set.of(caster.getUUID())),
                 "time stop fixture activated");
         try {
-            check(com.thelongtravail.boundless.timestop.TimeStopManager.frozen(p), "target really frozen");
+            check(
+                    com.thelongtravail.boundless.timestop.TimeStopManager.frozen(p),
+                    "target really frozen");
             check(
                     !PlayerBlockBreaker.breakBlock(p, origin, AspectState.WITNESS),
                     "frozen player denied");
@@ -1284,15 +1281,10 @@ public final class TremorPressure {
             var menu =
                     new CraftingMenu(
                             7, p.getInventory(), ContainerLevelAccess.create(level, origin));
-            var essence =
-                    new ItemStack(
-                            ForgeRegistries.ITEMS.getValue(
-                                    new net.minecraft.resources.ResourceLocation(
-                                            "the_long_travail:deep_valley_essence")));
-            menu.getSlot(1).set(essence);
-            menu.getSlot(9).set(essence.copy());
-            menu.getSlot(3).set(new ItemStack(ModRegistry.AZRAEL.get()));
-            menu.getSlot(7).set(new ItemStack(ModRegistry.IMMORTAL_BUD.get()));
+            menu.getSlot(1).set(new ItemStack(Items.ECHO_SHARD));
+            menu.getSlot(3).set(new ItemStack(Items.ECHO_SHARD));
+            menu.getSlot(2).set(new ItemStack(ModRegistry.AZRAEL.get()));
+            menu.getSlot(8).set(new ItemStack(ModRegistry.IMMORTAL_BUD.get()));
             var source = new ItemStack(Items.NETHERITE_PICKAXE);
             source.getOrCreateTag().putString("menuProbe", "round" + v);
             source.setDamageValue(100 + v);

@@ -3,12 +3,15 @@ package com.thelongtravail.item;
 import com.thelongtravail.AspectTheme;
 import com.thelongtravail.equipment.AccessoryEquipRules;
 import com.thelongtravail.underworld.UnderworldRelics;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
+
 import java.util.List;
 
 public final class UnderworldRelicItem extends Item implements ICurioItem {
@@ -55,6 +58,6 @@ public final class UnderworldRelicItem extends Item implements ICurioItem {
 
     @Override
     public void appendHoverText(ItemStack s, Level l, List<Component> out, TooltipFlag flag) {
-        ItemDescription.summary(out);
+        ItemDescription.summary(s, out);
     }
 }

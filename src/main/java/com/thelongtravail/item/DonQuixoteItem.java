@@ -39,7 +39,7 @@ public final class DonQuixoteItem extends Item implements ICurioItem, ItemDescri
 
     @Override
     public void appendHoverText(ItemStack s, Level l, List<Component> out, TooltipFlag f) {
-        ItemDescription.summary(out);
+        ItemDescription.summary(s, out);
     }
 
     @Override
