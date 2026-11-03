@@ -3,7 +3,7 @@ package com.thelongtravail.item;
 import com.thelongtravail.AspectTheme;
 import com.thelongtravail.abyss.RainTooltips;
 import com.thelongtravail.config.FarReachItemsConfig;
-import com.thelongtravail.helper.DependentAccessories;
+import com.thelongtravail.equipment.DependentAccessories;
 import com.thelongtravail.network.TooltipConfigSync;
 
 import net.minecraft.network.chat.Component;
@@ -132,11 +132,11 @@ public final class FarReachAccessoryItem extends Item implements ICurioItem {
         if (gold) {
             line(out, "golden_age.malice_heading");
             line(out, "golden_age.convert");
-            line(out, "golden_age.malice");
+            line(out, "golden_age.malice", n("golden_age.enchantmentChance", 100));
             out.add(Component.empty());
             line(out, "golden_age.witness_heading");
             line(out, "golden_age.convert");
-            line(out, "golden_age.witness");
+            line(out, "golden_age.witness", n("golden_age.foodChance", 100));
         } else {
             line(out, "icarus.malice_heading");
             line(out, "icarus.malice", n("icarus.malicePeak", 100));

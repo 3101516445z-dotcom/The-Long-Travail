@@ -2,7 +2,7 @@ package com.thelongtravail.network;
 
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.config.TravailConfig;
-import com.thelongtravail.data.WeightedEntry;
+import com.thelongtravail.common.weighted.WeightedEntry;
 
 import net.minecraft.resources.ResourceLocation;
 
@@ -73,7 +73,7 @@ public final class TooltipConfigSync {
                                 })
                         .getOrDefault(id, id.toString());
         // 缓存原始配置名，翻译在读取时进行，避免切换语言后残留旧文本。
-        return com.thelongtravail.data.RequirementNames.resolve(structures, id, configuredName);
+        return com.thelongtravail.journey.RequirementNames.resolve(structures, id, configuredName);
     }
 
     static Map<String, Double> serverValues() {

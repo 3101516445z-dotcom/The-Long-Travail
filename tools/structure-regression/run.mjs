@@ -60,7 +60,7 @@ child.on('close', (code, signal) => {
         try {
             report.result = fs.readFileSync(path.join(serverDir, resultNames[round]), 'utf8').trim();
             report.inputsUnchanged = JSON.stringify(inputs) === JSON.stringify(inputSnapshot());
-            for (const name of [resultNames[round], 'checks.txt', 'maid-compat-checks.txt', 'config-transitions.txt', 'addon-inputs.json', 'structures.properties']) {
+            for (const name of [resultNames[round], 'checks.txt', 'maid-compat-checks.txt', 'config-transitions.txt', 'config-definition-snapshot.txt', 'addon-inputs.json', 'structures.properties']) {
                 const file = path.join(serverDir, name);
                 if (fs.existsSync(file)) fs.copyFileSync(file, path.join(reportDir, name));
             }

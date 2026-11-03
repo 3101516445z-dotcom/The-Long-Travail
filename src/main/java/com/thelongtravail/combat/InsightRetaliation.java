@@ -54,8 +54,8 @@ public final class InsightRetaliation {
                 || defender.level().isClientSide) return;
         if (attacker instanceof net.minecraft.world.entity.player.Player player
                 && (defender instanceof net.minecraft.server.level.ServerPlayer
-                        || com.thelongtravail.compat.maid.MaidAccessories.isMaid(defender))
-                && !com.thelongtravail.compat.maid.MaidAccessories.canHarm(defender, player))
+                        || com.thelongtravail.integration.MaidIntegration.isMaid(defender))
+                && !com.thelongtravail.integration.MaidIntegration.canHarm(defender, player))
             return;
         CHAIN.set(true);
         try {

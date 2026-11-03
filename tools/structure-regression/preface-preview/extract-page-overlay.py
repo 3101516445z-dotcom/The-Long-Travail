@@ -8,7 +8,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--check', action='store_true', help='Verify without modifying the checked-in PNG')
 options = parser.parse_args()
 root = Path(__file__).resolve().parents[3]
-java = (root / 'src/main/java/com/thelongtravail/client/TravelDiaryScreen.java').read_text(encoding='utf8')
+java = (root / 'src/main/java/com/thelongtravail/client/diary/TravelDiaryScreen.java').read_text(encoding='utf8')
 def constant(name):
     return int(re.search(r'\b' + name + r'\s*=\s*(\d+)\s*;', java)[1])
 first, step, height, count, insertion = [constant('BOOKMARK_' + name) for name in

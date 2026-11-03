@@ -1,5 +1,11 @@
 package com.thelongtravail.boundless;
 
+import com.thelongtravail.boundless.timestop.TimeStopManager;
+import com.thelongtravail.boundless.timestop.FrozenBlockEvents;
+import com.thelongtravail.boundless.timestop.FrozenContainers;
+import com.thelongtravail.boundless.timestop.FrozenEntityClock;
+import com.thelongtravail.boundless.timestop.StarVoiceState;
+
 import com.thelongtravail.TheLongTravail;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.TickEvent;
@@ -54,7 +60,7 @@ public final class BoundlessEvents {
                 || entity instanceof net.minecraft.world.entity.player.Player
                 || TimeStopManager.fields(level).stream()
                         .anyMatch(f -> f.allies.contains(entity.getUUID())))
-            TimeStopManager.get(level).dirty = true;
+            TimeStopManager.get(level).markSyncDirty();
     }
 
     @SubscribeEvent

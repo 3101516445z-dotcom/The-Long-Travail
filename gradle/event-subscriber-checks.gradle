@@ -1,0 +1,23 @@
+sourceSets {
+    eventSubscriberCheck {
+        java {
+            srcDir 'tools/structure-regression'
+            include 'EventSubscriberNames.java'
+        }
+        compileClasspath += sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.compileClasspath
+    }
+}
+
+tasks.register('verifyEventSubscriberNames', JavaExec) {
+    group = 'verification'
+    description = 'Check Forge event subscriber wrapper names for collisions.'
+    dependsOn tasks.named('classes'), tasks.named('eventSubscriberCheckClasses')
+    classpath = sourceSets.eventSubscriberCheck.runtimeClasspath
+    mainClass = 'EventSubscriberNames'
+    args layout.buildDirectory.dir('classes/java/main').get().asFile.absolutePath
+}
+
+tasks.named('check').configure {
+    dependsOn tasks.named('verifyEventSubscriberNames')
+}

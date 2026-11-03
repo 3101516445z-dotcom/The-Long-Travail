@@ -279,7 +279,8 @@ AD（astral_dimension）、esoteric_spell、projectile_damage、gtbcs_geomancy_p
 
 [P07] 黄金时代联动黑名单
 
-淘金概率另由 items.golden_age.digGoldChance 控制，范围 0～1，默认 0.5。每次成功交互按该概率获得金粒，否则获得燧石，不改变金块入水转化概率。
+淘金概率另由 items.golden_age.digGoldChance 控制，范围 0～1，默认 0.75。每次成功交互按该概率获得金粒，否则获得燧石，不改变金块入水转化概率。
+金块转化概率分别由 items.golden_age.enchantmentChance（恶意状态的附魔书）和 items.golden_age.foodChance（见证状态的佳肴）控制，范围均为 0～1，默认均为 0.25；未命中时分别产出青金石块和蜂蜜块。拾遗详情显示同步后的配置概率。
 ------------------------------------------------
 通用记录规则与重试步骤见 [P01]。
 

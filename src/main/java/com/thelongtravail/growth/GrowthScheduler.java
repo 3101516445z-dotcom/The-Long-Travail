@@ -1,7 +1,7 @@
 package com.thelongtravail.growth;
 
 import com.thelongtravail.TheLongTravail;
-import com.thelongtravail.boundless.TimeStopManager;
+import com.thelongtravail.boundless.timestop.TimeStopManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;

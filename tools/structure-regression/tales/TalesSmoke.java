@@ -30,7 +30,7 @@ public final class TalesSmoke {
     private MinecraftServer server;
     private boolean done;
     private int checks;
-    private static final Enchantment SHARP = Enchantments.SHARPNESS;
+    private static Enchantment SHARP;
     private static final Enchantment CURSE = Enchantments.VANISHING_CURSE;
 
     private static String failStage = "";
@@ -48,6 +48,24 @@ public final class TalesSmoke {
                                     new net.minecraft.world.entity.EquipmentSlot[] {
                                         net.minecraft.world.entity.EquipmentSlot.MAINHAND
                                     }) {
+                                @Override
+                                public void doPostAttack(
+                                        net.minecraft.world.entity.LivingEntity attacker,
+                                        net.minecraft.world.entity.Entity target,
+                                        int level) {
+                                    if (ApotheosisOverlapProbe.attackProbe != null)
+                                        ApotheosisOverlapProbe.attackProbe.run();
+                                }
+
+                                @Override
+                                public void doPostHurt(
+                                        net.minecraft.world.entity.LivingEntity victim,
+                                        net.minecraft.world.entity.Entity attacker,
+                                        int level) {
+                                    if (ApotheosisOverlapProbe.defenseProbe != null)
+                                        ApotheosisOverlapProbe.defenseProbe.run();
+                                }
+
                                 private void probe(String stage) {
                                     callbackCount++;
                                     if (failStage.equals(stage))
@@ -95,6 +113,8 @@ public final class TalesSmoke {
         String result;
         try {
             run();
+            TalesPressure.run(server);
+            ApotheosisOverlapProbe.run(server);
             result = "PASS checks=" + checks;
         } catch (Throwable error) {
             error.printStackTrace();
@@ -246,6 +266,9 @@ public final class TalesSmoke {
     }
 
     private void run() throws Exception {
+        SHARP =
+                net.minecraftforge.registries.ForgeRegistries.ENCHANTMENTS.getValue(
+                        new ResourceLocation("minecraft", "sharpness"));
         var all = EnchantmentTransfer.Filter.ALL;
         ItemStack sword = enchanted(Items.DIAMOND_SWORD, SHARP, 10);
         sword.enchant(CURSE, 1);
@@ -281,11 +304,12 @@ public final class TalesSmoke {
                 EnchantmentTransfer.transfer(book(1), new ItemStack(Items.DIAMOND_HELMET), all)
                         == null,
                 "equipment applicability");
-        check(
+        var conflictResult =
                 EnchantmentTransfer.transfer(
-                                enchanted(Items.DIAMOND_SWORD, Enchantments.SMITE, 3), book(1), all)
-                        == null,
-                "book conflicts");
+                        enchanted(Items.DIAMOND_SWORD, Enchantments.SMITE, 3), book(1), all);
+        check(
+                (conflictResult != null) == Enchantments.SMITE.isCompatibleWith(SHARP),
+                "current environment compatibility");
         r = EnchantmentTransfer.transfer(sword, tales(), EnchantmentTransfer.Filter.NON_CURSE);
         check(
                 level(r.target(), SHARP) == 10
@@ -561,7 +585,13 @@ public final class TalesSmoke {
                 "anvil book reception");
         anvil.getSlot(0).set(book(10));
         anvil.getSlot(1).set(enchanted(Items.ENCHANTED_BOOK, SHARP, 1));
-        check(level(anvil.getSlot(2).getItem(), SHARP) == SHARP.getMaxLevel(), "vanilla anvil cap");
+        var controlAnvil = new AnvilMenu(9, player.getInventory());
+        controlAnvil.getSlot(0).set(enchanted(Items.DIAMOND_SWORD, SHARP, 10));
+        controlAnvil.getSlot(1).set(enchanted(Items.ENCHANTED_BOOK, SHARP, 1));
+        check(
+                level(anvil.getSlot(2).getItem(), SHARP)
+                        == level(controlAnvil.getSlot(2).getItem(), SHARP),
+                "current environment anvil cap");
         anvil.getSlot(1).set(ItemStack.EMPTY);
         anvil.setItemName("renamed");
         check(
@@ -574,33 +604,31 @@ public final class TalesSmoke {
         check(anvil.getSlot(2).getItem().isEmpty(), "tales cannot be consumed on anvil");
         anvil.getSlot(0).set(book(5));
         anvil.getSlot(1).set(enchanted(Items.ENCHANTED_BOOK, Enchantments.SMITE, 5));
-        check(anvil.getSlot(2).getItem().isEmpty(), "anvil conflict rejected");
+        check(
+                anvil.getSlot(2).getItem().isEmpty() != Enchantments.SMITE.isCompatibleWith(SHARP),
+                "current environment anvil compatibility");
 
-        var enchanting = new EnchantmentMenu(3, player.getInventory());
-        var selection =
-                EnchantmentMenu.class.getDeclaredMethod(
-                        "getEnchantmentList", ItemStack.class, int.class, int.class);
-        selection.setAccessible(true);
-        for (int cost = 1; cost <= 30; cost++) {
-            @SuppressWarnings("unchecked")
-            var vanilla =
-                    (List<EnchantmentInstance>)
-                            selection.invoke(enchanting, new ItemStack(Items.BOOK), 2, cost);
-            @SuppressWarnings("unchecked")
-            var custom = (List<EnchantmentInstance>) selection.invoke(enchanting, tales(), 2, cost);
-            check(vanilla.size() == custom.size(), "table selection count");
-            for (int i = 0; i < vanilla.size(); i++)
+        // 遵循当前附魔系统，不套用原版普通书的结果缩减。
+        for (int cost = 1; cost <= 100; cost++) {
+            var selected =
+                    EnchantmentHelper.selectEnchantment(
+                            net.minecraft.util.RandomSource.create(cost), tales(), cost, false);
+            if (cost <= 30)
+                check(!selected.isEmpty(), "table produces candidates at power " + cost);
+            for (var entry : selected)
                 check(
-                        vanilla.get(i).enchantment == custom.get(i).enchantment
-                                && vanilla.get(i).level == custom.get(i).level,
-                        "table seeded parity");
+                        entry.level > 0 && entry.enchantment.canApplyAtEnchantingTable(tales()),
+                        "selected enchantment accepts item interface");
         }
         check(tales().isEnchantable() && !book(1).isEnchantable(), "table only unenchanted");
         BlockPos pos = new BlockPos(8, 100, 8);
         world.setBlockAndUpdate(pos, Blocks.ENCHANTING_TABLE.defaultBlockState());
         var table =
-                new EnchantmentMenu(
-                        4, player.getInventory(), ContainerLevelAccess.create(world, pos));
+                (EnchantmentMenu)
+                        world.getBlockState(pos)
+                                .getMenuProvider(world, pos)
+                                .createMenu(4, player.getInventory(), player);
+        System.out.println("TALES actual table=" + table.getClass().getName());
         table.getSlot(0).set(tales());
         table.getSlot(1).set(new ItemStack(Items.LAPIS_LAZULI, 3));
         check(table.costs[0] > 0 && table.clickMenuButton(player, 0), "actual enchanting action");

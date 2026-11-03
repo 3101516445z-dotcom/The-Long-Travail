@@ -3,7 +3,7 @@ package travail.smoke;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.api.TravailStateApi.AspectState;
-import com.thelongtravail.data.LongTravailData;
+import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.registry.ModRegistry;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;

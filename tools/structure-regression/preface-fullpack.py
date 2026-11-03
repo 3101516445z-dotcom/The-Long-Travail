@@ -12,7 +12,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 PACK, OUT, JAVA = options.pack.resolve(), options.output.resolve(), options.java.resolve()
 # Validate our artifacts before copying or launching a full pack. Forge turns a
 # missing pack.mcmeta into a blocking loading-warning screen even for code-only mods.
-for artifact in [ROOT/'build/libs/The_Long_Travail-0.1.3.jar', ROOT/'build/preface-fixture/travail-preface-acceptance.jar']:
+for artifact in [ROOT/'build/libs/The_Long_Travail-1.0.0.jar', ROOT/'build/preface-fixture/travail-preface-acceptance.jar']:
     with zipfile.ZipFile(artifact) as jar:
         metadata = json.loads(jar.read('pack.mcmeta'))
         if metadata.get('pack', {}).get('pack_format') != 15:
@@ -61,7 +61,7 @@ if not options.resume:
         shutil.move(trace, OUT / 'original-artifacts' / trace.name)
     shutil.copytree(ROOT / 'build/abundance-server/abundance', OUT / 'saves/preview',
                     ignore=shutil.ignore_patterns('playerdata', 'session.lock'))
-for source in [ROOT/'build/libs/The_Long_Travail-0.1.3.jar', ROOT/'build/preface-fixture/travail-preface-acceptance.jar']:
+for source in [ROOT/'build/libs/The_Long_Travail-1.0.0.jar', ROOT/'build/preface-fixture/travail-preface-acceptance.jar']:
     shutil.copy2(source, OUT / 'mods' / source.name)
 manifest = {p.name: hash_file(p) for p in (OUT / 'mods').glob('*.jar')}
 (OUT/'mod-sha256.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf8')

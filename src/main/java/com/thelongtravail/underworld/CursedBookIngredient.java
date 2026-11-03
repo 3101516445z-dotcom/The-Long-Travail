@@ -14,7 +14,7 @@ import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IIngredientSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
 
-/** 匹配含已注册诅咒的附魔书，允许同时含有其他附魔。 */
+// 匹配含已注册诅咒的附魔书，允许同时含有其他附魔。
 public final class CursedBookIngredient extends AbstractIngredient {
     public static final ResourceLocation ID =
             ResourceLocation.fromNamespaceAndPath("the_long_travail", "cursed_book");

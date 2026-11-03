@@ -1,6 +1,6 @@
 package com.thelongtravail.farreach;
 
-import com.thelongtravail.helper.CurioLookup;
+import com.thelongtravail.equipment.CurioLookup;
 import com.thelongtravail.registry.ModRegistry;
 
 import net.minecraft.world.entity.player.Player;

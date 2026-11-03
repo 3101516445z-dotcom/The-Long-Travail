@@ -5,7 +5,7 @@ import com.thelongtravail.TravailAspect;
 import com.thelongtravail.api.TravailStateApi.AspectState;
 import com.thelongtravail.compat.ftbultimine.TremorUltimine;
 import com.thelongtravail.config.DeepValleyItemsConfig;
-import com.thelongtravail.data.LongTravailData;
+import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.registry.ModRegistry;
 import com.thelongtravail.valley.*;
 
@@ -1009,7 +1009,7 @@ public final class TremorPressure {
             border.setSize(size);
         }
         var caster = actor(1, true);
-        var time = com.thelongtravail.boundless.TimeStopManager.get(level);
+        var time = com.thelongtravail.boundless.timestop.TimeStopManager.get(level);
         check(
                 time.start(
                         caster,
@@ -1021,12 +1021,12 @@ public final class TremorPressure {
                         Set.of(caster.getUUID())),
                 "time stop fixture activated");
         try {
-            check(com.thelongtravail.boundless.TimeStopManager.frozen(p), "target really frozen");
+            check(com.thelongtravail.boundless.timestop.TimeStopManager.frozen(p), "target really frozen");
             check(
                     !PlayerBlockBreaker.breakBlock(p, origin, AspectState.WITNESS),
                     "frozen player denied");
         } finally {
-            com.thelongtravail.boundless.TimeStopManager.clear();
+            com.thelongtravail.boundless.timestop.TimeStopManager.clear();
         }
         reconcile(true);
         count("worldAndStateBoundarySuite");

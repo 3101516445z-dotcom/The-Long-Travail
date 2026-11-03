@@ -1,7 +1,11 @@
 package com.thelongtravail.api;
 
+import com.thelongtravail.journey.JourneyState;
+import com.thelongtravail.journey.JourneyOperations;
+import com.thelongtravail.journey.JourneyService;
+
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.data.*;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.resources.ResourceLocation;
 import java.util.*;
@@ -9,7 +13,8 @@ import java.util.*;
 public final class TravailJourneyApi {
     public static JourneyState.AspectJourneyKey identity(
             ServerPlayer player, TravailAspect aspect) {
-        return JourneyState.identity(com.thelongtravail.helper.TravailCurios.stack(player), aspect);
+        return JourneyState.identity(
+                com.thelongtravail.equipment.TravailCurios.stack(player), aspect);
     }
 
     public static JourneyService.OperationResult completeRequirement(

@@ -1,6 +1,6 @@
 package com.thelongtravail.item;
 
-import com.thelongtravail.helper.TravailCurios;
+import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.registry.ModRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -61,7 +61,7 @@ public final class HomecomingItem extends Item {
             if (!player.getAbilities().instabuild) player.getItemInHand(hand).shrink(1);
             TravailCurios.returnToInventoryOrDrop(player, returning);
             TravailCurios.syncExtraSlots(serverPlayer, 0);
-            com.thelongtravail.helper.DependentAccessories.reconcile(serverPlayer);
+            com.thelongtravail.equipment.DependentAccessories.reconcile(serverPlayer);
             player.getInventory().setChanged();
             player.containerMenu.broadcastChanges();
             com.thelongtravail.network.TravailNetwork.sendItemSound(

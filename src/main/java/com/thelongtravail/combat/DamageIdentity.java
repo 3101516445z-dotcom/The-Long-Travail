@@ -3,7 +3,7 @@ package com.thelongtravail.combat;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 
-/** 穿透类型与原始攻击身份分离；原来源实例用于重放、反击和处决认领。 */
+// 穿透类型与原始攻击身份分离；原来源实例用于重放、反击和处决认领。
 public final class DamageIdentity {
     private static final class Converted extends DamageSource {
         private final DamageSource original;

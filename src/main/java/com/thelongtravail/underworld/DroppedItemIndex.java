@@ -1,7 +1,7 @@
 package com.thelongtravail.underworld;
 
 import com.thelongtravail.TheLongTravail;
-import com.thelongtravail.data.HotPathMetrics.Counter;
+import com.thelongtravail.diagnostics.HotPathMetrics.Counter;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraftforge.event.level.LevelEvent;

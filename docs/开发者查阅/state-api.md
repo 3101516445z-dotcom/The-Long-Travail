@@ -46,7 +46,7 @@ if (current.hasWitness(TravailAspect.ABYSS) && current.hasMalice(TravailAspect.D
 - `MALICE` / `WITNESS`：以 Curios 槽位中第一件已装备的苦旅为准；背包、主手中的苦旅不激活玩家状态。异常情况下装备多件时也不合并状态。
 - 装备尚未初始化的苦旅时，没有见证标记的类别属于恶意。接口不会生成旅程或改写存档；可用快照的 `initialized()` 额外要求旅程已经初始化。
 - 支持自然完成与调试命令的强制状态；优先级为强制恶意 > 强制见证 > 自然见证。
-- 类别状态不代表附带效果正在触发；调用方仍须检查天气、位置等具体条件。
+- 类别状态与效果触发条件分别判断；调用方还须检查天气、位置等条件。
 - 查询只读取状态，不会触发效果或修改物品数据。快照不持有玩家或物品引用，状态变化后需要重新获取。
 - 在所在逻辑端的游戏线程调用。服务端结果用于伤害、消耗和奖励等正式判定；客户端查询用于显示，取决于当前同步到的装备状态。
 - `TravailAspect` 参数不得为 null；玩家可以为 null。
@@ -61,7 +61,7 @@ if (current.hasWitness(TravailAspect.ABYSS) && current.hasMalice(TravailAspect.D
 
 写入入口：`com.thelongtravail.api.TravailJourneyApi`。仅操作首个已装备日记，在服务端线程调用，不消耗调用方物品。结果的 `changed()` 表示是否修改，`accepted()` 表示操作是否有效；重复覆盖和清除仍属有效操作。
 
-下表的 `JourneyOperations`、`JourneyState`、`JourneyService` 均位于 `com.thelongtravail.data`。玩家须为非空 `ServerPlayer`，主题及目标等必要参数也须有效。
+下表的 `JourneyOperations`、`JourneyState`、`JourneyService` 均位于 `com.thelongtravail.journey`。玩家须为非空 `ServerPlayer`，主题及目标等必要参数也须有效。
 
 | 方法 | 参数（按顺序） |
 | --- | --- |

@@ -1,14 +1,16 @@
 package com.thelongtravail.farreach;
 
-import com.thelongtravail.compat.maid.MaidAccessories;
 import com.thelongtravail.config.FarReachRelicsConfig;
+import com.thelongtravail.integration.MaidIntegration;
+
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
 import java.util.*;
 
 @Mod.EventBusSubscriber(modid = "the_long_travail")
@@ -33,7 +35,7 @@ public final class DonQuixoteState {
                         p.level().getGameTime()
                                 + FarReachRelicsConfig.ticks("don_quixote.duration"),
                         p.level().dimension(),
-                        MaidAccessories.quixoteOwner(p)));
+                        MaidIntegration.quixoteOwner(p)));
     }
 
     public static float reduce(LivingEntity target, DamageSource source, float amount) {
@@ -44,7 +46,7 @@ public final class DonQuixoteState {
                 || DonQuixoteCombat.phase(p) != 2
                 || p.level().getGameTime() >= guard.until
                 || p.level().dimension() != guard.dimension
-                || !Objects.equals(guard.owner, MaidAccessories.quixoteOwner(p))) {
+                || !Objects.equals(guard.owner, MaidIntegration.quixoteOwner(p))) {
             GUARDS.remove(p);
             return amount;
         }
@@ -59,7 +61,7 @@ public final class DonQuixoteState {
         Guard guard = GUARDS.get(p);
         if (!DonQuixoteCombat.equipped(p)
                 || DonQuixoteCombat.phase(p) != 2
-                || guard != null && !Objects.equals(guard.owner, MaidAccessories.quixoteOwner(p)))
+                || guard != null && !Objects.equals(guard.owner, MaidIntegration.quixoteOwner(p)))
             GUARDS.remove(p);
     }
 
@@ -70,12 +72,12 @@ public final class DonQuixoteState {
     private static int cooldown(LivingEntity e) {
         return e instanceof ServerPlayer
                 ? e.getPersistentData().getInt(COOLDOWN)
-                : MaidAccessories.quixoteCooldown(e);
+                : MaidIntegration.quixoteCooldown(e);
     }
 
     private static void cooldown(LivingEntity e, int ticks) {
         if (e instanceof ServerPlayer) e.getPersistentData().putInt(COOLDOWN, ticks);
-        else MaidAccessories.quixoteCooldown(e, ticks);
+        else MaidIntegration.quixoteCooldown(e, ticks);
     }
 
     @SubscribeEvent

@@ -3,7 +3,7 @@ package com.thelongtravail.item;
 import com.thelongtravail.AspectTheme;
 import com.thelongtravail.boundless.*;
 import com.thelongtravail.api.CarryingApi;
-import com.thelongtravail.helper.*;
+import com.thelongtravail.equipment.DependentAccessories;
 import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.config.BoundlessItemsConfig;
 import net.minecraft.network.chat.Component;

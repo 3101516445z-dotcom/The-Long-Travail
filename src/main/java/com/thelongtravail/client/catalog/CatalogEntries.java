@@ -8,7 +8,7 @@ import com.thelongtravail.boundless.BoundlessTooltips;
 import com.thelongtravail.client.AzraelTooltips;
 import com.thelongtravail.client.RainClient;
 import com.thelongtravail.client.UnderworldClient;
-import com.thelongtravail.helper.TravailCurios;
+import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.item.FarReachAccessoryItem;
 import com.thelongtravail.item.UnderworldAccessoryItem;
 

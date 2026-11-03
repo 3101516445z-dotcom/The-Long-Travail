@@ -1,6 +1,6 @@
 # 饰品佩戴与恢复校验
 
-公共入口：`com.thelongtravail.helper.AccessoryEquipRules`。
+公共入口：`com.thelongtravail.equipment.AccessoryEquipRules`。
 
 Curios 的 `readTag` 在提交新槽位表前调用 `canEquip`。重生、登录及其他整套饰品数据恢复期间，不应直接读取当前装备来判断前置条件或重复物品。
 
@@ -20,7 +20,7 @@ public boolean canEquip(SlotContext context, ItemStack stack) {
 - `hasDiary(player)`：正常穿戴时检查旅行日记槽；恢复时检查待恢复数据中的旅行日记槽。
 - `hasEquipped(player, slot, item)`：指定功能槽中的前置物品检查。恢复期检查的是输入快照，不递归验证其他饰品的依赖；应使用本身可独立恢复的前置物品，避免循环依赖。
 - `unique(context, item)`：正常穿戴允许同槽位替换，并拒绝其他功能槽已有同种物品；恢复时只允许首个通过本物品校验的位置，同一位置重复校验不影响结果。必须在其他条件均通过后最后调用。
-- `unique(context, item, true)`：正常穿戴时，沿用春日一隅、喜欢的心情将外观槽计入唯一性查询的方式；恢复期间仍委托同一个 `AccessoryRestore` 首次接受记录，不另按此参数扫描外观槽。它不代表允许把物品装备到外观槽。
+- `unique(context, item, true)`：正常穿戴时，沿用春日一隅、喜欢的心情将外观槽计入唯一性查询的方式；恢复期间仍委托同一个 `AccessoryRestore` 首次接受记录，不另按此参数扫描外观槽。物品仍按自身 canEquip 规则拒绝外观槽。
 
 无苦旅前置的饰品只调用 `unique`。槽位、绑定、消耗、外观槽和死亡掉落限制由物品自身逻辑负责；死亡掉落仍遵守 Curios 与 `keepInventory`。
 

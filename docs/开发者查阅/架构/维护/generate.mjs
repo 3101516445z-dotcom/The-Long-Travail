@@ -16,11 +16,14 @@ function walk(dir) {
     ? walk(path.join(dir,e.name)) : [path.join(dir,e.name)]).sort();
 }
 const groups = {
-  common:['公共基础','通用基础'], data:['旅程与运行数据','核心机制（包级暂定）'],
-  api:['公开查询与写入入口','公共接口'], helper:['装备与战斗协作','协调机制（包级暂定）'],
-  combat:['战斗属性与重放','核心机制'], config:['配置管理','基础设施'],
+  common:['公共基础','通用基础'], runtime:['日记运行池、效果、属性、奖励与调度','运行机制'],
+  api:['公开查询与写入入口','公共接口'], helper:['动作消息文本','显示协作'],
+  combat:['伤害上下文、属性与重放','核心机制'], equipment:['装备查询、校验与恢复','装备机制'], config:['配置管理','基础设施'],
   network:['网络同步','平台接入'], registry:['注册与装配','平台接入'],
   event:['公共事件','流程协调'], mixin:['原版注入桥接','平台接入'],
+  integration:['主体联动接口与默认行为','核心接入'],
+  exploration:['路引搜索与空间查询','探索机制'],
+  journey:['旅程状态、查询与运行维护','旅程机制'],
   compat:['外部模组适配','兼容接入'], client:['客户端展示与输入','客户端接入'],
   menu:['容器菜单','公共端容器接入'],
   item:['物品入口','玩法入口'], entity:['自定义实体','玩法实现'], effect:['效果类型','玩法入口'],
@@ -29,6 +32,19 @@ const groups = {
   valley:['幽谷','具体玩法'], underworld:['冥府','具体玩法'], boundless:['无垠','具体玩法']
 };
 const overrides = {
+  TravailConfig:['配置与运行时数据','配置文件顺序装配与公开句柄'],
+  GeneralConfigDefinition:['配置与运行时数据','通用规则与探索数量定义'],
+  UtilityItemsDefinition:['配置与运行时数据','路引搜索与引导参数定义'],
+  RewardDeliveryDefinition:['配置与运行时数据','奖励预算与溢出策略定义'],
+  FlourishingDefinition:['配置与运行时数据','繁茂要求池与规则定义'],
+  AbyssDefinition:['配置与运行时数据','归墟要求池与规则定义'],
+  FarReachDefinition:['配置与运行时数据','穷遐要求池与规则定义'],
+  DeepValleyDefinition:['配置与运行时数据','幽谷要求池与规则定义'],
+  UnderworldDefinition:['配置与运行时数据','冥府要求池与奖励定义'],
+  BoundlessDefinition:['配置与运行时数据','无垠要求池与幻影奖励定义'],
+  VisualDeprivationDefinition:['配置与运行时数据','幽谷视觉剥夺画面参数定义'],
+  TravailDefinitionSupport:['配置与运行时数据','定义期范围、条目格式与要求池装配'],
+  TravailPoolDefaults:['配置与运行时数据','内置效果、垂钓与幻影奖励条目'],
   EnchantmentTransfer:['无垠','单件附魔转移、回调异常隔离与完整结果计算'],
   EnchantmentTransferRecipe:['无垠','合成输入角色解析、计划缓存与来源返还'],
   TransferNotices:['无垠','服务端失败提示去重与原版合成结果领取拦截'],
@@ -58,8 +74,16 @@ const overrides = {
   ImmortalBudDamageMixin:['原版注入桥接','Item 的 Forge 耐久写入转发与增伤拦截'],
   ImmortalBudHurtMixin:['原版注入桥接','ItemStack.hurt 前置拦截正数耐久损耗'],
   ImmortalBudDropMixin:['原版注入桥接','ItemEntity 火爆伤害拦截与自然寿命维护'],
-  TravailClientEvents:['客户端与兼容','客户端装配、阅读交互与提示协调'],
+  TravailClientEvents:['客户端与兼容','客户端事件订阅、优先级与日记公开入口'],
+  ClientSetup:['客户端与兼容','客户端注册与网络接收绑定'],
+  BoundlessClientEvents:['客户端与兼容','梦境与时停顺序装配、逐刻分发和退出清理'],
+  CompatTooltips:['客户端与兼容','第三方提示分类装配入口'],
+  MaidTooltipSupport:['客户端与兼容','女仆提示键和子文本识别'],
+  DiarySession:['客户端与兼容','日记宿主、悬停、长按与阅读覆盖层'],
+  DiaryInputRouter:['客户端与兼容','日记键鼠路由、编辑焦点与消费记录'],
   CatalogSession:['客户端与兼容','图鉴页面会话与布局入口'],
+  CatalogTextStyle:['客户端与兼容','拾遗正文匹配、去重与样式叠加'],
+  CatalogHighlightRules:['客户端与兼容','拾遗固定词表与正则模式'],
   UnderworldClient:['客户端与兼容','苏生资格展示与请求按钮'],
   RainClient:['客户端与兼容','施雨输入和本地缓存清理'],
   UnderworldPacket:['客户端与兼容','死亡资格同步和苏生请求协议'],
@@ -358,13 +382,13 @@ const link=r=>'../../../../'+r.path;
 const lines=['# 主源码归属索引','',
   '> 自动生成；修改归类规则后运行 `node docs/开发者查阅/架构/维护/generate.mjs`。', '',
   `范围：src/main/java；${rows.length} 个 Java 文件。指纹：\`${snapshot}\`。`, '',
-  '目录初分是检索入口，不代表逐类审计完成。运行端没有证据时明确待核对；“普通调用”不排除资源注册、反射或框架回调。', '',
+  '目录初分按包路径生成，重点归类使用显式规则。运行端与入口信号来自源码扫描；未识别的项标为待核对。', '',
   '[返回项目书](../README.md) · [引用候选索引](引用候选.md)', '',
   '| 文件 | 模块 | 角色 | 运行端 | 入口信号 | 归类状态 |','|---|---|---|---|---|---|'];
 for(const r of rows) lines.push(`| [${r.path.replace('src/main/java/com/thelongtravail/','')}](${link(r)}) | ${r.module} | ${r.role} | ${r.side} | ${r.entry} | ${r.classification} |`);
 const dep=['# 正反向引用候选','',
-  '> 自动生成的词法候选，不是语义调用图。排除注释和字符串；识别同包、显式导入、通配导入与全限定类名。局部同名标识可能误报，反射、方法引用目标、虚调用及嵌套类型可能漏报。', '',
-  '事件、Mixin、网络及数据流必须结合人工章节阅读。完整候选及证据位置见 [JSON](引用候选.json)。不得据此声称完整调用覆盖。', '',
+  '> 类型引用候选由词法扫描生成：排除注释和字符串，识别同包、显式导入、通配导入与全限定类名。局部同名标识可能误报，反射、方法引用目标、虚调用及嵌套类型可能漏报。', '',
+  '事件、Mixin、网络及数据流见对应人工章节；全部候选及源码位置见 [JSON](引用候选.json)。', '',
   '[返回项目书](../README.md) · [源码归属](源码归属.md)', '',
   '| 类 | 引用候选 | 被引用候选 |','|---|---|---|'];
 for(const r of rows) {

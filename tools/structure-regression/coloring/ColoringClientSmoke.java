@@ -1,7 +1,7 @@
 package travail.smoke;
 
 import com.thelongtravail.client.ColoringScreen;
-import com.thelongtravail.client.DiaryFontEffects;
+import com.thelongtravail.client.diary.DiaryFontEffects;
 import com.thelongtravail.client.catalog.CatalogEntries;
 import com.thelongtravail.client.catalog.CatalogSession;
 import com.thelongtravail.item.NameColoring;

@@ -34,7 +34,7 @@ public final class SwordLanternEvents {
                         MobEffects.BLINDNESS, MobEffects.DARKNESS, MobEffects.CONFUSION
                     })
                 if (p.hasEffect(effect))
-                    com.thelongtravail.data.EffectChanges.remove(p, effect, false);
+                    com.thelongtravail.runtime.effects.EffectChanges.remove(p, effect, false);
         }
         LanternLight.tick();
     }

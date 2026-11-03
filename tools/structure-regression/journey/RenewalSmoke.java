@@ -1,8 +1,11 @@
 package travail.smoke;
 
+import com.thelongtravail.journey.LongTravailData;
+import com.thelongtravail.journey.PlayerJourneyData;
+
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.data.*;
-import com.thelongtravail.helper.TravailCurios;
+
+import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.registry.ModRegistry;
 import net.minecraft.world.item.*;
 import net.minecraft.world.InteractionHand;
@@ -58,11 +61,9 @@ public final class RenewalSmoke {
         var tooltip = new ArrayList<net.minecraft.network.chat.Component>();
         item.appendHoverText(new ItemStack(item), level, tooltip, TooltipFlag.NORMAL);
         check(
-                tooltip.size() == 4
-                        && java.util.stream.IntStream.range(0, 3).allMatch(i -> tooltip.get(i).getContents() instanceof net.minecraft.network.chat.contents.TranslatableContents t
-                            && t.getKey().equals("tooltip.the_long_travail.renewal.prose." + i))
-                        && tooltip.get(3).getContents() instanceof net.minecraft.network.chat.contents.TranslatableContents marker
-                        && marker.getKey().equals(com.thelongtravail.item.ItemDescription.CATALOG)
+                tooltip.size() == 1
+                        && tooltip.get(0).getContents() instanceof net.minecraft.network.chat.contents.TranslatableContents marker
+                        && marker.getKey().equals(com.thelongtravail.item.ItemDescription.SUMMARY)
                         && item.getName(new ItemStack(item)).getStyle().getInsertion().equals("the_long_travail:name"),
                 "tooltip and name material");
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(item));
@@ -227,15 +228,9 @@ public final class RenewalSmoke {
                 "TRAVAIL_SOUND_PACKETS_PASS: successful item actions once, failures/cooldown silent, six stones and repeat unlock");
         var crafting = new net.minecraft.world.inventory.TransientCraftingContainer(player.inventoryMenu, 3, 3);
         Item[] ingredients = {
-            Items.DRAGON_BREATH,
-            Items.NETHER_STAR,
-            Items.DRAGON_BREATH,
-            Items.NETHER_STAR,
-            Items.FEATHER,
-            Items.NETHER_STAR,
-            Items.DRAGON_BREATH,
-            Items.NETHER_STAR,
-            Items.DRAGON_BREATH
+            Items.GLOWSTONE_DUST, Items.ECHO_SHARD, Items.GLOWSTONE_DUST,
+            Items.AMETHYST_SHARD, Items.FEATHER, Items.AMETHYST_SHARD,
+            Items.LAPIS_LAZULI, Items.BLACK_DYE, Items.LAPIS_LAZULI
         };
         for (int i = 0; i < 9; i++) crafting.setItem(i, new ItemStack(ingredients[i]));
         var recipe =
@@ -244,9 +239,9 @@ public final class RenewalSmoke {
                         .orElseThrow();
         check(recipe.assemble(crafting, level.registryAccess()).is(item), "recipe result");
         check(
-                recipe.getRemainingItems(crafting).stream().filter(s -> s.is(Items.GLASS_BOTTLE)).count() == 4,
-                "dragon breath returns four bottles");
+                recipe.getRemainingItems(crafting).stream().allMatch(ItemStack::isEmpty),
+                "current recipe has no container remainder");
         System.out.println(
-                "TRAVAIL_RENEWAL_PASS: reset, metadata, permanent records, consume, cooldown, slots, overflow, creative, recipe/bottles, serialization");
+                "TRAVAIL_RENEWAL_PASS: reset, metadata, permanent records, consume, cooldown, slots, overflow, creative, recipe/remainders, serialization");
     }
 }

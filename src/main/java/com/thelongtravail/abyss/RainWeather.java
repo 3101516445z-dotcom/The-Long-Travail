@@ -119,7 +119,7 @@ public final class RainWeather extends SavedData {
     }
 
     public static float rawThunderLevel(Level level) {
-        return ((com.thelongtravail.mixin.RainLevelAccessor) level).travail$rawThunderLevel();
+        return ((com.thelongtravail.mixin.rain.RainLevelAccessor) level).travail$rawThunderLevel();
     }
 
     public static boolean dry(Level level) {

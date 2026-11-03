@@ -1,7 +1,8 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
-import com.thelongtravail.helper.*;
+import com.thelongtravail.equipment.AccessoryEquipRules;
+import com.thelongtravail.equipment.DependentAccessories;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -43,7 +44,7 @@ public final class AzraelItem extends Item implements ICurioItem {
     public void onUnequip(SlotContext context, ItemStack next, ItemStack stack) {
         if (!next.is(this)
                 && context.entity() instanceof net.minecraft.server.level.ServerPlayer player)
-            com.thelongtravail.valley.AzraelState.forget(player);
+            com.thelongtravail.valley.execution.AzraelState.forget(player);
     }
 
     @Override

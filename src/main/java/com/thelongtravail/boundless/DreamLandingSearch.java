@@ -1,7 +1,9 @@
 package com.thelongtravail.boundless;
 
+import com.thelongtravail.boundless.timestop.TimeStopManager;
+
 import com.mojang.datafixers.util.Either;
-import com.thelongtravail.mixin.ChunkFutureInvoker;
+import com.thelongtravail.mixin.world.ChunkFutureInvoker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

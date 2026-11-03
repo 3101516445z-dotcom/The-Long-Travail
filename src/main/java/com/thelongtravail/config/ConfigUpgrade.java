@@ -27,8 +27,10 @@ public final class ConfigUpgrade {
                 } else if (items instanceof List<?> list
                         && list.stream()
                                 .noneMatch(
-                                        x -> x.toString()
-                                                .startsWith("the_long_travail:lorentz_fantasy|")))
+                                        x ->
+                                                x.toString()
+                                                        .startsWith(
+                                                                "the_long_travail:lorentz_fantasy|")))
                     TheLongTravail.LOGGER.warn(
                             "Custom End City loot preserved; add the_long_travail:lorentz_fantasy"
                                     + " manually if desired: {}",

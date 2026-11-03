@@ -1,13 +1,17 @@
 package com.thelongtravail.compat.fluid;
 
+import static com.thelongtravail.compat.fluid.FluidReflection.*;
+
+import com.thelongtravail.abyss.copy.CopyStorage;
+
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraftforge.fluids.FluidStack;
+
 import java.nio.file.*;
 import java.util.*;
 import java.util.function.BiConsumer;
-import static com.thelongtravail.compat.fluid.FluidReflection.*;
 
 // RSI 1.5.1 在 RS 中只保存引用，实际数据位于 DiskFileStore。
 final class FluidUnifiedStore {
@@ -17,7 +21,7 @@ final class FluidUnifiedStore {
             "com.huanghuang.rsintegration.disk.persistence.DiskFileStore";
 
     @SuppressWarnings("unchecked")
-    static FluidCopyGraph.Write prepare(FluidCopyGraph graph, FluidCopyGraph.Pending pending)
+    static CopyStorage.Write prepare(CopyStorage.Context graph, CopyStorage.Pending pending)
             throws Exception {
         Object manager =
                 call(
@@ -85,7 +89,7 @@ final class FluidUnifiedStore {
                         .getConstructor(
                                 type(RS + "UnifiedDiskManager"), UUID.class, UUID.class, UUID.class)
                         .newInstance(manager, pending.id(), world, owner);
-        return new FluidCopyGraph.Write() {
+        return new CopyStorage.Write() {
             boolean owned;
 
             public void commit() throws Exception {
@@ -126,8 +130,8 @@ final class FluidUnifiedStore {
         };
     }
 
-    private static void copyTable(FluidCopyGraph graph, Object table, Object copy, boolean fluid)
-            throws Exception {
+    private static void copyTable(
+            CopyStorage.Context graph, Object table, Object copy, boolean fluid) throws Exception {
         if ((int) call(table, "quarantinedSize") != 0)
             throw new IllegalStateException("Cannot copy quarantined unified inventory");
         List<Map.Entry<Object, Integer>> values = new ArrayList<>();

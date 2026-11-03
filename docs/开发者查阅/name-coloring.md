@@ -12,7 +12,7 @@
 | `item/NameColoring` | 样式 ID、名称组件变换；供两端使用 |
 | `menu/ColoringMenu` | 槽位布局、选项同步、服务端预览、领取与关闭返还 |
 | `client/ColoringScreen` | 按钮输入、标签排版与面板绘制 |
-| `mixin/ColoringNameMixin` | 在完整 `ItemStack.getHoverName()` 返回后应用样式 |
+| `mixin/presentation/ColoringNameMixin` | 在完整 `ItemStack.getHoverName()` 返回后应用样式 |
 | `compat/apotheosis/AffixNameStyle` | 神化词缀名称与品质颜色适配 |
 | `registry/ModRegistry` | 注册物品及菜单 |
 | `client/TravailClientEvents` | 在客户端装配 Screen |

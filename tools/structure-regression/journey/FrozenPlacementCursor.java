@@ -1,8 +1,8 @@
 package travail.smoke;
 
-import com.thelongtravail.data.WayguideGeometry;
+import com.thelongtravail.exploration.WayguideGeometry;
 
-import com.thelongtravail.mixin.StructureRingsAccessor;
+import com.thelongtravail.mixin.world.StructureRingsAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;

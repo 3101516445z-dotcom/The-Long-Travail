@@ -1,15 +1,19 @@
 package com.thelongtravail.compat.fluid;
 
+import static com.thelongtravail.compat.fluid.FluidReflection.*;
+
+import com.thelongtravail.abyss.copy.CopyStorage;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.saveddata.SavedData;
+
 import java.util.*;
-import static com.thelongtravail.compat.fluid.FluidReflection.*;
 
 final class FluidBackpackStore {
     @SuppressWarnings("unchecked")
-    static FluidCopyGraph.Write prepare(FluidCopyGraph graph, FluidCopyGraph.Pending pending)
+    static CopyStorage.Write prepare(CopyStorage.Context graph, CopyStorage.Pending pending)
             throws Exception {
         Object store =
                 call(type("net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackStorage"), "get");
@@ -25,7 +29,7 @@ final class FluidBackpackStore {
             throw new IllegalStateException("Backpack UUID collision");
         CompoundTag copy = source.copy();
         graph.transform(copy, 0);
-        return new FluidCopyGraph.Write() {
+        return new CopyStorage.Write() {
             boolean owned;
 
             public void commit() throws Exception {

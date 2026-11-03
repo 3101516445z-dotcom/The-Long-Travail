@@ -1,6 +1,7 @@
 package com.thelongtravail.flourishing;
 
-import com.thelongtravail.mixin.EffectDurationAccessor;
+import com.thelongtravail.mixin.effects.EffectDurationAccessor;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -8,6 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeMod;
+
 import java.util.UUID;
 
 public final class FloralPassives {
@@ -77,7 +79,7 @@ public final class FloralPassives {
         ItemStack crown =
                 target instanceof ServerPlayer player
                         ? Affection.equipped(player, true)
-                        : com.thelongtravail.compat.maid.MaidAccessories.springCrown(target);
+                        : com.thelongtravail.integration.MaidIntegration.springCrown(target);
         double reduction = FloralCombat.value(crown, Flower.SPORE_BLOSSOM);
         if (reduction <= 0) return incoming;
         return copyShortened(incoming, 1 - reduction);

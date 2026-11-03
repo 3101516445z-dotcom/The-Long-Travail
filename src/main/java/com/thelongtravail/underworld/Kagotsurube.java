@@ -5,9 +5,9 @@ import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.combat.DamageIdentity;
 import com.thelongtravail.combat.SunBladeActors;
 import com.thelongtravail.common.AttributeModifierSet;
-import com.thelongtravail.compat.maid.MaidAccessories;
 import com.thelongtravail.config.SunBladeConfig;
-import com.thelongtravail.helper.AccessoryEquipRules;
+import com.thelongtravail.equipment.AccessoryEquipRules;
+import com.thelongtravail.integration.MaidIntegration;
 import com.thelongtravail.registry.ModAttributes;
 import com.thelongtravail.registry.ModRegistry;
 
@@ -40,7 +40,7 @@ public final class Kagotsurube {
                 && (entity instanceof ServerPlayer actor
                         ? AccessoryEquipRules.hasEquipped(
                                 actor, "belt", ModRegistry.KAGOTSURUBE.get())
-                        : MaidAccessories.equipped(entity, ModRegistry.KAGOTSURUBE.get()));
+                        : MaidIntegration.equipped(entity, ModRegistry.KAGOTSURUBE.get()));
     }
 
     public static DamageSource convert(LivingEntity target, DamageSource source) {

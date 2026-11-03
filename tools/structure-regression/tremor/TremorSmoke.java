@@ -410,7 +410,7 @@ public final class TremorSmoke {
         inv.setCurios(Map.of("travel_diary", slots));
         slots.getStacks().setStackInSlot(0, new ItemStack(ModRegistry.LONG_TRAVAIL.get()));
         var diary = slots.getStacks().getStackInSlot(0);
-        com.thelongtravail.data.LongTravailData.setWitness(
+        com.thelongtravail.journey.LongTravailData.setWitness(
                 diary, com.thelongtravail.TravailAspect.UNDERWORLD, true);
         int savedBonus = com.thelongtravail.config.TravailConfig.UNDERWORLD_FORTUNE_BONUS.get();
         try {
@@ -461,7 +461,7 @@ public final class TremorSmoke {
             }
         } finally {
             com.thelongtravail.config.TravailConfig.UNDERWORLD_FORTUNE_BONUS.set(savedBonus);
-            com.thelongtravail.data.LongTravailData.setWitness(
+            com.thelongtravail.journey.LongTravailData.setWitness(
                     diary, com.thelongtravail.TravailAspect.UNDERWORLD, false);
             tool.removeTagKey("Enchantments");
         }
@@ -565,7 +565,7 @@ public final class TremorSmoke {
                         net.minecraft.core.Direction.UP,
                         pos,
                         false);
-        com.thelongtravail.data.LongTravailData.setWitness(
+        com.thelongtravail.journey.LongTravailData.setWitness(
                 diary, com.thelongtravail.TravailAspect.DEEP_VALLEY, true);
         player.tickCount += 40;
         level.setBlockAndUpdate(pos, Blocks.BARRIER.defaultBlockState());
@@ -614,7 +614,7 @@ public final class TremorSmoke {
                 };
         ForgeHooks.onRightClickBlock(player, InteractionHand.MAIN_HAND, pos, hit);
         check(messages.size() == before + 1, "repeated exception feedback throttled");
-        com.thelongtravail.data.LongTravailData.setWitness(
+        com.thelongtravail.journey.LongTravailData.setWitness(
                 diary, com.thelongtravail.TravailAspect.DEEP_VALLEY, false);
         clear(level);
     }
@@ -639,7 +639,7 @@ public final class TremorSmoke {
                 clear(level);
                 player.setItemInHand(InteractionHand.MAIN_HAND, held);
                 slots.setStackInSlot(0, diary);
-                com.thelongtravail.data.LongTravailData.setWitness(
+                com.thelongtravail.journey.LongTravailData.setWitness(
                         diary, com.thelongtravail.TravailAspect.DEEP_VALLEY, witness);
                 level.setBlockAndUpdate(pos, Blocks.CHEST.defaultBlockState());
                 var original = (ChestBlockEntity) level.getBlockEntity(pos);
@@ -654,7 +654,7 @@ public final class TremorSmoke {
                                                 InteractionHand.MAIN_HAND, held.copy());
                                 case 1 -> slots.setStackInSlot(0, ItemStack.EMPTY);
                                 case 2 ->
-                                        com.thelongtravail.data.LongTravailData.setWitness(
+                                        com.thelongtravail.journey.LongTravailData.setWitness(
                                                 diary,
                                                 com.thelongtravail.TravailAspect.DEEP_VALLEY,
                                                 !witness);
@@ -698,7 +698,7 @@ public final class TremorSmoke {
                     player.setServerLevel(level);
                     player.setItemInHand(InteractionHand.MAIN_HAND, held);
                     slots.setStackInSlot(0, diary);
-                    com.thelongtravail.data.LongTravailData.setWitness(
+                    com.thelongtravail.journey.LongTravailData.setWitness(
                             diary, com.thelongtravail.TravailAspect.DEEP_VALLEY, false);
                     level.removeBlock(pos, false);
                     clear(level);
@@ -801,7 +801,7 @@ public final class TremorSmoke {
         guardChecks(level, player, diary, data);
         cached.set(data, new ArrayList<>(List.of(pos.west(), pos, pos.east())));
         failureChecks(level, player, data);
-        com.thelongtravail.data.LongTravailData.setWitness(
+        com.thelongtravail.journey.LongTravailData.setWitness(
                 diary, com.thelongtravail.TravailAspect.DEEP_VALLEY, true);
         cached.set(data, new ArrayList<>(List.of(pos, pos.east())));
         level.setBlockAndUpdate(pos, Blocks.STONE.defaultBlockState());
@@ -814,7 +814,7 @@ public final class TremorSmoke {
                 ((TestPlayer) player).feedback.size() == notices,
                 "FTB internal blacklist does not notify");
         level.removeBlock(pos.east(), false);
-        com.thelongtravail.data.LongTravailData.setWitness(
+        com.thelongtravail.journey.LongTravailData.setWitness(
                 diary, com.thelongtravail.TravailAspect.DEEP_VALLEY, false);
 
         Class<?> ftbClass = Class.forName("dev.ftb.mods.ftbultimine.FTBUltimine");
@@ -837,7 +837,7 @@ public final class TremorSmoke {
                                 net.minecraft.world.entity.player.Player.class)
                         .invoke(ftb, player);
         dataClass.getMethod("setPressed", boolean.class).invoke(liveData, true);
-        com.thelongtravail.data.LongTravailData.setWitness(
+        com.thelongtravail.journey.LongTravailData.setWitness(
                 diary, com.thelongtravail.TravailAspect.UNDERWORLD, true);
         player.getMainHandItem().enchant(Enchantments.BLOCK_FORTUNE, 3);
         player.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.LUCK)

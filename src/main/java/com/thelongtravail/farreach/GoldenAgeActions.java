@@ -2,9 +2,9 @@ package com.thelongtravail.farreach;
 
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.api.TravailStateApi;
-import com.thelongtravail.boundless.TimeStopManager;
+import com.thelongtravail.boundless.timestop.TimeStopManager;
 import com.thelongtravail.config.FarReachItemsConfig;
-import com.thelongtravail.helper.TravailCurios;
+import com.thelongtravail.equipment.TravailCurios;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
@@ -174,7 +174,9 @@ public final class GoldenAgeActions {
                 i < count && batch.used < (int) FarReachItemsConfig.get("golden_age.batchSize");
                 i++) {
             ItemStack output;
-            if (player.getRandom().nextBoolean())
+            if (player.getRandom().nextDouble()
+                    < FarReachItemsConfig.get(
+                            witness ? "golden_age.foodChance" : "golden_age.enchantmentChance"))
                 output =
                         witness
                                 ? foods.get(player.getRandom().nextInt(foods.size())).copy()

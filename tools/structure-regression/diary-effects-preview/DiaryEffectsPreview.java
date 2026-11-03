@@ -1,5 +1,5 @@
 package travail.diarypreview;
-import com.thelongtravail.client.TravelDiaryScreen;
+import com.thelongtravail.client.diary.TravelDiaryScreen;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.registry.ModRegistry;
 import net.minecraft.client.*;

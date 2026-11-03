@@ -4,7 +4,7 @@ import com.thelongtravail.TheLongTravail;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/** 外部数据与回调异常按来源限频，保留完整堆栈。 */
+// 外部数据与回调异常按来源限频，保留完整堆栈。
 public final class RuntimeFailures {
     private static final Map<String, Long> NEXT = new LinkedHashMap<>();
 

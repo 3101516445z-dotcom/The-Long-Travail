@@ -18,11 +18,11 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "0c442ea7106c1dc339cbfb83c1318f3af01e83368eb3f48c5ff7c917995794c9",
+  "fingerprint": "45f6aa81677bab416a4c7d299477ebd4c2b5e57216028bc2f1daa3718b3583fd",
   "files": [
     {
       "path": "build.gradle",
-      "sha256": "627902802bb85a798190420af16e2259e98babf18f100d4d4a8f559c866431a8"
+      "sha256": "5916b854a685333217e693106f574a4b274b7f6660ef2c709516a5f7d77fd7da"
     },
     {
       "path": "gradle.properties",
@@ -35,6 +35,10 @@
     {
       "path": "gradle/config-checks.gradle",
       "sha256": "831b214389861809bf63068f4197c41842af682d17077c075347dff7dcd06903"
+    },
+    {
+      "path": "gradle/event-subscriber-checks.gradle",
+      "sha256": "37199731ea112d1238eec1defcdee2150202307b44c2a34f352b0408f15c1c7b"
     },
     {
       "path": "gradle/language.gradle",
@@ -82,11 +86,11 @@
     },
     {
       "path": "src/main/lang/en_us/aspects/far_reach.json",
-      "sha256": "07d593d1c2ca164a74ec617a9d6b1a990cf48c5f5c96a9ec169cc6a9b5c1c66d"
+      "sha256": "a13e28e65917ac402f1e81815d4db7de8edc77b40ee6d56dd46f3cf4031b781d"
     },
     {
       "path": "src/main/lang/en_us/aspects/flourishing.json",
-      "sha256": "03e08549ccf1140c631bdac17759ca5971cd58b92d79ecf13ee17c9d538ab779"
+      "sha256": "146e74151aada1854275a5530bd0f3df6749ca7368076eccbdec5ac30ae7d988"
     },
     {
       "path": "src/main/lang/en_us/aspects/underworld.json",
@@ -106,7 +110,7 @@
     },
     {
       "path": "src/main/lang/en_us/catalog_far_reach.json",
-      "sha256": "f1d0957674e2286c3e8ec282858649641dc7ff393d19e282097bdc7ac5e6c65e"
+      "sha256": "6f31b23309d390281aec470eea8530909b980aa363fc08e42f79aa5de54d2394"
     },
     {
       "path": "src/main/lang/en_us/catalog_floral.json",
@@ -130,7 +134,7 @@
     },
     {
       "path": "src/main/lang/en_us/diary.json",
-      "sha256": "d711b387108cd9c663f81ec6dc50c2cf097f27c902eb388030264a0f4ca91b95"
+      "sha256": "ce01d4c2fdeaf51753f36045cd00187fefd889eb2995016fe66ebfd6174a712e"
     },
     {
       "path": "src/main/lang/en_us/utility_items.json",
@@ -154,11 +158,11 @@
     },
     {
       "path": "src/main/lang/lzh/aspects/far_reach.json",
-      "sha256": "a5fd0075472409f357429d6d9b4a2df9411cf52632a75551b1a8818ed25a9407"
+      "sha256": "cda997dcde3f6186b4e467b4ddad9087be98e7eae3087efe6d90d129da5b8f54"
     },
     {
       "path": "src/main/lang/lzh/aspects/flourishing.json",
-      "sha256": "eae5e0a61a78b9bdb961512f98fe6f3f3db1e239f17589c78c0af49e56162301"
+      "sha256": "7ba8c97917243bfe3aeed50bd7c82649c240359c9f47e24381c1e8626d6e5b6d"
     },
     {
       "path": "src/main/lang/lzh/aspects/underworld.json",
@@ -178,7 +182,7 @@
     },
     {
       "path": "src/main/lang/lzh/catalog_far_reach.json",
-      "sha256": "525ecb5d6e7242057604a12488d9051fe7f7b46be90345b2edcd1138e045ac85"
+      "sha256": "87f27f25b9f0d26ba4afabe1b61ee83ec9e96d68a5c789a9c08b69280cb15297"
     },
     {
       "path": "src/main/lang/lzh/catalog_floral.json",
@@ -222,11 +226,11 @@
     },
     {
       "path": "src/main/lang/zh_cn/aspects/far_reach.json",
-      "sha256": "8cdafe7b05a3c9267422f501a2571c9d1514e5fce50e57eec8f02381d61a1c1a"
+      "sha256": "52a32e3435628d718a2bee4e4485fc9624fda9792800009c161a1040c8fa7e33"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/flourishing.json",
-      "sha256": "2b0e082acc74b5b3349307c7a35f786ccfdb67a4e9c509449303b99dc645d850"
+      "sha256": "79db76cddce0a1a03a7a1ea4dd8be3d3a72c0f611c83e3f8f0433beb78984969"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/underworld.json",
@@ -246,7 +250,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/catalog_far_reach.json",
-      "sha256": "b524553c7299c64608616bd7423b92f2a684faf5a3c129b493c1666aa577ffc3"
+      "sha256": "1a5aac74f7a0dc137e9bc1e98313e54d36440dcee4152b5aa1035d5500aed03e"
     },
     {
       "path": "src/main/lang/zh_cn/catalog_floral.json",
@@ -270,7 +274,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/diary.json",
-      "sha256": "aa09080edadbff296ce9f285230e5072bb140d8a863f2dd411d3fea892e1ad37"
+      "sha256": "079c1f5e8470493b35e07bcc11329d8e7b2777ead11a65379ad893815c3f8186"
     },
     {
       "path": "src/main/lang/zh_cn/utility_items.json",
@@ -290,11 +294,11 @@
     },
     {
       "path": "src/main/lang/zh_hk/aspects/far_reach.json",
-      "sha256": "9a58c7a0b71d49517d357c09acf39ec6782d28552addd809165335991f4b1865"
+      "sha256": "59a70b99f8c525f8078131bdc777233a8ada6118d4cecd9cc33ff89bc8b0e03e"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/flourishing.json",
-      "sha256": "ac398b1391ee0d88531aada09cdc9742ab2134e257f5b26d8a0057b2c5a92132"
+      "sha256": "94c399765e991e4a68b66bc74306677ec7b0ce293bdf86a9b210f4cc980fee99"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/underworld.json",
@@ -314,7 +318,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/catalog_far_reach.json",
-      "sha256": "f6a4f01ccf54cc180ee2a35c24447a4c76c7a17066505ae943ccbcb36f8c8260"
+      "sha256": "e0728ec3723048df4bf38a9071f12fb1ff54c6e4a94ae14f9e9f9d9ece8b6da0"
     },
     {
       "path": "src/main/lang/zh_hk/catalog_floral.json",
@@ -338,7 +342,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/diary.json",
-      "sha256": "b0d6780708b2c642a81510611a195c786bd016fc56cb34bf84deb05cb3f67361"
+      "sha256": "eac166addb33418653457f8f3697016833d27a5c1e0599e056a04ff66ef75165"
     },
     {
       "path": "src/main/lang/zh_hk/utility_items.json",
@@ -358,11 +362,11 @@
     },
     {
       "path": "src/main/lang/zh_tw/aspects/far_reach.json",
-      "sha256": "8b0d3cbb532ce793830efbcc7011204b128df5545993732917319df139f6212c"
+      "sha256": "0ab6ae2d4916aafbb7698b47a2f5a89602c7999acfbaf19f349ddc6a1b382210"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/flourishing.json",
-      "sha256": "544c5e7c63cadbcc0b6841031d9476faa82bad6203062ed734874f1d32cf35f7"
+      "sha256": "07ca416371a3bc4f145db994427af724b170e06cf91add079eae10989af2c2e5"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/underworld.json",
@@ -382,7 +386,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/catalog_far_reach.json",
-      "sha256": "f6a4f01ccf54cc180ee2a35c24447a4c76c7a17066505ae943ccbcb36f8c8260"
+      "sha256": "e0728ec3723048df4bf38a9071f12fb1ff54c6e4a94ae14f9e9f9d9ece8b6da0"
     },
     {
       "path": "src/main/lang/zh_tw/catalog_floral.json",
@@ -406,7 +410,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/diary.json",
-      "sha256": "d584ba7e266be3d7ef3c9b0be7e54c07a7d9eabd6fbcb52d8d9e7bf582185ba9"
+      "sha256": "1815656e1e31c6a5d830dd80de9385168c84580ee7a885bbd66b31c67c5dd143"
     },
     {
       "path": "src/main/lang/zh_tw/utility_items.json",
@@ -414,7 +418,7 @@
     },
     {
       "path": "src/main/resources/META-INF/mods.toml",
-      "sha256": "79f841130952df68680af163aaaa36b1504aa11eaf6f370333c90ca1dfe8e233"
+      "sha256": "f7889db4a8f758e9c75237a09cfaeb0d7ca397329bdc6ffea182ac3d1ba5e764"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/blockstates/lantern_light.json",
@@ -422,11 +426,11 @@
     },
     {
       "path": "src/main/resources/assets/the_long_travail/config/configuration-guide.en_us.txt",
-      "sha256": "9cffc7633de5a80d172b61c1803a0fdb3016cac4867cc7963cb2c52d2cf679e5"
+      "sha256": "8da376ecc1962b14501a2dce90baa66709c274ddf1b986469b4df29e04b2f128"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/config/configuration-guide.zh_cn.txt",
-      "sha256": "5931d7780e08366d4431da3031592b643c1b38d9c388a20e85b266720712b599"
+      "sha256": "d7d1a617d52c890f5a03d384e23c1b90f40ce863e248bbf97fe267e415c2f027"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/models/block/lantern_light.json",
@@ -1346,7 +1350,7 @@
     },
     {
       "path": "src/main/resources/mixins.the_long_travail.json",
-      "sha256": "976a85b72019a942790217fbc0017a9fd622c9b1a518e297903dafa2b306be88"
+      "sha256": "8de21c3a078f22396a1f3508b98deb43168f631758961d948d8d0826357ea89d"
     },
     {
       "path": "src/main/resources/pack.mcmeta",

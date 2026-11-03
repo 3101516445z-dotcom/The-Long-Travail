@@ -1,8 +1,15 @@
 package travail.structures;
 
+import com.thelongtravail.common.weighted.WeightedEntry;
+
+import com.thelongtravail.journey.JourneyOperations;
+import com.thelongtravail.journey.RequirementPools;
+
+import com.thelongtravail.exploration.JourneySpatial;
+
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.config.TravailConfig;
-import com.thelongtravail.data.*;
+
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.*;

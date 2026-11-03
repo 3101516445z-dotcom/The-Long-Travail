@@ -1,6 +1,14 @@
 package com.thelongtravail.loot;
 
-import com.thelongtravail.mixin.*;
+import com.thelongtravail.mixin.loot.LootPoolAccess;
+import com.thelongtravail.mixin.loot.LootTableAccess;
+import com.thelongtravail.mixin.loot.LootSingletonAccess;
+import com.thelongtravail.mixin.loot.LootEntryAccess;
+
+import com.thelongtravail.mixin.execution.ExecutionLootItemAccessor;
+import com.thelongtravail.mixin.execution.ExecutionLootPoolAccessor;
+import com.thelongtravail.mixin.execution.ExecutionLootReferenceAccessor;
+import com.thelongtravail.mixin.execution.ExecutionLootTableAccessor;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;

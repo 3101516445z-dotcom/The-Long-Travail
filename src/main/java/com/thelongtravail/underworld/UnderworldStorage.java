@@ -1,7 +1,7 @@
 package com.thelongtravail.underworld;
 
-import com.thelongtravail.data.HotPathMetrics;
-import com.thelongtravail.data.HotPathMetrics.Counter;
+import com.thelongtravail.diagnostics.HotPathMetrics;
+import com.thelongtravail.diagnostics.HotPathMetrics.Counter;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;

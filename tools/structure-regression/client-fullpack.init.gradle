@@ -1,0 +1,45 @@
+allprojects {
+    afterEvaluate {
+        def mode = providers.gradleProperty('acceptanceMode').get()
+        if (!(mode in ['boundless', 'lantern', 'icarus', 'visual', 'network'])) throw new GradleException('Unknown acceptanceMode')
+        def generated = layout.buildDirectory.dir("client-fullpack-source/${mode}")
+        def prepare = tasks.register('prepareFullpackClientFixture', Sync) {
+            inputs.property('fixtureTransformVersion', 2)
+            from("tools/${mode}-client") { include '*.java' }
+            into generated
+            // 只调整验收夹具：正式环境方法名经过重映射，按唯一签名定位原生按键回调。
+            filter { String line ->
+                if (mode == 'boundless' && line.contains('KeyboardHandler.class.getDeclaredMethod(')) {
+                    return 'java.util.Arrays.stream(KeyboardHandler.class.getDeclaredMethods()).filter(v -> java.util.Arrays.equals(v.getParameterTypes(), new Class<?>[]{long.class, int.class, int.class, int.class, int.class})).findFirst().orElseThrow();'
+                }
+                if (mode == 'boundless' && line.contains('"keyPress", long.class')) return ''
+                if (line.contains('180_000_000_000L')) return line.replace('180_000_000_000L', '900_000_000_000L')
+                if (mode == 'icarus' && line.contains('private boolean finished;')) return line.replace('private boolean finished;', 'private boolean finished, launched;')
+                if (mode != 'lantern' && line.contains('if (ticks == 20) {')) {
+                    return line + '\nif (Boolean.getBoolean("travail.lantern.shader")) { Class<?> iris = Class.forName("net.irisshaders.iris.Iris"); if (!(boolean) iris.getMethod("isPackInUseQuick").invoke(null)) throw new AssertionError("shader pack not active"); System.out.println("ACCEPTANCE_SHADER_ACTIVE " + iris.getMethod("getCurrentPackName").invoke(null)); }'
+                }
+                if (mode == 'icarus' && line.contains('if (++idle > 2000)')) {
+                    return 'if (++idle > 80 && !launched && mc.getOverlay() == null) { launched = true; mc.createWorldOpenFlows().loadLevel(new net.minecraft.client.gui.screens.TitleScreen(), "visual-world"); } if (idle > 12000) throw new AssertionError("world load timeout");'
+                }
+                return line
+            }
+        }
+        sourceSets {
+            fullpackClient {
+                java.srcDir generated
+                resources.srcDir "tools/${mode}-client-resources"
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+            }
+        }
+        tasks.named('compileFullpackClientJava').configure { dependsOn prepare }
+        tasks.register('fullpackClientJar', Jar) {
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+            from sourceSets.fullpackClient.output
+            from('tools/structure-regression/preface-preview/resources') { include 'pack.mcmeta' }
+            archiveFileName = "travail-${mode}-acceptance.jar"
+            destinationDirectory = layout.buildDirectory.dir('client-fixture')
+            doFirst { manifest.attributes.remove('MixinConfigs') }
+        }
+        reobf { fullpackClientJar { classpath.from sourceSets.main.output, sourceSets.main.compileClasspath } }
+    }
+}

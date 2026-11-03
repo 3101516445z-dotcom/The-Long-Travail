@@ -29,7 +29,7 @@ if (variant === 'chunks') wanted.push('ftb-chunks');
 if (variant === 'storage') wanted.push('sophisticatedcore', 'sophisticatedstorage', 'sophisticatedbackpacks');
 if (variant === 'lootr') wanted.push('lootr');
 const inputs = [
-    path.join(root, 'build/libs/The_Long_Travail-0.1.3.jar'),
+    path.join(root, 'build/libs/The_Long_Travail-1.0.0.jar'),
     path.join(root, 'build/libs/travail-tremor-test-1.jar'),
 ];
 for (const pattern of wanted) {

@@ -1,10 +1,13 @@
 package com.thelongtravail.compat.mixin.embeddium;
 
-import com.thelongtravail.client.LanternLightingClient;
-import me.jellysquid.mods.sodium.client.model.quad.ModelQuadView;
+import com.thelongtravail.client.lighting.LanternLightingClient;
+
 import me.jellysquid.mods.sodium.client.model.light.data.QuadLightData;
+import me.jellysquid.mods.sodium.client.model.quad.ModelQuadView;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;

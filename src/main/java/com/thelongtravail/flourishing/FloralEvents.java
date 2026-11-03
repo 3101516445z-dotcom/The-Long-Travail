@@ -2,7 +2,7 @@ package com.thelongtravail.flourishing;
 
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.config.FlourishingItemsConfig;
-import com.thelongtravail.mixin.EffectDurationAccessor;
+import com.thelongtravail.mixin.effects.EffectDurationAccessor;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.*;

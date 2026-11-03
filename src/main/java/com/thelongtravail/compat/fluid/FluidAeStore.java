@@ -1,12 +1,14 @@
 package com.thelongtravail.compat.fluid;
 
-import net.minecraft.nbt.*;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.registries.ForgeRegistries;
-import java.util.*;
 import static com.thelongtravail.compat.fluid.FluidReflection.*;
+
+import com.thelongtravail.abyss.copy.CopyStorage;
+import com.thelongtravail.abyss.copy.FluidCopyGraph;
+
+import net.minecraft.nbt.*;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.*;
 
 // AE2 15.x 直接存储资源键和长整型数量，不能按序列化物品堆叠处理。
 final class FluidAeStore {
@@ -15,22 +17,7 @@ final class FluidAeStore {
                     "appeng.items.storage.BasicStorageCell",
                     "appeng.items.tools.powered.PortableCellItem");
 
-    static boolean handles(CompoundTag data) {
-        if (!data.contains("Count", Tag.TAG_ANY_NUMERIC) || !ModList.get().isLoaded("ae2"))
-            return false;
-        var id = ResourceLocation.tryParse(data.getString("id"));
-        var item = id == null ? null : ForgeRegistries.ITEMS.getValue(id);
-        if (item == null) return false;
-        try {
-            return type("appeng.api.storage.cells.ICellWorkbenchItem").isInstance(item)
-                    || type("appeng.api.implementations.items.ISpatialStorageCell")
-                            .isInstance(item);
-        } catch (ReflectiveOperationException e) {
-            throw new IllegalStateException("AE2 cell API unavailable", e);
-        }
-    }
-
-    static void transform(FluidCopyGraph graph, CompoundTag data, int depth) throws Exception {
+    static void transform(CopyStorage.Context graph, CompoundTag data, int depth) throws Exception {
         ItemStack stack = ItemStack.of(data);
         String implementation = stack.getItem().getClass().getName();
         CompoundTag tag = data.getCompound("tag");
@@ -69,7 +56,8 @@ final class FluidAeStore {
             if (!key.equals("tag")) graph.transform(data.get(key), depth + 1);
     }
 
-    private static void rewrite(FluidCopyGraph graph, ItemStack stack, CompoundTag tag, int depth)
+    private static void rewrite(
+            CopyStorage.Context graph, ItemStack stack, CompoundTag tag, int depth)
             throws Exception {
         boolean keysPresent = tag.contains("keys"), amountsPresent = tag.contains("amts");
         if (!keysPresent && !amountsPresent && !tag.contains("ic")) return;

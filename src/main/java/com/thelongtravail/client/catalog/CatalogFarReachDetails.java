@@ -50,9 +50,9 @@ public final class CatalogFarReachDetails {
                 out.add(line("gold.1"));
                 out.add(line("gold.2", n("golden_age.waterTime", 1), n("golden_age.range", 1)));
                 section(out, "gold.malice");
-                out.add(line("gold.3"));
+                out.add(line("gold.3", n("golden_age.enchantmentChance", 100)));
                 section(out, "gold.witness");
-                out.add(line("gold.4"));
+                out.add(line("gold.4", n("golden_age.foodChance", 100)));
             }
             case "icarus" -> {
                 out.add(line("icarus.0"));

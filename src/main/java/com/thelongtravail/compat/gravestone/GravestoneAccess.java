@@ -60,8 +60,7 @@ public final class GravestoneAccess {
                     "Gravestone method threw while reconciling items: " + method.getName(),
                     failure.getCause());
         } catch (IllegalAccessException failure) {
-            throw new Unavailable(
-                    "Gravestone API is inaccessible: " + method.getName(), failure);
+            throw new Unavailable("Gravestone API is inaccessible: " + method.getName(), failure);
         }
     }
 

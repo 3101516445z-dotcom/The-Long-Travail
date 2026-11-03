@@ -1,11 +1,13 @@
 package travail.smoke;
 
+import com.thelongtravail.journey.LongTravailData;
+
 import com.mojang.authlib.GameProfile;
 import com.thelongtravail.*;
 import com.thelongtravail.config.*;
-import com.thelongtravail.data.*;
+
 import com.thelongtravail.event.TravailEvents;
-import com.thelongtravail.helper.CombatContext;
+import com.thelongtravail.combat.CombatContext;
 import com.thelongtravail.registry.ModRegistry;
 import net.minecraft.server.level.*;
 import net.minecraft.world.entity.player.Player;
@@ -103,13 +105,13 @@ public final class AccessoryRestoreSmoke {
             for (Item item : items)
                 for (String slot : slots) {
                     check(
-                            com.thelongtravail.helper.AccessoryEquipRules.hasEquipped(p, slot, item)
+                            com.thelongtravail.equipment.AccessoryEquipRules.hasEquipped(p, slot, item)
                                     == legacy(p, item, slot),
                             "query matches legacy");
                     comparisons++;
                 }
             for (boolean mode : new boolean[] {false, true}) {
-                boolean diary = !com.thelongtravail.helper.TravailCurios.stack(p).isEmpty();
+                boolean diary = !com.thelongtravail.equipment.TravailCurios.stack(p).isEmpty();
                 boolean expected = (mode || diary) && legacy(p, mode ? items[1] : items[0], null);
                 check(
                         com.thelongtravail.boundless.BoundlessEquipment.equipped(p, mode)
@@ -221,7 +223,7 @@ public final class AccessoryRestoreSmoke {
             var second = new SlotContext(slot, fresh, 1, false, true);
             check(!((ICurioItem) item).canEquip(second, stack), "live duplicate rejected");
             try (var scope =
-                    new com.thelongtravail.helper.AccessoryRestore(fresh, restored.writeTag())) {
+                    new com.thelongtravail.equipment.AccessoryRestore(fresh, restored.writeTag())) {
                 check(((ICurioItem) item).canEquip(c, stack), "restore first accepted");
                 check(!((ICurioItem) item).canEquip(second, stack), "restore duplicate rejected");
                 check(((ICurioItem) item).canEquip(c, stack), "repeat validation idempotent");
@@ -273,20 +275,20 @@ public final class AccessoryRestoreSmoke {
             var p = new TestPlayer(level);
             equip(p);
             try (var scope =
-                    new com.thelongtravail.helper.AccessoryRestore(
+                    new com.thelongtravail.equipment.AccessoryRestore(
                             p, new net.minecraft.nbt.CompoundTag())) {
                 check(
-                        !com.thelongtravail.helper.AccessoryEquipRules.hasDiary(p),
+                        !com.thelongtravail.equipment.AccessoryEquipRules.hasDiary(p),
                         "missing incoming prerequisite overrides live inventory");
                 var other = new TestPlayer(level);
                 equip(other);
                 check(
-                        com.thelongtravail.helper.AccessoryEquipRules.hasDiary(other),
+                        com.thelongtravail.equipment.AccessoryEquipRules.hasDiary(other),
                         "scope isolated per wearer");
             }
-            check(com.thelongtravail.helper.AccessoryEquipRules.hasDiary(p), "scope cleaned up");
+            check(com.thelongtravail.equipment.AccessoryEquipRules.hasDiary(p), "scope cleaned up");
             var inv = CuriosApi.getCuriosInventory(p).resolve().orElseThrow();
-            try (var scope = new com.thelongtravail.helper.AccessoryRestore(p, inv.writeTag())) {
+            try (var scope = new com.thelongtravail.equipment.AccessoryRestore(p, inv.writeTag())) {
                 var azrael = new ItemStack(ModRegistry.AZRAEL.get());
                 check(
                         !((ICurioItem) azrael.getItem())
@@ -328,14 +330,14 @@ public final class AccessoryRestoreSmoke {
                                 .canEquip(new SlotContext("charm", p, 0, false, true), validBook),
                         "carried book cannot be equipped");
                 try (var nested =
-                        new com.thelongtravail.helper.AccessoryRestore(
+                        new com.thelongtravail.equipment.AccessoryRestore(
                                 p, new net.minecraft.nbt.CompoundTag())) {
                     check(
-                            !com.thelongtravail.helper.AccessoryEquipRules.hasDiary(p),
+                            !com.thelongtravail.equipment.AccessoryEquipRules.hasDiary(p),
                             "nested snapshot active");
                 }
                 check(
-                        com.thelongtravail.helper.AccessoryEquipRules.hasDiary(p),
+                        com.thelongtravail.equipment.AccessoryEquipRules.hasDiary(p),
                         "outer snapshot restored");
             }
 

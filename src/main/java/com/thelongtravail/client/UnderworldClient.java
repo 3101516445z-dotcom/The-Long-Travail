@@ -2,7 +2,7 @@ package com.thelongtravail.client;
 
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.item.UnderworldAccessoryItem;
-import com.thelongtravail.helper.TravailCurios;
+import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.network.*;
 import com.thelongtravail.abyss.RainTooltips;
 import net.minecraft.client.Minecraft;
@@ -53,7 +53,7 @@ public final class UnderworldClient {
     public static void init(ScreenEvent.Init.Post e) {
         if (!(e.getScreen() instanceof DeathScreen s) || death == null) return;
         UUID id = death;
-        var access = (com.thelongtravail.mixin.BookDeathScreenAccessor) s;
+        var access = (com.thelongtravail.mixin.underworld.BookDeathScreenAccessor) s;
         int firstY =
                 access.travail$exitButtons().stream()
                         .mapToInt(Button::getY)
@@ -106,7 +106,7 @@ public final class UnderworldClient {
             boolean witnessed =
                     !complete
                             && viewer != null
-                            && com.thelongtravail.data.LongTravailData.hasWitness(
+                            && com.thelongtravail.journey.LongTravailData.hasWitness(
                                     TravailCurios.stack(viewer),
                                     com.thelongtravail.TravailAspect.UNDERWORLD);
             String[] keys =

@@ -21,8 +21,24 @@ public final class FarReachItemsConfig {
         GoldenAgeCompatDefaults.define(b);
         n(
                 b,
+                "golden_age.enchantmentChance",
+                .25,
+                0,
+                1,
+                "穷遐恶意状态下，金块转化为附魔书的概率；否则转化为青金石块。0.5表示50%。\n"
+                        + "Chance for a gold block to become an enchanted book during Malice; otherwise a lapis lazuli block.");
+        n(
+                b,
+                "golden_age.foodChance",
+                .25,
+                0,
+                1,
+                "穷遐见证状态下，金块转化为佳肴的概率；否则转化为蜂蜜块。0.5表示50%。\n"
+                        + "Chance for a gold block to become a delicacy after Witness; otherwise a honey block.");
+        n(
+                b,
                 "golden_age.digGoldChance",
-                .5,
+                .75,
                 0,
                 1,
                 "每次成功淘金获得金粒的概率，0.5表示50%；否则获得燧石。不影响金块入水转化的概率。\n"

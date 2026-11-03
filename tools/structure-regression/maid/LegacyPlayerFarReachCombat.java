@@ -10,7 +10,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.*;
 import net.minecraft.world.damagesource.*;
 
-// c5d920a 的玩家规则快照；不随生产规则重构修改。
+// 玩家规则对照；晴天峰值按当前配置契约取基础峰值加额外峰值。
 public final class LegacyPlayerFarReachCombat {
     public static void ignite(net.minecraft.world.entity.LivingEntity target, DamageSource source) {
         if (!com.thelongtravail.config.ModeEffectRules.ICARUS_FIRE.applies(target)
@@ -34,10 +34,11 @@ public final class LegacyPlayerFarReachCombat {
         return sun == 0
                 ? 0
                 : sun
-                        * FarReachItemsConfig.get(
-                                IcarusEnvironment.sunny(p.level()) && IcarusEnvironment.openSky(p)
-                                        ? "icarus.sunnyPeak"
-                                        : "icarus.malicePeak");
+                        * (FarReachItemsConfig.get("icarus.malicePeak")
+                                + (IcarusEnvironment.sunny(p.level())
+                                                && IcarusEnvironment.openSky(p)
+                                        ? FarReachItemsConfig.get("icarus.sunnyExtraPeak")
+                                        : 0));
     }
 
     public static boolean immune(ServerPlayer p, DamageSource source) {

@@ -1,8 +1,8 @@
 package com.thelongtravail.entity;
 
-import com.thelongtravail.data.WayguideGeometry;
-import com.thelongtravail.data.WayguideReturns;
-import com.thelongtravail.data.WayguideSearch;
+import com.thelongtravail.exploration.WayguideGeometry;
+import com.thelongtravail.exploration.WayguideReturns;
+import com.thelongtravail.exploration.WayguideSearch;
 import com.thelongtravail.registry.ModRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;

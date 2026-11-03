@@ -61,7 +61,7 @@ public final class LegacyPlayerFloralCombat {
         double multiplier = 1;
         if (victim instanceof ServerPlayer p) {
             ItemStack crown = Affection.equipped(p, true);
-            var context = com.thelongtravail.helper.CombatContext.current(victim, source);
+            var context = com.thelongtravail.combat.CombatContext.current(victim, source);
             if (context != null && context.isFloralPoison())
                 multiplier *= 1 - value(crown, Flower.ALLIUM);
             if (source.is(DamageTypeTags.IS_FALL))

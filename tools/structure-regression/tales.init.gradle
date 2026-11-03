@@ -1,5 +1,15 @@
 allprojects {
     afterEvaluate {
+        if (project.hasProperty('talesMaid')) {
+            dependencies { runtimeOnly fg.deobf(project.ext.maidApiDependency) }
+        }
+        if (project.hasProperty('talesApotheosis')) {
+            def deps = project.file('build/apotheosis-tales/deps')
+            repositories { flatDir { dirs deps } }
+            deps.listFiles().findAll { it.name.endsWith('.jar') }.each { jar ->
+                dependencies.add('runtimeOnly', fg.deobf("talescompat:${jar.name[0..-5]}:1"))
+            }
+        }
         sourceSets {
             talesTest {
                 java.srcDir 'tools/structure-regression/tales'
@@ -8,7 +18,7 @@ allprojects {
                 runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
             }
         }
-        def directory = project.file('build/tales-server')
+        def directory = project.file(project.hasProperty('talesApotheosis') ? 'build/tales-apotheosis-server' : 'build/tales-server')
         minecraft.runs.server {
             workingDirectory directory
             jvmArgs '-Xmx3G'

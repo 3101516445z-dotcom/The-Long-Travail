@@ -1,7 +1,7 @@
 package com.thelongtravail.network;
 
-import com.thelongtravail.boundless.TimeStopExemptions;
-import com.thelongtravail.boundless.TimeStopManager;
+import com.thelongtravail.boundless.timestop.TimeStopExemptions;
+import com.thelongtravail.boundless.timestop.TimeStopManager;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -58,7 +58,7 @@ public final class TimeStopSync {
                                     level.dimension().location(),
                                     list.stream().map(views::get).toList());
                     if (player.connection != null && !packet.equals(LAST.get(player))) {
-                        com.thelongtravail.data.HotPathMetrics.Counter.SYNC_PACKETS.add(1);
+                        com.thelongtravail.diagnostics.HotPathMetrics.Counter.SYNC_PACKETS.add(1);
                         TravailNetwork.sendTimeStop(player, packet);
                         LAST.put(player, packet);
                     }
@@ -72,7 +72,7 @@ public final class TimeStopSync {
             Map<Entity, UUID> owners) {
         if (allies.size() >= TimeStopPacket.MAX_ALLIES || allies.contains(entity.getUUID())) return;
         if (!owners.containsKey(entity)) {
-            com.thelongtravail.data.HotPathMetrics.Counter.OWNER_LOOKUPS.add(1);
+            com.thelongtravail.diagnostics.HotPathMetrics.Counter.OWNER_LOOKUPS.add(1);
             owners.put(entity, TimeStopExemptions.owner(entity));
         }
         UUID owner = owners.get(entity);

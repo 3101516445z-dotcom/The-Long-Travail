@@ -176,7 +176,7 @@ node tools/structure-regression/suite.mjs soak 启动专用持续场景，目标
     ./gradlew.bat -I tools/structure-regression/fullpack-revival.init.gradle reobfRevivalAcceptanceJar --offline
     python tools/structure-regression/fullpack-revival.py --pack <整包目录> --output <新的隔离目录> --java <Java可执行文件>
 
-入口复制整包模组、配置和资源，使用 `build/libs/The_Long_Travail-0.1.3.jar` 和独立客户端测试模组。世界来自 `build/coloring-standalone/coloring-test`，不使用正常游玩存档；隔离配置以获取方式测试配置为基础，再同步当前箱子概率默认表。启动使用本地离线测试账号。
+入口复制整包模组、配置和资源，使用 `build/libs/The_Long_Travail-1.0.0.jar` 和独立客户端测试模组。世界来自 `build/coloring-standalone/coloring-test`，不使用正常游玩存档；隔离配置由 `--fixture-config` 显式指定，需包含当前默认箱表的全部小节；可使用已由当前版本生成的 `general.toml`，入口再同步箱子概率默认表。首次运行必须传入该参数，`--resume` 沿用副本配置。启动使用本地离线测试账号。
 
 客户端先执行获取方式的概率与携带压力检查，再在普通、极限模式各完成 16 次死亡界面按钮复活。每种模式有 12 次死亡保留物品（背包、副手、末影箱各 4 次），另有 4 次不保留物品（书本位于末影箱）。致死前等待 120 个服务端 tick，避开出生保护；点击真实死亡界面的“死者苏生”按钮，检查存活、原地复活、死亡记录清除、选定书本消耗和备用书保留。截图写入 `screenshots`，结果写入 `client-result.txt` 和 `client-checks.txt`。
 
@@ -187,7 +187,7 @@ node tools/structure-regression/suite.mjs soak 启动专用持续场景，目标
     ./gradlew.bat -I tools/structure-regression/abundance-fullpack.init.gradle reobfAbundanceFullpackJar --offline
     python tools/structure-regression/abundance-fullpack.py --pack <整包目录> --output <仓库build下的新目录> --java <Java可执行文件>
 
-需要先生成正式 `build/libs/The_Long_Travail-0.1.3.jar` 和 `build/abundance-server/abundance` 测试世界。入口复制当前整包模组、配置、KubeJS 与资源，以新正式 JAR 替换副本中的旧 TLT，并加入独立测试模组。使用离线测试账号；不读取正常游玩存档。运行前后核对原目录 mods/config/defaultconfigs/kubejs/options.txt 的 SHA-256。测试副本保留，不覆盖已有输出目录。
+需要先生成正式 `build/libs/The_Long_Travail-1.0.0.jar` 和 `build/abundance-server/abundance` 测试世界。入口复制当前整包模组、配置、KubeJS 与资源，以新正式 JAR 替换副本中的旧 TLT，并加入独立测试模组。使用离线测试账号；不读取正常游玩存档。运行前后核对原目录 mods/config/defaultconfigs/kubejs/options.txt 的 SHA-256。测试副本保留，不覆盖已有输出目录。
 
 服务端检查 100,000 次完整注册效果池抽样、药水 NBT 往返和滞留时长；随后四个 FakePlayer 交替进行 10,000 次转换尝试，包含 1,000 次取消、500 次背包满载和四次效果池重建。客户端先通过真实 KeyMapping 执行 30 个场景：五种时间与三种类型的蓄满转换，以及每种类型的点按、提前松开、界面打断、其他提示覆盖、配置重载；检查物品描述包含当前类型、拾遗正文不包含个人状态。测试角色使用生存模式和仅用于夹具的免伤保护，死亡存档会先复活。进入世界后等待 400 个服务端 tick；长按检查允许有限同步延迟，避免将启动卡顿误判为逻辑失败。
 
@@ -233,3 +233,24 @@ node tools/structure-regression/suite.mjs soak 启动专用持续场景，目标
 - [高频战栗入口](tremor/README.md)：核心服务端、可选兼容和正式包隔离运行
 
 前三项分别使用 `gradlew.bat -I tools/structure-regression/<入口> runServer --offline`；伊卡洛斯入口使用 `runClient`。测试辅助模组只加入对应隔离运行环境。
+
+独立亡灵视角与嵌套命中检查见[亡灵视角隔离回归](underworld-scope/README.md)。
+
+## 联动结构边界
+
+在仓库根目录运行：
+
+```sh
+node tools/structure-regression/check-boundaries.mjs
+node tools/structure-regression/check-boundaries.test.mjs
+```
+
+检查主体对女仆和库存实现的直接引用、平台依赖之外的 API import、主体适配入口清单及其类文件、配置预设装配，以及两份 Mixin 清单的类与插件路径。反例夹具覆盖新增外部 API、未登记内部实现、适配入口缺失、越界引用、注册缺失和重复。该检查分析源码文本与路径；类加载、反射和客户端行为使用对应运行夹具。女仆功能夹具通过 MaidIntegration 执行主体查询，适配专用操作仍直接使用女仆实现。
+
+## 完美流体复制内核
+
+运行 `./gradlew.bat -I tools/structure-regression/fluid-core.init.gradle runServer --offline --no-daemon`。隔离服务端结果写入 `build/fluid-core-server/fluid-core-result.txt`。覆盖预览不写库、共享与循环引用、逆序回滚、回滚异常继续清理、深度限制、停用适配器后普通点击与快速移动不消耗材料，以及普通复制继续工作。存储格式兼容另由对应模组矩阵验证。
+
+## 探索查询与候选游标
+
+运行 `./gradlew.bat -I tools/structure-regression/exploration.init.gradle runServer --offline --no-daemon`。隔离服务端结果写入 `build/exploration-server/exploration-result.txt`。复用 JourneyQuerySmoke、WayguideCursorChecks 与冻结的候选枚举算法，检查跨区块结构、分段预算、负坐标、候选顺序和异步环布局。完整路引任务及返还使用 ledger-wayguide 入口，空间容差和群系缓存使用 journey-tolerance 入口。

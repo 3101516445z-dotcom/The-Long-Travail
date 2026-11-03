@@ -107,12 +107,7 @@ public final class CatalogScreen extends Screen {
         double aidLeft = (6 - aidCount) * aidStep / 2 + (columnWidth - size) / 2;
         for (int i = 0; i < aids.size(); i++)
             cards.add(
-                    new Card(
-                            aids.get(i),
-                            (int) Math.round(aidLeft + i * aidStep),
-                            22,
-                            size,
-                            size));
+                    new Card(aids.get(i), (int) Math.round(aidLeft + i * aidStep), 22, size, size));
         for (Entry e : all())
             if (e.category() == Category.STONE)
                 cards.add(

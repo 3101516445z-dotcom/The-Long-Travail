@@ -2,10 +2,10 @@ package com.thelongtravail.underworld;
 
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.valley.AzraelExecution;
+import com.thelongtravail.valley.execution.AzraelExecution;
 import com.thelongtravail.config.UnderworldItemsConfig;
-import com.thelongtravail.data.LongTravailData;
-import com.thelongtravail.helper.TravailCurios;
+import com.thelongtravail.journey.LongTravailData;
+import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.network.UnderworldPacket;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -52,7 +52,7 @@ public final class BookRevival {
             DamageSource source,
             ItemStack diary,
             UUID book,
-            com.thelongtravail.data.JourneyState.AspectJourneyKey journey,
+            com.thelongtravail.journey.JourneyState.AspectJourneyKey journey,
             boolean witness,
             boolean eligible) {}
 
@@ -105,7 +105,7 @@ public final class BookRevival {
         boolean eligible =
                 !book.isEmpty() && !p.isSpectator() && !excluded(p, source, matching ? h.input : 0);
         var journey =
-                com.thelongtravail.data.JourneyState.identity(diary, TravailAspect.UNDERWORLD);
+                com.thelongtravail.journey.JourneyState.identity(diary, TravailAspect.UNDERWORLD);
         boolean witness =
                 eligible
                         && matching
@@ -166,7 +166,7 @@ public final class BookRevival {
         n.putBoolean("Ready", true);
         ledger.setDirty();
         if (d.witness && d.journey != null) {
-            ledger.witness(d.journey, com.thelongtravail.data.JourneyState.BOOK_SOURCE);
+            ledger.witness(d.journey, com.thelongtravail.journey.JourneyState.BOOK_SOURCE);
             ledger.reconcile(d.diary);
             UnderworldStorage.player(p);
             UnderworldStorage.sweep(p.server, p);

@@ -2,8 +2,8 @@ package com.thelongtravail.underworld;
 
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.config.UnderworldItemsConfig;
-import com.thelongtravail.data.LongTravailData;
-import com.thelongtravail.helper.TravailCurios;
+import com.thelongtravail.journey.LongTravailData;
+import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.registry.ModRegistry;
 
 import net.minecraft.server.level.ServerPlayer;
@@ -48,7 +48,7 @@ public final class UnderworldItems {
     }
 
     public static boolean seesUndead(LivingEntity attacker) {
-        return com.thelongtravail.compat.maid.MaidAccessories.seesUndead(attacker)
+        return com.thelongtravail.integration.MaidIntegration.seesUndead(attacker)
                 || attacker instanceof Player p
                         && !equipped(p, true).isEmpty()
                         && LongTravailData.hasWitness(

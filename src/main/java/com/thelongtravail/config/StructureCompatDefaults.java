@@ -2,21 +2,7 @@ package com.thelongtravail.config;
 
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.compat.aquamirae.AquamiraeStructureDefaults;
-import com.thelongtravail.compat.arsnouveau.ArsNouveauStructureDefaults;
-import com.thelongtravail.compat.cataclysm.CataclysmStructureDefaults;
-import com.thelongtravail.compat.eeeabsmobs.EEEABMobsStructureDefaults;
-import com.thelongtravail.compat.goety.GoetyStructureDefaults;
-import com.thelongtravail.compat.goetyawaken.GoetyAwakenStructureDefaults;
-import com.thelongtravail.compat.incendium.IncendiumStructureDefaults;
-import com.thelongtravail.compat.ironsspellbooks.IronsSpellbooksStructureDefaults;
-import com.thelongtravail.compat.legendarymonsters.LegendaryMonstersStructureDefaults;
-import com.thelongtravail.compat.maidspell.MaidSpellStructureDefaults;
-import com.thelongtravail.compat.mowziesmobs.MowziesMobsStructureDefaults;
-import com.thelongtravail.compat.terralith.TerralithStructureDefaults;
-import com.thelongtravail.compat.townsandtowers.TownsAndTowersStructureDefaults;
-import com.thelongtravail.compat.traveloptics.TravelOpticsStructureDefaults;
-import com.thelongtravail.data.RequirementPools;
+import com.thelongtravail.journey.RequirementPools;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -40,77 +26,7 @@ public final class StructureCompatDefaults {
             java.util.function.Function<TravailAspect, List<String>> structures) {}
 
     private static final List<Preset> PRESETS =
-            List.of(
-                    new Preset(
-                            "eeeabsmobs",
-                            "EEEAB's Mobs",
-                            "travail.requirements.compatInitialization.eeeabsmobsStructuresAdded",
-                            EEEABMobsStructureDefaults::structures),
-                    new Preset(
-                            "legendary_monsters",
-                            "Legendary Monsters",
-                            "travail.requirements.compatInitialization.legendarymonstersStructuresAdded",
-                            LegendaryMonstersStructureDefaults::structures),
-                    new Preset(
-                            "cataclysm",
-                            "Cataclysm",
-                            "travail.requirements.compatInitialization.cataclysmStructuresAdded",
-                            CataclysmStructureDefaults::structures),
-                    new Preset(
-                            "terralith",
-                            "Terralith",
-                            "travail.requirements.compatInitialization.terralithStructuresAdded",
-                            TerralithStructureDefaults::structures),
-                    new Preset(
-                            "goetyawaken",
-                            "Goety Awaken",
-                            "travail.requirements.compatInitialization.goetyAwakenStructuresAdded",
-                            GoetyAwakenStructureDefaults::structures),
-                    new Preset(
-                            "towns_and_towers",
-                            "Towns and Towers",
-                            "travail.requirements.compatInitialization.townsAndTowersStructuresAdded",
-                            TownsAndTowersStructureDefaults::structures),
-                    new Preset(
-                            "goety",
-                            "Goety",
-                            "travail.requirements.compatInitialization.goetyStructuresAdded",
-                            GoetyStructureDefaults::structures),
-                    new Preset(
-                            "incendium",
-                            "Incendium",
-                            "travail.requirements.compatInitialization.incendiumStructuresAdded",
-                            IncendiumStructureDefaults::structures),
-                    new Preset(
-                            "irons_spellbooks",
-                            "Iron's Spells and Spellbooks",
-                            "travail.requirements.compatInitialization.ironsSpellbooksStructuresAdded",
-                            IronsSpellbooksStructureDefaults::structures),
-                    new Preset(
-                            "touhou_little_maid_spell",
-                            "Touhou Little Maid: Spell",
-                            "travail.requirements.compatInitialization.maidSpellStructuresAdded",
-                            MaidSpellStructureDefaults::structures),
-                    new Preset(
-                            "ars_nouveau",
-                            "Ars Nouveau",
-                            "travail.requirements.compatInitialization.arsNouveauStructuresAdded",
-                            ArsNouveauStructureDefaults::structures),
-                    new Preset(
-                            "aquamirae",
-                            "Aquamirae",
-                            "travail.requirements.compatInitialization.aquamiraeStructuresAdded",
-                            AquamiraeStructureDefaults::structures),
-                    new Preset(
-                            "mowziesmobs",
-                            "Mowzie's Mobs",
-                            "travail.requirements.compatInitialization.mowziesMobsStructuresAdded",
-                            MowziesMobsStructureDefaults::structures),
-                    new Preset(
-                            "traveloptics",
-                            "T.O Magic and Extras",
-                            "travail.requirements.compatInitialization.travelOpticsStructuresAdded",
-                            TravelOpticsStructureDefaults::structures));
+            com.thelongtravail.compat.CompatPresets.structures(Preset::new);
     private static final Map<TravailAspect, ManagedConfig> LOADED =
             new EnumMap<>(TravailAspect.class);
 

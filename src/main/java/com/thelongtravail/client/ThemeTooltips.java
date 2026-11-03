@@ -2,10 +2,9 @@ package com.thelongtravail.client;
 
 import com.thelongtravail.abyss.RainTooltips;
 import com.thelongtravail.client.catalog.*;
-import com.thelongtravail.compat.maid.client.MaidAccessoryTooltips;
+import com.thelongtravail.equipment.AccessoryEquipRules;
 import com.thelongtravail.farreach.IcarusFlight;
 import com.thelongtravail.flourishing.*;
-import com.thelongtravail.helper.AccessoryEquipRules;
 import com.thelongtravail.item.ItemDescription;
 import com.thelongtravail.valley.LanternSources;
 
@@ -90,7 +89,7 @@ public final class ThemeTooltips {
         if (lines.stream().noneMatch(c -> key(c, ItemDescription.SUMMARY::equals))) return;
         var entry = CatalogEntries.forStack(stack).orElse(null);
         if (entry == null) return;
-        var maid = take(lines, MaidAccessoryTooltips::isMaidTooltip);
+        var maid = take(lines, com.thelongtravail.compat.CompatTooltips::isMaidTooltip);
         Set<Component> attributeLines = Collections.newSetFromMap(new IdentityHashMap<>());
         boolean curiosGroup = false;
         for (Component line : lines) {

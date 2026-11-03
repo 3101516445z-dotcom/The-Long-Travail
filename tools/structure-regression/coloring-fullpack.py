@@ -37,7 +37,7 @@ if len(old) != 1:
     raise SystemExit('Expected one installed TLT jar, found '+str(len(old)))
 (OUT / 'original-artifacts').mkdir()
 shutil.move(old[0], OUT / 'original-artifacts' / old[0].name)
-release = ROOT / 'build/libs/The_Long_Travail-0.1.3.jar'
+release = ROOT / 'build/libs/The_Long_Travail-1.0.0.jar'
 fixture = ROOT / 'build/coloring-fixture/coloring-regression.jar'
 for source in [release, fixture]:
     shutil.copy2(source, OUT / 'mods' / source.name)

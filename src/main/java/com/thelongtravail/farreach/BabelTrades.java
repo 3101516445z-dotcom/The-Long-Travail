@@ -127,7 +127,7 @@ public final class BabelTrades {
 
     public static void sync(Villager v) {
         if (v.getTradingPlayer() instanceof ServerPlayer p) {
-            if (p.containerMenu instanceof com.thelongtravail.mixin.BabelMerchantAccess menu
+            if (p.containerMenu instanceof com.thelongtravail.mixin.babel.BabelMerchantAccess menu
                     && menu.travail$merchant() == v) {
                 menu.travail$container().updateSellItem();
                 p.containerMenu.broadcastChanges();

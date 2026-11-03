@@ -1,0 +1,13 @@
+allprojects {
+    afterEvaluate {
+        def deps = project.file(project.findProperty('scopeDeps') ?: 'build/apotheosis-tales/deps')
+        if (!deps.isDirectory()) throw new GradleException('Missing scopeDeps directory: ' + deps)
+        repositories { flatDir { dirs deps } }
+        deps.listFiles().findAll { it.name.endsWith('.jar') }.each { jar ->
+            dependencies.add('runtimeOnly', fg.deobf("talescompat:${jar.name[0..-5]}:1"))
+        }
+        sourceSets.matching { it.name != 'main' && it.name != 'test' }.all {
+            java.srcDir 'tools/structure-regression/attribute-control'
+        }
+    }
+}

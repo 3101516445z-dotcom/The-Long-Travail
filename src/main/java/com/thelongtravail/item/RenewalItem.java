@@ -35,15 +35,15 @@ public final class RenewalItem extends Item {
         if (player.getCooldowns().isOnCooldown(this))
             return InteractionResultHolder.fail(player.getItemInHand(hand));
         if (player instanceof ServerPlayer serverPlayer) {
-            var result = com.thelongtravail.data.JourneyService.resetJourney(serverPlayer, hand);
+            var result = com.thelongtravail.journey.JourneyService.resetJourney(serverPlayer, hand);
             if (!result.changed()) {
-                if (result.status() == com.thelongtravail.data.JourneyOperations.Status.NO_DIARY)
+                if (result.status() == com.thelongtravail.journey.JourneyOperations.Status.NO_DIARY)
                     return unavailable(player, hand);
                 player.displayClientMessage(
                         com.thelongtravail.helper.ActionMessages.text(
                                 result.status()
-                                                == com.thelongtravail.data.JourneyOperations.Status
-                                                        .INVALID_POOL
+                                                == com.thelongtravail.journey.JourneyOperations
+                                                        .Status.INVALID_POOL
                                         ? "message.the_long_travail.journey.invalid_pool"
                                         : "message.the_long_travail.journey."
                                                 + result.status()

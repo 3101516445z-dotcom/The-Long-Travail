@@ -1,14 +1,15 @@
 package com.thelongtravail.abyss;
 
 import com.thelongtravail.api.TravailStateApi;
-import com.thelongtravail.compat.maid.MaidAccessories;
 import com.thelongtravail.config.AbyssItemsConfig;
 import com.thelongtravail.config.ModeEffectRules;
-import com.thelongtravail.data.EffectChanges;
+import com.thelongtravail.runtime.effects.EffectChanges;
 import com.thelongtravail.farreach.IcarusEnvironment;
-import com.thelongtravail.helper.AccessoryEquipRules;
-import com.thelongtravail.mixin.EffectDurationAccessor;
+import com.thelongtravail.equipment.AccessoryEquipRules;
+import com.thelongtravail.integration.MaidIntegration;
+import com.thelongtravail.mixin.effects.EffectDurationAccessor;
 import com.thelongtravail.registry.ModRegistry;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.*;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,7 +25,7 @@ public final class MidnightLafite {
         if (!e.isAlive() || e.isSpectator()) return false;
         return e instanceof Player p
                 ? AccessoryEquipRules.hasEquipped(p, "hands", ModRegistry.MIDNIGHT_LAFITE.get())
-                : MaidAccessories.lafite(e);
+                : MaidIntegration.lafite(e);
     }
 
     public static int phase(LivingEntity e) {
@@ -32,7 +33,7 @@ public final class MidnightLafite {
             return TravailStateApi.hasAbyssWitness(p)
                     ? 2
                     : TravailStateApi.hasAbyssMalice(p) ? 1 : 0;
-        return MaidAccessories.lafitePhase(e);
+        return MaidIntegration.lafitePhase(e);
     }
 
     public static double night(long time) {

@@ -1,6 +1,6 @@
 package com.thelongtravail.combat;
 
-/** 单次伤害的分派资格；实例认领仍由 CombatContext 按原顺序完成。 */
+// 单次伤害的分派资格；实例认领仍由 CombatContext 按原顺序完成。
 public record DamagePolicy(
         boolean sunStrike,
         boolean quixoteStrike,

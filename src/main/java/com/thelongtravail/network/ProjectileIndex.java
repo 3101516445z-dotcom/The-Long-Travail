@@ -1,7 +1,7 @@
 package com.thelongtravail.network;
 
 import com.thelongtravail.TheLongTravail;
-import com.thelongtravail.data.HotPathMetrics.Counter;
+import com.thelongtravail.diagnostics.HotPathMetrics.Counter;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;

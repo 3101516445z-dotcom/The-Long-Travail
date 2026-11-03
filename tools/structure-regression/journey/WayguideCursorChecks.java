@@ -1,6 +1,6 @@
 package travail.smoke;
 
-import com.thelongtravail.mixin.StructureRingsAccessor;
+import com.thelongtravail.mixin.world.StructureRingsAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
@@ -19,7 +19,7 @@ public final class WayguideCursorChecks {
         Cursor(ServerLevel level, BlockPos origin, int radius, StructurePlacement placement,
                 List<net.minecraft.core.Holder<net.minecraft.world.level.levelgen.structure.Structure>> structures) {
             try {
-                var type=Class.forName("com.thelongtravail.data.WayguidePlacementCursor");
+                var type=Class.forName("com.thelongtravail.exploration.WayguidePlacementCursor");
                 var constructor=type.getDeclaredConstructor(ServerLevel.class,BlockPos.class,int.class,StructurePlacement.class,List.class);
                 constructor.setAccessible(true);
                 value=constructor.newInstance(level,origin,radius,placement,structures);

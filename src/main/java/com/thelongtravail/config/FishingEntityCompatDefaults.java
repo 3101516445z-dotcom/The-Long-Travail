@@ -1,11 +1,6 @@
 package com.thelongtravail.config;
 
 import com.electronwill.nightconfig.core.CommentedConfig;
-import com.thelongtravail.compat.arselemental.ArsElementalFishingDefaults;
-import com.thelongtravail.compat.arsnouveau.ArsNouveauFishingDefaults;
-import com.thelongtravail.compat.maid.MaidFishingDefaults;
-import com.thelongtravail.compat.youkaisfeasts.YoukaisFeastsFishingDefaults;
-import com.thelongtravail.compat.youkaishomecoming.YoukaisHomecomingFishingDefaults;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -23,24 +18,7 @@ public final class FishingEntityCompatDefaults {
     private record Preset(String namespace, String name, List<String> entries) {}
 
     private static final List<Preset> PRESETS =
-            List.of(
-                    new Preset(
-                            "youkaisfeasts",
-                            "Youkai's Feasts",
-                            YoukaisFeastsFishingDefaults.entities()),
-                    new Preset(
-                            "youkaishomecoming",
-                            "Youkai's Homecoming",
-                            YoukaisHomecomingFishingDefaults.entities()),
-                    new Preset("ars_nouveau", "Ars Nouveau", ArsNouveauFishingDefaults.entities()),
-                    new Preset(
-                            "ars_elemental",
-                            "Ars Elemental",
-                            ArsElementalFishingDefaults.entities()),
-                    new Preset(
-                            "touhou_little_maid",
-                            "Touhou Little Maid",
-                            MaidFishingDefaults.entities()));
+            com.thelongtravail.compat.CompatPresets.fishing(Preset::new);
     private static ManagedConfig loaded;
 
     private static String marker(Preset preset) {

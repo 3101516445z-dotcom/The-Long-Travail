@@ -2,7 +2,7 @@ package com.thelongtravail.combat;
 
 import com.thelongtravail.diagnostics.DamageTrace;
 import com.thelongtravail.farreach.SunChaser;
-import com.thelongtravail.helper.CombatContext;
+import com.thelongtravail.combat.CombatContext;
 import com.thelongtravail.underworld.Kagotsurube;
 
 import net.minecraft.world.damagesource.DamageSource;
@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiFunction;
 
-/** 调用链覆盖 hurt 及其收尾；同一来源逐日在派生链内最多追加一次。 */
+// 调用链覆盖 hurt 及其收尾；同一来源逐日在派生链内最多追加一次。
 public final class DamageScope {
     private static final ThreadLocal<Set<UUID>> SUN_CHAIN = new ThreadLocal<>();
 

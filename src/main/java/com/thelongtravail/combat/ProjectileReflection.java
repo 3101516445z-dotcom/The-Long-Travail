@@ -18,12 +18,12 @@ public final class ProjectileReflection {
                 || !Double.isFinite(velocity.lengthSqr())
                 || velocity.lengthSqr() < 1.0E-12) return false;
         projectile.setOwner(actor);
-        ((com.thelongtravail.mixin.ReflectedProjectileAccessor) projectile)
+        ((com.thelongtravail.mixin.combat.ReflectedProjectileAccessor) projectile)
                 .travail$leftOwner(false);
         var reflected = velocity.scale(-1);
         projectile.setDeltaMovement(reflected);
         if (projectile instanceof net.minecraft.world.entity.projectile.ShulkerBullet) {
-            var homing = (com.thelongtravail.mixin.ReflectedShulkerAccessor) projectile;
+            var homing = (com.thelongtravail.mixin.combat.ReflectedShulkerAccessor) projectile;
             homing.travail$target(null);
             homing.travail$targetId(null);
         }

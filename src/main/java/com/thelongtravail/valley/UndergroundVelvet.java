@@ -26,7 +26,8 @@ public final class UndergroundVelvet {
     public static boolean use(ServerPlayer player, ItemStack stack) {
         if (player.getCooldowns().isOnCooldown(stack.getItem())
                 || player.isSpectator()
-                || com.thelongtravail.boundless.TimeStopManager.frozen(player)) return false;
+                || com.thelongtravail.boundless.timestop.TimeStopManager.frozen(player))
+            return false;
         boolean ore =
                 player.getRandom().nextDouble()
                         < DeepValleyItemsConfig.get("underground_velvet.oreChance");

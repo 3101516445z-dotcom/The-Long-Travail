@@ -1,11 +1,37 @@
 package com.thelongtravail.event;
 
+import com.thelongtravail.runtime.scheduling.PeriodicSchedule;
+
+import com.thelongtravail.runtime.rewards.RewardDelivery;
+
+import com.thelongtravail.runtime.attributes.AltitudePenalty;
+
+import com.thelongtravail.runtime.effects.AutomaticEffectBudget;
+import com.thelongtravail.runtime.effects.EffectChanges;
+import com.thelongtravail.runtime.effects.StiffState;
+import com.thelongtravail.runtime.effects.VisualDeprivation;
+
+import com.thelongtravail.runtime.pools.RuntimePools;
+
+import com.thelongtravail.journey.JourneyService;
+import com.thelongtravail.journey.JourneyQueries;
+import com.thelongtravail.journey.JourneyVisits;
+import com.thelongtravail.journey.LongTravailData;
+import com.thelongtravail.journey.PlayerJourneyData;
+import com.thelongtravail.journey.RequirementPools;
+import com.thelongtravail.journey.TravailAdvancements;
+
+import com.thelongtravail.journey.runtime.JourneyRuntimeMaintenance;
+
+import com.thelongtravail.exploration.WayguideSearch;
+import com.thelongtravail.exploration.WayguideReturns;
+
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.config.ModeEffectRules;
 import com.thelongtravail.config.TravailConfig;
-import com.thelongtravail.data.*;
-import com.thelongtravail.helper.TravailCurios;
-import com.thelongtravail.helper.TrueDamage;
+
+import com.thelongtravail.equipment.TravailCurios;
+import com.thelongtravail.abyss.FluidErosionDamage;
 import com.thelongtravail.network.TravailNetwork;
 
 import net.minecraft.server.level.ServerPlayer;
@@ -50,7 +76,7 @@ public class TravailEvents {
         JourneyQueries.clear();
         JourneyVisits.clear();
         WayguideSearch.stopped();
-        com.thelongtravail.helper.ReceivedMalice.clear();
+        com.thelongtravail.combat.ReceivedMalice.clear();
         AutomaticEffectBudget.clear();
     }
 
@@ -90,7 +116,7 @@ public class TravailEvents {
     @SubscribeEvent
     public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            JourneyRuntimeMaintenance.resetRuntime(player, VisualDeprivation.ClearReason.RESPAWN);
+            JourneyRuntimeMaintenance.onRespawn(player);
             TravailNetwork.sendJourney(player);
             WayguideReturns.get(player.server).activate(player);
         }
@@ -99,8 +125,7 @@ public class TravailEvents {
     @SubscribeEvent
     public void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            JourneyRuntimeMaintenance.resetRuntime(
-                    player, VisualDeprivation.ClearReason.DIMENSION_CHANGE);
+            JourneyRuntimeMaintenance.onDimensionChange(player);
             TravailNetwork.sendJourney(player);
             WayguideReturns.get(player.server).activate(player);
         }
@@ -141,7 +166,7 @@ public class TravailEvents {
     @SubscribeEvent
     public void onDeath(LivingDeathEvent event) {
         if (event.getEntity() instanceof ServerPlayer player)
-            JourneyRuntimeMaintenance.resetRuntime(player, VisualDeprivation.ClearReason.DEATH);
+            JourneyRuntimeMaintenance.onDeath(player);
     }
 
     @SubscribeEvent
@@ -149,7 +174,7 @@ public class TravailEvents {
         if (event.getEntity() instanceof ServerPlayer player) {
             AltitudePenalty.forget(player);
             // 持久化的截止时间属于诅咒状态，不能随连接缓存一起清除。
-            JourneyRuntimeMaintenance.clearRuntimeCaches(player);
+            JourneyRuntimeMaintenance.onLogout(player);
             WayguideReturns.get(player.server).suspend(player);
         }
     }
@@ -186,7 +211,7 @@ public class TravailEvents {
                         player,
                         TravailConfig.ABYSS_FLUID_INTERVAL_SECONDS.get(),
                         PeriodicSchedule.FLUID)) {
-            TrueDamage.hurtFluid(player, safeFloat(TravailConfig.ABYSS_FLUID_DAMAGE.get()));
+            FluidErosionDamage.hurtFluid(player, safeFloat(TravailConfig.ABYSS_FLUID_DAMAGE.get()));
         }
         if (ModeEffectRules.diaryApplies(player)
                 && !LongTravailData.hasWitness(travail, TravailAspect.UNDERWORLD))

@@ -5,7 +5,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/** 两件物品的参数仍分别归入对应主题文件。 */
+// 两件物品的参数仍分别归入对应主题文件。
 public final class SunBladeConfig {
     public static final Map<String, ForgeConfigSpec.DoubleValue> VALUES = new LinkedHashMap<>();
 

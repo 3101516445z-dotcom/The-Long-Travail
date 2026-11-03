@@ -1,12 +1,13 @@
 package com.thelongtravail.abyss;
 
+import com.thelongtravail.abyss.copy.FluidCopyGraph;
+import com.thelongtravail.abyss.copy.FluidCrafting;
 import com.thelongtravail.config.AbyssItemsConfig;
-import com.thelongtravail.compat.fluid.FluidCopyGraph;
-import com.thelongtravail.compat.fluid.FluidCrafting;
-import net.minecraft.nbt.CompoundTag;
 import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.registry.ModRegistry;
+
 import net.minecraft.core.*;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
@@ -56,7 +57,7 @@ public final class PerfectFluidRecipe extends CustomRecipe {
                             : AbyssItemsConfig.BLACKLIST.get())
                     .contains(id);
         } catch (RuntimeException failure) {
-            com.thelongtravail.compat.fluid.FluidCopyFailures.report("matching", failure);
+            com.thelongtravail.abyss.copy.FluidCopyFailures.report("matching", failure);
             return false;
         }
     }
@@ -71,7 +72,7 @@ public final class PerfectFluidRecipe extends CustomRecipe {
             return out;
         } catch (RuntimeException unsupported) {
             // 预览超出限制或遇到不支持的容器时，须取消复制，避免合成界面崩溃或生成不完整的副本。
-            com.thelongtravail.compat.fluid.FluidCopyFailures.report("preview", unsupported);
+            com.thelongtravail.abyss.copy.FluidCopyFailures.report("preview", unsupported);
             return ItemStack.EMPTY;
         }
     }

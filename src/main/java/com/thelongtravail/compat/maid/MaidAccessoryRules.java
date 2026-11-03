@@ -9,10 +9,10 @@ import com.thelongtravail.abyss.RainState;
 import com.thelongtravail.api.TravailStateApi.AspectState;
 import com.thelongtravail.compat.maid.MaidAccessoryRuntime.Phase;
 import com.thelongtravail.config.RainConfig;
-import com.thelongtravail.data.LongTravailData;
+import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.flourishing.FloralCombat;
 import com.thelongtravail.flourishing.Flower;
-import com.thelongtravail.helper.TravailCurios;
+import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.registry.ModRegistry;
 import com.thelongtravail.valley.LanternSources;
 

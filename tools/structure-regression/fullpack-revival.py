@@ -5,6 +5,7 @@ parser.add_argument('--pack', type=pathlib.Path, required=True)
 parser.add_argument('--output', type=pathlib.Path, required=True)
 parser.add_argument('--java', type=pathlib.Path, required=True)
 parser.add_argument('--resume', action='store_true')
+parser.add_argument('--fixture-config', type=pathlib.Path, help='general.toml used for a fresh isolated run')
 parser.add_argument('--hardcore-only', action='store_true')
 options = parser.parse_args()
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -13,6 +14,9 @@ OUT = options.output.resolve()
 JAVA = options.java.resolve()
 MC = PACK.parents[1]
 if not options.resume:
+    if options.fixture_config is None or not options.fixture_config.is_file():
+        parser.error('A fresh run requires --fixture-config pointing to an existing general.toml')
+    fixture_config = options.fixture_config.read_text(encoding='utf-8-sig')
     if PACK == OUT or PACK in OUT.parents and not ROOT in OUT.parents:
         raise SystemExit('Output must be an isolated project directory or outside the installed pack')
     OUT.mkdir(parents=True)
@@ -38,7 +42,7 @@ if not options.resume:
         raise SystemExit('Expected one installed TLT jar, found '+str(len(old)))
     (OUT / 'original-artifacts').mkdir()
     shutil.move(old[0], OUT / 'original-artifacts' / old[0].name)
-    release = ROOT / 'build/libs/The_Long_Travail-0.1.3.jar'
+    release = ROOT / 'build/libs/The_Long_Travail-1.0.0.jar'
     fixture = ROOT / 'build/revival-fixture/travail-revival-acceptance.jar'
     for source in [release, fixture]:
         shutil.copy2(source, OUT / 'mods' / source.name)
@@ -54,7 +58,7 @@ if not options.resume:
         data['Data']['LevelName'] = nbtlib.String(name)
         data['Data'].pop('Player', None)
         data.save()
-    config = (ROOT / 'local-archive/测试记录/20261026-acquisition/general.toml').read_text(encoding='utf-8-sig')
+    config = fixture_config
     defaults = json.loads((ROOT / 'src/main/resources/the_long_travail/default_loot.json').read_text(encoding='utf8'))
     for key, rule in defaults.items():
         header = '[loot.tables."'+key+'"]'

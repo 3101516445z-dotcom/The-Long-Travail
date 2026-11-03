@@ -4,8 +4,8 @@ import com.mojang.authlib.GameProfile;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.combat.*;
 import com.thelongtravail.config.TravailConfig;
-import com.thelongtravail.data.LongTravailData;
-import com.thelongtravail.helper.TrueDamage;
+import com.thelongtravail.journey.LongTravailData;
+import com.thelongtravail.abyss.FluidErosionDamage;
 import com.thelongtravail.registry.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.*;
@@ -174,11 +174,11 @@ public final class CombatAttributesSmoke {
         var p=player(); attr(p,ModAttributes.INSIGHT.get(),99); attr(p,ModAttributes.OVERLORD.get(),1); attr(p,ModAttributes.CRITICAL_CHANCE.get(),1);
         for(var mode:TravailConfig.FluidProtection.values()) {
             var old=TravailConfig.FLUID_PROTECTION.get();
-            try { TravailConfig.FLUID_PROTECTION.set(mode); p.setHealth(100); p.invulnerableTime=0; TrueDamage.hurtFluid(p,7); near(p.getHealth(),93,"curse bypass "+mode); }
+            try { TravailConfig.FLUID_PROTECTION.set(mode); p.setHealth(100); p.invulnerableTime=0; FluidErosionDamage.hurtFluid(p,7); near(p.getHealth(),93,"curse bypass "+mode); }
             finally { TravailConfig.FLUID_PROTECTION.set(old); }
         }
         p.setHealth(100); a=cow(); attr(a,ModAttributes.CRITICAL_CHANCE.get(),1); int before=reflectionCount;
-        hit(p,source(com.thelongtravail.helper.TrueDamage.FLUID,a),7);
+        hit(p,source(com.thelongtravail.abyss.FluidErosionDamage.FLUID,a),7);
         near(p.getHealth(),93,"curse with entity source bypasses all attributes"); check(reflectionCount==before,"curse cannot retaliate");
         p=player(); var d=diary(p); LongTravailData.setWitness(d,TravailAspect.FLOURISHING,false);
         attr(p,ModAttributes.INSIGHT.get(),5); attr(p,ModAttributes.OVERLORD.get(),.1);
@@ -213,7 +213,7 @@ public final class CombatAttributesSmoke {
         near(a.getHealth(),100,"lethal hit does not retaliate");
         for (boolean isPlayer : new boolean[]{false,true}) {
             a=cow(); b=isPlayer?player():cow(); attr(b,ModAttributes.OVERLORD.get(),.1);
-            var state=(com.thelongtravail.mixin.DamageReplayStateAccessor)b;
+            var state=(com.thelongtravail.mixin.combat.DamageReplayStateAccessor)b;
             b.invulnerableTime=7; state.travail$lastHurt(3);
             b.hurt(source(DamageTypes.MOB_ATTACK,a),8);
             near(b.invulnerableTime,7,"immune restores cooldown "+isPlayer);
@@ -234,14 +234,14 @@ public final class CombatAttributesSmoke {
         replaceTarget=b; replacement=0; hit(b,source(DamageTypes.MOB_ATTACK,a),10);
         near(a.getHealth(),98,"absorption loss retains retaliation despite final zero"); replaceTarget=null;
         a=cow(); attr(a,ModAttributes.CRITICAL_CHANCE.get(),1);
-        for (var type:List.of(com.thelongtravail.valley.AzraelExecution.TYPE,com.thelongtravail.valley.AzraelExecution.SELF)) {
+        for (var type:List.of(com.thelongtravail.valley.execution.AzraelExecution.TYPE,com.thelongtravail.valley.execution.AzraelExecution.SELF)) {
             b=cow(); attr(b,ModAttributes.INSIGHT.get(),100); attr(b,ModAttributes.OVERLORD.get(),1);
             hit(b,source(type,a),10); near(b.getHealth(),90,"execution type bypass all attributes "+type.location());
         }
         a=cow(); b=cow(); attr(a,ModAttributes.CRITICAL_CHANCE.get(),1);
         attr(b,ModAttributes.INSIGHT.get(),100); attr(b,ModAttributes.OVERLORD.get(),1);
         executionVictim=b; nestedVictim=cow(); attr(nestedVictim,ModAttributes.OVERLORD.get(),1);
-        com.thelongtravail.valley.AzraelExecution.executeForCommand(a,b);
+        com.thelongtravail.valley.execution.AzraelExecution.executeForCommand(a,b);
         check(!b.isAlive(),"actual execution ignores defensive attributes");
         near(a.getHealth(),100,"execution no retaliation");
         near(nestedVictim.getHealth(),100,"unrelated nested damage retains overlord during execution");
@@ -271,7 +271,7 @@ public final class CombatAttributesSmoke {
         DamageReplay.enqueue(a,replayNormal,source(DamageTypes.MOB_ATTACK,a),11,policy);
     }
 
-    private static Object recorded(com.thelongtravail.helper.CombatContext context, String name) {
+    private static Object recorded(com.thelongtravail.combat.CombatContext context, String name) {
         try {
             Object owner=context;
             java.lang.reflect.Field field;
@@ -286,26 +286,26 @@ public final class CombatAttributesSmoke {
     private void contextChecks() {
         var target=cow();var source=target.damageSources().generic();var other=target.damageSources().magic();
         for(int i=0;i<100;i++) {
-            try(var outer=com.thelongtravail.helper.CombatContext.open(target,source)) {
-                check(com.thelongtravail.helper.CombatContext.current(target,source)==outer,"scope outer");
-                try(var inner=com.thelongtravail.helper.CombatContext.open(target,source)) {
-                    check(inner!=outer&&com.thelongtravail.helper.CombatContext.current(target,source)==inner,"same-source nesting independent");
-                    try(var deeper=com.thelongtravail.helper.CombatContext.open(target,other)) {throw new IllegalStateException("fixture");}
-                    catch(IllegalStateException expected){check(com.thelongtravail.helper.CombatContext.current(target,source)==inner,"exception restores immediate scope");}
+            try(var outer=com.thelongtravail.combat.CombatContext.open(target,source)) {
+                check(com.thelongtravail.combat.CombatContext.current(target,source)==outer,"scope outer");
+                try(var inner=com.thelongtravail.combat.CombatContext.open(target,source)) {
+                    check(inner!=outer&&com.thelongtravail.combat.CombatContext.current(target,source)==inner,"same-source nesting independent");
+                    try(var deeper=com.thelongtravail.combat.CombatContext.open(target,other)) {throw new IllegalStateException("fixture");}
+                    catch(IllegalStateException expected){check(com.thelongtravail.combat.CombatContext.current(target,source)==inner,"exception restores immediate scope");}
                 }
-                check(com.thelongtravail.helper.CombatContext.current(target,source)==outer,"inner close restores outer");
+                check(com.thelongtravail.combat.CombatContext.current(target,source)==outer,"inner close restores outer");
             }
-            check(com.thelongtravail.helper.CombatContext.current(target,source)==null,"outer close clears scope");
+            check(com.thelongtravail.combat.CombatContext.current(target,source)==null,"outer close clears scope");
         }
         var random=new java.util.Random(20261024L);
         float[] edges={0,-0.0f,-1,1,Float.MAX_VALUE,-Float.MAX_VALUE,Float.NaN,Float.POSITIVE_INFINITY,Float.NEGATIVE_INFINITY};
         for(int i=0;i<1000;i++) {
             float before=i<81?edges[i%9]:Float.intBitsToFloat(random.nextInt());
             float after=i<81?edges[i/9]:Float.intBitsToFloat(random.nextInt());
-            try(var context=com.thelongtravail.helper.CombatContext.open(target,source)) {
-                com.thelongtravail.helper.CombatContext.recordHealthLoss(target,before,after);
-                com.thelongtravail.helper.CombatContext.recordAbsorptionLoss(target,before,after);
-                com.thelongtravail.helper.CombatContext.recordDummyDamage(target,source,after);
+            try(var context=com.thelongtravail.combat.CombatContext.open(target,source)) {
+                com.thelongtravail.combat.CombatContext.recordHealthLoss(target,before,after);
+                com.thelongtravail.combat.CombatContext.recordAbsorptionLoss(target,before,after);
+                com.thelongtravail.combat.CombatContext.recordDummyDamage(target,source,after);
                 double total=0,health=0;
                 boolean finiteLoss=Float.isFinite(before)&&Float.isFinite(after)&&after<before;
                 if(finiteLoss){health+=Math.max(0,Math.max(0,before)-Math.max(0,after));total+=before-after;total+=before-after;}
@@ -321,7 +321,7 @@ public final class CombatAttributesSmoke {
             boolean threw=false;
             try {b.hurt(damage,5);}catch(IllegalStateException expected){threw=true;}
             check(threw,"event exception escapes");
-            check(com.thelongtravail.helper.CombatContext.current(b,damage)==null,"real hurt exception clears context");
+            check(com.thelongtravail.combat.CombatContext.current(b,damage)==null,"real hurt exception clears context");
         });
     }
     private void audit(String label, Runnable test) {
@@ -365,7 +365,7 @@ public final class CombatAttributesSmoke {
         });
         audit("cooldown differential",()->{
             var a=cow(); var b=cow(); attr(b,ModAttributes.INSIGHT.get(),5);
-            var state=(com.thelongtravail.mixin.DamageReplayStateAccessor)b;
+            var state=(com.thelongtravail.mixin.combat.DamageReplayStateAccessor)b;
             b.invulnerableTime=15;state.travail$lastHurt(10);
             b.hurt(source(DamageTypes.MOB_ATTACK,a),14);
             near(b.getHealth(),100,"insight subtracts cooldown differential");near(a.getHealth(),95,"cooldown differential full retaliation");
@@ -377,7 +377,7 @@ public final class CombatAttributesSmoke {
             damageProbe=e->{if(e.getEntity()==b){damageProbe=null;b.invulnerableTime=0;b.hurt(b.damageSources().generic(),20);}};
             hit(b,source(DamageTypes.MOB_ATTACK,a),5);
             near(b.getHealth(),80,"nested valid damage retained");near(b.invulnerableTime,20,"outer immunity preserves nested cooldown");
-            near(((com.thelongtravail.mixin.DamageReplayStateAccessor)b).travail$lastHurt(),20,"outer immunity preserves nested lastHurt");
+            near(((com.thelongtravail.mixin.combat.DamageReplayStateAccessor)b).travail$lastHurt(),20,"outer immunity preserves nested lastHurt");
         });
         audit("third party synchronous retaliation",()->{
             var a=cow(); var b=cow();attr(a,ModAttributes.INSIGHT.get(),2);attr(b,ModAttributes.INSIGHT.get(),5);
@@ -457,7 +457,7 @@ public final class CombatAttributesSmoke {
             for (float raw:new float[]{0,-5,Float.NaN,Float.POSITIVE_INFINITY,Float.NEGATIVE_INFINITY}) {
                 audit("malformed initial amount player="+player+" raw="+raw,()->{
                     var a=cow();LivingEntity b=player?player():cow();attr(b,ModAttributes.INSIGHT.get(),2);
-                    var state=(com.thelongtravail.mixin.DamageReplayStateAccessor)b;
+                    var state=(com.thelongtravail.mixin.combat.DamageReplayStateAccessor)b;
                     state.travail$lastHurt(4); int before=reflectionCount; int[] events={0};
                     attackProbe=e->{if(e.getEntity()==b)events[0]++;};
                     check(!b.hurt(source(DamageTypes.MOB_ATTACK,a),raw),"invalid input rejected "+player+" "+raw);
@@ -480,14 +480,14 @@ public final class CombatAttributesSmoke {
             var actor=cow();LivingEntity victim=player?player():cow();var unrelated=cow();
             attr(victim,ModAttributes.INSIGHT.get(),100);attr(victim,ModAttributes.OVERLORD.get(),1);
             boolean[] observed={false};
-            attackProbe=e->{if(e.getEntity()==victim && com.thelongtravail.valley.AzraelExecution.matches(victim,e.getSource())){
+            attackProbe=e->{if(e.getEntity()==victim && com.thelongtravail.valley.execution.AzraelExecution.matches(victim,e.getSource())){
                 attackProbe=null;observed[0]=true;
                 check(Float.isInfinite(e.getAmount()),"real execution infinity enters hurt "+player);
                 check(!unrelated.hurt(e.getSource(),Float.NaN),"execution source does not exempt another target "+player);
                 check(!victim.hurt(victim.damageSources().generic(),Float.NaN),"execution target does not exempt another source "+player);
                 near(unrelated.invulnerableTime,0,"nested invalid attack leaves unrelated cooldown unchanged "+player);
             }};
-            com.thelongtravail.valley.AzraelExecution.executeForCommand(actor,victim);
+            com.thelongtravail.valley.execution.AzraelExecution.executeForCommand(actor,victim);
             check(observed[0] && !victim.isAlive(),"actual execution still kills with numeric guard "+player);
         });
         audit("creative immunity",()->{
@@ -532,7 +532,7 @@ public final class CombatAttributesSmoke {
         });
         audit("maid execution bypass",()->{
             var maid=registeredMaid();attr(maid,ModAttributes.INSIGHT.get(),100);attr(maid,ModAttributes.OVERLORD.get(),1);
-            com.thelongtravail.valley.AzraelExecution.executeForCommand(cow(),maid);
+            com.thelongtravail.valley.execution.AzraelExecution.executeForCommand(cow(),maid);
             check(!maid.isAlive(),"real maid execution bypasses attributes");
         });
     }

@@ -1,10 +1,13 @@
 package com.thelongtravail.compat.fluid;
 
+import static com.thelongtravail.compat.fluid.FluidReflection.*;
+
+import com.thelongtravail.abyss.copy.CopyStorage;
+
 import net.minecraft.nbt.*;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fml.ModList;
+
 import java.util.*;
-import static com.thelongtravail.compat.fluid.FluidReflection.*;
 
 // Beyond Dimensions 0.7.30: 只处理物质球的实际库存，不解释过滤样本或网络绑定。
 final class FluidBeyondStore {
@@ -22,13 +25,7 @@ final class FluidBeyondStore {
                     "com.wintercogs.beyonddimensions.integration.module.mekanism.storage.PigmentStackKey",
                     "com.wintercogs.beyonddimensions.integration.module.mekanism.storage.SlurryStackKey");
 
-    static boolean handles(CompoundTag item) {
-        return ModList.get().isLoaded("beyonddimensions")
-                && item.contains("Count", Tag.TAG_ANY_NUMERIC)
-                && item.getString("id").equals("beyonddimensions:matter_compress_ball");
-    }
-
-    static void transform(FluidCopyGraph graph, CompoundTag data, int depth) throws Exception {
+    static void transform(CopyStorage.Context graph, CompoundTag data, int depth) throws Exception {
         if (data.contains("tag") && !data.contains("tag", Tag.TAG_COMPOUND))
             throw new IllegalStateException("Malformed matter ball tag");
         CompoundTag tag = data.getCompound("tag");
@@ -75,8 +72,7 @@ final class FluidBeyondStore {
                     CompoundTag serialized = sample.save(new CompoundTag());
                     graph.transform(serialized, depth + 6);
                     ItemStack output = ItemStack.of(serialized);
-                    if (output.isEmpty())
-                        continue; // 转换结果为空时移除对应存储条目。
+                    if (output.isEmpty()) continue; // 转换结果为空时移除对应存储条目。
                     key = type(ITEM).getConstructor(ItemStack.class).newInstance(output);
                 }
                 CompoundTag encoded = encode(key, amount);

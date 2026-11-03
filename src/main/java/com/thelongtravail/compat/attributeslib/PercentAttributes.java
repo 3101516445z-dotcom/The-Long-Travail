@@ -10,8 +10,7 @@ public final class PercentAttributes {
         if (ModList.get().isLoaded("attributeslib")) {
             try {
                 Class<?> type =
-                        Class.forName(
-                                "dev.shadowsoffire.attributeslib.impl.PercentBasedAttribute");
+                        Class.forName("dev.shadowsoffire.attributeslib.impl.PercentBasedAttribute");
                 return ((Attribute)
                                 type.getConstructor(
                                                 String.class,
@@ -29,16 +28,11 @@ public final class PercentAttributes {
                         .setSyncable(true);
             } catch (ReflectiveOperationException | LinkageError error) {
                 TheLongTravail.LOGGER.warn(
-                        "Apothic Attributes percent formatter unavailable for {}",
-                        name,
-                        error);
+                        "Apothic Attributes percent formatter unavailable for {}", name, error);
             }
         }
         return new RangedAttribute(
-                        "attribute.name." + TheLongTravail.MODID + "." + name,
-                        0,
-                        0,
-                        maximum)
+                        "attribute.name." + TheLongTravail.MODID + "." + name, 0, 0, maximum)
                 .setSyncable(true);
     }
 

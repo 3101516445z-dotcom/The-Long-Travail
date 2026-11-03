@@ -22,6 +22,7 @@ public final class AncientStrangeTalesItem extends BookItem implements ItemDescr
         return AspectTheme.BOUNDLESS.name(super.getName(stack));
     }
 
+    // 使用物品接口声明资格；附魔候选、等级及选取交由当前附魔系统决定。
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
         return enchantment.isAllowedOnBooks();

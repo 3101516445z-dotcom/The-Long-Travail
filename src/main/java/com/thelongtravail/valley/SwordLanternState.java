@@ -1,7 +1,7 @@
 package com.thelongtravail.valley;
 
 import com.thelongtravail.registry.ModRegistry;
-import com.thelongtravail.boundless.TimeStopExemptions;
+import com.thelongtravail.boundless.timestop.TimeStopExemptions;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;

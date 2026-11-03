@@ -1,9 +1,9 @@
 package com.thelongtravail.compat.sounds;
 
-import com.thelongtravail.data.LongTravailData;
+import com.thelongtravail.journey.LongTravailData;
 
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.helper.TravailCurios;
+import com.thelongtravail.equipment.TravailCurios;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.player.Player;
 

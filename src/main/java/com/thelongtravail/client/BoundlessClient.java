@@ -1,17 +1,17 @@
 package com.thelongtravail.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import com.thelongtravail.TheLongTravail;
-import com.thelongtravail.boundless.*;
-import com.thelongtravail.network.*;
-import net.minecraft.client.*;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.*;
+import com.thelongtravail.boundless.BoundlessEquipment;
+import com.thelongtravail.boundless.timestop.TimeStopManager;
+import com.thelongtravail.network.BoundlessPacket;
+import com.thelongtravail.network.TravailNetwork;
+
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+
 import org.lwjgl.glfw.GLFW;
-import java.util.*;
 
 public final class BoundlessClient {
     public static final KeyMapping DREAM =
@@ -54,48 +54,34 @@ public final class BoundlessClient {
             SkillCooldownNotice.show(packet.key(), packet.cooldownTicks(), true);
     }
 
-    @Mod.EventBusSubscriber(
-            modid = TheLongTravail.MODID,
-            value = Dist.CLIENT,
-            bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static final class Registration {
-        @SubscribeEvent
-        public static void keys(RegisterKeyMappingsEvent e) {
-            e.register(DREAM);
-            BoundlessPacket.Message.receiver = BoundlessClient::message;
-            com.thelongtravail.boundless.BoundlessTooltips.viewer =
-                    () -> Minecraft.getInstance().player;
-            com.thelongtravail.boundless.BoundlessTooltips.dreamKey =
-                    () -> ThemeTooltips.keyName(DREAM);
-            BoundlessPacket.receiver =
-                    p -> {
-                        dreaming = p.active();
-                        cooldown = Math.max(0, p.cooldown());
-                        cooling = cooldown > 0;
-                    };
-            TimeStopClient.setup();
-        }
+    static void register(RegisterKeyMappingsEvent e) {
+        e.register(DREAM);
+        BoundlessPacket.Message.receiver = BoundlessClient::message;
+        com.thelongtravail.boundless.BoundlessTooltips.viewer =
+                () -> Minecraft.getInstance().player;
+        com.thelongtravail.boundless.BoundlessTooltips.dreamKey =
+                () -> ThemeTooltips.keyName(DREAM);
+        BoundlessPacket.receiver =
+                p -> {
+                    dreaming = p.active();
+                    cooldown = Math.max(0, p.cooldown());
+                    cooling = cooldown > 0;
+                };
     }
 
-    @Mod.EventBusSubscriber(modid = TheLongTravail.MODID, value = Dist.CLIENT)
-    public static final class Events {
-        @SubscribeEvent
-        public static void tick(net.minecraftforge.event.TickEvent.ClientTickEvent e) {
-            if (e.phase == net.minecraftforge.event.TickEvent.Phase.END
-                    && cooldown > 0
-                    && Minecraft.getInstance().player != null
-                    && !TimeStopManager.frozen(Minecraft.getInstance().player))
-                cooldown = Math.max(cooling ? 1 : 0, cooldown - 1);
-        }
+    static void tick(net.minecraftforge.event.TickEvent.ClientTickEvent e) {
+        if (e.phase == net.minecraftforge.event.TickEvent.Phase.END
+                && cooldown > 0
+                && Minecraft.getInstance().player != null
+                && !TimeStopManager.frozen(Minecraft.getInstance().player))
+            cooldown = Math.max(cooling ? 1 : 0, cooldown - 1);
+    }
 
-        @SubscribeEvent
-        public static void logout(ClientPlayerNetworkEvent.LoggingOut e) {
-            dreaming = false;
-            cooling = false;
-            cooldown = 0;
-            handledDreamKey = null;
-            TimeStopClient.clear();
-        }
+    static void clear() {
+        dreaming = false;
+        cooling = false;
+        cooldown = 0;
+        handledDreamKey = null;
     }
 
     private BoundlessClient() {}

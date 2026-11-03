@@ -1,8 +1,8 @@
 package com.thelongtravail.compat.gravestone;
 
 import com.thelongtravail.compat.OptionalCompatState;
-import com.thelongtravail.data.HotPathMetrics.Counter;
-import com.thelongtravail.data.HotPathMetrics;
+import com.thelongtravail.diagnostics.HotPathMetrics.Counter;
+import com.thelongtravail.diagnostics.HotPathMetrics;
 import com.thelongtravail.underworld.UnderworldLedger;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;

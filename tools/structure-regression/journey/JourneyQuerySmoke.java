@@ -1,6 +1,6 @@
 package travail.smoke;
 
-import com.thelongtravail.data.JourneyQueries;
+import com.thelongtravail.journey.JourneyQueries;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -25,7 +25,7 @@ public final class JourneyQuerySmoke {
         com.thelongtravail.config.JourneyDetectionConfig.VERTICAL.set(0);
         com.thelongtravail.config.JourneyDetectionConfig.PIECE_ONLY.set(
                 List.of("minecraft:desert_pyramid", "minecraft:village_plains", "minecraft:stronghold"));
-        com.thelongtravail.data.JourneySpatial.clear();
+        com.thelongtravail.exploration.JourneySpatial.clear();
         var registry = level.registryAccess().registryOrThrow(Registries.STRUCTURE);
         Map<Structure, ResourceLocation> targets = new LinkedHashMap<>();
         for (String name : List.of("desert_pyramid", "village_plains", "stronghold")) {
@@ -96,7 +96,7 @@ public final class JourneyQuerySmoke {
             com.thelongtravail.config.JourneyDetectionConfig.HORIZONTAL.set(oldH);
             com.thelongtravail.config.JourneyDetectionConfig.VERTICAL.set(oldV);
             com.thelongtravail.config.JourneyDetectionConfig.PIECE_ONLY.set(oldPieces);
-            com.thelongtravail.data.JourneySpatial.clear();
+            com.thelongtravail.exploration.JourneySpatial.clear();
             startChunk.setAllStarts(oldStarts);
             oldReferences.forEach(ChunkAccess::setAllReferences);
         }

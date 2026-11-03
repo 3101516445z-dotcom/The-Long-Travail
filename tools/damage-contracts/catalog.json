@@ -11,9 +11,9 @@
       "guard": "SUN_CHAIN 在根调用 finally 清理；finish 在同步范围内",
       "sources": [
         "src/main/java/com/thelongtravail/combat/DamageScope.java",
-        "src/main/java/com/thelongtravail/helper/CombatContext.java",
-        "src/main/java/com/thelongtravail/mixin/LivingCombatMixin.java",
-        "src/main/java/com/thelongtravail/mixin/PlayerCombatMixin.java",
+        "src/main/java/com/thelongtravail/combat/CombatContext.java",
+        "src/main/java/com/thelongtravail/mixin/combat/LivingCombatMixin.java",
+        "src/main/java/com/thelongtravail/mixin/combat/PlayerCombatMixin.java",
         "src/main/java/com/thelongtravail/combat/DamagePolicy.java",
         "src/main/java/com/thelongtravail/diagnostics/DamageTrace.java"
       ],
@@ -35,10 +35,10 @@
       "ownership": "原来源决定资格，有效来源决定适用类型防御",
       "guard": "每上下文确认一次；同目标嵌套确认影响冷却恢复",
       "sources": [
-        "src/main/java/com/thelongtravail/helper/CombatDamageRecord.java",
-        "src/main/java/com/thelongtravail/helper/CombatRules.java",
-        "src/main/java/com/thelongtravail/mixin/FluidErosionUnavoidableMixin.java",
-        "src/main/java/com/thelongtravail/mixin/DamageReplayMixin.java"
+        "src/main/java/com/thelongtravail/combat/CombatDamageRecord.java",
+        "src/main/java/com/thelongtravail/combat/CombatRules.java",
+        "src/main/java/com/thelongtravail/mixin/combat/FluidErosionUnavoidableMixin.java",
+        "src/main/java/com/thelongtravail/mixin/combat/DamageReplayMixin.java"
       ],
       "successors": []
     },
@@ -178,11 +178,11 @@
       "ownership": "处决 Frame 与目标和来源实例匹配",
       "guard": "active/实例匹配；普通确认分派排除；终结锁与 finally 清理",
       "sources": [
-        "src/main/java/com/thelongtravail/valley/AzraelExecution.java",
-        "src/main/java/com/thelongtravail/valley/FinalExecution.java",
-        "src/main/java/com/thelongtravail/valley/ExecutionData.java",
-        "src/main/java/com/thelongtravail/valley/VanillaExecution.java",
-        "src/main/java/com/thelongtravail/mixin/ExecutionDataMixin.java"
+        "src/main/java/com/thelongtravail/valley/execution/AzraelExecution.java",
+        "src/main/java/com/thelongtravail/valley/execution/FinalExecution.java",
+        "src/main/java/com/thelongtravail/valley/execution/ExecutionData.java",
+        "src/main/java/com/thelongtravail/valley/execution/VanillaExecution.java",
+        "src/main/java/com/thelongtravail/mixin/execution/ExecutionDataMixin.java"
       ],
       "successors": [
         "death"
@@ -196,7 +196,7 @@
       "ownership": "无责任实体",
       "guard": "专用 FLUID 排除战斗属性；逐日在岩浆中豁免",
       "sources": [
-        "src/main/java/com/thelongtravail/helper/TrueDamage.java"
+        "src/main/java/com/thelongtravail/abyss/FluidErosionDamage.java"
       ],
       "successors": []
     },
@@ -209,7 +209,7 @@
       "guard": "PENDING.remove 单次取出；SETTLING finally 恢复；掉落抽取独立判定",
       "sources": [
         "src/main/java/com/thelongtravail/flourishing/Mistletoe.java",
-        "src/main/java/com/thelongtravail/mixin/MistletoeExpiryMixin.java"
+        "src/main/java/com/thelongtravail/mixin/flourishing/MistletoeExpiryMixin.java"
       ],
       "successors": []
     },
@@ -252,11 +252,11 @@
       "ownership": "玩家与女仆分别解析",
       "guard": "特殊派生在分派前早退；玫瑰在各子项中的筛选不同",
       "sources": [
-        "src/main/java/com/thelongtravail/helper/CombatConsequences.java",
+        "src/main/java/com/thelongtravail/combat/CombatConsequences.java",
         "src/main/java/com/thelongtravail/compat/maid/MaidCombatFeedback.java",
         "src/main/java/com/thelongtravail/farreach/FarReachCombat.java",
-        "src/main/java/com/thelongtravail/valley/AzraelState.java",
-        "src/main/java/com/thelongtravail/boundless/StarVoiceState.java",
+        "src/main/java/com/thelongtravail/valley/execution/AzraelState.java",
+        "src/main/java/com/thelongtravail/boundless/timestop/StarVoiceState.java",
         "src/main/java/com/thelongtravail/valley/SwordLanternState.java",
         "src/main/java/com/thelongtravail/compat/maid/MaidLanternCombat.java"
       ],
@@ -275,7 +275,7 @@
       "sources": [
         "src/main/java/com/thelongtravail/flourishing/FloralEvents.java",
         "src/main/java/com/thelongtravail/compat/maid/MaidCombatFeedback.java",
-        "src/main/java/com/thelongtravail/mixin/FloralPoisonMixin.java"
+        "src/main/java/com/thelongtravail/mixin/flourishing/FloralPoisonMixin.java"
       ],
       "successors": []
     },
@@ -289,7 +289,7 @@
       "sources": [
         "src/main/java/com/thelongtravail/underworld/DemonKingCombat.java",
         "src/main/java/com/thelongtravail/common/OverflowHealing.java",
-        "src/main/java/com/thelongtravail/mixin/OverflowHealingMixin.java"
+        "src/main/java/com/thelongtravail/mixin/effects/OverflowHealingMixin.java"
       ],
       "successors": []
     },
@@ -301,7 +301,7 @@
       "ownership": "受击者状态",
       "guard": "ReceivedHitGate 去重；配置选择触发口径",
       "sources": [
-        "src/main/java/com/thelongtravail/helper/ReceivedMalice.java",
+        "src/main/java/com/thelongtravail/combat/ReceivedMalice.java",
         "src/main/java/com/thelongtravail/common/ReceivedHitGate.java",
         "src/main/java/com/thelongtravail/valley/Phosphophyllite.java",
         "src/main/java/com/thelongtravail/event/TravailEvents.java"
@@ -337,7 +337,7 @@
         "src/main/java/com/thelongtravail/common/AttributeModifierSet.java",
         "src/main/java/com/thelongtravail/compat/maidspell/MaidSpellHealth.java",
         "src/main/java/com/thelongtravail/flourishing/FloralEvents.java",
-        "src/main/java/com/thelongtravail/valley/AzraelExecution.java",
+        "src/main/java/com/thelongtravail/valley/execution/AzraelExecution.java",
         "src/main/java/com/thelongtravail/common/OverflowHealing.java"
       ],
       "successors": []
@@ -350,8 +350,8 @@
       "ownership": "普通玩家来源和女仆来源各自查询",
       "guard": "outputApplied 与 attributeOutputApplied 防重复；特殊来源另有早退",
       "sources": [
-        "src/main/java/com/thelongtravail/helper/CombatContext.java",
-        "src/main/java/com/thelongtravail/helper/CombatRules.java",
+        "src/main/java/com/thelongtravail/combat/CombatContext.java",
+        "src/main/java/com/thelongtravail/combat/CombatRules.java",
         "src/main/java/com/thelongtravail/combat/AttributeDamage.java",
         "src/main/java/com/thelongtravail/compat/maid/MaidCombatCalculations.java",
         "src/main/java/com/thelongtravail/combat/CombatAttributePreparation.java",
@@ -391,12 +391,12 @@
     "src/main/java/com/thelongtravail/flourishing/FloralCombat.java": "rose",
     "src/main/java/com/thelongtravail/flourishing/FloralEvents.java": "rose",
     "src/main/java/com/thelongtravail/flourishing/Mistletoe.java": "mistletoe",
-    "src/main/java/com/thelongtravail/helper/TrueDamage.java": "fluid",
-    "src/main/java/com/thelongtravail/mixin/ExecutionDataMixin.java": "execution",
-    "src/main/java/com/thelongtravail/mixin/LivingCombatMixin.java": "scope",
-    "src/main/java/com/thelongtravail/mixin/PlayerCombatMixin.java": "scope",
-    "src/main/java/com/thelongtravail/valley/AzraelExecution.java": "execution",
-    "src/main/java/com/thelongtravail/valley/ExecutionData.java": "execution",
-    "src/main/java/com/thelongtravail/valley/FinalExecution.java": "execution"
+    "src/main/java/com/thelongtravail/abyss/FluidErosionDamage.java": "fluid",
+    "src/main/java/com/thelongtravail/mixin/execution/ExecutionDataMixin.java": "execution",
+    "src/main/java/com/thelongtravail/mixin/combat/LivingCombatMixin.java": "scope",
+    "src/main/java/com/thelongtravail/mixin/combat/PlayerCombatMixin.java": "scope",
+    "src/main/java/com/thelongtravail/valley/execution/AzraelExecution.java": "execution",
+    "src/main/java/com/thelongtravail/valley/execution/ExecutionData.java": "execution",
+    "src/main/java/com/thelongtravail/valley/execution/FinalExecution.java": "execution"
   }
 }

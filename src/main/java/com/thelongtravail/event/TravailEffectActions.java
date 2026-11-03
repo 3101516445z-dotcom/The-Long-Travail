@@ -1,12 +1,29 @@
 package com.thelongtravail.event;
 
+import com.thelongtravail.runtime.attributes.FlourishingBonus;
+
+import com.thelongtravail.runtime.effects.AutomaticEffectBudget;
+import com.thelongtravail.runtime.effects.CleanseRotation;
+import com.thelongtravail.runtime.effects.EffectChanges;
+import com.thelongtravail.runtime.effects.IncomingEffectLevels;
+import com.thelongtravail.runtime.effects.StiffState;
+import com.thelongtravail.runtime.effects.VisualDeprivation;
+
+import com.thelongtravail.runtime.pools.RuntimePools;
+import com.thelongtravail.runtime.pools.EffectEntry;
+
+import com.thelongtravail.common.weighted.WeightedTable;
+
+import com.thelongtravail.journey.LongTravailData;
+import com.thelongtravail.journey.PlayerJourneyData;
+
 import com.thelongtravail.common.TickDurations;
 
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.config.ModeEffectRules;
 import com.thelongtravail.config.TravailConfig;
-import com.thelongtravail.data.*;
-import com.thelongtravail.helper.TravailCurios;
+
+import com.thelongtravail.equipment.TravailCurios;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
@@ -214,9 +231,10 @@ final class TravailEffectActions {
         if (entity instanceof ServerPlayer player)
             EffectChanges.externalChange(player, added.getEffect());
         int amplifier =
-                com.thelongtravail.data.IncomingEffectLevels.adjusted(
+                com.thelongtravail.runtime.effects.IncomingEffectLevels.adjusted(
                         entity, added.getEffect(), added.getAmplifier());
-        ((com.thelongtravail.mixin.EffectDurationAccessor) added).travail$amplifier(amplifier);
+        ((com.thelongtravail.mixin.effects.EffectDurationAccessor) added)
+                .travail$amplifier(amplifier);
     }
 
     static void onJump(LivingEvent.LivingJumpEvent event) {

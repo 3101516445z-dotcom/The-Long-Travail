@@ -1,13 +1,15 @@
 package com.thelongtravail.config;
 
 import com.electronwill.nightconfig.core.CommentedConfig;
-import com.thelongtravail.compat.maid.MaidFluidDefaults;
-import java.util.List;
-import java.util.function.Predicate;
+import com.thelongtravail.compat.CompatPresets;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.List;
+import java.util.function.Predicate;
 
 // 按处理标记补入联动黑名单，复制限制以当前黑名单为准。
 public final class PerfectFluidCompatDefaults {
@@ -24,16 +26,17 @@ public final class PerfectFluidCompatDefaults {
         ConfigDefaultEdits.applyLive(
                 loaded,
                 TravailConfig.SPECS.get("aspects/abyss.toml"),
-                config -> apply(
-                        config,
-                        ModList.get()::isLoaded,
-                        id -> ForgeRegistries.ITEMS.containsKey(new ResourceLocation(id))));
+                config ->
+                        apply(
+                                config,
+                                ModList.get()::isLoaded,
+                                id -> ForgeRegistries.ITEMS.containsKey(new ResourceLocation(id))));
     }
 
     public static boolean apply(
             CommentedConfig config, Predicate<String> modPresent, Predicate<String> itemPresent) {
         boolean changed = false;
-        for (var rule : MaidFluidDefaults.rules()) {
+        for (var rule : CompatPresets.fluid()) {
             changed =
                     add(config, modPresent, itemPresent, rule.mod(), rule.items(), rule.flag())
                             || changed;
@@ -50,7 +53,10 @@ public final class PerfectFluidCompatDefaults {
             String flag) {
         String marker = BASE + "compatInitialization." + flag;
         return ConfigDefaultEdits.appendOnce(
-                config, BASE + "itemBlacklist", marker, items,
+                config,
+                BASE + "itemBlacklist",
+                marker,
+                items,
                 () -> modPresent.test(mod) && items.stream().allMatch(itemPresent));
     }
 

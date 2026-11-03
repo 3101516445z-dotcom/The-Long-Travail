@@ -1,10 +1,10 @@
 package com.thelongtravail.valley;
 
 import com.thelongtravail.api.TravailStateApi;
-import com.thelongtravail.compat.arsnouveau.ArsNouveauAttributeRules;
 import com.thelongtravail.common.*;
+import com.thelongtravail.compat.arsnouveau.ArsNouveauAttributeRules;
 import com.thelongtravail.config.*;
-import com.thelongtravail.helper.AccessoryEquipRules;
+import com.thelongtravail.equipment.AccessoryEquipRules;
 import com.thelongtravail.registry.ModRegistry;
 
 import net.minecraft.resources.ResourceLocation;
@@ -51,7 +51,7 @@ public final class Phosphophyllite {
                     ? 2
                     : TravailStateApi.hasDeepValleyMalice(p) ? 1 : 0;
         }
-        return com.thelongtravail.compat.maid.MaidAccessories.phosphophyllitePhase(entity);
+        return com.thelongtravail.integration.MaidIntegration.phosphophyllitePhase(entity);
     }
 
     public static double damageBonus(LivingEntity entity) {

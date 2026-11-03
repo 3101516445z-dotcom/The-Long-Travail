@@ -1,9 +1,9 @@
 package com.thelongtravail.farreach;
 
 import com.thelongtravail.api.TravailStateApi;
-import com.thelongtravail.compat.maid.MaidAccessories;
 import com.thelongtravail.config.FarReachRelicsConfig;
-import com.thelongtravail.helper.CurioLookup;
+import com.thelongtravail.equipment.CurioLookup;
+import com.thelongtravail.integration.MaidIntegration;
 import com.thelongtravail.registry.ModRegistry;
 
 import net.minecraft.core.registries.Registries;
@@ -41,7 +41,7 @@ public final class DonQuixoteCombat {
     }
 
     public static boolean equipped(LivingEntity e) {
-        return e instanceof ServerPlayer p ? equipped(p) : MaidAccessories.quixote(e);
+        return e instanceof ServerPlayer p ? equipped(p) : MaidIntegration.quixote(e);
     }
 
     public static int phase(LivingEntity e) {
@@ -49,13 +49,13 @@ public final class DonQuixoteCombat {
                 ? (TravailStateApi.hasFarReachWitness(p)
                         ? 2
                         : TravailStateApi.hasFarReachMalice(p) ? 1 : 0)
-                : MaidAccessories.quixotePhase(e);
+                : MaidIntegration.quixotePhase(e);
     }
 
     private static LivingEntity attacker(DamageSource source) {
         return source.getEntity() instanceof ServerPlayer p
                 ? p
-                : MaidAccessories.quixoteAttacker(source);
+                : MaidIntegration.quixoteAttacker(source);
     }
 
     public static boolean secondary(DamageSource source) {
@@ -131,10 +131,10 @@ public final class DonQuixoteCombat {
         if (target instanceof net.minecraft.world.entity.player.Player player
                 && !(p instanceof ServerPlayer sp
                         ? sp.canHarmPlayer(player)
-                        : MaidAccessories.canHarm(p, player))) return;
+                        : MaidIntegration.canHarm(p, player))) return;
         DamageSource source = strikeSource(p);
         int invulnerable = target.invulnerableTime;
-        var state = (com.thelongtravail.mixin.DamageReplayStateAccessor) target;
+        var state = (com.thelongtravail.mixin.combat.DamageReplayStateAccessor) target;
         float last = state.travail$lastHurt();
         try {
             target.hurt(source, (float) Math.min(Float.MAX_VALUE, amount));

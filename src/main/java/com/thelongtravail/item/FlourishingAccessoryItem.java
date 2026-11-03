@@ -69,7 +69,7 @@ public final class FlourishingAccessoryItem extends Item implements ICurioItem, 
                             spring ? "floral.springSlots" : "floral.affectionSlots", slots);
         if (!slots.contains(context.identifier()) || (!spring && !Affection.ownerAllowed(stack, p)))
             return false;
-        return com.thelongtravail.helper.AccessoryEquipRules.unique(context, this, true);
+        return com.thelongtravail.equipment.AccessoryEquipRules.unique(context, this, true);
     }
 
     @Override

@@ -4,7 +4,7 @@ import com.thelongtravail.valley.*;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 
 import com.thelongtravail.registry.ModRegistry;
-import com.thelongtravail.boundless.TimeStopExemptions;
+import com.thelongtravail.boundless.timestop.TimeStopExemptions;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.damagesource.DamageSource;

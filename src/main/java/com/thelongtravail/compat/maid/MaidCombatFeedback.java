@@ -12,8 +12,8 @@ import static com.thelongtravail.compat.maid.MaidRuntimeState.state;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.boundless.TimeStopExemptions;
-import com.thelongtravail.boundless.TimeStopManager;
+import com.thelongtravail.boundless.timestop.TimeStopExemptions;
+import com.thelongtravail.boundless.timestop.TimeStopManager;
 import com.thelongtravail.compat.maid.MaidAccessoryRuntime.Phase;
 import com.thelongtravail.config.AzraelConfig;
 import com.thelongtravail.config.BoundlessItemsConfig;
@@ -24,8 +24,8 @@ import com.thelongtravail.flourishing.FloralCombat;
 import com.thelongtravail.flourishing.Flower;
 import com.thelongtravail.flourishing.FlowerData;
 import com.thelongtravail.registry.ModRegistry;
-import com.thelongtravail.valley.AzraelExecution;
-import com.thelongtravail.valley.AzraelState;
+import com.thelongtravail.valley.execution.AzraelExecution;
+import com.thelongtravail.valley.execution.AzraelState;
 import java.util.HashSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
@@ -220,7 +220,7 @@ public final class MaidCombatFeedback {
         double value = FloralCombat.value(crown(m), Flower.LILAC);
         if (value <= 0) return effect;
         var copy = new MobEffectInstance(effect);
-        ((com.thelongtravail.mixin.EffectDurationAccessor) copy)
+        ((com.thelongtravail.mixin.effects.EffectDurationAccessor) copy)
                 .travail$duration(
                         (int)
                                 Math.min(

@@ -1,9 +1,16 @@
 package com.thelongtravail.event;
 
+import com.thelongtravail.runtime.effects.EffectChanges;
+import com.thelongtravail.runtime.effects.StiffState;
+import com.thelongtravail.runtime.effects.VisualDeprivation;
+
+import com.thelongtravail.journey.JourneyOperations;
+import com.thelongtravail.journey.JourneyService;
+
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.data.*;
-import com.thelongtravail.helper.TravailCurios;
+
+import com.thelongtravail.equipment.TravailCurios;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -13,45 +20,136 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 final class TravailCommands {
 
     static void onRegisterCommands(RegisterCommandsEvent event) {
-        event.getDispatcher().register(
-            Commands.literal("tlt")
-                .requires(source -> source.hasPermission(2))
-                .then(Commands.literal("timestop")
-                    .executes(context -> timeStop(context.getSource(),
-                        com.thelongtravail.config.BoundlessItemsConfig.ticks("star.witnessDuration")))
-                    .then(Commands.argument("seconds", IntegerArgumentType.integer(1, 15))
-                        .executes(context -> timeStop(context.getSource(),
-                            IntegerArgumentType.getInteger(context, "seconds") * 20))))
-                .then(Commands.literal("execute")
-                    .then(Commands.argument("targets", net.minecraft.commands.arguments.EntityArgument.entities())
-                        .executes(context -> executeTargets(context.getSource(),
-                            net.minecraft.commands.arguments.EntityArgument.getEntities(context, "targets")))))
-                .then(Commands.literal("diagnose_effects")
-                    .executes(context -> EffectChanges.diagnose(context.getSource().getPlayerOrException())))
-                .then(Commands.literal("stiff")
-                    .then(Commands.literal("clear")
-                        .executes(context -> {
-                            var player = context.getSource().getPlayerOrException();
-                            StiffState.clear(player);
-                            player.sendSystemMessage(
-                                Component.translatable("command.the_long_travail.stiff.cleared"));
-                            return 1;
-                        })))
-                .then(Commands.literal("visual_deprivation")
-                    .then(Commands.literal("clear")
-                        .executes(context -> clearVisualDeprivation(context.getSource().getPlayerOrException()))))
-                .then(Commands.literal("reverse")
-                    .executes(context -> setAllWitnessesForTesting(context.getSource().getPlayerOrException()))
-                    .then(Commands.literal("clear")
-                        .executes(context -> clearWitnessTesting(context.getSource().getPlayerOrException(), 0))
-                        .then(Commands.argument("value", IntegerArgumentType.integer(0, 6))
-                            .executes(context -> clearWitnessTesting(
-                                context.getSource().getPlayerOrException(),
-                                IntegerArgumentType.getInteger(context, "value")))))
-                    .then(Commands.argument("value", IntegerArgumentType.integer(-6, 6))
-                        .executes(context -> setWitnessForTesting(
-                            context.getSource().getPlayerOrException(),
-                            IntegerArgumentType.getInteger(context, "value"))))));
+        event.getDispatcher()
+                .register(
+                        Commands.literal("tlt")
+                                .requires(source -> source.hasPermission(2))
+                                .then(
+                                        Commands.literal("timestop")
+                                                .executes(
+                                                        context ->
+                                                                timeStop(
+                                                                        context.getSource(),
+                                                                        com.thelongtravail.config
+                                                                                .BoundlessItemsConfig
+                                                                                .ticks(
+                                                                                        "star.witnessDuration")))
+                                                .then(
+                                                        Commands.argument(
+                                                                        "seconds",
+                                                                        IntegerArgumentType.integer(
+                                                                                1, 15))
+                                                                .executes(
+                                                                        context ->
+                                                                                timeStop(
+                                                                                        context
+                                                                                                .getSource(),
+                                                                                        IntegerArgumentType
+                                                                                                        .getInteger(
+                                                                                                                context,
+                                                                                                                "seconds")
+                                                                                                * 20))))
+                                .then(
+                                        Commands.literal("execute")
+                                                .then(
+                                                        Commands.argument(
+                                                                        "targets",
+                                                                        net.minecraft.commands
+                                                                                .arguments
+                                                                                .EntityArgument
+                                                                                .entities())
+                                                                .executes(
+                                                                        context ->
+                                                                                executeTargets(
+                                                                                        context
+                                                                                                .getSource(),
+                                                                                        net
+                                                                                                .minecraft
+                                                                                                .commands
+                                                                                                .arguments
+                                                                                                .EntityArgument
+                                                                                                .getEntities(
+                                                                                                        context,
+                                                                                                        "targets")))))
+                                .then(
+                                        Commands.literal("diagnose_effects")
+                                                .executes(
+                                                        context ->
+                                                                EffectChanges.diagnose(
+                                                                        context.getSource()
+                                                                                .getPlayerOrException())))
+                                .then(
+                                        Commands.literal("stiff")
+                                                .then(
+                                                        Commands.literal("clear")
+                                                                .executes(
+                                                                        context -> {
+                                                                            var player =
+                                                                                    context.getSource()
+                                                                                            .getPlayerOrException();
+                                                                            StiffState.clear(
+                                                                                    player);
+                                                                            player
+                                                                                    .sendSystemMessage(
+                                                                                            Component
+                                                                                                    .translatable(
+                                                                                                            "command.the_long_travail.stiff.cleared"));
+                                                                            return 1;
+                                                                        })))
+                                .then(
+                                        Commands.literal("visual_deprivation")
+                                                .then(
+                                                        Commands.literal("clear")
+                                                                .executes(
+                                                                        context ->
+                                                                                clearVisualDeprivation(
+                                                                                        context.getSource()
+                                                                                                .getPlayerOrException()))))
+                                .then(
+                                        Commands.literal("reverse")
+                                                .executes(
+                                                        context ->
+                                                                setAllWitnessesForTesting(
+                                                                        context.getSource()
+                                                                                .getPlayerOrException()))
+                                                .then(
+                                                        Commands.literal("clear")
+                                                                .executes(
+                                                                        context ->
+                                                                                clearWitnessTesting(
+                                                                                        context.getSource()
+                                                                                                .getPlayerOrException(),
+                                                                                        0))
+                                                                .then(
+                                                                        Commands.argument(
+                                                                                        "value",
+                                                                                        IntegerArgumentType
+                                                                                                .integer(
+                                                                                                        0,
+                                                                                                        6))
+                                                                                .executes(
+                                                                                        context ->
+                                                                                                clearWitnessTesting(
+                                                                                                        context.getSource()
+                                                                                                                .getPlayerOrException(),
+                                                                                                        IntegerArgumentType
+                                                                                                                .getInteger(
+                                                                                                                        context,
+                                                                                                                        "value")))))
+                                                .then(
+                                                        Commands.argument(
+                                                                        "value",
+                                                                        IntegerArgumentType.integer(
+                                                                                -6, 6))
+                                                                .executes(
+                                                                        context ->
+                                                                                setWitnessForTesting(
+                                                                                        context.getSource()
+                                                                                                .getPlayerOrException(),
+                                                                                        IntegerArgumentType
+                                                                                                .getInteger(
+                                                                                                        context,
+                                                                                                        "value"))))));
     }
 
     private static int timeStop(net.minecraft.commands.CommandSourceStack source, int ticks)
@@ -59,13 +157,13 @@ final class TravailCommands {
         var player = source.getPlayerOrException();
         if (!player.isAlive()
                 || player.isSpectator()
-                || com.thelongtravail.boundless.TimeStopManager.frozen(player)) {
+                || com.thelongtravail.boundless.timestop.TimeStopManager.frozen(player)) {
             source.sendFailure(
                     Component.translatable("command.the_long_travail.timestop.unavailable"));
             return 0;
         }
         boolean started =
-                com.thelongtravail.boundless.TimeStopManager.get(player.serverLevel())
+                com.thelongtravail.boundless.timestop.TimeStopManager.get(player.serverLevel())
                         .start(
                                 player,
                                 true,
@@ -73,7 +171,8 @@ final class TravailCommands {
                                 player.position(),
                                 com.thelongtravail.config.BoundlessItemsConfig.get("star.radius"),
                                 ticks,
-                                com.thelongtravail.boundless.TimeStopExemptions.snapshot(player)
+                                com.thelongtravail.boundless.timestop.TimeStopExemptions.snapshot(
+                                                player)
                                         .orElse(null));
         if (!started) {
             source.sendFailure(Component.translatable("command.the_long_travail.timestop.failed"));
@@ -98,10 +197,10 @@ final class TravailCommands {
                 continue;
             }
             try {
-                switch (com.thelongtravail.valley.AzraelExecution.executeForCommand(
+                switch (com.thelongtravail.valley.execution.AzraelExecution.executeForCommand(
                         actor, living)) {
                     case DEAD -> {
-                        if (com.thelongtravail.valley.FinalExecution.terminated(living))
+                        if (com.thelongtravail.valley.execution.FinalExecution.terminated(living))
                             terminated++;
                         else dead++;
                     }

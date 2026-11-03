@@ -30,7 +30,9 @@ public final class AbundanceUseClient {
     }
 
     private static void clearNotice() {
-        var gui = (com.thelongtravail.mixin.SkillNoticeGuiAccessor) Minecraft.getInstance().gui;
+        var gui =
+                (com.thelongtravail.mixin.presentation.SkillNoticeGuiAccessor)
+                        Minecraft.getInstance().gui;
         if (displayed != null && gui.travail$getOverlayMessage() == displayed) {
             gui.travail$setOverlayMessage(Component.empty());
             gui.travail$setOverlayMessageTime(0);
@@ -134,7 +136,7 @@ public final class AbundanceUseClient {
             return;
         }
         if (mc.isPaused() || noticeYielded) return;
-        var gui = (com.thelongtravail.mixin.SkillNoticeGuiAccessor) mc.gui;
+        var gui = (com.thelongtravail.mixin.presentation.SkillNoticeGuiAccessor) mc.gui;
         if (noticeStarted && gui.travail$getOverlayMessage() != displayed) {
             displayed = null;
             noticeYielded = true;
@@ -154,7 +156,7 @@ public final class AbundanceUseClient {
     // 返回负数表示本次提示已不再占有 Action Bar。
     public static double chargeProgress() {
         var mc = Minecraft.getInstance();
-        var gui = (com.thelongtravail.mixin.SkillNoticeGuiAccessor) mc.gui;
+        var gui = (com.thelongtravail.mixin.presentation.SkillNoticeGuiAccessor) mc.gui;
         if (displayed == null
                 || noticeYielded
                 || !locked

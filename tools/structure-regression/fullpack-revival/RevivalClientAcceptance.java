@@ -1,7 +1,7 @@
 package travail.smoke;
 
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.data.LongTravailData;
+import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.registry.ModRegistry;
 import com.thelongtravail.underworld.*;
 

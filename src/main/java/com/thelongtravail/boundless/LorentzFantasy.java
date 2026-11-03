@@ -1,11 +1,13 @@
 package com.thelongtravail.boundless;
 
+import com.thelongtravail.boundless.timestop.TimeStopManager;
+
 import com.thelongtravail.*;
 import com.thelongtravail.api.TravailStateApi;
-import com.thelongtravail.compat.maid.MaidAccessories;
 import com.thelongtravail.combat.DirectStrikeDamage;
 import com.thelongtravail.config.BoundlessItemsConfig;
-import com.thelongtravail.helper.*;
+import com.thelongtravail.equipment.TravailCurios;
+import com.thelongtravail.integration.MaidIntegration;
 import com.thelongtravail.registry.*;
 
 import net.minecraft.resources.*;
@@ -71,7 +73,7 @@ public final class LorentzFantasy {
                     .map(r -> r.stack())
                     .orElse(ItemStack.EMPTY);
         }
-        return MaidAccessories.lorentzStack(e);
+        return MaidIntegration.lorentzStack(e);
     }
 
     public static int phase(LivingEntity e) {
@@ -83,7 +85,7 @@ public final class LorentzFantasy {
                 case WITNESS -> 2;
                 default -> 0;
             };
-        return MaidAccessories.lorentzPhase(e);
+        return MaidIntegration.lorentzPhase(e);
     }
 
     public static void refresh(LivingEntity e) {
@@ -150,7 +152,7 @@ public final class LorentzFantasy {
                 a -> {
                     if (a.isRemoved()) return true;
                     if (a.isNoGravity()
-                            && !((com.thelongtravail.mixin.LorentzArrowAccessor) a)
+                            && !((com.thelongtravail.mixin.boundless.LorentzArrowAccessor) a)
                                     .travail$inGround()
                             && !TimeStopManager.frozen(a)) {
                         int age = a.getPersistentData().getInt(AGE) + 1;
@@ -209,7 +211,7 @@ public final class LorentzFantasy {
         UUID ownerId =
                 shooter instanceof ServerPlayer p
                         ? p.getUUID()
-                        : MaidAccessories.lorentzOwner(shooter);
+                        : MaidIntegration.lorentzOwner(shooter);
         ServerPlayer owner =
                 shooter instanceof ServerPlayer p
                         ? p
@@ -218,7 +220,7 @@ public final class LorentzFantasy {
                                 : shooter.getServer().getPlayerList().getPlayer(ownerId);
         if (target instanceof Player p)
             return !p.isSpectator()
-                    && MaidAccessories.canHarm(shooter, p)
+                    && MaidIntegration.canHarm(shooter, p)
                     && (owner == null
                             || !com.thelongtravail.compat.ftbteams.FtbTeamsCompat.lanternTeammates(
                                     owner, p));
@@ -227,7 +229,7 @@ public final class LorentzFantasy {
             UUID petOwner =
                     shooter instanceof ServerPlayer p
                             ? p.getUUID()
-                            : MaidAccessories.lorentzOwner(shooter);
+                            : MaidIntegration.lorentzOwner(shooter);
             if (pet.getOwnerUUID().equals(petOwner)) return false;
         }
         return true;
@@ -305,7 +307,7 @@ public final class LorentzFantasy {
                 && Double.isFinite(health)
                 && health > 0) {
             long now = shooter.getServer().overworld().getGameTime();
-            UUID caster = MaidAccessories.casterId(shooter);
+            UUID caster = MaidIntegration.casterId(shooter);
             var cooldowns = COOLDOWNS.computeIfAbsent(target, t -> new HashMap<>());
             long until = cooldowns.getOrDefault(caster, Long.MIN_VALUE);
             if (now >= until) {
@@ -337,7 +339,7 @@ public final class LorentzFantasy {
                 || livingTarget(hitEntity) != target) return;
         DamageSource source = new Strike(target, shooter);
         int invul = target.invulnerableTime;
-        var state = (com.thelongtravail.mixin.DamageReplayStateAccessor) target;
+        var state = (com.thelongtravail.mixin.combat.DamageReplayStateAccessor) target;
         float last = state.travail$lastHurt();
         try {
             hitEntity.hurt(source, (float) Math.min(Float.MAX_VALUE, amount));

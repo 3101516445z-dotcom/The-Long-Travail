@@ -9,7 +9,7 @@ PACK=options.pack.resolve();OUT=options.output.resolve();JAVA=options.java.resol
 if not (OUT/'saves/revival-normal/level.dat').is_file() or not (OUT/'original-artifacts').is_dir(): raise SystemExit('Expected isolated test pack')
 old=OUT/'mods/travail-revival-acceptance.jar'
 if old.exists(): shutil.move(old,OUT/'original-artifacts/revival-fixture-before-carrying.jar')
-for source in [ROOT/'build/libs/The_Long_Travail-0.1.3.jar',ROOT/'build/carrying-fixture/travail-carrying-preview.jar']:
+for source in [ROOT/'build/libs/The_Long_Travail-1.0.0.jar',ROOT/'build/carrying-fixture/travail-carrying-preview.jar']:
  shutil.copy2(source,OUT/'mods'/source.name)
 manifest={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in (OUT/'mods').glob('*.jar')}
 (OUT/'carrying-mod-sha256.json').write_text(json.dumps(manifest,indent=2),encoding='utf8')

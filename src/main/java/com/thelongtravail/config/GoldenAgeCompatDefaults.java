@@ -1,10 +1,6 @@
 package com.thelongtravail.config;
 
 import com.electronwill.nightconfig.core.CommentedConfig;
-import com.thelongtravail.compat.celestialenchantments.CelestialEnchantmentsGoldenAgeDefaults;
-import com.thelongtravail.compat.enigmaticdelicacy.EnigmaticDelicacyGoldenAgeDefaults;
-import com.thelongtravail.compat.enigmaticlegacy.EnigmaticLegacyGoldenAgeDefaults;
-import com.thelongtravail.compat.l2complements.L2ComplementsGoldenAgeDefaults;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -43,27 +39,8 @@ public final class GoldenAgeCompatDefaults {
     private record Preset(String mod, String name, Pool pool, List<String> entries) {}
 
     private static final List<Preset> PRESETS =
-            List.of(
-                    new Preset(
-                            "enigmaticlegacy",
-                            "Enigmatic Legacy",
-                            Pool.FOOD,
-                            EnigmaticLegacyGoldenAgeDefaults.foodBlacklist()),
-                    new Preset(
-                            "enigmaticdelicacy",
-                            "Enigmatic Delicacy",
-                            Pool.FOOD,
-                            EnigmaticDelicacyGoldenAgeDefaults.foodBlacklist()),
-                    new Preset(
-                            "l2complements",
-                            "L2 Complements",
-                            Pool.ENCHANTMENT,
-                            L2ComplementsGoldenAgeDefaults.enchantmentBlacklist()),
-                    new Preset(
-                            "celestial_enchantments",
-                            "Celestial Enchantments",
-                            Pool.ENCHANTMENT,
-                            CelestialEnchantmentsGoldenAgeDefaults.enchantmentBlacklist()));
+            com.thelongtravail.compat.CompatPresets.goldenAge(
+                    Preset::new, Pool.FOOD, Pool.ENCHANTMENT);
     private static ManagedConfig loaded;
 
     static void define(ForgeConfigSpec.Builder builder) {

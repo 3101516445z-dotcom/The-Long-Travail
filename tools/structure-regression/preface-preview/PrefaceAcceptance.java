@@ -1,6 +1,6 @@
 package travail.prefacepreview;
 
-import com.thelongtravail.client.TravelDiaryScreen;
+import com.thelongtravail.client.diary.TravelDiaryScreen;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.locale.Language;

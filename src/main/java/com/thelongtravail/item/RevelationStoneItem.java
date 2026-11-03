@@ -1,7 +1,7 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.data.PlayerJourneyData;
+import com.thelongtravail.journey.PlayerJourneyData;
 import com.thelongtravail.network.TravailNetwork;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;

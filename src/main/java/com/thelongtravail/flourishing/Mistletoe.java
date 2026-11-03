@@ -3,7 +3,7 @@ package com.thelongtravail.flourishing;
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.config.*;
 import com.thelongtravail.registry.ModRegistry;
-import com.thelongtravail.mixin.EffectDurationAccessor;
+import com.thelongtravail.mixin.effects.EffectDurationAccessor;
 import com.thelongtravail.loot.LootItemCollector;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;

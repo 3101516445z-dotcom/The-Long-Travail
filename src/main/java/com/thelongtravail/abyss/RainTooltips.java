@@ -81,24 +81,24 @@ public final class RainTooltips {
     private static boolean isTravailStateCondition(String key) {
         return switch (key) {
             case "tooltip.the_long_travail.lorentz.malice_heading",
-                            "tooltip.the_long_travail.lorentz.witness_heading",
-                            "tooltip.the_long_travail.abyss_items.malice_heading",
-                            "tooltip.the_long_travail.abyss_items.witness_heading",
-                            "tooltip.the_long_travail.golden_age.malice_heading",
-                            "tooltip.the_long_travail.golden_age.witness_heading",
-                            "tooltip.the_long_travail.icarus.malice_heading",
-                            "tooltip.the_long_travail.icarus.witness_heading",
-                            "tooltip.the_long_travail.eki.prose.malice_title",
-                            "tooltip.the_long_travail.eki.prose.witness_title",
-                            "tooltip.the_long_travail.azrael.malice_title",
-                            "tooltip.the_long_travail.azrael.witness_title",
-                            "tooltip.the_long_travail.star_voice.malice_heading",
-                            "tooltip.the_long_travail.star_voice.witness_heading",
-                            "tooltip.the_long_travail.thousand_years.malice_title",
-                            "tooltip.the_long_travail.thousand_years.witness_title",
-                            "tooltip.the_long_travail.book_of_dead.witness_condition",
-                            "tooltip.the_long_travail.essence.malice_heading",
-                            "tooltip.the_long_travail.essence.witness_heading" ->
+                    "tooltip.the_long_travail.lorentz.witness_heading",
+                    "tooltip.the_long_travail.abyss_items.malice_heading",
+                    "tooltip.the_long_travail.abyss_items.witness_heading",
+                    "tooltip.the_long_travail.golden_age.malice_heading",
+                    "tooltip.the_long_travail.golden_age.witness_heading",
+                    "tooltip.the_long_travail.icarus.malice_heading",
+                    "tooltip.the_long_travail.icarus.witness_heading",
+                    "tooltip.the_long_travail.eki.prose.malice_title",
+                    "tooltip.the_long_travail.eki.prose.witness_title",
+                    "tooltip.the_long_travail.azrael.malice_title",
+                    "tooltip.the_long_travail.azrael.witness_title",
+                    "tooltip.the_long_travail.star_voice.malice_heading",
+                    "tooltip.the_long_travail.star_voice.witness_heading",
+                    "tooltip.the_long_travail.thousand_years.malice_title",
+                    "tooltip.the_long_travail.thousand_years.witness_title",
+                    "tooltip.the_long_travail.book_of_dead.witness_condition",
+                    "tooltip.the_long_travail.essence.malice_heading",
+                    "tooltip.the_long_travail.essence.witness_heading" ->
                     true;
             default -> false;
         };

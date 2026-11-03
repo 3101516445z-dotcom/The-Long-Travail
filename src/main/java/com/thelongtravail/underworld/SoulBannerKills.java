@@ -1,16 +1,17 @@
 package com.thelongtravail.underworld;
 
 import com.thelongtravail.compat.dummmmmmy.DummySoulRules;
+
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
 import java.util.*;
 
 @Mod.EventBusSubscriber(modid = "the_long_travail")
@@ -34,7 +35,7 @@ public final class SoulBannerKills {
         if (!(source instanceof LivingEntity actor)
                 || actor == victim
                 || !(actor instanceof Player
-                        || com.thelongtravail.compat.maid.MaidAccessories.isMaid(actor)))
+                        || com.thelongtravail.integration.MaidIntegration.isMaid(actor)))
             return null;
         ItemStack stack = UnderworldRelics.soulBanner(actor);
         return stack.isEmpty() ? null : new Claim(actor, stack);

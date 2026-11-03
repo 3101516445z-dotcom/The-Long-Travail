@@ -9,7 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-/** 按进程限制条数的伤害链日志；关闭时不创建作用域或格式化日志。 */
+// 按进程限制条数的伤害链日志；关闭时不创建作用域或格式化日志。
 public final class DamageTrace {
     public static final boolean ENABLED = Boolean.getBoolean("thelongtravail.damageTrace");
     private static final int LIMIT =

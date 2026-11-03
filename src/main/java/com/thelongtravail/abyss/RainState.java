@@ -2,8 +2,8 @@ package com.thelongtravail.abyss;
 
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.config.RainConfig;
-import com.thelongtravail.data.LongTravailData;
-import com.thelongtravail.helper.TravailCurios;
+import com.thelongtravail.journey.LongTravailData;
+import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.registry.ModRegistry;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;

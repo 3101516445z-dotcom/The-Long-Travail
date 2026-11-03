@@ -16,7 +16,8 @@ public final class ModAttributes {
     public static final RegistryObject<Attribute> INSIGHT = register("insight", Float.MAX_VALUE);
     public static final RegistryObject<Attribute> CRITICAL_CHANCE =
             registerPercent("critical_chance", 1);
-    public static final RegistryObject<Attribute> OVERLORD = registerPercent("overlord", Float.MAX_VALUE);
+    public static final RegistryObject<Attribute> OVERLORD =
+            registerPercent("overlord", Float.MAX_VALUE);
 
     private static RegistryObject<Attribute> register(String name, double maximum) {
         return ATTRIBUTES.register(
@@ -31,9 +32,7 @@ public final class ModAttributes {
     }
 
     private static RegistryObject<Attribute> registerPercent(String name, double maximum) {
-        return ATTRIBUTES.register(
-                name,
-                () -> PercentAttributes.create(name, maximum));
+        return ATTRIBUTES.register(name, () -> PercentAttributes.create(name, maximum));
     }
 
     public static void register(IEventBus bus) {

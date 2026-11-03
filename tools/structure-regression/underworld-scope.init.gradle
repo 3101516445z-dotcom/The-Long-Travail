@@ -1,0 +1,44 @@
+allprojects {
+    afterEvaluate {
+        if (project.hasProperty('scopeMaid')) {
+            dependencies { runtimeOnly fg.deobf(project.ext.maidApiDependency) }
+        }
+        if (project.hasProperty('scopeApotheosis')) {
+            def deps = project.file(project.findProperty('scopeDeps') ?: 'build/apotheosis-tales/deps')
+            if (!deps.isDirectory()) throw new GradleException('Missing scopeDeps directory: ' + deps)
+            repositories { flatDir { dirs deps } }
+            deps.listFiles().findAll { it.name.endsWith('.jar') }.each { jar ->
+                dependencies.add('runtimeOnly', fg.deobf("talescompat:${jar.name[0..-5]}:1"))
+            }
+        }
+        sourceSets {
+            underworldScopeTest {
+                java.srcDir 'tools/structure-regression/underworld-scope'
+                resources.srcDir 'tools/structure-regression/underworld-scope-resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        def directory = project.file('build/underworld-scope-' + (project.hasProperty('scopeApotheosis') ? 'apotheosis' : 'baseline'))
+        minecraft.runs.server {
+            workingDirectory directory
+            jvmArgs '-Xmx3G'
+            args '--nogui'
+            property 'mixin.debug.countInjections', 'true'
+            mods { travail_smoke { source sourceSets.underworldScopeTest } }
+        }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            doFirst {
+                directory.mkdirs()
+                def eula = project.file(project.findProperty('scopeEula') ?: 'run/eula.txt')
+                if (!eula.isFile()) throw new GradleException('Provide an accepted EULA file through scopeEula')
+                new File(directory, 'eula.txt').bytes = eula.bytes
+                new File(directory, 'server.properties').text = 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25751\nlevel-name=scope\nlevel-type=minecraft\\:flat\ngenerate-structures=false\nview-distance=2\nsimulation-distance=2\nmax-tick-time=180000\n'
+                new File(directory, 'underworld-scope-result.txt').text = 'NOT_RUN'
+            }
+            doLast {
+                if (!new File(directory, 'underworld-scope-result.txt').text.startsWith('PASS ')) throw new GradleException('Underworld scope regression failed')
+            }
+        }
+    }
+}

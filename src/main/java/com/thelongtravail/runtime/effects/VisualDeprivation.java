@@ -1,0 +1,108 @@
+package com.thelongtravail.runtime.effects;
+
+import com.thelongtravail.network.TravailNetwork;
+import com.thelongtravail.registry.ModRegistry;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+
+public final class VisualDeprivation {
+    public enum ClearReason {
+        COMMAND,
+        MILK,
+        EXPIRED,
+        DEATH,
+        RESPAWN,
+        DIMENSION_CHANGE,
+        DIARY_RESET,
+        NO_ACTIVE_STATE,
+        API
+    }
+
+    private static final String UNTIL = "LongTravailVisualDeprivationUntil";
+    private static final String TOTAL = "LongTravailVisualDeprivationTotal";
+
+    public static void start(ServerPlayer player, int ticks) {
+        if (ticks <= 0 || !com.thelongtravail.config.ModeEffectRules.diaryApplies(player)) {
+            clear(player, ClearReason.NO_ACTIVE_STATE);
+            return;
+        }
+        CompoundTag data = player.getPersistentData();
+        data.putLong(UNTIL, player.level().getGameTime() + ticks);
+        data.putLong(TOTAL, ticks);
+        TravailNetwork.sendVisualDeprivation(player, ticks, ticks);
+        MobEffect effect = ModRegistry.VISUAL_DEPRIVATION.get();
+        EffectChanges.add(player, new MobEffectInstance(effect, ticks));
+        com.thelongtravail.TheLongTravail.LOGGER.debug(
+                "Visual deprivation started for {} ({} ticks, effect applied: {})",
+                player.getName().getString(),
+                ticks,
+                player.hasEffect(effect));
+    }
+
+    public static void clear(ServerPlayer player) {
+        clear(player, ClearReason.API);
+    }
+
+    public static void clear(ServerPlayer player, ClearReason reason) {
+        boolean had = player.getPersistentData().contains(UNTIL);
+        forget(player);
+        MobEffect effect = ModRegistry.VISUAL_DEPRIVATION.get();
+        if (player.hasEffect(effect)) EffectChanges.remove(player, effect, false);
+        TravailNetwork.sendVisualDeprivation(
+                player,
+                0,
+                0,
+                switch (reason) {
+                    case EXPIRED, DEATH, RESPAWN, DIMENSION_CHANGE, DIARY_RESET, NO_ACTIVE_STATE ->
+                            true;
+                    default -> false;
+                });
+        if (had) {
+            com.thelongtravail.TheLongTravail.LOGGER.debug(
+                    "Visual deprivation cleared for {} ({})", player.getName().getString(), reason);
+        }
+    }
+
+    // 仅清理存储；调用方应使用 clear，同时清理显示实例并同步客户端。
+    private static void forget(ServerPlayer player) {
+        CompoundTag data = player.getPersistentData();
+        data.remove(UNTIL);
+        data.remove(TOTAL);
+    }
+
+    public static int remaining(ServerPlayer player) {
+        CompoundTag data = player.getPersistentData();
+        if (!data.contains(UNTIL)) return 0;
+        long left = data.getLong(UNTIL) - player.level().getGameTime();
+        return left <= 0L ? 0 : (int) Math.min(Integer.MAX_VALUE, left);
+    }
+
+    public static void tick(ServerPlayer player) {
+        if (!player.getPersistentData().contains(UNTIL)) return;
+        int left = remaining(player);
+        if (!com.thelongtravail.config.ModeEffectRules.diaryApplies(player))
+            clear(player, ClearReason.NO_ACTIVE_STATE);
+        else if (left == 0) clear(player, ClearReason.EXPIRED);
+        else TravailNetwork.sendVisualProgress(player, left);
+    }
+
+    public static void resend(ServerPlayer player) {
+        CompoundTag data = player.getPersistentData();
+        int left = remaining(player);
+        if (left <= 0) {
+            clear(player, ClearReason.NO_ACTIVE_STATE);
+            return;
+        }
+        int total = (int) Math.min(Integer.MAX_VALUE, data.getLong(TOTAL));
+        TravailNetwork.sendVisualDeprivation(player, left, Math.max(left, total));
+    }
+
+    public static void pause(ServerPlayer player) {
+        var data = player.getPersistentData();
+        if (data.contains(UNTIL)) data.putLong(UNTIL, data.getLong(UNTIL) + 1);
+    }
+
+    private VisualDeprivation() {}
+}

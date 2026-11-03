@@ -1,5 +1,8 @@
 package travail.smoke;
 
+import com.thelongtravail.boundless.timestop.TimeStopManager;
+import com.thelongtravail.boundless.timestop.StarVoiceState;
+
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.item.ItemFilm;
 import com.mojang.authlib.GameProfile;
@@ -7,9 +10,10 @@ import com.thelongtravail.*;
 import com.thelongtravail.boundless.*;
 import com.thelongtravail.compat.maid.*;
 import com.thelongtravail.config.*;
-import com.thelongtravail.data.LongTravailData;
+import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.farreach.*;
 import com.thelongtravail.flourishing.*;
+import com.thelongtravail.integration.MaidIntegration;
 import com.thelongtravail.registry.ModRegistry;
 
 import net.minecraft.nbt.CompoundTag;
@@ -755,7 +759,7 @@ public final class MaidCompatSmoke {
                             .serverTick(
                                     new TickEvent.ServerTickEvent(
                                             TickEvent.Phase.END, () -> true, level.getServer()));
-                else com.thelongtravail.valley.AzraelState.drain(level.getServer());
+                else com.thelongtravail.valley.execution.AzraelState.drain(level.getServer());
                 check(
                         !target.isAlive() && blocked.isAlive(),
                         "canceled received arms Azrael; blocked outgoing preserves opportunity"
@@ -768,7 +772,7 @@ public final class MaidCompatSmoke {
                             .serverTick(
                                     new TickEvent.ServerTickEvent(
                                             TickEvent.Phase.END, () -> true, level.getServer()));
-                else com.thelongtravail.valley.AzraelState.drain(level.getServer());
+                else com.thelongtravail.valley.execution.AzraelState.drain(level.getServer());
                 check(second.isAlive(), "received opportunity is consumed once maid=" + maid);
                 if (maid) flower(m, Flower.ROSE_BUSH);
                 else {
@@ -984,7 +988,7 @@ public final class MaidCompatSmoke {
                     "lamp leaves attack attribute unchanged step=" + step);
             var target = cow(level);
             float hp = target.getHealth();
-            double bonus = MaidAccessories.bonus(target, maid.damageSources().mobAttack(maid));
+            double bonus = MaidIntegration.bonus(target, maid.damageSources().mobAttack(maid));
             check(maid.doHurtTarget(target), "actual maid melee accepted step=" + step);
             near(
                     hp - target.getHealth(),
@@ -1075,7 +1079,7 @@ public final class MaidCompatSmoke {
                 1000 - target.getHealth(),
                 10 * (1 + snap.bonus()) + 20,
                 "quixote: real projectile damage and extra strike");
-        check(MaidAccessories.quixoteCooldown(m) == 0, "quixote: malice does not trigger witness");
+        check(MaidIntegration.quixoteCooldown(m) == 0, "quixote: malice does not trigger witness");
         LongTravailData.setWitness(diary, TravailAspect.FAR_REACH, true);
         target.setHealth(1000);
         target.invulnerableTime = 0;
@@ -1091,14 +1095,14 @@ public final class MaidCompatSmoke {
         var threshold = DonQuixoteCombat.snapshot(target, source);
         DonQuixoteCombat.finish(target, source, threshold, 50);
         near(
-                MaidAccessories.quixoteCooldown(m),
+                MaidIntegration.quixoteCooldown(m),
                 0,
                 "quixote: exactly 5 percent does not trigger witness");
         target.setHealth(1000);
         target.invulnerableTime = 0;
         target.hurt(source, 60);
-        near(MaidAccessories.quixoteCooldown(m), 80, "quixote: real hit starts 4 second cooldown");
-        near(MaidAccessories.quixoteCooldown(other), 0, "quixote: independent maid cooldown");
+        near(MaidIntegration.quixoteCooldown(m), 80, "quixote: real hit starts 4 second cooldown");
+        near(MaidIntegration.quixoteCooldown(other), 0, "quixote: independent maid cooldown");
         near(
                 DonQuixoteState.reduce(m, target.damageSources().mobAttack(target), 10),
                 .1,
@@ -1131,15 +1135,15 @@ public final class MaidCompatSmoke {
         ((net.minecraft.world.level.storage.ServerLevelData) level.getLevelData())
                 .setGameTime(originalTime);
         DonQuixoteState.tick(m);
-        near(MaidAccessories.quixoteCooldown(m), 78, "quixote: loaded cooldown ticks");
+        near(MaidIntegration.quixoteCooldown(m), 78, "quixote: loaded cooldown ticks");
         equip(m);
         equip(m, ModRegistry.DON_QUIXOTE.get());
         near(
                 DonQuixoteState.reduce(m, target.damageSources().mobAttack(target), 10),
                 10,
                 "quixote: unequip clears guard");
-        near(MaidAccessories.quixoteCooldown(m), 78, "quixote: unequip does not reset cooldown");
-        MaidAccessories.quixoteCooldown(m, 0);
+        near(MaidIntegration.quixoteCooldown(m), 78, "quixote: unequip does not reset cooldown");
+        MaidIntegration.quixoteCooldown(m, 0);
         DonQuixoteState.trigger(m, target);
         ownerOnline(level, p, false);
         near(
@@ -1147,7 +1151,7 @@ public final class MaidCompatSmoke {
                 10,
                 "quixote: owner offline clears guard immediately");
         ownerOnline(level, p, true);
-        MaidAccessories.quixoteCooldown(m, 0);
+        MaidIntegration.quixoteCooldown(m, 0);
         DonQuixoteState.trigger(m, target);
         m.setOwnerUUID(UUID.randomUUID());
         near(
@@ -1171,7 +1175,7 @@ public final class MaidCompatSmoke {
                     && identity.equals(MaidAccessoryRuntime.identity(maid))) restored = maid;
         check(restored != null, "quixote: real film restores stable identity");
         near(
-                MaidAccessories.quixoteCooldown(restored),
+                MaidIntegration.quixoteCooldown(restored),
                 80,
                 "quixote: real film cannot reset cooldown");
         near(
@@ -1323,32 +1327,32 @@ public final class MaidCompatSmoke {
                                     "rules: theme phase matrix");
                         }
                         check(
-                                MaidAccessories.lorentzPhase(m)
+                                MaidIntegration.lorentzPhase(m)
                                         == expectedPhase(
                                                 effectiveMask, TravailAspect.BOUNDLESS, active),
                                 "rules: lorentz phase independent of equipment");
                         check(
-                                MaidAccessories.quixotePhase(m)
+                                MaidIntegration.quixotePhase(m)
                                         == expectedPhase(
                                                 effectiveMask, TravailAspect.FAR_REACH, active),
                                 "rules: quixote phase independent of equipment");
                         check(
-                                MaidAccessories.flowerPhase(m)
+                                MaidIntegration.flowerPhase(m)
                                         == expectedPhase(
                                                 effectiveMask, TravailAspect.FLOURISHING, active),
                                 "rules: flower phase");
                         check(
-                                MaidAccessories.lafitePhase(m)
+                                MaidIntegration.lafitePhase(m)
                                         == expectedPhase(
                                                 effectiveMask, TravailAspect.ABYSS, active),
                                 "rules: lafite phase");
                         check(
-                                MaidAccessories.relicPhase(m)
+                                MaidIntegration.relicPhase(m)
                                         == expectedPhase(
                                                 effectiveMask, TravailAspect.UNDERWORLD, active),
                                 "rules: relic phase");
                         check(
-                                MaidAccessories.phosphophyllitePhase(m)
+                                MaidIntegration.phosphophyllitePhase(m)
                                         == expectedPhase(
                                                 effectiveMask,
                                                 TravailAspect.DEEP_VALLEY,
@@ -1358,15 +1362,15 @@ public final class MaidCompatSmoke {
                                                                         .get()),
                                 "rules: phosphophyllite requires equipment");
                         check(
-                                MaidAccessories.quixote(m)
+                                MaidIntegration.quixote(m)
                                         == (item == ModRegistry.DON_QUIXOTE.get()),
                                 "rules: quixote equipment");
                         check(
-                                MaidAccessories.lafite(m)
+                                MaidIntegration.lafite(m)
                                         == (item == ModRegistry.MIDNIGHT_LAFITE.get()),
                                 "rules: lafite equipment");
                         check(
-                                MaidAccessories.seesUndead(m)
+                                MaidIntegration.seesUndead(m)
                                         == (item == ModRegistry.THOUSAND_YEARS.get()
                                                 && expectedPhase(
                                                                 effectiveMask,
@@ -1375,25 +1379,25 @@ public final class MaidCompatSmoke {
                                                         == 2),
                                 "rules: undead witness qualification");
                         check(
-                                MaidAccessories.lorentzStack(m)
+                                MaidIntegration.lorentzStack(m)
                                         == (item == ModRegistry.LORENTZ_FANTASY.get()
                                                 ? stack
                                                 : ItemStack.EMPTY),
                                 "rules: lorentz original stack");
                         check(
-                                MaidAccessories.flowerStack(m)
+                                MaidIntegration.flowerStack(m)
                                         == (item == ModRegistry.EVERLASTING_FLOWER.get()
                                                 ? stack
                                                 : ItemStack.EMPTY),
                                 "rules: flower original stack");
                         check(
-                                MaidAccessories.relicStack(m, true)
+                                MaidIntegration.relicStack(m, true)
                                         == (item == ModRegistry.SOUL_BANNER.get()
                                                 ? stack
                                                 : ItemStack.EMPTY),
                                 "rules: banner original stack");
                         check(
-                                MaidAccessories.relicStack(m, false)
+                                MaidIntegration.relicStack(m, false)
                                         == (item == ModRegistry.DEMON_KING.get()
                                                 ? stack
                                                 : ItemStack.EMPTY),
@@ -1413,21 +1417,21 @@ public final class MaidCompatSmoke {
             equip(m, ModRegistry.PHOSPHOPHYLLITE.get());
             fixtureHealth(m, 0);
             check(
-                    MaidAccessories.phosphophyllitePhase(m) == 0,
+                    MaidIntegration.phosphophyllitePhase(m) == 0,
                     "rules: dead maid cannot supply equipment");
             check(
-                    MaidAccessories.quixotePhase(m) == 2,
+                    MaidIntegration.quixotePhase(m) == 2,
                     "rules: phase-only query retains owner phase for dead maid");
             fixtureHealth(m, 20);
             m.discard();
             check(
-                    MaidAccessories.phosphophyllitePhase(m) == 0,
+                    MaidIntegration.phosphophyllitePhase(m) == 0,
                     "rules: removed maid cannot supply equipment");
             check(
-                    MaidAccessories.quixotePhase(p) == 0
-                            && !MaidAccessories.quixote(p)
-                            && MaidAccessories.relicPhase(p) == 0
-                            && MaidAccessories.flowerStack(p).isEmpty(),
+                    MaidIntegration.quixotePhase(p) == 0
+                            && !MaidIntegration.quixote(p)
+                            && MaidIntegration.relicPhase(p) == 0
+                            && MaidIntegration.flowerStack(p).isEmpty(),
                     "rules: non-maid fallback");
             System.out.println(
                     "MAID_RULES_PRESSURE_PASS checks="
@@ -1467,7 +1471,7 @@ public final class MaidCompatSmoke {
                             level.registryAccess()
                                     .registryOrThrow(
                                             net.minecraft.core.registries.Registries.DAMAGE_TYPE)
-                                    .getHolderOrThrow(com.thelongtravail.helper.TrueDamage.FLUID));
+                                    .getHolderOrThrow(com.thelongtravail.abyss.FluidErosionDamage.FLUID));
             var fluid = new com.thelongtravail.combat.AttributeDamage(p, fluidSource, false, false);
             check(!fluid.begin(), "preparation: fluid excluded");
             near(p.getAttributeValue(insight), 0, "preparation: fluid does not refresh");
@@ -1599,14 +1603,14 @@ public final class MaidCompatSmoke {
                     long next = m.getRandom().nextLong();
                     m.getRandom().setSeed(trial);
                     check(
-                            expected == MaidAccessories.immune(m, source, amount),
+                            expected == MaidIntegration.immune(m, source, amount),
                             "shared: maid immunity exact");
                     check(next == m.getRandom().nextLong(), "shared: maid random sequence exact");
                     check(
                             Float.floatToIntBits(
                                             LegacyMaidCombatMath.reduce(m, source, amount, true))
                                     == Float.floatToIntBits(
-                                            MaidAccessories.reduce(m, source, amount, true)),
+                                            MaidIntegration.reduce(m, source, amount, true)),
                             "shared: maid flower poison and other reduction exact");
                 }
                 var maidSource =
@@ -1617,7 +1621,7 @@ public final class MaidCompatSmoke {
                 check(
                         Double.doubleToLongBits(LegacyMaidCombatMath.bonus(victim, maidSource))
                                 == Double.doubleToLongBits(
-                                        MaidAccessories.bonus(victim, maidSource)),
+                                        MaidIntegration.bonus(victim, maidSource)),
                         "shared: maid flower and Icarus output exact");
             }
             System.out.println("SHARED_COMBAT_RULES_PASS checks=" + (checks - initial));
@@ -1688,20 +1692,20 @@ public final class MaidCompatSmoke {
                     check(
                             Double.doubleToLongBits(oldBonus)
                                     == Double.doubleToLongBits(
-                                            MaidAccessories.bonus(victim, source)),
+                                            MaidIntegration.bonus(victim, source)),
                             "math: bonus exact");
                     check(
                             Double.doubleToLongBits(
                                             LegacyMaidCombatMath.witherBonus(victim, source))
                                     == Double.doubleToLongBits(
-                                            MaidAccessories.witherBonus(victim, source)),
+                                            MaidIntegration.witherBonus(victim, source)),
                             "math: wither exact");
                     float oldReduction =
                             LegacyMaidCombatMath.reduce(m, source, amount, trial % 2 == 0);
                     check(
                             Float.floatToIntBits(oldReduction)
                                     == Float.floatToIntBits(
-                                            MaidAccessories.reduce(
+                                            MaidIntegration.reduce(
                                                     m, source, amount, trial % 2 == 0)),
                             "math: reduction exact including nonfinite");
                     long seed = 20261024L + trial;
@@ -1709,7 +1713,7 @@ public final class MaidCompatSmoke {
                     boolean oldImmune = LegacyMaidCombatMath.immune(m, source, amount);
                     long oldNext = m.getRandom().nextLong();
                     m.getRandom().setSeed(seed);
-                    boolean newImmune = MaidAccessories.immune(m, source, amount);
+                    boolean newImmune = MaidIntegration.immune(m, source, amount);
                     long newNext = m.getRandom().nextLong();
                     check(oldImmune == newImmune, "math: seeded immunity exact");
                     check(oldNext == newNext, "math: RNG consumption unchanged");
@@ -2120,7 +2124,7 @@ public final class MaidCompatSmoke {
             }
             conservativeOptimizationChecks(level, p);
             lanternRegression(level, p);
-            check(MaidAccessories.isMaid(m), "optional facade detects maid");
+            check(MaidIntegration.isMaid(m), "optional facade detects maid");
             for (var item : MaidAccessoryRuntime.items())
                 check(
                         m.getMaidBauble().isItemValid(0, new ItemStack(item)),
@@ -2181,9 +2185,9 @@ public final class MaidCompatSmoke {
                             && MaidAccessoryRuntime.eki(other)
                                     == MaidAccessoryRuntime.Phase.WITNESS,
                     "one diary serves two separately equipped maids");
-            check(MaidAccessories.immune(m, m.damageSources().generic(), 10), "Eki witness immune");
+            check(MaidIntegration.immune(m, m.damageSources().generic(), 10), "Eki witness immune");
             check(
-                    !MaidAccessories.immune(m, m.damageSources().genericKill(), 10),
+                    !MaidIntegration.immune(m, m.damageSources().genericKill(), 10),
                     "Eki does not block generic kill");
             check(
                     ItemStack.matches(diary, diaryBefore),
@@ -2193,7 +2197,7 @@ public final class MaidCompatSmoke {
                     MaidAccessoryRuntime.eki(m) == MaidAccessoryRuntime.Phase.MALICE,
                     "owner witness change immediate");
             near(
-                    MaidAccessories.bonus(victim, m.damageSources().mobAttack(m)),
+                    MaidIntegration.bonus(victim, m.damageSources().mobAttack(m)),
                     RainConfig.DAMAGE.get(),
                     "Eki malice bonus");
             MaidAccessoryRuntime.tick(m);
@@ -2262,7 +2266,7 @@ public final class MaidCompatSmoke {
                     "native maid flower actual damage");
             m.getMaidBauble().setStackInSlot(1, crown.copy());
             near(
-                    MaidAccessories.bonus(victim, m.damageSources().mobAttack(m)),
+                    MaidIntegration.bonus(victim, m.damageSources().mobAttack(m)),
                     FlourishingItemsConfig.value(Flower.POPPY),
                     "duplicate native crowns do not stack");
             FlowerData.write(
@@ -2310,26 +2314,26 @@ public final class MaidCompatSmoke {
             near(incoming.getDuration(), 100, "effect input remains unmodified");
             flower(m, Flower.ALLIUM, Flower.AZURE_BLUET, Flower.TORCHFLOWER);
             near(
-                    MaidAccessories.reduce(m, m.damageSources().magic(), 10, true),
+                    MaidIntegration.reduce(m, m.damageSources().magic(), 10, true),
                     10 * (1 - FlourishingItemsConfig.value(Flower.ALLIUM)),
                     "allium poison reduction");
             near(
-                    MaidAccessories.reduce(m, m.damageSources().fall(), 10, false),
+                    MaidIntegration.reduce(m, m.damageSources().fall(), 10, false),
                     10 * (1 - FlourishingItemsConfig.value(Flower.AZURE_BLUET)),
                     "azure bluet fall reduction");
             near(
-                    MaidAccessories.reduce(m, m.damageSources().inFire(), 10, false),
+                    MaidIntegration.reduce(m, m.damageSources().inFire(), 10, false),
                     10 * (1 - FlourishingItemsConfig.value(Flower.TORCHFLOWER)),
                     "torchflower fire reduction");
             flower(m, Flower.RED_TULIP, Flower.WHITE_TULIP, Flower.PINK_PETALS);
             fixtureHealth(m, 2);
             MaidAccessoryRuntime.tick(m);
             near(
-                    MaidAccessories.bonus(victim, m.damageSources().mobAttack(m)),
+                    MaidIntegration.bonus(victim, m.damageSources().mobAttack(m)),
                     FlourishingItemsConfig.value(Flower.RED_TULIP),
                     "low health red tulip");
             near(
-                    MaidAccessories.reduce(m, m.damageSources().generic(), 10, false),
+                    MaidIntegration.reduce(m, m.damageSources().generic(), 10, false),
                     10 * (1 - FlourishingItemsConfig.value(Flower.WHITE_TULIP)),
                     "low health white tulip");
             near(
@@ -2342,7 +2346,7 @@ public final class MaidCompatSmoke {
             var arrow = new net.minecraft.world.entity.projectile.Arrow(level, m);
             var arrowDamage = m.damageSources().arrow(arrow, m);
             near(
-                    MaidAccessories.bonus(victim, arrowDamage),
+                    MaidIntegration.bonus(victim, arrowDamage),
                     FlourishingItemsConfig.value(Flower.SUNFLOWER)
                             + FlourishingItemsConfig.value(Flower.CORNFLOWER),
                     "maid projectile and sunlight bonuses");
@@ -2397,29 +2401,29 @@ public final class MaidCompatSmoke {
             diary(foreignOwner);
             m.setOwnerUUID(foreignOwner.getUUID());
             equip(m, ModRegistry.THOUSAND_YEARS.get());
-            check(MaidAccessories.seesUndead(m), "cross-dimension online owner diary");
+            check(MaidIntegration.seesUndead(m), "cross-dimension online owner diary");
             m.setOwnerUUID(p.getUUID());
             ownerOnline(level, foreignOwner, false);
             // 伊卡洛斯基础效果独立生效，魔法免疫需要见证。
             equip(m, ModRegistry.ICARUS.get());
             ownerOnline(level, p, false);
             check(
-                    MaidAccessories.immune(m, m.damageSources().fall(), 5),
+                    MaidIntegration.immune(m, m.damageSources().fall(), 5),
                     "Icarus base fall immunity without owner");
             check(
-                    !MaidAccessories.immune(m, m.damageSources().magic(), 5),
+                    !MaidIntegration.immune(m, m.damageSources().magic(), 5),
                     "Icarus no borrowed witness while offline");
             victim.invulnerableTime = 0;
             victim.hurt(m.damageSources().mobAttack(m), 1);
             check(victim.isOnFire(), "Icarus actual hit ignites without owner");
             ownerOnline(level, p, true);
             check(
-                    MaidAccessories.immune(m, m.damageSources().magic(), 5),
+                    MaidIntegration.immune(m, m.damageSources().magic(), 5),
                     "Icarus owner witness magic immunity");
             // 一千年后接入原有附魔计算。
             equip(m, ModRegistry.THOUSAND_YEARS.get());
             victim.removeAllEffects();
-            check(MaidAccessories.seesUndead(m), "maid sees undead from owner witness");
+            check(MaidIntegration.seesUndead(m), "maid sees undead from owner witness");
             var sword = new ItemStack(Items.DIAMOND_SWORD);
             sword.enchant(Enchantments.SMITE, 5);
             m.setItemSlot(EquipmentSlot.MAINHAND, sword);
@@ -2438,7 +2442,7 @@ public final class MaidCompatSmoke {
             LongTravailData.setWitness(diary, TravailAspect.UNDERWORLD, false);
             victim.addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 2));
             near(
-                    MaidAccessories.witherBonus(victim, m.damageSources().mobAttack(m)),
+                    MaidIntegration.witherBonus(victim, m.damageSources().mobAttack(m)),
                     3 * UnderworldItemsConfig.WITHER_BONUS.get(),
                     "Thousand Years malice wither levels");
             LongTravailData.setWitness(diary, TravailAspect.UNDERWORLD, true);
@@ -2478,15 +2482,15 @@ public final class MaidCompatSmoke {
             equip(m, ModRegistry.SWORD_AND_LANTERN.get());
             MaidAccessoryRuntime.tick(m);
             check(!m.hasEffect(MobEffects.DARKNESS), "lantern cleans existing darkness");
-            check(MaidAccessories.lantern(m), "native maid lamp active");
+            check(MaidIntegration.lantern(m), "native maid lamp active");
             com.thelongtravail.valley.LanternSources.toggle(m.getMaidBauble().getStackInSlot(0));
-            check(!MaidAccessories.lantern(m), "lamp honors existing disabled NBT");
+            check(!MaidIntegration.lantern(m), "lamp honors existing disabled NBT");
             m.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100));
             check(!m.hasEffect(MobEffects.BLINDNESS), "lantern blocks blindness");
             equip(m);
             m.setItemSlot(
                     EquipmentSlot.MAINHAND, new ItemStack(ModRegistry.SWORD_AND_LANTERN.get()));
-            check(!MaidAccessories.lantern(m), "maid held lamp inactive");
+            check(!MaidIntegration.lantern(m), "maid held lamp inactive");
             // 东海道五十三次使用女仆原生槽位，治疗与防火不依赖日记。
             equip(m, ModRegistry.TOKAIDO.get());
             RainConfig.TOKAIDO_LOCAL.set(false);
@@ -2494,7 +2498,7 @@ public final class MaidCompatSmoke {
             level.setWeatherParameters(0, 6000, true, true);
             ownerOnline(level, p, false);
             check(
-                    MaidAccessories.immune(m, m.damageSources().inFire(), 5),
+                    MaidIntegration.immune(m, m.damageSources().inFire(), 5),
                     "Tokaido base fire immunity without diary");
             fixtureHealth(m, 2);
             for (int i = 0; i < RainConfig.ticks(RainConfig.HEAL_SECONDS.get()); i++)

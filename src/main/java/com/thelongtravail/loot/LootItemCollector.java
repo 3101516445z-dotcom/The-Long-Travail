@@ -1,6 +1,11 @@
 package com.thelongtravail.loot;
 
-import com.thelongtravail.mixin.*;
+import com.thelongtravail.mixin.execution.ExecutionLootCompositeAccessor;
+import com.thelongtravail.mixin.execution.ExecutionLootItemAccessor;
+import com.thelongtravail.mixin.execution.ExecutionLootPoolAccessor;
+import com.thelongtravail.mixin.execution.ExecutionLootReferenceAccessor;
+import com.thelongtravail.mixin.execution.ExecutionLootTableAccessor;
+
 import java.util.*;
 import java.util.function.Function;
 import net.minecraft.resources.ResourceLocation;

@@ -1,10 +1,14 @@
 package com.thelongtravail.event;
 
+import com.thelongtravail.runtime.attributes.FlightSpeedAdjustment;
+
+import com.thelongtravail.journey.LongTravailData;
+
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.config.ModeEffectRules;
 import com.thelongtravail.config.TravailConfig;
-import com.thelongtravail.data.*;
-import com.thelongtravail.helper.TravailCurios;
+
+import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.registry.ModRegistry;
 import net.minecraft.nbt.CompoundTag;
@@ -14,7 +18,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerXpEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 
-final class TravailPlayerMaintenance {
+public final class TravailPlayerMaintenance {
+    public static void refreshJourneyEffects(ServerPlayer player, ItemStack diary) {
+        updateExtraSlots(player, diary);
+        updateAltitudePenalty(player, diary);
+    }
+
     private static final String STARTER_ITEM_RECEIVED = "LongTravailStarterItemReceived";
 
     static void giveStarterItem(ServerPlayer player) {

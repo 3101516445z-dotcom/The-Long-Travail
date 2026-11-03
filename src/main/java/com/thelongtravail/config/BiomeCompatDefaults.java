@@ -2,10 +2,7 @@ package com.thelongtravail.config;
 
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.compat.alexscaves.AlexsCavesBiomeDefaults;
-import com.thelongtravail.compat.incendium.IncendiumBiomeDefaults;
-import com.thelongtravail.compat.terralith.TerralithBiomeDefaults;
-import com.thelongtravail.data.RequirementPools;
+import com.thelongtravail.journey.RequirementPools;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -35,22 +32,7 @@ public final class BiomeCompatDefaults {
             java.util.function.Function<TravailAspect, List<String>> biomes) {}
 
     private static final List<Preset> PRESETS =
-            List.of(
-                    new Preset(
-                            "terralith",
-                            "Terralith",
-                            TERRALITH_MARKER,
-                            TerralithBiomeDefaults::biomes),
-                    new Preset(
-                            "incendium",
-                            "Incendium",
-                            INCENDIUM_MARKER,
-                            IncendiumBiomeDefaults::biomes),
-                    new Preset(
-                            "alexscaves",
-                            "Alex's Caves",
-                            ALEXS_CAVES_MARKER,
-                            AlexsCavesBiomeDefaults::biomes));
+            com.thelongtravail.compat.CompatPresets.biomes(Preset::new);
     private static final Map<TravailAspect, ManagedConfig> LOADED =
             new EnumMap<>(TravailAspect.class);
 

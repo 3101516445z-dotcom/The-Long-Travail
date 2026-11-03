@@ -1,11 +1,15 @@
 package com.thelongtravail.compat.fluid;
 
+import static com.thelongtravail.compat.fluid.FluidReflection.*;
+
+import com.thelongtravail.abyss.copy.CopyStorage;
+
 import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
+
 import java.util.*;
-import static com.thelongtravail.compat.fluid.FluidReflection.*;
 
 final class FluidRsStore {
     static Object api() throws Exception {
@@ -37,7 +41,7 @@ final class FluidRsStore {
         call(manager, "markForSaving");
     }
 
-    static FluidCopyGraph.Write prepare(FluidCopyGraph graph, FluidCopyGraph.Pending pending)
+    static CopyStorage.Write prepare(CopyStorage.Context graph, CopyStorage.Pending pending)
             throws Exception {
         Object manager = manager(graph.level());
         Object source = disk(manager, pending.source().key().id());
@@ -96,7 +100,7 @@ final class FluidRsStore {
             throw new IllegalStateException("RS factory changed disk type");
         if (disk(manager, pending.id()) != null)
             throw new IllegalStateException("RS UUID collision");
-        return new FluidCopyGraph.Write() {
+        return new CopyStorage.Write() {
             boolean owned;
 
             public void commit() throws Exception {

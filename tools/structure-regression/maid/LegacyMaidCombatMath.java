@@ -1,52 +1,42 @@
 package travail.smoke;
 
-import com.thelongtravail.compat.maid.*;
-import com.thelongtravail.abyss.RainState;
 import static com.thelongtravail.compat.maid.MaidAccess.equipped;
-
-
-
-
-
+import static com.thelongtravail.compat.maid.MaidAccessoryRules.*;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.github.tartaricacid.touhoulittlemaid.api.event.MaidAndItemTransformEvent;
-import com.github.tartaricacid.touhoulittlemaid.network.NetworkHandler;
-import com.github.tartaricacid.touhoulittlemaid.network.message.SyncBaubleMessage;
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.registry.ModRegistry;
-import com.thelongtravail.config.*;
-import com.thelongtravail.flourishing.*;
-import com.thelongtravail.farreach.IcarusEnvironment;
+import com.thelongtravail.abyss.RainState;
 import com.thelongtravail.boundless.*;
+import com.thelongtravail.compat.maid.*;
+import com.thelongtravail.compat.maid.MaidAccessoryRuntime.Phase;
+import com.thelongtravail.config.*;
+import com.thelongtravail.farreach.IcarusEnvironment;
+import com.thelongtravail.flourishing.*;
+import com.thelongtravail.registry.ModRegistry;
 import com.thelongtravail.valley.*;
-import net.minecraft.server.level.*;
-import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.monster.Enemy;
-import net.minecraft.world.entity.ai.attributes.*;
-import net.minecraft.world.item.*;
-import net.minecraft.world.effect.*;
-import net.minecraft.world.damagesource.*;
+
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.tags.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.*;
+import net.minecraft.tags.*;
+import net.minecraft.world.damagesource.*;
+import net.minecraft.world.effect.*;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.*;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.*;
 import net.minecraftforge.common.*;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.*;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.eventbus.api.*;
-import net.minecraftforge.registries.ForgeRegistries;
-import top.theillusivec4.curios.api.event.CurioEquipEvent;
+
 import java.util.*;
 
-
-import com.thelongtravail.compat.maid.MaidAccessoryRuntime.Phase;
-import static com.thelongtravail.compat.maid.MaidAccessoryRules.*;
-
-/** Frozen pre-round-06 formulas for differential server checks. Do not update with production refactors. */
+/**
+ * Frozen pre-round-06 formulas for differential server checks. Do not update with production
+ * refactors.
+ */
+// 晴天峰值按当前配置契约取基础峰值加额外峰值；其余计算保持独立对照。
 public final class LegacyMaidCombatMath {
     public static EntityMaid attacker(Entity source) {
         Set<Entity> seen = Collections.newSetFromMap(new IdentityHashMap<>());
@@ -83,11 +73,11 @@ public final class LegacyMaidCombatMath {
             if (phase == Phase.MALICE)
                 value +=
                         IcarusEnvironment.sunlight(m.level().getDayTime())
-                                * FarReachItemsConfig.get(
-                                        IcarusEnvironment.sunny(m.level())
+                                * (FarReachItemsConfig.get("icarus.malicePeak")
+                                        + (IcarusEnvironment.sunny(m.level())
                                                         && IcarusEnvironment.openSky(m)
-                                                ? "icarus.sunnyPeak"
-                                                : "icarus.malicePeak");
+                                                ? FarReachItemsConfig.get("icarus.sunnyExtraPeak")
+                                                : 0));
         }
         return value
                 + MaidLanternCombat.bonus(m, victim)
@@ -156,6 +146,7 @@ public final class LegacyMaidCombatMath {
             multiplier *= 1 - FloralCombat.value(crown, Flower.WHITE_TULIP);
         return FloralCombat.safe(amount * multiplier);
     }
+
     static boolean has(EntityMaid m, Item item) {
         return !equipped(m, item).isEmpty();
     }

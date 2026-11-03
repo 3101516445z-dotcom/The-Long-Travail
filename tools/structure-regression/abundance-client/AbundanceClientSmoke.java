@@ -3,7 +3,7 @@ package travail.abundanceclient;
 import com.thelongtravail.abyss.LiquefiedAbundance;
 import com.thelongtravail.client.AbundanceUseClient;
 import com.thelongtravail.config.AbyssItemsConfig;
-import com.thelongtravail.mixin.SkillNoticeGuiAccessor;
+import com.thelongtravail.mixin.presentation.SkillNoticeGuiAccessor;
 import com.thelongtravail.network.TravailNetwork;
 import com.thelongtravail.registry.ModRegistry;
 

@@ -2,7 +2,7 @@ package com.thelongtravail.item;
 
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.abyss.RainTooltips;
-import com.thelongtravail.data.JourneyService;
+import com.thelongtravail.journey.JourneyService;
 import com.thelongtravail.helper.ActionMessages;
 import com.thelongtravail.network.*;
 import net.minecraft.network.chat.Component;

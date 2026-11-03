@@ -52,7 +52,7 @@ if not options.resume:
     shutil.move(old[0], OUT / 'original-artifacts' / old[0].name)
     shutil.copytree(ROOT / 'build/abundance-server/abundance', OUT / 'saves/abundance',
                     ignore=shutil.ignore_patterns('playerdata', 'session.lock'))
-for source in [ROOT/'build/libs/The_Long_Travail-0.1.3.jar', ROOT/'build/abundance-fixture/travail-abundance-stress.jar']:
+for source in [ROOT/'build/libs/The_Long_Travail-1.0.0.jar', ROOT/'build/abundance-fixture/travail-abundance-stress.jar']:
     shutil.copy2(source, OUT / 'mods' / source.name)
 manifest = {p.name: hash_file(p) for p in (OUT / 'mods').glob('*.jar')}
 (OUT/'mod-sha256.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf8')

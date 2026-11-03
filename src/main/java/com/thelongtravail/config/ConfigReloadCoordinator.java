@@ -1,7 +1,7 @@
 package com.thelongtravail.config;
 
 import com.thelongtravail.abyss.RainEvents;
-import com.thelongtravail.data.RuntimePools;
+import com.thelongtravail.runtime.pools.RuntimePools;
 import com.thelongtravail.farreach.GoldenAgeActions;
 import com.thelongtravail.flourishing.Affection;
 import com.thelongtravail.network.TravailNetwork;

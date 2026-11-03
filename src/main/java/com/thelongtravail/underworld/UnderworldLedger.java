@@ -1,8 +1,8 @@
 package com.thelongtravail.underworld;
 
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.data.JourneyState;
-import com.thelongtravail.data.JourneyOperations;
+import com.thelongtravail.journey.JourneyState;
+import com.thelongtravail.journey.JourneyOperations;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.nbt.*;
 import net.minecraft.server.MinecraftServer;
@@ -99,7 +99,7 @@ public final class UnderworldLedger extends SavedData {
                 && (!(tag instanceof ListTag list)
                         || list.getElementType() != Tag.TAG_COMPOUND
                                 && list.getElementType() != Tag.TAG_LIST)) return;
-        com.thelongtravail.data.HotPathMetrics.Counter.NBT_SYNC_NODES.add(1);
+        com.thelongtravail.diagnostics.HotPathMetrics.Counter.NBT_SYNC_NODES.add(1);
         reconcileNode(tag);
         if (depth == MAX_NBT_DEPTH) return;
         if (tag instanceof CompoundTag c)
@@ -133,10 +133,10 @@ public final class UnderworldLedger extends SavedData {
     }
 
     public void recordSize() {
-        com.thelongtravail.data.HotPathMetrics.Counter.STORAGE_SPENT.set(spent.size());
-        com.thelongtravail.data.HotPathMetrics.Counter.STORAGE_WITNESSES.set(
+        com.thelongtravail.diagnostics.HotPathMetrics.Counter.STORAGE_SPENT.set(spent.size());
+        com.thelongtravail.diagnostics.HotPathMetrics.Counter.STORAGE_WITNESSES.set(
                 witnesses.size() + themeWitnesses.values().stream().mapToInt(Set::size).sum());
-        com.thelongtravail.data.HotPathMetrics.Counter.STORAGE_GRAVES.set(graves.size());
+        com.thelongtravail.diagnostics.HotPathMetrics.Counter.STORAGE_GRAVES.set(graves.size());
     }
 
     public static UnderworldLedger load(CompoundTag n) {

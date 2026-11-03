@@ -1,6 +1,6 @@
 package com.thelongtravail.item;
 
-import com.thelongtravail.data.WayguideSearch;
+import com.thelongtravail.exploration.WayguideSearch;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;

@@ -1,7 +1,7 @@
 package com.thelongtravail.network;
 
 import com.thelongtravail.TheLongTravail;
-import com.thelongtravail.data.PlayerJourneyData;
+import com.thelongtravail.journey.PlayerJourneyData;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -245,7 +245,9 @@ public final class TravailNetwork {
 
     public static void sendExecutionTermination(net.minecraft.world.entity.LivingEntity target) {
         var level = (net.minecraft.server.level.ServerLevel) target.level();
-        var lease = ((com.thelongtravail.valley.ExecutionBody) target).travail$executionLease();
+        var lease =
+                ((com.thelongtravail.valley.execution.ExecutionBody) target)
+                        .travail$executionLease();
         if (lease == null || lease.expired(level.getGameTime())) return;
         var packet =
                 new ExecutionTerminationPacket(

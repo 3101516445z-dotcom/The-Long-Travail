@@ -2,7 +2,7 @@ package com.thelongtravail.client;
 
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.config.AzraelConfig;
-import com.thelongtravail.helper.TravailCurios;
+import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.registry.ModRegistry;
 import com.thelongtravail.abyss.RainTooltips;

@@ -1,6 +1,6 @@
 package com.thelongtravail.api;
 
-import com.thelongtravail.boundless.TimeStopManager;
+import com.thelongtravail.boundless.timestop.TimeStopManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;

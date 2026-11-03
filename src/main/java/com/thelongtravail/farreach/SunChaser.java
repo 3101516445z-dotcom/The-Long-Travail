@@ -6,8 +6,8 @@ import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.combat.DamageScope;
 import com.thelongtravail.combat.DirectStrikeDamage;
 import com.thelongtravail.combat.SunBladeActors;
-import com.thelongtravail.compat.maid.MaidAccessories;
 import com.thelongtravail.config.SunBladeConfig;
+import com.thelongtravail.integration.MaidIntegration;
 import com.thelongtravail.registry.ModRegistry;
 
 import net.minecraft.server.level.ServerPlayer;
@@ -36,7 +36,7 @@ public final class SunChaser {
     public static boolean carrying(LivingEntity entity) {
         return entity instanceof ServerPlayer actor
                 ? CarryingApi.isCarrying(actor, ModRegistry.SUN_CHASER.get())
-                : MaidAccessories.equipped(entity, ModRegistry.SUN_CHASER.get());
+                : MaidIntegration.equipped(entity, ModRegistry.SUN_CHASER.get());
     }
 
     public static boolean strike(DamageSource source) {
@@ -103,7 +103,7 @@ public final class SunChaser {
                 || actor.level() != target.level()
                 || !(actor instanceof ServerPlayer)
                         && target instanceof net.minecraft.world.entity.player.Player other
-                        && !MaidAccessories.canHarm(actor, other)
+                        && !MaidIntegration.canHarm(actor, other)
                 || !carrying(actor)
                 || !(SunBladeActors.phase(actor, TravailAspect.FAR_REACH)
                         == TravailStateApi.AspectState.WITNESS)

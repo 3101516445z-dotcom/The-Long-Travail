@@ -41,8 +41,7 @@ final class ConfigDiagnostics {
         }
         problems.add(message);
 
-        while (!detailed.isEmpty() && now - detailed.peekFirst() >= WINDOW)
-            detailed.removeFirst();
+        while (!detailed.isEmpty() && now - detailed.peekFirst() >= WINDOW) detailed.removeFirst();
         if (detailed.size() < DETAIL_LIMIT) {
             detailed.addLast(now);
             output.accept(message);

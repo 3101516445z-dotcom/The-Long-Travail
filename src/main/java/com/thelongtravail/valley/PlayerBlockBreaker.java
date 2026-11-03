@@ -4,7 +4,7 @@ import com.thelongtravail.api.TravailStateApi.AspectState;
 import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.boundless.BoundlessAcquisition;
-import com.thelongtravail.boundless.TimeStopManager;
+import com.thelongtravail.boundless.timestop.TimeStopManager;
 import com.thelongtravail.config.DeepValleyItemsConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;

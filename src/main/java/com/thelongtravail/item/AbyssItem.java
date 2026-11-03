@@ -2,7 +2,7 @@ package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
 import com.thelongtravail.abyss.AbyssItemText;
-import com.thelongtravail.helper.AccessoryEquipRules;
+import com.thelongtravail.equipment.AccessoryEquipRules;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;

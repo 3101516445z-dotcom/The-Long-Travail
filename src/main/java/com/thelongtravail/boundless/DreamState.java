@@ -1,5 +1,8 @@
 package com.thelongtravail.boundless;
 
+import com.thelongtravail.boundless.timestop.TimeStopManager;
+import com.thelongtravail.boundless.timestop.StarVoiceState;
+
 import com.thelongtravail.config.BoundlessItemsConfig;
 import com.thelongtravail.network.BoundlessPacket;
 import net.minecraft.core.BlockPos;

@@ -82,7 +82,7 @@ public final class FlourishingGrowthConfig {
                                         + "processing budget is exhausted, ticks occur less often; skipped ticks are "
                                         + "not made up later.")
                         .defineInRange(
-                                "items.everlasting_flower.growth.intervalTicks", 20, 1, 1200000);
+                                "items.everlasting_flower.growth.intervalTicks", 5, 1, 1200000);
         number(
                 b,
                 "everlasting_flower.malice.speedBonus",

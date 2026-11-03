@@ -1,9 +1,20 @@
 package travail.smoke;
 
+import com.thelongtravail.runtime.effects.StiffState;
+
+import com.thelongtravail.journey.JourneyState;
+import com.thelongtravail.journey.JourneyOperations;
+import com.thelongtravail.journey.JourneyService;
+import com.thelongtravail.journey.JourneyVisits;
+import com.thelongtravail.journey.LongTravailData;
+import com.thelongtravail.journey.RequirementPools;
+
+import com.thelongtravail.exploration.WayguideSearch;
+
 import com.mojang.authlib.GameProfile;
 import com.thelongtravail.*;
 import com.thelongtravail.api.*;
-import com.thelongtravail.data.*;
+
 import com.thelongtravail.registry.ModRegistry;
 import com.thelongtravail.underworld.UnderworldLedger;
 import net.minecraft.nbt.*;
@@ -57,7 +68,7 @@ public final class JourneyApiSmoke {
     }
 
     private static ItemStack equipped(P p) {
-        return com.thelongtravail.helper.TravailCurios.stack(p);
+        return com.thelongtravail.equipment.TravailCurios.stack(p);
     }
 
     private static ItemStack equip(P p, boolean initialize) {
@@ -275,7 +286,7 @@ public final class JourneyApiSmoke {
                 "initialize retains override");
         var clean = equip(p, true);
         requirements(clean);
-        var observationClass = Class.forName("com.thelongtravail.data.JourneyVisits$Observation");
+        var observationClass = Class.forName("com.thelongtravail.journey.JourneyVisits$Observation");
         var constructor = observationClass.getDeclaredConstructor(ServerPlayer.class, ItemStack.class, Map.class);
         constructor.setAccessible(true);
         var pendingField = JourneyVisits.class.getDeclaredField("PENDING");
@@ -309,9 +320,9 @@ public final class JourneyApiSmoke {
         check(
                 !pending.contains(observation) && !(boolean) valid.invoke(observation),
                 "external progress invalidates old observation");
-        com.thelongtravail.data.StiffState.start(p, 100);
+        com.thelongtravail.runtime.effects.StiffState.start(p, 100);
         check(TravailJourneyApi.resetAspect(p, TravailAspect.DEEP_VALLEY).changed(), "deep valley reset");
-        check(com.thelongtravail.data.StiffState.remaining(p) > 0, "local reset preserves existing stiff");
+        check(com.thelongtravail.runtime.effects.StiffState.remaining(p) > 0, "local reset preserves existing stiff");
         requirements(equipped(p));
         p.setPos(.5, 80, .5);
         p.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModRegistry.WAYGUIDE.get()));

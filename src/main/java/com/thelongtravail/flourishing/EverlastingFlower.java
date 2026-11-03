@@ -1,25 +1,28 @@
 package com.thelongtravail.flourishing;
 
 import com.thelongtravail.*;
-import com.thelongtravail.config.*;
-import com.thelongtravail.data.LongTravailData;
-import com.thelongtravail.helper.TravailCurios;
-import com.thelongtravail.registry.ModRegistry;
-import com.thelongtravail.growth.GrowthScheduler;
 import com.thelongtravail.combat.DamageReplay;
+import com.thelongtravail.config.*;
+import com.thelongtravail.journey.LongTravailData;
+import com.thelongtravail.growth.GrowthScheduler;
+import com.thelongtravail.equipment.TravailCurios;
+import com.thelongtravail.registry.ModRegistry;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.entity.*;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.effect.*;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.*;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
 import top.theillusivec4.curios.api.CuriosApi;
+
 import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
@@ -44,8 +47,8 @@ public final class EverlastingFlower {
 
     public static ItemStack equipped(LivingEntity entity) {
         if (!entity.isAlive() || entity.isSpectator()) return ItemStack.EMPTY;
-        if (com.thelongtravail.compat.maid.MaidAccessories.isMaid(entity))
-            return com.thelongtravail.compat.maid.MaidAccessories.flowerStack(entity);
+        if (com.thelongtravail.integration.MaidIntegration.isMaid(entity))
+            return com.thelongtravail.integration.MaidIntegration.flowerStack(entity);
         if (!(entity instanceof net.minecraft.world.entity.player.Player)) return ItemStack.EMPTY;
         return CuriosApi.getCuriosInventory(entity)
                 .map(
@@ -61,7 +64,7 @@ public final class EverlastingFlower {
     public static int phase(LivingEntity entity) {
         if (equipped(entity).isEmpty()) return 0;
         if (!(entity instanceof ServerPlayer player))
-            return com.thelongtravail.compat.maid.MaidAccessories.flowerPhase(entity);
+            return com.thelongtravail.integration.MaidIntegration.flowerPhase(entity);
         var diary = TravailCurios.stack(player);
         return diary.isEmpty()
                 ? 0
@@ -122,7 +125,7 @@ public final class EverlastingFlower {
     public static void tick(LivingEvent.LivingTickEvent event) {
         LivingEntity entity = event.getEntity();
         if (entity instanceof ServerPlayer
-                || com.thelongtravail.compat.maid.MaidAccessories.isMaid(entity)) update(entity);
+                || com.thelongtravail.integration.MaidIntegration.isMaid(entity)) update(entity);
     }
 
     public static void successful(

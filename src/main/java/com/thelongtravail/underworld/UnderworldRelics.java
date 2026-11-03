@@ -4,19 +4,21 @@ import com.thelongtravail.TravailAspect;
 import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.common.AttributeModifierSet;
 import com.thelongtravail.config.UnderworldItemsConfig;
-import com.thelongtravail.helper.AccessoryEquipRules;
-import com.thelongtravail.registry.ModRegistry;
 import com.thelongtravail.registry.ModAttributes;
+import com.thelongtravail.registry.ModRegistry;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
 import top.theillusivec4.curios.api.CuriosApi;
+
 import java.util.*;
 
 @Mod.EventBusSubscriber(modid = "the_long_travail")
@@ -34,7 +36,7 @@ public final class UnderworldRelics {
                 case WITNESS -> 2;
                 default -> 0;
             };
-        return com.thelongtravail.compat.maid.MaidAccessories.relicPhase(e);
+        return com.thelongtravail.integration.MaidIntegration.relicPhase(e);
     }
 
     public static ItemStack equipped(LivingEntity e, boolean banner) {
@@ -51,7 +53,7 @@ public final class UnderworldRelics {
     private static ItemStack wornStack(LivingEntity e, boolean banner) {
         var item = banner ? ModRegistry.SOUL_BANNER.get() : ModRegistry.DEMON_KING.get();
         if (!(e instanceof Player p))
-            return com.thelongtravail.compat.maid.MaidAccessories.relicStack(e, banner);
+            return com.thelongtravail.integration.MaidIntegration.relicStack(e, banner);
         return CuriosApi.getCuriosInventory(p)
                 .map(
                         inv ->
@@ -137,7 +139,7 @@ public final class UnderworldRelics {
         var e = event.getEntity();
         if (!e.level().isClientSide
                 && (e instanceof Player
-                        || com.thelongtravail.compat.maid.MaidAccessories.isMaid(e))) refresh(e);
+                        || com.thelongtravail.integration.MaidIntegration.isMaid(e))) refresh(e);
     }
 
     @SubscribeEvent

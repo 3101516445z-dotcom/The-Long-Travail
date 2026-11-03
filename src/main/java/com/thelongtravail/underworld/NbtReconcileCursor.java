@@ -40,7 +40,7 @@ public final class NbtReconcileCursor {
     }
 
     public boolean step(UnderworldLedger ledger) {
-        com.thelongtravail.data.HotPathMetrics.Counter.NBT_STEPS.add(1);
+        com.thelongtravail.diagnostics.HotPathMetrics.Counter.NBT_STEPS.add(1);
         Tag current = root.get();
         if (!started) {
             started = true;

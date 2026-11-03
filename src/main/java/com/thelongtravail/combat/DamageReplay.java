@@ -71,7 +71,7 @@ public final class DamageReplay {
     }
 
     public static boolean active(LivingEntity target, DamageSource source) {
-        var context = com.thelongtravail.helper.CombatContext.current(target, source);
+        var context = com.thelongtravail.combat.CombatContext.current(target, source);
         return context != null && context.isReplay();
     }
 
@@ -145,12 +145,12 @@ public final class DamageReplay {
                 || t.level.getEntity(target.getUUID()) != target
                 || !t.policy.valid(attacker, target)) return;
         if (target instanceof net.minecraft.world.entity.player.Player player
-                && !com.thelongtravail.compat.maid.MaidAccessories.canHarm(attacker, player))
+                && !com.thelongtravail.integration.MaidIntegration.canHarm(attacker, player))
             return;
         DamageSource source = new DamageSource(t.type, t.direct.get(), attacker, t.position);
         Frame previous = CURRENT.get(), frame = new Frame(target, source, t.amount, t.policy);
         int invulnerable = target.invulnerableTime;
-        var state = (com.thelongtravail.mixin.DamageReplayStateAccessor) target;
+        var state = (com.thelongtravail.mixin.combat.DamageReplayStateAccessor) target;
         float lastHurt = state.travail$lastHurt();
         CURRENT.set(frame);
         try {

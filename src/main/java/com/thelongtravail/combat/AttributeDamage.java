@@ -29,7 +29,7 @@ public final class AttributeDamage {
         this.excluded =
                 execution
                         || source.is(BYPASSES)
-                        || source.is(com.thelongtravail.helper.TrueDamage.FLUID);
+                        || source.is(com.thelongtravail.abyss.FluidErosionDamage.FLUID);
         this.settled = settled;
     }
 

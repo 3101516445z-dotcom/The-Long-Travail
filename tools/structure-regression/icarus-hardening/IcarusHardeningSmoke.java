@@ -1,7 +1,7 @@
 package travail.icarustest;
 
 import com.mojang.blaze3d.platform.NativeImage;
-import com.thelongtravail.client.IcarusWingTexture;
+import com.thelongtravail.client.flight.IcarusWingTexture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.resources.ResourceLocation;

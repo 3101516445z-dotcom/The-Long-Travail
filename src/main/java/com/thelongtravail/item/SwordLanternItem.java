@@ -1,7 +1,7 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
-import com.thelongtravail.helper.DependentAccessories;
+import com.thelongtravail.equipment.DependentAccessories;
 import com.thelongtravail.valley.SwordLanternConfig;
 import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.abyss.RainTooltips;

@@ -80,6 +80,7 @@ public class ConfigSmoke {
         CompletableFuture.runAsync(
                 () -> {
                     try {
+                        ConfigDefinitionSnapshot.write();
                         ConfigTransitions.run();
                         Path root = Path.of("config/the_long_travail");
                         Path general = root.resolve("general.toml");
@@ -123,7 +124,7 @@ public class ConfigSmoke {
                                         .get("the_long_travail/general.toml");
                         var config = ConfigFileIO.read(general);
                         var previousPools =
-                                server.submit(com.thelongtravail.data.RuntimePools::current).join();
+                                server.submit(com.thelongtravail.runtime.pools.RuntimePools::current).join();
                         config.set("requirements.biomeDrawCount", 7);
                         ConfigFileIO.write(general, config);
                         until(
@@ -133,7 +134,7 @@ public class ConfigSmoke {
                                 () ->
                                         server.submit(
                                                         () ->
-                                                                com.thelongtravail.data.RuntimePools
+                                                                com.thelongtravail.runtime.pools.RuntimePools
                                                                                 .current()
                                                                         != previousPools)
                                                 .join(),

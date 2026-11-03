@@ -37,7 +37,7 @@ public final class TokaidoItem extends Item implements ICurioItem, ItemDescripti
                         ? com.thelongtravail.abyss.RainState.clientSlots
                         : RainConfig.SLOTS.get();
         return slots.contains(context.identifier())
-                && com.thelongtravail.helper.DependentAccessories.unique(context, this);
+                && com.thelongtravail.equipment.DependentAccessories.unique(context, this);
     }
 
     @Override

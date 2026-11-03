@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-/** 服务端提示同一组失败输入一次；失败预览不得继续领取。 */
+// 服务端提示同一组失败输入一次；失败预览不得继续领取。
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
 public final class TransferNotices {
     private record Notice(AbstractContainerMenu menu, EnchantmentTransfer.Failure failure) {}

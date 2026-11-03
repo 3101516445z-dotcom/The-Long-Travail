@@ -4,7 +4,7 @@ import com.mojang.authlib.GameProfile;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.combat.*;
 import com.thelongtravail.config.FlourishingItemsConfig;
-import com.thelongtravail.data.LongTravailData;
+import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.farreach.SunChaser;
 import com.thelongtravail.flourishing.*;
 import com.thelongtravail.registry.*;
@@ -235,7 +235,7 @@ final class DamageChainCases {
                 throw new AssertionError("nested failure expected");
             } catch (IllegalStateException expected) {
                 check.accept(
-                        com.thelongtravail.helper.CombatContext.current(a, source) == null,
+                        com.thelongtravail.combat.CombatContext.current(a, source) == null,
                         "nested exception restores context");
                 check.accept(!DamageScope.claimSun(a.getUUID()), "nested exception removes chain");
             }

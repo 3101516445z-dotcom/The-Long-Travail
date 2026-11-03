@@ -1,6 +1,6 @@
 package com.thelongtravail.compat.mixin.dummmmmmy;
 
-import com.thelongtravail.helper.CombatContext;
+import com.thelongtravail.combat.CombatContext;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import org.objectweb.asm.Opcodes;

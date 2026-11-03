@@ -1,10 +1,12 @@
 package com.thelongtravail.abyss;
 
-import com.thelongtravail.compat.fluid.FluidCopyGraph;
+import com.thelongtravail.abyss.copy.FluidCopyGraph;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
+
 import java.util.ArrayList;
 
 public final class PerfectFluidCopies {

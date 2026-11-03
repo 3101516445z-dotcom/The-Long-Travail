@@ -2,7 +2,7 @@ package travail.smoke;
 
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.combat.*;
-import com.thelongtravail.data.LongTravailData;
+import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.farreach.SunChaser;
 import com.thelongtravail.registry.ModRegistry;
 import com.thelongtravail.underworld.Kagotsurube;
@@ -22,7 +22,7 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.function.BiConsumer;
 
-/** 测试专用：记录真实 hurt 入口与返回，独立核对预期伤害和次数。 */
+// 测试专用：记录真实 hurt 入口与返回，独立核对预期伤害和次数。
 final class SunBladeExtreme {
     final ServerLevel level;
     final ServerPlayer player;
@@ -116,9 +116,18 @@ final class SunBladeExtreme {
                                         + probe.lastExtraLoss;
                         trace.add(observation);
                         System.out.println(observation);
+                        double multiplier = 1;
+                        if (chance != 0) {
+                            var criticalDamage =
+                                    net.minecraftforge.registries.ForgeRegistries.ATTRIBUTES
+                                            .getValue(
+                                                    new net.minecraft.resources.ResourceLocation(
+                                                            "attributeslib", "crit_damage"));
+                            multiplier = player.getAttributeValue(criticalDamage);
+                        }
                         check.accept(
-                                Math.abs(probe.lastExtraLoss - 25) < .001,
-                                "external crit must not amplify sun " + observation);
+                                Math.abs(probe.lastExtraLoss - 25 * multiplier) < .001,
+                                "external crit applies to sun " + observation);
                     }
                 } finally {
                     attribute.setBaseValue(original);

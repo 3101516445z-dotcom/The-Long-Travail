@@ -67,7 +67,7 @@ public final class FloralCombat {
         double multiplier = 1;
         if (victim instanceof ServerPlayer p) {
             ItemStack crown = Affection.equipped(p, true);
-            var context = com.thelongtravail.helper.CombatContext.current(victim, source);
+            var context = com.thelongtravail.combat.CombatContext.current(victim, source);
             multiplier =
                     crownReduction(p, crown, source, context != null && context.isFloralPoison());
             LivingEntity pet = Affection.target(p);

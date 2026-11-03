@@ -1,7 +1,7 @@
 package com.thelongtravail.boundless;
 
-import com.thelongtravail.helper.CurioLookup;
-import com.thelongtravail.helper.TravailCurios;
+import com.thelongtravail.equipment.CurioLookup;
+import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.registry.ModRegistry;
 
 import net.minecraft.world.entity.player.Player;

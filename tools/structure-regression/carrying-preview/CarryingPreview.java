@@ -2,7 +2,7 @@ package travail.smoke;
 
 import com.thelongtravail.client.catalog.*;
 import com.thelongtravail.registry.ModRegistry;
-import com.thelongtravail.data.LongTravailData;
+import com.thelongtravail.journey.LongTravailData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.GuiGraphics;

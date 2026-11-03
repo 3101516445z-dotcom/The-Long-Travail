@@ -2,8 +2,8 @@ package com.thelongtravail.client;
 
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.abyss.RainTooltips;
-import com.thelongtravail.boundless.TimeStopManager;
-import com.thelongtravail.mixin.SkillNoticeGuiAccessor;
+import com.thelongtravail.boundless.timestop.TimeStopManager;
+import com.thelongtravail.mixin.presentation.SkillNoticeGuiAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;

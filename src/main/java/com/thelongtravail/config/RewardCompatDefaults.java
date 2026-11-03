@@ -2,14 +2,6 @@ package com.thelongtravail.config;
 
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.compat.apprenticecodex.ApprenticeCodexRewardDefaults;
-import com.thelongtravail.compat.celestialcore.CelestialCoreRewardDefaults;
-import com.thelongtravail.compat.curseofpandora.CurseOfPandoraRewardDefaults;
-import com.thelongtravail.compat.enigmaticaddons.EnigmaticAddonsRewardDefaults;
-import com.thelongtravail.compat.enigmaticdelicacy.EnigmaticDelicacyRewardDefaults;
-import com.thelongtravail.compat.enigmaticlegacy.EnigmaticLegacyRewardDefaults;
-import com.thelongtravail.compat.ironsspellbooks.IronsSpellbooksRewardDefaults;
-import com.thelongtravail.compat.l2complements.L2ComplementsRewardDefaults;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -46,47 +38,7 @@ public final class RewardCompatDefaults {
 
     private static final List<Pool> POOLS = List.of(FISHING, PHANTOM);
     private static final List<Preset> PRESETS =
-            List.of(
-                    new Preset(
-                            "l2complements",
-                            "L2 Complements",
-                            L2ComplementsRewardDefaults.fishingItems(),
-                            L2ComplementsRewardDefaults.phantomDrops()),
-                    new Preset(
-                            "curseofpandora",
-                            "Curse of Pandora",
-                            CurseOfPandoraRewardDefaults.fishingItems(),
-                            CurseOfPandoraRewardDefaults.phantomDrops()),
-                    new Preset(
-                            "celestial_core",
-                            "Celestial Core",
-                            CelestialCoreRewardDefaults.fishingItems(),
-                            CelestialCoreRewardDefaults.phantomDrops()),
-                    new Preset(
-                            "irons_spellbooks",
-                            "Iron's Spells and Spellbooks",
-                            IronsSpellbooksRewardDefaults.fishingItems(),
-                            IronsSpellbooksRewardDefaults.phantomDrops()),
-                    new Preset(
-                            "apprenticecodex",
-                            "Apprentice Codex",
-                            ApprenticeCodexRewardDefaults.fishingItems(),
-                            ApprenticeCodexRewardDefaults.phantomDrops()),
-                    new Preset(
-                            "enigmaticlegacy",
-                            "Enigmatic Legacy",
-                            EnigmaticLegacyRewardDefaults.fishingItems(),
-                            EnigmaticLegacyRewardDefaults.phantomDrops()),
-                    new Preset(
-                            "enigmaticaddons",
-                            "Enigmatic Addons",
-                            EnigmaticAddonsRewardDefaults.fishingItems(),
-                            EnigmaticAddonsRewardDefaults.phantomDrops()),
-                    new Preset(
-                            "enigmaticdelicacy",
-                            "Enigmatic Delicacy",
-                            EnigmaticDelicacyRewardDefaults.fishingItems(),
-                            EnigmaticDelicacyRewardDefaults.phantomDrops()));
+            com.thelongtravail.compat.CompatPresets.rewards(Preset::new);
     private static final Map<TravailAspect, ManagedConfig> LOADED =
             new EnumMap<>(TravailAspect.class);
 

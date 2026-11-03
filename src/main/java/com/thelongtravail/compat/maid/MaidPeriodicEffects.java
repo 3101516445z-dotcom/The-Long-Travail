@@ -9,7 +9,7 @@ import static com.thelongtravail.compat.maid.MaidAccessoryRules.tokaido;
 import static com.thelongtravail.compat.maid.MaidRuntimeState.state;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.thelongtravail.boundless.TimeStopManager;
+import com.thelongtravail.boundless.timestop.TimeStopManager;
 import com.thelongtravail.compat.maid.MaidAccessoryRuntime.Phase;
 import com.thelongtravail.config.FlourishingItemsConfig;
 import com.thelongtravail.config.RainConfig;

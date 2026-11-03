@@ -1,7 +1,7 @@
 package com.thelongtravail.boundless;
 
 import com.thelongtravail.config.BoundlessItemsConfig;
-import com.thelongtravail.helper.TravailCurios;
+import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.abyss.RainTooltips;
 import net.minecraft.network.chat.Component;

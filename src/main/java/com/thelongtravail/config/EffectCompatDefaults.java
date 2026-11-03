@@ -2,18 +2,6 @@ package com.thelongtravail.config;
 
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.compat.alexsmobs.AlexsMobsEffectDefaults;
-import com.thelongtravail.compat.arsnouveau.ArsNouveauEffectDefaults;
-import com.thelongtravail.compat.attributeslib.AttributesLibEffectDefaults;
-import com.thelongtravail.compat.cataclysm.CataclysmEffectDefaults;
-import com.thelongtravail.compat.enigmaticaddons.EnigmaticAddonsEffectDefaults;
-import com.thelongtravail.compat.goety.GoetyEffectDefaults;
-import com.thelongtravail.compat.goetyawaken.GoetyAwakenEffectDefaults;
-import com.thelongtravail.compat.ironsspellbooks.IronsSpellbooksEffectDefaults;
-import com.thelongtravail.compat.ironsspellsdelight.IronsSpellsDelightEffectDefaults;
-import com.thelongtravail.compat.morepotioneffects.MorePotionEffectsDefaults;
-import com.thelongtravail.compat.youkaisfeasts.YoukaisFeastsEffectDefaults;
-import com.thelongtravail.compat.youkaishomecoming.YoukaisHomecomingEffectDefaults;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -44,67 +32,7 @@ public final class EffectCompatDefaults {
     private static final List<TravailAspect> ASPECTS =
             List.of(TravailAspect.FAR_REACH, TravailAspect.DEEP_VALLEY);
     private static final List<Preset> PRESETS =
-            List.of(
-                    new Preset(
-                            "goety",
-                            "Goety",
-                            GoetyEffectDefaults.farReach(),
-                            GoetyEffectDefaults.deepValley()),
-                    new Preset(
-                            "more_potion_effects",
-                            "More Potion Effects",
-                            MorePotionEffectsDefaults.farReach(),
-                            MorePotionEffectsDefaults.deepValley()),
-                    new Preset(
-                            "youkaisfeasts",
-                            "Youkai's Feasts",
-                            YoukaisFeastsEffectDefaults.farReach(),
-                            YoukaisFeastsEffectDefaults.deepValley()),
-                    new Preset(
-                            "youkaishomecoming",
-                            "Youkai's Homecoming",
-                            YoukaisHomecomingEffectDefaults.farReach(),
-                            YoukaisHomecomingEffectDefaults.deepValley()),
-                    new Preset(
-                            "irons_spells_delight",
-                            "Iron's Spells Delight",
-                            IronsSpellsDelightEffectDefaults.farReach(),
-                            IronsSpellsDelightEffectDefaults.deepValley()),
-                    new Preset(
-                            "goetyawaken",
-                            "Goety Awaken",
-                            GoetyAwakenEffectDefaults.farReach(),
-                            GoetyAwakenEffectDefaults.deepValley()),
-                    new Preset(
-                            "cataclysm",
-                            "Cataclysm",
-                            CataclysmEffectDefaults.farReach(),
-                            CataclysmEffectDefaults.deepValley()),
-                    new Preset(
-                            "enigmaticaddons",
-                            "Enigmatic Addons",
-                            EnigmaticAddonsEffectDefaults.farReach(),
-                            EnigmaticAddonsEffectDefaults.deepValley()),
-                    new Preset(
-                            "irons_spellbooks",
-                            "Iron's Spells and Spellbooks",
-                            IronsSpellbooksEffectDefaults.farReach(),
-                            IronsSpellbooksEffectDefaults.deepValley()),
-                    new Preset(
-                            "alexsmobs",
-                            "Alex's Mobs",
-                            AlexsMobsEffectDefaults.farReach(),
-                            AlexsMobsEffectDefaults.deepValley()),
-                    new Preset(
-                            "attributeslib",
-                            "AttributesLib",
-                            AttributesLibEffectDefaults.farReach(),
-                            AttributesLibEffectDefaults.deepValley()),
-                    new Preset(
-                            "ars_nouveau",
-                            "Ars Nouveau",
-                            ArsNouveauEffectDefaults.farReach(),
-                            ArsNouveauEffectDefaults.deepValley()));
+            com.thelongtravail.compat.CompatPresets.effects(Preset::new);
     private static final Map<TravailAspect, ManagedConfig> LOADED =
             new EnumMap<>(TravailAspect.class);
 

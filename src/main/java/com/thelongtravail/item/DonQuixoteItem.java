@@ -1,7 +1,7 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
-import com.thelongtravail.helper.AccessoryEquipRules;
+import com.thelongtravail.equipment.AccessoryEquipRules;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;

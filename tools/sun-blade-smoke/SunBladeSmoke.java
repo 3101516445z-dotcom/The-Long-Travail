@@ -3,7 +3,7 @@ package travail.smoke;
 import com.mojang.authlib.GameProfile;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.combat.*;
-import com.thelongtravail.data.LongTravailData;
+import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.farreach.SunChaser;
 import com.thelongtravail.registry.*;
 import com.thelongtravail.underworld.*;
@@ -396,6 +396,10 @@ public final class SunBladeSmoke {
         for (var aspect : TravailAspect.values()) LongTravailData.setWitness(diary, aspect, true);
         player.getInventory().setItem(0, new ItemStack(ModRegistry.SUN_CHASER.get()));
         belt.getStacks().setStackInSlot(0, new ItemStack(ModRegistry.KAGOTSURUBE.get()));
+        // 精确数值夹具显式固定输入，不依赖既有测试世界遗留配置。
+        com.thelongtravail.config.SunBladeConfig.VALUES.get("sun_chaser.strikeFraction").set(.025);
+        com.thelongtravail.config.SunBladeConfig.VALUES.get("sun_chaser.projectileBonus").set(.30);
+        com.thelongtravail.config.SunBladeConfig.VALUES.get("sun_chaser.burningBonus").set(.20);
         check(SunChaser.carrying(player), "carrying inventory");
         check(Kagotsurube.equipped(player), "belt functional");
     }
@@ -602,6 +606,7 @@ public final class SunBladeSmoke {
     }
 
     private void archaeology() {
+        ArchaeologyLootCases.run(level, this::check);
         var params =
                 new net.minecraft.world.level.storage.loot.LootParams.Builder(level)
                         .withParameter(
@@ -638,7 +643,10 @@ public final class SunBladeSmoke {
             if (!realClient)
                 check(
                         name.startsWith("desert_") ? hits >= 1300 && hits <= 1700 : hits == 0,
-                        "current archaeology source and 15% fixed seed tolerance " + name + " hits=" + hits);
+                        "current archaeology source and 15% fixed seed tolerance "
+                                + name
+                                + " hits="
+                                + hits);
             System.out.println("SUN_ARCHAEOLOGY " + name + " " + hits + "/10000");
         }
     }

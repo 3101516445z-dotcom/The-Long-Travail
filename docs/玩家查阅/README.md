@@ -1,11 +1,11 @@
 # 玩家文档
 
-供玩家与服务器管理员阅读，不包含内部文案规范和开发测试流水。
+供玩家与服务器管理员查阅操作、物品效果和配置。
 
 | 文档 | 内容 |
 | --- | --- |
 | [札记与拾遗阅读](reading-guide.md) | 入口、搜索、返回与退出 |
-| [高频战栗](高频战栗.md) | 合成、潜行右键、NBT 继承与黑名单 |
+| [高频战栗](高频战栗.md) | 合成、潜行右键、数据保留与黑名单 |
 | [古今语怪](古今语怪.md) | 双向附魔转移、诅咒筛选、等级与原版书类互动 |
 | [永生芽](immortal-bud.md) | 合成、赋予、耐久与掉落物保护 |
 | [液化丰饶](液化丰饶.md) | 随机药水、短按与长按、配方和效果黑名单 |
@@ -19,6 +19,7 @@
 
 - **探索目标**：[群系](configuration-controls.md#联动群系预设)、[结构](configuration-controls.md#联动结构预设)。
 - **奖励与效果**：[物品奖励](configuration-controls.md#见证奖励池与联动预设)、[钓出生物](configuration-controls.md#钓出生物默认配置池与联动预设)、[增益效果](configuration-controls.md#增益效果联动预设)。
+- **常用调整**：[考古结果保护](configuration-controls.md#考古战利品保护)、[黄金时代概率](configuration-controls.md#黄金时代概率)、[无穷花催生间隔](configuration-controls.md#无穷花催生间隔)。
 - **排除条目**：[黄金时代黑名单](configuration-controls.md#黄金时代联动黑名单)。
 
 具体填写格式和预设的重试、跳过方法，见随配置生成的 `配置说明.txt`；配置文件注释中的章节编号可用于定位。写错配置时参阅[错误处理](configuration-controls.md#配置写错时如何处理)。
