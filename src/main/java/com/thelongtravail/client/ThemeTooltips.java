@@ -1,12 +1,12 @@
 package com.thelongtravail.client;
 
-import com.thelongtravail.abyss.RainTooltips;
+import com.thelongtravail.abyss.rain.RainTooltips;
 import com.thelongtravail.client.catalog.*;
 import com.thelongtravail.equipment.AccessoryEquipRules;
 import com.thelongtravail.farreach.IcarusFlight;
 import com.thelongtravail.flourishing.*;
 import com.thelongtravail.item.ItemDescription;
-import com.thelongtravail.valley.LanternSources;
+import com.thelongtravail.valley.lantern.LanternSources;
 
 import net.minecraft.client.KeyMapping;
 import net.minecraft.network.chat.*;
@@ -170,7 +170,7 @@ public final class ThemeTooltips {
             block.add(
                     text(
                             "liquefied_abundance.state",
-                            com.thelongtravail.abyss.LiquefiedAbundance.modeName(
+                            com.thelongtravail.abyss.abundance.LiquefiedAbundance.modeName(
                                     AbundanceUseClient.selectedMode())));
         block.addAll(attributes);
         if (NON_STACKING_CARRIED_ITEMS.contains(entry.id())) block.add(carryingLimitHint());
@@ -413,7 +413,7 @@ public final class ThemeTooltips {
             }
             case "liquefied_abundance" ->
                     out.addAll(
-                            com.thelongtravail.abyss.AbundanceText.summary().stream()
+                            com.thelongtravail.abyss.abundance.AbundanceText.summary().stream()
                                     .map(RainTooltips::coloredLine)
                                     .toList());
             case "midnight_lafite" -> out.addAll(com.thelongtravail.abyss.AbyssItemText.summary());

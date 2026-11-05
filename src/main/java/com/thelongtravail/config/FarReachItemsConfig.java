@@ -1,5 +1,7 @@
 package com.thelongtravail.config;
 
+import com.thelongtravail.config.defaults.GoldenAgeCompatDefaults;
+
 import com.thelongtravail.common.TickDurations;
 
 import net.minecraft.resources.ResourceLocation;

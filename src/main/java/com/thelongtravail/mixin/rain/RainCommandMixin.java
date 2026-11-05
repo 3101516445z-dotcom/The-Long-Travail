@@ -1,6 +1,6 @@
 package com.thelongtravail.mixin.rain;
 
-import com.thelongtravail.abyss.RainWeather;
+import com.thelongtravail.abyss.rain.RainWeather;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.commands.WeatherCommand;
 import org.spongepowered.asm.mixin.Mixin;

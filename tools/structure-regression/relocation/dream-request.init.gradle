@@ -1,0 +1,31 @@
+allprojects {
+    afterEvaluate {
+        def directory = project.file('build/dream-request-server')
+        sourceSets {
+            dreamRequest {
+                java.srcDir 'tools/structure-regression/relocation/dream-request-smoke'
+                resources.srcDir 'tools/structure-regression/relocation/smoke-resources'
+                compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+                runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+            }
+        }
+        minecraft.runs.server {
+            workingDirectory directory
+            property 'travail.hotpath.metrics', 'true'
+            args '--nogui'
+            mods { travail_smoke { source sourceSets.dreamRequest } }
+        }
+        tasks.matching { it.name == 'runServer' }.configureEach {
+            doFirst {
+                directory.mkdirs()
+                new File(directory, 'eula.txt').text = project.file('run/eula.txt').text
+                new File(directory, 'server.properties').text = 'online-mode=false\nserver-ip=127.0.0.1\nserver-port=25598\nlevel-name=dream-request-test\nlevel-type=minecraft\\:flat\ngenerate-structures=false\nview-distance=2\nsimulation-distance=2\nmax-tick-time=0\n'
+                new File(directory, 'dream-request-result.txt').text = 'NOT_RUN'
+            }
+            doLast {
+                if (new File(directory, 'dream-request-result.txt').text.trim() != 'PASS')
+                    throw new GradleException('Dream request checks failed; inspect build/dream-request-server/logs/latest.log')
+            }
+        }
+    }
+}

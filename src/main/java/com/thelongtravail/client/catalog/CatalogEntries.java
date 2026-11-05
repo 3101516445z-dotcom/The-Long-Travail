@@ -3,7 +3,7 @@ package com.thelongtravail.client.catalog;
 import static com.thelongtravail.registry.ModRegistry.*;
 
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.abyss.RainTooltips;
+import com.thelongtravail.abyss.rain.RainTooltips;
 import com.thelongtravail.boundless.BoundlessTooltips;
 import com.thelongtravail.client.AzraelTooltips;
 import com.thelongtravail.client.RainClient;

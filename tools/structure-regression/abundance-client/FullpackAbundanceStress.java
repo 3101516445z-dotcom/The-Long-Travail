@@ -1,8 +1,8 @@
 package travail.abundanceclient;
 
 import com.mojang.authlib.GameProfile;
-import com.thelongtravail.abyss.AbundanceEffectPool;
-import com.thelongtravail.abyss.LiquefiedAbundance;
+import com.thelongtravail.abyss.abundance.AbundanceEffectPool;
+import com.thelongtravail.abyss.abundance.LiquefiedAbundance;
 import com.thelongtravail.registry.ModRegistry;
 
 import net.minecraft.server.MinecraftServer;

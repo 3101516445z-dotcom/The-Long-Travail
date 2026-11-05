@@ -1,6 +1,6 @@
 package com.thelongtravail.client.diary;
 
-import com.thelongtravail.abyss.RainTooltips;
+import com.thelongtravail.abyss.rain.RainTooltips;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;

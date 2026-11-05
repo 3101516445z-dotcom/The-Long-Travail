@@ -1,6 +1,6 @@
 package com.thelongtravail.farreach;
 
-import com.thelongtravail.abyss.RainTooltips;
+import com.thelongtravail.abyss.rain.RainTooltips;
 import com.thelongtravail.config.FarReachRelicsConfig;
 import com.thelongtravail.network.TooltipConfigSync;
 import net.minecraft.network.chat.Component;

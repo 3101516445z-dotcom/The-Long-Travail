@@ -1,7 +1,7 @@
 package com.thelongtravail.client;
 
 import com.thelongtravail.TheLongTravail;
-import com.thelongtravail.abyss.RainTooltips;
+import com.thelongtravail.abyss.rain.RainTooltips;
 import com.thelongtravail.boundless.timestop.TimeStopManager;
 import com.thelongtravail.mixin.presentation.SkillNoticeGuiAccessor;
 import net.minecraft.client.Minecraft;

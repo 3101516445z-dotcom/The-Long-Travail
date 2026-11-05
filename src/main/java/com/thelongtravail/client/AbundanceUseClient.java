@@ -1,7 +1,7 @@
 package com.thelongtravail.client;
 
 import com.thelongtravail.TheLongTravail;
-import com.thelongtravail.abyss.LiquefiedAbundance;
+import com.thelongtravail.abyss.abundance.LiquefiedAbundance;
 import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.network.TravailNetwork;
 import com.thelongtravail.registry.ModRegistry;

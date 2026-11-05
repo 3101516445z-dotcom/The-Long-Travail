@@ -1,10 +1,10 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
-import com.thelongtravail.abyss.RainTooltips;
+import com.thelongtravail.abyss.rain.RainTooltips;
 import com.thelongtravail.equipment.DependentAccessories;
 import com.thelongtravail.network.TooltipConfigSync;
-import com.thelongtravail.valley.SwordLanternConfig;
+import com.thelongtravail.config.SwordLanternConfig;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
@@ -51,7 +51,7 @@ public final class SwordLanternItem extends Item implements ICurioItem, ItemDesc
         if (!player.isShiftKeyDown())
             return net.minecraft.world.InteractionResultHolder.pass(stack);
         if (!level.isClientSide) {
-            boolean enabled = com.thelongtravail.valley.LanternSources.toggle(stack);
+            boolean enabled = com.thelongtravail.valley.lantern.LanternSources.toggle(stack);
             player.displayClientMessage(
                     com.thelongtravail.helper.ActionMessages.text(
                             "message.the_long_travail.sword_lantern.light_"

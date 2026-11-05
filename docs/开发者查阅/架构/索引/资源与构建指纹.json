@@ -18,7 +18,7 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "aada5627529488cf13fac881c09d6b624c3fe18ab50a0682bc7ff206de8974eb",
+  "fingerprint": "d5d30dbe0e9fbd2ddc46c28c5c00a25701cf3a3bea6c8fdacaf2bf641ae4e29e",
   "files": [
     {
       "path": "build.gradle",
@@ -34,7 +34,7 @@
     },
     {
       "path": "gradle/config-checks.gradle",
-      "sha256": "831b214389861809bf63068f4197c41842af682d17077c075347dff7dcd06903"
+      "sha256": "8986a3c8c3e6237aa5f95907bb8ffca09ad3870f8418e8ce73d7916eb4ab0a50"
     },
     {
       "path": "gradle/event-subscriber-checks.gradle",

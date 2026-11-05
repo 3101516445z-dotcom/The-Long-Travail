@@ -1,5 +1,8 @@
 package com.thelongtravail.boundless;
 
+import com.thelongtravail.boundless.dream.DreamLandingSearch;
+import com.thelongtravail.boundless.dream.DreamState;
+
 import com.thelongtravail.boundless.timestop.TimeStopManager;
 import com.thelongtravail.boundless.timestop.FrozenBlockEvents;
 import com.thelongtravail.boundless.timestop.FrozenContainers;

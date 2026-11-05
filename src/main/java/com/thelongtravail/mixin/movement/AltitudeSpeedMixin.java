@@ -48,7 +48,7 @@ public abstract class AltitudeSpeedMixin implements AltitudePenalty.Cache {
         Player player = (Player) (Object) this;
         if (StiffState.active(player)) return 0.0F;
         float factor = AltitudePenalty.factor(player);
-        factor *= com.thelongtravail.abyss.RainState.speed(player);
+        factor *= com.thelongtravail.abyss.rain.RainState.speed(player);
         return original * factor;
     }
 }

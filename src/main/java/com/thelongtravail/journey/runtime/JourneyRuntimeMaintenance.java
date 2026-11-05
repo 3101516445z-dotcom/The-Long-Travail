@@ -11,7 +11,7 @@ import com.thelongtravail.runtime.effects.VisualDeprivation;
 import com.thelongtravail.journey.JourneyService;
 import com.thelongtravail.journey.JourneyQueries;
 
-import com.thelongtravail.event.TravailPlayerMaintenance;
+import com.thelongtravail.runtime.player.TravailPlayerMaintenance;
 
 import com.thelongtravail.exploration.WayguideSearch;
 

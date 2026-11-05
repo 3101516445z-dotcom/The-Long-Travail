@@ -56,7 +56,7 @@ public final class StructureRegression {
         long start = System.nanoTime();
         try {
             Method effect =
-                    Class.forName("com.thelongtravail.event.TravailEffectActions")
+                    Class.forName("com.thelongtravail.runtime.effects.TravailEffectActions")
                             .getDeclaredMethod("secondsToTicks", double.class);
             effect.setAccessible(true);
             double[] edges = {
@@ -140,7 +140,7 @@ public final class StructureRegression {
                 throw new AssertionError("Absent maid effect identity changed");
             System.out.println(
                     "MAID_ABSENT_FACADE_PASS ruleChecks=15 calculationChecks=4 feedbackCalls=4"
-                        + " effectIdentityChecks=1");
+                            + " effectIdentityChecks=1");
             pass = true;
         } catch (Throwable failure) {
             failure.printStackTrace();

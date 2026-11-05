@@ -1,6 +1,6 @@
 package com.thelongtravail.network;
 
-import com.thelongtravail.abyss.RainEvents;
+import com.thelongtravail.abyss.rain.RainEvents;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;

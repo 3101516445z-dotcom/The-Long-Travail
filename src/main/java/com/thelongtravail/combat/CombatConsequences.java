@@ -8,7 +8,8 @@ final class CombatConsequences {
     static void confirmedLoss(
             LivingEntity target, DamageSource source, ServerPlayer attacker, boolean roseDamage) {
         com.thelongtravail.farreach.FarReachCombat.ignite(target, source);
-        if (!roseDamage) com.thelongtravail.valley.SwordLanternState.confirmed(target, source);
+        if (!roseDamage)
+            com.thelongtravail.valley.lantern.SwordLanternState.confirmed(target, source);
         com.thelongtravail.boundless.timestop.StarVoiceState.confirmed(target, source);
         if (attacker != null)
             com.thelongtravail.valley.execution.AzraelState.damageDealt(attacker, target);
@@ -18,7 +19,7 @@ final class CombatConsequences {
         com.thelongtravail.boundless.timestop.StarVoiceState.received(target, source);
         if (target instanceof ServerPlayer player)
             com.thelongtravail.valley.execution.AzraelState.received(player, source);
-        com.thelongtravail.valley.SwordLanternState.received(target, source);
+        com.thelongtravail.valley.lantern.SwordLanternState.received(target, source);
         com.thelongtravail.integration.MaidIntegration.received(target, source);
     }
 

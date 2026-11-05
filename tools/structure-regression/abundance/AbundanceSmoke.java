@@ -1,5 +1,8 @@
 package travail.abundance;
 
+import com.thelongtravail.abyss.abundance.AbundanceEffectPool;
+import com.thelongtravail.abyss.abundance.LiquefiedAbundance;
+
 import com.mojang.authlib.GameProfile;
 import com.thelongtravail.abyss.*;
 import com.thelongtravail.config.AbyssItemsConfig;
@@ -508,7 +511,10 @@ public final class AbundanceSmoke {
                 "craft output count six");
         var remainders = recipe.getRemainingItems(crafting);
         check(
-                remainders.get(0).isEmpty() && remainders.get(8).is(Items.BUCKET) && remainders.stream().filter(remainder -> !remainder.isEmpty()).count() == 1,
+                remainders.get(0).isEmpty()
+                        && remainders.get(8).is(Items.BUCKET)
+                        && remainders.stream().filter(remainder -> !remainder.isEmpty()).count()
+                                == 1,
                 "craft container returns");
         var oldWhitelist = AbyssItemsConfig.ABUNDANCE_WHITELIST.get();
         try {

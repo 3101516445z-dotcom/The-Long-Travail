@@ -1,7 +1,7 @@
 package travail.tales;
 
-import com.thelongtravail.boundless.EnchantmentTransfer;
-import com.thelongtravail.boundless.EnchantmentTransferRecipe;
+import com.thelongtravail.boundless.transfer.EnchantmentTransfer;
+import com.thelongtravail.boundless.transfer.EnchantmentTransferRecipe;
 import com.thelongtravail.registry.ModRegistry;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -473,10 +473,10 @@ public final class TalesSmoke {
                     }
                 };
         for (int i = 0; i < 20; i++)
-            com.thelongtravail.boundless.TransferNotices.blocked(failedMenu, noticePlayer);
+            com.thelongtravail.boundless.transfer.TransferNotices.blocked(failedMenu, noticePlayer);
         check(notices.size() == 1, "same failed input notice emitted once");
         failedMenu.getSlot(3).set(new ItemStack(Items.LAPIS_LAZULI, 9));
-        com.thelongtravail.boundless.TransferNotices.blocked(failedMenu, noticePlayer);
+        com.thelongtravail.boundless.transfer.TransferNotices.blocked(failedMenu, noticePlayer);
         check(notices.size() == 2, "changed input can report a new failure");
         var savedInputs = new ArrayList<ItemStack>();
         for (int i = 1; i <= 9; i++) savedInputs.add(failedMenu.getSlot(i).getItem().copy());

@@ -1,8 +1,8 @@
 package com.thelongtravail.configsmoke;
 
-import com.thelongtravail.config.ConfigFileIO;
+import com.thelongtravail.config.storage.ConfigFileIO;
 import com.thelongtravail.config.TravailConfig;
-import com.thelongtravail.config.ConfigProblems;
+import com.thelongtravail.config.storage.ConfigProblems;
 
 import com.thelongtravail.loot.UnifiedLoot;
 import net.minecraftforge.fml.common.Mod;
@@ -124,7 +124,10 @@ public class ConfigSmoke {
                                         .get("the_long_travail/general.toml");
                         var config = ConfigFileIO.read(general);
                         var previousPools =
-                                server.submit(com.thelongtravail.runtime.pools.RuntimePools::current).join();
+                                server.submit(
+                                                com.thelongtravail.runtime.pools.RuntimePools
+                                                        ::current)
+                                        .join();
                         config.set("requirements.biomeDrawCount", 7);
                         ConfigFileIO.write(general, config);
                         until(
@@ -134,7 +137,8 @@ public class ConfigSmoke {
                                 () ->
                                         server.submit(
                                                         () ->
-                                                                com.thelongtravail.runtime.pools.RuntimePools
+                                                                com.thelongtravail.runtime.pools
+                                                                                .RuntimePools
                                                                                 .current()
                                                                         != previousPools)
                                                 .join(),

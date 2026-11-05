@@ -1,5 +1,8 @@
 package com.thelongtravail.mixin.rain;
 
+import com.thelongtravail.abyss.rain.PrecipitationScope;
+import com.thelongtravail.abyss.rain.RainWeather;
+
 import com.thelongtravail.abyss.*;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;

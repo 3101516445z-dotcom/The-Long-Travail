@@ -1,5 +1,8 @@
 package com.thelongtravail.mixin.rain;
 
+import com.thelongtravail.abyss.rain.PrecipitationScope;
+import com.thelongtravail.abyss.rain.RainWeather;
+
 import com.thelongtravail.abyss.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;

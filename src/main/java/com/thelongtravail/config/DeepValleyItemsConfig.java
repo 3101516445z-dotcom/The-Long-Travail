@@ -1,5 +1,7 @@
 package com.thelongtravail.config;
 
+import com.thelongtravail.config.storage.ConfigProblems;
+
 import net.minecraftforge.common.ForgeConfigSpec;
 import java.util.*;
 

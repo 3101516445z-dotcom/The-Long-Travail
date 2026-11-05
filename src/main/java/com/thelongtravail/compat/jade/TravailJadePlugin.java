@@ -1,7 +1,7 @@
 package com.thelongtravail.compat.jade;
 
 import com.thelongtravail.TheLongTravail;
-import com.thelongtravail.abyss.RainTooltips;
+import com.thelongtravail.abyss.rain.RainTooltips;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.item.ItemEntity;

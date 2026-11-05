@@ -1,6 +1,6 @@
 package travail.tales;
 
-import com.thelongtravail.boundless.EnchantmentTransfer;
+import com.thelongtravail.boundless.transfer.EnchantmentTransfer;
 import com.thelongtravail.registry.ModRegistry;
 import java.nio.file.*;
 import java.util.*;

@@ -1,6 +1,6 @@
 package com.thelongtravail.mixin.rain;
 
-import com.thelongtravail.abyss.PrecipitationScope;
+import com.thelongtravail.abyss.rain.PrecipitationScope;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.world.level.Level;

@@ -27,7 +27,7 @@
 
 ## 联动群系预设
 
-`compat/terralith/TerralithBiomeDefaults` 提供六个主题的 65 个候选 ID；`compat/incendium/IncendiumBiomeDefaults` 提供冥府 8 个；`compat/alexscaves/AlexsCavesBiomeDefaults` 提供繁茂 2 个、归墟 1 个、幽谷 2 个、冥府 1 个。`config/BiomeCompatDefaults` 集中登记命名空间、标记与主题条目，在 `ServerStartingEvent` 读取世界的 `Registries.BIOME`，按实际命名空间识别联动并逐项检查注册状态，不依赖模组列表。名称采用 `@biome.<namespace>.<path>`（路径中的 `/` 保留），新增权重固定为 1，不提供额外译文。
+`compat/terralith/TerralithBiomeDefaults` 提供六个主题的 65 个候选 ID；`compat/incendium/IncendiumBiomeDefaults` 提供冥府 8 个；`compat/alexscaves/AlexsCavesBiomeDefaults` 提供繁茂 2 个、归墟 1 个、幽谷 2 个、冥府 1 个。`config/defaults/BiomeCompatDefaults` 集中登记命名空间、标记与主题条目，在 `ServerStartingEvent` 读取世界的 `Registries.BIOME`，按实际命名空间识别联动并逐项检查注册状态，不依赖模组列表。名称采用 `@biome.<namespace>.<path>`（路径中的 `/` 保留），新增权重固定为 1，不提供额外译文。
 
 按主题池内 ID 去重并保留已有条目。`travail.requirements.compatInitialization` 下的 `terralithBiomesAdded`、`incendiumBiomesAdded`、`alexsCavesBiomesAdded` 按联动、主题独立记录本次处理，包括零新增；无对应预设的主题不生成该标记，未检测到对应命名空间时不标记。每份配置的池与标记通过 `ManagedConfig.update` 一次保存，成功后发布配置并清理 spec 缓存；尚未处理的磁盘编辑不会被覆盖。初始化后清理探索池缓存。
 
@@ -35,9 +35,9 @@
 
 ## 联动结构预设
 
-`config/StructureCompatDefaults` 登记 14 个模组的结构预设，通过世界的 `Registries.STRUCTURE` 检测命名空间与实际 ID；不依赖模组 ID，因此 `towns_and_towers` 等命名空间与模组 ID 不一致的来源也可识别。候选数据放在各 `compat/<模组>/...StructureDefaults`，保持六个主题的归属。
+`config/defaults/StructureCompatDefaults` 登记 14 个模组的结构预设，通过世界的 `Registries.STRUCTURE` 检测命名空间与实际 ID；不依赖模组 ID，因此 `towns_and_towers` 等命名空间与模组 ID 不一致的来源也可识别。候选数据放在各 `compat/<模组>/...StructureDefaults`，保持六个主题的归属。
 
-主题范围、条目数量和标记名称见[配置说明](../玩家查阅/configuration-controls.md#联动结构预设)。结构标记使用 `*StructuresAdded`，独立于 `*BiomesAdded`；无对应候选的主题不定义标记。群系和结构共用 `config/ExplorationPresetEntries` 按池内 ID 合并，新结构名称为 `@structure.<namespace>.<path>`，保留路径中的 `/`，权重为 1。新生魔艺、灾变、Iron、Goety、万法皆通、传奇怪物、EEEAB 和 Mowzie 的结构显示键在五种语言的 compatibility 分组维护。未选择接入的模组和原版条目不会自动补入，也不会被删除。
+主题范围、条目数量和标记名称见[配置说明](../玩家查阅/configuration-controls.md#联动结构预设)。结构标记使用 `*StructuresAdded`，独立于 `*BiomesAdded`；无对应候选的主题不定义标记。群系和结构共用 `config/defaults/ExplorationPresetEntries` 按池内 ID 合并，新结构名称为 `@structure.<namespace>.<path>`，保留路径中的 `/`，权重为 1。新生魔艺、灾变、Iron、Goety、万法皆通、传奇怪物、EEEAB 和 Mowzie 的结构显示键在五种语言的 compatibility 分组维护。未选择接入的模组和原版条目不会自动补入，也不会被删除。
 
 保存沿用 `ManagedConfig.update`，每个主题的结构池与本次处理标记同文件提交，保存成功后发布配置并清理缓存；缺席时不标记，处理后即使零新增也标记。结构抽取数量与已有旅程不变。`gradlew.bat testStructureCompatDefaults testBiomeCompatDefaults` 检查范围、独立标记、重试与合并规则。
 
@@ -45,7 +45,7 @@
 
 ## 联动物品奖励预设
 
-`config/RewardCompatDefaults` 在 `ServerStartingEvent` 按 `ForgeRegistries.ITEMS` 的实际命名空间检测来源，逐项检查物品是否注册。8 个模组的 49 条候选分别位于对应 `compat` 子目录中的 `...RewardDefaults`，返回 `物品ID|权重|最小数量|最大数量`；各类分别提供独立的 `fishingItems()`、`phantomDrops()` 列表，目前内容相同，允许今后分别调整或只提供其中一类。
+`config/defaults/RewardCompatDefaults` 在 `ServerStartingEvent` 按 `ForgeRegistries.ITEMS` 的实际命名空间检测来源，逐项检查物品是否注册。8 个模组的 49 条候选分别位于对应 `compat` 子目录中的 `...RewardDefaults`，返回 `物品ID|权重|最小数量|最大数量`；各类分别提供独立的 `fishingItems()`、`phantomDrops()` 列表，目前内容相同，允许今后分别调整或只提供其中一类。
 
 `RewardCompatDefaults.Preset` 分别持有两类列表，按目标主题选择条目；该类候选为空时不定义对应初始化标记。仅冥府、无垠定义奖励标记：`travail.witness.compatInitialization.<namespace>.fishingItemsAdded` 与 `phantomDropsAdded`。同池按 ID 去重，已有条目优先；保留预设权重与数量，不使用探索条目的 `@翻译键` 或固定权重 1。ROR 不在候选中，不删除已有手动条目。来源缺席不标记；处理后零新增也标记。标记重置与共享范围见[玩家配置说明](../玩家查阅/configuration-controls.md#见证奖励池与联动预设)。
 
@@ -55,7 +55,7 @@
 
 ## 钓出生物联动预设
 
-`config/FishingEntityCompatDefaults` 仅处理冥府的 `fishingEntities`。5 个来源的 15 条候选位于对应 `compat` 子目录中的 `...FishingDefaults.entities()`，格式为 `实体ID|权重`；亚小妹不在自动候选中，已有手动配置不删除。
+`config/defaults/FishingEntityCompatDefaults` 仅处理冥府的 `fishingEntities`。5 个来源的 15 条候选位于对应 `compat` 子目录中的 `...FishingDefaults.entities()`，格式为 `实体ID|权重`；亚小妹不在自动候选中，已有手动配置不删除。
 
 在 `ServerStartingEvent` 使用 `ForgeRegistries.ENTITY_TYPES` 检测来源命名空间并逐项检查 ID。`travail.witness.compatInitialization.<namespace>.fishingEntitiesAdded` 按来源独立记录；与奖励、探索标记分开，来源缺席不标记，零新增仍记录。合并使用 `WeightedPresetEntries` 保留已有同 ID 权重和顺序，保存沿用 `ManagedConfig.update`；已有的 `ServerStartedEvent` 随后通过 `RuntimePools.reload` 更新运行时加权表。
 
@@ -65,7 +65,7 @@
 
 ## 增益效果联动预设
 
-`config/EffectCompatDefaults` 在 `ServerStartingEvent` 按 `ForgeRegistries.MOB_EFFECTS` 的命名空间识别来源，仅补入已注册且分类为 `BENEFICIAL` 的预设效果。来源名单包括 12 个命名空间，每池 36 项；AD、`esoteric_spell`、`projectile_damage`、`gtbcs_geomancy_plus` 不在名单中。
+`config/defaults/EffectCompatDefaults` 在 `ServerStartingEvent` 按 `ForgeRegistries.MOB_EFFECTS` 的命名空间识别来源，仅补入已注册且分类为 `BENEFICIAL` 的预设效果。来源名单包括 12 个命名空间，每池 36 项；AD、`esoteric_spell`、`projectile_damage`、`gtbcs_geomancy_plus` 不在名单中。
 
 数据位于对应 `compat` 子目录的效果预设类；`farReach()` 与 `deepValley()` 分别定义 `效果ID|最高等级|权重` 列表，不互相转调。新增来源时登记 `EffectCompatDefaults.PRESETS`，按主题提供候选，空列表表示该主题不参与。原版默认值由 `TravailPoolDefaults.defaultFarReachEffects()` 与 `defaultDeepValleyEffects()` 分别维护。
 
@@ -75,7 +75,7 @@
 
 ## 黄金时代联动黑名单
 
-`config/GoldenAgeCompatDefaults` 在 `ServerStartingEvent` 按 `ModList` 检测安装状态，分别通过物品和附魔注册表检查候选 ID。四个来源的数据位于 `compat/enigmaticlegacy`、`enigmaticdelicacy`、`l2complements`、`celestialenchantments` 的 `...GoldenAgeDefaults` 类。
+`config/defaults/GoldenAgeCompatDefaults` 在 `ServerStartingEvent` 按 `ModList` 检测安装状态，分别通过物品和附魔注册表检查候选 ID。四个来源的数据位于 `compat/enigmaticlegacy`、`enigmaticdelicacy`、`l2complements`、`celestialenchantments` 的 `...GoldenAgeDefaults` 类。
 
 新增来源时在 `PRESETS` 登记模组 ID、目标 `Pool` 和候选列表；同一来源可分别提供食物与附魔黑名单，两类标记独立。基础默认列表为空，联动补充不写入原版默认值。列表与 `items.golden_age.compatInitialization.<modId>.<foodBlacklistAdded|enchantmentBlacklistAdded>` 通过 `ManagedConfig.update` 同次保存；保留手动值，来源存在时零新增也记录，来源缺席保持待处理。
 
@@ -136,7 +136,7 @@ Caelus 的 Mixin 回调与 `IcarusCaelusCompat` 共用状态。停用时不再�
 
 卸装、换主人、离开世界时清理短期状态；需要跨照片/胶片恢复的冷却使用现有兼容身份及账本，不能改写女仆原生 UUID 或借卸装重置。新增生命上限修饰符时，同时审查 `MaidPersonalityStorage` 的收纳快照及 `maidspell` 的生命保护适配：只校正可确认属于本模组的来源，不猜测清除旧存档中的未知补偿，也不能把保护写入 API 当作正常伤害/治疗的捷径。
 
-女仆专用提示识别与追加位于 `compat/maid/client/MaidAccessoryTooltips`；默认复制限制名单由 `compat/maid/MaidFluidDefaults` 提供，配置加载、保存和一次性初始化标记仍由 `config/PerfectFluidCompatDefaults` 管理。
+女仆专用提示识别与追加位于 `compat/maid/client/MaidAccessoryTooltips`；默认复制限制名单由 `compat/maid/MaidFluidDefaults` 提供，配置加载、保存和一次性初始化标记仍由 `config/defaults/PerfectFluidCompatDefaults` 管理。
 
 ### 槽位增量同步
 
@@ -164,7 +164,7 @@ Caelus 的 Mixin 回调与 `IcarusCaelusCompat` 共用状态。停用时不再�
 
 RS 用整数 Quantity 保存条目数量；复制物品身份时以 Count=1 序列化，再恢复真实数量。RS 标准盘通过原库存的工厂重建，共振盘保留能力数据；万界归墟盘单独重建 UnifiedDiskCore、文件记录及 RS 代理，不能只复制其引用 NBT。缺失库存、未知 RS 库存实现、统一盘错误世界/格式、隔离条目、备份进行中、容量截断或写入失败均拒绝复制，不降级为共享或空库存。
 
-净化遍历复制品的内嵌数据及所有受支持外部库存，清除各层《苦旅》、完美流体及当前配置黑名单中的物品，原库存不变。判断入口是 `abyss/PerfectFluidCopies.isProtected`，不能只按最外层物品或只按完美流体 ID 过滤。自动合成及其他未接入领取事务的菜单不接受含已初始化外部库存引用的配方，普通物品复制不受此限制。
+净化遍历复制品的内嵌数据及所有受支持外部库存，清除各层《苦旅》、完美流体及当前配置黑名单中的物品，原库存不变。判断入口是 `abyss/copy/PerfectFluidCopies.isProtected`，不能只按最外层物品或只按完美流体 ID 过滤。自动合成及其他未接入领取事务的菜单不接受含已初始化外部库存引用的配方，普通物品复制不受此限制。
 
 保护边界：每次最多 4096 个独立外部库存，NBT 遍历深度最多 128、节点最多 4000000；外部库存链深度不累加到 NBT 深度。超限整次拒绝，不截断复制。回滚覆盖本次新增库存及菜单物品；各存档文件独立落盘。此前已经共享 UUID 的磁盘保持原样。
 

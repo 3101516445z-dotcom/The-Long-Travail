@@ -148,11 +148,14 @@ public final class CatalogSession {
                                         .withStyle(
                                                 s ->
                                                         s.withColor(
-                                                                com.thelongtravail.abyss
+                                                                com.thelongtravail.abyss.rain
                                                                         .RainTooltips
                                                                         .ACCENT_COLOR)))
                         .withStyle(
-                                s -> s.withColor(com.thelongtravail.abyss.RainTooltips.BODY_COLOR));
+                                s ->
+                                        s.withColor(
+                                                com.thelongtravail.abyss.rain.RainTooltips
+                                                        .BODY_COLOR));
         var lines = event.getToolTip();
         int at = lines.size();
         for (int i = 0; i < lines.size(); i++)

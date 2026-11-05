@@ -434,13 +434,13 @@ public final class TravailNetwork {
                                         0,
                                         player.getPersistentData()
                                                 .getInt(
-                                                        com.thelongtravail.boundless.DreamState
-                                                                .COOLDOWN))
+                                                        com.thelongtravail.boundless.dream
+                                                                .DreamState.COOLDOWN))
                                 : key.equals("countdown")
                                         ? player.getPersistentData()
                                                 .getCompound(
-                                                        com.thelongtravail.boundless.DreamState
-                                                                .RECORD)
+                                                        com.thelongtravail.boundless.dream
+                                                                .DreamState.RECORD)
                                                 .getInt("left")
                                         : 0));
     }

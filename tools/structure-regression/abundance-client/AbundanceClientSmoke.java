@@ -1,6 +1,6 @@
 package travail.abundanceclient;
 
-import com.thelongtravail.abyss.LiquefiedAbundance;
+import com.thelongtravail.abyss.abundance.LiquefiedAbundance;
 import com.thelongtravail.client.AbundanceUseClient;
 import com.thelongtravail.config.AbyssItemsConfig;
 import com.thelongtravail.mixin.presentation.SkillNoticeGuiAccessor;
@@ -165,21 +165,18 @@ public final class AbundanceClientSmoke {
                     && mc.player.getMainHandItem().is(ModRegistry.LIQUEFIED_ABUNDANCE.get())
                     && AbundanceUseClient.selectedMode() == cases.get(index).mode()
                     && LiquefiedAbundance.useTicks() == (int) (cases.get(index).seconds() * 20)) {
-                var tooltip = new ArrayList<Component>();
                 var held = mc.player.getMainHandItem();
-                tooltip.add(held.getHoverName());
-                com.thelongtravail.item.ItemDescription.summary(tooltip);
-                com.thelongtravail.client.ThemeTooltips.finish(held, mc.player, tooltip);
+                var tooltip = held.getTooltipLines(mc.player, TooltipFlag.Default.NORMAL);
                 String state =
-                        Component.translatable(
-                                        "tooltip.the_long_travail.abundance.current",
+                        com.thelongtravail.client.ThemeTooltips.text(
+                                        "liquefied_abundance.state",
                                         LiquefiedAbundance.modeName(cases.get(index).mode()))
                                 .getString();
                 check(
                         tooltip.stream().anyMatch(line -> line.getString().equals(state)),
                         "current mode in tooltip");
                 check(
-                        com.thelongtravail.abyss.AbundanceText.details().stream()
+                        com.thelongtravail.abyss.abundance.AbundanceText.details().stream()
                                 .noneMatch(line -> line.getString().equals(state)),
                         "personal mode absent from catalog");
                 mc.player.setXRot(-90);

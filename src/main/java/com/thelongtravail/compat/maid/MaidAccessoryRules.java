@@ -5,7 +5,7 @@ import static com.thelongtravail.compat.maid.MaidAccess.owner;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.abyss.RainState;
+import com.thelongtravail.abyss.rain.RainState;
 import com.thelongtravail.api.TravailStateApi.AspectState;
 import com.thelongtravail.compat.maid.MaidAccessoryRuntime.Phase;
 import com.thelongtravail.config.RainConfig;
@@ -14,7 +14,7 @@ import com.thelongtravail.flourishing.FloralCombat;
 import com.thelongtravail.flourishing.Flower;
 import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.registry.ModRegistry;
-import com.thelongtravail.valley.LanternSources;
+import com.thelongtravail.valley.lantern.LanternSources;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;

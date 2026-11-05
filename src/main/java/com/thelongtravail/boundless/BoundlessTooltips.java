@@ -3,7 +3,7 @@ package com.thelongtravail.boundless;
 import com.thelongtravail.config.BoundlessItemsConfig;
 import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.network.TooltipConfigSync;
-import com.thelongtravail.abyss.RainTooltips;
+import com.thelongtravail.abyss.rain.RainTooltips;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import java.math.BigDecimal;

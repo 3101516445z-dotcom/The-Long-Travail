@@ -1,6 +1,6 @@
 package com.thelongtravail.network;
 
-import com.thelongtravail.abyss.LiquefiedAbundance;
+import com.thelongtravail.abyss.abundance.LiquefiedAbundance;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;

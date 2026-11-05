@@ -1,5 +1,8 @@
 package com.thelongtravail.config;
 
+import com.thelongtravail.config.defaults.BiomeCompatDefaults;
+import com.thelongtravail.config.defaults.StructureCompatDefaults;
+
 import com.thelongtravail.TravailAspect;
 
 import net.minecraftforge.common.ForgeConfigSpec;

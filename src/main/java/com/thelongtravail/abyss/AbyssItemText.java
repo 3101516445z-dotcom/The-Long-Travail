@@ -1,5 +1,7 @@
 package com.thelongtravail.abyss;
 
+import com.thelongtravail.abyss.rain.RainTooltips;
+
 import com.thelongtravail.config.AbyssItemsConfig;
 import com.thelongtravail.network.TooltipConfigSync;
 

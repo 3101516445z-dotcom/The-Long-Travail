@@ -1,5 +1,7 @@
 package com.thelongtravail.network;
 
+import com.thelongtravail.boundless.timestop.ProjectileIndex;
+
 import com.thelongtravail.boundless.timestop.TimeStopExemptions;
 import com.thelongtravail.boundless.timestop.TimeStopManager;
 import net.minecraft.server.level.ServerLevel;

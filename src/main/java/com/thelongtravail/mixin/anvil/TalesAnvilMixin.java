@@ -2,7 +2,7 @@ package com.thelongtravail.mixin.anvil;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.thelongtravail.boundless.EnchantmentTransfer;
+import com.thelongtravail.boundless.transfer.EnchantmentTransfer;
 
 import net.minecraft.world.inventory.AnvilMenu;
 import net.minecraft.world.item.Item;

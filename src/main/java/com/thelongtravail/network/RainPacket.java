@@ -1,7 +1,7 @@
 package com.thelongtravail.network;
 
-import com.thelongtravail.abyss.RainState;
-import com.thelongtravail.abyss.RainTooltips;
+import com.thelongtravail.abyss.rain.RainState;
+import com.thelongtravail.abyss.rain.RainTooltips;
 import com.thelongtravail.config.RainConfig;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;

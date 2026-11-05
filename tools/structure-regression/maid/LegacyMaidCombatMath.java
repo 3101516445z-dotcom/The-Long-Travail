@@ -5,7 +5,7 @@ import static com.thelongtravail.compat.maid.MaidAccessoryRules.*;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.abyss.RainState;
+import com.thelongtravail.abyss.rain.RainState;
 import com.thelongtravail.boundless.*;
 import com.thelongtravail.compat.maid.*;
 import com.thelongtravail.compat.maid.MaidAccessoryRuntime.Phase;

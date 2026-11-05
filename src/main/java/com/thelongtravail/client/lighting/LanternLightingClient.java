@@ -1,7 +1,7 @@
 package com.thelongtravail.client.lighting;
 
 import com.thelongtravail.network.LanternPacket;
-import com.thelongtravail.valley.LanternSources;
+import com.thelongtravail.valley.lantern.LanternSources;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;

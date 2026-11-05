@@ -5,7 +5,7 @@ import com.thelongtravail.config.AzraelConfig;
 import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.registry.ModRegistry;
-import com.thelongtravail.abyss.RainTooltips;
+import com.thelongtravail.abyss.rain.RainTooltips;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraftforge.api.distmarker.Dist;

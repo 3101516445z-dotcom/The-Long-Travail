@@ -80,7 +80,7 @@
 
 ### 加载与重载流程
 
-配置由 `ForgeConfigSpec` 定义并注册到 Forge。`TravailConfig` 装配各 Definition 与物品配置，提供公开句柄及文件 Spec；[定义分工](架构/模块/配置与运行时数据.md#配置定义与文件装配) 按通用规则、工具物品、六主题和视觉参数组织。`config/ManagedConfig` 通过独立 `ConfigFileTypeHandler` 管理本模组文件。`ConfigRecovery` 先解析文件，解析失败时改用空候选；仅解析成功的 general.toml 尝试特定迁移，随后按 spec 校验、必要时备份并写回；`ConfigValidation` 校验普通配置项并转换合法数字字符串；`ConfigWatcher` 监听创建、修改和删除事件，等待保存事件短暂停顿后再读取。
+配置由 `ForgeConfigSpec` 定义并注册到 Forge。`TravailConfig` 装配各 Definition 与物品配置，提供公开句柄及文件 Spec；[定义分工](架构/模块/配置与运行时数据.md#配置定义与文件装配) 按通用规则、工具物品、六主题和视觉参数组织。`config/storage/ManagedConfig` 通过独立 `ConfigFileTypeHandler` 管理本模组文件。`ConfigRecovery` 先解析文件，解析失败时改用空候选；仅解析成功的 general.toml 尝试特定迁移，随后按 spec 校验、必要时备份并写回；`ConfigValidation` 校验普通配置项并转换合法数字字符串；`ConfigWatcher` 监听创建、修改和删除事件，等待保存事件短暂停顿后再读取。
 
 文件热重载先进入独立候选配置，校验后发布新配置、清理 spec 缓存并发送 Forge 重载事件，使现有运行时缓存及客户端说明同步继续生效。运行中非法普通值沿用旧有效值或默认值，其他有效修改仍可发布，同时保留磁盘输入并禁止自动写回；无法解析的文件整体拒绝，保留旧活动配置。此流程不同于下文的预设 update 路径。不要直接对正在使用的文件配置调用 `load()`，也不要通过保存动作覆盖尚未处理的磁盘修改。
 

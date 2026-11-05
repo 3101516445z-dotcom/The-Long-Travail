@@ -2,7 +2,7 @@ package com.thelongtravail.registry;
 
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.abyss.LiquefiedAbundanceRecipe;
+import com.thelongtravail.abyss.abundance.LiquefiedAbundanceRecipe;
 import com.thelongtravail.effect.StiffEffect;
 import com.thelongtravail.effect.VisualDeprivationEffect;
 import com.thelongtravail.entity.WayguideEntity;
@@ -118,14 +118,14 @@ public final class ModRegistry {
             ITEMS.register("midnight_lafite", com.thelongtravail.item.AbyssItem.Lafite::new);
     public static final RegistryObject<
                     net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer<
-                            com.thelongtravail.abyss.PerfectFluidRecipe>>
+                            com.thelongtravail.abyss.copy.PerfectFluidRecipe>>
             PERFECT_FLUID_COPY =
                     RECIPES.register(
                             "perfect_fluid_copy",
                             () ->
                                     new net.minecraft.world.item.crafting
                                             .SimpleCraftingRecipeSerializer<>(
-                                            com.thelongtravail.abyss.PerfectFluidRecipe::new));
+                                            com.thelongtravail.abyss.copy.PerfectFluidRecipe::new));
     public static final RegistryObject<Item> EKI =
             ITEMS.register("eki", com.thelongtravail.item.EkiItem::new);
     public static final RegistryObject<Item> TOKAIDO =
@@ -138,14 +138,16 @@ public final class ModRegistry {
             ITEMS.register(
                     "little_prince", () -> new com.thelongtravail.item.BoundlessRelicItem(true));
     public static final RegistryObject<
-                    RecipeSerializer<com.thelongtravail.boundless.EnchantmentTransferRecipe>>
+                    RecipeSerializer<
+                            com.thelongtravail.boundless.transfer.EnchantmentTransferRecipe>>
             ENCHANTMENT_TRANSFER =
                     RECIPES.register(
                             "enchantment_transfer",
                             () ->
                                     new net.minecraft.world.item.crafting
                                             .SimpleCraftingRecipeSerializer<>(
-                                            com.thelongtravail.boundless.EnchantmentTransferRecipe
+                                            com.thelongtravail.boundless.transfer
+                                                            .EnchantmentTransferRecipe
                                                     ::new));
 
     public static final RegistryObject<Item> LORENTZ_FANTASY =
@@ -309,7 +311,7 @@ public final class ModRegistry {
 
     public static void register(IEventBus bus) {
         ModAttributes.register(bus);
-        com.thelongtravail.valley.LanternLight.register(bus);
+        com.thelongtravail.valley.lantern.LanternLight.register(bus);
         ITEMS.register(bus);
         MENUS.register(bus);
         RECIPES.register(bus);

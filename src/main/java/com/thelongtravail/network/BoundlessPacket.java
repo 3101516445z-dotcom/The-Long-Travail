@@ -29,7 +29,7 @@ public record BoundlessPacket(boolean active, int cooldown) {
                 new BoundlessPacket(
                         active,
                         p.getPersistentData()
-                                .getInt(com.thelongtravail.boundless.DreamState.COOLDOWN)));
+                                .getInt(com.thelongtravail.boundless.dream.DreamState.COOLDOWN)));
     }
 
     public record Message(String key, int cooldownTicks) {
@@ -80,7 +80,7 @@ public record BoundlessPacket(boolean active, int cooldown) {
                                                 .getPlayerList()
                                                 .getPlayer(sender.getUUID())
                                         != sender) return;
-                        com.thelongtravail.boundless.DreamState.cast(sender);
+                        com.thelongtravail.boundless.dream.DreamState.cast(sender);
                     });
             c.setPacketHandled(true);
         }

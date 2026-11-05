@@ -2,7 +2,7 @@ package com.thelongtravail.client.catalog;
 
 import com.thelongtravail.config.*;
 import com.thelongtravail.network.TooltipConfigSync;
-import com.thelongtravail.valley.SwordLanternConfig;
+import com.thelongtravail.config.SwordLanternConfig;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

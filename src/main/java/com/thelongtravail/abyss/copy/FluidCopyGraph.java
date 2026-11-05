@@ -112,7 +112,8 @@ public final class FluidCopyGraph implements Context {
             throw new IllegalStateException("Container copy exceeds traversal limit");
         if (node instanceof CompoundTag c) {
             if (c.contains("Count", Tag.TAG_ANY_NUMERIC)
-                    && com.thelongtravail.abyss.PerfectFluidCopies.isProtected(c.getString("id"))) {
+                    && com.thelongtravail.abyss.copy.PerfectFluidCopies.isProtected(
+                            c.getString("id"))) {
                 for (String key : new ArrayList<>(c.getAllKeys()))
                     if (!key.equals("Slot")) c.remove(key);
                 c.putString("id", "minecraft:air");
@@ -162,7 +163,7 @@ public final class FluidCopyGraph implements Context {
 
     public ItemStack item(ItemStack source) throws Exception {
         if (source.isEmpty()
-                || com.thelongtravail.abyss.PerfectFluidCopies.isProtected(
+                || com.thelongtravail.abyss.copy.PerfectFluidCopies.isProtected(
                         ForgeRegistries.ITEMS.getKey(source.getItem()).toString()))
             return ItemStack.EMPTY;
         int count = source.getCount();

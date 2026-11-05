@@ -3,7 +3,7 @@ package com.thelongtravail.mixin.crafting;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.thelongtravail.abyss.copy.FluidCrafting;
-import com.thelongtravail.boundless.TransferNotices;
+import com.thelongtravail.boundless.transfer.TransferNotices;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;

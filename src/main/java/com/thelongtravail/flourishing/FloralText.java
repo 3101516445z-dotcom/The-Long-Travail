@@ -1,6 +1,6 @@
 package com.thelongtravail.flourishing;
 
-import com.thelongtravail.abyss.RainTooltips;
+import com.thelongtravail.abyss.rain.RainTooltips;
 import net.minecraft.network.chat.Component;
 
 public final class FloralText {

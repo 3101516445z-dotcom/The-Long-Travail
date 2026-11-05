@@ -3,14 +3,14 @@ package travail.configtests;
 import com.thelongtravail.config.*;
 
 import com.mojang.authlib.GameProfile;
-import com.thelongtravail.abyss.AbundanceEffectPool;
-import com.thelongtravail.abyss.LiquefiedAbundance;
+import com.thelongtravail.abyss.abundance.AbundanceEffectPool;
+import com.thelongtravail.abyss.abundance.LiquefiedAbundance;
 import com.thelongtravail.flourishing.ImmortalBud;
 import com.thelongtravail.flourishing.ImmortalBudRecipe;
 import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.registry.ModRegistry;
-import com.thelongtravail.valley.SwordLanternConfig;
-import com.thelongtravail.valley.SwordLanternState;
+import com.thelongtravail.config.SwordLanternConfig;
+import com.thelongtravail.valley.lantern.SwordLanternState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RandomSource;
@@ -60,10 +60,7 @@ public final class ItemConfigIntegrationTest {
         var oldSlots = new HashMap<>(inventory.getCurios());
         try {
             check(
-                    oldBud.isEmpty()
-                            && oldWhite.isEmpty()
-                            && oldRadius == 64
-                            && oldMinimum == 11,
+                    oldBud.isEmpty() && oldWhite.isEmpty() && oldRadius == 64 && oldMinimum == 11,
                     "compatible defaults");
             var target = new ItemStack(Items.DIAMOND_SWORD);
             target.setDamageValue(100);
@@ -141,7 +138,8 @@ public final class ItemConfigIntegrationTest {
                     AbundanceEffectPool.ids().equals(List.of("minecraft:speed")),
                     "blacklist precedence and deduplication");
             check(
-                    ((List<?>) entriesMethod.invoke(snapshotField.get(null))).equals(List.of(baselineSpeed)),
+                    ((List<?>) entriesMethod.invoke(snapshotField.get(null)))
+                            .equals(List.of(baselineSpeed)),
                     "whitelist preserves all existing levels and durations");
             var random = RandomSource.create(27);
             for (int i = 0; i < 100; i++)
@@ -231,7 +229,8 @@ public final class ItemConfigIntegrationTest {
             var pools = (Map<?, ?>) poolsMethod.invoke(null);
             check(
                     !values.containsKey("bud.repair")
-                            && values.get("wayguide.radius").equals((double) TravailConfig.WAYGUIDE_RADIUS.get())
+                            && values.get("wayguide.radius")
+                                    .equals((double) TravailConfig.WAYGUIDE_RADIUS.get())
                             && values.get("swordLantern.radius").equals(32D)
                             && values.get("swordLantern.crowdMinimum").equals(2D),
                     "numeric synchronization reflects server config");

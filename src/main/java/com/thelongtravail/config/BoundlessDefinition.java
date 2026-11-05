@@ -1,5 +1,7 @@
 package com.thelongtravail.config;
 
+import com.thelongtravail.config.defaults.RewardCompatDefaults;
+
 import static com.thelongtravail.config.TravailDefinitionSupport.decimal;
 import static com.thelongtravail.config.TravailDefinitionSupport.defineRequirements;
 import static com.thelongtravail.config.TravailDefinitionSupport.integer;

@@ -221,7 +221,7 @@
       "ownership": "playerAttack 的玩家归属",
       "guard": "普通伤害入口，未设置追加专用排除标记",
       "sources": [
-        "src/main/java/com/thelongtravail/event/TravailRewards.java"
+        "src/main/java/com/thelongtravail/runtime/rewards/TravailRewards.java"
       ],
       "successors": [
         "sun",
@@ -257,7 +257,7 @@
         "src/main/java/com/thelongtravail/farreach/FarReachCombat.java",
         "src/main/java/com/thelongtravail/valley/execution/AzraelState.java",
         "src/main/java/com/thelongtravail/boundless/timestop/StarVoiceState.java",
-        "src/main/java/com/thelongtravail/valley/SwordLanternState.java",
+        "src/main/java/com/thelongtravail/valley/lantern/SwordLanternState.java",
         "src/main/java/com/thelongtravail/compat/maid/MaidLanternCombat.java"
       ],
       "successors": [
@@ -385,7 +385,7 @@
     "src/main/java/com/thelongtravail/common/OverflowHealing.java": "healing",
     "src/main/java/com/thelongtravail/compat/maid/MaidCombatFeedback.java": "rose",
     "src/main/java/com/thelongtravail/compat/maidspell/MaidSpellHealth.java": "health_write",
-    "src/main/java/com/thelongtravail/event/TravailRewards.java": "phantom",
+    "src/main/java/com/thelongtravail/runtime/rewards/TravailRewards.java": "phantom",
     "src/main/java/com/thelongtravail/farreach/DonQuixoteCombat.java": "quixote",
     "src/main/java/com/thelongtravail/farreach/SunChaser.java": "sun",
     "src/main/java/com/thelongtravail/flourishing/FloralCombat.java": "rose",

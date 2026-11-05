@@ -1,6 +1,6 @@
 package com.thelongtravail.helper;
 
-import com.thelongtravail.abyss.RainTooltips;
+import com.thelongtravail.abyss.rain.RainTooltips;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
@@ -9,24 +9,24 @@ public final class ActionMessages {
         String nameKey =
                 switch (key) {
                     case "message.the_long_travail.sword_lantern.light_on",
-                            "message.the_long_travail.sword_lantern.light_off" ->
+                                    "message.the_long_travail.sword_lantern.light_off" ->
                             "item.the_long_travail.sword_and_lantern";
                     case "message.the_long_travail.icarus.flight_on",
-                            "message.the_long_travail.icarus.flight_off" ->
+                                    "message.the_long_travail.icarus.flight_off" ->
                             "item.the_long_travail.icarus";
                     case "message.the_long_travail.homecoming.success",
-                            "message.the_long_travail.homecoming.unavailable",
-                            "message.the_long_travail.renewal.success",
-                            "message.the_long_travail.wayguide.unavailable",
-                            "message.the_long_travail.wayguide.invalid",
-                            "message.the_long_travail.wayguide.no_targets" ->
+                                    "message.the_long_travail.homecoming.unavailable",
+                                    "message.the_long_travail.renewal.success",
+                                    "message.the_long_travail.wayguide.unavailable",
+                                    "message.the_long_travail.wayguide.invalid",
+                                    "message.the_long_travail.wayguide.no_targets" ->
                             "item.the_long_travail.the_long_travail";
                     case "message.the_long_travail.wayguide.searching",
-                            "message.the_long_travail.wayguide.busy",
-                            "message.the_long_travail.wayguide.not_found",
-                            "message.the_long_travail.wayguide.timeout",
-                            "message.the_long_travail.wayguide.cancelled",
-                            "message.the_long_travail.wayguide.error" ->
+                                    "message.the_long_travail.wayguide.busy",
+                                    "message.the_long_travail.wayguide.not_found",
+                                    "message.the_long_travail.wayguide.timeout",
+                                    "message.the_long_travail.wayguide.cancelled",
+                                    "message.the_long_travail.wayguide.error" ->
                             "item.the_long_travail.wayguide";
                     default -> null;
                 };

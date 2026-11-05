@@ -37,7 +37,7 @@ public abstract class TimeStopLevelMixin {
             int recursion,
             CallbackInfoReturnable<Boolean> ci) {
         if (TimeStopManager.frozen((Level) (Object) this, p)
-                && !com.thelongtravail.valley.LanternLight.permitted(
+                && !com.thelongtravail.valley.lantern.LanternLight.permitted(
                         (Level) (Object) this, p, state)) ci.setReturnValue(false);
     }
 

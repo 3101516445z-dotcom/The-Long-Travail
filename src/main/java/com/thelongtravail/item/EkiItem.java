@@ -1,6 +1,6 @@
 package com.thelongtravail.item;
 
-import com.thelongtravail.abyss.RainState;
+import com.thelongtravail.abyss.rain.RainState;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;

@@ -1,7 +1,7 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
-import com.thelongtravail.abyss.RainTooltips;
+import com.thelongtravail.abyss.rain.RainTooltips;
 import com.thelongtravail.config.FarReachItemsConfig;
 import com.thelongtravail.equipment.DependentAccessories;
 import com.thelongtravail.network.TooltipConfigSync;

@@ -1,5 +1,9 @@
 package com.thelongtravail.compat.maid;
 
+import com.thelongtravail.valley.lantern.SwordLanternState;
+
+import com.thelongtravail.config.SwordLanternConfig;
+
 import com.thelongtravail.valley.*;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 

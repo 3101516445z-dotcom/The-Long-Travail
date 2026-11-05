@@ -245,14 +245,14 @@ final class ApotheosisOverlapProbe {
                 .setStackInSlot(0, new ItemStack(ModRegistry.SWORD_AND_LANTERN.get()));
         spider.setPos(player.getX() + 1, player.getY(), player.getZ());
         LongTravailData.setWitness(diary, TravailAspect.UNDERWORLD, false);
-        double normal = com.thelongtravail.valley.SwordLanternState.bonus(player, spider);
+        double normal = com.thelongtravail.valley.lantern.SwordLanternState.bonus(player, spider);
         LongTravailData.setWitness(diary, TravailAspect.UNDERWORLD, true);
-        double undead = com.thelongtravail.valley.SwordLanternState.bonus(player, spider);
+        double undead = com.thelongtravail.valley.lantern.SwordLanternState.bonus(player, spider);
         require(
                 Math.abs(
                                 undead
                                         - normal
-                                        - com.thelongtravail.valley.SwordLanternConfig.UNDEAD_BONUS
+                                        - com.thelongtravail.config.SwordLanternConfig.UNDEAD_BONUS
                                                 .get())
                         < 1e-8,
                 "SwordLantern undead bonus");

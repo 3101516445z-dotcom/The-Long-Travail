@@ -1,5 +1,7 @@
 package com.thelongtravail.config;
 
+import com.thelongtravail.config.storage.ConfigFilesDescription;
+
 import com.thelongtravail.TravailAspect;
 
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -262,7 +264,7 @@ public final class TravailConfig {
         UnderworldItemsConfig.define(builders.get("aspects/underworld.toml"));
         AzraelConfig.define(builders.get("aspects/deep_valley.toml"));
         DeepValleyItemsConfig.define(builders.get("aspects/deep_valley.toml"));
-        com.thelongtravail.valley.SwordLanternConfig.define(
+        com.thelongtravail.config.SwordLanternConfig.define(
                 builders.get("aspects/deep_valley.toml"));
         FlourishingItemsConfig.define(builders.get("aspects/flourishing.toml"));
         FarReachItemsConfig.define(builders.get("aspects/far_reach.toml"));

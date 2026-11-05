@@ -102,34 +102,34 @@ public final class TooltipConfigSync {
                 "wayguide.radius",
                 (double) com.thelongtravail.config.TravailConfig.WAYGUIDE_RADIUS.get());
         values.put(
-                "swordLantern.radius", com.thelongtravail.valley.SwordLanternConfig.RADIUS.get());
+                "swordLantern.radius", com.thelongtravail.config.SwordLanternConfig.RADIUS.get());
         values.put(
                 "swordLantern.crowdMinimum",
-                (double) com.thelongtravail.valley.SwordLanternConfig.CROWD_MINIMUM.get());
+                (double) com.thelongtravail.config.SwordLanternConfig.CROWD_MINIMUM.get());
         values.put(
-                "swordLantern.memory", com.thelongtravail.valley.SwordLanternConfig.MEMORY.get());
+                "swordLantern.memory", com.thelongtravail.config.SwordLanternConfig.MEMORY.get());
         values.put(
-                "swordLantern.timeout", com.thelongtravail.valley.SwordLanternConfig.TIMEOUT.get());
+                "swordLantern.timeout", com.thelongtravail.config.SwordLanternConfig.TIMEOUT.get());
         values.put(
                 "swordLantern.duration",
-                com.thelongtravail.valley.SwordLanternConfig.DURATION.get());
+                com.thelongtravail.config.SwordLanternConfig.DURATION.get());
         values.put(
                 "swordLantern.crowdBonus",
-                com.thelongtravail.valley.SwordLanternConfig.CROWD_BONUS.get());
+                com.thelongtravail.config.SwordLanternConfig.CROWD_BONUS.get());
         values.put(
                 "swordLantern.undeadBonus",
-                com.thelongtravail.valley.SwordLanternConfig.UNDEAD_BONUS.get());
+                com.thelongtravail.config.SwordLanternConfig.UNDEAD_BONUS.get());
         values.put(
                 "swordLantern.aloneBonus",
-                com.thelongtravail.valley.SwordLanternConfig.ALONE_BONUS.get());
+                com.thelongtravail.config.SwordLanternConfig.ALONE_BONUS.get());
         values.put(
                 "swordLantern.prolongedBonus",
-                com.thelongtravail.valley.SwordLanternConfig.PROLONGED_BONUS.get());
+                com.thelongtravail.config.SwordLanternConfig.PROLONGED_BONUS.get());
         values.put(
                 "swordLantern.lowHealthBonus",
-                com.thelongtravail.valley.SwordLanternConfig.LOW_HEALTH_BONUS.get());
+                com.thelongtravail.config.SwordLanternConfig.LOW_HEALTH_BONUS.get());
         values.put(
-                "swordLantern.health", com.thelongtravail.valley.SwordLanternConfig.HEALTH.get());
+                "swordLantern.health", com.thelongtravail.config.SwordLanternConfig.HEALTH.get());
         values.put(
                 "farItem.icarus.igniteSeconds",
                 (double) com.thelongtravail.config.FarReachItemsConfig.IGNITE_SECONDS.get());
@@ -359,7 +359,8 @@ public final class TooltipConfigSync {
         pools.put(
                 "abundance.whitelist",
                 List.copyOf(com.thelongtravail.config.AbyssItemsConfig.ABUNDANCE_WHITELIST.get()));
-        pools.put("abundance.effects", com.thelongtravail.abyss.AbundanceEffectPool.ids());
+        pools.put(
+                "abundance.effects", com.thelongtravail.abyss.abundance.AbundanceEffectPool.ids());
         pools.put(
                 "abundance.blacklist",
                 List.copyOf(com.thelongtravail.config.AbyssItemsConfig.ABUNDANCE_BLACKLIST.get()));

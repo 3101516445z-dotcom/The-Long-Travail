@@ -1,8 +1,8 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
-import com.thelongtravail.abyss.AbundanceText;
-import com.thelongtravail.abyss.LiquefiedAbundance;
+import com.thelongtravail.abyss.abundance.AbundanceText;
+import com.thelongtravail.abyss.abundance.LiquefiedAbundance;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.*;

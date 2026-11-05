@@ -163,14 +163,15 @@ public final class CombatContext implements AutoCloseable {
                 && !roseDamage
                 && attacker != null
                 && attacker != target
-                && com.thelongtravail.abyss.RainState.ekiMalice(attacker))
+                && com.thelongtravail.abyss.rain.RainState.ekiMalice(attacker))
             ekiDamageBonus = com.thelongtravail.config.RainConfig.DAMAGE.get();
         if (!execution && !roseDamage && attacker != null && attacker != target)
             icarusDamageBonus = com.thelongtravail.farreach.FarReachCombat.bonus(attacker);
         if (!execution && !roseDamage && attacker != null && attacker != target)
             lafiteDamageBonus = com.thelongtravail.abyss.MidnightLafite.bonus(attacker);
         if (!execution && !roseDamage && attacker != null && attacker != target)
-            swordLanternBonus = com.thelongtravail.valley.SwordLanternState.bonus(attacker, target);
+            swordLanternBonus =
+                    com.thelongtravail.valley.lantern.SwordLanternState.bonus(attacker, target);
         if (!execution && !roseDamage)
             maidBonus = com.thelongtravail.integration.MaidIntegration.bonus(target, source);
         CURRENT.set(this);
@@ -339,8 +340,8 @@ public final class CombatContext implements AutoCloseable {
                         com.thelongtravail.farreach.FarReachCombat.immune(player, effectiveSource);
                 ItemStack diary = TravailCurios.stack(player);
                 boolean ekiActive =
-                        com.thelongtravail.abyss.RainState.ekiState(player, diary)
-                                != com.thelongtravail.abyss.RainState.EkiState.INACTIVE;
+                        com.thelongtravail.abyss.rain.RainState.ekiState(player, diary)
+                                != com.thelongtravail.abyss.rain.RainState.EkiState.INACTIVE;
                 boolean witness =
                         !diary.isEmpty() && LongTravailData.hasWitness(diary, TravailAspect.ABYSS);
                 if (ekiActive && !witness)
@@ -442,7 +443,7 @@ public final class CombatContext implements AutoCloseable {
                         : event
                                         instanceof
                                         net.minecraftforge.event.entity.living.LivingDamageEvent
-                                                damage
+                                                        damage
                                 ? current(damage.getEntity(), damage.getSource())
                                 : null;
         if (context != null && cancelled) context.attributeDamage.cancelled();

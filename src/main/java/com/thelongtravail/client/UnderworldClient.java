@@ -4,7 +4,7 @@ import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.item.UnderworldAccessoryItem;
 import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.network.*;
-import com.thelongtravail.abyss.RainTooltips;
+import com.thelongtravail.abyss.rain.RainTooltips;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.DeathScreen;

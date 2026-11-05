@@ -1,0 +1,218 @@
+{
+  "minecraft:chests/ancient_city": {
+    "chance": 0.055,
+    "items": [
+      "the_long_travail:a_thousand_years_later|300|1|1",
+      "the_long_travail:azrael|250|1|1"
+    ]
+  },
+  "minecraft:chests/nether_bridge": {
+    "chance": 0.045,
+    "items": [
+      "the_long_travail:a_thousand_years_later|200|1|1",
+      "the_long_travail:golden_age|250|1|1"
+    ]
+  },
+  "minecraft:chests/desert_pyramid": {
+    "chance": 0.05,
+    "items": [
+      "the_long_travail:book_of_the_dead|200|1|1",
+      "the_long_travail:icarus|300|1|1"
+    ]
+  },
+  "minecraft:chests/stronghold_library": {
+    "chance": 0.175,
+    "items": [
+      "the_long_travail:book_of_the_dead|300|1|1",
+      "the_long_travail:azrael|250|1|1",
+      "the_long_travail:free_and_easy_wandering|1000|1|1",
+      "the_long_travail:star_voice|200|1|1"
+    ]
+  },
+  "minecraft:chests/bastion_bridge": {
+    "chance": 0.025,
+    "items": [
+      "the_long_travail:golden_age|250|1|1"
+    ]
+  },
+  "minecraft:chests/bastion_hoglin_stable": {
+    "chance": 0.025,
+    "items": [
+      "the_long_travail:golden_age|250|1|1"
+    ]
+  },
+  "minecraft:chests/bastion_other": {
+    "chance": 0.025,
+    "items": [
+      "the_long_travail:golden_age|250|1|1"
+    ]
+  },
+  "minecraft:chests/bastion_treasure": {
+    "chance": 0.025,
+    "items": [
+      "the_long_travail:golden_age|250|1|1"
+    ]
+  },
+  "minecraft:chests/end_city_treasure": {
+    "chance": 0.2,
+    "items": [
+      "the_long_travail:icarus|500|1|1",
+      "the_long_travail:free_and_easy_wandering|1000|1|1",
+      "the_long_travail:star_voice|500|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_armorer": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|200|1|1",
+      "the_long_travail:free_and_easy_wandering|200|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_butcher": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|200|1|1",
+      "the_long_travail:free_and_easy_wandering|200|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_cartographer": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|200|1|1",
+      "the_long_travail:free_and_easy_wandering|200|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_desert_house": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|200|1|1",
+      "the_long_travail:free_and_easy_wandering|200|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_fisher": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|200|1|1",
+      "the_long_travail:free_and_easy_wandering|200|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_fletcher": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|200|1|1",
+      "the_long_travail:free_and_easy_wandering|200|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_mason": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|200|1|1",
+      "the_long_travail:free_and_easy_wandering|200|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_plains_house": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|200|1|1",
+      "the_long_travail:free_and_easy_wandering|200|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_savanna_house": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|200|1|1",
+      "the_long_travail:free_and_easy_wandering|200|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_shepherd": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|200|1|1",
+      "the_long_travail:free_and_easy_wandering|200|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_snowy_house": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|200|1|1",
+      "the_long_travail:free_and_easy_wandering|200|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_taiga_house": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|200|1|1",
+      "the_long_travail:free_and_easy_wandering|200|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_tannery": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|200|1|1",
+      "the_long_travail:free_and_easy_wandering|200|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_temple": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|200|1|1",
+      "the_long_travail:free_and_easy_wandering|200|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_toolsmith": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|200|1|1",
+      "the_long_travail:free_and_easy_wandering|200|1|1"
+    ]
+  },
+  "minecraft:chests/village/village_weaponsmith": {
+    "chance": 0.04,
+    "items": [
+      "the_long_travail:affection|200|1|1",
+      "the_long_travail:free_and_easy_wandering|200|1|1"
+    ]
+  },
+  "minecraft:chests/jungle_temple": {
+    "chance": 0.05,
+    "items": [
+      "the_long_travail:affection|500|1|1"
+    ]
+  },
+  "minecraft:chests/abandoned_mineshaft": {
+    "chance": 0.025,
+    "items": [
+      "the_long_travail:azrael|250|1|1"
+    ]
+  },
+  "minecraft:chests/stronghold_corridor": {
+    "chance": 0.145,
+    "items": [
+      "the_long_travail:azrael|250|1|1",
+      "the_long_travail:free_and_easy_wandering|1000|1|1",
+      "the_long_travail:star_voice|200|1|1"
+    ]
+  },
+  "minecraft:chests/stronghold_crossing": {
+    "chance": 0.145,
+    "items": [
+      "the_long_travail:azrael|250|1|1",
+      "the_long_travail:free_and_easy_wandering|1000|1|1",
+      "the_long_travail:star_voice|200|1|1"
+    ]
+  },
+  "minecraft:chests/buried_treasure": {
+    "chance": 0.15,
+    "items": [
+      "the_long_travail:eki|750|1|1",
+      "the_long_travail:tokaido|750|1|1"
+    ]
+  },
+  "minecraft:gameplay/fishing": {
+    "chance": 0.05,
+    "items": [
+      "the_long_travail:eki|250|1|1",
+      "the_long_travail:tokaido|250|1|1"
+    ]
+  }
+}

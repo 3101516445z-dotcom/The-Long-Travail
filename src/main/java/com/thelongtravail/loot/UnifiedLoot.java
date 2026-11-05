@@ -1,9 +1,9 @@
 package com.thelongtravail.loot;
 
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
-import com.thelongtravail.config.ConfigFileIO;
-import com.thelongtravail.config.ConfigProblems;
-import com.thelongtravail.config.ConfigValidation;
+import com.thelongtravail.config.storage.ConfigFileIO;
+import com.thelongtravail.config.storage.ConfigProblems;
+import com.thelongtravail.config.storage.ConfigValidation;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

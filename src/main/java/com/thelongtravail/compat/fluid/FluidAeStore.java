@@ -34,7 +34,8 @@ final class FluidAeStore {
                     ItemStack sample = itemKey.toStack();
                     CompoundTag serialized = sample.save(new CompoundTag());
                     if (FluidCopyGraph.hasReferences(serialized)
-                            || com.thelongtravail.abyss.PerfectFluidCopies.clearFluid(serialized))
+                            || com.thelongtravail.abyss.copy.PerfectFluidCopies.clearFluid(
+                                    serialized))
                         throw new IllegalStateException(
                                 "Creative cell supplies a protected resource");
                 }

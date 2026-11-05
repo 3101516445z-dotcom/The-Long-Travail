@@ -21,9 +21,11 @@ public final class RenewalSmoke {
         var dropped = new ArrayList<ItemStack>();
         var player =
                 new net.minecraftforge.common.util.FakePlayer(
-                        level, new com.mojang.authlib.GameProfile(UUID.randomUUID(), "RenewalSmoke")) {
+                        level,
+                        new com.mojang.authlib.GameProfile(UUID.randomUUID(), "RenewalSmoke")) {
                     @Override
-                    public net.minecraft.world.entity.item.ItemEntity drop(ItemStack stack, boolean random) {
+                    public net.minecraft.world.entity.item.ItemEntity drop(
+                            ItemStack stack, boolean random) {
                         dropped.add(stack.copy());
                         return null;
                     }
@@ -31,24 +33,31 @@ public final class RenewalSmoke {
         var cues = new ArrayList<com.thelongtravail.network.ItemSoundCue>();
         java.util.function.Consumer<net.minecraft.network.protocol.Packet<?>> capture =
                 packet -> {
-                    if (packet instanceof net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket payload
+                    if (packet
+                                    instanceof
+                                    net.minecraft.network.protocol.game
+                                                            .ClientboundCustomPayloadPacket
+                                                    payload
                             && payload.getIdentifier().toString().equals("the_long_travail:main")) {
                         var data = payload.getData();
                         int offset = data.readerIndex();
                         if (data.readableBytes() == 2 && data.getUnsignedByte(offset) == 3)
                             cues.add(
-                                    com.thelongtravail.network.ItemSoundCue.values()[data.getUnsignedByte(offset + 1)]);
+                                    com.thelongtravail.network.ItemSoundCue.values()[
+                                            data.getUnsignedByte(offset + 1)]);
                     }
                 };
         var wire =
-                new net.minecraft.network.Connection(net.minecraft.network.protocol.PacketFlow.SERVERBOUND) {
+                new net.minecraft.network.Connection(
+                        net.minecraft.network.protocol.PacketFlow.SERVERBOUND) {
                     @Override
                     public void send(net.minecraft.network.protocol.Packet<?> packet) {
                         capture.accept(packet);
                     }
                 };
         player.connection =
-                new net.minecraft.server.network.ServerGamePacketListenerImpl(level.getServer(), wire, player) {
+                new net.minecraft.server.network.ServerGamePacketListenerImpl(
+                        level.getServer(), wire, player) {
                     @Override
                     public void send(net.minecraft.network.protocol.Packet<?> packet) {
                         capture.accept(packet);
@@ -61,18 +70,22 @@ public final class RenewalSmoke {
         var tooltip = new ArrayList<net.minecraft.network.chat.Component>();
         item.appendHoverText(new ItemStack(item), level, tooltip, TooltipFlag.NORMAL);
         check(
-                tooltip.size() == 1
-                        && tooltip.get(0).getContents() instanceof net.minecraft.network.chat.contents.TranslatableContents marker
-                        && marker.getKey().equals(com.thelongtravail.item.ItemDescription.SUMMARY)
-                        && item.getName(new ItemStack(item)).getStyle().getInsertion().equals("the_long_travail:name"),
-                "tooltip and name material");
+                tooltip.isEmpty()
+                        && item.getName(new ItemStack(item))
+                                .getStyle()
+                                .getInsertion()
+                                .equals("the_long_travail:name"),
+                "dedicated server leaves client summary empty and preserves name material");
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(item));
         check(
                 !item.use(level, player, InteractionHand.MAIN_HAND).getResult().consumesAction()
                         && player.getMainHandItem().getCount() == 1,
                 "unequipped no consumption");
         check(cues.isEmpty(), "failed use has no sound packet");
-        var inventory = top.theillusivec4.curios.api.CuriosApi.getCuriosInventory(player).resolve().orElseThrow();
+        var inventory =
+                top.theillusivec4.curios.api.CuriosApi.getCuriosInventory(player)
+                        .resolve()
+                        .orElseThrow();
         var diarySlots =
                 new top.theillusivec4.curios.common.inventory.CurioStacksHandler(
                         inventory,
@@ -108,13 +121,16 @@ public final class RenewalSmoke {
                     .getCompound(aspect.id())
                     .getList("Biomes", Tag.TAG_STRING)
                     .removeIf(StringTag.valueOf("minecraft:plains")::equals);
-            root.getCompound("Requirements").getCompound(aspect.id()).put("CompletedBiomes", completed);
+            root.getCompound("Requirements")
+                    .getCompound(aspect.id())
+                    .put("CompletedBiomes", completed);
         }
         diary.setHoverName(net.minecraft.network.chat.Component.literal("Kept name"));
         diary.enchant(net.minecraft.world.item.enchantment.Enchantments.UNBREAKING, 1);
         diary.getTag().putString("ExternalData", "keep");
         PlayerJourneyData.reveal(player, TravailAspect.FLOURISHING);
-        PlayerJourneyData.discoverBiome(player, new net.minecraft.resources.ResourceLocation("minecraft", "plains"));
+        PlayerJourneyData.discoverBiome(
+                player, new net.minecraft.resources.ResourceLocation("minecraft", "plains"));
         diarySlots.getStacks().setStackInSlot(0, diary);
         TravailCurios.syncExtraSlots(player, 1);
         extraSlots.update();
@@ -123,7 +139,9 @@ public final class RenewalSmoke {
         check(
                 item.use(level, player, InteractionHand.MAIN_HAND).getResult().consumesAction(),
                 "equipped reset succeeds");
-        check(cues.equals(List.of(com.thelongtravail.network.ItemSoundCue.RENEWAL)), "exactly one renewal sound cue");
+        check(
+                cues.equals(List.of(com.thelongtravail.network.ItemSoundCue.RENEWAL)),
+                "exactly one renewal sound cue");
         var fresh = diarySlots.getStacks().getStackInSlot(0);
         var reset = fresh.getTag().getCompound("LongTravail");
         check(
@@ -148,7 +166,8 @@ public final class RenewalSmoke {
                         && fresh.getTag().getString("ExternalData").equals("keep"),
                 "external metadata preserved");
         check(
-                PlayerJourneyData.revealedMask(player) == 1 && PlayerJourneyData.discoveredBiomeCount(player) == 1,
+                PlayerJourneyData.revealedMask(player) == 1
+                        && PlayerJourneyData.discoveredBiomeCount(player) == 1,
                 "permanent records kept");
         check(
                 player.getInventory().countItem(item) == 0
@@ -179,27 +198,34 @@ public final class RenewalSmoke {
         for (int i = 0; i < player.getInventory().items.size(); i++)
             player.getInventory().items.set(i, new ItemStack(Items.COBBLESTONE, 64));
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(item));
-        LongTravailData.setWitness(diarySlots.getStacks().getStackInSlot(0), TravailAspect.BOUNDLESS, true);
+        LongTravailData.setWitness(
+                diarySlots.getStacks().getStackInSlot(0), TravailAspect.BOUNDLESS, true);
         TravailCurios.syncExtraSlots(player, 1);
         extraSlots.update();
         extraSlots.getStacks().setStackInSlot(1, new ItemStack(Items.EMERALD));
         item.use(level, player, InteractionHand.MAIN_HAND);
         check(
-                player.getMainHandItem().is(item) && dropped.size() == 1 && dropped.get(0).is(Items.EMERALD),
+                player.getMainHandItem().is(item)
+                        && dropped.size() == 1
+                        && dropped.get(0).is(Items.EMERALD),
                 "creative no consumption and full inventory drops accessory");
         player.getCooldowns().removeCooldown(item);
         player.getAbilities().instabuild = false;
         player.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(item));
-        LongTravailData.setWitness(diarySlots.getStacks().getStackInSlot(0), TravailAspect.BOUNDLESS, true);
+        LongTravailData.setWitness(
+                diarySlots.getStacks().getStackInSlot(0), TravailAspect.BOUNDLESS, true);
         TravailCurios.syncExtraSlots(player, 1);
         extraSlots.update();
         extraSlots.getStacks().setStackInSlot(1, new ItemStack(Items.GOLD_INGOT));
         item.use(level, player, InteractionHand.OFF_HAND);
         check(
-                player.getOffhandItem().isEmpty() && dropped.size() == 2 && dropped.get(1).is(Items.GOLD_INGOT),
+                player.getOffhandItem().isEmpty()
+                        && dropped.size() == 2
+                        && dropped.get(1).is(Items.GOLD_INGOT),
                 "survival offhand use with full backpack drops gear");
         player.getAbilities().instabuild = true;
-        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModRegistry.HOMECOMING.get()));
+        player.setItemInHand(
+                InteractionHand.MAIN_HAND, new ItemStack(ModRegistry.HOMECOMING.get()));
         ModRegistry.HOMECOMING.get().use(level, player, InteractionHand.MAIN_HAND);
         check(
                 diarySlots.getStacks().getStackInSlot(0).isEmpty()
@@ -207,10 +233,12 @@ public final class RenewalSmoke {
                         && dropped.get(2).is(ModRegistry.LONG_TRAVAIL.get()),
                 "homecoming never voids diary in full creative inventory");
         check(
-                cues.size() == 4 && cues.get(3) == com.thelongtravail.network.ItemSoundCue.HOMECOMING,
+                cues.size() == 4
+                        && cues.get(3) == com.thelongtravail.network.ItemSoundCue.HOMECOMING,
                 "one success cue per item action");
         var persisted =
-                player.getPersistentData().getCompound(net.minecraft.world.entity.player.Player.PERSISTED_NBT_TAG);
+                player.getPersistentData()
+                        .getCompound(net.minecraft.world.entity.player.Player.PERSISTED_NBT_TAG);
         persisted.getCompound("the_long_travail").putInt("revealed_aspects", 0);
         for (var aspect : TravailAspect.values()) {
             var stone = ModRegistry.REVELATION_STONES.get(aspect.ordinal()).get();
@@ -219,14 +247,17 @@ public final class RenewalSmoke {
             stone.use(level, player, InteractionHand.MAIN_HAND);
             check(
                     cues.size() == before + 1
-                            && cues.get(before) == com.thelongtravail.network.ItemSoundCue.stone(aspect),
+                            && cues.get(before)
+                                    == com.thelongtravail.network.ItemSoundCue.stone(aspect),
                     "stone emits correct cue");
             stone.use(level, player, InteractionHand.MAIN_HAND);
             check(cues.size() == before + 1, "already unlocked stone is silent");
         }
         System.out.println(
                 "TRAVAIL_SOUND_PACKETS_PASS: successful item actions once, failures/cooldown silent, six stones and repeat unlock");
-        var crafting = new net.minecraft.world.inventory.TransientCraftingContainer(player.inventoryMenu, 3, 3);
+        var crafting =
+                new net.minecraft.world.inventory.TransientCraftingContainer(
+                        player.inventoryMenu, 3, 3);
         Item[] ingredients = {
             Items.GLOWSTONE_DUST, Items.ECHO_SHARD, Items.GLOWSTONE_DUST,
             Items.AMETHYST_SHARD, Items.FEATHER, Items.AMETHYST_SHARD,
@@ -235,7 +266,10 @@ public final class RenewalSmoke {
         for (int i = 0; i < 9; i++) crafting.setItem(i, new ItemStack(ingredients[i]));
         var recipe =
                 level.getRecipeManager()
-                        .getRecipeFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING, crafting, level)
+                        .getRecipeFor(
+                                net.minecraft.world.item.crafting.RecipeType.CRAFTING,
+                                crafting,
+                                level)
                         .orElseThrow();
         check(recipe.assemble(crafting, level.registryAccess()).is(item), "recipe result");
         check(

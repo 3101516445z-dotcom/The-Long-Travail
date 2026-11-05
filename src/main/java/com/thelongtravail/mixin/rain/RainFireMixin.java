@@ -2,7 +2,7 @@ package com.thelongtravail.mixin.rain;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.thelongtravail.abyss.RainState;
+import com.thelongtravail.abyss.rain.RainState;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.effect.MobEffect;

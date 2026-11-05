@@ -1,6 +1,6 @@
 package com.thelongtravail.flourishing;
 
-import com.thelongtravail.abyss.RainTooltips;
+import com.thelongtravail.abyss.rain.RainTooltips;
 import com.thelongtravail.config.FlourishingGrowthConfig;
 import com.thelongtravail.config.FlourishingItemsConfig;
 import com.thelongtravail.network.TooltipConfigSync;

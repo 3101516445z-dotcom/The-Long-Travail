@@ -1,6 +1,6 @@
 package com.thelongtravail.abyss.copy;
 
-import com.thelongtravail.abyss.PerfectFluidRecipe;
+import com.thelongtravail.abyss.copy.PerfectFluidRecipe;
 import com.thelongtravail.mixin.crafting.FluidCraftingGridAccessor;
 import com.thelongtravail.registry.ModRegistry;
 

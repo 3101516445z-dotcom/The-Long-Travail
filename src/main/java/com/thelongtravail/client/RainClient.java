@@ -1,5 +1,8 @@
 package com.thelongtravail.client;
 
+import com.thelongtravail.abyss.rain.RainState;
+import com.thelongtravail.abyss.rain.RainTooltips;
+
 import com.mojang.blaze3d.platform.InputConstants;
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.config.TravailClientConfig;

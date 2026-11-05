@@ -1,7 +1,7 @@
 package com.thelongtravail;
 
 import com.mojang.logging.LogUtils;
-import com.thelongtravail.config.ConfigFiles;
+import com.thelongtravail.config.storage.ConfigFiles;
 import com.thelongtravail.config.ConfigReloadCoordinator;
 import com.thelongtravail.event.TravailEvents;
 import com.thelongtravail.network.TravailNetwork;

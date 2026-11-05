@@ -809,12 +809,13 @@ public final class MaidCompatSmoke {
                             .getStacks()
                             .setStackInSlot(0, new ItemStack(ModRegistry.SWORD_AND_LANTERN.get()));
                 }
-                var oldDuration = com.thelongtravail.valley.SwordLanternConfig.DURATION.get();
-                com.thelongtravail.valley.SwordLanternConfig.DURATION.set(0.0);
+                var oldDuration = com.thelongtravail.config.SwordLanternConfig.DURATION.get();
+                com.thelongtravail.config.SwordLanternConfig.DURATION.set(0.0);
                 double base =
                         maid
                                 ? MaidLanternCombat.bonus(m, null)
-                                : com.thelongtravail.valley.SwordLanternState.bonus(p, null);
+                                : com.thelongtravail.valley.lantern.SwordLanternState.bonus(
+                                        p, null);
                 wearer.hurt(wearer.damageSources().mobAttack(enemy), 1);
                 level.getServer()
                         .getWorldData()
@@ -823,12 +824,13 @@ public final class MaidCompatSmoke {
                 double after =
                         maid
                                 ? MaidLanternCombat.bonus(m, null)
-                                : com.thelongtravail.valley.SwordLanternState.bonus(p, null);
+                                : com.thelongtravail.valley.lantern.SwordLanternState.bonus(
+                                        p, null);
                 near(
                         after - base,
-                        com.thelongtravail.valley.SwordLanternConfig.PROLONGED_BONUS.get(),
+                        com.thelongtravail.config.SwordLanternConfig.PROLONGED_BONUS.get(),
                         "canceled attack starts lantern combat maid=" + maid);
-                com.thelongtravail.valley.SwordLanternConfig.DURATION.set(oldDuration);
+                com.thelongtravail.config.SwordLanternConfig.DURATION.set(oldDuration);
                 if (maid) equip(m);
                 else
                     inv.getStacksHandler("belt")
@@ -935,7 +937,8 @@ public final class MaidCompatSmoke {
             var slots = maid.getMaidBauble();
             if (step == 0)
                 slots.setStackInSlot(0, new ItemStack(ModRegistry.SWORD_AND_LANTERN.get()));
-            if (step == 1) com.thelongtravail.valley.LanternSources.toggle(slots.getStackInSlot(0));
+            if (step == 1)
+                com.thelongtravail.valley.lantern.LanternSources.toggle(slots.getStackInSlot(0));
             if (step == 2) {
                 slots.setStackInSlot(2, slots.getStackInSlot(0).copy());
                 slots.setStackInSlot(0, ItemStack.EMPTY);
@@ -2248,7 +2251,7 @@ public final class MaidCompatSmoke {
             diaryBefore = diary.copy();
             p.getInventory().add(new ItemStack(ModRegistry.EKI.get()));
             check(
-                    com.thelongtravail.abyss.RainState.carrying(p),
+                    com.thelongtravail.abyss.rain.RainState.carrying(p),
                     "player Eki inventory carry retained");
             // 配花战斗入口、数据刷新、去重与清理。
             equip(other);
@@ -2493,7 +2496,8 @@ public final class MaidCompatSmoke {
             MaidAccessoryRuntime.tick(m);
             check(!m.hasEffect(MobEffects.DARKNESS), "lantern cleans existing darkness");
             check(MaidIntegration.lantern(m), "native maid lamp active");
-            com.thelongtravail.valley.LanternSources.toggle(m.getMaidBauble().getStackInSlot(0));
+            com.thelongtravail.valley.lantern.LanternSources.toggle(
+                    m.getMaidBauble().getStackInSlot(0));
             check(!MaidIntegration.lantern(m), "lamp honors existing disabled NBT");
             m.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100));
             check(!m.hasEffect(MobEffects.BLINDNESS), "lantern blocks blindness");

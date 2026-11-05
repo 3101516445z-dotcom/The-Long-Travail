@@ -163,13 +163,14 @@ public class LongTravailItem extends Item implements ICurioItem {
                                         .withStyle(
                                                 style ->
                                                         style.withColor(
-                                                                com.thelongtravail.abyss
+                                                                com.thelongtravail.abyss.rain
                                                                         .RainTooltips
                                                                         .ACCENT_COLOR)))
                         .withStyle(
                                 style ->
                                         style.withColor(
-                                                com.thelongtravail.abyss.RainTooltips.BODY_COLOR)));
+                                                com.thelongtravail.abyss.rain.RainTooltips
+                                                        .BODY_COLOR)));
         boolean witnessed = DiaryEquipmentRules.hasAllWitnesses(stack);
         int bodyColor = witnessed ? 0x809FB5 : 0xB87568;
         String state = witnessed ? "complete" : "bound";

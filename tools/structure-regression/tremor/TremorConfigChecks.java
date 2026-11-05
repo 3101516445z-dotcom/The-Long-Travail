@@ -1,12 +1,15 @@
 package travail.smoke;
 
+import com.thelongtravail.config.storage.ConfigFileIO;
+import com.thelongtravail.config.storage.ConfigRecovery;
+
 import com.thelongtravail.config.*;
 
 import java.nio.file.*;
 import java.util.*;
 import net.minecraftforge.fml.config.ConfigTracker;
 
-/** 只在隔离测试服务器中操作实际托管配置。 */
+// 只在隔离测试服务器中操作实际托管配置。
 public final class TremorConfigChecks {
     private static int checks;
     private static final String KEY = "items.high_frequency_tremor.witnessBreakBlacklist";
@@ -23,7 +26,7 @@ public final class TremorConfigChecks {
         var reload = managed.getClass().getDeclaredMethod("reload");
         reload.setAccessible(true);
         var prepare =
-                Class.forName("com.thelongtravail.config.ConfigRecovery")
+                Class.forName("com.thelongtravail.config.storage.ConfigRecovery")
                         .getDeclaredMethod(
                                 "prepare",
                                 Path.class,
