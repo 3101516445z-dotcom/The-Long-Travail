@@ -36,7 +36,7 @@
   "gui.the_long_travail.catalog.floral.bud.0": "以「永生芽」與一件可賦予之耐久物品無序合成，可修滿其耐久，賦「恆久長青」之記，使之不再損耗耐久。",
   "gui.the_long_travail.catalog.floral.bud.1": "每次合成耗1個永生芽，已有此記者不可再賦。",
   "gui.the_long_travail.catalog.floral.bud.2": "除修耐久、添標記外，原物名稱、附魔及其他資料皆留。",
-  "gui.the_long_travail.catalog.floral.bud.3": "永生芽落地，防火、防岩漿、防爆，亦不自然消失。",
+  "gui.the_long_travail.catalog.floral.bud.3": "永生芽落地，防火、防岩漿、防爆、防仙人掌，亦不自然消失。",
   "gui.the_long_travail.catalog.floral.bud.blacklist": "下列物品不可新賦，既有標記不受影響：",
   "gui.the_long_travail.catalog.floral.flower.dandelion": "食物所復飽食度增%s%%，飽和度增%s%%",
   "gui.the_long_travail.catalog.floral.flower.poppy": "獲%s%%傷害加成",
@@ -80,7 +80,7 @@
   "gui.the_long_travail.catalog.glossary.flower_repeat.body": "追加之傷，與觸發時實際傷害等量。\n下列任一條成立，未發之追加傷害即止：\n- 佩者卸苦旅或無窮花；\n- 佩者不再有繁茂之見證；\n- 佩者或目標死亡、離已載入區域，或離此次傷害發生之維度。",
   "gui.the_long_travail.catalog.glossary.evergreen.title": "恆久長青",
   "gui.the_long_travail.catalog.glossary.evergreen.aliases": "恆久長青",
-  "gui.the_long_travail.catalog.glossary.evergreen.body": "有此標記之物：\n- 不損耗耐久；\n- 不因單次耐久消耗過高而毀；\n- 落地則防火、防岩漿、防爆；\n- 落地不自然消失。\n合成、放置及使用之消耗不受保護。\n若墜虛空，仍不可尋回。",
+  "gui.the_long_travail.catalog.glossary.evergreen.body": "有此標記之物：\n- 不損耗耐久；\n- 不因單次耐久消耗過高而毀；\n- 落地則防火、防岩漿、防爆、防仙人掌；\n- 落地不自然消失。\n合成、放置及使用之消耗不受保護。\n若墜虛空，仍不可尋回。",
   "gui.the_long_travail.catalog.glossary.growth.every_second": "促植物自然生長。\n每秒至多予各株1次額外自然生長之機，仍須合其自身生長條件。",
   "gui.the_long_travail.catalog.floral.bud.separator": "、"
 }

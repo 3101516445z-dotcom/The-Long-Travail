@@ -18,11 +18,11 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "d5d30dbe0e9fbd2ddc46c28c5c00a25701cf3a3bea6c8fdacaf2bf641ae4e29e",
+  "fingerprint": "6b3b6de66c855e0d43c6eca78309596aec060744827fdb12f1e2266093837cf4",
   "files": [
     {
       "path": "build.gradle",
-      "sha256": "4027bc30e08ffa2d8802c43876cd701e8fdbe735f2b828a43c6cf79285bb01b9"
+      "sha256": "715be58006a8f33ad62dac54b9e3bf118b90f38a5ec9b2a2f604d4576c9cccb9"
     },
     {
       "path": "gradle.properties",
@@ -114,7 +114,7 @@
     },
     {
       "path": "src/main/lang/en_us/catalog_floral.json",
-      "sha256": "2fc32d951b9eb3b5876da6c7cd60469819854741ccaffdf849b9ef3588732ed9"
+      "sha256": "4bf374846fd1ec6848e80c05054e0e160955cebe8af25f93c2366e1f6f1e8c6e"
     },
     {
       "path": "src/main/lang/en_us/catalog_underworld.json",
@@ -126,7 +126,7 @@
     },
     {
       "path": "src/main/lang/en_us/common.json",
-      "sha256": "052974771600aa7a2d8b90cef486623009860414c5f191e1d2596270c5116d23"
+      "sha256": "e682a69315cbdf9b8e1067ccced75a3a0ef2fe9340c3332eb7bb6b78dc5d8cc1"
     },
     {
       "path": "src/main/lang/en_us/compatibility.json",
@@ -186,7 +186,7 @@
     },
     {
       "path": "src/main/lang/lzh/catalog_floral.json",
-      "sha256": "5fb2d3bf958dc5db8f09f95e8f5fae13d5f8db92eafaa6a322305af7dbccb02f"
+      "sha256": "3610aa1495eec1f4797a44caaee3e982dfea7d62e90520c9d3fe557464ef3b6c"
     },
     {
       "path": "src/main/lang/lzh/catalog_underworld.json",
@@ -198,7 +198,7 @@
     },
     {
       "path": "src/main/lang/lzh/common.json",
-      "sha256": "32e0807c8827fd0f5520ebe44a458ee20b57536d4e62587491da52cdbaecbcc3"
+      "sha256": "388181b1818cfca49f12a6c48e1744053d3f20e2fb0b7c6a78a1630c89ebc5ef"
     },
     {
       "path": "src/main/lang/lzh/compatibility.json",
@@ -254,7 +254,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/catalog_floral.json",
-      "sha256": "beea89ab41fb21b95da37db80d5be40e730f0fda7cd81b471dde011af769383f"
+      "sha256": "6809c8792ea511e674af1d03d0dccd5b16f5d9ab4323d13488abd9afb6329fe9"
     },
     {
       "path": "src/main/lang/zh_cn/catalog_underworld.json",
@@ -266,7 +266,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/common.json",
-      "sha256": "21189e2aef35495173e67f97f4a8292f8ff923efaaf2bfab5d45d0c48069ff71"
+      "sha256": "71f475ec3794669c79288cf22c233d68bde220146ad5fc680b1c81992baf3db9"
     },
     {
       "path": "src/main/lang/zh_cn/compatibility.json",
@@ -322,7 +322,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/catalog_floral.json",
-      "sha256": "17ebad2e02551f087e69cc0786041d0f0d8d85043e2e686e6dd4a0b8acecbb13"
+      "sha256": "586c1a4a0f70c30e722e9e06ad663d89bce46db3a4aef6af23ff5a8f3c980d8a"
     },
     {
       "path": "src/main/lang/zh_hk/catalog_underworld.json",
@@ -334,7 +334,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/common.json",
-      "sha256": "3fdd47d70b2a3723d6067fb91a9eb1e76092f90a8324a0a251690369c5f25086"
+      "sha256": "72e5a10ef30bcfb428e1a31a5abdd686f7a6978ea734f70f65960baf64a902f4"
     },
     {
       "path": "src/main/lang/zh_hk/compatibility.json",
@@ -390,7 +390,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/catalog_floral.json",
-      "sha256": "17ebad2e02551f087e69cc0786041d0f0d8d85043e2e686e6dd4a0b8acecbb13"
+      "sha256": "586c1a4a0f70c30e722e9e06ad663d89bce46db3a4aef6af23ff5a8f3c980d8a"
     },
     {
       "path": "src/main/lang/zh_tw/catalog_underworld.json",
@@ -402,7 +402,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/common.json",
-      "sha256": "3fdd47d70b2a3723d6067fb91a9eb1e76092f90a8324a0a251690369c5f25086"
+      "sha256": "72e5a10ef30bcfb428e1a31a5abdd686f7a6978ea734f70f65960baf64a902f4"
     },
     {
       "path": "src/main/lang/zh_tw/compatibility.json",
@@ -418,7 +418,7 @@
     },
     {
       "path": "src/main/resources/META-INF/mods.toml",
-      "sha256": "0cd4faf7ae8111618fb728f384b482823d6b099a3c01aadf2b26bff2b323f392"
+      "sha256": "e7486926384f84f0f5feb1b99b7b522b945e70cc1683c7f1b7170fd09a0b0fc4"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/blockstates/lantern_light.json",

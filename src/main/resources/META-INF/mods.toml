@@ -1,10 +1,10 @@
 modLoader="javafml"
 loaderVersion="[47,)"
-license="MPL-2.0"
+license="MIT"
 
 [[mods]]
 modId="the_long_travail"
-version="1.0.1"
+version="1.0.2"
 displayName="The Long Travail / 苦旅"
 authors="Phoebe_Real"
 description='''

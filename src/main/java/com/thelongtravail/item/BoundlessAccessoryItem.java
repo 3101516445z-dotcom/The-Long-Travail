@@ -10,11 +10,10 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 
 import top.theillusivec4.curios.api.SlotContext;
-import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import java.util.List;
 
-public final class BoundlessAccessoryItem extends Item implements ICurioItem {
+public final class BoundlessAccessoryItem extends Item implements UniversalAccessoryItem {
     public final boolean dream;
 
     public BoundlessAccessoryItem(boolean dream) {

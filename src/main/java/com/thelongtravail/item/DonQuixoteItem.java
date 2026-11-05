@@ -8,11 +8,10 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 
 import top.theillusivec4.curios.api.SlotContext;
-import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import java.util.List;
 
-public final class DonQuixoteItem extends Item implements ICurioItem, ItemDescription {
+public final class DonQuixoteItem extends Item implements UniversalAccessoryItem, ItemDescription {
     public DonQuixoteItem() {
         super(new Properties().stacksTo(1).rarity(Rarity.RARE));
     }

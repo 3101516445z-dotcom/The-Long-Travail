@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "method": "lexical-candidates-not-call-graph",
-  "sourceFingerprint": "bd809dcd32d52b64b25a5649de052632e66628a05a0af683c96bb9ec317325f9",
+  "sourceFingerprint": "51d61f36a016a2a53c309df18932f028e6a2bf056d73010e2a8c11f65bf64fbe",
   "files": [
     {
       "path": "src/main/java/com/thelongtravail/AspectTheme.java",
@@ -265,7 +265,7 @@
       "classification": "重点归类",
       "side": "服务端入口",
       "entry": "普通调用/待核对",
-      "sha256": "7dfb2838e6a4dd6e40328d051f058d2ac5c34f5c0a00b2d2cf9deb648ab7268b"
+      "sha256": "33943b85c5daf96b2c0263a06fbb68dd4fcac62ad013078b3d369c0f7eae0f80"
     },
     {
       "path": "src/main/java/com/thelongtravail/api/TimeStopApi.java",
@@ -397,7 +397,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Forge事件",
-      "sha256": "a5b1c45b43ade4401121b3fe19dad593657103c7e9c2405b3b752beaf96b95f0"
+      "sha256": "1aa56b2c585a765d4e5c491db385dd795c81028f86956e7e4f85f52795029c10"
     },
     {
       "path": "src/main/java/com/thelongtravail/boundless/dream/DreamLandingSearch.java",
@@ -889,7 +889,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "客户端职责",
       "entry": "普通调用/待核对",
-      "sha256": "db7731c2673606a3113f44cb55494239cd57cc010f28467877b1709f0907479d"
+      "sha256": "666be590c8274718923a7b07e3c810a4158a03adb86011349be3f0024228faba"
     },
     {
       "path": "src/main/java/com/thelongtravail/client/catalog/CatalogFlourishingDetails.java",
@@ -1537,7 +1537,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "62f671d11aed553d304c527313a341e2491d1cb8decc2995b904b5583538210b"
+      "sha256": "648eef15d58e0202273bbde06eb1b86acec365135ab516b88804fbeead4b47ed"
     },
     {
       "path": "src/main/java/com/thelongtravail/combat/DirectStrikeDamage.java",
@@ -2509,7 +2509,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "fa2cba98ee72e7ed33bbe3b22e6480c9a135d22ab1428c4f52f8c5f925d15333"
+      "sha256": "a3c833e7dca79dce52187aa52ef4c9a3bbefa9d18b74c8e32f82273538d91e39"
     },
     {
       "path": "src/main/java/com/thelongtravail/compat/jei/FloralRecipeDisplays.java",
@@ -2521,7 +2521,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "9247a0cc79dfa67a56a4f147780c1d9cc270621f7d86ef9338413da0326b1834"
+      "sha256": "02f6e0e76457460496f3ad6aba4ad0b923156df044cb2e906171de35c25b18cd"
     },
     {
       "path": "src/main/java/com/thelongtravail/compat/l2complements/L2ComplementsGoldenAgeDefaults.java",
@@ -3109,7 +3109,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "ef221c83e326464bd004765b2b0b888d9dc29131b155d7da37413bfad40d04cb"
+      "sha256": "3d90f76741d2e6857a26658c90723a3448ed25b5820e1455af3c60e02fcec414"
     },
     {
       "path": "src/main/java/com/thelongtravail/compat/sounds/WitnessSoundRule.java",
@@ -4297,7 +4297,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "Forge事件",
-      "sha256": "8b99409a3a4dc818990c199eda0d09b2eb954cc22bd7b330aa771cd962af00b5"
+      "sha256": "0ce2711feca40b897f376be97010aa229c1ad5dd7a3c03e7a21010ffad56748c"
     },
     {
       "path": "src/main/java/com/thelongtravail/flourishing/FloralCombat.java",
@@ -4429,7 +4429,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Forge事件",
-      "sha256": "cb78b597c93455163e1bf2de6d1199777992f82615856d392d6bbf901eb7d41f"
+      "sha256": "739e8ed5fa1cad4f244c3595af9f40c979d5db1ed78a192e70237d81965948e0"
     },
     {
       "path": "src/main/java/com/thelongtravail/flourishing/MistletoeTrades.java",
@@ -4537,7 +4537,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "712f810794db7fadccd723cdbfe5e4120d6e0da7bc5efbd9ff527cc76a44b73a"
+      "sha256": "730686a8b8dd088ca9d68de28c6235b208eb7cf2127f648c46fae90976e3f0ca"
     },
     {
       "path": "src/main/java/com/thelongtravail/item/AzraelItem.java",
@@ -4572,8 +4572,8 @@
       "role": "逍遥游与星之声佩戴入口",
       "classification": "重点归类",
       "side": "待按方法核对",
-      "entry": "Curios回调",
-      "sha256": "899bd50dd8a2cb9cd1e70af5f31149a8d21f975347627b5008ba75892ee3884e"
+      "entry": "普通调用/待核对",
+      "sha256": "0baf5e458126cec567cbde230d2d8e494ebd81807066c5633c324eec1fcccebd"
     },
     {
       "path": "src/main/java/com/thelongtravail/item/BoundlessRelicItem.java",
@@ -4585,7 +4585,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "Curios回调",
-      "sha256": "6df0c7e28cc3013e483699637073d8ce9828a7c3c9a02c952e729deaa7d3f586"
+      "sha256": "d1bbf01f02e72e00e5b5f6138a44b1f162a2b979cbd5f7a0be96ccb146090425"
     },
     {
       "path": "src/main/java/com/thelongtravail/item/ColoringItem.java",
@@ -4608,8 +4608,8 @@
       "role": "玩法入口",
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
-      "entry": "Curios回调",
-      "sha256": "4182d14d238fdcefd4b578f423a154e9d5ec90681d6405c08b982cac00f363b1"
+      "entry": "普通调用/待核对",
+      "sha256": "0fb891c393ae00191b0078298a97549336e5fc6af0595cb0457b53f05717baea"
     },
     {
       "path": "src/main/java/com/thelongtravail/item/EkiItem.java",
@@ -4632,8 +4632,8 @@
       "role": "玩法入口",
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
-      "entry": "Curios回调",
-      "sha256": "56f3e4f9d644f66eaf5ba8aad2ae57e0302bd8efc08856e01ec027c09a4256ab"
+      "entry": "普通调用/待核对",
+      "sha256": "73693d16a5818163549e8d1455cbda00d4a0a89ecedb96336e186a070935f8bc"
     },
     {
       "path": "src/main/java/com/thelongtravail/item/FarReachAccessoryItem.java",
@@ -4657,7 +4657,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Curios回调",
-      "sha256": "dd208982ea135b3da5dd3904bd0b64a94dde62651b10300e4f61823340d50c35"
+      "sha256": "7fdd3f974e63951b596d3530b0966e6a11e761da6d5b15d4185c889ea898f9b6"
     },
     {
       "path": "src/main/java/com/thelongtravail/item/HighFrequencyTremorItem.java",
@@ -4800,8 +4800,8 @@
       "role": "磷叶石佩戴与卸下对账入口",
       "classification": "重点归类",
       "side": "待按方法核对",
-      "entry": "Curios回调",
-      "sha256": "5e055bbb71da35a5c42c6e48a85f21730540ac213924a6478eca7e3212674907"
+      "entry": "普通调用/待核对",
+      "sha256": "32fbbf135f32f25b7afeeec083d61db95507baa572a87582cf498722d50c6bfd"
     },
     {
       "path": "src/main/java/com/thelongtravail/item/RenewalItem.java",
@@ -4910,6 +4910,18 @@
       "side": "待按方法核对",
       "entry": "Curios回调",
       "sha256": "e2f372942999298db5bae35e08cbd7f731cb6e669d6fd738414567d734df4a44"
+    },
+    {
+      "path": "src/main/java/com/thelongtravail/item/UniversalAccessoryItem.java",
+      "name": "UniversalAccessoryItem",
+      "pkg": "com.thelongtravail.item",
+      "type": "com.thelongtravail.item.UniversalAccessoryItem",
+      "module": "物品入口",
+      "role": "玩法入口",
+      "classification": "目录初分，待逐类复核",
+      "side": "待按方法核对",
+      "entry": "普通调用/待核对",
+      "sha256": "73ecc5aadf1e3418d39a9de12982ae71e50cd6d0a9014fb325ba862508d99282"
     },
     {
       "path": "src/main/java/com/thelongtravail/item/WayguideItem.java",
@@ -5257,7 +5269,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Mixin",
-      "sha256": "45526f73826c512176c63c08e83a7fd7b8721e0e6b46f1d5448392dc4745e445"
+      "sha256": "1aeb332d31a1841c13cc1e0c51700e4ca133146443132a1eda033bc2649d2771"
     },
     {
       "path": "src/main/java/com/thelongtravail/mixin/babel/BabelEndermanMixin.java",
@@ -5281,7 +5293,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Mixin",
-      "sha256": "a40f5c019ee6bbf0f7319aaff3361c95b479397146e24dcfd5917bcde082e875"
+      "sha256": "15b8d7ed4296c3d4b810f4acb2bafe375ddaaa4455ad73caa2c0324163c0bfd8"
     },
     {
       "path": "src/main/java/com/thelongtravail/mixin/babel/BabelMerchantAccess.java",
@@ -6793,7 +6805,7 @@
       "classification": "重点归类",
       "side": "待按方法核对",
       "entry": "Mixin",
-      "sha256": "b48ffc2b19a42fec9aca2f8ed98b14e079f374e4c75e105d637bdcde1ccad8c7"
+      "sha256": "c24cc046912c97fb778f4c1eb6678fe204a27a95c1f73f6ff207482737b9daf5"
     },
     {
       "path": "src/main/java/com/thelongtravail/mixin/underworld/DroppedItemIndexMixin.java",
@@ -7297,7 +7309,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "91c7d4b4c70bc541f6f05b0719f23d683e875c890371d0c5f21eaf596a947807"
+      "sha256": "47767a7410032ce3070d899faf90b8f881ea521048f49267a9512be407e2687a"
     },
     {
       "path": "src/main/java/com/thelongtravail/runtime/effects/EffectCopies.java",
@@ -7693,7 +7705,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "Forge事件",
-      "sha256": "ed64866be69cea67baba68c17d7d6a90095b233871a0f36d1b3c28300c5c65f6"
+      "sha256": "38b21b4c146f54c4275aeefd4d004ec6c1294f05bb7b9a13fbce4326d7741bd8"
     },
     {
       "path": "src/main/java/com/thelongtravail/valley/PlayerBlockBreaker.java",
@@ -7729,7 +7741,7 @@
       "classification": "目录初分，待逐类复核",
       "side": "待按方法核对",
       "entry": "普通调用/待核对",
-      "sha256": "eecaa42578657b639040f1c9069f24ebfc323d1abf76be69bfbdbb232ed9e1cf"
+      "sha256": "9f36e9363753b250f39338fe53bdbf032ba21138f0a50cce476c71a72d6b2c66"
     },
     {
       "path": "src/main/java/com/thelongtravail/valley/execution/AzraelExecution.java",
@@ -17566,7 +17578,7 @@
       "to": "com.thelongtravail.AspectTheme",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/item/BoundlessAccessoryItem.java",
-      "tokenLine": 27,
+      "tokenLine": 26,
       "basis": "explicit-import"
     },
     {
@@ -17574,7 +17586,7 @@
       "to": "com.thelongtravail.equipment.AccessoryEquipRules",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/item/BoundlessAccessoryItem.java",
-      "tokenLine": 34,
+      "tokenLine": 33,
       "basis": "explicit-import"
     },
     {
@@ -17582,7 +17594,7 @@
       "to": "com.thelongtravail.equipment.DependentAccessories",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/item/BoundlessAccessoryItem.java",
-      "tokenLine": 35,
+      "tokenLine": 34,
       "basis": "explicit-import"
     },
     {
@@ -17590,7 +17602,15 @@
       "to": "com.thelongtravail.item.ItemDescription",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/item/BoundlessAccessoryItem.java",
-      "tokenLine": 50,
+      "tokenLine": 49,
+      "basis": "same-package"
+    },
+    {
+      "from": "com.thelongtravail.item.BoundlessAccessoryItem",
+      "to": "com.thelongtravail.item.UniversalAccessoryItem",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/item/BoundlessAccessoryItem.java",
+      "tokenLine": 16,
       "basis": "same-package"
     },
     {
@@ -17654,7 +17674,7 @@
       "to": "com.thelongtravail.AspectTheme",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/item/DonQuixoteItem.java",
-      "tokenLine": 22,
+      "tokenLine": 21,
       "basis": "explicit-import"
     },
     {
@@ -17662,7 +17682,7 @@
       "to": "com.thelongtravail.equipment.AccessoryEquipRules",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/item/DonQuixoteItem.java",
-      "tokenLine": 27,
+      "tokenLine": 26,
       "basis": "explicit-import"
     },
     {
@@ -17670,7 +17690,7 @@
       "to": "com.thelongtravail.farreach.FarRelicText",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/item/DonQuixoteItem.java",
-      "tokenLine": 47,
+      "tokenLine": 46,
       "basis": "fully-qualified"
     },
     {
@@ -17678,7 +17698,15 @@
       "to": "com.thelongtravail.item.ItemDescription",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/item/DonQuixoteItem.java",
-      "tokenLine": 15,
+      "tokenLine": 14,
+      "basis": "same-package"
+    },
+    {
+      "from": "com.thelongtravail.item.DonQuixoteItem",
+      "to": "com.thelongtravail.item.UniversalAccessoryItem",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/item/DonQuixoteItem.java",
+      "tokenLine": 14,
       "basis": "same-package"
     },
     {
@@ -17710,7 +17738,7 @@
       "to": "com.thelongtravail.AspectTheme",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/item/EverlastingFlowerItem.java",
-      "tokenLine": 25,
+      "tokenLine": 24,
       "basis": "explicit-import"
     },
     {
@@ -17718,7 +17746,7 @@
       "to": "com.thelongtravail.equipment.AccessoryEquipRules",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/item/EverlastingFlowerItem.java",
-      "tokenLine": 30,
+      "tokenLine": 29,
       "basis": "explicit-import"
     },
     {
@@ -17726,7 +17754,7 @@
       "to": "com.thelongtravail.flourishing.EverlastingFlower",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/item/EverlastingFlowerItem.java",
-      "tokenLine": 45,
+      "tokenLine": 44,
       "basis": "explicit-import"
     },
     {
@@ -17734,7 +17762,15 @@
       "to": "com.thelongtravail.item.ItemDescription",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/item/EverlastingFlowerItem.java",
-      "tokenLine": 69,
+      "tokenLine": 68,
+      "basis": "same-package"
+    },
+    {
+      "from": "com.thelongtravail.item.EverlastingFlowerItem",
+      "to": "com.thelongtravail.item.UniversalAccessoryItem",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/item/EverlastingFlowerItem.java",
+      "tokenLine": 17,
       "basis": "same-package"
     },
     {
@@ -18260,6 +18296,14 @@
     {
       "from": "com.thelongtravail.item.PhosphophylliteItem",
       "to": "com.thelongtravail.item.ItemDescription",
+      "kind": "lexical-reference-candidate",
+      "evidence": "src/main/java/com/thelongtravail/item/PhosphophylliteItem.java",
+      "tokenLine": 16,
+      "basis": "same-package"
+    },
+    {
+      "from": "com.thelongtravail.item.PhosphophylliteItem",
+      "to": "com.thelongtravail.item.UniversalAccessoryItem",
       "kind": "lexical-reference-candidate",
       "evidence": "src/main/java/com/thelongtravail/item/PhosphophylliteItem.java",
       "tokenLine": 16,
