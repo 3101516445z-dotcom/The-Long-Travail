@@ -11,10 +11,11 @@ public interface UniversalAccessoryItem extends ICurioItem {
     @Override
     default List<Component> getSlotsTooltip(List<Component> tooltip, ItemStack stack) {
         return List.of(
-                Component.translatable(
-                                "tooltip.the_long_travail.universal_slot",
+                Component.translatable("curios.tooltip.slot")
+                        .append(" ")
+                        .withStyle(ChatFormatting.GOLD)
+                        .append(
                                 Component.translatable("tooltip.the_long_travail.universal_slot.name")
-                                        .withStyle(ChatFormatting.YELLOW))
-                        .withStyle(ChatFormatting.GOLD));
+                                        .withStyle(ChatFormatting.YELLOW)));
     }
 }
