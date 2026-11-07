@@ -1,5 +1,7 @@
 package com.thelongtravail.flourishing;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.config.FlourishingItemsConfig;
 import com.thelongtravail.mixin.effects.EffectDurationAccessor;
@@ -24,7 +26,7 @@ public final class FloralEvents {
     @SubscribeEvent(priority = net.minecraftforge.eventbus.api.EventPriority.HIGHEST)
     public static void interact(
             net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract e) {
-        if (e.getItemStack().is(com.thelongtravail.registry.ModRegistry.AFFECTION.get())
+        if (RegisteredItems.is(e.getItemStack(), com.thelongtravail.registry.ModRegistry.AFFECTION)
                 && e.getTarget() instanceof LivingEntity target) {
             e.setCancellationResult(Affection.bind(e.getItemStack(), e.getEntity(), target));
             e.setCanceled(true);
@@ -274,7 +276,9 @@ public final class FloralEvents {
                 for (ServerPlayer holder : dead.getServer().getPlayerList().getPlayers()) {
                     java.util.function.Consumer<ItemStack> clear =
                             s -> {
-                                if (s.is(com.thelongtravail.registry.ModRegistry.AFFECTION.get())
+                                if (RegisteredItems.is(
+                                                s,
+                                                com.thelongtravail.registry.ModRegistry.AFFECTION)
                                         && s.hasTag()
                                         && s.getTag().hasUUID(Affection.TARGET)
                                         && s.getTag()
@@ -285,14 +289,15 @@ public final class FloralEvents {
                         clear.accept(holder.getInventory().getItem(i));
                     for (int i = 0; i < holder.getEnderChestInventory().getContainerSize(); i++)
                         clear.accept(holder.getEnderChestInventory().getItem(i));
-                    top.theillusivec4.curios.api.CuriosApi.getCuriosInventory(holder)
-                            .ifPresent(
-                                    inv ->
-                                            inv.findCurios(
-                                                            com.thelongtravail.registry.ModRegistry
-                                                                    .AFFECTION
-                                                                    .get())
-                                                    .forEach(r -> clear.accept(r.stack())));
+                    if (com.thelongtravail.registry.ModRegistry.AFFECTION.isPresent())
+                        top.theillusivec4.curios.api.CuriosApi.getCuriosInventory(holder)
+                                .ifPresent(
+                                        inv ->
+                                                inv.findCurios(
+                                                                com.thelongtravail.registry
+                                                                        .ModRegistry.AFFECTION
+                                                                        .get())
+                                                        .forEach(r -> clear.accept(r.stack())));
                 }
             }
     }

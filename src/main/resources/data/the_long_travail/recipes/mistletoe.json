@@ -17,5 +17,11 @@
   "result": {
     "item": "the_long_travail:mistletoe",
     "count": 1
-  }
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "the_long_travail:mistletoe"
+    }
+  ]
 }

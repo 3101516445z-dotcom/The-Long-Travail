@@ -1,1 +1,9 @@
-{"replace":false,"values":["the_long_travail:icarus"]}
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "the_long_travail:icarus",
+      "required": false
+    }
+  ]
+}

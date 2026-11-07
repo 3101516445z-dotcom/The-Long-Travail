@@ -47,7 +47,7 @@ public final class ModRegistry {
                     "coloring",
                     () -> new MenuType<>(ColoringMenu::new, FeatureFlags.DEFAULT_FLAGS));
     public static final RegistryObject<Item> ANCIENT_STRANGE_TALES =
-            ITEMS.register(
+            themeItem(
                     "ancient_strange_tales", com.thelongtravail.item.AncientStrangeTalesItem::new);
 
     public static final RegistryObject<Item> COLORING =
@@ -61,20 +61,19 @@ public final class ModRegistry {
     public static final RegistryObject<Item> WAYGUIDE =
             ITEMS.register("wayguide", WayguideItem::new);
     public static final RegistryObject<Item> SPRING_CORNER =
-            ITEMS.register(
+            themeItem(
                     "spring_corner",
                     () -> new com.thelongtravail.item.FlourishingAccessoryItem(true));
     public static final RegistryObject<Item> MISTLETOE =
-            ITEMS.register("mistletoe", com.thelongtravail.item.MistletoeItem::new);
+            themeItem("mistletoe", com.thelongtravail.item.MistletoeItem::new);
     public static final RegistryObject<Item> EVERLASTING_FLOWER =
-            ITEMS.register(
-                    "everlasting_flower", com.thelongtravail.item.EverlastingFlowerItem::new);
+            themeItem("everlasting_flower", com.thelongtravail.item.EverlastingFlowerItem::new);
     public static final RegistryObject<Item> IMMORTAL_BUD =
-            ITEMS.register("immortal_bud", com.thelongtravail.item.ImmortalBudItem::new);
+            themeItem("immortal_bud", com.thelongtravail.item.ImmortalBudItem::new);
     public static final RegistryObject<MobEffect> MISTLETOE_EFFECT =
             EFFECTS.register("mistletoe", com.thelongtravail.effect.MistletoeEffect::new);
     public static final RegistryObject<Item> AFFECTION =
-            ITEMS.register(
+            themeItem(
                     "affection", () -> new com.thelongtravail.item.FlourishingAccessoryItem(false));
     private static final DeferredRegister<RecipeSerializer<?>> RECIPES =
             DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, TheLongTravail.MODID);
@@ -110,12 +109,11 @@ public final class ModRegistry {
                                             .SimpleCraftingRecipeSerializer<>(
                                             com.thelongtravail.flourishing.ImmortalBudRecipe::new));
     public static final RegistryObject<Item> LIQUEFIED_ABUNDANCE =
-            ITEMS.register(
-                    "liquefied_abundance", com.thelongtravail.item.LiquefiedAbundanceItem::new);
+            themeItem("liquefied_abundance", com.thelongtravail.item.LiquefiedAbundanceItem::new);
     public static final RegistryObject<Item> PERFECT_FLUID =
-            ITEMS.register("perfect_fluid", () -> new com.thelongtravail.item.AbyssItem(false));
+            themeItem("perfect_fluid", () -> new com.thelongtravail.item.AbyssItem(false));
     public static final RegistryObject<Item> MIDNIGHT_LAFITE =
-            ITEMS.register("midnight_lafite", com.thelongtravail.item.AbyssItem.Lafite::new);
+            themeItem("midnight_lafite", com.thelongtravail.item.AbyssItem.Lafite::new);
     public static final RegistryObject<
                     net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer<
                             com.thelongtravail.abyss.copy.PerfectFluidRecipe>>
@@ -127,16 +125,15 @@ public final class ModRegistry {
                                             .SimpleCraftingRecipeSerializer<>(
                                             com.thelongtravail.abyss.copy.PerfectFluidRecipe::new));
     public static final RegistryObject<Item> EKI =
-            ITEMS.register("eki", com.thelongtravail.item.EkiItem::new);
+            themeItem("eki", com.thelongtravail.item.EkiItem::new);
     public static final RegistryObject<Item> TOKAIDO =
-            ITEMS.register("tokaido", com.thelongtravail.item.TokaidoItem::new);
+            themeItem("tokaido", com.thelongtravail.item.TokaidoItem::new);
     public static final RegistryObject<Item> FREE_AND_EASY_WANDERING =
-            ITEMS.register(
+            themeItem(
                     "free_and_easy_wandering",
                     () -> new com.thelongtravail.item.BoundlessAccessoryItem(true));
     public static final RegistryObject<Item> LITTLE_PRINCE =
-            ITEMS.register(
-                    "little_prince", () -> new com.thelongtravail.item.BoundlessRelicItem(true));
+            themeItem("little_prince", () -> new com.thelongtravail.item.BoundlessRelicItem(true));
     public static final RegistryObject<
                     RecipeSerializer<
                             com.thelongtravail.boundless.transfer.EnchantmentTransferRecipe>>
@@ -151,36 +148,35 @@ public final class ModRegistry {
                                                     ::new));
 
     public static final RegistryObject<Item> LORENTZ_FANTASY =
-            ITEMS.register(
+            themeItem(
                     "lorentz_fantasy", () -> new com.thelongtravail.item.BoundlessRelicItem(false));
     public static final RegistryObject<Item> STAR_VOICE =
-            ITEMS.register(
+            themeItem(
                     "star_voice", () -> new com.thelongtravail.item.BoundlessAccessoryItem(false));
     public static final RegistryObject<Item> SWORD_AND_LANTERN =
-            ITEMS.register("sword_and_lantern", com.thelongtravail.item.SwordLanternItem::new);
+            themeItem("sword_and_lantern", com.thelongtravail.item.SwordLanternItem::new);
     public static final RegistryObject<Item> THOUSAND_YEARS =
-            ITEMS.register(
+            themeItem(
                     "a_thousand_years_later",
                     () -> new com.thelongtravail.item.UnderworldAccessoryItem(true));
     public static final RegistryObject<Item> BOOK_OF_DEAD =
-            ITEMS.register(
+            themeItem(
                     "book_of_the_dead",
                     () -> new com.thelongtravail.item.UnderworldAccessoryItem(false));
     public static final RegistryObject<Item> DEMON_KING =
-            ITEMS.register(
+            themeItem(
                     "demon_king_of_the_sixth_heaven",
                     () -> new com.thelongtravail.item.UnderworldRelicItem(false));
     public static final RegistryObject<Item> SOUL_BANNER =
-            ITEMS.register(
+            themeItem(
                     "myriad_souls_banner",
                     () -> new com.thelongtravail.item.UnderworldRelicItem(true));
     public static final RegistryObject<Item> PHOSPHOPHYLLITE =
-            ITEMS.register("phosphophyllite", com.thelongtravail.item.PhosphophylliteItem::new);
+            themeItem("phosphophyllite", com.thelongtravail.item.PhosphophylliteItem::new);
     public static final RegistryObject<Item> UNDERGROUND_VELVET =
-            ITEMS.register(
-                    "underground_velvet", com.thelongtravail.item.UndergroundVelvetItem::new);
+            themeItem("underground_velvet", com.thelongtravail.item.UndergroundVelvetItem::new);
     public static final RegistryObject<Item> HIGH_FREQUENCY_TREMOR =
-            ITEMS.register(
+            themeItem(
                     "high_frequency_tremor", com.thelongtravail.item.HighFrequencyTremorItem::new);
     public static final RegistryObject<
                     RecipeSerializer<com.thelongtravail.valley.NbtInheritingShapedRecipe>>
@@ -189,21 +185,19 @@ public final class ModRegistry {
                             "nbt_inheriting_shaped",
                             com.thelongtravail.valley.NbtInheritingShapedRecipe.Serializer::new);
     public static final RegistryObject<Item> AZRAEL =
-            ITEMS.register("azrael", com.thelongtravail.item.AzraelItem::new);
+            themeItem("azrael", com.thelongtravail.item.AzraelItem::new);
     public static final RegistryObject<Item> DON_QUIXOTE =
-            ITEMS.register("don_quixote", com.thelongtravail.item.DonQuixoteItem::new);
+            themeItem("don_quixote", com.thelongtravail.item.DonQuixoteItem::new);
     public static final RegistryObject<Item> TOWER_OF_BABEL =
-            ITEMS.register("tower_of_babel", com.thelongtravail.item.BabelItem::new);
+            themeItem("tower_of_babel", com.thelongtravail.item.BabelItem::new);
     public static final RegistryObject<Item> GOLDEN_AGE =
-            ITEMS.register(
-                    "golden_age", () -> new com.thelongtravail.item.FarReachAccessoryItem(true));
+            themeItem("golden_age", () -> new com.thelongtravail.item.FarReachAccessoryItem(true));
     public static final RegistryObject<Item> SUN_CHASER =
-            ITEMS.register("sun_chaser", com.thelongtravail.item.SunChaserItem::new);
+            themeItem("sun_chaser", com.thelongtravail.item.SunChaserItem::new);
     public static final RegistryObject<Item> KAGOTSURUBE =
-            ITEMS.register("kagotsurube", com.thelongtravail.item.KagotsurubeItem::new);
+            themeItem("kagotsurube", com.thelongtravail.item.KagotsurubeItem::new);
     public static final RegistryObject<Item> ICARUS =
-            ITEMS.register(
-                    "icarus", () -> new com.thelongtravail.item.FarReachAccessoryItem(false));
+            themeItem("icarus", () -> new com.thelongtravail.item.FarReachAccessoryItem(false));
     public static final RegistryObject<EntityType<WayguideEntity>> WAYGUIDE_ENTITY =
             ENTITIES.register(
                     "wayguide",
@@ -304,10 +298,22 @@ public final class ModRegistry {
                                                                                 ANCIENT_STRANGE_TALES);
                                                             };
                                                     items.forEach(
-                                                            item -> output.accept(item.get()));
+                                                            item -> {
+                                                                if (item.isPresent())
+                                                                    output.accept(item.get());
+                                                            });
                                                 }
                                             })
                                     .build());
+
+    private static RegistryObject<Item> themeItem(
+            String id, java.util.function.Supplier<Item> factory) {
+        return com.thelongtravail.config.ItemRegistrationConfig.enabled(id)
+                ? ITEMS.register(id, factory)
+                : RegistryObject.create(
+                        new net.minecraft.resources.ResourceLocation(TheLongTravail.MODID, id),
+                        ForgeRegistries.ITEMS);
+    }
 
     public static void register(IEventBus bus) {
         ModAttributes.register(bus);

@@ -1,7 +1,13 @@
 {
   "replace": false,
   "values": [
-    "the_long_travail:sword_and_lantern",
-    "the_long_travail:kagotsurube"
+    {
+      "id": "the_long_travail:sword_and_lantern",
+      "required": false
+    },
+    {
+      "id": "the_long_travail:kagotsurube",
+      "required": false
+    }
   ]
 }

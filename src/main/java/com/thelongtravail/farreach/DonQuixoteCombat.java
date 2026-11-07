@@ -37,7 +37,7 @@ public final class DonQuixoteCombat {
     public static boolean equipped(ServerPlayer p) {
         return p.isAlive()
                 && !p.isSpectator()
-                && CurioLookup.hasFunctional(p, ModRegistry.DON_QUIXOTE.get());
+                && CurioLookup.hasFunctional(p, ModRegistry.DON_QUIXOTE);
     }
 
     public static boolean equipped(LivingEntity e) {

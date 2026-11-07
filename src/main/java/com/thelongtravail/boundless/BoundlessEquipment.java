@@ -10,8 +10,7 @@ public final class BoundlessEquipment {
     public static boolean equipped(Player p, boolean dream) {
         if (!dream && TravailCurios.stack(p).isEmpty()) return false;
         return CurioLookup.hasFunctional(
-                p,
-                dream ? ModRegistry.FREE_AND_EASY_WANDERING.get() : ModRegistry.STAR_VOICE.get());
+                p, dream ? ModRegistry.FREE_AND_EASY_WANDERING : ModRegistry.STAR_VOICE);
     }
 
     private BoundlessEquipment() {}

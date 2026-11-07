@@ -1,7 +1,13 @@
 {
   "replace": false,
   "values": [
-    "the_long_travail:spring_corner",
-    "the_long_travail:azrael"
+    {
+      "id": "the_long_travail:spring_corner",
+      "required": false
+    },
+    {
+      "id": "the_long_travail:azrael",
+      "required": false
+    }
   ]
 }

@@ -1,5 +1,7 @@
 package com.thelongtravail.flourishing;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.thelongtravail.registry.ModRegistry;
 
 import net.minecraft.core.NonNullList;
@@ -23,7 +25,7 @@ public final class ImmortalBudRecipe extends CustomRecipe {
         for (int i = 0; i < grid.getContainerSize(); i++) {
             ItemStack stack = grid.getItem(i);
             if (stack.isEmpty()) continue;
-            if (stack.is(ModRegistry.IMMORTAL_BUD.get())) {
+            if (RegisteredItems.is(stack, ModRegistry.IMMORTAL_BUD)) {
                 if (bud) return ItemStack.EMPTY;
                 bud = true;
             } else {
@@ -57,7 +59,7 @@ public final class ImmortalBudRecipe extends CustomRecipe {
     private static void report(CraftingContainer grid, RuntimeException failure) {
         for (int slot = 0; slot < grid.getContainerSize(); slot++) {
             ItemStack stack = grid.getItem(slot);
-            if (stack.isEmpty() || stack.is(ModRegistry.IMMORTAL_BUD.get())) continue;
+            if (stack.isEmpty() || RegisteredItems.is(stack, ModRegistry.IMMORTAL_BUD)) continue;
             com.thelongtravail.common.RuntimeFailures.report(
                     "immortal bud target "
                             + net.minecraftforge.registries.ForgeRegistries.ITEMS.getKey(

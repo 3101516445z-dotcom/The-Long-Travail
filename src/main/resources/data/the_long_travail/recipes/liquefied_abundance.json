@@ -33,5 +33,11 @@
   "result": {
     "item": "the_long_travail:liquefied_abundance",
     "count": 6
-  }
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "the_long_travail:liquefied_abundance"
+    }
+  ]
 }

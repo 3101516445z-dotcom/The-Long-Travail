@@ -1,5 +1,7 @@
 package com.thelongtravail.loot;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.registry.ModRegistry;
 
@@ -16,6 +18,7 @@ public final class ArchaeologyTrades {
     public static final VillagerTrades.ItemListing FLETCHER = (entity, random) -> sunOffer();
 
     private static MerchantOffer sunOffer() {
+        if (!ModRegistry.ICARUS.isPresent() || !ModRegistry.SUN_CHASER.isPresent()) return null;
         return new MerchantOffer(
                 new ItemStack(ModRegistry.ICARUS.get()),
                 new ItemStack(
@@ -36,6 +39,8 @@ public final class ArchaeologyTrades {
     }
 
     private static MerchantOffer offer(boolean shepherd) {
+        if (!(shepherd ? ModRegistry.DON_QUIXOTE : ModRegistry.PHOSPHOPHYLLITE).isPresent())
+            return null;
         return new MerchantOffer(
                 shepherd ? new ItemStack(Items.SHIELD) : new ItemStack(Items.LAPIS_LAZULI, 64),
                 new ItemStack(shepherd ? Items.NETHERITE_SWORD : Items.GREEN_DYE),
@@ -49,12 +54,17 @@ public final class ArchaeologyTrades {
     public static void register(VillagerTradesEvent event) {
         var profession = event.getType();
         if (profession == VillagerProfession.FLETCHER) {
+            if (!ModRegistry.ICARUS.isPresent() || !ModRegistry.SUN_CHASER.isPresent()) return;
             if (!event.getTrades().get(5).contains(FLETCHER))
                 event.getTrades().get(5).add(FLETCHER);
             return;
         }
         if (profession != VillagerProfession.SHEPHERD && profession != VillagerProfession.MASON)
             return;
+        if (!(profession == VillagerProfession.SHEPHERD
+                        ? ModRegistry.DON_QUIXOTE
+                        : ModRegistry.PHOSPHOPHYLLITE)
+                .isPresent()) return;
         var listing = profession == VillagerProfession.SHEPHERD ? SHEPHERD : MASON;
         if (!event.getTrades().get(5).contains(listing)) event.getTrades().get(5).add(listing);
     }
@@ -77,10 +87,11 @@ public final class ArchaeologyTrades {
     public static void ensure(Villager villager, MerchantOffers offers) {
         if (villager.level().isClientSide || !eligible(villager)) return;
         if (villager.getVillagerData().getProfession() == VillagerProfession.FLETCHER) {
+            if (!ModRegistry.ICARUS.isPresent() || !ModRegistry.SUN_CHASER.isPresent()) return;
             boolean found = false;
             for (var iterator = offers.iterator(); iterator.hasNext(); ) {
                 var offer = iterator.next();
-                if (!offer.getResult().is(ModRegistry.SUN_CHASER.get())) continue;
+                if (!RegisteredItems.is(offer.getResult(), ModRegistry.SUN_CHASER)) continue;
                 if (found) iterator.remove();
                 else found = true;
             }
@@ -89,6 +100,7 @@ public final class ArchaeologyTrades {
         }
         boolean shepherd =
                 villager.getVillagerData().getProfession() == VillagerProfession.SHEPHERD;
+        if (!(shepherd ? ModRegistry.DON_QUIXOTE : ModRegistry.PHOSPHOPHYLLITE).isPresent()) return;
         boolean found = false;
         for (var iterator = offers.listIterator(); iterator.hasNext(); ) {
             var current = iterator.next();
@@ -114,8 +126,8 @@ public final class ArchaeologyTrades {
     }
 
     public static boolean fixed(MerchantOffer offer) {
-        return (offer.getResult().is(ModRegistry.SUN_CHASER.get())
-                        && offer.getBaseCostA().is(ModRegistry.ICARUS.get())
+        return (RegisteredItems.is(offer.getResult(), ModRegistry.SUN_CHASER)
+                        && RegisteredItems.is(offer.getBaseCostA(), ModRegistry.ICARUS)
                         && offer.getBaseCostA().getCount() == 1
                         && offer.getCostB()
                                 .is(
@@ -125,12 +137,12 @@ public final class ArchaeologyTrades {
                                                                 .ordinal())
                                                 .get())
                         && offer.getCostB().getCount() == 1)
-                || (offer.getResult().is(ModRegistry.DON_QUIXOTE.get())
+                || (RegisteredItems.is(offer.getResult(), ModRegistry.DON_QUIXOTE)
                         && offer.getBaseCostA().is(Items.SHIELD)
                         && offer.getBaseCostA().getCount() == 1
                         && offer.getCostB().is(Items.NETHERITE_SWORD)
                         && offer.getCostB().getCount() == 1)
-                || (offer.getResult().is(ModRegistry.PHOSPHOPHYLLITE.get())
+                || (RegisteredItems.is(offer.getResult(), ModRegistry.PHOSPHOPHYLLITE)
                         && offer.getBaseCostA().is(Items.LAPIS_LAZULI)
                         && offer.getBaseCostA().getCount() == 64
                         && offer.getCostB().is(Items.GREEN_DYE)

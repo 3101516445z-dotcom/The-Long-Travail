@@ -23,5 +23,11 @@
   "result": {
     "item": "the_long_travail:golden_age",
     "count": 1
-  }
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "the_long_travail:golden_age"
+    }
+  ]
 }

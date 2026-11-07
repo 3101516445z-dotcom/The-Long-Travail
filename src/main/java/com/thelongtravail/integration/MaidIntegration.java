@@ -12,6 +12,12 @@ import java.util.*;
 
 // 主体只使用原版类型；默认行为保留无女仆时的查询、伤害和玩家 PVP 语义。
 public final class MaidIntegration {
+    public static boolean equipped(
+            LivingEntity entity,
+            net.minecraftforge.registries.RegistryObject<net.minecraft.world.item.Item> item) {
+        return item.isPresent() && equipped(entity, item.get());
+    }
+
     public interface Equipment {
         default boolean equipped(LivingEntity entity, Item item) {
             return false;

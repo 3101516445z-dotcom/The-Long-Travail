@@ -18,11 +18,11 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "6b3b6de66c855e0d43c6eca78309596aec060744827fdb12f1e2266093837cf4",
+  "fingerprint": "421c35257db8345e7f0a510ab3df923364eb055f5ae186ec7e91c4fba9fb13c1",
   "files": [
     {
       "path": "build.gradle",
-      "sha256": "715be58006a8f33ad62dac54b9e3bf118b90f38a5ec9b2a2f604d4576c9cccb9"
+      "sha256": "34cfb9b4dcdfc10962e6d388cf4b7c0b205cc8dbc61b91f341b1193c5a3f3d5f"
     },
     {
       "path": "gradle.properties",
@@ -418,7 +418,7 @@
     },
     {
       "path": "src/main/resources/META-INF/mods.toml",
-      "sha256": "e7486926384f84f0f5feb1b99b7b522b945e70cc1683c7f1b7170fd09a0b0fc4"
+      "sha256": "60fa7580e1c7e0b5fd8df128f983412640c90fc2ad19895bc43cc49a7b7bfe06"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/blockstates/lantern_light.json",
@@ -426,11 +426,11 @@
     },
     {
       "path": "src/main/resources/assets/the_long_travail/config/configuration-guide.en_us.txt",
-      "sha256": "8da376ecc1962b14501a2dce90baa66709c274ddf1b986469b4df29e04b2f128"
+      "sha256": "3b724c78321bb38dd6fc285c3a365ed8a4fec11ab54a28ca255c4d9c7001828e"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/config/configuration-guide.zh_cn.txt",
-      "sha256": "d7d1a617d52c890f5a03d384e23c1b90f40ce863e248bbf97fe267e415c2f027"
+      "sha256": "2f433061bc5ac4944563e50a8299fff5ff759e901a53198f9104ea5a7f01c52c"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/models/block/lantern_light.json",
@@ -874,39 +874,39 @@
     },
     {
       "path": "src/main/resources/data/curios/tags/items/back.json",
-      "sha256": "f77acc5206fb17edc0ba166c5385d372bc8d22d6613a7f7e3b78015e39c59a5e"
+      "sha256": "2060a1dbee50f64699a54e7d2f9fb7f604f0e8f99e9e5c1bd48a713a9957ee16"
     },
     {
       "path": "src/main/resources/data/curios/tags/items/belt.json",
-      "sha256": "aa6d0edb4f1bf30f10c256afd44cb3109d3f9a23baae001c4deab1cf2e8cfd0e"
+      "sha256": "04220bb4177877fe7e7fee42f4beb443fa32de6f2a7c21a93adc09fefd10b7b7"
     },
     {
       "path": "src/main/resources/data/curios/tags/items/body.json",
-      "sha256": "9f918eb9dd5369ef15d00d7b8fcfe94d6e47b9af99eca16f25825e022abfaacf"
+      "sha256": "6988246c2eca63faf180035726e7bc1dbd3eb3cf1fab7704f34d64ef7139943a"
     },
     {
       "path": "src/main/resources/data/curios/tags/items/bracelet.json",
-      "sha256": "e8a88c518351dca9a2c9a7e8019fdd25090a6ad044fd0eaf5858b3da9de1e09a"
+      "sha256": "0a2d425242dfd7a2abb4df24aced319e180b8b475440c58ebeba6d021dc339d9"
     },
     {
       "path": "src/main/resources/data/curios/tags/items/charm.json",
-      "sha256": "4726cd09c4d45cf3f11e0295006c84294b267b7c7e676a2aa3bfc1cd2f1ae365"
+      "sha256": "46f7d3c04fbf58e1461b3fe1e418c745c0ff5df357c02251adc1240850cfb3e1"
     },
     {
       "path": "src/main/resources/data/curios/tags/items/curio.json",
-      "sha256": "f8322d74a46e40624f52d734860a8fea47ce1d6b58381522ec684ca2f8928be2"
+      "sha256": "8e766e23ff056998c565cb3e4e9f20af7dc8e2c238e28a104d7245cbd1d40bcd"
     },
     {
       "path": "src/main/resources/data/curios/tags/items/feet.json",
-      "sha256": "83906ae1fd8a036beaee6c7ddd6ce3cef3f2884c92a7b4fcaaa41a34de85a502"
+      "sha256": "15b737ddc8f3e2178ecfb3b714cce8549a384af017f3ead98970848558cda0bb"
     },
     {
       "path": "src/main/resources/data/curios/tags/items/hands.json",
-      "sha256": "ccc17864dd4e95107715a0c7b461a8e5756b145862d464a50d539bf92874b9de"
+      "sha256": "0df2c54e0e82fa0a9c65501a28bdcf81ecb36c68887a8fbb4cd5e31b609a11d7"
     },
     {
       "path": "src/main/resources/data/curios/tags/items/head.json",
-      "sha256": "67721cc39c1c7a39fe9ad046d900fa91c4dd7a09169a7f96b43a68b49a46254b"
+      "sha256": "8d93a445b2f0245352f5ce871a89d62096049db25a1b41899041304b2303c46b"
     },
     {
       "path": "src/main/resources/data/curios/tags/items/necklace.json",
@@ -914,7 +914,7 @@
     },
     {
       "path": "src/main/resources/data/curios/tags/items/ring.json",
-      "sha256": "cef1716050f7f2722cdaa3bb6a6024768da99abbb02b48bcd20970623e1ffa80"
+      "sha256": "d375be2963c680645486826cb057cb98644a6da10f14664812df61770482bad8"
     },
     {
       "path": "src/main/resources/data/curios/tags/items/travel_diary.json",
@@ -926,7 +926,7 @@
     },
     {
       "path": "src/main/resources/data/forge/tags/items/tools/pickaxes.json",
-      "sha256": "08ca1c831051a6c84a3a759b69442463b002f62051535ead875829375646dd65"
+      "sha256": "f969b60ebb57d5185165746dbc8f4502950494e1505690678b37caaae7090920"
     },
     {
       "path": "src/main/resources/data/minecraft/tags/damage_type/bypasses_armor.json",
@@ -966,11 +966,11 @@
     },
     {
       "path": "src/main/resources/data/minecraft/tags/items/bookshelf_books.json",
-      "sha256": "7061eefc889bc43fc44c9a3bff7a12ad8e33ceb0f91230b8e1f96672cf528807"
+      "sha256": "195302f48325dea176631784552e8fed16a7097b47590cb51d1c9f5c7b6e31d5"
     },
     {
       "path": "src/main/resources/data/minecraft/tags/items/pickaxes.json",
-      "sha256": "08ca1c831051a6c84a3a759b69442463b002f62051535ead875829375646dd65"
+      "sha256": "f969b60ebb57d5185165746dbc8f4502950494e1505690678b37caaae7090920"
     },
     {
       "path": "src/main/resources/data/the_long_travail/advancements/recipes/coloring.json",
@@ -978,19 +978,19 @@
     },
     {
       "path": "src/main/resources/data/the_long_travail/advancements/recipes/misc/ancient_strange_tales.json",
-      "sha256": "aa96783f7b7b33fd0a9d614e3e393c5852b3521d0f39b6efae013558a0e4d67c"
+      "sha256": "2dd9f9666281dd2a1aecd8f15b8362f1913589ca1269e72040e01db6320b903b"
     },
     {
       "path": "src/main/resources/data/the_long_travail/advancements/recipes/misc/immortal_bud.json",
-      "sha256": "bb1f211f21c8b7780487e12cef3c16994d8f94cb6c6274e3f30756c0b2272d96"
+      "sha256": "367bf1294f42b289917d73b03302fdc3e09ece40889b4fcdc5425cc78829fd66"
     },
     {
       "path": "src/main/resources/data/the_long_travail/advancements/recipes/misc/liquefied_abundance.json",
-      "sha256": "48bf89f677cd63ed5247c0f009d596154a38380432ce2e302361d7667719fc3e"
+      "sha256": "fa290a27c320a6461b6ff1f861653bbd48be125c85116c46e082643c66aa1f77"
     },
     {
       "path": "src/main/resources/data/the_long_travail/advancements/recipes/tools/high_frequency_tremor.json",
-      "sha256": "1d2b97b6de8afb4dbf405aa4334d9fa35642ddda88efcbd6d813ac5151970ef7"
+      "sha256": "9e53a9f0916b8b82ba6d7c46d0cf8d242997835f91845f67dc8f88984a1d6446"
     },
     {
       "path": "src/main/resources/data/the_long_travail/advancements/root.json",
@@ -1110,7 +1110,7 @@
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/ancient_strange_tales.json",
-      "sha256": "892044e22a7c23115425b9ea8040146225ffb1947b3e5d60d416c4a832984f97"
+      "sha256": "0d99cf6b3f241a78b2459f7c6319ee048e4e16a0115c43f9474c3345bb0175b1"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/boundless_stone.json",
@@ -1126,11 +1126,11 @@
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/enchantment_transfer.json",
-      "sha256": "b805242a1366bbc7256e716d6aa5fa55b63dec1ad16be0fff9d277f26e933418"
+      "sha256": "20738c82264960962cab4e7b70b42930b2395b47cb69c4f8b7f49068a65e7b16"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/everlasting_flower.json",
-      "sha256": "93cf00c7cbb4d2306ef52e9a59d7bcd60847f728dc4a25a5b52f34769a9fb6f6"
+      "sha256": "7a62a2bb3e60c052d9aab1c3b485a1cabf9caa510ef0c5001f6bf4d807bb8c5c"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/far_reach_stone.json",
@@ -1142,11 +1142,11 @@
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/golden_age.json",
-      "sha256": "b345f92118d5ea7192d7e31dc40f3ab40d4b04a0fd07730583f060d3d8eecca4"
+      "sha256": "e787a25a448ac9cb122a10368dea4cc7e12e4c164d3472995946d2e66ca0b856"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/high_frequency_tremor.json",
-      "sha256": "5da8bf4907decc4512e3e6afbeabef3c52b6fca1879a6e35d021688a792a6c1d"
+      "sha256": "ec739610edbd2500b69bc3cd4a514f0e43b314aef8c0d554f43458c667c68640"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/homecoming.json",
@@ -1154,35 +1154,35 @@
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/icarus.json",
-      "sha256": "8d6bd7571a87f8a4ce9fe1af9d2ac9c6ef45974345f8845b32b4fcb94d30b861"
+      "sha256": "24a68d95b133aea8a21b290e91b18f9de1429085cd40ad480b23be2cadd80d2b"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/immortal_bud.json",
-      "sha256": "6048158f671355026023be8aac031171a324ea74fe63bbe372b5eab2295b4836"
+      "sha256": "7c97529ffd1f5759b0bbfa5b94a49fa1c7ed46e9baa6840b6c8a86423f145204"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/immortal_bud_apply.json",
-      "sha256": "dc185879f869467a227d5f36a503b64e2aee4eb24735c33cb3d473ede3054b1e"
+      "sha256": "671b1b55d38f670ad806411702045ee253c3e9f419a4adb7215835db3ad7833e"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/kagotsurube.json",
-      "sha256": "a6ea20aa05626f1cea40daac5b1514522688d9999714fecf43e66178e77742ed"
+      "sha256": "6c4befab8c425e444ae17b70fb8e80b65ecf9f27cf326de0a83d2371029e499d"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/liquefied_abundance.json",
-      "sha256": "c2ad8cb82f3f99be9e00fc93f5ee0380e66c3bfe7a80c0f0270f26d9f6e1554f"
+      "sha256": "4f36d25a84bd058afbf98c54a4f973142e39ed4c693e282aac07e99d85b7824f"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/mistletoe.json",
-      "sha256": "c4b9b0828630032778b888f2993b90ace14f4a31e457dcb323ce1d6af52edec3"
+      "sha256": "b33e0c61cfbe887eaf960e810de8a5ed2dc4e62fa3b58baed715a24aeef3302f"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/myriad_souls_banner.json",
-      "sha256": "0c349cb6c6049599907e82e55690519b2426c48584bb9ae36e1ae995bf0d8232"
+      "sha256": "dda4f8feee87670950fdcbabf84b8fef74c7e0b196eb55530b35e494b125b055"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/perfect_fluid_copy.json",
-      "sha256": "aadedd02a9794c477e985c977ebe5f764d2d075d536802d89c9820140bf43501"
+      "sha256": "79ef97922d5ec151ad42371d9bbcdb624d6d08d240437c386854c31b48400a8b"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/renewal.json",
@@ -1190,115 +1190,115 @@
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_change.json",
-      "sha256": "755cb2d17b8247cb69e8d0b9368b9315f53a1c5c2f4732a5499bd02957ee355f"
+      "sha256": "45d3a93d4821e3ac5445a74236eae40b9e2fe690d9e0c3640f9d3c728662e71e"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/allium.json",
-      "sha256": "41bc0bb92b38b2963fabe4a5322e58e296dec4211e2eb7b421dc2a5d92769f84"
+      "sha256": "c9b3e571f2c97b2f169317bdf469bbf5d59c74590152ed2520dde70ecd7b04b4"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/azure_bluet.json",
-      "sha256": "adc896a0e53547549024c287deeabe12226d5a712d27ec384d5ea06029050f0f"
+      "sha256": "601644338dbbcca92e7f5227bffb6441b33c19a8e4f309bf6b05ae0d50238309"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/blue_orchid.json",
-      "sha256": "31d7f6745c634699eb2f9b488728667b3e9d46313fd4a00329801fc4d566478d"
+      "sha256": "ee6bed4b0ad0e70cc7953f8b9be870dbfa049695980371ea202b392352180310"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/cherry_leaves.json",
-      "sha256": "903778116d5cc076703f00d788c2baaa9db55f518c13f494a8b7ef2fe8f78b77"
+      "sha256": "884f1d22db5c2ded7ae64795fa41a5f4fa990746dff45143008254b345a25db1"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/chorus_flower.json",
-      "sha256": "ec08de5b6e4c7ec8eeafb07374d7f6c105b46473ad2459649f656e0bec23aabc"
+      "sha256": "dee37efed23e3a13e5c929bf7cbd8621c6cd5dde043c6783c29e85416cd05df4"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/cornflower.json",
-      "sha256": "4cbb4fd0a2bfd9d8cd5a297fd8c02897fc6f5b16ca613eb494bc0c25f260c441"
+      "sha256": "6d720e2b7d2efd6cd0a9a30f2df335ec261227cd4085c01ca62e67253db66e22"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/dandelion.json",
-      "sha256": "eabd656c6fe388dec8b8545084d55b8e75c4fc10c594c4f2217a88e0e1785e7c"
+      "sha256": "8e5b5fb9043b766884d23dcd18694bc2e6410d1ccd8ff1b4b7e80616417ca06d"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/flowering_azalea.json",
-      "sha256": "0e431a77dbc50fe4466d4dcae6e27e72667fd43a5c3a876dcdc2f967de8c0a9e"
+      "sha256": "977b32873dbfec78b3a275393494047c7a1d38675d340d419cec3f690dd1cc6f"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/flowering_azalea_leaves.json",
-      "sha256": "fd5fe11df80d358b117ed44257834889f39af87a60ce139e936b9b0e04bc627e"
+      "sha256": "17c8dd0d8fdeda2cccb781dbf840636c98d6fed6e01f8ff875469bfba76e4f33"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/lilac.json",
-      "sha256": "39a1cee460885d25e30eeca53dfb0a448fc7610dd608122d8e01e35cf7ca783a"
+      "sha256": "bfe69f59c6c8e79a54ee13df1aef230391ad087d4e1993acde95b452d8b1f07b"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/lily_of_the_valley.json",
-      "sha256": "19f8fa0ef34cb766424b7bbc1373adf9bfbff464839bad0e1479f0558f43df00"
+      "sha256": "43de1008aad0b1f4d60f109a48b29b3c2bd0d237452b6c143bcc881f602dd96e"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/orange_tulip.json",
-      "sha256": "0df770e20e7b6904be31fa5118f09ce1f12d75071ae518db7a1d9483e5a47fa4"
+      "sha256": "4fceb9c650b8081dd61bd02dff24999f2711e14d7e724334667e8a7fd59f7704"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/oxeye_daisy.json",
-      "sha256": "c7111bf018e8ae3171b03db44a305931352355dd6c69998e0c23c04bb832186c"
+      "sha256": "972cfaf83eb176ca76b1d450ee641457c2a3570836ba26c0d01507140446d82e"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/peony.json",
-      "sha256": "5cb8871d8c75a01c4315b273f9c0a4679297a22943564b73be60c7d6c857e825"
+      "sha256": "4a05077309b73b41e701a654ed1f23da876421e87884a407d301acfb5a85cd8b"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/pink_petals.json",
-      "sha256": "35958ee539d145204533ac076b2e98a8786e9e402104b1d56535a6da37147ed5"
+      "sha256": "ea900ca4f6a5e36e807cb02c02354bfb5b2ff00b3245c8c0af4c2d9904d428bd"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/pink_tulip.json",
-      "sha256": "920556c846f38dc06cf808ce09583dff7d6bbf34e7b5ad223d238f046a8a3f6f"
+      "sha256": "217e4c5ae95397c53e9bf81dccd910bc0f5f1a3a201e084a044d1c2826a750ec"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/pitcher_plant.json",
-      "sha256": "212cc142b712681c686391642d353ff29b105c0c92e267634775e5d060f3665c"
+      "sha256": "6d2523c807734be8e128c93d111a8a3f755c3136be0aa092fc17c907b1c243a0"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/poppy.json",
-      "sha256": "9c6d32137ed7f6e29401fcc2a97e617935bd8455200637e5cba88453ccedf04a"
+      "sha256": "26cf4e12e0702863077dcfe321283b294b8b62e1e732b7f46c6f9a6de9aada8a"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/red_tulip.json",
-      "sha256": "953c7998cd93b87082926ef8fd00c15433538c6338e07173ed01903cc317c507"
+      "sha256": "14e0aaa685070363097e5b7da904a0b3dca9379efece4e25a8c0eb9042b0921f"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/rose_bush.json",
-      "sha256": "de16451536f22591dc4ab314b90c18791caed2890b4b9574dfd06543bceb562a"
+      "sha256": "71997c1afda9a7c66d83c4267a82dc58f230678e9982a43360e776b0fa786f08"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/spore_blossom.json",
-      "sha256": "4fa464c9c684239c11b17a14c99d68d653b45e823108b9e7676460e9dcb69dee"
+      "sha256": "7a892d2fe8a802a3029c6a30d43825c8e6ee501149fb9777dd7c4e48265dd22d"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/sunflower.json",
-      "sha256": "65c19fb5d9ce39e02a1edb0f1bb4e6cf9e9a344f1747c57b9012e66a50365c6b"
+      "sha256": "d6e524f863c753606889ddec8a1c5f1487570293fdf03a200171d25c6176389b"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/torchflower.json",
-      "sha256": "4c519af2071298ffe545d493fee2842f48d77b3707910d7b9b376cb875178a58"
+      "sha256": "5dcf9b93148aea12366db9cd67b4b2b86cfd39ca1214db9fa5dd3827b3bdafa1"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/white_tulip.json",
-      "sha256": "51013a55d97140bfdd8662d224deb5a6817ec0bac452d6cad50284f2629fa3d6"
+      "sha256": "da2dffc2de22609cb695c60da0e6d3282e3756190251293e2158bf529981962b"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/spring_corner/wither_rose.json",
-      "sha256": "57dee16d734224fc6f2a13331f607da2c94d4e2538e01f05ec353982bcd65623"
+      "sha256": "4769cb05442056da0b330162b0df0dddc81ba824d3a2a1c5bfe31be990fb5895"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/underground_velvet.json",
-      "sha256": "d224874c6deed5f6eca664d3c0c5eebd1d1651519a4d2acb1f6a0389a532567d"
+      "sha256": "84fa6ffd911d1ab1e5f103ad35da0060542ce7d793ff3de474e5bbb52355a2b2"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/underground_velvet_from_string.json",
-      "sha256": "65c18264b4ebcaa24e07c6e19b4f433b8ffee4ac6614a4dc18e2ed8fc89a4a21"
+      "sha256": "c86002ecc4a0b3c3f9d832b3514f1604d78f11780da4dba9dd9357f2b13c45c5"
     },
     {
       "path": "src/main/resources/data/the_long_travail/recipes/underworld_stone.json",

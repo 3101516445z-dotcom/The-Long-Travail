@@ -1,5 +1,7 @@
 package com.thelongtravail.flourishing;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.thelongtravail.config.FlourishingItemsConfig;
 import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.registry.ModRegistry;
@@ -16,7 +18,7 @@ public final class ImmortalBud {
     }
 
     public static boolean protectsDrop(ItemStack stack) {
-        return marked(stack) || stack.is(ModRegistry.IMMORTAL_BUD.get());
+        return marked(stack) || RegisteredItems.is(stack, ModRegistry.IMMORTAL_BUD);
     }
 
     public static boolean accepts(ItemStack stack) {

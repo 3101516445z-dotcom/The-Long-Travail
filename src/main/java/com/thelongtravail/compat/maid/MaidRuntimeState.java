@@ -1,5 +1,7 @@
 package com.thelongtravail.compat.maid;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import static com.thelongtravail.compat.maid.MaidAccess.identity;
 import static com.thelongtravail.compat.maid.MaidAccessoryRules.has;
 import static com.thelongtravail.compat.maid.MaidAccessoryRules.phase;
@@ -44,21 +46,26 @@ final class MaidRuntimeState {
     }
 
     public static void equipmentChanged(EntityMaid m) {
-        equipmentChanged(m, new ItemStack(ModRegistry.DON_QUIXOTE.get()));
-        equipmentChanged(m, new ItemStack(ModRegistry.AZRAEL.get()));
-        equipmentChanged(m, new ItemStack(ModRegistry.SWORD_AND_LANTERN.get()));
+        watch(m);
+        com.thelongtravail.farreach.DonQuixoteState.forget(m);
+        var state = STATES.get(m);
+        if (state != null) {
+            state.armed = false;
+            state.generation++;
+        }
+        MaidLanternCombat.forget(m);
     }
 
     public static void equipmentChanged(EntityMaid m, ItemStack changed) {
         watch(m);
-        if (changed.is(ModRegistry.DON_QUIXOTE.get()))
+        if (RegisteredItems.is(changed, ModRegistry.DON_QUIXOTE))
             com.thelongtravail.farreach.DonQuixoteState.forget(m);
         var s = STATES.get(m);
-        if (s != null && changed.is(ModRegistry.AZRAEL.get())) {
+        if (s != null && RegisteredItems.is(changed, ModRegistry.AZRAEL)) {
             s.armed = false;
             s.generation++;
         }
-        if (changed.is(ModRegistry.SWORD_AND_LANTERN.get())) MaidLanternCombat.forget(m);
+        if (RegisteredItems.is(changed, ModRegistry.SWORD_AND_LANTERN)) MaidLanternCombat.forget(m);
     }
 
     public static int quixoteCooldown(LivingEntity e, int ticks) {
@@ -93,9 +100,7 @@ final class MaidRuntimeState {
         watch(m);
         var s = STATES.get(m);
         var phase =
-                has(m, ModRegistry.AZRAEL.get())
-                        ? phase(m, TravailAspect.DEEP_VALLEY)
-                        : Phase.INACTIVE;
+                has(m, ModRegistry.AZRAEL) ? phase(m, TravailAspect.DEEP_VALLEY) : Phase.INACTIVE;
         boolean changedOwner = !Objects.equals(s.owner, m.getOwnerUUID());
         if (phase != s.azrael || changedOwner) {
             s.armed = false;

@@ -14,6 +14,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 public final class ModBrewing {
     @SubscribeEvent
     public static void setup(FMLCommonSetupEvent event) {
+        if (!ModRegistry.LIQUEFIED_ABUNDANCE.isPresent()) return;
         event.enqueueWork(
                 () ->
                         BrewingRecipeRegistry.addRecipe(

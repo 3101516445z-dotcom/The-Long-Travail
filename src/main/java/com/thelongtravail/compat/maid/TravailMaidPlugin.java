@@ -1,5 +1,7 @@
 package com.thelongtravail.compat.maid;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.github.tartaricacid.touhoulittlemaid.api.*;
 import com.github.tartaricacid.touhoulittlemaid.api.bauble.IMaidBauble;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -28,9 +30,9 @@ public final class TravailMaidPlugin implements ILittleMaid {
 
                         @Override
                         public void onTakeOff(EntityMaid maid, ItemStack stack) {
-                            if (stack.is(ModRegistry.KAGOTSURUBE.get()))
+                            if (RegisteredItems.is(stack, ModRegistry.KAGOTSURUBE))
                                 com.thelongtravail.underworld.Kagotsurube.clear(maid);
-                            if (stack.is(ModRegistry.EVERLASTING_FLOWER.get()))
+                            if (RegisteredItems.is(stack, ModRegistry.EVERLASTING_FLOWER))
                                 com.thelongtravail.flourishing.EverlastingFlower.unequipped(maid);
                             MaidAccessoryRuntime.equipmentChanged(maid, stack);
                         }

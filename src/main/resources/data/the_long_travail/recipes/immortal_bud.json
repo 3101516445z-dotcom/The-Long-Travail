@@ -11,5 +11,11 @@
   },
   "result": {
     "item": "the_long_travail:immortal_bud"
-  }
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "the_long_travail:immortal_bud"
+    }
+  ]
 }

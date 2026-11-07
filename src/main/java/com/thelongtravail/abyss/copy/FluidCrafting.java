@@ -1,5 +1,7 @@
 package com.thelongtravail.abyss.copy;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.thelongtravail.abyss.copy.PerfectFluidRecipe;
 import com.thelongtravail.mixin.crafting.FluidCraftingGridAccessor;
 import com.thelongtravail.registry.ModRegistry;
@@ -43,7 +45,7 @@ public final class FluidCrafting {
                             .getRecipeFor(RecipeType.CRAFTING, grid, player.level());
             if (recipe.isEmpty() && !menu.getSlot(0).getItem().isEmpty()) {
                 for (int i = 0; i < grid.getContainerSize(); i++)
-                    if (grid.getItem(i).is(ModRegistry.PERFECT_FLUID.get()))
+                    if (RegisteredItems.is(grid.getItem(i), ModRegistry.PERFECT_FLUID))
                         throw new IllegalStateException(
                                 "Perfect Fluid result no longer has a matching recipe");
             }
@@ -54,7 +56,7 @@ public final class FluidCrafting {
             if (external) {
                 for (int i = 0; i < grid.getContainerSize(); i++) {
                     ItemStack stack = grid.getItem(i);
-                    if (stack.is(ModRegistry.PERFECT_FLUID.get())) fluidSlot = i;
+                    if (RegisteredItems.is(stack, ModRegistry.PERFECT_FLUID)) fluidSlot = i;
                     else if (!stack.isEmpty()) source = stack;
                 }
                 external =

@@ -8,6 +8,19 @@ import top.theillusivec4.curios.api.SlotContext;
 
 // 仅查询当前装备；佩戴资格和恢复规则由调用方判断。
 public final class CurioLookup {
+    public static boolean hasFunctional(
+            Player player,
+            net.minecraftforge.registries.RegistryObject<net.minecraft.world.item.Item> item) {
+        return item.isPresent() && hasFunctional(player, item.get());
+    }
+
+    public static boolean hasFunctional(
+            Player player,
+            net.minecraftforge.registries.RegistryObject<net.minecraft.world.item.Item> item,
+            Predicate<SlotContext> slot) {
+        return item.isPresent() && hasFunctional(player, item.get(), slot);
+    }
+
     public static boolean hasFunctional(Player player, Item item) {
         return hasFunctional(player, item, context -> true);
     }

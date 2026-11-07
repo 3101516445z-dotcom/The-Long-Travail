@@ -1,4 +1,10 @@
 {
   "type": "the_long_travail:enchantment_transfer",
-  "category": "misc"
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "the_long_travail:ancient_strange_tales"
+    }
+  ]
 }

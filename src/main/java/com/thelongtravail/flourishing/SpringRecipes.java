@@ -1,5 +1,7 @@
 package com.thelongtravail.flourishing;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.google.gson.JsonObject;
 import com.thelongtravail.config.FlourishingItemsConfig;
 import com.thelongtravail.registry.ModRegistry;
@@ -40,6 +42,7 @@ public final class SpringRecipes {
     }
 
     public static ItemStack crown(Flower f) {
+        if (!ModRegistry.SPRING_CORNER.isPresent()) return ItemStack.EMPTY;
         ItemStack s = new ItemStack(ModRegistry.SPRING_CORNER.get());
         FlowerData.write(s, List.of(f));
         return s;
@@ -90,7 +93,7 @@ public final class SpringRecipes {
             for (int i = 0; i < c.getContainerSize(); i++) {
                 ItemStack s = c.getItem(i);
                 if (s.isEmpty()) continue;
-                if (s.is(ModRegistry.SPRING_CORNER.get())) {
+                if (RegisteredItems.is(s, ModRegistry.SPRING_CORNER)) {
                     if (!crown.isEmpty()) return null;
                     crown = s;
                 } else {

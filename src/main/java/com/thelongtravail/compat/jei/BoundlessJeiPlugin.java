@@ -21,6 +21,7 @@ public final class BoundlessJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
+        if (!ModRegistry.ANCIENT_STRANGE_TALES.isPresent()) return;
         registration.addItemStackInfo(
                 new ItemStack(ModRegistry.ANCIENT_STRANGE_TALES.get()),
                 IntStream.range(0, 7)

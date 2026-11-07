@@ -1,5 +1,7 @@
 package com.thelongtravail.farreach;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.thelongtravail.registry.ModRegistry;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -12,12 +14,12 @@ public final class IcarusFlight {
     private IcarusFlight() {}
 
     public static boolean enabled(ItemStack stack) {
-        return stack.is(ModRegistry.ICARUS.get())
+        return RegisteredItems.is(stack, ModRegistry.ICARUS)
                 && (!stack.hasTag() || !stack.getTag().getBoolean(DISABLED));
     }
 
     public static boolean toggle(ItemStack stack) {
-        if (!stack.is(ModRegistry.ICARUS.get())) return false;
+        if (!RegisteredItems.is(stack, ModRegistry.ICARUS)) return false;
         boolean next = !enabled(stack);
         if (next) {
             if (stack.hasTag()) stack.getTag().remove(DISABLED);
@@ -26,6 +28,7 @@ public final class IcarusFlight {
     }
 
     public static boolean equipped(LivingEntity entity) {
+        if (!ModRegistry.ICARUS.isPresent()) return false;
         return entity instanceof Player player
                 && player.isAlive()
                 && !player.isSpectator()
@@ -48,6 +51,7 @@ public final class IcarusFlight {
     }
 
     public static ItemStack visibleStack(LivingEntity entity) {
+        if (!ModRegistry.ICARUS.isPresent()) return ItemStack.EMPTY;
         if (!(entity instanceof Player player) || !equipped(player) || player.isInvisible())
             return ItemStack.EMPTY;
         return CuriosApi.getCuriosInventory(player)

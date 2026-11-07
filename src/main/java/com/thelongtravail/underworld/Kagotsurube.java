@@ -38,9 +38,8 @@ public final class Kagotsurube {
                 && entity.isAlive()
                 && !entity.isSpectator()
                 && (entity instanceof ServerPlayer actor
-                        ? AccessoryEquipRules.hasEquipped(
-                                actor, "belt", ModRegistry.KAGOTSURUBE.get())
-                        : MaidIntegration.equipped(entity, ModRegistry.KAGOTSURUBE.get()));
+                        ? AccessoryEquipRules.hasEquipped(actor, "belt", ModRegistry.KAGOTSURUBE)
+                        : MaidIntegration.equipped(entity, ModRegistry.KAGOTSURUBE));
     }
 
     public static DamageSource convert(LivingEntity target, DamageSource source) {

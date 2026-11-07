@@ -24,6 +24,7 @@ public final class UndergroundVelvet {
     private static long nextWarning;
 
     public static boolean use(ServerPlayer player, ItemStack stack) {
+        if (!ModRegistry.UNDERGROUND_VELVET.isPresent()) return false;
         if (player.getCooldowns().isOnCooldown(stack.getItem())
                 || player.isSpectator()
                 || com.thelongtravail.boundless.timestop.TimeStopManager.frozen(player))

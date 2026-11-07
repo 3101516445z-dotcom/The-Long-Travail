@@ -55,6 +55,7 @@ public final class LorentzFantasy {
     }
 
     public static ItemStack equipped(LivingEntity e) {
+        if (!ModRegistry.LORENTZ_FANTASY.isPresent()) return ItemStack.EMPTY;
         if (!e.isAlive() || e.isRemoved()) return ItemStack.EMPTY;
         if (e instanceof ServerPlayer p) {
             if (p.isSpectator()) return ItemStack.EMPTY;

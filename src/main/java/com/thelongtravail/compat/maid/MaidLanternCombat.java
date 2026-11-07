@@ -25,7 +25,7 @@ public final class MaidLanternCombat {
     }
 
     public static boolean equipped(EntityMaid p) {
-        return !MaidAccess.equipped(p, ModRegistry.SWORD_AND_LANTERN.get()).isEmpty();
+        return !MaidAccess.equipped(p, ModRegistry.SWORD_AND_LANTERN).isEmpty();
     }
 
     private static boolean friendly(EntityMaid p, LivingEntity e) {

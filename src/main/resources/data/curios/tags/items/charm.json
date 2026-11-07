@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "the_long_travail:myriad_souls_banner"
+    {
+      "id": "the_long_travail:myriad_souls_banner",
+      "required": false
+    }
   ]
 }

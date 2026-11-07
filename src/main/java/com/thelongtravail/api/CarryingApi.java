@@ -13,6 +13,23 @@ import java.util.*;
 
 // 只能在服务端游戏线程调用；提供方只报告实际携带情况，不判断日记或效果资格。
 public final class CarryingApi {
+    public static boolean allowed(
+            net.minecraftforge.registries.RegistryObject<Item> item, String area) {
+        return item.isPresent() && allowed(item.get(), area);
+    }
+
+    public static boolean isCarrying(
+            ServerPlayer player,
+            net.minecraftforge.registries.RegistryObject<net.minecraft.world.item.Item> item) {
+        return item.isPresent() && isCarrying(player, item.get());
+    }
+
+    public static CarryingResult query(
+            ServerPlayer player,
+            net.minecraftforge.registries.RegistryObject<net.minecraft.world.item.Item> item) {
+        return item.isPresent() ? query(player, item.get()) : CarryingResult.ABSENT;
+    }
+
     public enum CarryingResult {
         PRESENT,
         ABSENT,
@@ -69,7 +86,7 @@ public final class CarryingApi {
 
     public static boolean allowed(Item item, String area) {
         if (!CarryingConfig.enabled(area)) return false;
-        if (item == ModRegistry.EKI.get())
+        if (com.thelongtravail.registry.RegisteredItems.is(item, ModRegistry.EKI))
             return switch (area) {
                 case "inventory" -> RainConfig.INVENTORY.get();
                 case "offhand" -> RainConfig.OFFHAND.get();
@@ -78,7 +95,8 @@ public final class CarryingApi {
                 case "curios" -> RainConfig.CURIOS.get();
                 default -> RainConfig.EXTERNAL_TICK.get();
             };
-        return item != ModRegistry.TOWER_OF_BABEL.get() || FarReachRelicsConfig.carrying(area);
+        return !com.thelongtravail.registry.RegisteredItems.is(item, ModRegistry.TOWER_OF_BABEL)
+                || FarReachRelicsConfig.carrying(area);
     }
 
     // 返回布尔值的兼容接口仅将已确认存在的物品视为携带；需要保守判定的调用应使用 query 处理 UNKNOWN。

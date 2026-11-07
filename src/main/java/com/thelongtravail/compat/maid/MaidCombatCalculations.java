@@ -56,7 +56,7 @@ public final class MaidCombatCalculations {
         var crown = crown(m);
         double value = FloralCombat.crownBonus(m, crown, source);
         if (eki(m) == Phase.MALICE) value += RainConfig.DAMAGE.get();
-        if (has(m, ModRegistry.ICARUS.get())) {
+        if (has(m, ModRegistry.ICARUS)) {
             var phase = phase(m, TravailAspect.FAR_REACH);
             if (phase == Phase.WITNESS) value += IcarusCombat.witnessBonus(m);
             if (phase == Phase.MALICE)
@@ -72,7 +72,7 @@ public final class MaidCombatCalculations {
     public static double witherBonus(LivingEntity victim, DamageSource source) {
         var m = attacker(source);
         if (m == null
-                || !has(m, ModRegistry.THOUSAND_YEARS.get())
+                || !has(m, ModRegistry.THOUSAND_YEARS)
                 || phase(m, TravailAspect.UNDERWORLD) != Phase.MALICE) return 0;
         var wither = victim.getEffect(MobEffects.WITHER);
         return wither == null
@@ -82,7 +82,7 @@ public final class MaidCombatCalculations {
 
     public static boolean immune(LivingEntity victim, DamageSource source, float amount) {
         if (!(victim instanceof EntityMaid m) || m.level().isClientSide) return false;
-        if (has(m, ModRegistry.ICARUS.get())) {
+        if (has(m, ModRegistry.ICARUS)) {
             if (IcarusCombat.baseImmune(source)) return true;
             if (phase(m, TravailAspect.FAR_REACH) == Phase.WITNESS
                     && IcarusCombat.witnessImmune(source)) return true;

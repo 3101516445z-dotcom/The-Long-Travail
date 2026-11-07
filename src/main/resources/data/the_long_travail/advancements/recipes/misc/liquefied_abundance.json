@@ -30,5 +30,11 @@
     "recipes": [
       "the_long_travail:liquefied_abundance"
     ]
-  }
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "the_long_travail:liquefied_abundance"
+    }
+  ]
 }

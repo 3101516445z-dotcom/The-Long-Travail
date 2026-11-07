@@ -1,5 +1,7 @@
 package com.thelongtravail.mixin.equipment;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.thelongtravail.flourishing.EverlastingFlower;
 import com.thelongtravail.registry.ModRegistry;
 import net.minecraft.world.item.ItemStack;
@@ -22,8 +24,8 @@ public abstract class CurioFlowerRemovalMixin extends ItemStackHandler {
     @Override
     public void setStackInSlot(int slot, ItemStack stack) {
         boolean removed =
-                getStackInSlot(slot).is(ModRegistry.EVERLASTING_FLOWER.get())
-                        && !stack.is(ModRegistry.EVERLASTING_FLOWER.get());
+                RegisteredItems.is(getStackInSlot(slot), ModRegistry.EVERLASTING_FLOWER)
+                        && !RegisteredItems.is(stack, ModRegistry.EVERLASTING_FLOWER);
         super.setStackInSlot(slot, stack);
         if (removed) travail$cancelFlower(slot);
     }
@@ -32,8 +34,8 @@ public abstract class CurioFlowerRemovalMixin extends ItemStackHandler {
     private void travail$extracted(
             int slot, int amount, boolean simulate, CallbackInfoReturnable<ItemStack> cir) {
         if (!simulate
-                && cir.getReturnValue().is(ModRegistry.EVERLASTING_FLOWER.get())
-                && !getStackInSlot(slot).is(ModRegistry.EVERLASTING_FLOWER.get()))
+                && RegisteredItems.is(cir.getReturnValue(), ModRegistry.EVERLASTING_FLOWER)
+                && !RegisteredItems.is(getStackInSlot(slot), ModRegistry.EVERLASTING_FLOWER))
             travail$cancelFlower(slot);
     }
 

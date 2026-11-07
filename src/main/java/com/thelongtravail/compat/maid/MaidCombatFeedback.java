@@ -65,7 +65,7 @@ public final class MaidCombatFeedback {
         if (cause != null && cause != victim && !victim.isSpectator()) {
             rollStar(cause, true);
             if (!rose) {
-                if (has(cause, ModRegistry.ICARUS.get())
+                if (has(cause, ModRegistry.ICARUS)
                         && ModeEffectRules.ICARUS_FIRE.applies(victim)
                         && !victim.fireImmune()
                         && FarReachItemsConfig.IGNITE_SECONDS.get() > 0)
@@ -109,7 +109,7 @@ public final class MaidCombatFeedback {
         if (!m.isAlive()
                 || m.isRemoved()
                 || TimeStopManager.frozen(m)
-                || !has(m, ModRegistry.STAR_VOICE.get())
+                || !has(m, ModRegistry.STAR_VOICE)
                 || TimeStopManager.locked(identity(m))) return;
         var phase = phase(m, TravailAspect.BOUNDLESS);
         if (phase == Phase.INACTIVE || attacking != (phase == Phase.WITNESS)) return;
@@ -237,7 +237,7 @@ public final class MaidCombatFeedback {
     }
 
     public static void effect(MobEffectEvent.Applicable e) {
-        if (e.getEntity() instanceof EntityMaid m && has(m, ModRegistry.SWORD_AND_LANTERN.get())) {
+        if (e.getEntity() instanceof EntityMaid m && has(m, ModRegistry.SWORD_AND_LANTERN)) {
             var effect = e.getEffectInstance().getEffect();
             if (effect == MobEffects.DARKNESS
                     || effect == MobEffects.BLINDNESS

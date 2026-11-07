@@ -1,4 +1,10 @@
 {
   "type": "the_long_travail:spring_change",
-  "category": "equipment"
+  "category": "equipment",
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "the_long_travail:spring_corner"
+    }
+  ]
 }

@@ -1,5 +1,7 @@
 package com.thelongtravail.valley.lantern;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.thelongtravail.registry.ModRegistry;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -9,7 +11,7 @@ public final class LanternSources {
     private static final String DISABLED = "LanternLightDisabled";
 
     public static boolean enabled(ItemStack stack) {
-        return stack.is(ModRegistry.SWORD_AND_LANTERN.get())
+        return RegisteredItems.is(stack, ModRegistry.SWORD_AND_LANTERN)
                 && (!stack.hasTag() || !stack.getTag().getBoolean(DISABLED));
     }
 

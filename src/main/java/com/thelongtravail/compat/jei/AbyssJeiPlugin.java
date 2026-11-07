@@ -33,16 +33,19 @@ public final class AbyssJeiPlugin implements IModPlugin {
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration r) {
+        if (!ModRegistry.PERFECT_FLUID.isPresent()) return;
         r.addRecipeCategories(new Category(r.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration r) {
+        if (!ModRegistry.PERFECT_FLUID.isPresent()) return;
         r.addRecipes(TYPE, List.of(new Example(true), new Example(false)));
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration r) {
+        if (!ModRegistry.PERFECT_FLUID.isPresent()) return;
         r.addRecipeCatalyst(new ItemStack(ModRegistry.PERFECT_FLUID.get()), TYPE);
     }
 

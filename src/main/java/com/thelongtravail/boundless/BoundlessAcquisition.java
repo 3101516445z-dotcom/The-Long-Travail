@@ -1,5 +1,7 @@
 package com.thelongtravail.boundless;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.config.BoundlessItemsConfig;
 import com.thelongtravail.registry.ModRegistry;
@@ -29,6 +31,7 @@ public final class BoundlessAcquisition {
     }
 
     public static void broken(ServerPlayer p, BlockPos pos, BlockState before, boolean success) {
+        if (!ModRegistry.LITTLE_PRINCE.isPresent()) return;
         if (!success
                 || p.isCreative()
                 || p.isSpectator()
@@ -76,6 +79,7 @@ public final class BoundlessAcquisition {
     public static final VillagerTrades.ItemListing LISTING = (entity, random) -> offer();
 
     private static MerchantOffer offer() {
+        if (!ModRegistry.LORENTZ_FANTASY.isPresent()) return null;
         return new MerchantOffer(
                 new ItemStack(Items.DRAGON_BREATH, 16),
                 new ItemStack(Items.DRAGON_HEAD),
@@ -87,6 +91,7 @@ public final class BoundlessAcquisition {
 
     @SubscribeEvent
     public static void trades(VillagerTradesEvent e) {
+        if (!ModRegistry.LORENTZ_FANTASY.isPresent()) return;
         if (e.getType() == VillagerProfession.FLETCHER && !e.getTrades().get(5).contains(LISTING))
             e.getTrades().get(5).add(LISTING);
     }
@@ -100,13 +105,14 @@ public final class BoundlessAcquisition {
     }
 
     public static void ensure(Villager v, MerchantOffers offers) {
+        if (!ModRegistry.LORENTZ_FANTASY.isPresent()) return;
         if (v.level().isClientSide
                 || v.getVillagerData().getProfession() != VillagerProfession.FLETCHER
                 || v.getVillagerData().getLevel() < 5) return;
         boolean found = false;
         for (var it = offers.listIterator(); it.hasNext(); ) {
             var current = it.next();
-            if (!current.getResult().is(ModRegistry.LORENTZ_FANTASY.get())) continue;
+            if (!RegisteredItems.is(current.getResult(), ModRegistry.LORENTZ_FANTASY)) continue;
             if (found) it.remove();
             else {
                 found = true;

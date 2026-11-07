@@ -35,8 +35,8 @@ public final class SunChaser {
 
     public static boolean carrying(LivingEntity entity) {
         return entity instanceof ServerPlayer actor
-                ? CarryingApi.isCarrying(actor, ModRegistry.SUN_CHASER.get())
-                : MaidIntegration.equipped(entity, ModRegistry.SUN_CHASER.get());
+                ? CarryingApi.isCarrying(actor, ModRegistry.SUN_CHASER)
+                : MaidIntegration.equipped(entity, ModRegistry.SUN_CHASER);
     }
 
     public static boolean strike(DamageSource source) {

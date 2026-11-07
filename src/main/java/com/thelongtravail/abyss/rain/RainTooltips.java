@@ -32,18 +32,17 @@ public final class RainTooltips {
                             RainConfig.EKI_LOCAL.get(),
                             RainConfig.EKI_SKY.get(),
                             com.thelongtravail.api.CarryingApi.allowed(
-                                    com.thelongtravail.registry.ModRegistry.EKI.get(), "inventory"),
+                                    com.thelongtravail.registry.ModRegistry.EKI, "inventory"),
                             com.thelongtravail.api.CarryingApi.allowed(
-                                    com.thelongtravail.registry.ModRegistry.EKI.get(), "offhand"),
+                                    com.thelongtravail.registry.ModRegistry.EKI, "offhand"),
                             com.thelongtravail.api.CarryingApi.allowed(
-                                    com.thelongtravail.registry.ModRegistry.EKI.get(), "armor"),
+                                    com.thelongtravail.registry.ModRegistry.EKI, "armor"),
                             com.thelongtravail.api.CarryingApi.allowed(
-                                    com.thelongtravail.registry.ModRegistry.EKI.get(),
-                                    "enderChest"),
+                                    com.thelongtravail.registry.ModRegistry.EKI, "enderChest"),
                             com.thelongtravail.api.CarryingApi.allowed(
-                                    com.thelongtravail.registry.ModRegistry.EKI.get(), "curios"),
+                                    com.thelongtravail.registry.ModRegistry.EKI, "curios"),
                             com.thelongtravail.api.CarryingApi.allowed(
-                                    com.thelongtravail.registry.ModRegistry.EKI.get(),
+                                    com.thelongtravail.registry.ModRegistry.EKI,
                                     "externalInventoryTick"),
                             List.copyOf(RainConfig.IMMUNITY_EXCLUSIONS.get()),
                             List.copyOf(RainConfig.SLOTS.get()),
@@ -164,17 +163,17 @@ public final class RainTooltips {
         if (RainConfig.FALLBACK.get()) out.add(text("eki.prose.priority"));
         boolean[] values = {
             com.thelongtravail.api.CarryingApi.allowed(
-                    com.thelongtravail.registry.ModRegistry.EKI.get(), "inventory"),
+                    com.thelongtravail.registry.ModRegistry.EKI, "inventory"),
             com.thelongtravail.api.CarryingApi.allowed(
-                    com.thelongtravail.registry.ModRegistry.EKI.get(), "offhand"),
+                    com.thelongtravail.registry.ModRegistry.EKI, "offhand"),
             com.thelongtravail.api.CarryingApi.allowed(
-                    com.thelongtravail.registry.ModRegistry.EKI.get(), "enderChest"),
+                    com.thelongtravail.registry.ModRegistry.EKI, "enderChest"),
             com.thelongtravail.api.CarryingApi.allowed(
-                    com.thelongtravail.registry.ModRegistry.EKI.get(), "armor"),
+                    com.thelongtravail.registry.ModRegistry.EKI, "armor"),
             com.thelongtravail.api.CarryingApi.allowed(
-                    com.thelongtravail.registry.ModRegistry.EKI.get(), "curios"),
+                    com.thelongtravail.registry.ModRegistry.EKI, "curios"),
             com.thelongtravail.api.CarryingApi.allowed(
-                    com.thelongtravail.registry.ModRegistry.EKI.get(), "externalInventoryTick")
+                    com.thelongtravail.registry.ModRegistry.EKI, "externalInventoryTick")
         };
         String[] keys = {"inventory", "offhand", "ender", "armor", "curios", "external"};
         boolean all = true;

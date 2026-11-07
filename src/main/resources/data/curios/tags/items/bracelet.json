@@ -1,7 +1,13 @@
 {
   "replace": false,
   "values": [
-    "the_long_travail:demon_king_of_the_sixth_heaven",
-    "the_long_travail:lorentz_fantasy"
+    {
+      "id": "the_long_travail:demon_king_of_the_sixth_heaven",
+      "required": false
+    },
+    {
+      "id": "the_long_travail:lorentz_fantasy",
+      "required": false
+    }
   ]
 }

@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "the_long_travail:midnight_lafite"
+    {
+      "id": "the_long_travail:midnight_lafite",
+      "required": false
+    }
   ]
 }

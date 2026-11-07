@@ -20,5 +20,15 @@
   "result": {
     "item": "the_long_travail:everlasting_flower",
     "count": 1
-  }
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "the_long_travail:spring_corner"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "the_long_travail:everlasting_flower"
+    }
+  ]
 }

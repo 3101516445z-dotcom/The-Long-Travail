@@ -17,6 +17,8 @@ import top.theillusivec4.curios.api.CuriosApi;
 
 public final class UnderworldItems {
     public static ItemStack equipped(Player p, boolean ring) {
+        if (!(ring ? ModRegistry.THOUSAND_YEARS : ModRegistry.BOOK_OF_DEAD).isPresent())
+            return ItemStack.EMPTY;
         if (TravailCurios.stack(p).isEmpty()) return ItemStack.EMPTY;
         if (!ring)
             return p instanceof ServerPlayer sp

@@ -7,6 +7,19 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 
 public final class AccessoryEquipRules {
+    public static boolean hasEquipped(
+            Player player,
+            net.minecraftforge.registries.RegistryObject<net.minecraft.world.item.Item> item) {
+        return item.isPresent() && hasEquipped(player, item.get());
+    }
+
+    public static boolean hasEquipped(
+            Player player,
+            String slot,
+            net.minecraftforge.registries.RegistryObject<net.minecraft.world.item.Item> item) {
+        return item.isPresent() && hasEquipped(player, slot, item.get());
+    }
+
     public static boolean hasEquipped(Player player, Item item) {
         var scope = AccessoryRestore.current(player);
         if (scope != null) return scope.contains(item);

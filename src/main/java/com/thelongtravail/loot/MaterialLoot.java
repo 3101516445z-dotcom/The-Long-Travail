@@ -81,6 +81,8 @@ public final class MaterialLoot {
                     rewards.add(
                             new SingleRollLootInjector.Reward(sourceItem("phosphophyllite"), .20));
         }
+        rewards.removeIf(
+                reward -> com.thelongtravail.config.ItemRegistrationConfig.disabled(reward.item()));
         if (!SingleRollLootInjector.inject(table, POOL, rewards)) unsupported(table);
     }
 

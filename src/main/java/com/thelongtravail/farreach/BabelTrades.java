@@ -1,5 +1,7 @@
 package com.thelongtravail.farreach;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.config.FarReachRelicsConfig;
 import com.thelongtravail.registry.ModRegistry;
@@ -16,6 +18,7 @@ public final class BabelTrades {
     public static final VillagerTrades.ItemListing LISTING = (entity, random) -> createOffer();
 
     private static MerchantOffer createOffer() {
+        if (!ModRegistry.TOWER_OF_BABEL.isPresent()) return null;
         return new MerchantOffer(
                 new ItemStack(Items.SADDLE),
                 new ItemStack(Items.GOAT_HORN),
@@ -27,6 +30,7 @@ public final class BabelTrades {
 
     @net.minecraftforge.eventbus.api.SubscribeEvent
     public static void register(net.minecraftforge.event.village.VillagerTradesEvent event) {
+        if (!ModRegistry.TOWER_OF_BABEL.isPresent()) return;
         if (event.getType() == VillagerProfession.LEATHERWORKER
                 && !event.getTrades().get(5).contains(LISTING))
             event.getTrades().get(5).add(LISTING);
@@ -60,12 +64,14 @@ public final class BabelTrades {
     }
 
     public static void ensure(Villager v, MerchantOffers offers) {
+        if (!ModRegistry.TOWER_OF_BABEL.isPresent()) return;
         if (v.level().isClientSide
                 || v.getVillagerData().getProfession() != VillagerProfession.LEATHERWORKER
                 || v.getVillagerData().getLevel() < 5) return;
         boolean found = false;
         for (var iterator = offers.iterator(); iterator.hasNext(); ) {
-            if (!iterator.next().getResult().is(ModRegistry.TOWER_OF_BABEL.get())) continue;
+            if (!RegisteredItems.is(iterator.next().getResult(), ModRegistry.TOWER_OF_BABEL))
+                continue;
             if (found) iterator.remove();
             else found = true;
         }
@@ -73,7 +79,7 @@ public final class BabelTrades {
     }
 
     public static boolean fixed(MerchantOffer o) {
-        return o.getResult().is(ModRegistry.TOWER_OF_BABEL.get())
+        return RegisteredItems.is(o.getResult(), ModRegistry.TOWER_OF_BABEL)
                 && o.getBaseCostA().is(Items.SADDLE)
                 && o.getCostB().is(Items.GOAT_HORN);
     }

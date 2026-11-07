@@ -26,5 +26,11 @@
   "result": {
     "item": "the_long_travail:icarus",
     "count": 1
-  }
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "the_long_travail:icarus"
+    }
+  ]
 }

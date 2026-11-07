@@ -26,7 +26,7 @@ public final class LittlePrince {
     }
 
     public static void refresh(ServerPlayer p) {
-        var carrying = CarryingApi.query(p, ModRegistry.LITTLE_PRINCE.get());
+        var carrying = CarryingApi.query(p, ModRegistry.LITTLE_PRINCE);
         boolean active = LittlePrinceFlight.update(p, carrying);
         var attr = p.getAttribute(ForgeMod.STEP_HEIGHT_ADDITION.get());
         if (attr != null) {

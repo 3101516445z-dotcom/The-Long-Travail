@@ -12,25 +12,40 @@ import net.minecraft.world.item.*;
 import java.util.*;
 
 public final class MaidAccessories {
+    private static final class AvailableItems {
+        // 首次访问沿用原来的注册后调用时机；提示和同步不重复创建集合。
+        private static final List<Item> VALUES = buildItems();
+    }
+
     public static List<Item> items() {
-        return List.of(
-                ModRegistry.SUN_CHASER.get(),
-                ModRegistry.KAGOTSURUBE.get(),
-                ModRegistry.DEMON_KING.get(),
-                ModRegistry.SOUL_BANNER.get(),
-                ModRegistry.SPRING_CORNER.get(),
-                ModRegistry.EVERLASTING_FLOWER.get(),
-                ModRegistry.SWORD_AND_LANTERN.get(),
-                ModRegistry.AZRAEL.get(),
-                ModRegistry.PHOSPHOPHYLLITE.get(),
-                ModRegistry.THOUSAND_YEARS.get(),
-                ModRegistry.STAR_VOICE.get(),
-                ModRegistry.LORENTZ_FANTASY.get(),
-                ModRegistry.ICARUS.get(),
-                ModRegistry.DON_QUIXOTE.get(),
-                ModRegistry.MIDNIGHT_LAFITE.get(),
-                ModRegistry.TOKAIDO.get(),
-                ModRegistry.EKI.get());
+        return AvailableItems.VALUES;
+    }
+
+    private static List<Item> buildItems() {
+        return java.util.stream.Stream.of(
+                        ModRegistry.SUN_CHASER,
+                        ModRegistry.KAGOTSURUBE,
+                        ModRegistry.DEMON_KING,
+                        ModRegistry.SOUL_BANNER,
+                        ModRegistry.SPRING_CORNER,
+                        ModRegistry.EVERLASTING_FLOWER,
+                        ModRegistry.SWORD_AND_LANTERN,
+                        ModRegistry.AZRAEL,
+                        ModRegistry.PHOSPHOPHYLLITE,
+                        ModRegistry.THOUSAND_YEARS,
+                        ModRegistry.STAR_VOICE,
+                        ModRegistry.LORENTZ_FANTASY,
+                        ModRegistry.ICARUS,
+                        ModRegistry.DON_QUIXOTE,
+                        ModRegistry.MIDNIGHT_LAFITE,
+                        ModRegistry.TOKAIDO,
+                        ModRegistry.EKI)
+                .filter(
+                        item ->
+                                !com.thelongtravail.config.ItemRegistrationConfig.disabled(
+                                        item.getId()))
+                .map(net.minecraftforge.registries.RegistryObject::get)
+                .toList();
     }
 
     public static boolean equipped(LivingEntity entity, Item item) {

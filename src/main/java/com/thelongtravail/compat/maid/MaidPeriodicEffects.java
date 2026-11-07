@@ -81,7 +81,7 @@ final class MaidPeriodicEffects {
                 Attributes.MOVEMENT_SPEED,
                 EKI_SPEED,
                 eki(m) == Phase.MALICE ? RainConfig.SPEED.get() : 0);
-        if (!has(m, ModRegistry.SWORD_AND_LANTERN.get())) MaidLanternCombat.forget(m);
+        if (!has(m, ModRegistry.SWORD_AND_LANTERN)) MaidLanternCombat.forget(m);
         else
             for (var effect :
                     new MobEffect[] {

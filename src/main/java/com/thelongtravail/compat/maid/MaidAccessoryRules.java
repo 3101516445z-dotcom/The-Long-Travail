@@ -25,6 +25,12 @@ import net.minecraft.world.item.ItemStack;
 // 查询资格与数值，效果执行和状态清理由对应运行组件负责。
 // Phase 沿用公开类型以保持兼容；仅查询阶段不代表已装备对应饰品或女仆仍存活。
 public final class MaidAccessoryRules {
+    static boolean has(
+            EntityMaid maid,
+            net.minecraftforge.registries.RegistryObject<net.minecraft.world.item.Item> item) {
+        return item.isPresent() && has(maid, item.get());
+    }
+
     public static boolean hasEquipped(LivingEntity entity, Item item) {
         return entity instanceof EntityMaid maid && has(maid, item);
     }
@@ -44,7 +50,7 @@ public final class MaidAccessoryRules {
 
     public static ItemStack lorentzStack(LivingEntity e) {
         return e instanceof EntityMaid m
-                ? equipped(m, ModRegistry.LORENTZ_FANTASY.get())
+                ? equipped(m, ModRegistry.LORENTZ_FANTASY)
                 : ItemStack.EMPTY;
     }
 
@@ -59,7 +65,7 @@ public final class MaidAccessoryRules {
     }
 
     public static boolean quixote(LivingEntity e) {
-        return e instanceof EntityMaid m && has(m, ModRegistry.DON_QUIXOTE.get());
+        return e instanceof EntityMaid m && has(m, ModRegistry.DON_QUIXOTE);
     }
 
     public static int quixotePhase(LivingEntity e) {
@@ -73,7 +79,7 @@ public final class MaidAccessoryRules {
 
     public static ItemStack flowerStack(LivingEntity entity) {
         return entity instanceof EntityMaid maid
-                ? equipped(maid, ModRegistry.EVERLASTING_FLOWER.get())
+                ? equipped(maid, ModRegistry.EVERLASTING_FLOWER)
                 : ItemStack.EMPTY;
     }
 
@@ -87,7 +93,7 @@ public final class MaidAccessoryRules {
     }
 
     public static boolean lafite(LivingEntity entity) {
-        return entity instanceof EntityMaid m && has(m, ModRegistry.MIDNIGHT_LAFITE.get());
+        return entity instanceof EntityMaid m && has(m, ModRegistry.MIDNIGHT_LAFITE);
     }
 
     public static int lafitePhase(LivingEntity entity) {
@@ -100,7 +106,7 @@ public final class MaidAccessoryRules {
     }
 
     public static int phosphophyllitePhase(LivingEntity entity) {
-        if (!(entity instanceof EntityMaid maid) || !has(maid, ModRegistry.PHOSPHOPHYLLITE.get()))
+        if (!(entity instanceof EntityMaid maid) || !has(maid, ModRegistry.PHOSPHOPHYLLITE))
             return 0;
         return switch (phase(maid, TravailAspect.DEEP_VALLEY)) {
             case MALICE -> 1;
@@ -120,7 +126,7 @@ public final class MaidAccessoryRules {
 
     public static ItemStack relicStack(LivingEntity e, boolean banner) {
         return e instanceof EntityMaid m
-                ? equipped(m, banner ? ModRegistry.SOUL_BANNER.get() : ModRegistry.DEMON_KING.get())
+                ? equipped(m, banner ? ModRegistry.SOUL_BANNER : ModRegistry.DEMON_KING)
                 : ItemStack.EMPTY;
     }
 
@@ -134,7 +140,7 @@ public final class MaidAccessoryRules {
 
     public static boolean lantern(Entity e) {
         return e instanceof EntityMaid m
-                && LanternSources.enabled(equipped(m, ModRegistry.SWORD_AND_LANTERN.get()));
+                && LanternSources.enabled(equipped(m, ModRegistry.SWORD_AND_LANTERN));
     }
 
     public static ItemStack springCrown(LivingEntity entity) {
@@ -142,7 +148,7 @@ public final class MaidAccessoryRules {
     }
 
     static ItemStack crown(EntityMaid m) {
-        return equipped(m, ModRegistry.SPRING_CORNER.get());
+        return equipped(m, ModRegistry.SPRING_CORNER);
     }
 
     public static double swimBonus(EntityMaid m) {
@@ -154,7 +160,7 @@ public final class MaidAccessoryRules {
     }
 
     public static Phase eki(EntityMaid m) {
-        return has(m, ModRegistry.EKI.get())
+        return has(m, ModRegistry.EKI)
                         && RainState.weather(
                                 m, RainConfig.EKI_LOCAL.get(), RainConfig.EKI_SKY.get())
                 ? phase(m, TravailAspect.ABYSS)
@@ -162,14 +168,14 @@ public final class MaidAccessoryRules {
     }
 
     static boolean tokaido(EntityMaid m) {
-        return has(m, ModRegistry.TOKAIDO.get())
+        return has(m, ModRegistry.TOKAIDO)
                 && RainState.weather(
                         m, RainConfig.TOKAIDO_LOCAL.get(), RainConfig.TOKAIDO_SKY.get());
     }
 
     public static boolean seesUndead(LivingEntity e) {
         return e instanceof EntityMaid m
-                && has(m, ModRegistry.THOUSAND_YEARS.get())
+                && has(m, ModRegistry.THOUSAND_YEARS)
                 && phase(m, TravailAspect.UNDERWORLD) == Phase.WITNESS;
     }
 

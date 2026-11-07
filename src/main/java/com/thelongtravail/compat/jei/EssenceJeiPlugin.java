@@ -61,24 +61,30 @@ public final class EssenceJeiPlugin implements IModPlugin {
         registration.addRecipes(
                 TYPE,
                 List.of(
-                        new BlockDrop(
-                                Items.BUDDING_AMETHYST,
-                                () ->
-                                        ModRegistry.ESSENCES
-                                                .get(TravailAspect.DEEP_VALLEY.ordinal())
-                                                .get(),
-                                "jei.the_long_travail.block_drop.description",
-                                null),
-                        new BlockDrop(
-                                Items.POPPY,
-                                ModRegistry.LITTLE_PRINCE::get,
-                                "jei.the_long_travail.block_drop.prince_poppy",
-                                "prince.poppyChance"),
-                        new BlockDrop(
-                                Items.ROSE_BUSH,
-                                ModRegistry.LITTLE_PRINCE::get,
-                                "jei.the_long_travail.block_drop.prince_rose",
-                                "prince.roseChance")));
+                                new BlockDrop(
+                                        Items.BUDDING_AMETHYST,
+                                        () ->
+                                                ModRegistry.ESSENCES
+                                                        .get(TravailAspect.DEEP_VALLEY.ordinal())
+                                                        .get(),
+                                        "jei.the_long_travail.block_drop.description",
+                                        null),
+                                new BlockDrop(
+                                        Items.POPPY,
+                                        ModRegistry.LITTLE_PRINCE::get,
+                                        "jei.the_long_travail.block_drop.prince_poppy",
+                                        "prince.poppyChance"),
+                                new BlockDrop(
+                                        Items.ROSE_BUSH,
+                                        ModRegistry.LITTLE_PRINCE::get,
+                                        "jei.the_long_travail.block_drop.prince_rose",
+                                        "prince.roseChance"))
+                        .stream()
+                        .filter(
+                                drop ->
+                                        drop.chanceKey() == null
+                                                || ModRegistry.LITTLE_PRINCE.isPresent())
+                        .toList());
     }
 
     private static final class Category implements IRecipeCategory<BlockDrop> {

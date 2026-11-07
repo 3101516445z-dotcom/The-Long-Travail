@@ -21,7 +21,8 @@ public final class DependentAccessories {
     private record Rule(
             Supplier<Item> item,
             Predicate<ServerPlayer> requirement,
-            Consumer<ServerPlayer> cleanup) {}
+            Consumer<ServerPlayer> cleanup,
+            boolean enabled) {}
 
     private record Position(String slot, int index, Item item) {}
 
@@ -50,7 +51,11 @@ public final class DependentAccessories {
             Supplier<Item> item,
             Predicate<ServerPlayer> requirement,
             Consumer<ServerPlayer> cleanup) {
-        RULES.add(new Rule(item, requirement, cleanup));
+        boolean enabled =
+                !(item instanceof net.minecraftforge.registries.RegistryObject<?> reference)
+                        || !com.thelongtravail.config.ItemRegistrationConfig.disabled(
+                                reference.getId());
+        RULES.add(new Rule(item, requirement, cleanup, enabled));
     }
 
     public static boolean unique(SlotContext context, Item item) {
@@ -64,6 +69,7 @@ public final class DependentAccessories {
             for (Rule rule : List.copyOf(RULES)) {
                 if (rule.requirement.test(player)) continue;
                 rule.cleanup.accept(player);
+                if (!rule.enabled) continue;
                 var inventory = CuriosApi.getCuriosInventory(player).resolve();
                 if (inventory.isEmpty()) continue;
                 var positions =

@@ -1,5 +1,7 @@
 package com.thelongtravail.abyss.rain;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.config.RainConfig;
 import com.thelongtravail.journey.LongTravailData;
@@ -57,14 +59,19 @@ public final class RainState {
     }
 
     public static void inventoryTick(ServerPlayer player, int slot) {
+        if (!ModRegistry.EKI.isPresent()) return;
         com.thelongtravail.api.CarryingApi.inventoryTick(player, ModRegistry.EKI.get(), slot);
     }
 
     public static boolean carrying(ServerPlayer player) {
-        return com.thelongtravail.api.CarryingApi.isCarrying(player, ModRegistry.EKI.get());
+        return com.thelongtravail.api.CarryingApi.isCarrying(player, ModRegistry.EKI);
     }
 
     public static boolean equipped(Player p) {
+        if (!ModRegistry.TOKAIDO.isPresent()) {
+            TOKAIDO_LOCATIONS.remove(p);
+            return false;
+        }
         return CuriosApi.getCuriosInventory(p)
                 .resolve()
                 .map(
@@ -75,10 +82,9 @@ public final class RainState {
                                 if (current.isPresent()
                                         && hint.slot >= 0
                                         && hint.slot < current.get().getStacks().getSlots()
-                                        && current.get()
-                                                .getStacks()
-                                                .getStackInSlot(hint.slot)
-                                                .is(ModRegistry.TOKAIDO.get())) return true;
+                                        && RegisteredItems.is(
+                                                current.get().getStacks().getStackInSlot(hint.slot),
+                                                ModRegistry.TOKAIDO)) return true;
                             }
                             TOKAIDO_LOCATIONS.remove(p);
                             for (String id : RainConfig.SLOTS.get()) {
@@ -86,7 +92,8 @@ public final class RainState {
                                 if (handler.isEmpty()) continue;
                                 var stacks = handler.get().getStacks();
                                 for (int i = 0; i < stacks.getSlots(); i++)
-                                    if (stacks.getStackInSlot(i).is(ModRegistry.TOKAIDO.get())) {
+                                    if (RegisteredItems.is(
+                                            stacks.getStackInSlot(i), ModRegistry.TOKAIDO)) {
                                         TOKAIDO_LOCATIONS.put(p, new Location(Area.CURIOS, id, i));
                                         return true;
                                     }

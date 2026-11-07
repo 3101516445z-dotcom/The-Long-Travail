@@ -2,6 +2,11 @@ The Long Travail Configuration Guide
 Generated and updated automatically at startup. Do not store personal notes here.
 Edit the TOML files in this directory. Legacy root-level files are not loaded.
 
+Theme item registration: item-registration.toml contains 30 switches grouped by theme. true registers an item; false disables registration. All default to true.
+These switches require a full game/server restart; /reload cannot apply them. Clients and servers must use matching values.
+Disabling registration may remove items from existing saves. Back up your world first. Dependent built-in recipes, trades and displays are disabled; external scripts and data packs may need adjustments.
+Missing switches default to true. Syntax, boolean-type or read errors stop startup until repaired, rather than using ordinary numeric-config recovery.
+
 QUICK INDEX
 To find a section, open this guide and use the editor's Find command: hold Ctrl and press F, then type the code from the config comment (for example, P06). This searches the current file without changing it.
 Use Next or press Enter to move through matches; you can also scroll to the heading using the index below.

@@ -9,6 +9,12 @@ import net.minecraft.world.item.ItemStack;
 
 // 为玩法适配提供女仆原生访问；仅在确认可选模组存在后加载。
 public final class MaidAccess {
+    public static ItemStack equipped(
+            EntityMaid maid,
+            net.minecraftforge.registries.RegistryObject<net.minecraft.world.item.Item> item) {
+        return item.isPresent() ? equipped(maid, item.get()) : ItemStack.EMPTY;
+    }
+
     static final String IDENTITY_KEY = "TravailMaidIdentity";
 
     public static ItemStack equipped(EntityMaid m, Item item) {

@@ -441,6 +441,8 @@ public final class CatalogEntries {
             TravailAspect theme,
             String aliases,
             Details details) {
+        if (category == Category.THEME
+                && !com.thelongtravail.config.ItemRegistrationConfig.enabled(id)) return;
         list.add(new Entry(id, item, category, theme, aliases, details));
     }
 

@@ -1,5 +1,7 @@
 package com.thelongtravail.abyss.copy;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.thelongtravail.abyss.copy.FluidCopyGraph;
 import com.thelongtravail.abyss.copy.FluidCrafting;
 import com.thelongtravail.config.AbyssItemsConfig;
@@ -32,8 +34,8 @@ public final class PerfectFluidRecipe extends CustomRecipe {
         }
         if (second < 0) return null;
         int target;
-        if (c.getItem(first).is(ModRegistry.PERFECT_FLUID.get())) target = second;
-        else if (c.getItem(second).is(ModRegistry.PERFECT_FLUID.get())) target = first;
+        if (RegisteredItems.is(c.getItem(first), ModRegistry.PERFECT_FLUID)) target = second;
+        else if (RegisteredItems.is(c.getItem(second), ModRegistry.PERFECT_FLUID)) target = first;
         else return null;
         if (PerfectFluidCopies.isProtected(
                 ForgeRegistries.ITEMS.getKey(c.getItem(target).getItem()).toString())) return null;

@@ -46,6 +46,7 @@ public final class EverlastingFlower {
     private static final UUID SPEED = UUID.fromString("4e429a52-f0ae-41db-8bc8-e54e3689ada2");
 
     public static ItemStack equipped(LivingEntity entity) {
+        if (!ModRegistry.EVERLASTING_FLOWER.isPresent()) return ItemStack.EMPTY;
         if (!entity.isAlive() || entity.isSpectator()) return ItemStack.EMPTY;
         if (com.thelongtravail.integration.MaidIntegration.isMaid(entity))
             return com.thelongtravail.integration.MaidIntegration.flowerStack(entity);

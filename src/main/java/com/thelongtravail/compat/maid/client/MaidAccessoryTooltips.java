@@ -1,5 +1,7 @@
 package com.thelongtravail.compat.maid.client;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.thelongtravail.compat.maid.MaidAccessories;
 import com.thelongtravail.registry.ModRegistry;
 import net.minecraft.ChatFormatting;
@@ -27,30 +29,31 @@ public final class MaidAccessoryTooltips {
                 insertion++,
                 Component.translatable(
                                 PREFIX
-                                        + (stack.is(ModRegistry.MIDNIGHT_LAFITE.get())
+                                        + (RegisteredItems.is(stack, ModRegistry.MIDNIGHT_LAFITE)
                                                 ? "lafite.basic"
-                                                : stack.is(ModRegistry.SOUL_BANNER.get())
-                                                                || stack.is(
-                                                                        ModRegistry.DEMON_KING
-                                                                                .get())
+                                                : RegisteredItems.is(stack, ModRegistry.SOUL_BANNER)
+                                                                || RegisteredItems.is(
+                                                                        stack,
+                                                                        ModRegistry.DEMON_KING)
                                                         ? "relic.basic"
                                                         : "basic"))
                         .withStyle(ChatFormatting.DARK_GRAY));
-        if (stack.is(ModRegistry.TOKAIDO.get()))
+        if (RegisteredItems.is(stack, ModRegistry.TOKAIDO))
             lines.add(
                     insertion,
                     Component.translatable(PREFIX + "tokaido").withStyle(ChatFormatting.DARK_GRAY));
-        else if (!stack.is(ModRegistry.SPRING_CORNER.get())
-                && !stack.is(ModRegistry.SWORD_AND_LANTERN.get()))
+        else if (!RegisteredItems.is(stack, ModRegistry.SPRING_CORNER)
+                && !RegisteredItems.is(stack, ModRegistry.SWORD_AND_LANTERN))
             lines.add(
                     insertion++,
                     Component.translatable(
                                     PREFIX
-                                            + (stack.is(ModRegistry.MIDNIGHT_LAFITE.get())
+                                            + (RegisteredItems.is(
+                                                            stack, ModRegistry.MIDNIGHT_LAFITE)
                                                     ? "lafite.diary"
                                                     : "diary"))
                             .withStyle(ChatFormatting.DARK_GRAY));
-        if (stack.is(ModRegistry.SOUL_BANNER.get())) {
+        if (RegisteredItems.is(stack, ModRegistry.SOUL_BANNER)) {
             lines.add(
                     insertion++,
                     Component.translatable(PREFIX + "banner.souls")

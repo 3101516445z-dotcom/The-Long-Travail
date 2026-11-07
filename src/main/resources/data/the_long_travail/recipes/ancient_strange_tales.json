@@ -19,5 +19,11 @@
   },
   "result": {
     "item": "the_long_travail:ancient_strange_tales"
-  }
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "the_long_travail:ancient_strange_tales"
+    }
+  ]
 }

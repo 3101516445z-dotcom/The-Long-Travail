@@ -1,1 +1,9 @@
-{"replace": false, "values": ["the_long_travail:a_thousand_years_later"]}
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "the_long_travail:a_thousand_years_later",
+      "required": false
+    }
+  ]
+}

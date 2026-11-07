@@ -19,5 +19,11 @@
   "result": {
     "item": "the_long_travail:underground_velvet",
     "count": 16
-  }
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "the_long_travail:underground_velvet"
+    }
+  ]
 }

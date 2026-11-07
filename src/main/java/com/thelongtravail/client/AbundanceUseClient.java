@@ -1,5 +1,7 @@
 package com.thelongtravail.client;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.abyss.abundance.LiquefiedAbundance;
 import com.thelongtravail.network.TooltipConfigSync;
@@ -71,7 +73,7 @@ public final class AbundanceUseClient {
         var mc = Minecraft.getInstance();
         if (mc.player != null
                 && mc.player.isUsingItem()
-                && mc.player.getUseItem().is(ModRegistry.LIQUEFIED_ABUNDANCE.get())) {
+                && RegisteredItems.is(mc.player.getUseItem(), ModRegistry.LIQUEFIED_ABUNDANCE)) {
             TravailNetwork.cancelAbundance();
             mc.player.stopUsingItem();
         }
@@ -117,7 +119,7 @@ public final class AbundanceUseClient {
             locked = false;
             original = ItemStack.EMPTY;
         } else if (mc.player.isUsingItem()
-                && mc.player.getUseItem().is(ModRegistry.LIQUEFIED_ABUNDANCE.get())) {
+                && RegisteredItems.is(mc.player.getUseItem(), ModRegistry.LIQUEFIED_ABUNDANCE)) {
             if (original.isEmpty()) original = mc.player.getUseItem();
             else if (original != mc.player.getUseItem()) cancel();
         }
@@ -131,7 +133,7 @@ public final class AbundanceUseClient {
                 || mc.player == null
                 || mc.screen != null
                 || !mc.player.isUsingItem()
-                || !mc.player.getUseItem().is(ModRegistry.LIQUEFIED_ABUNDANCE.get())) {
+                || !RegisteredItems.is(mc.player.getUseItem(), ModRegistry.LIQUEFIED_ABUNDANCE)) {
             clearNotice();
             return;
         }
@@ -164,7 +166,7 @@ public final class AbundanceUseClient {
                 || mc.screen != null
                 || mc.options.hideGui
                 || !mc.player.isUsingItem()
-                || !mc.player.getUseItem().is(ModRegistry.LIQUEFIED_ABUNDANCE.get())
+                || !RegisteredItems.is(mc.player.getUseItem(), ModRegistry.LIQUEFIED_ABUNDANCE)
                 || gui.travail$getOverlayMessage() != displayed
                 || gui.travail$getOverlayMessageTime() <= 0) return -1;
         return Math.max(

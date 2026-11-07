@@ -1,10 +1,25 @@
 {
   "replace": false,
   "values": [
-    "the_long_travail:free_and_easy_wandering",
-    "the_long_travail:everlasting_flower",
-    "the_long_travail:phosphophyllite",
-    "the_long_travail:don_quixote",
-    "the_long_travail:star_voice"
+    {
+      "id": "the_long_travail:free_and_easy_wandering",
+      "required": false
+    },
+    {
+      "id": "the_long_travail:everlasting_flower",
+      "required": false
+    },
+    {
+      "id": "the_long_travail:phosphophyllite",
+      "required": false
+    },
+    {
+      "id": "the_long_travail:don_quixote",
+      "required": false
+    },
+    {
+      "id": "the_long_travail:star_voice",
+      "required": false
+    }
   ]
 }

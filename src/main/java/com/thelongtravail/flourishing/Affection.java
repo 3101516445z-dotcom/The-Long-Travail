@@ -45,7 +45,9 @@ public final class Affection {
     }
 
     public static ItemStack equipped(Player p, boolean spring) {
-        var item = spring ? ModRegistry.SPRING_CORNER.get() : ModRegistry.AFFECTION.get();
+        var reference = spring ? ModRegistry.SPRING_CORNER : ModRegistry.AFFECTION;
+        if (!reference.isPresent()) return ItemStack.EMPTY;
+        var item = reference.get();
         var slots =
                 spring
                         ? FlourishingItemsConfig.SPRING_SLOTS.get()

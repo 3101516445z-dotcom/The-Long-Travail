@@ -19,7 +19,8 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public final class TravailNetwork {
-    private static final String PROTOCOL = "23";
+    private static final String PROTOCOL =
+            "24-items-" + com.thelongtravail.config.ItemRegistrationConfig.signature();
     private static final SimpleChannel CHANNEL =
             NetworkRegistry.newSimpleChannel(
                     new ResourceLocation(TheLongTravail.MODID, "main"),

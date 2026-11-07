@@ -24,7 +24,7 @@ public final class MidnightLafite {
     public static boolean equipped(LivingEntity e) {
         if (!e.isAlive() || e.isSpectator()) return false;
         return e instanceof Player p
-                ? AccessoryEquipRules.hasEquipped(p, "hands", ModRegistry.MIDNIGHT_LAFITE.get())
+                ? AccessoryEquipRules.hasEquipped(p, "hands", ModRegistry.MIDNIGHT_LAFITE)
                 : MaidIntegration.lafite(e);
     }
 

@@ -25,6 +25,7 @@ public final class UnifiedLoot {
     private static boolean loaded;
     public static final String POOL = "the_long_travail:shared_items";
 
+    // null 表示已关闭的内置奖励，其空结果仍占用原有权重。
     public record Entry(Item item, int weight, int min, int max) {}
 
     public record Rule(float chance, List<Entry> items) {}
@@ -153,11 +154,13 @@ public final class UnifiedLoot {
                 String[] parts = text.split("\\|", -1);
                 if (parts.length != 4) throw new IllegalArgumentException("格式为物品ID|权重|最小数量|最大数量");
                 var itemId = ResourceLocation.tryParse(parts[0].trim());
+                boolean disabled =
+                        com.thelongtravail.config.ItemRegistrationConfig.disabled(itemId);
                 if (itemId == null
                         || !parts[0].contains(":")
-                        || !ForgeRegistries.ITEMS.containsKey(itemId))
+                        || (!disabled && !ForgeRegistries.ITEMS.containsKey(itemId)))
                     throw new IllegalArgumentException("物品ID不存在");
-                Item item = ForgeRegistries.ITEMS.getValue(itemId);
+                Item item = disabled ? null : ForgeRegistries.ITEMS.getValue(itemId);
                 int weight = Integer.parseInt(parts[1].trim());
                 int min = Integer.parseInt(parts[2].trim()),
                         max = Integer.parseInt(parts[3].trim());
@@ -187,6 +190,12 @@ public final class UnifiedLoot {
                         .setBonusRolls(ConstantValue.exactly(0))
                         .when(LootItemRandomChanceCondition.randomChance(rule.chance()));
         for (Entry entry : rule.items()) {
+            if (entry.item() == null) {
+                pool.add(
+                        net.minecraft.world.level.storage.loot.entries.EmptyLootItem.emptyItem()
+                                .setWeight(entry.weight()));
+                continue;
+            }
             pool.add(
                     LootItem.lootTableItem(entry.item())
                             .setWeight(entry.weight())

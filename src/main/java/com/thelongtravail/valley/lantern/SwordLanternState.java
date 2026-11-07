@@ -1,5 +1,7 @@
 package com.thelongtravail.valley.lantern;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.thelongtravail.config.SwordLanternConfig;
 
 import com.thelongtravail.registry.ModRegistry;
@@ -30,7 +32,8 @@ public final class SwordLanternState {
 
         var stacks = belt.get().getStacks();
         for (int i = 0; i < stacks.getSlots(); i++)
-            if (stacks.getStackInSlot(i).is(ModRegistry.SWORD_AND_LANTERN.get())) return true;
+            if (RegisteredItems.is(stacks.getStackInSlot(i), ModRegistry.SWORD_AND_LANTERN))
+                return true;
         return false;
     }
 

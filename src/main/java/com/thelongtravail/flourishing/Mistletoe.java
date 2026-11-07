@@ -1,5 +1,7 @@
 package com.thelongtravail.flourishing;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.config.*;
 import com.thelongtravail.registry.ModRegistry;
@@ -37,7 +39,7 @@ public final class Mistletoe {
     @SubscribeEvent
     public static void interact(
             net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract event) {
-        if (!event.getItemStack().is(ModRegistry.MISTLETOE.get())) return;
+        if (!RegisteredItems.is(event.getItemStack(), ModRegistry.MISTLETOE)) return;
         Entity target = event.getTarget();
         if (target instanceof net.minecraftforge.entity.PartEntity<?> part)
             target = part.getParent();

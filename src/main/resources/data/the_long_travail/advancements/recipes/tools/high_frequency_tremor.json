@@ -3,13 +3,38 @@
   "criteria": {
     "has_pickaxe": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": { "items": [{ "items": ["minecraft:netherite_pickaxe"] }] }
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_pickaxe"
+            ]
+          }
+        ]
+      }
     },
     "has_recipe": {
       "trigger": "minecraft:recipe_unlocked",
-      "conditions": { "recipe": "the_long_travail:high_frequency_tremor" }
+      "conditions": {
+        "recipe": "the_long_travail:high_frequency_tremor"
+      }
     }
   },
-  "requirements": [["has_pickaxe", "has_recipe"]],
-  "rewards": { "recipes": ["the_long_travail:high_frequency_tremor"] }
+  "requirements": [
+    [
+      "has_pickaxe",
+      "has_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "the_long_travail:high_frequency_tremor"
+    ]
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "the_long_travail:high_frequency_tremor"
+    }
+  ]
 }

@@ -41,6 +41,7 @@ public final class AzraelState {
     private static final ArrayDeque<Request> REQUESTS = new ArrayDeque<>();
 
     public static boolean equipped(Player player) {
+        if (!ModRegistry.AZRAEL.isPresent()) return false;
         if (TravailCurios.stack(player).isEmpty()) return false;
         return CuriosApi.getCuriosInventory(player)
                 .map(

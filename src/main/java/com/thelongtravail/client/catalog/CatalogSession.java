@@ -67,6 +67,9 @@ public final class CatalogSession {
 
     public static CatalogSession openDetail(
             Screen owner, CatalogEntries.Entry entry, ItemStack actual) {
+        if (entry.category() == CatalogEntries.Category.THEME
+                && !com.thelongtravail.config.ItemRegistrationConfig.enabled(entry.id()))
+            return open(owner);
         active = new CatalogSession(owner);
         active.detail(entry, actual);
         return active;
@@ -110,6 +113,11 @@ public final class CatalogSession {
     }
 
     public void detail(CatalogEntries.Entry entry, ItemStack stack) {
+        if (entry.category() == CatalogEntries.Category.THEME
+                && !com.thelongtravail.config.ItemRegistrationConfig.enabled(entry.id())) {
+            back();
+            return;
+        }
         if (parent != null) parent.collapseSearch();
         ItemStack display = entry.stack();
         show(new CatalogDetailScreen(this, display, CatalogEntries.details(entry, display)));

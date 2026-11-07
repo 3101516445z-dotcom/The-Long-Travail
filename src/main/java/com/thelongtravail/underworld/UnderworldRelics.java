@@ -1,5 +1,7 @@
 package com.thelongtravail.underworld;
 
+import com.thelongtravail.registry.RegisteredItems;
+
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.common.AttributeModifierSet;
@@ -51,7 +53,9 @@ public final class UnderworldRelics {
     }
 
     private static ItemStack wornStack(LivingEntity e, boolean banner) {
-        var item = banner ? ModRegistry.SOUL_BANNER.get() : ModRegistry.DEMON_KING.get();
+        var reference = banner ? ModRegistry.SOUL_BANNER : ModRegistry.DEMON_KING;
+        if (!reference.isPresent()) return ItemStack.EMPTY;
+        var item = reference.get();
         if (!(e instanceof Player p))
             return com.thelongtravail.integration.MaidIntegration.relicStack(e, banner);
         return CuriosApi.getCuriosInventory(p)
@@ -74,7 +78,7 @@ public final class UnderworldRelics {
     }
 
     public static int souls(ItemStack stack) {
-        if (!stack.is(ModRegistry.SOUL_BANNER.get()) || !stack.hasTag()) return 0;
+        if (!RegisteredItems.is(stack, ModRegistry.SOUL_BANNER) || !stack.hasTag()) return 0;
         var tag = stack.getTag().getCompound("the_long_travail:soul_banner");
         return Math.min(capacity(), Math.max(0, tag.getInt("Souls")));
     }

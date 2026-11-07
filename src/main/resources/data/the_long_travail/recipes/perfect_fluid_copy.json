@@ -1,4 +1,10 @@
 {
   "type": "the_long_travail:perfect_fluid_copy",
-  "category": "misc"
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "the_long_travail:perfect_fluid"
+    }
+  ]
 }
