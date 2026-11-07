@@ -41,8 +41,6 @@
 
 保存沿用 `ManagedConfig.update`，每个主题的结构池与本次处理标记同文件提交，保存成功后发布配置并清理缓存；缺席时不标记，处理后即使零新增也标记。结构抽取数量与已有旅程不变。`gradlew.bat testStructureCompatDefaults testBiomeCompatDefaults` 检查范围、独立标记、重试与合并规则。
 
-真实模组生成回归入口为 [联动探索回归说明](../../tools/worldgen-presets/README.md)，使用自然结构和独立 JVM 重载。注册表夹具只能证明配置补入，不能代替实际到访检测。
-
 ## 联动物品奖励预设
 
 `config/defaults/RewardCompatDefaults` 在 `ServerStartingEvent` 按 `ForgeRegistries.ITEMS` 的实际命名空间检测来源，逐项检查物品是否注册。8 个模组的 49 条候选分别位于对应 `compat` 子目录中的 `...RewardDefaults`，返回 `物品ID|权重|最小数量|最大数量`；各类分别提供独立的 `fishingItems()`、`phantomDrops()` 列表，目前内容相同，允许今后分别调整或只提供其中一类。

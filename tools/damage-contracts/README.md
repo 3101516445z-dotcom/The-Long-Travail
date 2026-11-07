@@ -22,22 +22,9 @@ node --test tools/damage-contracts/check.test.mjs
 
 更新基线前完成源码复查。目录中的 successors 表示带条件的效果资格关系；递归判定同时核对同步作用域与跨刻续接规则，重点包括 `SUN_CHAIN`、`InsightRetaliation.CHAIN`、Replay Frame、特殊来源早退顺序及各队列清理。
 
-## 运行回归选择
-
-| 修改范围 | 现有入口 | 对照重点 |
-| --- | --- | --- |
-| 玩家逐日/籠釣瓶、直击身份 | `gradlew.bat -I tools/sun-blade.init.gradle runServer --offline --console=plain` | 免火、禁疗、凋零延长、固定比例、重放归属 |
-| 女仆逐日/籠釣瓶 | `gradlew.bat -I tools/structure-regression/round-05.init.gradle -PstructurePhase=sun-blade-maid runServer --offline --console=plain` | 女仆主体、主人阶段、原生饰品、伤害与保存恢复 |
-| 战斗公共结构 | `node tools/structure-regression/suite.mjs combat` | 共用属性、反伤与结算分支 |
-| 属性边界 | `gradlew.bat -I tools/combat-attributes.init.gradle runServer --offline` | 见切归零、霸主等号、必杀、取消与吸收 |
-
-Gradle 入口使用各自的隔离服务端、测试配置和已接受的 EULA；依赖准备见对应脚本。运行记录放 `build` 或 `local-archive`。各入口的具体断言见对应夹具；新增效果按下表补充所涉及的组合。
-
 ## 新增效果的场景设计
 
-`tools/sun-blade-smoke/DamageChainCases.java` 使用真实玩家 hurt 检查双向逐日/见切、零冷却玫瑰、特殊类型结算、全吸收、霸主、取消及嵌套异常。燃烧快照由测试实体强制为真，用于覆盖免火装备下的极端组合。`DamageReplayCases.java` 在自然服务器 tick 中使用实际无穷花，检查必定续接与卸装失效。两者由逐日/籠釣瓶入口执行。
-
-为隔离测试开启日志可加 `-PdamageTrace`。正式运行的诊断参数见[伤害链诊断](../../docs/开发者查阅/伤害结算与追加效果.md#伤害链诊断)。
+运行诊断参数见[伤害链诊断](../../docs/开发者查阅/伤害结算与追加效果.md#伤害链诊断)。
 
 | 场景 | 必须观察的量 |
 | --- | --- |

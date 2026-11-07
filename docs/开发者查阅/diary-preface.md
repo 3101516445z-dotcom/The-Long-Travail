@@ -10,4 +10,4 @@ TravelDiaryScreen 管理七枚书签、入口和页面记忆，DiaryPreface 管�
 
 书签在封皮与纸页交界处插入：背景、书签、diary_page_overlay.png 依次绘制。遮罩从原背景源图 x=69 起提取，只覆盖书签所在行；插入口固定，左侧点击边界随书签伸缩。工具 tools/structure-regression/preface-preview/extract-page-overlay.py 读取 Java 常量生成遮罩，--check 核对现有像素与布局。
 
-两页分别保存滚动位置，滚轮作用于鼠标所在页，方向键和翻页键作用于最近指向的正文页。预览工具入口见 tools/structure-regression/preface-preview/README.md。
+两页分别保存滚动位置，滚轮作用于鼠标所在页，方向键和翻页键作用于最近指向的正文页。

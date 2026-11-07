@@ -25,12 +25,3 @@
 `IcarusWingTexture` 在读取像素前验证 64×32 RGBA 格式。资源包贴图无法使用时，从模组自身读取默认 PNG，并注册独立动态贴图，使外部资源包无法再次覆盖回退内容。内置 PNG 也无法读取时使用缺失贴图与矩形轮廓兜底。
 
 缓存和日志以资源重载为周期；重载释放动态贴图并使所有翅膀模型在下一次绘制时重建。该视觉降级只记日志，不打断玩家操作。
-
-## 验证入口
-
-- `tools/structure-regression/tales.init.gradle`：正常转移、三类异常回调、失败输入缓存、失效预览与材料保留
-- `tools/structure-regression/abundance.init.gradle`：正常抽样与使用、异常数据隔离、药水准备失败、空池保留材料与重载恢复
-- `tools/structure-regression/icarus-hardening.init.gradle`：隔离客户端验证尺寸/格式拒绝、损坏资源包回退、缓存和修复后资源重载
-- `tools/structure-regression/design-hardening.init.gradle`：异常食物隔离、永生芽材料保留、隐藏链拒绝及正常时长、伊卡洛斯零日照提前返回
-
-运行命令为 `gradlew.bat -I <入口文件> runServer --offline --console=plain`；伊卡洛斯入口改用 `runClient`。

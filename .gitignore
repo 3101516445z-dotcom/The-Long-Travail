@@ -67,14 +67,19 @@ desktop.ini
 # 发布包保存在仓库外，避免重复加入源码仓库
 /releases/
 
-# Reproducible structural regression harness
+# 共享构建、资源生成与静态检查；运行验收工具仅保留本地
 !/tools/structure-regression/
-!/tools/structure-regression/**
-!/tools/worldgen-presets/
-!/tools/worldgen-presets/**
-!/tools/sun-blade.init.gradle
-!/tools/sun-blade-smoke/
-!/tools/sun-blade-smoke/**
+/tools/structure-regression/**
+!/tools/structure-regression/direct-compat/
+!/tools/structure-regression/preface-preview/
+!/tools/structure-regression/EventSubscriberNames.java
+!/tools/structure-regression/README.md
+!/tools/structure-regression/check-boundaries.mjs
+!/tools/structure-regression/check-boundaries.test.mjs
+!/tools/structure-regression/direct-compat-api.json
+!/tools/structure-regression/direct-compat/README.md
+!/tools/structure-regression/preface-preview/extract-page-overlay.py
+!/tools/structure-regression/prepare-direct-compat.py
 !/tools/damage-contracts/
 !/tools/damage-contracts/**
 
