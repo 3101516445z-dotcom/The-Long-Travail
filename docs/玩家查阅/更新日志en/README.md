@@ -1,11 +1,12 @@
 # Changelog — English
 
-Player-facing release notes for The Long Travail. The current version is `1.0.3`, released on 2026-11-07.
+Player-facing release notes for The Long Travail. The current version is `1.0.3-fix`, released on 2026-11-07.
 
 [中文更新日志](../更新日志zh/README.md)
 
 | Version | Release date | Last updated | Highlights |
 |---|---|---|---|
+| [1.0.3-fix](1.0.3-fix.md) | 2026-11-07 | 2026-11-07 | Remove structure translation overrides and adjust universal slot-name coloring. |
 | [1.0.3](1.0.3.md) | 2026-11-07 | 2026-11-07 | Individual registration switches for all 30 theme items, with catalogue and acquisition support. |
 | [1.0.2](1.0.2.md) | 2026-11-06 | 2026-11-06 | Consistent universal accessory slot tooltips, clarified Immortal Bud cactus protection, and internal code reorganization. |
 | [1.0.1](1.0.1.md) | 2026-11-04 | 2026-11-04 | Tooltip and progress-bar fixes, glossary and five-language updates, RSI 1.5.3 support and selected reflection replacements. |
