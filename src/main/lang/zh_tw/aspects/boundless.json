@@ -69,7 +69,7 @@
   "tooltip.the_long_travail.ancient_strange_tales.details.0": "將「古今語怪」與一件物品、1個下界石英無序合成，可將物品上的附魔轉移至本書。",
   "tooltip.the_long_travail.ancient_strange_tales.details.1": "將下界石英替換為1個青金石，則將本書上的附魔轉移至目標物品。",
   "tooltip.the_long_travail.ancient_strange_tales.details.2": "目標沒有同種附魔時，按原等級轉移。\n目標已有同種附魔時，取雙方較高等級並提高1級，上限為255級。",
-  "tooltip.the_long_travail.ancient_strange_tales.details.3": "轉移涉及同種附魔時，合成中按雙方等級差添加額外材料：\n- 相差不超過10級，無需額外材料；\n- 相差11～100級，需要1個回響碎片；\n- 相差超過100級，需要1個回響碎片、1個下界之星和1個附魔之瓶。",
+  "tooltip.the_long_travail.ancient_strange_tales.details.3": "轉移涉及同種附魔時，合成中按雙方等級差添加額外材料：\n- 相差不超過10級，無需額外材料；\n- 相差11～100級，需要1個回響碎片和1個任意唱片；\n- 相差超過100級，需要1個回響碎片、1個任意唱片、1個下界之星和1個龍首。",
   "tooltip.the_long_travail.ancient_strange_tales.details.4": "額外材料對本次合成中的所有附魔共同生效，不按附魔數量重複消耗。\n若缺少某項附魔所需的額外材料，該附魔不進行轉移，保留在來源物品上，其他符合條件的附魔仍可正常轉移。",
   "tooltip.the_long_travail.ancient_strange_tales.details.5": "合成時可額外加入一種篩選材料：\n- 加入1個蜂蜜瓶，僅轉移非詛咒附魔；\n- 加入1個發酵蜘蛛眼，僅轉移詛咒附魔。",
   "tooltip.the_long_travail.ancient_strange_tales.details.6": "轉移限制：\n- 目標的同種附魔已達255級時，不再轉移該附魔；\n- 僅能轉移目標物品能夠接受、且與其已有附魔不衝突的附魔，其餘附魔留在來源物品上；\n- 古今語怪支持收錄任何類型的附魔，但兩本古今語怪不能互相轉移附魔。",

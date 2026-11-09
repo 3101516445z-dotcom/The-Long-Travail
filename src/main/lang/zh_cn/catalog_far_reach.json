@@ -29,7 +29,7 @@
   "gui.the_long_travail.catalog.far.icarus.8": "头顶无遮挡时，获得%s%%的伤害加成",
   "gui.the_long_travail.catalog.far.quixote.0": "佩戴「堂吉诃德」后，根据目标的体型倍率获得对该目标的伤害加成。",
   "gui.the_long_travail.catalog.far.quixote.1": "体型倍率超出1的部分，每增加1，伤害提高%s%%，最高提高%s%%。",
-  "gui.the_long_travail.catalog.far.quixote.2": "造成伤害时，若目标当前生命值不低于佩戴者当前生命值的%s倍，则额外造成相当于目标最大生命值%s%%的直击伤害。",
+  "gui.the_long_travail.catalog.far.quixote.2": "造成伤害时，若目标当前生命值不低于佩戴者当前生命值的%s倍，则额外造成相当于目标当前生命值%s%%的直击伤害。",
   "gui.the_long_travail.catalog.far.quixote.3": "单次造成的伤害超过目标最大生命值的%s%%时，受到该目标造成的伤害降低%s%%，持续%s秒。",
   "gui.the_long_travail.catalog.far.quixote.4": "触发冷却为%s秒。",
   "gui.the_long_travail.catalog.far.babel.0": "携带「巴别塔」时，友善与中立生物不会主动对携带者产生仇恨。普通猪灵不会主动进攻，末影人也不会因携带者的直视而被激怒。",

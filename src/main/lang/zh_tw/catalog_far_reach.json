@@ -29,7 +29,7 @@
   "gui.the_long_travail.catalog.far.icarus.8": "頭頂無遮擋時，獲得%s%%的傷害加成",
   "gui.the_long_travail.catalog.far.quixote.0": "佩戴「堂吉訶德」後，根據目標的體型倍率獲得對該目標的傷害加成。",
   "gui.the_long_travail.catalog.far.quixote.1": "體型倍率超出1的部分，每增加1，傷害提高%s%%，最高提高%s%%。",
-  "gui.the_long_travail.catalog.far.quixote.2": "造成傷害時，若目標當前生命值不低于佩戴者當前生命值的%s倍，則額外造成相當于目標最大生命值%s%%的直擊傷害。",
+  "gui.the_long_travail.catalog.far.quixote.2": "造成傷害時，若目標當前生命值不低于佩戴者當前生命值的%s倍，則額外造成相當于目標當前生命值%s%%的直擊傷害。",
   "gui.the_long_travail.catalog.far.quixote.3": "單次造成的傷害超過目標最大生命值的%s%%時，受到該目標造成的傷害降低%s%%，持續%s秒。",
   "gui.the_long_travail.catalog.far.quixote.4": "觸發冷卻為%s秒。",
   "gui.the_long_travail.catalog.far.babel.0": "攜帶「巴別塔」時，友善與中立生物不會主動對攜帶者產生仇恨。普通豬靈不會主動進攻，末影人也不會因攜帶者的直視而被激怒。",

@@ -44,7 +44,7 @@
   "item.the_long_travail.don_quixote": "唐吉訶德",
   "item.the_long_travail.tower_of_babel": "巴別塔",
   "tooltip.the_long_travail.don_quixote.base": "佩戴後，根據目標的體型獲得對該目標的傷害加成。目標體型越大，加成越高，最高為%s%%。",
-  "tooltip.the_long_travail.don_quixote.malice": "佩戴者造成傷害時，若目標當前生命值不低於佩戴者當前生命值的%s倍，則對目標額外造成相當於目標最大生命值%s%%的直擊傷害。",
+  "tooltip.the_long_travail.don_quixote.malice": "佩戴者造成傷害時，若目標當前生命值不低於佩戴者當前生命值的%s倍，則對目標額外造成相當於目標當前生命值%s%%的直擊傷害。",
   "tooltip.the_long_travail.don_quixote.witness": "佩戴者造成傷害時，若本次傷害超過目標最大生命值的%s%%，則佩戴者受到該目標造成的傷害降低%s%%，持續%s秒。",
   "tooltip.the_long_travail.tower_of_babel.base": "攜帶時，友善與中立生物不會主動對攜帶者產生仇恨。普通豬布林不會主動進攻攜帶者，終界使者不會因攜帶者的直視而被激怒。",
   "tooltip.the_long_travail.tower_of_babel.provocation": "攜帶者或其夥伴生物對某隻生物造成傷害後，該生物對攜帶者的仇恨保護永久失效。",

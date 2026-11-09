@@ -12,6 +12,15 @@ import net.minecraft.world.level.Level;
 
 // 直击伤害的类型键与来源工厂；穿透防御由类型标签定义，吸收生命由伤害桥接跳过，保留正常受伤结算流程。
 public final class DirectStrikeDamage {
+    // 使用调用方在原攻击结算前记录的生命值，避免追加伤害时重新取值。
+    public static double fromHealthSnapshot(double health, double fraction) {
+        if (!Double.isFinite(health)
+                || health <= 0
+                || !Double.isFinite(fraction)
+                || fraction <= 0) return 0;
+        return Math.min(Float.MAX_VALUE, health * fraction);
+    }
+
     public static final ResourceKey<DamageType> TYPE =
             ResourceKey.create(
                     Registries.DAMAGE_TYPE,

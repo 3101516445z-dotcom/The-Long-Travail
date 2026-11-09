@@ -44,7 +44,7 @@
   "item.the_long_travail.don_quixote": "堂吉诃德",
   "item.the_long_travail.tower_of_babel": "巴别塔",
   "tooltip.the_long_travail.don_quixote.base": "佩戴后，根据目标的体型获得对该目标的伤害加成。目标体型越大，加成越高，最高为%s%%。",
-  "tooltip.the_long_travail.don_quixote.malice": "佩戴者造成伤害时，若目标当前生命值不低于佩戴者当前生命值的%s倍，则对目标额外造成相当于目标最大生命值%s%%的直击伤害。",
+  "tooltip.the_long_travail.don_quixote.malice": "佩戴者造成伤害时，若目标当前生命值不低于佩戴者当前生命值的%s倍，则对目标额外造成相当于目标当前生命值%s%%的直击伤害。",
   "tooltip.the_long_travail.don_quixote.witness": "佩戴者造成伤害时，若本次伤害超过目标最大生命值的%s%%，则佩戴者受到该目标造成的伤害降低%s%%，持续%s秒。",
   "tooltip.the_long_travail.tower_of_babel.base": "携带时，友善与中立生物不会主动对携带者产生仇恨。普通猪灵不会主动进攻携带者，末影人不会因携带者的直视而被激怒。",
   "tooltip.the_long_travail.tower_of_babel.provocation": "携带者或其伙伴生物对某只生物造成伤害后，该生物对携带者的仇恨保护永久失效。",

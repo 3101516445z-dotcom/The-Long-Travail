@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -101,7 +102,7 @@ public final class EnchantmentTransferRecipe extends CustomRecipe {
                 book = i;
             } else other.add(i);
         }
-        if (book < 0 || other.size() < 2 || other.size() > 6) return null;
+        if (book < 0 || other.size() < 2 || other.size() > 7) return null;
         Plan found = null;
         // 枚举材料角色，使带附魔的材料物品也能作为转移目标。
         for (int catalyst : other) {
@@ -111,7 +112,7 @@ public final class EnchantmentTransferRecipe extends CustomRecipe {
                 if (target == catalyst) continue;
                 int filterSlot = -1;
                 EnchantmentTransfer.Filter filter = EnchantmentTransfer.Filter.ALL;
-                boolean echo = false, star = false, bottle = false, valid = true;
+                boolean echo = false, record = false, star = false, head = false, valid = true;
                 for (int slot : other) {
                     if (slot == catalyst || slot == target) continue;
                     ItemStack extra = grid.getItem(slot);
@@ -126,8 +127,9 @@ public final class EnchantmentTransferRecipe extends CustomRecipe {
                                         ? EnchantmentTransfer.Filter.NON_CURSE
                                         : EnchantmentTransfer.Filter.CURSE;
                     } else if (extra.is(Items.ECHO_SHARD) && !echo) echo = true;
+                    else if (extra.getItem() instanceof RecordItem && !record) record = true;
                     else if (extra.is(Items.NETHER_STAR) && !star) star = true;
-                    else if (extra.is(Items.EXPERIENCE_BOTTLE) && !bottle) bottle = true;
+                    else if (extra.is(Items.DRAGON_HEAD) && !head) head = true;
                     else {
                         valid = false;
                         break;
@@ -141,7 +143,7 @@ public final class EnchantmentTransferRecipe extends CustomRecipe {
                                 grid.getItem(source),
                                 grid.getItem(destination),
                                 filter,
-                                new EnchantmentTransfer.Materials(echo, star, bottle));
+                                new EnchantmentTransfer.Materials(echo, record, star, head));
                 if (result.failure() != null) throw new TransferFailure(result.failure());
                 if (result.result() == null) continue;
                 if (found != null) return null;

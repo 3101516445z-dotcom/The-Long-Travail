@@ -29,7 +29,7 @@
   "gui.the_long_travail.catalog.far.icarus.8": "With open sky overhead, gain a %s%% damage bonus",
   "gui.the_long_travail.catalog.far.quixote.0": "While wearing Don Quixote, gain a damage bonus against the target based on its size multiplier.",
   "gui.the_long_travail.catalog.far.quixote.1": "For each 1 above a size multiplier of 1, damage increases by %s%%, up to %s%%.",
-  "gui.the_long_travail.catalog.far.quixote.2": "When dealing damage, if the target’s current health is at least %s times your current health, deal additional Direct Strike damage equal to %s%% of its maximum health.",
+  "gui.the_long_travail.catalog.far.quixote.2": "When dealing damage, if the target’s current health is at least %s times your current health, deal additional Direct Strike damage equal to %s%% of its current health.",
   "gui.the_long_travail.catalog.far.quixote.3": "When a single hit exceeds %s%% of the target’s maximum health, damage received from that target decreases by %s%% for %s seconds.",
   "gui.the_long_travail.catalog.far.quixote.4": "Trigger cooldown: %s seconds.",
   "gui.the_long_travail.catalog.far.babel.0": "Carry Tower of Babel to prevent friendly and neutral creatures from becoming hostile toward you unprovoked. Normal piglins will not attack unprovoked, and staring at endermen will not anger them.",

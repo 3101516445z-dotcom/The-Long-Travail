@@ -44,7 +44,7 @@
   "item.the_long_travail.don_quixote": "Don Quixote",
   "item.the_long_travail.tower_of_babel": "Tower of Babel",
   "tooltip.the_long_travail.don_quixote.base": "While equipped, gain a damage bonus against the target based on its size. Larger targets grant a greater bonus, up to %s%%.",
-  "tooltip.the_long_travail.don_quixote.malice": "When the wearer deals damage, if the target's current health is at least %s times the wearer's current health, deal additional direct strike damage equal to %s%% of the target's maximum health.",
+  "tooltip.the_long_travail.don_quixote.malice": "When the wearer deals damage, if the target's current health is at least %s times the wearer's current health, deal additional direct strike damage equal to %s%% of the target's current health.",
   "tooltip.the_long_travail.don_quixote.witness": "When the wearer deals damage exceeding %s%% of the target's maximum health, damage the wearer takes from that target is reduced by %s%% for %s seconds.",
   "tooltip.the_long_travail.tower_of_babel.base": "While carried, friendly and neutral creatures will not become hostile toward the carrier on their own. Regular piglins will not attack the carrier unprovoked, and endermen will not become angry when stared at by the carrier.",
   "tooltip.the_long_travail.tower_of_babel.provocation": "If the carrier or their companion creatures damage a creature, that creature permanently loses its hostility protection toward the carrier.",

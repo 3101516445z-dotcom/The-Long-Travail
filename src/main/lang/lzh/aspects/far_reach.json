@@ -44,7 +44,7 @@
   "item.the_long_travail.don_quixote": "唐吉訶德",
   "item.the_long_travail.tower_of_babel": "巴別塔",
   "tooltip.the_long_travail.don_quixote.base": "佩戴後，根據目標的體型獲得對該目標的傷害加成。目標體型越大，加成越高，最高為%s%%。",
-  "tooltip.the_long_travail.don_quixote.malice": "佩者傷敵時，若敵之當前生命值不低於佩者之當前生命值%s倍，則額傷相當於敵之最大生命值%s%%之直擊傷害。",
+  "tooltip.the_long_travail.don_quixote.malice": "佩者傷敵時，若敵之當前生命值不低於佩者之當前生命值%s倍，則額傷相當於敵之當前生命值%s%%之直擊傷害。",
   "tooltip.the_long_travail.don_quixote.witness": "佩者傷敵時，若此傷過敵之最大生命值%s%%，則佩者受此敵之傷減%s%%，持續%s秒。",
   "tooltip.the_long_travail.tower_of_babel.base": "攜之，善者與中立之物不主動仇之。常豬布林不主動攻之，終界使者不因直視而怒。",
   "tooltip.the_long_travail.tower_of_babel.provocation": "攜者或其侶傷一物，則此物於攜者之仇護永失。",

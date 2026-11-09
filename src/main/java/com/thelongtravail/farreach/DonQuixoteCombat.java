@@ -32,7 +32,8 @@ public final class DonQuixoteCombat {
                     Registries.DAMAGE_TYPE,
                     new ResourceLocation("the_long_travail", "don_quixote_strike"));
 
-    public record Snapshot(double bonus, double maxHealth, boolean strike, boolean witness) {}
+    public record Snapshot(
+            double bonus, double maxHealth, double currentHealth, boolean strike, boolean witness) {}
 
     public static boolean equipped(ServerPlayer p) {
         return p.isAlive()
@@ -100,7 +101,7 @@ public final class DonQuixoteCombat {
                         && ph > 0
                         && hp >= ph * FarReachRelicsConfig.value("don_quixote.healthRatio");
         return new Snapshot(
-                sizeBonus(volume), Double.isFinite(max) && max > 0 ? max : 0, strike, witness);
+                sizeBonus(volume), Double.isFinite(max) && max > 0 ? max : 0, hp, strike, witness);
     }
 
     public static void finish(
@@ -123,7 +124,9 @@ public final class DonQuixoteCombat {
             strike(
                     p,
                     target,
-                    snapshot.maxHealth * FarReachRelicsConfig.value("don_quixote.trueFraction"));
+                    com.thelongtravail.combat.DirectStrikeDamage.fromHealthSnapshot(
+                            snapshot.currentHealth,
+                            FarReachRelicsConfig.value("don_quixote.trueFraction")));
     }
 
     private static void strike(LivingEntity p, LivingEntity target, double amount) {

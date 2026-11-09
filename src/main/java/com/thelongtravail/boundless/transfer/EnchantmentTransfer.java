@@ -34,13 +34,14 @@ public final class EnchantmentTransfer {
     public record Result(ItemStack source, ItemStack target) {}
 
     // 同一次合成共享材料资格，不按附魔数量扣除。
-    public record Materials(boolean echoShard, boolean netherStar, boolean experienceBottle) {
-        public static final Materials NONE = new Materials(false, false, false);
+    public record Materials(
+            boolean echoShard, boolean record, boolean netherStar, boolean dragonHead) {
+        public static final Materials NONE = new Materials(false, false, false, false);
 
         boolean permits(int source, int target) {
             long difference = Math.abs((long) source - target);
             return difference <= 10
-                    || echoShard && (difference <= 100 || netherStar && experienceBottle);
+                    || echoShard && record && (difference <= 100 || netherStar && dragonHead);
         }
     }
 

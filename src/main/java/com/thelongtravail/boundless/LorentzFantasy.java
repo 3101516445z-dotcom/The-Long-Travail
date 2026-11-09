@@ -317,7 +317,8 @@ public final class LorentzFantasy {
                         shooter,
                         target,
                         entity,
-                        health * BoundlessItemsConfig.get("lorentz.voidRatio"));
+                        DirectStrikeDamage.fromHealthSnapshot(
+                                health, BoundlessItemsConfig.get("lorentz.voidRatio")));
             }
         }
         return result;
