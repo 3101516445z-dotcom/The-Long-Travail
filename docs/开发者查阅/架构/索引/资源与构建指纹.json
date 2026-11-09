@@ -18,7 +18,7 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "9e52d3573310e3c37e31ff69c7dda3989c3fbec142d50a51ad803e59213acf4b",
+  "fingerprint": "87adbe3e3f2fc3f277c7512ecfc6651fc18012c74cc1219a66a8a1c500d60f13",
   "files": [
     {
       "path": "build.gradle",
@@ -126,7 +126,7 @@
     },
     {
       "path": "src/main/lang/en_us/common.json",
-      "sha256": "8614c5bc71cea05d18fb731d26a0b4ef2cc5101fbdf0d0f4cb049834769067ec"
+      "sha256": "892043d93d69c76656d2793b02984c01824f72bfb4cea4daf491198678067130"
     },
     {
       "path": "src/main/lang/en_us/compatibility.json",
@@ -198,7 +198,7 @@
     },
     {
       "path": "src/main/lang/lzh/common.json",
-      "sha256": "27ccc31c7040759b02c794b4c300e2f3938259e3c26c15878e6d49f2355e82a1"
+      "sha256": "a0e2cf899ce46d006ac1f2d5aadbc19f487799f1e7dbe3ed72a9e16688e61159"
     },
     {
       "path": "src/main/lang/lzh/compatibility.json",
@@ -266,7 +266,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/common.json",
-      "sha256": "c95606ed9c9c4091664b4f93a0584761b67f896ff74d1874ad96c2324ce0f822"
+      "sha256": "860f9c0492e7101a371b4d44b8d90476f7f7a0468225c7fab5ed63b5950ad741"
     },
     {
       "path": "src/main/lang/zh_cn/compatibility.json",
@@ -334,7 +334,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/common.json",
-      "sha256": "326977b5a03631c7a781da5b1291abd29072b018f8ad851ca4df8942ec5d1847"
+      "sha256": "429cdd1de42ec742ab5e4428dc349962091e4cb9f57d67b7eb20ef8fb60a8e84"
     },
     {
       "path": "src/main/lang/zh_hk/compatibility.json",
@@ -402,7 +402,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/common.json",
-      "sha256": "326977b5a03631c7a781da5b1291abd29072b018f8ad851ca4df8942ec5d1847"
+      "sha256": "429cdd1de42ec742ab5e4428dc349962091e4cb9f57d67b7eb20ef8fb60a8e84"
     },
     {
       "path": "src/main/lang/zh_tw/compatibility.json",
@@ -857,8 +857,16 @@
       "sha256": "079853b96f31b2c7b35c51e2345358eedfff278951e7212231c74ba95feba1aa"
     },
     {
+      "path": "src/main/resources/assets/the_long_travail/textures/mob_effect/magic_purification.png",
+      "sha256": "097c9e7a04768ffa6d7d846018cdef668296e7e876b54f15ad2a5b914184fd78"
+    },
+    {
       "path": "src/main/resources/assets/the_long_travail/textures/mob_effect/mistletoe.png",
       "sha256": "2a3a08da8594cdc69598a51f8223af6857650599d8d1104f64ee418f4a964eca"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/mob_effect/physical_purification.png",
+      "sha256": "57454a2b3ae2a48b0b1545a09fdd1dfda4ff03e83c8cbff200f5912aaa775f30"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/textures/mob_effect/stiff.png",
@@ -1319,6 +1327,14 @@
     {
       "path": "src/main/resources/data/the_long_travail/tags/damage_type/bypasses_combat_attributes.json",
       "sha256": "f9fb31af08b11bad0b1dc4bf84943caed566ee3419ac424d6fafea337f5f4018"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/tags/damage_type/magic_damage.json",
+      "sha256": "c1534409b7a4890be0540f6b0878542b3aedff67c38e2f6f87415237b534fe0b"
+    },
+    {
+      "path": "src/main/resources/data/the_long_travail/tags/damage_type/physical_damage.json",
+      "sha256": "8f5da4d65cfb3be1394c1c0ba7e3a3496ebfffcecf3cbe02c7c86ae344f12428"
     },
     {
       "path": "src/main/resources/data/the_long_travail/tags/damage_type/retaliation.json",

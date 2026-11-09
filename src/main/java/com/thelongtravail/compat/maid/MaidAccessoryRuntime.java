@@ -1,18 +1,19 @@
 package com.thelongtravail.compat.maid;
 
-import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidAndItemTransformEvent;
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.network.message.SyncBaubleMessage;
 import com.thelongtravail.TravailAspect;
+
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
@@ -20,7 +21,9 @@ import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.eventbus.api.*;
 import net.minecraftforge.registries.ForgeRegistries;
+
 import top.theillusivec4.curios.api.event.CurioEquipEvent;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -181,9 +184,9 @@ public final class MaidAccessoryRuntime {
         return MaidCombatCalculations.immune(victim, source, amount);
     }
 
-    public static float reduce(
-            LivingEntity victim, DamageSource source, float amount, boolean poison) {
-        return MaidCombatCalculations.reduce(victim, source, amount, poison);
+    public static double remainingMultiplier(
+            LivingEntity victim, DamageSource source, boolean poison) {
+        return MaidCombatCalculations.remainingMultiplier(victim, source, poison);
     }
 
     public static void received(LivingEntity victim, DamageSource source) {

@@ -1,9 +1,10 @@
 package com.thelongtravail.underworld;
 
-import net.minecraft.world.entity.*;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.tags.*;
 import com.thelongtravail.farreach.IcarusEnvironment;
+
+import net.minecraft.tags.*;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
 
 public final class DemonKingCombat {
     public static double bonus(LivingEntity target, DamageSource source) {
@@ -18,14 +19,15 @@ public final class DemonKingCombat {
                         : 0;
     }
 
-    public static float reduce(LivingEntity target, DamageSource source, float amount) {
+    public static double remainingMultiplier(LivingEntity target, DamageSource source) {
         if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)
                 || UnderworldRelics.phase(target) != 1
                 || UnderworldRelics.equipped(target, false).isEmpty()
                 || !(source.getEntity() instanceof LivingEntity attacker)
                 || attacker == target
-                || attacker.getMobType() != MobType.UNDEAD) return amount;
-        return (float) (amount * (1 - UnderworldRelics.value("king.undeadReduction")));
+                || attacker.getMobType() != MobType.UNDEAD) return 1;
+        return com.thelongtravail.combat.DamageReduction.remaining(
+                UnderworldRelics.value("king.undeadReduction"));
     }
 
     public static net.minecraft.world.item.ItemStack healingStack(

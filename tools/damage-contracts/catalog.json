@@ -38,7 +38,22 @@
         "src/main/java/com/thelongtravail/combat/CombatDamageRecord.java",
         "src/main/java/com/thelongtravail/combat/CombatRules.java",
         "src/main/java/com/thelongtravail/mixin/combat/FluidErosionUnavoidableMixin.java",
-        "src/main/java/com/thelongtravail/mixin/combat/DamageReplayMixin.java"
+        "src/main/java/com/thelongtravail/mixin/combat/DamageReplayMixin.java",
+        "src/main/java/com/thelongtravail/combat/DamageReduction.java"
+      ],
+      "successors": []
+    },
+    {
+      "id": "purification",
+      "name": "物理肃正与魔法肃正",
+      "stage": "吸收前统一百分比减伤环节；输出增幅之后、见切与霸主之前",
+      "amount": "每级10%，自身最多99%，只乘当前金额",
+      "ownership": "有效来源按公共伤害分类标签匹配，不追溯法术身份",
+      "guard": "重放跳过；清单外不处理；重叠标签魔法优先",
+      "sources": [
+        "src/main/java/com/thelongtravail/combat/Purification.java",
+        "src/main/java/com/thelongtravail/combat/DamageClassTags.java",
+        "src/main/java/com/thelongtravail/effect/PurificationEffect.java"
       ],
       "successors": []
     },
@@ -346,7 +361,7 @@
       "id": "modifiers",
       "name": "输出增幅与防御汇总",
       "stage": "Hurt、吸收前",
-      "amount": "普通输出为 1 加各 bonus 总和；必杀独立乘 2；减伤按阶段",
+      "amount": "普通输出为1加各bonus总和；必杀独立乘2；吸收前补齐输出，再统一乘算适用减伤倍率，随后见切固定扣减与霸主阈值判断",
       "ownership": "普通玩家来源和女仆来源各自查询",
       "guard": "outputApplied 与 attributeOutputApplied 防重复；特殊来源另有早退",
       "sources": [
@@ -356,7 +371,8 @@
         "src/main/java/com/thelongtravail/compat/maid/MaidCombatCalculations.java",
         "src/main/java/com/thelongtravail/combat/CombatAttributePreparation.java",
         "src/main/java/com/thelongtravail/farreach/IcarusCombat.java",
-        "src/main/java/com/thelongtravail/flourishing/FloralCombat.java"
+        "src/main/java/com/thelongtravail/flourishing/FloralCombat.java",
+        "src/main/java/com/thelongtravail/combat/DamageReduction.java"
       ],
       "successors": []
     },

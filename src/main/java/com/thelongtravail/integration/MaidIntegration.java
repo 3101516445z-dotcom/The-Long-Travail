@@ -117,9 +117,9 @@ public final class MaidIntegration {
             return false;
         }
 
-        default float reduce(
-                LivingEntity victim, DamageSource source, float amount, boolean poison) {
-            return amount;
+        default double remainingMultiplier(
+                LivingEntity victim, DamageSource source, boolean poison) {
+            return 1;
         }
 
         default void received(LivingEntity victim, DamageSource source) {}
@@ -265,9 +265,9 @@ public final class MaidIntegration {
         return provider.immune(victim, source, amount);
     }
 
-    public static float reduce(
-            LivingEntity victim, DamageSource source, float amount, boolean poison) {
-        return provider.reduce(victim, source, amount, poison);
+    public static double remainingMultiplier(
+            LivingEntity victim, DamageSource source, boolean poison) {
+        return provider.remainingMultiplier(victim, source, poison);
     }
 
     public static void received(LivingEntity victim, DamageSource source) {

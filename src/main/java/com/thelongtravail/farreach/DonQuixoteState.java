@@ -38,21 +38,22 @@ public final class DonQuixoteState {
                         MaidIntegration.quixoteOwner(p)));
     }
 
-    public static float reduce(LivingEntity target, DamageSource source, float amount) {
+    public static double remainingMultiplier(LivingEntity target, DamageSource source) {
         LivingEntity p = target;
         Guard guard = GUARDS.get(p);
-        if (guard == null) return amount;
+        if (guard == null) return 1;
         if (!DonQuixoteCombat.equipped(p)
                 || DonQuixoteCombat.phase(p) != 2
                 || p.level().getGameTime() >= guard.until
                 || p.level().dimension() != guard.dimension
                 || !Objects.equals(guard.owner, MaidIntegration.quixoteOwner(p))) {
             GUARDS.remove(p);
-            return amount;
+            return 1;
         }
         return source.getEntity() != null && source.getEntity().getUUID().equals(guard.target)
-                ? (float) (amount * (1 - FarReachRelicsConfig.value("don_quixote.reduction")))
-                : amount;
+                ? com.thelongtravail.combat.DamageReduction.remaining(
+                        FarReachRelicsConfig.value("don_quixote.reduction"))
+                : 1;
     }
 
     public static void tick(LivingEntity p) {

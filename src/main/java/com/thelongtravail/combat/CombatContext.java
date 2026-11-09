@@ -1,14 +1,12 @@
 package com.thelongtravail.combat;
 
-import com.thelongtravail.abyss.FluidErosionDamage;
-
-import com.thelongtravail.equipment.TravailCurios;
-
 import com.thelongtravail.TravailAspect;
+import com.thelongtravail.abyss.FluidErosionDamage;
 import com.thelongtravail.config.ModeEffectRules;
 import com.thelongtravail.config.TravailConfig;
-import com.thelongtravail.journey.LongTravailData;
+import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.event.TravailEvents;
+import com.thelongtravail.journey.LongTravailData;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -504,36 +502,21 @@ public final class CombatContext implements AutoCloseable {
 
     public float beforeAbsorption(float amount) {
         if (execution) return amount;
-        if (!roseDamage && replay == null && !penetrating && !quixoteStrike) {
-            amount =
-                    com.thelongtravail.underworld.DemonKingCombat.reduce(
-                            target, effectiveSource, amount);
-            amount = com.thelongtravail.farreach.DonQuixoteState.reduce(target, source, amount);
-            if (!source.is(net.minecraft.tags.DamageTypeTags.BYPASSES_INVULNERABILITY))
-                amount =
-                        multiply(
-                                amount,
-                                (1 - com.thelongtravail.flourishing.Mistletoe.reduction(target))
-                                        * (1
-                                                - com.thelongtravail.flourishing.EverlastingFlower
-                                                        .reduction(target)));
-            if (!outputApplied && (growthBonus != 0 || quixote != null && quixote.bonus() != 0)) {
-                amount = multiply(amount, 1 + outgoingBonus());
-                outputApplied = true;
-            }
-        }
         if (replay == null && !quixoteStrike && !outputApplied) {
             amount = multiply(amount, roseDamage ? 1 + witherBonus : 1 + outgoingBonus());
             outputApplied = true;
         }
-        if (!penetrating && replay == null && !quixoteStrike) {
+        // 重放金额已结算防御；普通百分比减伤在输出增幅之后统一乘算。
+        if (replay == null)
             amount =
-                    com.thelongtravail.flourishing.FloralCombat.reduce(
-                            target, effectiveSource, amount);
-            amount =
-                    com.thelongtravail.integration.MaidIntegration.reduce(
-                            target, effectiveSource, amount, floralPoison);
-        }
+                    DamageReduction.apply(
+                            target,
+                            source,
+                            effectiveSource,
+                            amount,
+                            !roseDamage && !penetrating && !quixoteStrike,
+                            !penetrating && !quixoteStrike,
+                            floralPoison);
         if (!attributeDamage.begin()) return safeDamage(amount);
         if (penetrating && !attributeDamage.settled()) {
             amount = roseDamage ? amount : protect(amount);

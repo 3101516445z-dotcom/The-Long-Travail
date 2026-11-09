@@ -133,8 +133,8 @@ public final class MaidIntegrationProvider implements MaidIntegration.Provider {
     }
 
     @Override
-    public float reduce(LivingEntity victim, DamageSource source, float amount, boolean poison) {
-        return MaidAccessories.reduce(victim, source, amount, poison);
+    public double remainingMultiplier(LivingEntity victim, DamageSource source, boolean poison) {
+        return MaidAccessories.remainingMultiplier(victim, source, poison);
     }
 
     @Override

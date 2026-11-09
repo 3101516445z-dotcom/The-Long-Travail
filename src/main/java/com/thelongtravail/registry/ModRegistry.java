@@ -72,6 +72,14 @@ public final class ModRegistry {
             themeItem("immortal_bud", com.thelongtravail.item.ImmortalBudItem::new);
     public static final RegistryObject<MobEffect> MISTLETOE_EFFECT =
             EFFECTS.register("mistletoe", com.thelongtravail.effect.MistletoeEffect::new);
+    public static final RegistryObject<MobEffect> PHYSICAL_PURIFICATION =
+            EFFECTS.register(
+                    "physical_purification",
+                    () -> new com.thelongtravail.effect.PurificationEffect(0xB8B8C8));
+    public static final RegistryObject<MobEffect> MAGIC_PURIFICATION =
+            EFFECTS.register(
+                    "magic_purification",
+                    () -> new com.thelongtravail.effect.PurificationEffect(0x9774D6));
     public static final RegistryObject<Item> AFFECTION =
             themeItem(
                     "affection", () -> new com.thelongtravail.item.FlourishingAccessoryItem(false));

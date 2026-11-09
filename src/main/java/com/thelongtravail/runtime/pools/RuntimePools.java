@@ -1,21 +1,19 @@
 package com.thelongtravail.runtime.pools;
 
+import com.thelongtravail.TheLongTravail;
+import com.thelongtravail.common.weighted.WeightedEntry;
+import com.thelongtravail.common.weighted.WeightedTable;
+import com.thelongtravail.config.TravailConfig;
+import com.thelongtravail.exploration.WayguideSearch;
+import com.thelongtravail.journey.JourneyQueries;
+import com.thelongtravail.journey.RequirementPools;
 import com.thelongtravail.runtime.attributes.AltitudePenalty;
 import com.thelongtravail.runtime.effects.AutomaticEffectBudget;
 
-import com.thelongtravail.common.weighted.WeightedEntry;
-import com.thelongtravail.common.weighted.WeightedTable;
-
-import com.thelongtravail.journey.JourneyQueries;
-import com.thelongtravail.journey.RequirementPools;
-
-import com.thelongtravail.exploration.WayguideSearch;
-
-import com.thelongtravail.TheLongTravail;
-import com.thelongtravail.config.TravailConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraftforge.registries.ForgeRegistries;
+
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -53,6 +51,11 @@ public final class RuntimePools {
         Map<ResourceLocation, Integer> levels = new HashMap<>();
         far.forEach(e -> levels.merge(e.id(), e.maxLevel(), Math::max));
         valley.forEach(e -> levels.merge(e.id(), e.maxLevel(), Math::max));
+        // 内置上限与随机获取池分离：只登记等级，不增加获取途径。
+        for (String name : List.of("physical_purification", "magic_purification"))
+            levels.putIfAbsent(
+                    ResourceLocation.fromNamespaceAndPath(TheLongTravail.MODID, name),
+                    com.thelongtravail.effect.PurificationEffect.DEFAULT_MAX_LEVEL);
         snapshot =
                 new Snapshot(
                         new WeightedTable<>(far, EffectEntry::weight),

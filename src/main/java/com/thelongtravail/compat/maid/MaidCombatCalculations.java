@@ -102,12 +102,11 @@ public final class MaidCombatCalculations {
                 && m.getRandom().nextDouble() < RainConfig.IMMUNITY.get();
     }
 
-    public static float reduce(
-            LivingEntity victim, DamageSource source, float amount, boolean poison) {
-        if (!(victim instanceof EntityMaid m) || FloralCombat.rose(source)) return amount;
+    public static double remainingMultiplier(
+            LivingEntity victim, DamageSource source, boolean poison) {
+        if (!(victim instanceof EntityMaid m) || FloralCombat.rose(source)) return 1;
         var crown = crown(m);
-        double multiplier = FloralCombat.crownReduction(m, crown, source, poison);
-        return FloralCombat.safe(amount * multiplier);
+        return FloralCombat.crownMultiplier(m, crown, source, poison);
     }
 
     private MaidCombatCalculations() {}

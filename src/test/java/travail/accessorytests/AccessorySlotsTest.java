@@ -6,13 +6,13 @@ import com.thelongtravail.boundless.BoundlessEquipment;
 import com.thelongtravail.boundless.timestop.StarVoiceState;
 import com.thelongtravail.boundless.timestop.TimeStopManager;
 import com.thelongtravail.config.BoundlessItemsConfig;
-import com.thelongtravail.journey.LongTravailData;
-import com.thelongtravail.farreach.DonQuixoteCombat;
-import com.thelongtravail.farreach.DonQuixoteState;
 import com.thelongtravail.equipment.AccessoryEquipRules;
 import com.thelongtravail.equipment.AccessoryRestore;
 import com.thelongtravail.equipment.CurioLookup;
 import com.thelongtravail.equipment.DependentAccessories;
+import com.thelongtravail.farreach.DonQuixoteCombat;
+import com.thelongtravail.farreach.DonQuixoteState;
+import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.registry.ModRegistry;
 import com.thelongtravail.valley.Phosphophyllite;
 
@@ -407,15 +407,16 @@ public final class AccessorySlotsTest {
                         p.getPersistentData().getInt(DonQuixoteState.COOLDOWN) > 0,
                         "guard triggered");
                 require(
-                        DonQuixoteState.reduce(p, p.damageSources().mobAttack(cow), 10) < 10,
+                        DonQuixoteState.remainingMultiplier(p, p.damageSources().mobAttack(cow))
+                                < 1,
                         "guard reduces damage");
                 p.move(targets().get(0), null);
                 require(
                         DonQuixoteCombat.snapshot(cow, p.damageSources().playerAttack(p)) == null,
                         "unequip disables snapshot");
                 near(
-                        DonQuixoteState.reduce(p, p.damageSources().mobAttack(cow), 10),
-                        10,
+                        DonQuixoteState.remainingMultiplier(p, p.damageSources().mobAttack(cow)),
+                        1,
                         "unequip clears guard");
                 p.move(targets().get(1), slot);
                 StarVoiceState.confirmed(cow, p.damageSources().playerAttack(p));

@@ -1,5 +1,7 @@
 package com.thelongtravail.flourishing;
 
+import static com.thelongtravail.combat.DamageReduction.remaining;
+
 import com.thelongtravail.config.FlourishingItemsConfig;
 
 import net.minecraft.core.registries.Registries;
@@ -62,29 +64,28 @@ public final class FloralCombat {
         return result;
     }
 
-    public static float reduce(LivingEntity victim, DamageSource source, float amount) {
-        if (rose(source)) return amount;
+    public static double remainingMultiplier(
+            LivingEntity victim, DamageSource source, boolean poison) {
+        if (rose(source)) return 1;
         double multiplier = 1;
         if (victim instanceof ServerPlayer p) {
             ItemStack crown = Affection.equipped(p, true);
-            var context = com.thelongtravail.combat.CombatContext.current(victim, source);
-            multiplier =
-                    crownReduction(p, crown, source, context != null && context.isFloralPoison());
+            multiplier = crownMultiplier(p, crown, source, poison);
             LivingEntity pet = Affection.target(p);
             if (pet != null)
                 multiplier *=
-                        1
-                                - FlourishingItemsConfig.get("affection.playerDamageReduction")
-                                        * Affection.lost(pet);
+                        remaining(
+                                FlourishingItemsConfig.get("affection.playerDamageReduction")
+                                        * Affection.lost(pet));
         } else {
             ServerPlayer master = Affection.master(victim);
             if (master != null)
                 multiplier *=
-                        1
-                                - FlourishingItemsConfig.get("affection.servantDamageReduction")
-                                        * Affection.lost(master);
+                        remaining(
+                                FlourishingItemsConfig.get("affection.servantDamageReduction")
+                                        * Affection.lost(master));
         }
-        return safe(amount * multiplier);
+        return multiplier;
     }
 
     public static double crownBonus(LivingEntity wearer, ItemStack crown, DamageSource source) {
@@ -99,16 +100,18 @@ public final class FloralCombat {
     }
 
     // 保持 double 精度，调用方叠加其他减伤后再转换为最终伤害。
-    public static double crownReduction(
+    public static double crownMultiplier(
             LivingEntity wearer, ItemStack crown, DamageSource source, boolean poison) {
         double multiplier = 1;
-        if (poison) multiplier *= 1 - value(crown, Flower.ALLIUM);
-        if (source.is(DamageTypeTags.IS_FALL)) multiplier *= 1 - value(crown, Flower.AZURE_BLUET);
-        if (source.is(DamageTypeTags.IS_FIRE)) multiplier *= 1 - value(crown, Flower.TORCHFLOWER);
+        if (poison) multiplier *= remaining(value(crown, Flower.ALLIUM));
+        if (source.is(DamageTypeTags.IS_FALL))
+            multiplier *= remaining(value(crown, Flower.AZURE_BLUET));
+        if (source.is(DamageTypeTags.IS_FIRE))
+            multiplier *= remaining(value(crown, Flower.TORCHFLOWER));
         if (wearer.getHealth()
                 < wearer.getMaxHealth()
                         * FlourishingItemsConfig.extra(Flower.WHITE_TULIP, "healthThreshold"))
-            multiplier *= 1 - value(crown, Flower.WHITE_TULIP);
+            multiplier *= remaining(value(crown, Flower.WHITE_TULIP));
         return multiplier;
     }
 

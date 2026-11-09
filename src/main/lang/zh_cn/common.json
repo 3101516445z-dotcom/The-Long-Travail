@@ -1,4 +1,8 @@
 {
+  "effect.the_long_travail.physical_purification": "物理肃正",
+  "effect.the_long_travail.magic_purification": "魔法肃正",
+  "effect.the_long_travail.physical_purification.description": "每级减少10%受到的物理类伤害，最多减少99%。",
+  "effect.the_long_travail.magic_purification.description": "每级减少10%受到的魔法类伤害，最多减少99%。",
   "tooltip.the_long_travail.universal_slot.name": "任意饰品栏位",
   "damage_type.the_long_travail.direct_strike": "直击伤害",
   "death.attack.the_long_travail.direct_strike": "%1$s死于直击伤害",

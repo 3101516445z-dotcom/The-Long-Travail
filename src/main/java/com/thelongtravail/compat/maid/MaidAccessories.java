@@ -152,9 +152,9 @@ public final class MaidAccessories {
         return loaded() && MaidCombatCalculations.immune(victim, source, amount);
     }
 
-    public static float reduce(
-            LivingEntity victim, DamageSource source, float amount, boolean poison) {
-        return loaded() ? MaidCombatCalculations.reduce(victim, source, amount, poison) : amount;
+    public static double remainingMultiplier(
+            LivingEntity victim, DamageSource source, boolean poison) {
+        return loaded() ? MaidCombatCalculations.remainingMultiplier(victim, source, poison) : 1;
     }
 
     public static void received(LivingEntity victim, DamageSource source) {

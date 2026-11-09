@@ -1,4 +1,8 @@
 {
+  "effect.the_long_travail.physical_purification": "物理肅正",
+  "effect.the_long_travail.magic_purification": "魔法肅正",
+  "effect.the_long_travail.physical_purification.description": "每級減物理類所傷一成，至多減九成九。",
+  "effect.the_long_travail.magic_purification.description": "每級減魔法類所傷一成，至多減九成九。",
   "tooltip.the_long_travail.universal_slot.name": "任一飾品欄",
   "damage_type.the_long_travail.direct_strike": "直擊傷害",
   "death.attack.the_long_travail.direct_strike": "%1$s亡於直擊傷害",

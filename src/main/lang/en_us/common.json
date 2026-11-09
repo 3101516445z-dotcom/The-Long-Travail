@@ -1,4 +1,8 @@
 {
+  "effect.the_long_travail.physical_purification": "Physical Purification",
+  "effect.the_long_travail.magic_purification": "Magic Purification",
+  "effect.the_long_travail.physical_purification.description": "Reduces physical-class damage taken by 10% per level, up to 99%.",
+  "effect.the_long_travail.magic_purification.description": "Reduces magic-class damage taken by 10% per level, up to 99%.",
   "tooltip.the_long_travail.universal_slot.name": "Any accessory slot",
   "damage_type.the_long_travail.direct_strike": "Direct Strike Damage",
   "death.attack.the_long_travail.direct_strike": "%1$s died from a direct strike",
