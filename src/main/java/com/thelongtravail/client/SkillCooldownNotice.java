@@ -1,7 +1,8 @@
 package com.thelongtravail.client;
 
+import com.thelongtravail.text.TooltipStyle;
+
 import com.thelongtravail.TheLongTravail;
-import com.thelongtravail.abyss.rain.RainTooltips;
 import com.thelongtravail.boundless.timestop.TimeStopManager;
 import com.thelongtravail.mixin.presentation.SkillNoticeGuiAccessor;
 import net.minecraft.client.Minecraft;
@@ -25,7 +26,7 @@ public final class SkillCooldownNotice {
         clear();
         if (remainingTicks <= 0) {
             mc.player.displayClientMessage(
-                    com.thelongtravail.helper.ActionMessages.text(translationKey), true);
+                    com.thelongtravail.text.ActionMessages.text(translationKey), true);
             return;
         }
         key = translationKey;
@@ -39,15 +40,15 @@ public final class SkillCooldownNotice {
         int seconds = 1 + (Math.max(1, ticks) - 1) / 20;
         var duration =
                 Component.translatable("message.the_long_travail.cooldown.seconds", seconds)
-                        .withStyle(style -> style.withColor(RainTooltips.ACCENT_COLOR));
+                        .withStyle(style -> style.withColor(TooltipStyle.ACCENT_COLOR));
         if (key.equals("message.the_long_travail.dream.countdown"))
             return Component.translatable(key, duration)
-                    .withStyle(style -> style.withColor(RainTooltips.BODY_COLOR));
+                    .withStyle(style -> style.withColor(TooltipStyle.BODY_COLOR));
         var remaining =
                 Component.translatable("message.the_long_travail.cooldown.remaining", duration)
-                        .withStyle(style -> style.withColor(RainTooltips.STATE_CONDITION_COLOR));
+                        .withStyle(style -> style.withColor(TooltipStyle.STATE_CONDITION_COLOR));
         return Component.translatable(key, remaining)
-                .withStyle(style -> style.withColor(RainTooltips.BODY_COLOR));
+                .withStyle(style -> style.withColor(TooltipStyle.BODY_COLOR));
     }
 
     @SubscribeEvent

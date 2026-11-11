@@ -1,11 +1,12 @@
 package com.thelongtravail.client;
 
+import com.thelongtravail.text.TooltipStyle;
+
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.config.AzraelConfig;
 import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.registry.ModRegistry;
-import com.thelongtravail.abyss.rain.RainTooltips;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,8 +18,8 @@ import java.util.*;
 
 public final class AzraelTooltips {
     private static Component text(String key, Object... args) {
-        int color = key.endsWith("_title") ? RainTooltips.TITLE_COLOR : RainTooltips.BODY_COLOR;
-        return RainTooltips.coloredLine(
+        int color = key.endsWith("_title") ? TooltipStyle.TITLE_COLOR : TooltipStyle.BODY_COLOR;
+        return TooltipStyle.coloredLine(
                 Component.translatable("tooltip.the_long_travail.azrael." + key, args)
                         .withStyle(s -> s.withColor(color)));
     }

@@ -1,5 +1,7 @@
 package com.thelongtravail.network;
 
+import com.thelongtravail.boundless.timestop.TimeStopSync;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;

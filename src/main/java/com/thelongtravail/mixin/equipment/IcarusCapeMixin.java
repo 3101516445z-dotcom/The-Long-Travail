@@ -1,7 +1,7 @@
 package com.thelongtravail.mixin.equipment;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.thelongtravail.farreach.IcarusFlight;
+import com.thelongtravail.farreach.icarus.IcarusFlight;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.CapeLayer;

@@ -3,7 +3,7 @@ package com.thelongtravail.mixin.equipment;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.thelongtravail.client.flight.IcarusWingModel;
 import com.thelongtravail.client.flight.IcarusWingTexture;
-import com.thelongtravail.farreach.IcarusFlight;
+import com.thelongtravail.farreach.icarus.IcarusFlight;
 
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;

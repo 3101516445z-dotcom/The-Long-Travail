@@ -1,5 +1,9 @@
 package com.thelongtravail.mixin.babel;
 
+import com.thelongtravail.farreach.babel.BabelProtection;
+
+import com.thelongtravail.farreach.babel.BabelBrainOwner;
+
 import com.thelongtravail.farreach.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;

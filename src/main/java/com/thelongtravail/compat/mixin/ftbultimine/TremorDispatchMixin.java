@@ -1,8 +1,8 @@
 package com.thelongtravail.compat.mixin.ftbultimine;
 
 import com.thelongtravail.compat.ftbultimine.TremorUltimine;
-import com.thelongtravail.valley.HighFrequencyTremorActions;
-import com.thelongtravail.valley.PlayerBlockBreaker;
+import com.thelongtravail.valley.tremor.HighFrequencyTremorActions;
+import com.thelongtravail.valley.tremor.PlayerBlockBreaker;
 
 import net.minecraft.core.*;
 import net.minecraft.world.InteractionHand;

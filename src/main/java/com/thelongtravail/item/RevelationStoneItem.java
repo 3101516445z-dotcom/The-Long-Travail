@@ -39,7 +39,7 @@ public final class RevelationStoneItem extends Item {
             boolean unlocked = PlayerJourneyData.reveal(serverPlayer, aspect);
             TravailNetwork.sendJourney(serverPlayer);
             player.displayClientMessage(
-                    com.thelongtravail.helper.ActionMessages.text(
+                    com.thelongtravail.text.ActionMessages.text(
                             unlocked
                                     ? "message.the_long_travail.revealed"
                                     : "message.the_long_travail.already_revealed",

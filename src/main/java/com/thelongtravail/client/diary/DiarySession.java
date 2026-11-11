@@ -56,9 +56,8 @@ public final class DiarySession {
                                                     .withStyle(
                                                             style ->
                                                                     style.withColor(
-                                                                            com.thelongtravail.abyss
-                                                                                    .rain
-                                                                                    .RainTooltips
+                                                                            com.thelongtravail.text
+                                                                                    .TooltipStyle
                                                                                     .ACCENT_COLOR)))
                                     .setStyle(line.getStyle());
                         });

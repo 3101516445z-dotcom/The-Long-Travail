@@ -1,6 +1,6 @@
 package com.thelongtravail.abyss;
 
-import com.thelongtravail.abyss.rain.RainTooltips;
+import com.thelongtravail.text.TooltipStyle;
 
 import com.thelongtravail.config.AbyssItemsConfig;
 import com.thelongtravail.network.TooltipConfigSync;
@@ -35,20 +35,20 @@ public final class AbyssItemText {
 
     private static Component raw(String key, Object... args) {
         return Component.translatable(PREFIX + key, args)
-                .withStyle(s -> s.withColor(RainTooltips.BODY_COLOR));
+                .withStyle(s -> s.withColor(TooltipStyle.BODY_COLOR));
     }
 
     private static Component line(String key, Object... args) {
-        return RainTooltips.coloredLine(raw(key, args));
+        return TooltipStyle.coloredLine(raw(key, args));
     }
 
     private static Component sentence(List<Component> parts) {
-        var out = Component.empty().withStyle(s -> s.withColor(RainTooltips.BODY_COLOR));
+        var out = Component.empty().withStyle(s -> s.withColor(TooltipStyle.BODY_COLOR));
         for (int i = 0; i < parts.size(); i++) {
             if (i > 0) out.append(raw("separator"));
             out.append(parts.get(i));
         }
-        return RainTooltips.coloredLine(out.append(raw("period")));
+        return TooltipStyle.coloredLine(out.append(raw("period")));
     }
 
     private static List<Component> basics() {
@@ -102,7 +102,7 @@ public final class AbyssItemText {
                                         : Component.literal(blacklist.get(i)))
                                 .withStyle(
                                         style ->
-                                                style.withColor(RainTooltips.ACCENT_COLOR)
+                                                style.withColor(TooltipStyle.ACCENT_COLOR)
                                                         .withInsertion(
                                                                 "the_long_travail:configured_item")));
             }
@@ -112,7 +112,7 @@ public final class AbyssItemText {
                                 .copy()
                                 .withStyle(
                                         style ->
-                                                style.withColor(RainTooltips.ACCENT_COLOR)
+                                                style.withColor(TooltipStyle.ACCENT_COLOR)
                                                         .withInsertion(
                                                                 "the_long_travail:configured_item")));
             out.add(raw("fluid.blacklist_current", names));
@@ -151,7 +151,7 @@ public final class AbyssItemText {
             for (Component basic : basics())
                 out.add(
                         Component.literal("- ")
-                                .withStyle(style -> style.withColor(RainTooltips.BODY_COLOR))
+                                .withStyle(style -> style.withColor(TooltipStyle.BODY_COLOR))
                                 .append(basic));
         out.add(line("summary.malice"));
         out.add(line("summary.witness"));

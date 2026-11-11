@@ -1,6 +1,6 @@
 package com.thelongtravail.mixin.babel;
 
-import com.thelongtravail.farreach.BabelTrades;
+import com.thelongtravail.farreach.babel.BabelTrades;
 import com.thelongtravail.config.FarReachRelicsConfig;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;

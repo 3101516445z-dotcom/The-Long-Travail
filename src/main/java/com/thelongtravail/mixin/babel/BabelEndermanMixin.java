@@ -1,6 +1,6 @@
 package com.thelongtravail.mixin.babel;
 
-import com.thelongtravail.farreach.BabelProtection;
+import com.thelongtravail.farreach.babel.BabelProtection;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.world.entity.LivingEntity;

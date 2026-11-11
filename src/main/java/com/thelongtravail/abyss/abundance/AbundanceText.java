@@ -1,6 +1,6 @@
 package com.thelongtravail.abyss.abundance;
 
-import com.thelongtravail.abyss.rain.RainTooltips;
+import com.thelongtravail.text.TooltipStyle;
 
 import com.thelongtravail.config.AbyssItemsConfig;
 import com.thelongtravail.network.TooltipConfigSync;
@@ -16,10 +16,10 @@ public final class AbundanceText {
 
     public static List<Component> summary() {
         return List.of(
-                text("summary").copy().withStyle(style -> style.withColor(RainTooltips.BODY_COLOR)),
+                text("summary").copy().withStyle(style -> style.withColor(TooltipStyle.BODY_COLOR)),
                 text("summary_switch")
                         .copy()
-                        .withStyle(style -> style.withColor(RainTooltips.BODY_COLOR)));
+                        .withStyle(style -> style.withColor(TooltipStyle.BODY_COLOR)));
     }
 
     public static List<Component> details() {
@@ -69,7 +69,7 @@ public final class AbundanceText {
                                     : Component.literal(id))
                             .withStyle(
                                     style ->
-                                            style.withColor(RainTooltips.ACCENT_COLOR)
+                                            style.withColor(TooltipStyle.ACCENT_COLOR)
                                                     .withInsertion(
                                                             "the_long_travail:configured_effect")));
         }
@@ -79,7 +79,7 @@ public final class AbundanceText {
                                     "tooltip.the_long_travail.abyss_items.fluid.blacklist_unrestricted")
                             .withStyle(
                                     style ->
-                                            style.withColor(RainTooltips.ACCENT_COLOR)
+                                            style.withColor(TooltipStyle.ACCENT_COLOR)
                                                     .withInsertion(
                                                             "the_long_travail:configured_effect")));
         return names;

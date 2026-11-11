@@ -1,7 +1,7 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
-import com.thelongtravail.farreach.BabelCarrying;
+import com.thelongtravail.farreach.babel.BabelCarrying;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;

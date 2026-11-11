@@ -11,8 +11,8 @@ import com.thelongtravail.TravailAspect;
 import com.thelongtravail.compat.maid.MaidAccessoryRuntime.Phase;
 import com.thelongtravail.config.RainConfig;
 import com.thelongtravail.config.UnderworldItemsConfig;
-import com.thelongtravail.farreach.IcarusCombat;
-import com.thelongtravail.farreach.IcarusEnvironment;
+import com.thelongtravail.farreach.icarus.IcarusCombat;
+import com.thelongtravail.farreach.icarus.IcarusEnvironment;
 import com.thelongtravail.flourishing.FloralCombat;
 import com.thelongtravail.registry.ModRegistry;
 

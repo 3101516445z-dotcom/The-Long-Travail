@@ -1,6 +1,7 @@
 package com.thelongtravail.flourishing;
 
-import com.thelongtravail.abyss.rain.RainTooltips;
+import com.thelongtravail.text.TooltipStyle;
+
 import com.thelongtravail.config.FlourishingGrowthConfig;
 import com.thelongtravail.config.FlourishingItemsConfig;
 import com.thelongtravail.network.TooltipConfigSync;
@@ -34,9 +35,9 @@ public final class FlourishingItemText {
     }
 
     private static Component line(String key, Object... args) {
-        return RainTooltips.coloredLine(
+        return TooltipStyle.coloredLine(
                 Component.translatable("tooltip.the_long_travail.growth_items." + key, args)
-                        .withStyle(s -> s.withColor(RainTooltips.BODY_COLOR)));
+                        .withStyle(s -> s.withColor(TooltipStyle.BODY_COLOR)));
     }
 
     public static List<Component> details(boolean flower) {

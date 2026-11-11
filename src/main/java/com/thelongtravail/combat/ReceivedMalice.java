@@ -1,8 +1,6 @@
 package com.thelongtravail.combat;
 
 import com.thelongtravail.equipment.TravailCurios;
-
-import com.thelongtravail.common.ReceivedHitGate;
 import com.thelongtravail.config.TravailConfig;
 import com.thelongtravail.event.TravailEvents;
 

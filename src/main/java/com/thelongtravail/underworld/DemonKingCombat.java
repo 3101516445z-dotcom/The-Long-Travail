@@ -1,6 +1,6 @@
 package com.thelongtravail.underworld;
 
-import com.thelongtravail.farreach.IcarusEnvironment;
+import com.thelongtravail.farreach.icarus.IcarusEnvironment;
 
 import net.minecraft.tags.*;
 import net.minecraft.world.damagesource.DamageSource;

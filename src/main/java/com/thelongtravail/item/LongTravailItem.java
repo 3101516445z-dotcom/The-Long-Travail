@@ -58,7 +58,7 @@ public class LongTravailItem extends Item implements ICurioItem {
         if (slotContext.entity() instanceof ServerPlayer player) {
             if (!LongTravailData.tryInitialize(stack, player))
                 player.displayClientMessage(
-                        com.thelongtravail.helper.ActionMessages.text(
+                        com.thelongtravail.text.ActionMessages.text(
                                 "message.the_long_travail.journey.invalid_pool"),
                         true);
             TravailCurios.syncExtraSlots(
@@ -163,14 +163,12 @@ public class LongTravailItem extends Item implements ICurioItem {
                                         .withStyle(
                                                 style ->
                                                         style.withColor(
-                                                                com.thelongtravail.abyss.rain
-                                                                        .RainTooltips
+                                                                com.thelongtravail.text.TooltipStyle
                                                                         .ACCENT_COLOR)))
                         .withStyle(
                                 style ->
                                         style.withColor(
-                                                com.thelongtravail.abyss.rain.RainTooltips
-                                                        .BODY_COLOR)));
+                                                com.thelongtravail.text.TooltipStyle.BODY_COLOR)));
         boolean witnessed = DiaryEquipmentRules.hasAllWitnesses(stack);
         int bodyColor = witnessed ? 0x809FB5 : 0xB87568;
         String state = witnessed ? "complete" : "bound";

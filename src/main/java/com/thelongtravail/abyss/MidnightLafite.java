@@ -4,7 +4,7 @@ import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.config.AbyssItemsConfig;
 import com.thelongtravail.config.ModeEffectRules;
 import com.thelongtravail.equipment.AccessoryEquipRules;
-import com.thelongtravail.farreach.IcarusEnvironment;
+import com.thelongtravail.farreach.icarus.IcarusEnvironment;
 import com.thelongtravail.integration.MaidIntegration;
 import com.thelongtravail.mixin.effects.EffectDurationAccessor;
 import com.thelongtravail.registry.ModRegistry;

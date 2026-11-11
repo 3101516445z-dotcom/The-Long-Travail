@@ -3,8 +3,8 @@ package com.thelongtravail.compat.ftbultimine;
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.api.TravailStateApi;
-import com.thelongtravail.valley.PlayerBlockBreaker;
-import com.thelongtravail.valley.TremorFeedback;
+import com.thelongtravail.valley.tremor.PlayerBlockBreaker;
+import com.thelongtravail.valley.tremor.TremorFeedback;
 
 import net.minecraft.core.*;
 import net.minecraft.server.level.ServerPlayer;

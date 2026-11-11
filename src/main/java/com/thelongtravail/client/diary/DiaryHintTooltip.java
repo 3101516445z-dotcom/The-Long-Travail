@@ -1,6 +1,6 @@
 package com.thelongtravail.client.diary;
 
-import com.thelongtravail.abyss.rain.RainTooltips;
+import com.thelongtravail.text.TooltipStyle;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -96,14 +96,14 @@ public record DiaryHintTooltip(Parts parts, int prefixWidth, int keyWidth)
         public void renderImage(Font font, int x, int y, GuiGraphics graphics) {
             Parts row = value.parts();
             if (row.key() == null) {
-                graphics.drawString(font, row.original(), x, y, RainTooltips.BODY_COLOR, true);
+                graphics.drawString(font, row.original(), x, y, TooltipStyle.BODY_COLOR, true);
                 return;
             }
-            graphics.drawString(font, row.prefix(), x, y, RainTooltips.BODY_COLOR, true);
+            graphics.drawString(font, row.prefix(), x, y, TooltipStyle.BODY_COLOR, true);
             int keyX = x + value.prefixWidth() + (value.keyWidth() - font.width(row.key())) / 2;
-            graphics.drawString(font, row.key(), keyX, y, RainTooltips.ACCENT_COLOR, true);
+            graphics.drawString(font, row.key(), keyX, y, TooltipStyle.ACCENT_COLOR, true);
             graphics.drawString(
-                    font, row.suffix(), x + value.suffixX(), y, RainTooltips.BODY_COLOR, true);
+                    font, row.suffix(), x + value.suffixX(), y, TooltipStyle.BODY_COLOR, true);
         }
     }
 }

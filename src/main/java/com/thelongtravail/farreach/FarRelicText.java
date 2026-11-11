@@ -1,6 +1,7 @@
 package com.thelongtravail.farreach;
 
-import com.thelongtravail.abyss.rain.RainTooltips;
+import com.thelongtravail.text.TooltipStyle;
+
 import com.thelongtravail.config.FarReachRelicsConfig;
 import com.thelongtravail.network.TooltipConfigSync;
 import net.minecraft.network.chat.Component;
@@ -18,14 +19,14 @@ public final class FarRelicText {
 
     private static void line(List<Component> out, String key, Object... args) {
         out.add(
-                RainTooltips.coloredLine(
+                TooltipStyle.coloredLine(
                         Component.translatable("tooltip.the_long_travail." + key, args)
                                 .withStyle(
                                         s ->
                                                 s.withColor(
                                                         key.endsWith("heading")
-                                                                ? RainTooltips.TITLE_COLOR
-                                                                : RainTooltips.BODY_COLOR))));
+                                                                ? TooltipStyle.TITLE_COLOR
+                                                                : TooltipStyle.BODY_COLOR))));
     }
 
     public static void details(List<Component> out, boolean quixote) {

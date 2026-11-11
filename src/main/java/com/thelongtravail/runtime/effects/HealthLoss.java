@@ -19,7 +19,7 @@ public final class HealthLoss {
         float loss = (float) Math.min(maximum * fraction, health - 1);
         if (loss > 0) {
             float next = Math.max(1, health - loss);
-            if (!com.thelongtravail.compat.maidspell.MaidSpellHealth.applyNonlethalEffectLoss(
+            if (!com.thelongtravail.integration.MaidIntegration.applyNonlethalEffectLoss(
                     entity, next)) entity.setHealth(next);
         }
     }

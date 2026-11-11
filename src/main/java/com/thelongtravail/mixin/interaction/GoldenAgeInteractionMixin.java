@@ -2,7 +2,7 @@ package com.thelongtravail.mixin.interaction;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.thelongtravail.farreach.GoldenAgeActions;
+import com.thelongtravail.farreach.goldenage.GoldenAgeActions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -22,7 +22,7 @@ public abstract class GoldenAgeInteractionMixin {
             Operation<PlayerInteractEvent.RightClickBlock> original) {
         var event = original.call(player, hand, pos, hit);
         GoldenAgeActions.dig(event);
-        com.thelongtravail.valley.HighFrequencyTremorActions.use(event);
+        com.thelongtravail.valley.tremor.HighFrequencyTremorActions.use(event);
         return event;
     }
 }

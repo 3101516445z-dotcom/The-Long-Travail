@@ -4,7 +4,7 @@ import com.thelongtravail.config.storage.ConfigFiles;
 
 import com.thelongtravail.abyss.rain.RainEvents;
 import com.thelongtravail.runtime.pools.RuntimePools;
-import com.thelongtravail.farreach.GoldenAgeActions;
+import com.thelongtravail.farreach.goldenage.GoldenAgeActions;
 import com.thelongtravail.flourishing.Affection;
 import com.thelongtravail.network.TravailNetwork;
 import net.minecraft.server.MinecraftServer;

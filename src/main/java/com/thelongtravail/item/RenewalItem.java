@@ -42,7 +42,7 @@ public final class RenewalItem extends Item {
                 if (result.status() == com.thelongtravail.journey.JourneyOperations.Status.NO_DIARY)
                     return unavailable(player, hand);
                 player.displayClientMessage(
-                        com.thelongtravail.helper.ActionMessages.text(
+                        com.thelongtravail.text.ActionMessages.text(
                                 result.status()
                                                 == com.thelongtravail.journey.JourneyOperations
                                                         .Status.INVALID_POOL
@@ -58,7 +58,7 @@ public final class RenewalItem extends Item {
             com.thelongtravail.network.TravailNetwork.sendItemSound(
                     serverPlayer, com.thelongtravail.network.ItemSoundCue.RENEWAL);
             player.displayClientMessage(
-                    com.thelongtravail.helper.ActionMessages.text(
+                    com.thelongtravail.text.ActionMessages.text(
                             "message.the_long_travail.renewal.success"),
                     true);
         }
@@ -67,7 +67,7 @@ public final class RenewalItem extends Item {
 
     private InteractionResultHolder<ItemStack> unavailable(Player player, InteractionHand hand) {
         player.displayClientMessage(
-                com.thelongtravail.helper.ActionMessages.text(
+                com.thelongtravail.text.ActionMessages.text(
                         "message.the_long_travail.homecoming.unavailable"),
                 true);
         return InteractionResultHolder.fail(player.getItemInHand(hand));

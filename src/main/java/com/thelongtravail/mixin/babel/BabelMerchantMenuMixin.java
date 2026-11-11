@@ -1,6 +1,6 @@
 package com.thelongtravail.mixin.babel;
 
-import com.thelongtravail.farreach.BabelTrades;
+import com.thelongtravail.farreach.babel.BabelTrades;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.entity.npc.*;
 import net.minecraft.world.entity.player.Player;

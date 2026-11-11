@@ -15,7 +15,8 @@ public interface UniversalAccessoryItem extends ICurioItem {
                         .append(" ")
                         .withStyle(ChatFormatting.GOLD)
                         .append(
-                                Component.translatable("tooltip.the_long_travail.universal_slot.name")
+                                Component.translatable(
+                                                "tooltip.the_long_travail.universal_slot.name")
                                         .withStyle(ChatFormatting.YELLOW)));
     }
 }

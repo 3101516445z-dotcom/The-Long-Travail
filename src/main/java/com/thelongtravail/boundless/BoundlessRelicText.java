@@ -1,6 +1,7 @@
 package com.thelongtravail.boundless;
 
-import com.thelongtravail.abyss.rain.RainTooltips;
+import com.thelongtravail.text.TooltipStyle;
+
 import com.thelongtravail.config.BoundlessItemsConfig;
 import com.thelongtravail.network.TooltipConfigSync;
 import net.minecraft.network.chat.Component;
@@ -29,16 +30,16 @@ public final class BoundlessRelicText {
     }
 
     public static Component line(String key, Object... args) {
-        return RainTooltips.coloredLine(
+        return TooltipStyle.coloredLine(
                 Component.translatable("tooltip.the_long_travail." + key, args)
-                        .withStyle(style -> style.withColor(RainTooltips.BODY_COLOR)));
+                        .withStyle(style -> style.withColor(TooltipStyle.BODY_COLOR)));
     }
 
     public static Component toggleMessage(boolean enabled) {
-        return RainTooltips.coloredLine(
+        return TooltipStyle.coloredLine(
                 Component.translatable(
                                 "message.the_long_travail.lorentz." + (enabled ? "on" : "off"))
-                        .withStyle(style -> style.withColor(RainTooltips.BODY_COLOR)));
+                        .withStyle(style -> style.withColor(TooltipStyle.BODY_COLOR)));
     }
 
     public static List<Component> details(boolean prince) {

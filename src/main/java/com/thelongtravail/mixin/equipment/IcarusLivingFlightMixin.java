@@ -2,7 +2,7 @@ package com.thelongtravail.mixin.equipment;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.thelongtravail.farreach.IcarusFlight;
+import com.thelongtravail.farreach.icarus.IcarusFlight;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;

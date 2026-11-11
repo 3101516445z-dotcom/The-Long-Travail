@@ -88,7 +88,7 @@ public final class FlourishingAccessoryItem extends Item implements ICurioItem, 
             if (!level.isClientSide) {
                 Affection.clear(stack);
                 p.displayClientMessage(
-                        com.thelongtravail.helper.ActionMessages.text(
+                        com.thelongtravail.text.ActionMessages.text(
                                 "message.the_long_travail.affection.cleared"),
                         true);
             }

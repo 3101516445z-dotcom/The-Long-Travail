@@ -1,52 +1,37 @@
-# 逐日与籠釣瓶
+# 逐日与籠釣瓶接入
 
-注册 ID 为 `sun_chaser`（Sun Chaser，穷遐携带物品）与 `kagotsurube`（Kagotsurube，冥府腰带）。基础效果独立于苦旅；恶意与见证通过 TravailStateApi 查询且互斥。多件同物品不叠加。两件物品也支持女仆原生饰品栏，女仆分支读取在线主人所佩戴苦旅的状态；普通背包不生效。
+物品 ID 为 `the_long_travail:sun_chaser` 和 `the_long_travail:kagotsurube`。逐日通过携带资格生效，籠釣瓶使用腰带资格；基础能力独立于苦旅，阶段通过 [TravailStateApi](state-api.md) 判定。多件同物品不叠加。
 
-## 接入职责
+## 伤害来源与追加链
 
-- combat/SunBladeActors：统一效果主体及阶段查询；玩家保持原来源判断，女仆经 MaidAccessories 安全门面复用现有弹射物归属解析，不将伤害改记到主人名下。
-- 女仆通过 MaidPeriodicEffects 维护岩浆回血与属性；时停期间不推进回血，仍校正属性。籠釣瓶卸装回调及离开世界时清除临时属性，下一服务端周期按最终槽内容校正。
+`combat/SunBladeActors` 查询效果主体与阶段；`farreach/SunChaser` 保存伤害前燃烧状态和目标最大生命快照；`underworld/Kagotsurube` 提供凋零延长与直击转换资格。
 
-- `farreach/SunChaser`：携带资格、免火、岩浆恢复与归墟流体侵蚀豁免、伤害前快照、限时禁疗和冷却抑制、固定比例追加。
-- `underworld/Kagotsurube`：有效腰带资格、冥府属性对账、凋零延长、直击伤害转换资格。
-- `combat/DamageIdentity`：转换后伤害供原版及外部事件结算，原来源实例保留给内部反伤、追加、重放身份认领。身份认领依赖原来源的对象引用。
-- `combat/DamageScope`：由 LivingCombatMixin / PlayerCombatMixin 包装入口调用，覆盖伤害调用和收尾的逐日派生链去重；异常退出清理作用域。
-- `CombatContext`：原来源用于攻击身份及输出条件；有效来源用于防御类型判断。确认普通生命或吸收生命损失后，先分发新物品的伤害确认，再执行旧机制既有的特殊伤害排除。
-- `combat/ProjectileReflection`：在 Forge 弹射物命中事件中反转速度、归属及火球推进方向，并重置离开拥有者状态。反弹依赖弹射物的标准速度、归属字段和 Forge 命中事件。
-- `SunBladeConfig`：定义参数，但逐日参数实际写入 `aspects/far_reach.toml`，籠釣瓶参数写入 `aspects/underworld.toml`。TooltipConfigSync 同步有效值。
+`DamageIdentity` 保留原来源的对象身份，将转换后的来源交给原版及外部事件。两者分别用于派生链认领和有效类型防御；创建新 DamageSource 代替原实例可能改变内部认领结果。
 
-## 追加伤害与冷却
+逐日见证默认按目标最大生命快照的 1% 追加直击伤害，排除 TLT 自身输出增幅与必杀，继续经过适用防御和外部事件。每个效果主体在同一同步派生链中至多追加一次。逐日追加可延长籠釣瓶凋零，但不进入无穷花普通入队及旧饰品普通成功攻击分派。
 
-逐日默认按伤害开始时目标最大生命的1%追加直击伤害。独立来源实例排除TLT自身攻击方增伤与必杀；直击伤害绕过黄心且保持原值，其他防御、事件取消及外部伤害修正遵循各自结算规则。详见[直击伤害](直击伤害.md)。
+无穷花重放按已有金额入队，FIFO，每服务器刻一笔，容量 4096。一笔重放可触发一次逐日，逐日追加金额不写回原队列。详见[伤害结算](伤害结算与追加效果.md#追加与重放)。
 
-同一同步伤害派生链内，同一效果主体（玩家或女仆）逐日至多追加一次。逐日追加不触发旧饰品的普通成功攻击和追加伤害分派，但实际造成伤害仍可延长籠釣瓶凋零。追加来源通过独立标记识别；籠釣瓶转换后的普通直击伤害攻击仍可触发追加。
+## 治疗、冷却与弹射物
 
-无穷花保持原有队列、每服务器刻一笔、FIFO、4096容量及继续重放策略。重放的一笔伤害可触发一次逐日，但逐日追加不进入无穷花普通入队入口；不会将追加金额累加进原队列伤害。现有堂吉诃德、洛伦兹幻想及重放的受伤冷却恢复，在逐日抑制期间不得恢复非零冷却。
+逐日抑制截止时间使用世界游戏时间，重复命中刷新。正常治疗通过 LivingHealEvent 取消，直接 setHealth 保留自己的写入路径。抑制期间清除受伤冷却；其他机制恢复冷却时应协调该状态。
 
-目标抑制截止时间存入实体持久数据，使用世界游戏时间，重复命中刷新。正常治疗通过 LivingHealEvent 取消；不拦截 setHealth 或直接同步数据写入。抑制只清理受伤冷却，不改变出生保护、创造模式或特殊首领免疫。
+`combat/ProjectileReflection` 在 Forge 弹射物命中事件反转速度、归属和火球推进方向，并重置离开拥有者的状态。自定义弹射物需沿用对应命中事件及速度、归属字段，反弹后碰撞重新生成伤害。
 
-## 凋零、获取与展示
+## 凋零与合成
 
-籠釣瓶每笔确认伤害默认增加100刻凋零；已有效果用原效果的NBT副本更新时长，保留等级、显示及隐藏效果，不把旧时长再次送入整段延时修饰。无效果时走原版添加流程，遵守效果适用性；无限时长不变。
+籠釣瓶每次确认伤害默认增加 100 tick 凋零。已有实例通过 NBT 副本更新时长，保留等级、隐藏链与显示标记；无限时长不变。没有凋零时走原版效果添加流程，遵守效果适用性。延长不再次经过完整时长放大流程。
 
-ArchaeologyTrades 注册制箭师大师交易并补全旧村民、去重；MaterialLoot 在沙漠神殿、沙漠水井考古表中加入各 15% 的逐日奖励。籠釣瓶使用原版3×3有序配方，CursedBookIngredient 查询附魔的 isCurse()；JEI 从真实配方读取已注册诅咒书候选。
+[kagotsurube.json](../../src/main/resources/data/the_long_travail/recipes/kagotsurube.json) 使用 `minecraft:crafting_shaped`。材料 `the_long_travail:cursed_book` 由 `underworld/CursedBookIngredient` 匹配：附魔书包含至少一种已注册诅咒即可，也允许混合其他附魔。
 
-语言源覆盖 zh_cn、en_us、zh_tw、zh_hk、lzh，拾遗使用无NBT样品和有效配置。
+该 Ingredient 的 `isSimple=false`，同时提供 JSON 和网络序列化。展示候选是已注册诅咒的一级书，自动合成应调用材料谓词判断实际 NBT。结果为全新物品，不继承输入剑的 NBT。旧 `the_long_travail:kagotsurube` 配方类型已移除，外部数据包应改为当前有序配方格式。
 
-## 女仆与展示
+## 女仆接入
 
-女仆装备、主人状态、加载隔离及清理约定见 [女仆联动](sun-blade-maid-integration.md)。
+女仆仅在原生饰品栏取得这两件物品的效果。阶段读取在线主人苦旅，基础免火和凋零独立生效；效果、属性、冷却与伤害归属仍属于女仆。
 
-风味描述使用五种语言中的 `tooltip.the_long_travail.flavor.<物品ID>`，由 ThemeTooltips 放在功能摘要之前，沿用麦金色动态材质。SunBladeText 提供拾遗的基础、恶意、见证三组正文，CatalogTextStyle 负责术语和数值着色。
+`MaidAccessories` 的安全门面将第三方类型隔离在适配实现中。`SunBladeActors` 复用女仆弹射物归属解析；同步逐日认领按女仆自身 UUID 区分，攻击玩家时遵守 `MaidAccessories.canHarm` 的主人与玩家限制。
 
-## 获取与结算规则
+`MaidPeriodicEffects` 在时停返回前校正籠釣瓶属性，返回后推进逐日回血；时停不推进恢复。卸装直接撤销临时属性，后续周期按最终槽位校正；实体离开时由 `MaidRuntimeState.forget` 清理。已施加的凋零和禁疗持续到各自期限，已反弹弹射物保持新归属。
 
-逐日考古15%指沙漠神殿、沙漠水井各自的表内概率；默认开启考古结果保护，跳过Forge全局修改器；关闭保护后，修改器可继续改动抽取结果。表内注入和其他考古改写仍由相应模组处理。逐日固定追加排除本模组攻击方增伤与必杀；外部增幅与目标防御仍按各自结算流程处理。
-
-## 籠釣瓶有序合成
-
-`recipes/kagotsurube.json` 使用原版 `minecraft:crafting_shaped`。材料 `the_long_travail:cursed_book` 由 `underworld/CursedBookIngredient` 判断：必须为附魔书，且至少一种已注册附魔为诅咒；允许混合其他附魔。该材料声明 `isSimple=false`，避免忽略 NBT 的匹配捷径，提供 JSON 与网络序列化以及所有已注册诅咒的一级书作为展示候选。
-
-材料序列化器在模组初始化时注册。JEI 读取真实有序配方，不再注册单独的展示副本。排列、数量和全新产物语义不变，不继承输入剑的 NBT。旧 `the_long_travail:kagotsurube` 自定义配方类型已移除；引用旧类型的外部数据包需改用新 JSON 格式。
-
-自动合成系统若仅枚举展示候选而不调用材料谓词，无法完整表达任意组合附魔书的替代范围。
+参数共用 `SunBladeConfig`，逐日保存于 `aspects/far_reach.toml`，籠釣瓶保存于 `aspects/underworld.toml`。女仆没有独立倍率。

@@ -1,7 +1,7 @@
 sourceSets {
     eventSubscriberCheck {
         java {
-            srcDir 'tools/structure-regression'
+            srcDir 'tools/architecture'
             include 'EventSubscriberNames.java'
         }
         compileClasspath += sourceSets.main.compileClasspath

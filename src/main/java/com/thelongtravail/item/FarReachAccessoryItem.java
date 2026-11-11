@@ -1,7 +1,7 @@
 package com.thelongtravail.item;
 
+import com.thelongtravail.text.TooltipStyle;
 import com.thelongtravail.AspectTheme;
-import com.thelongtravail.abyss.rain.RainTooltips;
 import com.thelongtravail.config.FarReachItemsConfig;
 import com.thelongtravail.equipment.DependentAccessories;
 import com.thelongtravail.network.TooltipConfigSync;
@@ -67,9 +67,9 @@ public final class FarReachAccessoryItem extends Item implements ICurioItem {
         if (gold || !player.isShiftKeyDown())
             return net.minecraft.world.InteractionResultHolder.pass(stack);
         if (!level.isClientSide) {
-            boolean enabled = com.thelongtravail.farreach.IcarusFlight.toggle(stack);
+            boolean enabled = com.thelongtravail.farreach.icarus.IcarusFlight.toggle(stack);
             player.displayClientMessage(
-                    com.thelongtravail.helper.ActionMessages.text(
+                    com.thelongtravail.text.ActionMessages.text(
                             "message.the_long_travail.icarus.flight_" + (enabled ? "on" : "off")),
                     true);
         }
@@ -86,14 +86,14 @@ public final class FarReachAccessoryItem extends Item implements ICurioItem {
 
     private static void line(List<Component> out, String key, Object... args) {
         out.add(
-                RainTooltips.coloredLine(
+                TooltipStyle.coloredLine(
                         Component.translatable("tooltip.the_long_travail." + key, args)
                                 .withStyle(
                                         s ->
                                                 s.withColor(
                                                         key.endsWith("heading")
-                                                                ? RainTooltips.TITLE_COLOR
-                                                                : RainTooltips.BODY_COLOR))));
+                                                                ? TooltipStyle.TITLE_COLOR
+                                                                : TooltipStyle.BODY_COLOR))));
     }
 
     @Override

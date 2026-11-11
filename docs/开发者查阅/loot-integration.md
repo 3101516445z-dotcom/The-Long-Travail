@@ -1,6 +1,6 @@
 # 战利品数据接入说明
 
-玩家配置操作见[配置说明](../玩家查阅/configuration-controls.md)。
+字段格式见[随包配置说明](../../src/main/resources/assets/the_long_travail/config/configuration-guide.zh_cn.txt)。
 
 精粹加入考古、钓鱼宝藏、嗅探兽、村庄英雄赠礼、猪灵交易和猫礼物的原表单轮加权池，保持原奖励相对权重和物品函数，每次只取一个结果。无名称池、多池、多轮或带动态条件／品质的表跳过注入并警告。箱子额外抽取材料池，保留原战利品。
 
@@ -25,7 +25,7 @@
 
 `general.toml` 的 `compatibility.protectArchaeologyLoot` 默认开启。对声明为 `minecraft:archaeology` 类型的表，`ArchaeologyLootMixin` 跳过 `ForgeHooks.modifyLoot`，保留表内注入、条件、函数与子表抽取。全局修改器的替换、追加、过滤和NBT修改均被跳过；关闭开关后恢复原流程。
 
-按表类型识别，不按模组或表路径识别。其他Mixin对表及考古方块的直接改写不属于此入口。调用边界见[考古保护链路](架构/链路/获取配方与展示一致性.md#考古抽取后的修改器边界)。
+按表类型识别，不按模组或表路径识别。该开关只改变 Forge 全局战利品修改器调用，不撤销直接改写表或考古方块的 Mixin。
 
 ## 强制终结补偿的联动边界
 

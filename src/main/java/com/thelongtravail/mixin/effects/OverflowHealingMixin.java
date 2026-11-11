@@ -2,7 +2,7 @@ package com.thelongtravail.mixin.effects;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
-import com.thelongtravail.common.OverflowHealing;
+import com.thelongtravail.runtime.effects.OverflowHealing;
 
 import net.minecraft.world.entity.LivingEntity;
 

@@ -245,7 +245,7 @@ public final class CombatContext implements AutoCloseable {
     private void recordProvocation() {
         if (!provocationRecorded) {
             provocationRecorded = true;
-            com.thelongtravail.farreach.BabelProtection.damaged(target, source);
+            com.thelongtravail.farreach.babel.BabelProtection.damaged(target, source);
         }
     }
 

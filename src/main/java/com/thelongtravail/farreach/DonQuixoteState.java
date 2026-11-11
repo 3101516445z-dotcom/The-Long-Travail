@@ -1,5 +1,7 @@
 package com.thelongtravail.farreach;
 
+import com.thelongtravail.farreach.babel.BabelCarrying;
+
 import com.thelongtravail.config.FarReachRelicsConfig;
 import com.thelongtravail.integration.MaidIntegration;
 

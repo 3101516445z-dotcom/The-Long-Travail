@@ -1,6 +1,6 @@
 package com.thelongtravail.compat.mixin.caelus;
 
-import com.thelongtravail.farreach.IcarusFlight;
+import com.thelongtravail.farreach.icarus.IcarusFlight;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;

@@ -68,8 +68,7 @@ public final class EffectCombatRules {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void attack(LivingAttackEvent event) {
         if (!event.getEntity().level().isClientSide
-                && blocked(event.getEntity(), event.getSource()))
-            event.setCanceled(true);
+                && blocked(event.getEntity(), event.getSource())) event.setCanceled(true);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

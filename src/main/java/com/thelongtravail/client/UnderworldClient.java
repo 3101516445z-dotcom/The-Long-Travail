@@ -1,10 +1,11 @@
 package com.thelongtravail.client;
 
+import com.thelongtravail.text.TooltipStyle;
+
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.item.UnderworldAccessoryItem;
 import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.network.*;
-import com.thelongtravail.abyss.rain.RainTooltips;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.DeathScreen;
@@ -136,7 +137,7 @@ public final class UnderworldClient {
                                             prefix + key,
                                             revivalName(
                                                     "tooltip.the_long_travail.book_of_dead.revival_name"))
-                                    .withStyle(s -> s.withColor(RainTooltips.BODY_COLOR)));
+                                    .withStyle(s -> s.withColor(TooltipStyle.BODY_COLOR)));
                     continue;
                 }
                 Object[] args =
@@ -148,14 +149,15 @@ public final class UnderworldClient {
                                 }
                                 : new Object[0];
                 out.add(
-                        RainTooltips.coloredLine(
+                        TooltipStyle.coloredLine(
                                 Component.translatable(prefix + key, args)
                                         .withStyle(
                                                 s ->
                                                         s.withColor(
                                                                 key.endsWith("title")
-                                                                        ? RainTooltips.TITLE_COLOR
-                                                                        : RainTooltips
+                                                                        ? TooltipStyle.TITLE_COLOR
+                                                                        : com.thelongtravail.text
+                                                                                .TooltipStyle
                                                                                 .BODY_COLOR))));
             }
         }

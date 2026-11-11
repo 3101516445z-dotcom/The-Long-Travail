@@ -1,9 +1,10 @@
 package com.thelongtravail.boundless;
 
+import com.thelongtravail.text.TooltipStyle;
+
 import com.thelongtravail.config.BoundlessItemsConfig;
 import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.network.TooltipConfigSync;
-import com.thelongtravail.abyss.rain.RainTooltips;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import java.math.BigDecimal;
@@ -24,8 +25,8 @@ public final class BoundlessTooltips {
     }
 
     private static Component text(String key, Object... args) {
-        int color = key.endsWith("_heading") ? RainTooltips.TITLE_COLOR : RainTooltips.BODY_COLOR;
-        return RainTooltips.coloredLine(
+        int color = key.endsWith("_heading") ? TooltipStyle.TITLE_COLOR : TooltipStyle.BODY_COLOR;
+        return TooltipStyle.coloredLine(
                 Component.translatable("tooltip.the_long_travail." + key, args)
                         .withStyle(s -> s.withColor(color)));
     }

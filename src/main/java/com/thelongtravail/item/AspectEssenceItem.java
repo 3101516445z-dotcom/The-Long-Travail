@@ -1,7 +1,7 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.helper.ActionMessages;
+import com.thelongtravail.text.ActionMessages;
 import com.thelongtravail.journey.JourneyService;
 import com.thelongtravail.network.*;
 

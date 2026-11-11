@@ -1,7 +1,7 @@
 package com.thelongtravail.mixin.valley;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import com.thelongtravail.valley.PlayerBlockBreaker;
+import com.thelongtravail.valley.tremor.PlayerBlockBreaker;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.storage.loot.LootContext;

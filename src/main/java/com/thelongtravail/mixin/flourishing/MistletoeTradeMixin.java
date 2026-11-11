@@ -41,7 +41,7 @@ public abstract class MistletoeTradeMixin {
     private void travail$offers(CallbackInfoReturnable<MerchantOffers> cir) {
         if ((Object) this instanceof Villager villager) {
             com.thelongtravail.flourishing.MistletoeTrades.ensure(villager, cir.getReturnValue());
-            com.thelongtravail.farreach.BabelTrades.ensure(villager, cir.getReturnValue());
+            com.thelongtravail.farreach.babel.BabelTrades.ensure(villager, cir.getReturnValue());
             com.thelongtravail.boundless.BoundlessAcquisition.ensure(
                     villager, cir.getReturnValue());
             com.thelongtravail.loot.ArchaeologyTrades.ensure(villager, cir.getReturnValue());

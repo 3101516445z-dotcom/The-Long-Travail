@@ -95,12 +95,12 @@ public final class Affection {
             if (s.getTag().getUUID(TARGET).equals(target.getUUID())) {
                 clear(s);
                 p.displayClientMessage(
-                        com.thelongtravail.helper.ActionMessages.text(
+                        com.thelongtravail.text.ActionMessages.text(
                                 "message.the_long_travail.affection.cleared"),
                         true);
             } else
                 p.displayClientMessage(
-                        com.thelongtravail.helper.ActionMessages.text(
+                        com.thelongtravail.text.ActionMessages.text(
                                 "message.the_long_travail.affection.faithful"),
                         true);
         } else if (target.isAlive()
@@ -112,12 +112,12 @@ public final class Affection {
             s.getOrCreateTag().putString("BoundName", target.getName().getString());
             AffectionDeaths.get(p.getServer()).watch(target.getUUID());
             p.displayClientMessage(
-                    com.thelongtravail.helper.ActionMessages.text(
+                    com.thelongtravail.text.ActionMessages.text(
                             "message.the_long_travail.affection.bound", target.getName()),
                     true);
         } else
             p.displayClientMessage(
-                    com.thelongtravail.helper.ActionMessages.text(
+                    com.thelongtravail.text.ActionMessages.text(
                             "message.the_long_travail.affection.invalid"),
                     true);
         if (p instanceof ServerPlayer server) {

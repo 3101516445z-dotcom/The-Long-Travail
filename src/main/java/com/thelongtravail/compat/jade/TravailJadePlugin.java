@@ -1,7 +1,8 @@
 package com.thelongtravail.compat.jade;
 
+import com.thelongtravail.text.TooltipStyle;
+
 import com.thelongtravail.TheLongTravail;
-import com.thelongtravail.abyss.rain.RainTooltips;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -32,7 +33,7 @@ public final class TravailJadePlugin implements IWailaPlugin {
                     tooltip.add(
                             Component.translatable(
                                             "tooltip.the_long_travail.jade.pick_up_for_details")
-                                    .withStyle(style -> style.withColor(RainTooltips.BODY_COLOR)),
+                                    .withStyle(style -> style.withColor(TooltipStyle.BODY_COLOR)),
                             Identifiers.MC_ITEM_TOOLTIP);
                 });
     }

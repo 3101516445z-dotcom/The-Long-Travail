@@ -46,8 +46,7 @@ public abstract class CombatEffectHealthMixin {
     private void travail$health(float health, CallbackInfo ci) {
         if (travail$effectsReady
                 && travail$readingHealth == 0
-                && HealthLoss.blocks((LivingEntity) (Object) this, health))
-            ci.cancel();
+                && HealthLoss.blocks((LivingEntity) (Object) this, health)) ci.cancel();
     }
 
     @Inject(method = "tickEffects", at = @At("HEAD"))

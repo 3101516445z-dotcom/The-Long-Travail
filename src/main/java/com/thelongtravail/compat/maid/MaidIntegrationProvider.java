@@ -13,6 +13,12 @@ import java.util.*;
 
 public final class MaidIntegrationProvider implements MaidIntegration.Provider {
     @Override
+    public boolean applyNonlethalEffectLoss(LivingEntity entity, float nextHealth) {
+        return com.thelongtravail.compat.maidspell.MaidSpellHealth.applyNonlethalEffectLoss(
+                entity, nextHealth);
+    }
+
+    @Override
     public boolean equipped(LivingEntity entity, Item item) {
         return MaidAccessories.equipped(entity, item);
     }

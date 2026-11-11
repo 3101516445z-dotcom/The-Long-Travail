@@ -2,13 +2,11 @@ package com.thelongtravail.boundless;
 
 import com.thelongtravail.boundless.dream.DreamLandingSearch;
 import com.thelongtravail.boundless.dream.DreamState;
-
 import com.thelongtravail.boundless.timestop.TimeStopManager;
 import com.thelongtravail.boundless.timestop.FrozenBlockEvents;
 import com.thelongtravail.boundless.timestop.FrozenContainers;
 import com.thelongtravail.boundless.timestop.FrozenEntityClock;
 import com.thelongtravail.boundless.timestop.StarVoiceState;
-
 import com.thelongtravail.TheLongTravail;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.TickEvent;
@@ -69,7 +67,7 @@ public final class BoundlessEvents {
     @SubscribeEvent
     public static void login(PlayerEvent.PlayerLoggedInEvent e) {
         if (e.getEntity() instanceof ServerPlayer p) {
-            com.thelongtravail.network.TimeStopSync.forget(p);
+            com.thelongtravail.boundless.timestop.TimeStopSync.forget(p);
             TimeStopManager.login(p);
             DreamState.finish(p);
             com.thelongtravail.network.TimeStopPacket.send(p.serverLevel());
@@ -85,7 +83,7 @@ public final class BoundlessEvents {
     @SubscribeEvent
     public static void logout(PlayerEvent.PlayerLoggedOutEvent e) {
         if (e.getEntity() instanceof ServerPlayer p) {
-            com.thelongtravail.network.TimeStopSync.forget(p);
+            com.thelongtravail.boundless.timestop.TimeStopSync.forget(p);
             DreamState.finish(p);
             DreamLandingSearch.cancel(p);
         }
@@ -94,7 +92,7 @@ public final class BoundlessEvents {
     @SubscribeEvent
     public static void dimension(PlayerEvent.PlayerChangedDimensionEvent e) {
         if (e.getEntity() instanceof ServerPlayer p) {
-            com.thelongtravail.network.TimeStopSync.forget(p);
+            com.thelongtravail.boundless.timestop.TimeStopSync.forget(p);
             DreamState.finish(p, p.isAlive());
             com.thelongtravail.network.TimeStopPacket.send(p.serverLevel());
         }

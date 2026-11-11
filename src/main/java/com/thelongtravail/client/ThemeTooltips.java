@@ -1,9 +1,10 @@
 package com.thelongtravail.client;
 
-import com.thelongtravail.abyss.rain.RainTooltips;
+import com.thelongtravail.text.TooltipStyle;
+
 import com.thelongtravail.client.catalog.*;
 import com.thelongtravail.equipment.AccessoryEquipRules;
-import com.thelongtravail.farreach.IcarusFlight;
+import com.thelongtravail.farreach.icarus.IcarusFlight;
 import com.thelongtravail.flourishing.*;
 import com.thelongtravail.item.ItemDescription;
 import com.thelongtravail.valley.lantern.LanternSources;
@@ -221,7 +222,7 @@ public final class ThemeTooltips {
                         PREFIX + suffix,
                         keyName(CatalogSession.OPEN)
                                 .copy()
-                                .withStyle(s -> s.withColor(RainTooltips.ACCENT_COLOR)))
+                                .withStyle(s -> s.withColor(TooltipStyle.ACCENT_COLOR)))
                 .withStyle(s -> s.withColor(0x555555));
     }
 
@@ -240,15 +241,15 @@ public final class ThemeTooltips {
         Style[] previous = {null};
         net.minecraft.util.StringDecomposer.iterateFormatted(
                 value,
-                Style.EMPTY.withColor(suffix.equals("open") ? 0x555555 : RainTooltips.BODY_COLOR),
+                Style.EMPTY.withColor(suffix.equals("open") ? 0x555555 : TooltipStyle.BODY_COLOR),
                 (i, style, point) -> {
                     if (style.getColor() != null) {
                         int color = style.getColor().getValue();
-                        if (color == 0x55FF55) style = style.withColor(RainTooltips.ACCENT_COLOR);
+                        if (color == 0x55FF55) style = style.withColor(TooltipStyle.ACCENT_COLOR);
                         else if (color == 0xFFAA00)
-                            style = style.withColor(RainTooltips.TITLE_COLOR);
+                            style = style.withColor(TooltipStyle.TITLE_COLOR);
                         else if (color == 0xFF55FF)
-                            style = style.withColor(RainTooltips.STATE_CONDITION_COLOR);
+                            style = style.withColor(TooltipStyle.STATE_CONDITION_COLOR);
                     }
                     style = style.withBold(false).withObfuscated(false);
                     if (!style.equals(previous[0]) && run.length() > 0) {
@@ -414,7 +415,7 @@ public final class ThemeTooltips {
             case "liquefied_abundance" ->
                     out.addAll(
                             com.thelongtravail.abyss.abundance.AbundanceText.summary().stream()
-                                    .map(RainTooltips::coloredLine)
+                                    .map(TooltipStyle::coloredLine)
                                     .toList());
             case "midnight_lafite" -> out.addAll(com.thelongtravail.abyss.AbyssItemText.summary());
             case "spring_corner" -> {

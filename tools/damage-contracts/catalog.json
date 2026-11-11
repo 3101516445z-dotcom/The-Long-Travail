@@ -59,11 +59,11 @@
     },
     {
       "id": "identity",
-      "name": "籠釣瓶直击转换",
+      "name": "直击类型与原始来源身份",
       "stage": "hurt 前",
       "amount": "只改变来源类型，不增加次数",
       "ownership": "DamageIdentity 保存原 DamageSource 实例、责任实体、直接实体及位置",
-      "guard": "已是直击时保留来源；特殊来源用 original 识别",
+      "guard": "已是直击时保留来源；特殊来源用 original 识别；直击统一跳过并保留吸收生命",
       "sources": [
         "src/main/java/com/thelongtravail/combat/DamageIdentity.java",
         "src/main/java/com/thelongtravail/combat/DirectStrikeDamage.java",
@@ -76,7 +76,7 @@
       "id": "sun",
       "name": "逐日见证追加",
       "stage": "确认后 finish",
-      "amount": "开始时最大生命快照乘比例；不获本模组增伤或必杀",
+      "amount": "开始时最大生命快照乘比例；不获普通饰品增伤或必杀，仍受独立效果规则处理",
       "ownership": "玩家或女仆自身",
       "guard": "自身 Strike 拒绝；同步范围每攻击者 UUID 一次",
       "sources": [
@@ -106,9 +106,9 @@
       "id": "quixote",
       "name": "堂吉诃德追加",
       "stage": "确认后 finish",
-      "amount": "目标最大生命比例；已结算金额",
+      "amount": "原攻击结算前目标当前生命快照乘比例；不重复普通输出加成，仍受独立效果规则处理",
       "ownership": "来源责任实体",
-      "guard": "专用类型；不重复必杀、见切或普通成功分派",
+      "guard": "Strike 实例或兼容旧类型键识别；不重复必杀、见切或普通成功分派",
       "sources": [
         "src/main/java/com/thelongtravail/farreach/DonQuixoteCombat.java",
         "src/main/java/com/thelongtravail/farreach/DonQuixoteState.java"
@@ -122,7 +122,7 @@
       "id": "insight",
       "name": "见切反击",
       "stage": "防御记录，最后 finish",
-      "amount": "完整见切值；允许必杀，普通输出加成为零",
+      "amount": "完整见切值；允许必杀，普通饰品输出加成为零，仍受独立效果规则处理",
       "ownership": "防御者作为责任实体",
       "guard": "CHAIN 包住嵌套 hurt；来源标记、THORNS、ROSE、retaliation 标签阻断继续反击",
       "sources": [
@@ -191,7 +191,7 @@
       "stage": "状态触发后执行",
       "amount": "专用 hurt 输入与终结路径",
       "ownership": "处决 Frame 与目标和来源实例匹配",
-      "guard": "active/实例匹配；普通确认分派排除；终结锁与 finally 清理",
+      "guard": "我于万物之中在主动处决入口阻断；active/实例匹配；普通确认分派排除；终结锁与 finally 清理",
       "sources": [
         "src/main/java/com/thelongtravail/valley/execution/AzraelExecution.java",
         "src/main/java/com/thelongtravail/valley/execution/FinalExecution.java",
@@ -303,7 +303,7 @@
       "guard": "派生早退；heal 经事件，逐日禁疗可取消；溢出请求有作用域",
       "sources": [
         "src/main/java/com/thelongtravail/underworld/DemonKingCombat.java",
-        "src/main/java/com/thelongtravail/common/OverflowHealing.java",
+        "src/main/java/com/thelongtravail/runtime/effects/OverflowHealing.java",
         "src/main/java/com/thelongtravail/mixin/effects/OverflowHealingMixin.java"
       ],
       "successors": []
@@ -317,7 +317,7 @@
       "guard": "ReceivedHitGate 去重；配置选择触发口径",
       "sources": [
         "src/main/java/com/thelongtravail/combat/ReceivedMalice.java",
-        "src/main/java/com/thelongtravail/common/ReceivedHitGate.java",
+        "src/main/java/com/thelongtravail/combat/ReceivedHitGate.java",
         "src/main/java/com/thelongtravail/valley/Phosphophyllite.java",
         "src/main/java/com/thelongtravail/event/TravailEvents.java"
       ],
@@ -329,7 +329,7 @@
       "stage": "死亡事件、END tick、复活流程",
       "amount": "猪笼草回血、幡计数、书资格与旅程",
       "ownership": "击杀归属另行解析；幡回溯弹射物 owner",
-      "guard": "复查取消与存活；幡 COUNTED 去重及装备实例；书匹配原死亡会话",
+      "guard": "复查取消与存活；幡按实际佩戴积魂，不要求冥府阶段，COUNTED 去重及装备实例；书匹配原死亡会话",
       "sources": [
         "src/main/java/com/thelongtravail/underworld/SoulBannerKills.java",
         "src/main/java/com/thelongtravail/underworld/BookRevival.java",
@@ -353,7 +353,7 @@
         "src/main/java/com/thelongtravail/compat/maidspell/MaidSpellHealth.java",
         "src/main/java/com/thelongtravail/flourishing/FloralEvents.java",
         "src/main/java/com/thelongtravail/valley/execution/AzraelExecution.java",
-        "src/main/java/com/thelongtravail/common/OverflowHealing.java"
+        "src/main/java/com/thelongtravail/runtime/effects/OverflowHealing.java"
       ],
       "successors": []
     },
@@ -370,7 +370,7 @@
         "src/main/java/com/thelongtravail/combat/AttributeDamage.java",
         "src/main/java/com/thelongtravail/compat/maid/MaidCombatCalculations.java",
         "src/main/java/com/thelongtravail/combat/CombatAttributePreparation.java",
-        "src/main/java/com/thelongtravail/farreach/IcarusCombat.java",
+        "src/main/java/com/thelongtravail/farreach/icarus/IcarusCombat.java",
         "src/main/java/com/thelongtravail/flourishing/FloralCombat.java",
         "src/main/java/com/thelongtravail/combat/DamageReduction.java"
       ],
@@ -391,6 +391,41 @@
         "blade",
         "feedback"
       ]
+    },
+    {
+      "id": "fixed_effect_rules",
+      "name": "波旬变生、我于万物之中与还魂",
+      "stage": "hurt 前阻断与转换、吸收前倍率、首次有效确认",
+      "amount": "波旬输出加成 +0.5；还魂输出剩余 0.01；已结算重放不重复倍率",
+      "ownership": "原始伤害责任生物；否则由女仆适配解析",
+      "guard": "我于万物之中阻止施受伤害；标准 generic_kill 按配置例外；effectOutputApplied 防重复；确认后凋零 III 100 tick 不覆盖更高等级",
+      "sources": [
+        "src/main/java/com/thelongtravail/combat/EffectCombatRules.java",
+        "src/main/java/com/thelongtravail/combat/CombatContext.java",
+        "src/main/java/com/thelongtravail/combat/DamageScope.java",
+        "src/main/java/com/thelongtravail/mixin/effects/CombatEffectHealthMixin.java",
+        "src/main/java/com/thelongtravail/mixin/babel/PeacefulAngerMixin.java",
+        "src/main/java/com/thelongtravail/valley/execution/AzraelExecution.java"
+      ],
+      "successors": [
+        "status"
+      ]
+    },
+    {
+      "id": "nonlethal_effect_loss",
+      "name": "独立非致死生命损失",
+      "stage": "效果 tick 直接生命写入",
+      "amount": "min(最大生命 × 正有限比例, 当前生命 − 1)，最低保留 1 点",
+      "ownership": "承受效果的实体，不生成攻击来源",
+      "guard": "仅服务端存活且非我于万物之中的目标；生命与上限必须有限有效；女仆适配返回 true 表示已接管（包含拒绝写入），false 才回退 setHealth；不经过 hurt、吸收或攻击收益",
+      "sources": [
+        "src/main/java/com/thelongtravail/runtime/effects/HealthLoss.java",
+        "src/main/java/com/thelongtravail/integration/MaidIntegration.java",
+        "src/main/java/com/thelongtravail/compat/maid/MaidIntegrationProvider.java",
+        "src/main/java/com/thelongtravail/compat/maidspell/MaidSpellHealth.java",
+        "src/main/java/com/thelongtravail/effect/FixedCombatEffect.java"
+      ],
+      "successors": []
     }
   ],
   "entryOwners": {
@@ -398,7 +433,7 @@
     "src/main/java/com/thelongtravail/combat/DamageReplay.java": "replay",
     "src/main/java/com/thelongtravail/combat/InsightRetaliation.java": "insight",
     "src/main/java/com/thelongtravail/common/AttributeModifierSet.java": "health_write",
-    "src/main/java/com/thelongtravail/common/OverflowHealing.java": "healing",
+    "src/main/java/com/thelongtravail/runtime/effects/OverflowHealing.java": "healing",
     "src/main/java/com/thelongtravail/compat/maid/MaidCombatFeedback.java": "rose",
     "src/main/java/com/thelongtravail/compat/maidspell/MaidSpellHealth.java": "health_write",
     "src/main/java/com/thelongtravail/runtime/rewards/TravailRewards.java": "phantom",
@@ -413,6 +448,7 @@
     "src/main/java/com/thelongtravail/mixin/combat/PlayerCombatMixin.java": "scope",
     "src/main/java/com/thelongtravail/valley/execution/AzraelExecution.java": "execution",
     "src/main/java/com/thelongtravail/valley/execution/ExecutionData.java": "execution",
-    "src/main/java/com/thelongtravail/valley/execution/FinalExecution.java": "execution"
+    "src/main/java/com/thelongtravail/valley/execution/FinalExecution.java": "execution",
+    "src/main/java/com/thelongtravail/runtime/effects/HealthLoss.java": "nonlethal_effect_loss"
   }
 }

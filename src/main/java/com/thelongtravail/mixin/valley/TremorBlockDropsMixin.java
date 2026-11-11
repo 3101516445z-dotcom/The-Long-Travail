@@ -2,7 +2,7 @@ package com.thelongtravail.mixin.valley;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.thelongtravail.valley.PlayerBlockBreaker;
+import com.thelongtravail.valley.tremor.PlayerBlockBreaker;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;

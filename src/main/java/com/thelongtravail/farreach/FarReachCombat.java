@@ -1,5 +1,9 @@
 package com.thelongtravail.farreach;
 
+import com.thelongtravail.farreach.icarus.IcarusEnvironment;
+
+import com.thelongtravail.farreach.icarus.IcarusCombat;
+
 import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.config.FarReachItemsConfig;
 

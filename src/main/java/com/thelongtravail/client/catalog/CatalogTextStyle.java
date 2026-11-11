@@ -166,7 +166,7 @@ public final class CatalogTextStyle {
                     source.getContents()
                                     instanceof
                                     net.minecraft.network.chat.contents.TranslatableContents
-                                            abyssTranslation
+                                                    abyssTranslation
                             && (abyssTranslation
                                             .getKey()
                                             .startsWith("gui.the_long_travail.catalog.abyss.")
@@ -186,7 +186,7 @@ public final class CatalogTextStyle {
                     source.getContents()
                                     instanceof
                                     net.minecraft.network.chat.contents.TranslatableContents
-                                            floralTranslation
+                                                    floralTranslation
                             && floralTranslation
                                     .getKey()
                                     .startsWith("gui.the_long_travail.catalog.floral.");
@@ -194,7 +194,7 @@ public final class CatalogTextStyle {
                     source.getContents()
                                     instanceof
                                     net.minecraft.network.chat.contents.TranslatableContents
-                                            utilityTranslation
+                                                    utilityTranslation
                             && utilityTranslation
                                     .getKey()
                                     .startsWith("gui.the_long_travail.catalog.details.");
@@ -202,7 +202,7 @@ public final class CatalogTextStyle {
                     source.getContents()
                                     instanceof
                                     net.minecraft.network.chat.contents.TranslatableContents
-                                            sunBladeTranslation
+                                                    sunBladeTranslation
                             && (sunBladeTranslation
                                             .getKey()
                                             .startsWith("tooltip.the_long_travail.sun_chaser.")
@@ -213,7 +213,7 @@ public final class CatalogTextStyle {
                     source.getContents()
                                     instanceof
                                     net.minecraft.network.chat.contents.TranslatableContents
-                                            abundanceTranslation
+                                                    abundanceTranslation
                             && abundanceTranslation
                                     .getKey()
                                     .startsWith("tooltip.the_long_travail.abundance.");
@@ -221,7 +221,7 @@ public final class CatalogTextStyle {
                     source.getContents()
                                     instanceof
                                     net.minecraft.network.chat.contents.TranslatableContents
-                                            translation
+                                                    translation
                             && translation
                                     .getKey()
                                     .startsWith("tooltip.the_long_travail.immortal_bud.details.");
@@ -229,7 +229,7 @@ public final class CatalogTextStyle {
                     source.getContents()
                                     instanceof
                                     net.minecraft.network.chat.contents.TranslatableContents
-                                            talesTranslation
+                                                    talesTranslation
                             && (talesTranslation
                                             .getKey()
                                             .startsWith(

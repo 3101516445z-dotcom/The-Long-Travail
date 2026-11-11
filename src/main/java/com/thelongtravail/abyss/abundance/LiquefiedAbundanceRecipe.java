@@ -12,7 +12,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 
-// 蜂蜜瓶作为第四个产物的容器，合成后不再返还玻璃瓶。
+// 使用此序列化器的配方若包含蜂蜜瓶，将消耗容器而不返还玻璃瓶。
 public final class LiquefiedAbundanceRecipe extends ShapelessRecipe {
     public LiquefiedAbundanceRecipe(ResourceLocation id, ShapelessRecipe base) {
         super(

@@ -1,6 +1,6 @@
 package com.thelongtravail.mixin.babel;
 
-import com.thelongtravail.farreach.BabelProtection;
+import com.thelongtravail.farreach.babel.BabelProtection;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.piglin.*;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,7 +1,8 @@
 package com.thelongtravail.item;
 
+import com.thelongtravail.text.TooltipStyle;
+
 import com.thelongtravail.AspectTheme;
-import com.thelongtravail.abyss.rain.RainTooltips;
 import com.thelongtravail.equipment.DependentAccessories;
 import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.config.SwordLanternConfig;
@@ -53,7 +54,7 @@ public final class SwordLanternItem extends Item implements ICurioItem, ItemDesc
         if (!level.isClientSide) {
             boolean enabled = com.thelongtravail.valley.lantern.LanternSources.toggle(stack);
             player.displayClientMessage(
-                    com.thelongtravail.helper.ActionMessages.text(
+                    com.thelongtravail.text.ActionMessages.text(
                             "message.the_long_travail.sword_lantern.light_"
                                     + (enabled ? "on" : "off")),
                     true);
@@ -74,9 +75,9 @@ public final class SwordLanternItem extends Item implements ICurioItem, ItemDesc
                         .getString()
                         .split("\\n"))
             out.add(
-                    RainTooltips.coloredLine(
+                    TooltipStyle.coloredLine(
                             Component.literal(text)
-                                    .withStyle(s -> s.withColor(RainTooltips.BODY_COLOR))));
+                                    .withStyle(s -> s.withColor(TooltipStyle.BODY_COLOR))));
     }
 
     @Override

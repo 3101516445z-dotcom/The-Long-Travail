@@ -334,6 +334,6 @@ public final class TimeStopManager {
     public static void clear() {
         WORLDS.clear();
         OFFLINE_COOLDOWNS.clear();
-        com.thelongtravail.network.TimeStopSync.clear();
+        com.thelongtravail.boundless.timestop.TimeStopSync.clear();
     }
 }

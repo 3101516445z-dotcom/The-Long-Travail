@@ -14,10 +14,8 @@ import net.minecraft.world.level.Level;
 public final class DirectStrikeDamage {
     // 使用调用方在原攻击结算前记录的生命值，避免追加伤害时重新取值。
     public static double fromHealthSnapshot(double health, double fraction) {
-        if (!Double.isFinite(health)
-                || health <= 0
-                || !Double.isFinite(fraction)
-                || fraction <= 0) return 0;
+        if (!Double.isFinite(health) || health <= 0 || !Double.isFinite(fraction) || fraction <= 0)
+            return 0;
         return Math.min(Float.MAX_VALUE, health * fraction);
     }
 
@@ -27,7 +25,6 @@ public final class DirectStrikeDamage {
                     ResourceLocation.fromNamespaceAndPath(TheLongTravail.MODID, "direct_strike"));
 
     // 从目标所在世界的注册表创建来源；本方法不造成伤害，调用方应在服务端通过目标的 hurt 方法结算。
-    //
     // 参数 level 目标所在的世界
     // 参数 directEntity 直接造成伤害的实体；近战传攻击者，间接攻击传投射物，无来源时传 null
     // 参数 causingEntity 归属的攻击者；间接攻击传投射物的拥有者，无归属时传 null

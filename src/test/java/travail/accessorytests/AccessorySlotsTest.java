@@ -40,7 +40,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
-/** 在隔离 Forge 服务端验证真实槽位校验、效果入口与恢复链。 */
+// 在隔离 Forge 服务端验证真实槽位校验、效果入口与恢复链。
+
 @Mod("travail_smoke")
 public final class AccessorySlotsTest {
     private static final String[] SLOTS = {

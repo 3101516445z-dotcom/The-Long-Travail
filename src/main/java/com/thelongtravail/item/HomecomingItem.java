@@ -71,7 +71,7 @@ public final class HomecomingItem extends Item {
             com.thelongtravail.network.TravailNetwork.sendItemSound(
                     serverPlayer, com.thelongtravail.network.ItemSoundCue.HOMECOMING);
             player.displayClientMessage(
-                    com.thelongtravail.helper.ActionMessages.text(
+                    com.thelongtravail.text.ActionMessages.text(
                             "message.the_long_travail.homecoming.success"),
                     true);
         }
@@ -81,7 +81,7 @@ public final class HomecomingItem extends Item {
 
     private InteractionResultHolder<ItemStack> unavailable(Player player, InteractionHand hand) {
         player.displayClientMessage(
-                com.thelongtravail.helper.ActionMessages.text(
+                com.thelongtravail.text.ActionMessages.text(
                         "message.the_long_travail.homecoming.unavailable"),
                 true);
         return InteractionResultHolder.fail(player.getItemInHand(hand));

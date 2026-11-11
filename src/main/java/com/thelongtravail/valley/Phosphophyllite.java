@@ -1,5 +1,7 @@
 package com.thelongtravail.valley;
 
+import com.thelongtravail.runtime.effects.OverflowHealing;
+
 import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.common.*;
 import com.thelongtravail.compat.arsnouveau.ArsNouveauAttributeRules;

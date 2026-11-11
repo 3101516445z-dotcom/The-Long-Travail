@@ -1,60 +1,25 @@
 # 施色与名称显示
 
-物品 ID：`the_long_travail:coloring`。八份原版萤石粉围绕一把原版刷子合成。物品可重复使用，无耐久消耗。右键打开容器菜单，支持整组处理；结果槽左键领取光标可容纳的数量，右键领取一个，Shift 转移至背包。
+## 持久数据
 
-运行时序与跨文件修改入口见项目书的[施色领取与名称显示](架构/链路/施色领取与名称显示.md)。
+物品根标签的字符串 `the_long_travail:name_style` 接受 `travail`、`flourishing`、`abyss`、`far_reach`、`deep_valley`、`underworld`、`boundless`、`prose`、`flavor`、`clear`。
 
-## 职责与调用关系
+缺失、未知或类型错误按未施色处理。`clear` 显式关闭 TLT 名称样式；删除字段则恢复物品自身默认渲染。读取名称不创建或修改物品数据。
 
-| 位置 | 职责 |
-|---|---|
-| `item/ColoringItem` | 物品名称、提示和服务端开窗入口 |
-| `item/NameColoring` | 样式 ID、名称组件变换；供两端使用 |
-| `menu/ColoringMenu` | 槽位布局、选项同步、服务端预览、领取与关闭返还 |
-| `client/ColoringScreen` | 按钮输入、标签排版与面板绘制 |
-| `mixin/presentation/ColoringNameMixin` | 在完整 `ItemStack.getHoverName()` 返回后应用样式 |
-| `compat/apotheosis/AffixNameStyle` | 神化词缀名称与品质颜色适配 |
-| `registry/ModRegistry` | 注册物品及菜单 |
-| `client/TravailClientEvents` | 在客户端装配 Screen |
+字段独立于 `display`，保留自定义名称、Lore、神化词缀及外部库存身份。不同样式按原版 NBT 规则区分堆叠，材料合成后的继承由配方决定。
 
-菜单通过原版容器协议同步。通用名称处理与菜单使用公共端类型，神化调用位于可选兼容包。施色面板复用 `client/catalog/CatalogFrame` 的无状态绘制入口，菜单状态由 `ColoringMenu` 独立维护。
+## 名称转换顺序
 
-## 样式数据
+[NameColoring](../../src/main/java/com/thelongtravail/item/NameColoring.java) 在两端处理组件。顺序为物品或自定义名称、神化完整词缀与品质色、TLT 神化适配、施色。
 
-物品根标签下的字符串 `the_long_travail:name_style` 取值为 `travail`、`flourishing`、`abyss`、`far_reach`、`deep_valley`、`underworld`、`boundless`、`prose`、`flavor`、`clear`。缺失、未知或类型错误按未施色处理；读取名称保持物品数据不变。
+[ColoringNameMixin](../../src/main/java/com/thelongtravail/mixin/presentation/ColoringNameMixin.java) 使用优先级 300，包裹神化 500 与词缀适配 400。转换复制组件、翻译参数和子组件，保留翻译键；显示副本的颜色码按选定样式处理。还原样式移除 TLT 标记及附加颜色，存在神化品质时使用品质色。
 
-`clear` 显式关闭 TLT 名称效果。删除字段则恢复物品自身的默认渲染规则，两者语义不同。
+`prose`、`flavor` 对应镀金与陶染，渲染标记以 `:coloring:auto` 结束。字体或名称替换模组应保留组件结构及样式，使语言切换和动态材质继续工作。
 
-样式记录独立于 `display`，保留自定义名称、Lore、神化词缀数据和外部库存身份。不同记录按原版 NBT 规则区分堆叠。记录随物品数据复制；材料合成后是否保留记录由对应配方决定。
+## 容器与界面扩展
 
-## 名称与渲染
+`menu/ColoringMenu` 使用标准菜单按钮请求，服务端校验当前菜单及选项范围。结果槽只展示预览，领取时按实际移动数量提交并扣除输入。左键、右键、Shift 支持领取；数字键交换和丢弃不领取预览。
 
-调用顺序：物品或自定义名称 → 神化完整词缀名称与品质色 → TLT 神化适配 → 施色。
+关闭时返还输入，满包掉落。预览使用普通物品栈副本，保留原物品的外部库存身份，不能将预览当作独立库存交付。
 
-`ColoringNameMixin` 使用优先级 300，包裹神化 500 与词缀适配 400。名称转换复制组件、翻译参数和子组件，保留翻译键。染色时在显示副本中移除嵌入颜色码，再应用样式；还原样式时移除已知 TLT 标记及其附加颜色。神化品质存在时采用品质颜色。未施色物品沿用原有名称路径。
-
-镀金与陶染复用正文渲染材质，标记以 `:coloring:auto` 结束。客户端按当前字体和文字计算扫光宽度，复用 `DiaryFontEffects` 与现有 Shader 材质。
-
-## 容器语义
-
-选择通过标准菜单按钮请求发送，服务端校验玩家当前菜单和选项范围。输出槽展示预览，领取在服务端提交，按实际移动数量扣除输入。结果槽支持左键、右键与 Shift 领取；数字键交换、丢弃等操作不领取预览。输入槽和玩家背包沿用标准容器操作。
-
-菜单打开后允许移动施色物品，菜单持续到主动关闭或容器生命周期结束。关闭时返还未领取输入，满包按原版规则掉落；输出预览随菜单清除。处理保留输入物品的库存身份，使用普通物品栈复制生成预览。
-
-## 面板与标签
-
-逻辑尺寸 284×254。输入槽坐标 (81,47)，输出槽 (187,47)，玩家背包首槽 (62,163)，快捷栏首槽 (62,221)。槽内物品为 16×16，外槽框为 28×28。坐标调整需同步 `ColoringMenu`、`ColoringScreen` 和客户端回归的鼠标坐标。
-
-自绘 `Button` 保留标准焦点和键盘激活。十项按钮使用粗体与既有名称材质；中文按卡片宽度换行，拉丁字母单词保持完整；还原按钮按各语言资源中的显式换行固定为两行。普通按钮最多两行，高按钮最多四行；标签按可用宽高等比缩小、居中，在创建按钮时缓存排版结果。
-
-显示名“镀金”“陶染”“还原样式”对应 NBT ID `prose`、`flavor`、`clear`，右侧分区标题为“清空”。外框与关闭按钮复用 `CatalogFrame`。
-
-绘制顺序为 `renderBackground → super.render → renderTooltip`，为 JEI 等界面扩展提供标准容器背景绘制事件。
-
-## 拾遗展示
-
-施色位于“旅程助力”，顺序为归乡、全修、路引、施色。四件物品复用下方六列的列距，占据中间四列。
-
-物品提示包含两行正文和统一拾遗入口。拾遗详情包含四句、两段，通过空组件分段，独立于物品提示维护。`CatalogTextStyle` 对施色和还原样式使用亮金色强调，数量及整组范围使用碧玉绿，其他说明使用正文色。
-
-共享详情换行在末行仅有中文句末标点时，将前一汉字连同原样式移至末行。文字内容、正文区域和字号保持不变。
+`client/ColoringScreen` 依次调用 `renderBackground → super.render → renderTooltip`，界面扩展可使用标准容器背景绘制事件。

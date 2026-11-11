@@ -401,7 +401,7 @@ public final class WayguideSearch {
 
     private static void message(ServerPlayer player, String key) {
         player.displayClientMessage(
-                com.thelongtravail.helper.ActionMessages.text(
+                com.thelongtravail.text.ActionMessages.text(
                         "message.the_long_travail.wayguide." + key),
                 true);
     }

@@ -97,6 +97,11 @@ public final class MaidIntegration {
     }
 
     public interface Combat {
+        // true 表示适配已接管（包括拒绝无效请求）；false 由主体执行普通生命写入。
+        default boolean applyNonlethalEffectLoss(LivingEntity entity, float nextHealth) {
+            return false;
+        }
+
         default LivingEntity damageActor(DamageSource source) {
             return null;
         }
@@ -314,6 +319,10 @@ public final class MaidIntegration {
     public static boolean canHarm(
             LivingEntity attacker, net.minecraft.world.entity.player.Player other) {
         return provider.canHarm(attacker, other);
+    }
+
+    public static boolean applyNonlethalEffectLoss(LivingEntity entity, float nextHealth) {
+        return provider.applyNonlethalEffectLoss(entity, nextHealth);
     }
 
     private MaidIntegration() {}
