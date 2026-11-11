@@ -123,10 +123,11 @@ public final class Mistletoe {
     }
 
     private static void syncSpeed(LivingEntity entity) {
+        int rank = level(entity);
         setSpeed(
                 entity,
                 SPEED,
-                level(entity) * FlourishingGrowthConfig.mistletoe("speedBonusPerLevel"),
+                rank == 0 ? 0 : rank * FlourishingGrowthConfig.mistletoe("speedBonusPerLevel"),
                 "Mistletoe");
     }
 

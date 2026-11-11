@@ -13,7 +13,10 @@ public final class FlowerData {
         if (stack.hasTag())
             for (Tag tag : stack.getTag().getList(KEY, Tag.TAG_STRING)) {
                 Flower f = Flower.parse(tag.getAsString());
-                if (f != null && !result.contains(f) && result.size() < 3) result.add(f);
+                if (f != null && !result.contains(f)) {
+                    result.add(f);
+                    if (result.size() == 3) break;
+                }
             }
         return result;
     }

@@ -162,9 +162,15 @@ public final class FluidCopyGraph implements Context {
     }
 
     public ItemStack item(ItemStack source) throws Exception {
-        if (source.isEmpty()
-                || com.thelongtravail.abyss.copy.PerfectFluidCopies.isProtected(
-                        ForgeRegistries.ITEMS.getKey(source.getItem()).toString()))
+        if (source.isEmpty()) return ItemStack.EMPTY;
+        var itemId =
+                ForgeRegistries.ITEMS
+                        .getResourceKey(source.getItem())
+                        .map(net.minecraft.resources.ResourceKey::location)
+                        .orElse(null);
+        if (itemId == null)
+            throw new IllegalStateException("Stored item has no registered ID; copy refused");
+        if (com.thelongtravail.abyss.copy.PerfectFluidCopies.isProtected(itemId.toString()))
             return ItemStack.EMPTY;
         int count = source.getCount();
         CompoundTag data = source.copyWithCount(1).save(new CompoundTag());

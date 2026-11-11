@@ -2,13 +2,16 @@ package com.thelongtravail.flourishing;
 
 import com.thelongtravail.config.FlourishingItemsConfig;
 import com.thelongtravail.registry.ModRegistry;
+
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.InteractionResult;
 import net.minecraftforge.registries.ForgeRegistries;
+
 import top.theillusivec4.curios.api.CuriosApi;
+
 import java.util.*;
 
 public final class Affection {
@@ -21,6 +24,8 @@ public final class Affection {
     private static final Map<UUID, UUID> ACTIVE = new HashMap<>();
 
     public static UUID owner(Entity e) {
+        if (e instanceof Player) return e.getUUID();
+        if (!(e instanceof OwnableEntity)) return null;
         Set<UUID> visited = new HashSet<>();
         for (int i = 0; i < 16 && e != null && visited.add(e.getUUID()); i++) {
             if (e instanceof Player) return e.getUUID();
@@ -33,6 +38,9 @@ public final class Affection {
     }
 
     public static ServerPlayer attacker(Entity e) {
+        if (e instanceof ServerPlayer p) return p;
+        if (!(e instanceof net.minecraft.world.entity.projectile.Projectile)
+                && !(e instanceof OwnableEntity)) return null;
         Set<UUID> visited = new HashSet<>();
         for (int i = 0; i < 16 && e != null && visited.add(e.getUUID()); i++) {
             if (e instanceof ServerPlayer p) return p;
@@ -54,18 +62,16 @@ public final class Affection {
                         : FlourishingItemsConfig.AFFECTION_SLOTS.get();
         return CuriosApi.getCuriosInventory(p)
                 .map(
-                        inv ->
-                                inv.findCurios(item).stream()
-                                        .filter(
-                                                r ->
-                                                        !r.slotContext().cosmetic()
-                                                                && slots.contains(
-                                                                        r.slotContext()
-                                                                                .identifier()))
-                                        .map(r -> r.stack())
-                                        .filter(s -> spring || ownerAllowed(s, p))
-                                        .findFirst()
-                                        .orElse(ItemStack.EMPTY))
+                        inv -> {
+                            for (var result : inv.findCurios(item)) {
+                                var context = result.slotContext();
+                                if (!context.cosmetic()
+                                        && slots.contains(context.identifier())
+                                        && (spring || ownerAllowed(result.stack(), p)))
+                                    return result.stack();
+                            }
+                            return ItemStack.EMPTY;
+                        })
                 .orElse(ItemStack.EMPTY);
     }
 
@@ -100,10 +106,7 @@ public final class Affection {
         } else if (target.isAlive()
                 && !(target instanceof Player)
                 && p.getUUID().equals(owner(target))
-                && !FlourishingItemsConfig.BLACKLIST
-                        .get()
-                        .contains(
-                                ForgeRegistries.ENTITY_TYPES.getKey(target.getType()).toString())) {
+                && bindingTypeAllowed(target)) {
             s.getOrCreateTag().putUUID(TARGET, target.getUUID());
             s.getOrCreateTag().putUUID(OWNER, p.getUUID());
             s.getOrCreateTag().putString("BoundName", target.getName().getString());
@@ -122,6 +125,16 @@ public final class Affection {
             target(server);
         }
         return InteractionResult.CONSUME;
+    }
+
+    private static boolean bindingTypeAllowed(LivingEntity target) {
+        var typeId =
+                ForgeRegistries.ENTITY_TYPES
+                        .getResourceKey(target.getType())
+                        .map(net.minecraft.resources.ResourceKey::location)
+                        .orElse(null);
+        return typeId != null
+                && !FlourishingItemsConfig.BLACKLIST.get().contains(typeId.toString());
     }
 
     public static LivingEntity target(ServerPlayer p) {

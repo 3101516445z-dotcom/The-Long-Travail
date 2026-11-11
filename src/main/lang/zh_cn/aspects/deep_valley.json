@@ -52,6 +52,7 @@
   "tooltip.the_long_travail.underground_velvet.malice": "使用地下丝绒后额外进行一次随机判定，§a%3$s%%§r的概率不获得额外战利品，§a%1$s%%§r的概率获得§a4件§r废弃矿井战利品，§a%2$s%%§r的概率获得§a2件§r远古城市战利品。",
   "tooltip.the_long_travail.underground_velvet.witness": "使用地下丝绒后，使用者的§6经验等级§r增加§a15级§r。",
   "message.the_long_travail.underground_velvet.failed": "无法生成完整奖励，本次未消耗地下丝绒",
+  "message.the_long_travail.underground_velvet.delivery_failed": "部分奖励未能确认送达。已消耗的地下丝绒不会返还，奖励不会补发。",
   "tooltip.the_long_travail.summary.phosphophyllite.0": "§d佩戴苦旅且幽谷尚有恶意时：§r\n- §6可接受属性§r提高，但§6受到的伤害§r会被放大",
   "tooltip.the_long_travail.summary.phosphophyllite.1": "§d佩戴苦旅且幽谷已然见证时：§r\n- §6可接受属性§r提高，但§6受到的伤害§r会被放大\n- §a受到伤害§r时有概率§6恢复生命§r\n- 溢出治疗量转为§6伤害吸收§r",
   "tooltip.the_long_travail.summary.underground_velvet.0": "§a右击§r使用：\n- 消耗1个，随机获得一种§6矿石或锭§r",

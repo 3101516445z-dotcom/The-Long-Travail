@@ -53,17 +53,20 @@ public final class EverlastingFlower {
         if (!(entity instanceof net.minecraft.world.entity.player.Player)) return ItemStack.EMPTY;
         return CuriosApi.getCuriosInventory(entity)
                 .map(
-                        inv ->
-                                inv.findCurios(ModRegistry.EVERLASTING_FLOWER.get()).stream()
-                                        .filter(r -> !r.slotContext().cosmetic())
-                                        .map(r -> r.stack())
-                                        .findFirst()
-                                        .orElse(ItemStack.EMPTY))
+                        inv -> {
+                            for (var result : inv.findCurios(ModRegistry.EVERLASTING_FLOWER.get()))
+                                if (!result.slotContext().cosmetic()) return result.stack();
+                            return ItemStack.EMPTY;
+                        })
                 .orElse(ItemStack.EMPTY);
     }
 
     public static int phase(LivingEntity entity) {
-        if (equipped(entity).isEmpty()) return 0;
+        return phase(entity, equipped(entity));
+    }
+
+    private static int phase(LivingEntity entity, ItemStack equipped) {
+        if (equipped.isEmpty()) return 0;
         if (!(entity instanceof ServerPlayer player))
             return com.thelongtravail.integration.MaidIntegration.flowerPhase(entity);
         var diary = TravailCurios.stack(player);
@@ -103,7 +106,7 @@ public final class EverlastingFlower {
         Mistletoe.setSpeed(
                 entity,
                 SPEED,
-                !stack.isEmpty() && phase(entity) == 1 && biome(entity)
+                !stack.isEmpty() && phase(entity, stack) == 1 && biome(entity)
                         ? FlourishingGrowthConfig.flower("malice.speedBonus")
                         : 0,
                 "Everlasting flower");

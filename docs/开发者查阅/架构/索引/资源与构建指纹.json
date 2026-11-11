@@ -18,7 +18,7 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "5b9f703ac9de050f98bede30839134803a8c9f55c28b9b55dfbac9b99299fa1c",
+  "fingerprint": "5aed934ad51f0ee7838be627dc07ce010b46743fde0997870875c9365f02fe0b",
   "files": [
     {
       "path": "build.gradle",
@@ -82,7 +82,7 @@
     },
     {
       "path": "src/main/lang/en_us/aspects/deep_valley.json",
-      "sha256": "86daa7d0640ce236dbd575e3dc808fe4e924942dbd8dd8b8b8ba466195a68d6e"
+      "sha256": "9167da3c6541e0e25834ce6683531e50ea686235fd05aa4d2083ce6ab80cfc58"
     },
     {
       "path": "src/main/lang/en_us/aspects/far_reach.json",
@@ -154,7 +154,7 @@
     },
     {
       "path": "src/main/lang/lzh/aspects/deep_valley.json",
-      "sha256": "159a2c4c216361dfc198aa13d2af37c6d4180a026db3cc2260a8b20b3f34fe76"
+      "sha256": "69b6115cabbb9f9ef0ed9babc7252c9e69af9eede0bdc8caadf898829dda255f"
     },
     {
       "path": "src/main/lang/lzh/aspects/far_reach.json",
@@ -222,7 +222,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/aspects/deep_valley.json",
-      "sha256": "ef5ea5e1fc54514102376a91109253858d515980f11f0c3237ada71b5880c17a"
+      "sha256": "ae23f76c379dde2bff83b0ff9ed50cf417ac5dfea175f3343386695e2501c64f"
     },
     {
       "path": "src/main/lang/zh_cn/aspects/far_reach.json",
@@ -290,7 +290,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/aspects/deep_valley.json",
-      "sha256": "ac7a52bdb4dea50c9e523f346e4cc920c6662054781cda9f910292cbb1afdf22"
+      "sha256": "7e306e3c30b9ebe5d9ea479fda69931a491bc1587e069ce332464b0b8cbd31e2"
     },
     {
       "path": "src/main/lang/zh_hk/aspects/far_reach.json",
@@ -358,7 +358,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/aspects/deep_valley.json",
-      "sha256": "cbd3538cb02d02de9df32bfbc236a031e86ba1b2b0067133c84cc0a870f5af81"
+      "sha256": "3104e4e601256d14413c533bc3cab059cfc66c033f7e11bf9843bba8c7353fa5"
     },
     {
       "path": "src/main/lang/zh_tw/aspects/far_reach.json",

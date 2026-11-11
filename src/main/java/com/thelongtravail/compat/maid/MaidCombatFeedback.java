@@ -219,7 +219,7 @@ public final class MaidCombatFeedback {
                 && type != MobEffects.WEAKNESS) return effect;
         double value = FloralCombat.value(crown(m), Flower.LILAC);
         if (value <= 0) return effect;
-        var copy = new MobEffectInstance(effect);
+        var copy = com.thelongtravail.runtime.effects.EffectCopies.copy(effect);
         ((com.thelongtravail.mixin.effects.EffectDurationAccessor) copy)
                 .travail$duration(
                         (int)

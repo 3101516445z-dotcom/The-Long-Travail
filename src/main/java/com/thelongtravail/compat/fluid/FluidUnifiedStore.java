@@ -88,14 +88,19 @@ final class FluidUnifiedStore {
 
             public void rollback() throws Exception {
                 if (!owned) return;
-                FluidRsStore.remove(rs, pending.id());
-                entries.remove(pending.id());
-                // 只清理本次事务新建的唯一标识目录，不得修改源目录。
-                if (Files.exists(directory)) {
-                    try (var paths = Files.walk(directory)) {
-                        for (Path path : paths.sorted(Comparator.reverseOrder()).toList())
-                            Files.delete(path);
-                    }
+                try {
+                    UnifiedCopyCleanup.clean(
+                            pending.id(),
+                            directory,
+                            () -> FluidRsStore.remove(rs, pending.id()),
+                            () -> entries.remove(pending.id()));
+                } catch (java.io.IOException failure) {
+                    // 残留需人工处理，每个失败的新身份都须记录，不依赖外层限频提示。
+                    com.thelongtravail.TheLongTravail.LOGGER.warn(
+                            "Copied unified disk cleanup incomplete; no automatic retry: {}",
+                            pending.id(),
+                            failure);
+                    throw failure;
                 }
             }
         };

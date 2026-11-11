@@ -219,7 +219,7 @@ public final class FloralEvents {
                 && effect != MobEffects.WEAKNESS) return incoming;
         double bonus = FloralCombat.value(Affection.equipped(p, true), Flower.LILAC);
         if (bonus <= 0 || incoming.isInfiniteDuration()) return incoming;
-        var copy = new MobEffectInstance(incoming);
+        var copy = com.thelongtravail.runtime.effects.EffectCopies.copy(incoming);
         ((EffectDurationAccessor) copy)
                 .travail$duration(
                         (int)

@@ -86,7 +86,28 @@ public final class UndergroundVelvet {
                                 Math.ceil(
                                         DeepValleyItemsConfig.get(
                                                 "underground_velvet.cooldownTicks")));
-        for (ItemStack reward : rewards) ItemDelivery.give(player, reward);
+        boolean delivered = true;
+        try {
+            for (ItemStack reward : rewards) delivered &= ItemDelivery.giveChecked(player, reward);
+        } catch (RuntimeException failure) {
+            warn(
+                    player,
+                    "Underground Velvet delivery interrupted for "
+                            + player.getUUID()
+                            + "; consumption and prior deliveries retained; no retry",
+                    failure);
+            deliveryFailed(player);
+            return true;
+        }
+        if (!delivered) {
+            warn(
+                    player,
+                    "Underground Velvet delivery could not be confirmed for "
+                            + player.getUUID()
+                            + "; no retry or refund",
+                    null);
+            deliveryFailed(player);
+        }
         if (state.hasWitness(com.thelongtravail.TravailAspect.DEEP_VALLEY))
             player.giveExperienceLevels(15);
         return true;
@@ -98,6 +119,13 @@ public final class UndergroundVelvet {
                         "message.the_long_travail.underground_velvet.failed"),
                 true);
         return false;
+    }
+
+    private static void deliveryFailed(ServerPlayer player) {
+        player.displayClientMessage(
+                net.minecraft.network.chat.Component.translatable(
+                        "message.the_long_travail.underground_velvet.delivery_failed"),
+                false);
     }
 
     private static void warn(ServerPlayer p, String text, Exception failure) {

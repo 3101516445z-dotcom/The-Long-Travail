@@ -1,26 +1,28 @@
 package com.thelongtravail.valley;
 
-import com.thelongtravail.api.TravailStateApi.AspectState;
-import com.thelongtravail.api.TravailStateApi;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.thelongtravail.TravailAspect;
+import com.thelongtravail.api.TravailStateApi;
+import com.thelongtravail.api.TravailStateApi.AspectState;
 import com.thelongtravail.boundless.BoundlessAcquisition;
 import com.thelongtravail.boundless.timestop.TimeStopManager;
 import com.thelongtravail.config.DeepValleyItemsConfig;
+
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.registries.ForgeRegistries;
-import java.util.List;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.List;
 
 // 限定特殊破坏作用域；未确认移除成功时不主动结算战利品或获取奖励。
 public final class PlayerBlockBreaker {
@@ -37,7 +39,8 @@ public final class PlayerBlockBreaker {
     public static void reportFailure(
             ServerLevel level, BlockPos pos, BlockState state, RuntimeException failure) {
         com.thelongtravail.TheLongTravail.LOGGER.error(
-                "High Frequency Tremor stopped after block callback failure: block={}, dimension={}, pos={}; no retry or rollback",
+                "High Frequency Tremor stopped after block callback failure: block={},"
+                        + " dimension={}, pos={}; no retry or rollback",
                 state == null ? "<unloaded>" : ForgeRegistries.BLOCKS.getKey(state.getBlock()),
                 level.dimension().location(),
                 pos,
@@ -45,9 +48,13 @@ public final class PlayerBlockBreaker {
     }
 
     public static boolean blacklisted(BlockState state) {
-        return DeepValleyItemsConfig.TREMOR_BLACKLIST
-                .get()
-                .contains(ForgeRegistries.BLOCKS.getKey(state.getBlock()).toString());
+        var blockId =
+                ForgeRegistries.BLOCKS
+                        .getResourceKey(state.getBlock())
+                        .map(net.minecraft.resources.ResourceKey::location)
+                        .orElse(null);
+        return blockId == null
+                || DeepValleyItemsConfig.TREMOR_BLACKLIST.get().contains(blockId.toString());
     }
 
     public static boolean active() {
@@ -69,7 +76,8 @@ public final class PlayerBlockBreaker {
                 || player.blockActionRestricted(level, pos, player.gameMode.getGameModeForPlayer()))
             return false;
         BlockState state = level.getBlockState(pos);
-        if (state.isAir()) return false;
+        if (state.isAir() || ForgeRegistries.BLOCKS.getResourceKey(state.getBlock()).isEmpty())
+            return false;
         boolean witness = mode == AspectState.WITNESS;
         if (witness ? blacklisted(state) : state.getDestroySpeed(level, pos) < 0) return false;
         ItemStack held = player.getMainHandItem();

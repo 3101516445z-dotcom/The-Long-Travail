@@ -52,6 +52,7 @@
   "tooltip.the_long_travail.underground_velvet.malice": "用地下絲絨後，另作一隨機之判：§a%3$s%%§r之率無所額得，§a%1$s%%§r之率得§a4§r廢礦之利，§a%2$s%%§r之率得§a2§r遠古城市之利。",
   "tooltip.the_long_travail.underground_velvet.witness": "用地下絲絨後，用者之§6經驗之級§r增§a15級§r。",
   "message.the_long_travail.underground_velvet.failed": "不得全賞，此次未耗地下絲絨",
+  "message.the_long_travail.underground_velvet.delivery_failed": "部分賞物未能確知送達。已耗絲絨不返，賞物不補。",
   "tooltip.the_long_travail.summary.phosphophyllite.0": "§d佩戴苦旅且幽谷尚有惡意時：§r\n- §6可接受屬性§r提高，然§6所受傷害§r亦增",
   "tooltip.the_long_travail.summary.phosphophyllite.1": "§d佩戴苦旅且幽谷已然見證時：§r\n- §6可接受屬性§r提高，然§6所受傷害§r亦增\n- §a受傷§r時或§6恢復生命§r\n- 溢出治療量轉為§6傷害吸收§r",
   "tooltip.the_long_travail.summary.underground_velvet.0": "§a右擊§r用之：\n- 消耗1個，隨機得一種§6礦石或錠§r",

@@ -33,7 +33,11 @@ public final class DonQuixoteCombat {
                     new ResourceLocation("the_long_travail", "don_quixote_strike"));
 
     public record Snapshot(
-            double bonus, double maxHealth, double currentHealth, boolean strike, boolean witness) {}
+            double bonus,
+            double maxHealth,
+            double currentHealth,
+            boolean strike,
+            boolean witness) {}
 
     public static boolean equipped(ServerPlayer p) {
         return p.isAlive()
@@ -81,15 +85,19 @@ public final class DonQuixoteCombat {
                 || source.is(DamageTypes.THORNS)
                 || com.thelongtravail.flourishing.FloralCombat.rose(source)) return null;
         double volume = (double) target.getBbWidth() * target.getBbWidth() * target.getBbHeight();
-        String id =
+        var typeId =
                 net.minecraftforge.registries.ForgeRegistries.ENTITY_TYPES
-                        .getKey(target.getType())
-                        .toString();
-        for (String entry : FarReachRelicsConfig.SIZES.get()) {
-            String[] parts = entry.split("=", 2);
-            if (parts[0].equals(id)) {
-                volume = Double.parseDouble(parts[1]);
-                break;
+                        .getResourceKey(target.getType())
+                        .map(net.minecraft.resources.ResourceKey::location)
+                        .orElse(null);
+        if (typeId != null) {
+            String id = typeId.toString();
+            for (String entry : FarReachRelicsConfig.SIZES.get()) {
+                String[] parts = entry.split("=", 2);
+                if (parts[0].equals(id)) {
+                    volume = Double.parseDouble(parts[1]);
+                    break;
+                }
             }
         }
         double hp = target.getHealth(), ph = p.getHealth(), max = target.getMaxHealth();

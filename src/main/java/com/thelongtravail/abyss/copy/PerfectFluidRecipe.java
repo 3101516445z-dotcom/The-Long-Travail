@@ -68,9 +68,15 @@ public final class PerfectFluidRecipe extends CustomRecipe {
     public ItemStack assemble(CraftingContainer c, RegistryAccess access) {
         try {
             var in = input(c);
-            if (in == null || !supported(c, in.target)) return ItemStack.EMPTY;
+            if (in == null) return ItemStack.EMPTY;
+            // 仅在本次预览复用输入快照；不跨调用缓存可变 NBT 或外部库存资格。
+            CompoundTag data = in.target.save(new CompoundTag());
+            boolean references = FluidCopyGraph.hasReferences(data);
+            if (references && !FluidCrafting.supported(c)) return ItemStack.EMPTY;
             var out = PerfectFluidCopies.copy(in.target);
-            out.setCount(PerfectFluidCopies.returnsOriginal(in.target) ? 1 : 2);
+            boolean returnsOriginal =
+                    !in.target.isStackable() || references || PerfectFluidCopies.clearFluid(data);
+            out.setCount(returnsOriginal ? 1 : 2);
             return out;
         } catch (RuntimeException unsupported) {
             // 预览超出限制或遇到不支持的容器时，须取消复制，避免合成界面崩溃或生成不完整的副本。
