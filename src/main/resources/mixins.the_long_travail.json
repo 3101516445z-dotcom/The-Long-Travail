@@ -128,7 +128,13 @@
     "valley.TremorFortuneMixin",
     "farreach.SunFireMixin",
     "combat.ReflectedProjectileAccessor",
-    "combat.ReflectedShulkerAccessor"
+    "combat.ReflectedShulkerAccessor",
+    "effects.CombatEffectHealthMixin",
+    "movement.RevivalPropulsionMixin",
+    "movement.RevivalImpulseMixin",
+    "movement.RevivalGhastMixin",
+    "babel.PeacefulAngerMixin",
+    "movement.RevivalExplosionImpulseMixin"
   ],
   "client": [
     "movement.AltitudeLocalFlightMixin",
@@ -154,7 +160,8 @@
     "valley.LanternLevelLightMixin",
     "valley.LanternEntityLightMixin",
     "underworld.BookDeathScreenMixin",
-    "underworld.BookDeathScreenAccessor"
+    "underworld.BookDeathScreenAccessor",
+    "movement.RevivalClientExplosionMixin"
   ],
   "injectors": {
     "defaultRequire": 1

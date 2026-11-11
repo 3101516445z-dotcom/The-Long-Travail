@@ -10,6 +10,7 @@ import java.util.List;
 
 // 通用规则与探索抽取数量。
 record GeneralConfigDefinition(
+        ForgeConfigSpec.BooleanValue amongAllThingsImmuneToKill,
         ForgeConfigSpec.BooleanValue protectArchaeologyLoot,
         ForgeConfigSpec.BooleanValue muteBeneficialEffectGainSounds,
         ForgeConfigSpec.BooleanValue giveStarterItem,
@@ -22,29 +23,38 @@ record GeneralConfigDefinition(
     static GeneralConfigDefinition define(ForgeConfigSpec.Builder builder) {
         com.thelongtravail.loot.UnifiedLootConfig.define(builder);
         JourneyDetectionConfig.define(builder);
+        ForgeConfigSpec.BooleanValue amongAllThingsImmuneToKill =
+                builder.comment(
+                                "开启时，“我于万物之中”免疫所有标准 kill 伤害；关闭时允许此类伤害，其他伤害和 SH 保护仍然生效。默认开启。",
+                                "When enabled, Among All Things blocks all standard kill damage."
+                                    + " When disabled, that damage is allowed; other damage and direct"
+                                    + " health-loss protection remain active. Enabled by default.",
+                                "详细规则见“配置说明.txt”[M07]。",
+                                "Details: Configuration Guide.txt [M07].")
+                        .define("effects.amongAllThings.immuneToKill", true);
         ForgeConfigSpec.BooleanValue protectArchaeologyLoot =
                 builder.comment(
                                 "开启时，考古战利品仅按战利品表抽取，保留表内注入、条件和函数，跳过 Forge 全局战利品修改器。\n"
                                         + "同时阻止修改器在抽取后替换、追加、过滤或修改物品。关闭后恢复原有流程；不影响非考古类型的战利品表。",
                                 "Use archaeology loot tables directly, preserving table injections,"
-                                        + " conditions and functions while skipping Forge global loot"
-                                        + " modifiers.\n"
-                                        + "Blocks post-roll replacement, additions, filtering and item"
-                                        + " changes. Disable to restore normal processing; other loot"
-                                        + " table types are unaffected.")
+                                    + " conditions and functions while skipping Forge global loot"
+                                    + " modifiers.\n"
+                                    + "Blocks post-roll replacement, additions, filtering and item"
+                                    + " changes. Disable to restore normal processing; other loot"
+                                    + " table types are unaffected.")
                         .define("compatibility.protectArchaeologyLoot", true);
         ForgeConfigSpec.BooleanValue muteBeneficialEffectGainSounds =
                 builder.comment(
                                 "佩戴苦旅且拥有穷遐之见证或幽谷之见证时，关闭Sounds模组在获得正面药水效果时播放的提示音，不限效果来源。\n"
                                         + "不影响饮用、装备操作和减益效果的提示音。关闭此选项后，仍保留苦旅自身效果原有的静音规则。",
                                 "While wearing The Long Travail with Far Reach Witness or Deep"
-                                        + " Valley Witness, suppress the Sounds mod's notification"
-                                        + " sound for gaining beneficial potion effects, regardless of"
-                                        + " their source.\n"
-                                        + "Does not affect drinking sounds, equipment interaction"
-                                        + " sounds, or harmful-effect notifications. Disabling this"
-                                        + " option preserves The Long Travail's existing rules for"
-                                        + " silencing its own effects.")
+                                    + " Valley Witness, suppress the Sounds mod's notification"
+                                    + " sound for gaining beneficial potion effects, regardless of"
+                                    + " their source.\n"
+                                    + "Does not affect drinking sounds, equipment interaction"
+                                    + " sounds, or harmful-effect notifications. Disabling this"
+                                    + " option preserves The Long Travail's existing rules for"
+                                    + " silencing its own effects.")
                         .define("compatibility.muteBeneficialEffectGainSounds", true);
         ForgeConfigSpec.BooleanValue giveStarterItem =
                 builder.comment(
@@ -117,6 +127,7 @@ record GeneralConfigDefinition(
                                                                 .tryParse(id)
                                                         != null);
         return new GeneralConfigDefinition(
+                amongAllThingsImmuneToKill,
                 protectArchaeologyLoot,
                 muteBeneficialEffectGainSounds,
                 giveStarterItem,

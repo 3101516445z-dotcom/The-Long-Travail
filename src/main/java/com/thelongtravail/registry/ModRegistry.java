@@ -70,6 +70,27 @@ public final class ModRegistry {
             themeItem("everlasting_flower", com.thelongtravail.item.EverlastingFlowerItem::new);
     public static final RegistryObject<Item> IMMORTAL_BUD =
             themeItem("immortal_bud", com.thelongtravail.item.ImmortalBudItem::new);
+    public static final RegistryObject<MobEffect> MARA_TRANSFORMATION =
+            EFFECTS.register(
+                    "mara_transformation",
+                    () ->
+                            new com.thelongtravail.effect.FixedCombatEffect(
+                                    net.minecraft.world.effect.MobEffectCategory.NEUTRAL,
+                                    0x8D3557));
+    public static final RegistryObject<MobEffect> AMONG_ALL_THINGS =
+            EFFECTS.register(
+                    "among_all_things",
+                    () ->
+                            new com.thelongtravail.effect.FixedCombatEffect(
+                                    net.minecraft.world.effect.MobEffectCategory.NEUTRAL,
+                                    0xA8C6B9));
+    public static final RegistryObject<MobEffect> REVIVAL =
+            EFFECTS.register(
+                    "revival",
+                    () ->
+                            new com.thelongtravail.effect.FixedCombatEffect(
+                                    net.minecraft.world.effect.MobEffectCategory.HARMFUL,
+                                    0x766596));
     public static final RegistryObject<MobEffect> MISTLETOE_EFFECT =
             EFFECTS.register("mistletoe", com.thelongtravail.effect.MistletoeEffect::new);
     public static final RegistryObject<MobEffect> PHYSICAL_PURIFICATION =

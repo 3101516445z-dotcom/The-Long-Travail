@@ -1,11 +1,10 @@
 package com.thelongtravail.config.storage;
 
-import com.thelongtravail.config.TravailClientConfig;
-import com.thelongtravail.config.TravailConfig;
-
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
 import com.electronwill.nightconfig.toml.TomlWriter;
+import com.thelongtravail.config.TravailClientConfig;
+import com.thelongtravail.config.TravailConfig;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -169,7 +168,7 @@ public final class ConfigLayoutTest {
                 "travail.witness.compatInitialization.extra", List.of(parse("name = 'entry'\n")));
         roundTrip(directory.resolve("preset-table-array.toml"), custom);
         var zh = codes(ConfigFilesDescription.GUIDE);
-        expect(zh.size() == 25, "25 guide sections");
+        expect(zh.size() == 26, "26 guide sections");
         expect(zh.contains("M06"), "Theme item configuration section");
         expect(zh.equals(codes(ConfigFilesDescription.GUIDE_EN)), "Matching bilingual sections");
         expect(

@@ -39,6 +39,7 @@ Other mechanics and troubleshooting
   M03  Azrael execution and protection
   M04  Wayguide search and cache
   M05  Client display preferences
+  M07  Among All Things and standard kill protection
   T01  Handling configuration errors
   M01  Maid compatibility
 
@@ -524,3 +525,8 @@ High Frequency Tremor: aspects/deep_valley.toml → items.high_frequency_tremor
 
 Icarus and Midnight Lafite: aspects/far_reach.toml, aspects/abyss.toml
 - Icarus sunnyExtraPeak and Midnight Lafite shelteredNonClearExtraPeak are added to malicePeak, default 0.25. malicePeak defaults to 0.5 and witnessBonus to 0.2; all have a minimum of 0.01. Legacy total peaks migrate to max(0.01, old peak - ordinary peak), with the original configuration archived by the recovery flow.
+
+[M07] Among All Things and standard kill protection
+------------------------------------------------
+In general.toml, effects.amongAllThings.immuneToKill defaults to true. Enable it to block all standard kill damage; disable it to allow that damage while retaining other damage and health-loss protection.
+The three combat effects have fixed strength regardless of their amplifier.

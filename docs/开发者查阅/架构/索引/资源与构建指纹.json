@@ -18,7 +18,7 @@
       "tools/verify-locale.cjs"
     ]
   },
-  "fingerprint": "87adbe3e3f2fc3f277c7512ecfc6651fc18012c74cc1219a66a8a1c500d60f13",
+  "fingerprint": "5b9f703ac9de050f98bede30839134803a8c9f55c28b9b55dfbac9b99299fa1c",
   "files": [
     {
       "path": "build.gradle",
@@ -126,7 +126,7 @@
     },
     {
       "path": "src/main/lang/en_us/common.json",
-      "sha256": "892043d93d69c76656d2793b02984c01824f72bfb4cea4daf491198678067130"
+      "sha256": "5bcc64b3ce54ffa47a9269da506298d06fe1c4054ea0d031231ef8ccd3d51952"
     },
     {
       "path": "src/main/lang/en_us/compatibility.json",
@@ -198,7 +198,7 @@
     },
     {
       "path": "src/main/lang/lzh/common.json",
-      "sha256": "a0e2cf899ce46d006ac1f2d5aadbc19f487799f1e7dbe3ed72a9e16688e61159"
+      "sha256": "a4bebb1c7774fc4407fb773c45267825c32f1da691168fa141f9baa5e8441a3e"
     },
     {
       "path": "src/main/lang/lzh/compatibility.json",
@@ -266,7 +266,7 @@
     },
     {
       "path": "src/main/lang/zh_cn/common.json",
-      "sha256": "860f9c0492e7101a371b4d44b8d90476f7f7a0468225c7fab5ed63b5950ad741"
+      "sha256": "6b9fb14db4c4a623ca79b9ce3c887df2d162666a4cf01f65817610a318bbe776"
     },
     {
       "path": "src/main/lang/zh_cn/compatibility.json",
@@ -334,7 +334,7 @@
     },
     {
       "path": "src/main/lang/zh_hk/common.json",
-      "sha256": "429cdd1de42ec742ab5e4428dc349962091e4cb9f57d67b7eb20ef8fb60a8e84"
+      "sha256": "4bcaafc8a5611736786470f53f742f363a835c4c292780ae4d7ef80ddb13df4e"
     },
     {
       "path": "src/main/lang/zh_hk/compatibility.json",
@@ -402,7 +402,7 @@
     },
     {
       "path": "src/main/lang/zh_tw/common.json",
-      "sha256": "429cdd1de42ec742ab5e4428dc349962091e4cb9f57d67b7eb20ef8fb60a8e84"
+      "sha256": "4bcaafc8a5611736786470f53f742f363a835c4c292780ae4d7ef80ddb13df4e"
     },
     {
       "path": "src/main/lang/zh_tw/compatibility.json",
@@ -426,11 +426,11 @@
     },
     {
       "path": "src/main/resources/assets/the_long_travail/config/configuration-guide.en_us.txt",
-      "sha256": "3b724c78321bb38dd6fc285c3a365ed8a4fec11ab54a28ca255c4d9c7001828e"
+      "sha256": "a423d86c51177bc191b5c3ed8f3607019468e83d5a01882aa43f579bfc66d14c"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/config/configuration-guide.zh_cn.txt",
-      "sha256": "2f433061bc5ac4944563e50a8299fff5ff759e901a53198f9104ea5a7f01c52c"
+      "sha256": "6259903f47d73d428564dcdb465f784c0ea451ee1ad2c0da7c4463331df2f6d0"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/models/block/lantern_light.json",
@@ -857,8 +857,16 @@
       "sha256": "079853b96f31b2c7b35c51e2345358eedfff278951e7212231c74ba95feba1aa"
     },
     {
+      "path": "src/main/resources/assets/the_long_travail/textures/mob_effect/among_all_things.png",
+      "sha256": "9921c20c6485a1376b93829860ed87917c3bae507f4b85a1d0f467b06b5a1aaa"
+    },
+    {
       "path": "src/main/resources/assets/the_long_travail/textures/mob_effect/magic_purification.png",
       "sha256": "097c9e7a04768ffa6d7d846018cdef668296e7e876b54f15ad2a5b914184fd78"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/mob_effect/mara_transformation.png",
+      "sha256": "ec91cd733b8d520e2206c4c0d0334c55fe732cf7705d3378067f9ba676c8bc8b"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/textures/mob_effect/mistletoe.png",
@@ -867,6 +875,10 @@
     {
       "path": "src/main/resources/assets/the_long_travail/textures/mob_effect/physical_purification.png",
       "sha256": "57454a2b3ae2a48b0b1545a09fdd1dfda4ff03e83c8cbff200f5912aaa775f30"
+    },
+    {
+      "path": "src/main/resources/assets/the_long_travail/textures/mob_effect/revival.png",
+      "sha256": "5b131e57ad9db6f84fc7a4ae300520fd7f72af758befc36c5e6728881f795476"
     },
     {
       "path": "src/main/resources/assets/the_long_travail/textures/mob_effect/stiff.png",
@@ -1366,7 +1378,7 @@
     },
     {
       "path": "src/main/resources/mixins.the_long_travail.json",
-      "sha256": "8de21c3a078f22396a1f3508b98deb43168f631758961d948d8d0826357ea89d"
+      "sha256": "a168b46b18b2a16ce78e379154d4118fa0720dcb1678da790bef6e4a412522e9"
     },
     {
       "path": "src/main/resources/pack.mcmeta",

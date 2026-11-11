@@ -59,6 +59,7 @@ public final class CombatContext implements AutoCloseable {
     private final ItemStack relicHealing;
     private final double growthBonus;
     private boolean outputApplied;
+    private boolean effectOutputApplied;
     private final com.thelongtravail.combat.AttributeDamage attributeDamage;
     private final boolean lorentzStrike;
     private final double lorentzBonus;
@@ -200,6 +201,14 @@ public final class CombatContext implements AutoCloseable {
                 : null;
     }
 
+    public static boolean allowsKillHealthChange(LivingEntity target) {
+        // 仅当前受击目标继承该笔标准 kill 的放行资格。
+        CombatContext context = CURRENT.get();
+        return context != null
+                && context.target == target
+                && EffectCombatRules.allowsKill(context.source);
+    }
+
     public boolean isFloralPoison() {
         return floralPoison;
     }
@@ -247,6 +256,7 @@ public final class CombatContext implements AutoCloseable {
                 || execution
                 || com.thelongtravail.valley.execution.AzraelExecution.active()) return;
         damageConfirmed = true;
+        EffectCombatRules.confirmed(target, source);
         com.thelongtravail.diagnostics.DamageTrace.confirmed(
                 damageRecord.total(), damageRecord.healthLoss());
         com.thelongtravail.underworld.Kagotsurube.confirmed(target, source);
@@ -402,7 +412,8 @@ public final class CombatContext implements AutoCloseable {
     }
 
     public boolean blocked() {
-        return maidImmune
+        return EffectCombatRules.blocked(target, source)
+                || maidImmune
                 || attackerOutputBlocked
                 || victimInternallyImmune
                 || ekiImmune
@@ -410,7 +421,7 @@ public final class CombatContext implements AutoCloseable {
     }
 
     public double outgoingBonus() {
-        if (!policy.outgoingBonus()) return 0;
+        if (!policy.outgoingBonus()) return EffectCombatRules.bonus(source);
         return (quixote == null ? 0 : quixote.bonus())
                 + ekiDamageBonus
                 + floralBonus
@@ -422,7 +433,8 @@ public final class CombatContext implements AutoCloseable {
                 + witherBonus
                 + relicBonus
                 + lorentzBonus
-                + sun.bonus();
+                + sun.bonus()
+                + EffectCombatRules.bonus(source);
     }
 
     public boolean penetrating() {
@@ -481,6 +493,7 @@ public final class CombatContext implements AutoCloseable {
     }
 
     public float finishDamage(float external) {
+        if (EffectCombatRules.blocked(target, source)) return 0;
         if (!execution) external = safeDamage(external);
         if (external <= 0 && !attributeDamage.zeroed() && !damageConfirmed)
             attributeDamage.cancelled();
@@ -501,11 +514,18 @@ public final class CombatContext implements AutoCloseable {
     }
 
     public float beforeAbsorption(float amount) {
-        if (execution) return amount;
+        if (EffectCombatRules.blocked(target, source)) return 0;
+        if (execution) return effectOutput(amount, false);
         if (replay == null && !quixoteStrike && !outputApplied) {
-            amount = multiply(amount, roseDamage ? 1 + witherBonus : 1 + outgoingBonus());
+            amount =
+                    multiply(
+                            amount,
+                            roseDamage
+                                    ? 1 + witherBonus + EffectCombatRules.bonus(source)
+                                    : 1 + outgoingBonus());
             outputApplied = true;
         }
+        amount = effectOutput(amount, outputApplied);
         // 重放金额已结算防御；普通百分比减伤在输出增幅之后统一乘算。
         if (replay == null)
             amount =
@@ -524,6 +544,20 @@ public final class CombatContext implements AutoCloseable {
         amount = attributeDamage.defend(amount);
         // 强制伤害不得重新计入已被见切或霸主抵消的部分。
         if (penetrating && !attributeDamage.settled()) protectedDamage = amount;
+        return amount;
+    }
+
+    private float effectOutput(float amount, boolean bonusIncluded) {
+        // 已结算的重放保留原金额；普通结算只补齐一次效果倍率。
+        if (replay != null || effectOutputApplied) return amount;
+        effectOutputApplied = true;
+        double bonus = EffectCombatRules.bonus(source),
+                remaining = EffectCombatRules.remaining(source);
+        if (bonus == 0 && remaining == 1) return amount;
+        if (!bonusIncluded) amount = multiply(amount, 1 + EffectCombatRules.bonus(source));
+        amount = multiply(amount, remaining);
+        if (penetrating && remaining < 1 && hurtEvaluated)
+            protectedDamage = Math.min(protectedDamage, amount);
         return amount;
     }
 

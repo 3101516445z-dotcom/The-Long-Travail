@@ -1,8 +1,7 @@
 package com.thelongtravail.config;
 
-import com.thelongtravail.config.storage.ConfigFilesDescription;
-
 import com.thelongtravail.TravailAspect;
+import com.thelongtravail.config.storage.ConfigFilesDescription;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
@@ -48,6 +47,7 @@ public final class TravailConfig {
     public static final ForgeConfigSpec.BooleanValue VISUAL_DISTANCE_ENABLED, VISUAL_PULSE_RADIUS;
     public static final ForgeConfigSpec.IntValue VISUAL_REFRESH_TICKS, VISUAL_CLEAR_TICKS;
     public static final Map<String, ForgeConfigSpec> SPECS;
+    public static final ForgeConfigSpec.BooleanValue AMONG_ALL_THINGS_IMMUNE_TO_KILL;
     public static final ForgeConfigSpec.BooleanValue GIVE_STARTER_ITEM;
     public static final ForgeConfigSpec.BooleanValue PROTECT_ARCHAEOLOGY_LOOT;
     public static final ForgeConfigSpec.BooleanValue MUTE_BENEFICIAL_EFFECT_GAIN_SOUNDS;
@@ -124,6 +124,7 @@ public final class TravailConfig {
                 GeneralConfigDefinition.define(
                         builders.computeIfAbsent(
                                 "general.toml", key -> new ForgeConfigSpec.Builder()));
+        AMONG_ALL_THINGS_IMMUNE_TO_KILL = general.amongAllThingsImmuneToKill();
         PROTECT_ARCHAEOLOGY_LOOT = general.protectArchaeologyLoot();
         MUTE_BENEFICIAL_EFFECT_GAIN_SOUNDS = general.muteBeneficialEffectGainSounds();
         GIVE_STARTER_ITEM = general.giveStarterItem();

@@ -39,6 +39,7 @@
   M03  死告天使的处决与防护
   M04  路引搜索与缓存
   M05  客户端显示偏好
+  M07  我于万物之中的标准 kill 保护
   T01  配置写错时如何处理
   M01  女仆兼容
 
@@ -529,3 +530,8 @@ timeStop.boundaryLevel
 
 伊卡洛斯与午夜拉菲：aspects/far_reach.toml、aspects/abyss.toml
 - 伊卡洛斯 sunnyExtraPeak 与午夜拉菲 shelteredNonClearExtraPeak 为普通 malicePeak 之上的额外增量，默认0.25。malicePeak 默认0.5，witnessBonus 默认0.2；三项下限均为0.01。旧环境总峰值迁移为 max(0.01, 旧峰值 - 普通峰值)，迁移前配置按现有恢复流程归档。
+
+[M07] 我于万物之中的标准 kill 保护
+------------------------------------------------
+general.toml 的 effects.amongAllThings.immuneToKill 默认为 true：开启时阻止所有标准 kill；关闭时放行标准 kill 伤害，其他伤害和 SH 保护不变。
+三个战斗效果的强度固定，不随药水等级增强。

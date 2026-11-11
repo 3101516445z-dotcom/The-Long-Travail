@@ -3,8 +3,10 @@ package com.thelongtravail.mixin.movement;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.thelongtravail.runtime.attributes.AltitudePenalty;
+
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.Abilities;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -21,6 +23,9 @@ public abstract class AltitudeLocalFlightMixin {
             require = 1,
             allow = 1)
     private float travail$verticalFlightSpeed(Abilities abilities, Operation<Float> original) {
-        return original.call(abilities) * AltitudePenalty.factor((LocalPlayer) (Object) this);
+        return original.call(abilities)
+                * AltitudePenalty.factor((LocalPlayer) (Object) this)
+                * com.thelongtravail.runtime.effects.RevivalMovement.factor(
+                        (LocalPlayer) (Object) this);
     }
 }

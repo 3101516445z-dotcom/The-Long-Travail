@@ -1,20 +1,21 @@
 package com.thelongtravail.farreach;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.nbt.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.animal.*;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ambient.AmbientCreature;
+import net.minecraft.world.entity.animal.*;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.monster.hoglin.Hoglin;
 import net.minecraft.world.entity.monster.piglin.*;
 import net.minecraft.world.entity.npc.AbstractVillager;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+
 import java.util.*;
 
 public final class BabelProtection {
@@ -79,6 +80,9 @@ public final class BabelProtection {
     }
 
     public static boolean protects(LivingEntity mob, Entity target) {
+        if (!mob.level().isClientSide
+                && target instanceof LivingEntity living
+                && com.thelongtravail.combat.EffectCombatRules.peaceful(living)) return true;
         return target instanceof ServerPlayer player
                 && !mob.level().isClientSide
                 && eligible(mob)
@@ -88,11 +92,11 @@ public final class BabelProtection {
 
     public static boolean memoryBlocked(
             LivingEntity owner, MemoryModuleType<?> type, Object value) {
-        if (owner == null || !eligible(owner)) return false;
+        if (owner == null || owner.level().isClientSide) return false;
         if (type == MemoryModuleType.ATTACK_TARGET || type == MemoryModuleType.HURT_BY_ENTITY)
             return value instanceof Entity e && protects(owner, e);
         if (type == MemoryModuleType.ANGRY_AT && value instanceof UUID uuid)
-            return protects(owner, owner.level().getPlayerByUUID(uuid));
+            return protects(owner, loadedEntity(owner, uuid));
         if (type == MemoryModuleType.HURT_BY && value instanceof DamageSource source)
             return protects(owner, source.getEntity());
         return false;
@@ -107,7 +111,7 @@ public final class BabelProtection {
     }
 
     public static void clean(Mob mob) {
-        if (mob.level().isClientSide || !eligible(mob)) return;
+        if (mob.level().isClientSide) return;
         if (protects(mob, mob.getTarget())) {
             mob.setTarget(null);
             mob.getNavigation().stop();
@@ -116,11 +120,17 @@ public final class BabelProtection {
         if (protects(mob, mob.getLastHurtMob())) mob.setLastHurtMob(null);
         if (mob instanceof NeutralMob n
                 && n.getPersistentAngerTarget() != null
-                && protects(mob, mob.level().getPlayerByUUID(n.getPersistentAngerTarget()))) {
+                && protects(mob, loadedEntity(mob, n.getPersistentAngerTarget()))) {
             n.setPersistentAngerTarget(null);
             n.setRemainingPersistentAngerTime(0);
         }
         cleanBrain(mob, mob.getBrain());
+    }
+
+    private static Entity loadedEntity(LivingEntity owner, UUID uuid) {
+        return owner.level() instanceof net.minecraft.server.level.ServerLevel level
+                ? level.getEntity(uuid)
+                : null;
     }
 
     private BabelProtection() {}

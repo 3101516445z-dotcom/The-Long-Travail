@@ -45,6 +45,30 @@ public final class MaidSpellHealth {
         maid.setHealth(maximum);
     }
 
+    // 校验预计算的非致死效果损失，并在女仆现有生命写入作用域内应用。
+    public static boolean applyNonlethalEffectLoss(LivingEntity maid, float nextHealth) {
+        if (!com.thelongtravail.integration.MaidIntegration.isMaid(maid)) return false;
+        inspect();
+        if (!guardedWrite) return false;
+        if (maid.level().isClientSide
+                || !maid.isAlive()
+                || com.thelongtravail.runtime.effects.HealthLoss.blocks(maid, nextHealth)
+                || !Float.isFinite(nextHealth)
+                || nextHealth < 1
+                || nextHealth >= maid.getHealth()) return true;
+        try {
+            com.thelongtravail.compat.DirectCalls.call(
+                    () -> {
+                        Direct.write(() -> maid.getEntityData().set(health, nextHealth));
+                        return null;
+                    });
+            return true;
+        } catch (ReflectiveOperationException failure) {
+            throw new IllegalStateException(
+                    "MaidSpell failed to apply nonlethal effect loss", failure);
+        }
+    }
+
     private static final class Direct {
         private static final java.util.function.Consumer<Runnable> WRITE =
                 com.github.yimeng261.maidspell.utils.MaidHealthWriteGuard::runBypassing;

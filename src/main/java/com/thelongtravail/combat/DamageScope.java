@@ -2,7 +2,6 @@ package com.thelongtravail.combat;
 
 import com.thelongtravail.diagnostics.DamageTrace;
 import com.thelongtravail.farreach.SunChaser;
-import com.thelongtravail.combat.CombatContext;
 import com.thelongtravail.underworld.Kagotsurube;
 
 import net.minecraft.world.damagesource.DamageSource;
@@ -47,8 +46,10 @@ public final class DamageScope {
             DamageSource source,
             float amount,
             BiFunction<DamageSource, Float, Boolean> original) {
-        if (!CombatContext.acceptsInput(target, source, amount)) return false;
-        DamageSource effective = Kagotsurube.convert(target, source);
+        if (!CombatContext.acceptsInput(target, source, amount)
+                || EffectCombatRules.blocked(target, source)) return false;
+        DamageSource effective =
+                EffectCombatRules.convert(target, Kagotsurube.convert(target, source));
         if (SunChaser.immune(target, effective)) return false;
         boolean root = SUN_CHAIN.get() == null;
         if (root) SUN_CHAIN.set(new HashSet<>());

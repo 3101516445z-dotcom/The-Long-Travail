@@ -236,6 +236,9 @@ public final class AzraelExecution {
     }
 
     private static Result execute(LivingEntity player, LivingEntity target, boolean command) {
+        if (com.thelongtravail.combat.EffectCombatRules.peaceful(player)
+                || com.thelongtravail.combat.EffectCombatRules.peaceful(target))
+            return Result.SURVIVED;
         var rule =
                 target == player
                         ? com.thelongtravail.config.ModeEffectRules.AZRAEL_SELF

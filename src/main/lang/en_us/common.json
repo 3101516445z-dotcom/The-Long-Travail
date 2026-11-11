@@ -44,5 +44,8 @@
   "tooltip.the_long_travail.summary.disabled": "§cDisabled§r",
   "message.the_long_travail.config_recovery": "The Long Travail found configuration issues and used fallback settings or disabled affected rewards. Check the log; originals from automatic corrections are saved in config/the_long_travail/invalid.",
   "tooltip.the_long_travail.summary.carrying_non_stacking": "Carrying multiple copies does not stack their effects",
-  "tooltip.the_long_travail.summary.requires_diary_state": "§4The Long Travail is not equipped. Effects that depend on its state are inactive.§r"
+  "tooltip.the_long_travail.summary.requires_diary_state": "§4The Long Travail is not equipped. Effects that depend on its state are inactive.§r",
+  "effect.the_long_travail.mara_transformation": "Mara Transformation",
+  "effect.the_long_travail.among_all_things": "Among All Things",
+  "effect.the_long_travail.revival": "Revival"
 }
