@@ -6,6 +6,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixins.the_long_travail.refmap.json",
   "mixins": [
+    "effects.LivingEffectsAccessor",
     "anvil.TalesAnvilMixin",
     "flourishing.ImmortalBudDamageMixin",
     "flourishing.ImmortalBudHurtMixin",
@@ -137,6 +138,7 @@
     "movement.RevivalExplosionImpulseMixin"
   ],
   "client": [
+    "flourishing.MistletoeClientEffectsMixin",
     "movement.AltitudeLocalFlightMixin",
     "execution.ExecutionRenderMixin",
     "execution.ExecutionClientLevelMixin",

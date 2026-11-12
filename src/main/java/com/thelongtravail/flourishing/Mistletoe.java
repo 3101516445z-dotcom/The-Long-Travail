@@ -6,6 +6,7 @@ import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.config.*;
 import com.thelongtravail.registry.ModRegistry;
 import com.thelongtravail.mixin.effects.EffectDurationAccessor;
+import com.thelongtravail.runtime.effects.EffectInsertion;
 import com.thelongtravail.loot.LootItemCollector;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -88,25 +89,41 @@ public final class Mistletoe {
                                                         ? 0
                                                         : Math.max(0, old.getDuration())));
         var effect = new MobEffectInstance(ModRegistry.MISTLETOE_EFFECT.get(), duration, next - 1);
-        if (!target.addEffect(effect, player)) {
+        var actual = EffectInsertion.addOrGet(target, effect, player);
+        if (actual == null) {
             player.displayClientMessage(
                     Component.translatable("message.the_long_travail.mistletoe.rejected"), true);
             return InteractionResult.FAIL;
         }
-        var actual = target.getEffect(effect.getEffect());
-        if (actual == null) return InteractionResult.FAIL;
         ((EffectDurationAccessor) actual).travail$amplifier(next - 1);
         ((EffectDurationAccessor) actual).travail$duration(duration);
         ((EffectDurationAccessor) actual).travail$hiddenEffect(null);
         syncSpeed(target);
-        ((ServerLevel) target.level())
-                .getChunkSource()
-                .broadcastAndSend(
-                        target,
-                        new net.minecraft.network.protocol.game.ClientboundUpdateMobEffectPacket(
-                                target.getId(), actual));
+        EffectInsertion.synchronize(target, actual);
         if (!player.getAbilities().instabuild) stack.shrink(1);
         return InteractionResult.CONSUME;
+    }
+
+    public static void removed(LivingEntity entity, MobEffectInstance effect) {
+        if (effect.getEffect() != ModRegistry.MISTLETOE_EFFECT.get()
+                || !(entity.level() instanceof ServerLevel level)) return;
+        syncSpeed(entity);
+        level.getChunkSource().broadcastAndSend(
+                entity,
+                new net.minecraft.network.protocol.game.ClientboundRemoveMobEffectPacket(
+                        entity.getId(), effect.getEffect()));
+    }
+
+    @SubscribeEvent
+    public static void tracking(
+            net.minecraftforge.event.entity.player.PlayerEvent.StartTracking event) {
+        if (!(event.getEntity() instanceof net.minecraft.server.level.ServerPlayer player)
+                || !(event.getTarget() instanceof LivingEntity target)) return;
+        var effect = target.getEffect(ModRegistry.MISTLETOE_EFFECT.get());
+        if (effect != null)
+            player.connection.send(
+                    new net.minecraft.network.protocol.game.ClientboundUpdateMobEffectPacket(
+                            target.getId(), effect));
     }
 
     public static double bonus(LivingEntity entity) {

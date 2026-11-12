@@ -5,6 +5,7 @@
 | 接入位置 | 当前要求 |
 | --- | --- |
 | 网络与物品注册 | 协议为 24-items- 加物品注册签名，两端精确匹配。读取可选 RegistryObject 前检查 isPresent()，注册配置修改后重启两端。 |
+| 效果植入 | 显式强制植入使用 EffectInsertion.addOrGet，完成业务更新后调用 synchronize；叠层及专用客户端同步由调用方负责，见运行时接入文档。 |
 | 旅程写入 | 使用 TravailJourneyApi；延迟授予见证携带发起时的 AspectJourneyKey。主题重置会改变轮次，旧身份不能写入新轮次。 |
 | 直击伤害 | 新来源使用 direct_strike。don_quixote_strike、rose_retaliation 旧键保留供既有数据包引用，TLT 新伤害使用统一来源工厂。 |
 | 籠釣瓶配方 | 使用 minecraft:crafting_shaped 与 the_long_travail:cursed_book 材料；旧自定义配方类型已移除。 |
