@@ -396,9 +396,9 @@
       "id": "fixed_effect_rules",
       "name": "波旬变生、我于万物之中与还魂",
       "stage": "hurt 前阻断与转换、吸收前倍率、首次有效确认",
-      "amount": "波旬输出加成 +0.5；还魂输出剩余 0.01；已结算重放不重复倍率",
+      "amount": "波旬输出加成 +0.3；还魂输出剩余 0.01；已结算重放不重复倍率",
       "ownership": "原始伤害责任生物；否则由女仆适配解析",
-      "guard": "我于万物之中阻止施受伤害；标准 generic_kill 按配置例外；effectOutputApplied 防重复；确认后凋零 III 100 tick 不覆盖更高等级",
+      "guard": "我于万物之中阻止施受伤害；标准 generic_kill 按配置例外；effectOutputApplied 防重复；确认后凋零 II 100 tick 不覆盖更高等级",
       "sources": [
         "src/main/java/com/thelongtravail/combat/EffectCombatRules.java",
         "src/main/java/com/thelongtravail/combat/CombatContext.java",

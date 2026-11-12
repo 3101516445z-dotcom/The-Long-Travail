@@ -60,7 +60,7 @@ public abstract class CombatEffectHealthMixin {
         }
         if (++travail$maraTicks >= 20) {
             travail$maraTicks = 0;
-            HealthLoss.nonlethalFraction(self, .1);
+            HealthLoss.nonlethalFraction(self, .05);
         }
     }
 

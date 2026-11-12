@@ -50,7 +50,7 @@ public final class EffectCombatRules {
     }
 
     public static double bonus(DamageSource source) {
-        return mara(actor(source)) ? .5 : 0;
+        return mara(actor(source)) ? .3 : 0;
     }
 
     public static double remaining(DamageSource source) {
@@ -61,8 +61,8 @@ public final class EffectCombatRules {
         LivingEntity actor = actor(source);
         if (!mara(actor) || !target.isAlive()) return;
         MobEffectInstance old = target.getEffect(MobEffects.WITHER);
-        if (old == null || old.getAmplifier() <= 2)
-            target.addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 2), actor);
+        if (old == null || old.getAmplifier() <= 1)
+            target.addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 1), actor);
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
