@@ -1,9 +1,11 @@
 package com.thelongtravail.config;
 
-import com.thelongtravail.config.storage.ConfigFileIO;
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
+import com.thelongtravail.config.storage.ConfigFileIO;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.loading.FMLPaths;
+
 import java.nio.file.Path;
 import java.util.*;
 
@@ -20,7 +22,8 @@ public final class ItemRegistrationConfig {
                         "affection",
                         "mistletoe",
                         "everlasting_flower",
-                        "immortal_bud"));
+                        "immortal_bud",
+                        "moon_toad_pastry"));
         groups.put(
                 "abyss",
                 List.of(
@@ -28,10 +31,17 @@ public final class ItemRegistrationConfig {
                         "tokaido",
                         "perfect_fluid",
                         "midnight_lafite",
-                        "liquefied_abundance"));
+                        "liquefied_abundance",
+                        "sea_in_a_bottle"));
         groups.put(
                 "far_reach",
-                List.of("golden_age", "icarus", "don_quixote", "tower_of_babel", "sun_chaser"));
+                List.of(
+                        "golden_age",
+                        "icarus",
+                        "don_quixote",
+                        "tower_of_babel",
+                        "sun_chaser",
+                        "horizon_theory"));
         groups.put(
                 "deep_valley",
                 List.of(
@@ -39,7 +49,8 @@ public final class ItemRegistrationConfig {
                         "sword_and_lantern",
                         "phosphophyllite",
                         "underground_velvet",
-                        "high_frequency_tremor"));
+                        "high_frequency_tremor",
+                        "last_affairs"));
         groups.put(
                 "underworld",
                 List.of(
@@ -47,7 +58,8 @@ public final class ItemRegistrationConfig {
                         "book_of_the_dead",
                         "demon_king_of_the_sixth_heaven",
                         "myriad_souls_banner",
-                        "kagotsurube"));
+                        "kagotsurube",
+                        "living_flesh"));
         groups.put(
                 "boundless",
                 List.of(
@@ -55,7 +67,8 @@ public final class ItemRegistrationConfig {
                         "star_voice",
                         "little_prince",
                         "lorentz_fantasy",
-                        "ancient_strange_tales"));
+                        "ancient_strange_tales",
+                        "holy_fool"));
         GROUPS = Collections.unmodifiableMap(groups);
     }
 

@@ -42,7 +42,24 @@ public abstract class LivingCombatMixin {
                     failure);
             return false;
         }
-        return original.call(effect, source);
+        boolean listen = com.thelongtravail.abyss.SeaBottle.listens(target, effect);
+        var before = listen ? target.getEffect(effect.getEffect()) : null;
+        int oldLevel = before == null ? -1 : before.getAmplifier();
+        var incoming =
+                listen
+                        ? new net.minecraft.world.effect.MobEffectInstance(
+                                effect.getEffect(),
+                                effect.getDuration(),
+                                effect.getAmplifier(),
+                                effect.isAmbient(),
+                                effect.isVisible(),
+                                effect.showIcon())
+                        : null;
+        boolean accepted = original.call(effect, source);
+        if (incoming != null)
+            com.thelongtravail.abyss.SeaBottle.reapply(
+                    target, incoming, source, oldLevel, accepted);
+        return accepted;
     }
 
     @WrapMethod(method = "hurt")

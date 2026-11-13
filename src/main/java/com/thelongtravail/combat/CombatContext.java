@@ -29,6 +29,7 @@ public final class CombatContext implements AutoCloseable {
     private final boolean penetrating;
     private final TravailConfig.FluidProtection protection;
     private final TravailConfig.ReceivedTrigger receivedTrigger;
+    private final TravailConfig.ReceivedTrigger phosphophylliteTrigger;
     private boolean externallyCancelled;
     private boolean immunityEvaluated;
     private boolean attackerOutputBlocked;
@@ -158,6 +159,8 @@ public final class CombatContext implements AutoCloseable {
                                 : TravailConfig.FluidProtection.STANDARD;
         this.penetrating = protection != TravailConfig.FluidProtection.STANDARD;
         this.receivedTrigger = TravailConfig.RECEIVED_TRIGGER.get();
+        this.phosphophylliteTrigger =
+                com.thelongtravail.config.DeepValleyItemsConfig.PHOSPHOPHYLLITE_HEAL_TRIGGER.get();
         if (!execution
                 && !roseDamage
                 && attacker != null
@@ -257,6 +260,7 @@ public final class CombatContext implements AutoCloseable {
                 || com.thelongtravail.valley.execution.AzraelExecution.active()) return;
         damageConfirmed = true;
         EffectCombatRules.confirmed(target, source);
+        com.thelongtravail.farreach.HorizonTheory.confirmed(target, source);
         com.thelongtravail.diagnostics.DamageTrace.confirmed(
                 damageRecord.total(), damageRecord.healthLoss());
         com.thelongtravail.underworld.Kagotsurube.confirmed(target, source);
@@ -293,13 +297,14 @@ public final class CombatContext implements AutoCloseable {
             com.thelongtravail.flourishing.FloralEvents.received(target, source);
             com.thelongtravail.integration.MaidIntegration.retaliate(target, source);
         }
-        if (damageRecord.committed()
-                && !maidImmune
-                && !icarusImmune
-                && !victimInternallyImmune
-                && !skipReceivedPenalty
-                && receivedTrigger == TravailConfig.ReceivedTrigger.HEALTH_LOSS)
-            phosphophylliteReceived |= ReceivedMalice.trigger(target, source);
+        if (damageRecord.committed() && !maidImmune && !icarusImmune && !victimInternallyImmune) {
+            if (!skipReceivedPenalty
+                    && receivedTrigger == TravailConfig.ReceivedTrigger.HEALTH_LOSS)
+                ReceivedMalice.trigger(target, source);
+            if (phosphophylliteTrigger == TravailConfig.ReceivedTrigger.HEALTH_LOSS)
+                phosphophylliteReceived |=
+                        com.thelongtravail.valley.Phosphophyllite.acquireHealing(target, source);
+        }
         if (phosphophylliteReceived) com.thelongtravail.valley.Phosphophyllite.received(target);
         // 造成伤害的统计包含生命值和伤害吸收量的损失；受击惩罚的 HEALTH_LOSS 仍只读取 damageRecord.committed()。
         if (damageConfirmed && !roseDamage && attacker != null && attacker != target)
@@ -400,13 +405,15 @@ public final class CombatContext implements AutoCloseable {
         }
         if (replay == null && !feedbackHandled) {
             feedbackHandled = true;
-            if (!lorentzStrike
-                    && !maidImmune
-                    && !icarusImmune
-                    && !victimInternallyImmune
-                    && !skipReceivedPenalty
-                    && receivedTrigger == TravailConfig.ReceivedTrigger.ATTACK_ATTEMPT)
-                phosphophylliteReceived |= ReceivedMalice.trigger(target, source);
+            if (!lorentzStrike && !maidImmune && !icarusImmune && !victimInternallyImmune) {
+                if (!skipReceivedPenalty
+                        && receivedTrigger == TravailConfig.ReceivedTrigger.ATTACK_ATTEMPT)
+                    ReceivedMalice.trigger(target, source);
+                if (phosphophylliteTrigger == TravailConfig.ReceivedTrigger.ATTACK_ATTEMPT)
+                    phosphophylliteReceived |=
+                            com.thelongtravail.valley.Phosphophyllite.acquireHealing(
+                                    target, source);
+            }
         }
         return !blocked();
     }
@@ -432,6 +439,7 @@ public final class CombatContext implements AutoCloseable {
                 + growthBonus
                 + witherBonus
                 + relicBonus
+                + com.thelongtravail.abyss.SeaBottle.bonus(effectiveSource)
                 + lorentzBonus
                 + sun.bonus()
                 + EffectCombatRules.bonus(source);

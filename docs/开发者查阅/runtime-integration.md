@@ -4,7 +4,7 @@
 
 物品注册由 [ItemRegistrationConfig](../../src/main/java/com/thelongtravail/config/ItemRegistrationConfig.java) 在启动时确定。配置关闭的物品没有注册实例；读取对应 `RegistryObject` 前先检查 `isPresent()`。配方可使用 Forge 条件检查物品是否存在。
 
-[TravailNetwork](../../src/main/java/com/thelongtravail/network/TravailNetwork.java) 的协议标识为 `24-items-` 加物品注册签名，两端精确匹配。变更注册配置后须重启客户端和服务端。关闭注册会影响旧存档中对应的物品数据。
+[TravailNetwork](../../src/main/java/com/thelongtravail/network/TravailNetwork.java) 的协议标识为 `25-items-` 加物品注册签名，两端精确匹配。变更注册配置后须重启客户端和服务端。关闭注册会影响旧存档中对应的物品数据。
 
 附属执行消耗、奖励、旅程写入及伤害时使用逻辑服务端游戏线程；客户端读取同步状态显示。网络处理器排队进入游戏线程后，再校验发送者、当前菜单及操作身份。
 

@@ -7,10 +7,15 @@ import com.thelongtravail.effect.StiffEffect;
 import com.thelongtravail.effect.VisualDeprivationEffect;
 import com.thelongtravail.entity.WayguideEntity;
 import com.thelongtravail.item.ColoringItem;
+import com.thelongtravail.item.HolyFoolItem;
 import com.thelongtravail.item.HomecomingItem;
+import com.thelongtravail.item.HorizonTheoryItem;
+import com.thelongtravail.item.LastAffairsItem;
 import com.thelongtravail.item.LongTravailItem;
 import com.thelongtravail.item.RenewalItem;
 import com.thelongtravail.item.RevelationStoneItem;
+import com.thelongtravail.item.SeaBottleItem;
+import com.thelongtravail.item.ThemedFoodItem;
 import com.thelongtravail.item.WayguideItem;
 import com.thelongtravail.menu.ColoringMenu;
 
@@ -46,6 +51,19 @@ public final class ModRegistry {
             MENUS.register(
                     "coloring",
                     () -> new MenuType<>(ColoringMenu::new, FeatureFlags.DEFAULT_FLAGS));
+    public static final RegistryObject<Item> MOON_TOAD_PASTRY =
+            themeItem("moon_toad_pastry", () -> new ThemedFoodItem(false));
+    public static final RegistryObject<Item> SEA_IN_A_BOTTLE =
+            themeItem("sea_in_a_bottle", () -> new SeaBottleItem());
+    public static final RegistryObject<Item> HORIZON_THEORY =
+            themeItem("horizon_theory", () -> new HorizonTheoryItem());
+    public static final RegistryObject<Item> LAST_AFFAIRS =
+            themeItem("last_affairs", () -> new LastAffairsItem());
+    public static final RegistryObject<Item> LIVING_FLESH =
+            themeItem("living_flesh", () -> new ThemedFoodItem(true));
+    public static final RegistryObject<Item> HOLY_FOOL =
+            themeItem("holy_fool", () -> new HolyFoolItem());
+
     public static final RegistryObject<Item> ANCIENT_STRANGE_TALES =
             themeItem(
                     "ancient_strange_tales", com.thelongtravail.item.AncientStrangeTalesItem::new);
@@ -289,42 +307,48 @@ public final class ModRegistry {
                                                                                 AFFECTION,
                                                                                 MISTLETOE,
                                                                                 EVERLASTING_FLOWER,
-                                                                                IMMORTAL_BUD);
+                                                                                IMMORTAL_BUD,
+                                                                                MOON_TOAD_PASTRY);
                                                                 case ABYSS ->
                                                                         java.util.List.of(
                                                                                 EKI,
                                                                                 TOKAIDO,
                                                                                 PERFECT_FLUID,
                                                                                 MIDNIGHT_LAFITE,
-                                                                                LIQUEFIED_ABUNDANCE);
+                                                                                LIQUEFIED_ABUNDANCE,
+                                                                                SEA_IN_A_BOTTLE);
                                                                 case FAR_REACH ->
                                                                         java.util.List.of(
                                                                                 GOLDEN_AGE,
                                                                                 ICARUS,
                                                                                 DON_QUIXOTE,
                                                                                 TOWER_OF_BABEL,
-                                                                                SUN_CHASER);
+                                                                                SUN_CHASER,
+                                                                                HORIZON_THEORY);
                                                                 case DEEP_VALLEY ->
                                                                         java.util.List.of(
                                                                                 AZRAEL,
                                                                                 SWORD_AND_LANTERN,
                                                                                 PHOSPHOPHYLLITE,
                                                                                 UNDERGROUND_VELVET,
-                                                                                HIGH_FREQUENCY_TREMOR);
+                                                                                HIGH_FREQUENCY_TREMOR,
+                                                                                LAST_AFFAIRS);
                                                                 case UNDERWORLD ->
                                                                         java.util.List.of(
                                                                                 THOUSAND_YEARS,
                                                                                 BOOK_OF_DEAD,
                                                                                 DEMON_KING,
                                                                                 SOUL_BANNER,
-                                                                                KAGOTSURUBE);
+                                                                                KAGOTSURUBE,
+                                                                                LIVING_FLESH);
                                                                 case BOUNDLESS ->
                                                                         java.util.List.of(
                                                                                 FREE_AND_EASY_WANDERING,
                                                                                 STAR_VOICE,
                                                                                 LITTLE_PRINCE,
                                                                                 LORENTZ_FANTASY,
-                                                                                ANCIENT_STRANGE_TALES);
+                                                                                ANCIENT_STRANGE_TALES,
+                                                                                HOLY_FOOL);
                                                             };
                                                     items.forEach(
                                                             item -> {
@@ -334,6 +358,12 @@ public final class ModRegistry {
                                                 }
                                             })
                                     .build());
+
+    public static final RegistryObject<RecipeSerializer<com.thelongtravail.abyss.SeaBottleRecipe>>
+            SEA_BOTTLE_RECIPE =
+                    RECIPES.register(
+                            "sea_in_a_bottle",
+                            com.thelongtravail.abyss.SeaBottleRecipe.Serializer::new);
 
     private static RegistryObject<Item> themeItem(
             String id, java.util.function.Supplier<Item> factory) {

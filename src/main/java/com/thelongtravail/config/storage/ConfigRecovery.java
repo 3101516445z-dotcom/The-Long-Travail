@@ -30,11 +30,12 @@ final class ConfigRecovery {
         boolean upgraded =
                 issues.isEmpty()
                         && path.getFileName().toString().equals("general.toml")
-                        && ConfigUpgrade.boundless(path, config);
+                        && (ConfigUpgrade.boundless(path, config)
+                                | ConfigUpgrade.sixThemeItems(path, config));
         issues.addAll(ConfigValidation.validate(config, spec, null).issues());
         if (original != null && !issues.isEmpty()) archive(root, path, original, issues);
         else if (original != null && upgraded) {
-            Path backup = path.resolveSibling("general.toml.pre-boundless-relics.bak");
+            Path backup = path.resolveSibling("general.toml.pre-items-upgrade.bak");
             if (!Files.exists(backup))
                 Files.write(backup, original, java.nio.file.StandardOpenOption.CREATE_NEW);
         }

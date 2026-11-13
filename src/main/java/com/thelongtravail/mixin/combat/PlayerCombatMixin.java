@@ -53,8 +53,13 @@ public abstract class PlayerCombatMixin {
                             value = "INVOKE",
                             target = "Lnet/minecraft/world/entity/player/Player;setHealth(F)V"))
     private void travail$recordCommittedDamage(
-            Player target, float health, Operation<Void> original) {
+            Player target,
+            float health,
+            Operation<Void> original,
+            DamageSource source,
+            float amount) {
         float before = target.getHealth();
+        health = com.thelongtravail.farreach.HorizonTheory.capHealth(target, source, health);
         if (target instanceof net.minecraft.server.level.ServerPlayer sp)
             com.thelongtravail.underworld.BookRevival.damage(sp, before - health);
         original.call(target, health);

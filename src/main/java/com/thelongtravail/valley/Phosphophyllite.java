@@ -1,13 +1,12 @@
 package com.thelongtravail.valley;
 
-import com.thelongtravail.runtime.effects.OverflowHealing;
-
 import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.common.*;
 import com.thelongtravail.compat.arsnouveau.ArsNouveauAttributeRules;
 import com.thelongtravail.config.*;
 import com.thelongtravail.equipment.AccessoryEquipRules;
 import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.runtime.effects.OverflowHealing;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -86,6 +85,25 @@ public final class Phosphophyllite {
         }
     }
 
+    private static final com.thelongtravail.combat.ReceivedHitGate HEAL_GATE =
+            new com.thelongtravail.combat.ReceivedHitGate();
+
+    public static boolean acquireHealing(
+            LivingEntity entity, net.minecraft.world.damagesource.DamageSource source) {
+        if (phase(entity) != 2
+                || entity instanceof ServerPlayer player && !ModeEffectRules.diaryApplies(player))
+            return false;
+        return HEAL_GATE.acquire(
+                entity,
+                source,
+                DeepValleyItemsConfig.PHOSPHOPHYLLITE_HEAL_EXCLUSIONS.get(),
+                DeepValleyItemsConfig.PHOSPHOPHYLLITE_HEAL_COOLDOWN.get());
+    }
+
+    public static void forget(LivingEntity entity) {
+        HEAL_GATE.forget(entity);
+    }
+
     public static void received(LivingEntity entity) {
         if (phase(entity) != 2 || !HEALING.add(entity)) return;
         try {
@@ -111,6 +129,7 @@ public final class Phosphophyllite {
 
     @SubscribeEvent
     public static void stopped(net.minecraftforge.event.server.ServerStoppedEvent event) {
+        HEAL_GATE.clear();
         APPLIED.clear();
         HEALING.clear();
         excludedValues = List.of();

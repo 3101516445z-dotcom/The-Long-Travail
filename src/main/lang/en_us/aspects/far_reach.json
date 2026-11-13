@@ -74,5 +74,10 @@
   "tooltip.the_long_travail.sun_chaser.burning": "Damage against burning targets gains a %s%% damage bonus.",
   "tooltip.the_long_travail.sun_chaser.witness_heading": "If The Long Travail is equipped and Far Reach has borne Witness:",
   "tooltip.the_long_travail.sun_chaser.suppression": "When the carrier deals damage, the target cannot recover health through normal healing or gain damage invulnerability frames for %s seconds. Dealing damage again refreshes the duration.",
-  "tooltip.the_long_travail.sun_chaser.strike": "When the carrier deals damage to a burning target, deals additional direct strike damage equal to %s%% of the target’s maximum health."
+  "tooltip.the_long_travail.sun_chaser.strike": "When the carrier deals damage to a burning target, deals additional direct strike damage equal to %s%% of the target’s maximum health.",
+  "item.the_long_travail.horizon_theory": "Horizon Theory",
+  "tooltip.the_long_travail.flavor.horizon_theory": "The earth remains at the center, for it is equally distant from all things.",
+  "tooltip.the_long_travail.horizon_theory.details": "Carry Horizon Theory and equip The Long Travail for its effects to apply.\nCarrying multiple copies does not stack their effects.\n\n§dWith The Long Travail equipped and Far Reach Malice active:§r\nHealth lost from a single instance of damage cannot exceed %1$s%% of maximum health.\n\n§dWith The Long Travail equipped and Far Reach witnessed:§r\nTaking damage grants %2$s seconds of independent invulnerability frames.",
+  "tooltip.the_long_travail.far_reach.malice.effect.health_loss": "• When losing health to damage, remove 1 random beneficial effect, with a %1$s chance to remove all beneficial effects.\n\n• When dealing damage, there is a %2$s chance to remove 1 random beneficial effect. This can trigger at most once every %3$s seconds.",
+  "tooltip.the_long_travail.summary.theme_items.horizon_theory": "Active while carried.\n§dWith The Long Travail equipped and Far Reach Malice active:§r\n- Limits health lost from a single instance of damage\n§dWith The Long Travail equipped and Far Reach witnessed:§r\n- Grants independent invulnerability frames after taking damage"
 }

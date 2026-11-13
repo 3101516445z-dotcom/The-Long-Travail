@@ -47,5 +47,8 @@
   "tooltip.the_long_travail.summary.requires_diary_state": "§4未佩苦旅，依其狀態之效尚不生。§r",
   "effect.the_long_travail.mara_transformation": "波旬變生",
   "effect.the_long_travail.among_all_things": "我於萬物之中",
-  "effect.the_long_travail.revival": "還魂"
+  "effect.the_long_travail.revival": "還魂",
+  "tooltip.the_long_travail.theme_food.effect": "- %s%s，歷%s秒；",
+  "tooltip.the_long_travail.theme_food.effect.last": "- %s%s，歷%s秒。",
+  "tooltip.the_long_travail.theme_food.always_edible": "雖飽猶可食。"
 }

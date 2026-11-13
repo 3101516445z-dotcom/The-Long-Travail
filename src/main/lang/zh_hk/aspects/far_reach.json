@@ -74,5 +74,10 @@
   "tooltip.the_long_travail.sun_chaser.burning": "對燃燒目標造成的傷害獲得%s%%的傷害加成。",
   "tooltip.the_long_travail.sun_chaser.witness_heading": "若佩戴了苦旅，且此時窮遐已然見證，則：",
   "tooltip.the_long_travail.sun_chaser.suppression": "攜帶者造成傷害時，使目標在%s秒內無法透過正常治療恢復生命值且無法獲得無敵幀，再次造成傷害時刷新持續時間。",
-  "tooltip.the_long_travail.sun_chaser.strike": "攜帶者對燃燒目標造成傷害時，額外造成相當於目標最大生命值%s%%的直擊傷害。"
+  "tooltip.the_long_travail.sun_chaser.strike": "攜帶者對燃燒目標造成傷害時，額外造成相當於目標最大生命值%s%%的直擊傷害。",
+  "item.the_long_travail.horizon_theory": "地平論",
+  "tooltip.the_long_travail.flavor.horizon_theory": "大地停留在中心，因為它與一切事物的距離相等。",
+  "tooltip.the_long_travail.horizon_theory.details": "攜帶「地平論」並佩戴苦旅後生效。\n攜帶多件時，效果不疊加。\n\n§d佩戴苦旅且窮遐尚有惡意時：§r\n單次受到傷害時，損失的生命值不超過最大生命值的%1$s%%。\n\n§d佩戴苦旅且窮遐已然見證時：§r\n受到傷害時，獲得%2$s秒獨立無敵幀。",
+  "tooltip.the_long_travail.far_reach.malice.effect.health_loss": "• 因傷害損失生命值時，隨機清除1個增益效果；有%1$s的機率清除全部增益效果。\n\n• 造成傷害時，有%2$s的機率隨機清除1個增益效果。此項每%3$s秒最多觸發1次。",
+  "tooltip.the_long_travail.summary.theme_items.horizon_theory": "攜帶生效。\n§d佩戴苦旅且窮遐尚有惡意時：§r\n- 限制單次受到傷害時損失的生命值\n§d佩戴苦旅且窮遐已然見證時：§r\n- 受到傷害後獲得獨立無敵幀"
 }

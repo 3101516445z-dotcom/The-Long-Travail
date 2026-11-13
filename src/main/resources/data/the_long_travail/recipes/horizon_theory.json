@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LEL",
+    "TID",
+    "LSL"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "E": {
+      "item": "minecraft:eye_armor_trim_smithing_template"
+    },
+    "T": {
+      "item": "minecraft:tide_armor_trim_smithing_template"
+    },
+    "I": {
+      "item": "minecraft:glow_ink_sac"
+    },
+    "D": {
+      "item": "minecraft:dune_armor_trim_smithing_template"
+    },
+    "S": {
+      "item": "minecraft:spire_armor_trim_smithing_template"
+    }
+  },
+  "result": {
+    "item": "the_long_travail:horizon_theory",
+    "count": 1
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "the_long_travail:horizon_theory"
+    }
+  ]
+}

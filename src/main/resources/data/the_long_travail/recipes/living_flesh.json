@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RRR",
+    "BGW",
+    "RRR"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:rotten_flesh"
+    },
+    "B": {
+      "item": "minecraft:blaze_powder"
+    },
+    "G": {
+      "item": "minecraft:ghast_tear"
+    },
+    "W": {
+      "item": "minecraft:nether_wart"
+    }
+  },
+  "result": {
+    "item": "the_long_travail:living_flesh",
+    "count": 1
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "the_long_travail:living_flesh"
+    }
+  ]
+}

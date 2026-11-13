@@ -118,5 +118,9 @@
   "tooltip.the_long_travail.summary.eki.requires_diary_effect": "§4唯承「苦旅」者可得其效§r",
   "tooltip.the_long_travail.abyss_items.summary.heading": "§6佩之效§r：",
   "tooltip.the_long_travail.summary.liquefied_abundance.state": "§6當前轉化類型§r：§a%s§r",
-  "tooltip.the_long_travail.summary.abyss.open": "長按[%s]閱拾遺之詳"
+  "tooltip.the_long_travail.summary.abyss.open": "長按[%s]閱拾遺之詳",
+  "item.the_long_travail.sea_in_a_bottle": "瓶中海",
+  "tooltip.the_long_travail.flavor.sea_in_a_bottle": "醉後不知天在水，滿船清夢壓星河。",
+  "tooltip.the_long_travail.sea_in_a_bottle.details": "佩「瓶中海」，+%1$s 通用飾品欄位。\n\n§d佩苦旅且歸墟惡意尚存時：§r\n- 所受治療量增%2$s%%；\n- 新得減益效果，則回施於施加者；\n- 已有減益效果等級升高，亦回施於施加者。\n\n§d佩苦旅且歸墟已然見證時：§r\n- 所致魔法類傷害增%3$s%%。",
+  "tooltip.the_long_travail.summary.theme_items.sea_in_a_bottle": "佩戴之效：\n- +%s 通用飾品欄位\n§d佩苦旅且歸墟惡意尚存時：§r\n- 所受治療量增\n- 回施所得減益效果\n§d佩苦旅且歸墟已然見證時：§r\n- 魔法類傷害增"
 }

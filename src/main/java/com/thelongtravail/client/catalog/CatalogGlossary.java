@@ -41,7 +41,16 @@ public final class CatalogGlossary {
                     "eligible_attributes",
                     "special_breaking",
                     "souls",
-                    "high_altitude");
+                    "high_altitude",
+                    "magic_damage",
+                    "physical_damage",
+                    "independent_invulnerability",
+                    "reapplication",
+                    "magic_purification",
+                    "physical_purification",
+                    "mara_transformation",
+                    "revival",
+                    "among_all_things");
 
     private record Match(int start, int end, String id) {}
 
@@ -115,6 +124,14 @@ public final class CatalogGlossary {
 
     private static boolean enabled(String id, String item) {
         return switch (id) {
+            case "magic_damage", "reapplication" -> item.equals("sea_in_a_bottle");
+            // 物理类伤害卡片保留备用，暂不标记物品正文。
+            case "physical_damage" -> false;
+            case "independent_invulnerability" -> item.equals("horizon_theory");
+            case "magic_purification" -> item.equals("moon_toad_pastry");
+            case "physical_purification", "mara_transformation" -> item.equals("living_flesh");
+            case "revival" -> item.equals("last_affairs");
+            case "among_all_things" -> item.equals("holy_fool");
             case "damage_bonus" ->
                     Set.of(
                                     "lorentz_fantasy",

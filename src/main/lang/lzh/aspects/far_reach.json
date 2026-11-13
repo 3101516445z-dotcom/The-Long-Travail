@@ -74,5 +74,10 @@
   "tooltip.the_long_travail.sun_chaser.burning": "對燃燒目標造成的傷害獲得%s%%的傷害加成。",
   "tooltip.the_long_travail.sun_chaser.witness_heading": "若佩苦旅，且此時窮遐已然見證，則：",
   "tooltip.the_long_travail.sun_chaser.suppression": "攜者傷敵時，使目標於%s秒內不得由常規治療復生命，亦不得無敵幀；再傷之，則重計其時。",
-  "tooltip.the_long_travail.sun_chaser.strike": "攜者傷燃燒之目標時，另致相當於目標最大生命值%s%%之直擊傷害。"
+  "tooltip.the_long_travail.sun_chaser.strike": "攜者傷燃燒之目標時，另致相當於目標最大生命值%s%%之直擊傷害。",
+  "item.the_long_travail.horizon_theory": "地平論",
+  "tooltip.the_long_travail.flavor.horizon_theory": "大地居中，與萬物等距故也。",
+  "tooltip.the_long_travail.horizon_theory.details": "攜「地平論」並佩苦旅，乃生其效。\n攜多件不疊加。\n\n§d佩苦旅且窮遐惡意尚存時：§r\n單次受傷，所失生命值不逾最大生命值之%1$s%%。\n\n§d佩苦旅且窮遐已然見證時：§r\n受傷時，得%2$s秒獨立無敵幀。",
+  "tooltip.the_long_travail.far_reach.malice.effect.health_loss": "• 因傷損失生命值，隨機去一增益，有%1$s之率盡去其增益。\n\n• 傷敵時，有%2$s之率隨機去一增益。此每%3$s秒至多一次。",
+  "tooltip.the_long_travail.summary.theme_items.horizon_theory": "攜之生效。\n§d佩苦旅且窮遐惡意尚存時：§r\n- 限單次受傷所失生命值\n§d佩苦旅且窮遐已然見證時：§r\n- 受傷後得獨立無敵幀"
 }

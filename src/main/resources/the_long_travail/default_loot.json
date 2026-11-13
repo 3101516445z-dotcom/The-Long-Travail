@@ -49,25 +49,28 @@
     ]
   },
   "minecraft:chests/desert_pyramid": {
-    "chance": 0.15,
+    "chance": 0.2,
     "items": [
-      "the_long_travail:book_of_the_dead|1|1|1",
-      "the_long_travail:icarus|1|1|1"
+      "the_long_travail:book_of_the_dead|3|1|1",
+      "the_long_travail:icarus|3|1|1",
+      "the_long_travail:holy_fool|2|1|1"
     ]
   },
   "minecraft:chests/end_city_treasure": {
-    "chance": 0.2,
+    "chance": 0.275,
     "items": [
       "the_long_travail:free_and_easy_wandering|3|1|1",
       "the_long_travail:star_voice|2|1|1",
-      "the_long_travail:lorentz_fantasy|3|1|1"
+      "the_long_travail:lorentz_fantasy|3|1|1",
+      "the_long_travail:holy_fool|3|1|1"
     ]
   },
   "minecraft:chests/jungle_temple": {
-    "chance": 0.15,
+    "chance": 0.2,
     "items": [
-      "the_long_travail:affection|1|1|1",
-      "the_long_travail:spring_corner|1|1|1"
+      "the_long_travail:affection|3|1|1",
+      "the_long_travail:spring_corner|3|1|1",
+      "the_long_travail:holy_fool|2|1|1"
     ]
   },
   "minecraft:chests/nether_bridge": {
@@ -204,11 +207,12 @@
     ]
   },
   "minecraft:chests/village/village_temple": {
-    "chance": 0.15,
+    "chance": 0.25,
     "items": [
       "the_long_travail:affection|1|1|1",
       "the_long_travail:free_and_easy_wandering|1|1|1",
-      "the_long_travail:everlasting_flower|1|1|1"
+      "the_long_travail:everlasting_flower|1|1|1",
+      "the_long_travail:holy_fool|2|1|1"
     ]
   },
   "minecraft:chests/village/village_toolsmith": {

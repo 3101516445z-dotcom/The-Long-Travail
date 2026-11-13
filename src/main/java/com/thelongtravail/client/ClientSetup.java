@@ -28,7 +28,19 @@ final class ClientSetup {
         event.enqueueWork(
                 () -> {
                     AbundanceUseClient.initialize();
+                    com.thelongtravail.network.InsertedEffectPacket.receiver =
+                            InsertedEffectClient::receive;
                     com.thelongtravail.item.ItemSummary.append = ThemeTooltips::append;
+                    com.thelongtravail.item.ThemeItemText.skillKey =
+                            () ->
+                                    ThemeTooltips.keyName(BoundlessClient.DREAM)
+                                            .copy()
+                                            .withStyle(
+                                                    style ->
+                                                            style.withColor(
+                                                                    com.thelongtravail.text
+                                                                            .TooltipStyle
+                                                                            .ACCENT_COLOR));
                     net.minecraft.client.gui.screens.MenuScreens.register(
                             ModRegistry.COLORING_MENU.get(), ColoringScreen::new);
                     com.thelongtravail.network.PrinceFlightPacket.receiver =

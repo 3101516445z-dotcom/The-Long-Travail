@@ -76,5 +76,11 @@
   "tooltip.the_long_travail.summary.ancient_strange_tales.1": "轉移同種附魔可§6提升等級§r，部分情形須添材\n另添合成所用之材，亦可§6篩選附魔§r：\n- 另添§a蜂蜜瓶§r，合成唯移§6非詛咒附魔§r\n- 另添§a發酵蜘蛛眼§r，合成唯移§6詛咒附魔§r",
   "tooltip.the_long_travail.flavor.ancient_strange_tales": "實博物之權輿，異苑之嚆矢。",
   "message.the_long_travail.transfer.enchantment_failed": "附魔「%s」轉移檢驗有異，今止其事，材料未耗",
-  "message.the_long_travail.transfer.failed": "附魔轉移有異，今止其事，材料未耗"
+  "message.the_long_travail.transfer.failed": "附魔轉移有異，今止其事，材料未耗",
+  "item.the_long_travail.holy_fool": "聖愚",
+  "tooltip.the_long_travail.flavor.holy_fool": "全知故盲，盲故愚。",
+  "tooltip.the_long_travail.holy_fool.details": "佩「聖愚」，按[%3$s]以呢喃，得「我於萬物之中」之效，歷%1$s秒。\n技能冷卻%2$s秒，自得效時起計。",
+  "message.the_long_travail.holy_fool.cooldown": "盲目痴愈之囈尚未散……%s",
+  "message.the_long_travail.holy_fool.success": "我於萬物之中……",
+  "tooltip.the_long_travail.summary.theme_items.holy_fool": "主動技能·呢喃：\n- 按[%1$s]呢喃，得%2$s秒「我於萬物之中」之效"
 }

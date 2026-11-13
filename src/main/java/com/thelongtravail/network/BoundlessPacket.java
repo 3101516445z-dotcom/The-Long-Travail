@@ -3,6 +3,7 @@ package com.thelongtravail.network;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
+
 import java.util.function.*;
 
 public record BoundlessPacket(boolean active, int cooldown) {
@@ -80,7 +81,11 @@ public record BoundlessPacket(boolean active, int cooldown) {
                                                 .getPlayerList()
                                                 .getPlayer(sender.getUUID())
                                         != sender) return;
-                        com.thelongtravail.boundless.dream.DreamState.cast(sender);
+                        if (com.thelongtravail.boundless.HolyFool.equipped(sender)
+                                && !com.thelongtravail.boundless.BoundlessEquipment.equipped(
+                                        sender, true))
+                            com.thelongtravail.boundless.HolyFool.cast(sender);
+                        else com.thelongtravail.boundless.dream.DreamState.cast(sender);
                     });
             c.setPacketHandled(true);
         }

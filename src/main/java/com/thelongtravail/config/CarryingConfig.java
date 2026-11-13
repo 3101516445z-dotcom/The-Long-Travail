@@ -12,6 +12,8 @@ public final class CarryingConfig {
     public static void define(ForgeConfigSpec.Builder b) {
         b.comment("配置的内部升级版本，请勿修改。\nInternal configuration upgrade version. Do not edit.")
                 .defineInRange("upgrades.boundlessRelics", 1, 0, Integer.MAX_VALUE);
+        b.comment("六主题物品战利品升级版本 / Six themed items loot upgrade version")
+                .defineInRange("upgrades.sixThemeItems", 1, 0, Integer.MAX_VALUE);
         for (String area :
                 List.of(
                         "inventory",

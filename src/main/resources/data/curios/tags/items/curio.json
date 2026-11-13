@@ -20,6 +20,10 @@
     {
       "id": "the_long_travail:star_voice",
       "required": false
+    },
+    {
+      "id": "the_long_travail:sea_in_a_bottle",
+      "required": false
     }
   ]
 }

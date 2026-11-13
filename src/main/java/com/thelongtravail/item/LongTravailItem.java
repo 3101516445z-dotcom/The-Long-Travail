@@ -1,24 +1,27 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.runtime.attributes.FlourishingBonus;
-import com.thelongtravail.network.JourneySync;
-import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.config.TravailConfig;
-import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.equipment.DiaryEquipmentRules;
+import com.thelongtravail.equipment.TravailCurios;
+import com.thelongtravail.journey.LongTravailData;
+import com.thelongtravail.network.JourneySync;
 import com.thelongtravail.network.TooltipConfigSync;
+import com.thelongtravail.runtime.attributes.FlourishingBonus;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.entity.player.Player;
+
 import org.jetbrains.annotations.Nullable;
+
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
@@ -273,7 +276,11 @@ public class LongTravailItem extends Item implements ICurioItem {
                                                             .FAR_WITNESS_POSITIVE_DURATION_SECONDS
                                                             .get())))
                             : Component.translatable(
-                                    "tooltip.the_long_travail.far_reach.malice.effect",
+                                    "tooltip.the_long_travail.far_reach.malice.effect"
+                                            + (com.thelongtravail.network.TooltipConfigSync
+                                                            .receivedMaliceRequiresHealthLoss()
+                                                    ? ".health_loss"
+                                                    : ""),
                                     percent(
                                             d(
                                                     "farReach.clearAllChance",
@@ -316,7 +323,11 @@ public class LongTravailItem extends Item implements ICurioItem {
                                                             .VALLEY_WITNESS_ATTACK_COOLDOWN_SECONDS
                                                             .get())))
                             : Component.translatable(
-                                    "tooltip.the_long_travail.deep_valley.malice.effect",
+                                    "tooltip.the_long_travail.deep_valley.malice.effect"
+                                            + (com.thelongtravail.network.TooltipConfigSync
+                                                            .receivedMaliceRequiresHealthLoss()
+                                                    ? ".health_loss"
+                                                    : ""),
                                     percent(
                                             d(
                                                     "deepValley.visualDeprivationChance",

@@ -1,12 +1,11 @@
 package com.thelongtravail.client;
 
-import com.thelongtravail.text.TooltipStyle;
-
 import com.thelongtravail.client.catalog.*;
 import com.thelongtravail.equipment.AccessoryEquipRules;
 import com.thelongtravail.farreach.icarus.IcarusFlight;
 import com.thelongtravail.flourishing.*;
 import com.thelongtravail.item.ItemDescription;
+import com.thelongtravail.text.TooltipStyle;
 import com.thelongtravail.valley.lantern.LanternSources;
 
 import net.minecraft.client.KeyMapping;
@@ -281,6 +280,20 @@ public final class ThemeTooltips {
     }
 
     public static List<Component> summary(String id, ItemStack stack, Player viewer) {
+        if (stack.getItem() instanceof com.thelongtravail.item.ThemedFoodItem)
+            return FoodTooltips.summary(stack);
+        if (Set.of(
+                        "moon_toad_pastry",
+                        "sea_in_a_bottle",
+                        "horizon_theory",
+                        "last_affairs",
+                        "living_flesh",
+                        "holy_fool")
+                .contains(id)) {
+            var result = new ArrayList<Component>();
+            com.thelongtravail.item.ThemeItemText.summary(id, stack, result);
+            return result;
+        }
         var lines = summaryParts(id, stack, viewer);
         if (!FLOURISHING_SUMMARIES.contains(id)
                 && !BOUNDLESS_SUMMARIES.contains(id)
@@ -406,7 +419,18 @@ public final class ThemeTooltips {
             }
             case "phosphophyllite", "underground_velvet" -> {
                 for (int i = 0; i < (id.equals("underground_velvet") ? 3 : 2); i++)
-                    out.add(text(id + "." + i));
+                    out.add(
+                            text(
+                                    id
+                                            + "."
+                                            + i
+                                            + (id.equals("phosphophyllite")
+                                                            && i == 1
+                                                            && com.thelongtravail.config
+                                                                    .DeepValleyItemsConfig
+                                                                    .healingRequiresHealthLossDisplay()
+                                                    ? ".health_loss"
+                                                    : "")));
             }
             case "ancient_strange_tales" -> {
                 out.add(text(id + ".0"));

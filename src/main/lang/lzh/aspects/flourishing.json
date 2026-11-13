@@ -124,5 +124,10 @@
   "tooltip.the_long_travail.immortal_bud.details.5": "合成用料、置物及使用之耗，不在「恆久長青」所護之列。受護之物若墜虛空，亦不可尋回。",
   "tooltip.the_long_travail.immortal_bud.blacklist": "下列諸物不可新授，既有之記不改：%s。",
   "tooltip.the_long_travail.summary.flourishing.open": "長按[%s]閱拾遺之詳",
-  "tooltip.the_long_travail.summary.spring_corner.open": "長按[%s]閱諸花之效"
+  "tooltip.the_long_travail.summary.spring_corner.open": "長按[%s]閱諸花之效",
+  "item.the_long_travail.moon_toad_pastry": "月蟾酥",
+  "tooltip.the_long_travail.flavor.moon_toad_pastry": "老蟾遺蛻月中取，一掬秋光是冷香。",
+  "tooltip.the_long_travail.moon_toad_pastry.details": "食「月蟾酥」，復飽食%s點、飽和%s點，兼得諸效：",
+  "tooltip.the_long_travail.summary.moon_toad_pastry.obtain": "執剪§a右擊§r蛙可得。",
+  "tooltip.the_long_travail.moon_toad_pastry.harvest": "執剪右擊蛙，得「月蟾酥」一份，耗剪耐久一點，傷蛙一點。"
 }

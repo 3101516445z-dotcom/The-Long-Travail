@@ -40,6 +40,6 @@ public boolean canEquip(SlotContext context, ItemStack stack) {
 
 ## 通用饰品槽位提示
 
-`item/UniversalAccessoryItem` 继承 Curios 的 `ICurioItem`，在 `getSlotsTooltip` 中返回单行可翻译的通用槽位说明。逍遥游、星之声、无穷花、磷叶石和堂吉诃德使用此接口；中文显示“槽位：任意饰品栏位”。
+`item/UniversalAccessoryItem` 继承 Curios 的 `ICurioItem`，在 `getSlotsTooltip` 中返回单行可翻译的通用槽位说明。逍遥游、星之声、无穷花、磷叶石、堂吉诃德和瓶中海使用此接口；中文显示“槽位：任意饰品栏位”。
 
 调用顺序为 Curios 收集匹配槽位、构建默认提示，再调用物品的提示接口。无论默认列表包含多个具体槽位，还是包含 `curio` 后简写为“饰品”，这些物品都返回同一行说明。接口不登记槽位、不调整数量，也不重写 `canEquip`；物品标签、日记前置、唯一性及装饰槽限制仍由原有规则判定。

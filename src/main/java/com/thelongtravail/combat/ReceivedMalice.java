@@ -1,7 +1,7 @@
 package com.thelongtravail.combat;
 
-import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.config.TravailConfig;
+import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.event.TravailEvents;
 
 import net.minecraft.server.level.ServerPlayer;
@@ -19,18 +19,16 @@ public final class ReceivedMalice {
         GATE.clear();
     }
 
-    public static boolean trigger(LivingEntity target, DamageSource source) {
-        if (target instanceof ServerPlayer player) {
-            if (!com.thelongtravail.config.ModeEffectRules.diaryApplies(player)
-                    || TravailCurios.stack(player).isEmpty()) return false;
-        } else if (com.thelongtravail.valley.Phosphophyllite.phase(target) != 2) return false;
+    public static void trigger(LivingEntity target, DamageSource source) {
+        if (!(target instanceof ServerPlayer player)
+                || !com.thelongtravail.config.ModeEffectRules.diaryApplies(player)
+                || TravailCurios.stack(player).isEmpty()) return;
         if (!GATE.acquire(
                 target,
                 source,
                 TravailConfig.RECEIVED_EXCLUSIONS.get(),
-                TravailConfig.RECEIVED_COOLDOWN.get())) return false;
-        if (target instanceof ServerPlayer player) TravailEvents.processBeingAttacked(player);
-        return true;
+                TravailConfig.RECEIVED_COOLDOWN.get())) return;
+        TravailEvents.processBeingAttacked(player);
     }
 
     private ReceivedMalice() {}

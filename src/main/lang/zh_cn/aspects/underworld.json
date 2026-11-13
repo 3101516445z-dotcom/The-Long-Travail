@@ -59,5 +59,8 @@
   "tooltip.the_long_travail.kagotsurube.malice": "佩戴者的见切提高%s，霸主提高%s。",
   "tooltip.the_long_travail.kagotsurube.witness_heading": "若佩戴了苦旅，且此时冥府已然见证，则：",
   "tooltip.the_long_travail.kagotsurube.witness": "将所有归属于佩戴者的伤害转化为直击伤害。",
-  "tooltip.the_long_travail.summary.book_of_the_dead.2": "§d佩戴苦旅且冥府尚有恶意时：§r\n- 满足§a特定死亡条件§r时，直接获得§6冥府之见证§r"
+  "tooltip.the_long_travail.summary.book_of_the_dead.2": "§d佩戴苦旅且冥府尚有恶意时：§r\n- 满足§a特定死亡条件§r时，直接获得§6冥府之见证§r",
+  "item.the_long_travail.living_flesh": "活血肉",
+  "tooltip.the_long_travail.flavor.living_flesh": "混沌的触手，伏行于四肢百骸之中……",
+  "tooltip.the_long_travail.living_flesh.details": "食用「活血肉」后，恢复%s点饱食度和%s点饱和度，并获得以下效果："
 }

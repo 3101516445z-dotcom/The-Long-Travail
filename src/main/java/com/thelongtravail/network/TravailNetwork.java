@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 
 public final class TravailNetwork {
     private static final String PROTOCOL =
-            "24-items-" + com.thelongtravail.config.ItemRegistrationConfig.signature();
+            "25-items-" + com.thelongtravail.config.ItemRegistrationConfig.signature();
     private static final SimpleChannel CHANNEL =
             NetworkRegistry.newSimpleChannel(
                     new ResourceLocation(TheLongTravail.MODID, "main"),
@@ -37,6 +37,13 @@ public final class TravailNetwork {
     }
 
     public static void register() {
+        CHANNEL.registerMessage(
+                26,
+                InsertedEffectPacket.class,
+                InsertedEffectPacket::encode,
+                InsertedEffectPacket::decode,
+                InsertedEffectPacket::handle,
+                java.util.Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(
                 20,
                 AbundanceModePacket.class,
@@ -444,6 +451,20 @@ public final class TravailNetwork {
                                                                 .DreamState.RECORD)
                                                 .getInt("left")
                                         : 0));
+    }
+
+    public static void sendSkillMessage(ServerPlayer p, BoundlessPacket.Message message) {
+        if (p.connection != null) CHANNEL.send(PacketDistributor.PLAYER.with(() -> p), message);
+    }
+
+    public static void sendInsertedEffect(
+            net.minecraft.world.entity.LivingEntity target, InsertedEffectPacket packet) {
+        CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> target), packet);
+    }
+
+    public static void sendInsertedEffect(ServerPlayer player, InsertedEffectPacket packet) {
+        if (player.connection != null)
+            CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), packet);
     }
 
     public static void requestDream() {

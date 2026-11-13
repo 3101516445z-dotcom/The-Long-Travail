@@ -124,5 +124,10 @@
   "tooltip.the_long_travail.immortal_bud.details.5": "合成消耗、物品放置或使用消耗不受「恒久长青」保护。另外，受保护物品若坠入虚空，也无法找回。",
   "tooltip.the_long_travail.immortal_bud.blacklist": "以下物品不能接受新的赋予，已有标记不受影响：%s。",
   "tooltip.the_long_travail.summary.flourishing.open": "长按[%s]查看拾遗详情",
-  "tooltip.the_long_travail.summary.spring_corner.open": "长按[%s]查看各花朵效果详情"
+  "tooltip.the_long_travail.summary.spring_corner.open": "长按[%s]查看各花朵效果详情",
+  "item.the_long_travail.moon_toad_pastry": "月蟾酥",
+  "tooltip.the_long_travail.flavor.moon_toad_pastry": "老蟾遗蜕月中取，一掬秋光是冷香。",
+  "tooltip.the_long_travail.moon_toad_pastry.details": "食用「月蟾酥」后，恢复%s点饱食度和%s点饱和度，并获得以下效果：",
+  "tooltip.the_long_travail.summary.moon_toad_pastry.obtain": "手持剪刀§a右击§r青蛙可获得。",
+  "tooltip.the_long_travail.moon_toad_pastry.harvest": "手持剪刀右击青蛙，可获得1份「月蟾酥」，消耗剪刀1点耐久，并对青蛙造成1点伤害。"
 }

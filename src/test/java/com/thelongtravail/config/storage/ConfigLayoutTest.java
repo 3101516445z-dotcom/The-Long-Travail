@@ -168,7 +168,7 @@ public final class ConfigLayoutTest {
                 "travail.witness.compatInitialization.extra", List.of(parse("name = 'entry'\n")));
         roundTrip(directory.resolve("preset-table-array.toml"), custom);
         var zh = codes(ConfigFilesDescription.GUIDE);
-        expect(zh.size() == 26, "26 guide sections");
+        expect(zh.size() == 28, "28 guide sections");
         expect(zh.contains("M06"), "Theme item configuration section");
         expect(zh.equals(codes(ConfigFilesDescription.GUIDE_EN)), "Matching bilingual sections");
         expect(

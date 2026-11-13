@@ -41,7 +41,10 @@ public final class BoundlessClient {
                 || !mc.player.isAlive()
                 || TimeStopManager.frozen(mc.player)
                 || !DREAM.isActiveAndMatches(key)) return false;
-        if (!dreaming && (mc.player.isSpectator() || !BoundlessEquipment.equipped(mc.player, true)))
+        if (!dreaming
+                && (mc.player.isSpectator()
+                        || (!BoundlessEquipment.equipped(mc.player, true)
+                                && !com.thelongtravail.boundless.HolyFool.equipped(mc.player))))
             return false;
         handledDreamKey = key;
         TravailNetwork.requestDream();
@@ -49,6 +52,10 @@ public final class BoundlessClient {
     }
 
     private static void message(BoundlessPacket.Message packet) {
+        if (packet.key().startsWith("message.the_long_travail.holy_fool.")) {
+            SkillCooldownNotice.show(packet.key(), packet.cooldownTicks(), false);
+            return;
+        }
         var player = Minecraft.getInstance().player;
         if (player != null && com.thelongtravail.config.TravailClientConfig.DREAM_MESSAGES.get())
             SkillCooldownNotice.show(packet.key(), packet.cooldownTicks(), true);

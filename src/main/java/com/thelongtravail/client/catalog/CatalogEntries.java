@@ -4,8 +4,6 @@ import static com.thelongtravail.registry.ModRegistry.*;
 
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.abyss.rain.RainTooltips;
-import com.thelongtravail.boundless.BoundlessTooltips;
-import com.thelongtravail.client.AzraelTooltips;
 import com.thelongtravail.client.RainClient;
 import com.thelongtravail.client.UnderworldClient;
 import com.thelongtravail.equipment.TravailCurios;
@@ -428,6 +426,54 @@ public final class CatalogEntries {
                 TravailAspect.BOUNDLESS,
                 "gujinyuguai|gjyg|ancientstrangetales",
                 s -> CatalogBoundlessDetails.details("ancient_strange_tales"));
+        add(
+                entries,
+                "moon_toad_pastry",
+                MOON_TOAD_PASTRY,
+                Category.THEME,
+                TravailAspect.FLOURISHING,
+                "yuechansu|ycs|moontoadpastry",
+                CatalogEntries::ordinary);
+        add(
+                entries,
+                "sea_in_a_bottle",
+                SEA_IN_A_BOTTLE,
+                Category.THEME,
+                TravailAspect.ABYSS,
+                "pingzhonghai|pzh|seainabottle",
+                CatalogEntries::ordinary);
+        add(
+                entries,
+                "horizon_theory",
+                HORIZON_THEORY,
+                Category.THEME,
+                TravailAspect.FAR_REACH,
+                "dipinglun|dpl|horizontheory",
+                CatalogEntries::ordinary);
+        add(
+                entries,
+                "last_affairs",
+                LAST_AFFAIRS,
+                Category.THEME,
+                TravailAspect.DEEP_VALLEY,
+                "shenhoushi|shs|lastaffairs",
+                CatalogEntries::ordinary);
+        add(
+                entries,
+                "living_flesh",
+                LIVING_FLESH,
+                Category.THEME,
+                TravailAspect.UNDERWORLD,
+                "huoxuerou|hxr|livingflesh",
+                CatalogEntries::ordinary);
+        add(
+                entries,
+                "holy_fool",
+                HOLY_FOOL,
+                Category.THEME,
+                TravailAspect.BOUNDLESS,
+                "shengyu|sy|holyfool",
+                CatalogEntries::ordinary);
         if (entries.stream().map(Entry::id).distinct().count() != entries.size())
             throw new IllegalStateException("Duplicate catalogue entry");
         return List.copyOf(entries);

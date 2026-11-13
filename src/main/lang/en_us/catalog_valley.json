@@ -56,5 +56,6 @@
   "gui.the_long_travail.catalog.glossary.special_breaking.body": "Drops follow the block's normal rules.\nWhether successful breaking produces drops still depends on those rules and High Frequency Tremor's harvesting capability.",
   "gui.the_long_travail.catalog.glossary.lantern_undead.title": "Facing undead",
   "gui.the_long_travail.catalog.glossary.lantern_undead.aliases": "Facing undead",
-  "gui.the_long_travail.catalog.glossary.lantern_undead.body": "The condition is met when nearby enemies include an undead creature."
+  "gui.the_long_travail.catalog.glossary.lantern_undead.body": "The condition is met when nearby enemies include an undead creature.",
+  "gui.the_long_travail.catalog.valley.phos.heal.health_loss": "When losing health to damage, the wearer has a %s%% chance to heal %s%% of their maximum health, converting excess healing into absorption"
 }

@@ -3,6 +3,7 @@ package com.thelongtravail.config;
 import com.thelongtravail.config.storage.ConfigProblems;
 
 import net.minecraftforge.common.ForgeConfigSpec;
+
 import java.util.*;
 
 public final class DeepValleyItemsConfig {
@@ -11,7 +12,47 @@ public final class DeepValleyItemsConfig {
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> EXTRA_ORES, EXTRA_INGOTS;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> TREMOR_BLACKLIST;
 
+    public static ForgeConfigSpec.EnumValue<TravailConfig.ReceivedTrigger>
+            PHOSPHOPHYLLITE_HEAL_TRIGGER;
+    public static ForgeConfigSpec.IntValue PHOSPHOPHYLLITE_HEAL_COOLDOWN;
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>>
+            PHOSPHOPHYLLITE_HEAL_EXCLUSIONS;
+
+    public static boolean healingRequiresHealthLossDisplay() {
+        return com.thelongtravail.network.TooltipConfigSync.decimal(
+                        "deepValleyItem.phosphophyllite.healRequiresHealthLoss",
+                        PHOSPHOPHYLLITE_HEAL_TRIGGER.get()
+                                        == TravailConfig.ReceivedTrigger.HEALTH_LOSS
+                                ? 1
+                                : 0)
+                != 0;
+    }
+
     public static void define(ForgeConfigSpec.Builder b) {
+        PHOSPHOPHYLLITE_HEAL_TRIGGER =
+                b.comment(
+                                "磷叶石见证治疗的触发方式：ATTACK_ATTEMPT 为受击；HEALTH_LOSS 为因伤害损失生命值，不含伤害吸收。独立于苦旅恶意配置。",
+                                "Witness healing trigger: ATTACK_ATTEMPT on hit; HEALTH_LOSS on actual health loss from damage, excluding absorption. Independent of diary Malice settings.")
+                        .defineEnum(
+                                "items.phosphophyllite.healTrigger",
+                                TravailConfig.ReceivedTrigger.ATTACK_ATTEMPT);
+        PHOSPHOPHYLLITE_HEAL_COOLDOWN =
+                b.comment(
+                                "磷叶石见证治疗的尝试间隔，单位：游戏刻；概率未触发治疗也计入冷却。0 为无冷却。",
+                                "Interval between Witness healing attempts in ticks, including unsuccessful chance rolls. 0 disables the cooldown.")
+                        .defineInRange("items.phosphophyllite.healCooldownTicks", 0, 0, 1_000_000);
+        PHOSPHOPHYLLITE_HEAL_EXCLUSIONS =
+                b.comment(
+                                "不触发磷叶石见证治疗的伤害类型 ID；不改变伤害本身。",
+                                "Damage type IDs excluded from Witness healing; does not change damage itself.")
+                        .defineListAllowEmpty(
+                                "items.phosphophyllite.healExcludedDamageTypes",
+                                List.of(),
+                                value ->
+                                        value instanceof String id
+                                                && net.minecraft.resources.ResourceLocation
+                                                                .tryParse(id)
+                                                        != null);
         TREMOR_BLACKLIST =
                 b.comment(
                                 "高频战栗在幽谷见证状态下，潜行右键破坏所使用的方块黑名单；同样适用于 FTB 连锁破坏。默认禁止屏障；允许空列表。必须填写完整 namespace:path，未知 ID 保留并警告。",
@@ -62,8 +103,7 @@ public final class DeepValleyItemsConfig {
                 .20,
                 0,
                 1,
-                "见证状态下，受击时触发治疗的概率；触发方式与苦旅一致。\nChance to trigger healing when hit while "
-                        + "Witness is active; follows the diary's on-hit trigger mode.");
+                "见证状态下，每次符合本物品触发条件时的治疗概率。\nHealing chance per eligible Witness healing attempt.");
         number(
                 b,
                 "phosphophyllite.healFraction",

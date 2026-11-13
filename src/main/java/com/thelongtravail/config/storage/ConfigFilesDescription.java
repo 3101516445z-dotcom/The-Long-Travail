@@ -75,7 +75,7 @@ public final class ConfigFilesDescription {
                 section(
                         builder,
                         "receivedMalice",
-                        "六类主题共用的受击恶意触发规则。\nOn-hit Malice trigger rules shared by all six themes.");
+                        "苦旅自身的受击恶意触发规则。\nOn-hit trigger rules for The Long Travail's own Malice effects.");
                 section(
                         builder,
                         "carrying",
@@ -361,10 +361,10 @@ public final class ConfigFilesDescription {
                 section(
                         builder,
                         "items.phosphophyllite",
-                        "磷叶石：需同时佩戴苦旅的通用饰品，支持女仆。按比例增加各项属性，受击触发方式与苦旅一致；有效溢出治疗转化为伤害吸收量。\n"
+                        "磷叶石：需同时佩戴苦旅的通用饰品，支持女仆。按比例增加各项属性，见证治疗具有独立的触发方式、冷却和伤害类型排除配置；有效溢出治疗转化为伤害吸收量。\n"
                                 + "Phosphophyllite: a general-purpose curio that requires The Long"
                                 + " Travail and supports maids. Applies multiplicative attribute"
-                                + " bonuses, follows the diary's on-hit trigger mode, and converts"
+                                + " bonuses, has independent Witness healing trigger, cooldown and damage-type exclusions, and converts"
                                 + " effective overhealing into absorption.");
                 section(
                         builder,

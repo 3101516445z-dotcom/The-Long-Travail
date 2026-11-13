@@ -1,0 +1,4 @@
+food-saturation.png: AppleSkin 2.5.1, squeek502.
+Source: https://github.com/squeek502/AppleSkin/tree/1.20.1-forge
+License: Unlicense (public domain).
+https://github.com/squeek502/AppleSkin/blob/1.20.1-forge/LICENSE

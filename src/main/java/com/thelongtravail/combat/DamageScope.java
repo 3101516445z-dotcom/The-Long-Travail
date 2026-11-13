@@ -48,6 +48,7 @@ public final class DamageScope {
             BiFunction<DamageSource, Float, Boolean> original) {
         if (!CombatContext.acceptsInput(target, source, amount)
                 || EffectCombatRules.blocked(target, source)) return false;
+        if (com.thelongtravail.farreach.HorizonTheory.blocked(target, source)) return false;
         DamageSource effective =
                 EffectCombatRules.convert(target, Kagotsurube.convert(target, source));
         if (SunChaser.immune(target, effective)) return false;

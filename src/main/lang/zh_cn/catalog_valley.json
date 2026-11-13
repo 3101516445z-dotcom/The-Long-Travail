@@ -56,5 +56,6 @@
   "gui.the_long_travail.catalog.glossary.special_breaking.body": "掉落物按方块的正常规则结算。\n成功破坏是否获得掉落物仍取决于方块掉落规则与高频战栗的采掘能力。",
   "gui.the_long_travail.catalog.glossary.lantern_undead.title": "对阵亡灵",
   "gui.the_long_travail.catalog.glossary.lantern_undead.aliases": "对阵亡灵",
-  "gui.the_long_travail.catalog.glossary.lantern_undead.body": "周围敌人中包含亡灵生物即满足要求。"
+  "gui.the_long_travail.catalog.glossary.lantern_undead.body": "周围敌人中包含亡灵生物即满足要求。",
+  "gui.the_long_travail.catalog.valley.phos.heal.health_loss": "佩戴者因伤害损失生命值时，有%s%%的概率恢复相当于佩戴者最大生命值%s%%的生命值，溢出的治疗量转化为伤害吸收"
 }

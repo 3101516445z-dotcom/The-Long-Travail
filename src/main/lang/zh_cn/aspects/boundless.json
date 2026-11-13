@@ -76,5 +76,11 @@
   "tooltip.the_long_travail.summary.ancient_strange_tales.1": "转移同种附魔可§6提升等级§r，部分情况需额外材料\n通过新增参与合成的材料还可§6筛选附魔§r：\n- 额外加入§a蜂蜜瓶§r，合成仅转移§6非诅咒附魔§r\n- 额外加入§a发酵蜘蛛眼§r，合成仅转移§6诅咒附魔§r",
   "tooltip.the_long_travail.flavor.ancient_strange_tales": "实博物之权舆，异苑之嚆矢。",
   "message.the_long_travail.transfer.enchantment_failed": "附魔「%s」在转移检查时发生异常，已取消本次操作，材料未消耗",
-  "message.the_long_travail.transfer.failed": "本次附魔转移发生异常，已取消本次操作，材料未消耗"
+  "message.the_long_travail.transfer.failed": "本次附魔转移发生异常，已取消本次操作，材料未消耗",
+  "item.the_long_travail.holy_fool": "圣愚",
+  "tooltip.the_long_travail.flavor.holy_fool": "因为全知，所以盲目。因为盲目，所以痴愚。",
+  "tooltip.the_long_travail.holy_fool.details": "佩戴「圣愚」后，按[%3$s]发动呢喃，获得「我于万物之中」效果，持续%1$s秒。\n技能冷却时间为%2$s秒，从获得效果时开始计算。",
+  "message.the_long_travail.holy_fool.cooldown": "盲目痴愈的呓语尚未消散……%s",
+  "message.the_long_travail.holy_fool.success": "我于万物之中……",
+  "tooltip.the_long_travail.summary.theme_items.holy_fool": "主动技能·呢喃：\n- 按[%1$s]呢喃，获得%2$s秒「我于万物之中」效果"
 }

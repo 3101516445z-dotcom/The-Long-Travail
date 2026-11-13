@@ -269,6 +269,7 @@ public final class TravailConfig {
                 builders.get("aspects/deep_valley.toml"));
         FlourishingItemsConfig.define(builders.get("aspects/flourishing.toml"));
         FarReachItemsConfig.define(builders.get("aspects/far_reach.toml"));
+        ThemeItemConfig.define(builders);
         ModeEffectRules.define(builders);
         Map<String, ForgeConfigSpec> specs = new java.util.LinkedHashMap<>();
         builders.forEach(

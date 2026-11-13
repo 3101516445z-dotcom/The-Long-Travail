@@ -2,7 +2,7 @@ The Long Travail Configuration Guide
 Generated and updated automatically at startup. Do not store personal notes here.
 Edit the TOML files in this directory. Legacy root-level files are not loaded.
 
-Theme item registration: item-registration.toml contains 30 switches grouped by theme. true registers an item; false disables registration. All default to true.
+Theme item registration: item-registration.toml contains 36 switches grouped by theme. true registers an item; false disables registration. All default to true.
 These switches require a full game/server restart; /reload cannot apply them. Clients and servers must use matching values.
 Disabling registration may remove items from existing saves. Back up your world first. Dependent built-in recipes, trades and displays are disabled; external scripts and data packs may need adjustments.
 Missing switches default to true. Syntax, boolean-type or read errors stop startup until repaired, rather than using ordinary numeric-config recovery.
@@ -530,3 +530,16 @@ Icarus and Midnight Lafite: aspects/far_reach.toml, aspects/abyss.toml
 ------------------------------------------------
 In general.toml, effects.amongAllThings.immuneToKill defaults to true. Enable it to block all standard kill damage; disable it to allow that damage while retaining other damage and health-loss protection.
 The three combat effects have fixed strength regardless of their amplifier.
+
+[M08] Six themed item parameters
+------------------------------------------------
+Parameters are stored under items.<item_id> in each aspect file. Both foods expose nutrition, saturation points, effect durations and levels; fixed-strength effects expose duration only. Sea in a Bottle exposes healing and magic-class damage bonuses and extra slots. Horizon Theory exposes the maximum-health loss cap and independent invulnerability duration. Last Affairs exposes hold and Revival durations. Holy Fool exposes skill duration and cooldown. Durations use seconds; bonuses and ratios use decimal fractions.
+Frog harvesting yields one item, deals one point of input damage and consumes one base point of shears durability. Recipes use data packs; Holy Fool loot probabilities use general.toml / loot.tables. Old default tables are upgraded; custom tables retain their settings.
+
+[M09] Phosphophyllite healing trigger
+------------------------------------------------
+items.phosphophyllite in aspects/deep_valley.toml independently controls Phosphophyllite healing:
+- healTrigger defaults to ATTACK_ATTEMPT (on being hit); HEALTH_LOSS triggers when damage reduces health.
+- healCooldownTicks defaults to 0, in ticks (20 ticks = 1 second); 0 means no cooldown.
+- healExcludedDamageTypes defaults to []; enter full damage type IDs to exclude from healing triggers.
+The diary retains its own received-hit settings. Item and catalog descriptions follow each item's respective server trigger mode.

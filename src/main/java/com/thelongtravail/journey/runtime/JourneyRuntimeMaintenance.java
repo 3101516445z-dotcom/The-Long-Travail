@@ -1,23 +1,18 @@
 package com.thelongtravail.journey.runtime;
 
+import com.thelongtravail.TravailAspect;
+import com.thelongtravail.exploration.WayguideSearch;
+import com.thelongtravail.journey.JourneyQueries;
+import com.thelongtravail.journey.JourneyService;
+import com.thelongtravail.network.TravailNetwork;
 import com.thelongtravail.runtime.attributes.AltitudePenalty;
-
 import com.thelongtravail.runtime.effects.AutomaticEffectBudget;
 import com.thelongtravail.runtime.effects.CleanseRotation;
 import com.thelongtravail.runtime.effects.EffectChanges;
 import com.thelongtravail.runtime.effects.StiffState;
 import com.thelongtravail.runtime.effects.VisualDeprivation;
-
-import com.thelongtravail.journey.JourneyService;
-import com.thelongtravail.journey.JourneyQueries;
-
 import com.thelongtravail.runtime.player.TravailPlayerMaintenance;
 
-import com.thelongtravail.exploration.WayguideSearch;
-
-import com.thelongtravail.TravailAspect;
-
-import com.thelongtravail.network.TravailNetwork;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
@@ -59,6 +54,7 @@ public final class JourneyRuntimeMaintenance {
         com.thelongtravail.valley.execution.AzraelState.forget(player);
         AltitudePenalty.forget(player);
         com.thelongtravail.combat.ReceivedMalice.forget(player);
+        com.thelongtravail.valley.Phosphophyllite.forget(player);
         AutomaticEffectBudget.forget(player);
         JourneyQueries.forget(player);
         CleanseRotation.forget(player);

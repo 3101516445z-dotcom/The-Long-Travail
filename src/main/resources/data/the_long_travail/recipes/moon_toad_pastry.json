@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GEA",
+    "WSW",
+    "AEG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glow_berries"
+    },
+    "E": {
+      "item": "minecraft:egg"
+    },
+    "A": {
+      "item": "minecraft:magma_cream"
+    },
+    "W": {
+      "item": "minecraft:wheat"
+    },
+    "S": {
+      "item": "minecraft:slime_ball"
+    }
+  },
+  "result": {
+    "item": "the_long_travail:moon_toad_pastry",
+    "count": 1
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "the_long_travail:moon_toad_pastry"
+    }
+  ]
+}

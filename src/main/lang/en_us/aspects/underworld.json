@@ -59,5 +59,8 @@
   "tooltip.the_long_travail.kagotsurube.malice": "The wearer’s Insight increases by %s and Overlord by %s.",
   "tooltip.the_long_travail.kagotsurube.witness_heading": "If The Long Travail is equipped and Underworld has borne Witness:",
   "tooltip.the_long_travail.kagotsurube.witness": "Converts all damage attributed to the wearer into direct strike damage.",
-  "tooltip.the_long_travail.summary.book_of_the_dead.2": "§dWhile wearing Travail and Underworld remains malicious:§r\n- Dying under §aspecific conditions§r directly grants the §6Witness of the Underworld§r"
+  "tooltip.the_long_travail.summary.book_of_the_dead.2": "§dWhile wearing Travail and Underworld remains malicious:§r\n- Dying under §aspecific conditions§r directly grants the §6Witness of the Underworld§r",
+  "item.the_long_travail.living_flesh": "Living Flesh",
+  "tooltip.the_long_travail.flavor.living_flesh": "The tendrils of chaos creep through every limb and bone…",
+  "tooltip.the_long_travail.living_flesh.details": "Eating Living Flesh restores %s nutrition and %s saturation and grants the following effects:"
 }

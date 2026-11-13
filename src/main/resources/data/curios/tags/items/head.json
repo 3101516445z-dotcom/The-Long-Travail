@@ -8,6 +8,10 @@
     {
       "id": "the_long_travail:azrael",
       "required": false
+    },
+    {
+      "id": "the_long_travail:holy_fool",
+      "required": false
     }
   ]
 }

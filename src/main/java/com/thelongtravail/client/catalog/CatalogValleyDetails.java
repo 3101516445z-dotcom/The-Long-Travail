@@ -1,8 +1,8 @@
 package com.thelongtravail.client.catalog;
 
 import com.thelongtravail.config.*;
-import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.config.SwordLanternConfig;
+import com.thelongtravail.network.TooltipConfigSync;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -131,7 +131,14 @@ public final class CatalogValleyDetails {
                 bullets(
                         out,
                         line("phos.stats", stat("witnessAttributes"), stat("witnessDamage")),
-                        line("phos.heal", stat("healChance"), stat("healFraction")));
+                        line(
+                                "phos.heal"
+                                        + (com.thelongtravail.config.DeepValleyItemsConfig
+                                                        .healingRequiresHealthLossDisplay()
+                                                ? ".health_loss"
+                                                : ""),
+                                stat("healChance"),
+                                stat("healFraction")));
                 out.add(line("phos.end"));
             }
             case "underground_velvet" -> {

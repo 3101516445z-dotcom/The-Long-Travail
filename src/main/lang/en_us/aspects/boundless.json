@@ -76,5 +76,11 @@
   "tooltip.the_long_travail.summary.ancient_strange_tales.1": "Transferring matching enchantments can §6raise their level§r; some cases require extra materials\nAdding extra crafting ingredients also lets you §6filter enchantments§r:\n- Add a §aHoney Bottle§r so crafting transfers only §6non-curse enchantments§r\n- Add a §aFermented Spider Eye§r so crafting transfers only §6curses§r",
   "tooltip.the_long_travail.flavor.ancient_strange_tales": "The beginnings of collected lore, the herald of a garden of wonders.",
   "message.the_long_travail.transfer.enchantment_failed": "Enchantment \"%s\" failed its transfer check; the operation was cancelled, materials were not consumed",
-  "message.the_long_travail.transfer.failed": "The enchantment transfer failed; the operation was cancelled, materials were not consumed"
+  "message.the_long_travail.transfer.failed": "The enchantment transfer failed; the operation was cancelled, materials were not consumed",
+  "item.the_long_travail.holy_fool": "Holy Fool",
+  "tooltip.the_long_travail.flavor.holy_fool": "All-knowing, therefore blind. Blind, therefore foolish.",
+  "tooltip.the_long_travail.holy_fool.details": "After equipping Holy Fool, press [%3$s] to Whisper and gain Among All Things for %1$s seconds.\nThe skill cooldown is %2$s seconds, starting when the effect is granted.",
+  "message.the_long_travail.holy_fool.cooldown": "The blind, foolish murmurs have yet to fade… %s",
+  "message.the_long_travail.holy_fool.success": "I am among all things…",
+  "tooltip.the_long_travail.summary.theme_items.holy_fool": "Active Skill · Whisper:\n- Press [%1$s] to Whisper, gaining Among All Things for %2$s seconds"
 }

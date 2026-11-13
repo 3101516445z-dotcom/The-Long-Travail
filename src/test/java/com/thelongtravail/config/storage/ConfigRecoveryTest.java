@@ -132,6 +132,36 @@ public final class ConfigRecoveryTest {
         try (var dirs = Files.list(root.resolve("invalid"))) {
             expect(dirs.count() == before + 1, "multiple issues one archive");
         }
+        var loot =
+                parse(
+                        """
+                [loot.tables."minecraft:chests/desert_pyramid"]
+                chance = 0.15
+                items = ["the_long_travail:book_of_the_dead|1|1|1", "the_long_travail:icarus|1|1|1"]
+                [loot.tables."minecraft:chests/jungle_temple"]
+                chance = 0.42
+                items = ["the_long_travail:affection|1|1|1"]
+                """);
+        expect(ConfigUpgrade.sixThemeItems(file, loot), "six item upgrade applied");
+        com.electronwill.nightconfig.core.Config tables = loot.get("loot.tables");
+        com.electronwill.nightconfig.core.Config desert =
+                tables.get(List.of("minecraft:chests/desert_pyramid"));
+        com.electronwill.nightconfig.core.Config jungle =
+                tables.get(List.of("minecraft:chests/jungle_temple"));
+        expect(((Number) desert.get("chance")).doubleValue() == .2, "default loot total upgraded");
+        expect(
+                desert.get("items")
+                        .equals(
+                                List.of(
+                                        "the_long_travail:book_of_the_dead|3|1|1",
+                                        "the_long_travail:icarus|3|1|1",
+                                        "the_long_travail:holy_fool|2|1|1")),
+                "old per-item probabilities preserved");
+        expect(
+                ((Number) jungle.get("chance")).doubleValue() == .42
+                        && jungle.get("items").equals(List.of("the_long_travail:affection|1|1|1")),
+                "custom loot unchanged");
+        expect(!ConfigUpgrade.sixThemeItems(file, loot), "upgrade idempotent");
         System.out.println("CONFIG_RECOVERY_PASS checks=" + checks + " directory=" + root);
     }
 }

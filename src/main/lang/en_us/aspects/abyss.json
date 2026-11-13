@@ -118,5 +118,9 @@
   "tooltip.the_long_travail.summary.eki.requires_diary_effect": "§4Only grants its effects to those bearing The Long Travail§r",
   "tooltip.the_long_travail.abyss_items.summary.heading": "§6While worn§r:",
   "tooltip.the_long_travail.summary.liquefied_abundance.state": "§6Current conversion type§r: §a%s§r",
-  "tooltip.the_long_travail.summary.abyss.open": "Hold [%s] to view Shiyi details"
+  "tooltip.the_long_travail.summary.abyss.open": "Hold [%s] to view Shiyi details",
+  "item.the_long_travail.sea_in_a_bottle": "Sea in a Bottle",
+  "tooltip.the_long_travail.flavor.sea_in_a_bottle": "Drunk, I forget the sky lies in the water; a boatful of clear dreams weighs upon the river of stars.",
+  "tooltip.the_long_travail.sea_in_a_bottle.details": "Equipping Sea in a Bottle grants +%1$s general-purpose Curios slots.\n\n§dWith The Long Travail equipped and Abyss Malice active:§r\n- Healing received increases by %2$s%%;\n- Newly acquired harmful effects are reapplied to their source;\n- When an existing harmful effect is upgraded, it is reapplied to its source.\n\n§dWith The Long Travail equipped and Abyss witnessed:§r\n- Magic-class damage dealt increases by %3$s%%.",
+  "tooltip.the_long_travail.summary.theme_items.sea_in_a_bottle": "While equipped:\n- +%s general-purpose Curios slots\n§dWith The Long Travail equipped and Abyss Malice active:§r\n- Increases healing received\n- Reapplies acquired harmful effects to their source\n§dWith The Long Travail equipped and Abyss witnessed:§r\n- Increases magic-class damage"
 }

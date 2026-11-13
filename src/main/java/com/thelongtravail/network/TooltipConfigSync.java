@@ -1,8 +1,8 @@
 package com.thelongtravail.network;
 
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.config.TravailConfig;
 import com.thelongtravail.common.weighted.WeightedEntry;
+import com.thelongtravail.config.TravailConfig;
 
 import net.minecraft.resources.ResourceLocation;
 
@@ -76,8 +76,31 @@ public final class TooltipConfigSync {
         return com.thelongtravail.journey.RequirementNames.resolve(structures, id, configuredName);
     }
 
+    public static boolean receivedMaliceRequiresHealthLoss() {
+        return decimal(
+                        "receivedMalice.requiresHealthLoss",
+                        TravailConfig.RECEIVED_TRIGGER.get()
+                                        == TravailConfig.ReceivedTrigger.HEALTH_LOSS
+                                ? 1
+                                : 0)
+                != 0;
+    }
+
     static Map<String, Double> serverValues() {
         Map<String, Double> values = new LinkedHashMap<>();
+        values.put(
+                "receivedMalice.requiresHealthLoss",
+                TravailConfig.RECEIVED_TRIGGER.get() == TravailConfig.ReceivedTrigger.HEALTH_LOSS
+                        ? 1.0
+                        : 0.0);
+        values.put(
+                "deepValleyItem.phosphophyllite.healRequiresHealthLoss",
+                com.thelongtravail.config.DeepValleyItemsConfig.PHOSPHOPHYLLITE_HEAL_TRIGGER.get()
+                                == TravailConfig.ReceivedTrigger.HEALTH_LOSS
+                        ? 1.0
+                        : 0.0);
+        com.thelongtravail.config.ThemeItemConfig.VALUES.forEach(
+                (k, v) -> values.put("themeItem." + k, v.get().doubleValue()));
         com.thelongtravail.config.SunBladeConfig.VALUES.forEach(
                 (k, v) -> values.put("sunBlade." + k, v.get()));
         values.put(

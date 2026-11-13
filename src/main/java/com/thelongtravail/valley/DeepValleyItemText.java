@@ -32,7 +32,11 @@ public final class DeepValleyItemText {
             out.add(title("witness"));
             out.add(
                     Component.translatable(
-                            prefix + "witness",
+                            prefix
+                                    + "witness"
+                                    + (DeepValleyItemsConfig.healingRequiresHealthLossDisplay()
+                                            ? ".health_loss"
+                                            : ""),
                             percent(id + ".witnessAttributes"),
                             percent(id + ".witnessDamage"),
                             percent(id + ".healChance"),

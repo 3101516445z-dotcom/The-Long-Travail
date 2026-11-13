@@ -124,5 +124,10 @@
   "tooltip.the_long_travail.immortal_bud.details.5": "“Evergreen” does not protect against consumption through crafting, placement, or use. Protected items that fall into the void cannot be recovered.",
   "tooltip.the_long_travail.immortal_bud.blacklist": "These items cannot receive new applications; existing marks are unaffected: %s.",
   "tooltip.the_long_travail.summary.flourishing.open": "Hold [%s] to view Shiyi details",
-  "tooltip.the_long_travail.summary.spring_corner.open": "Hold [%s] to view flower effect details"
+  "tooltip.the_long_travail.summary.spring_corner.open": "Hold [%s] to view flower effect details",
+  "item.the_long_travail.moon_toad_pastry": "Moon Toad Pastry",
+  "tooltip.the_long_travail.flavor.moon_toad_pastry": "From the moon, the old toad sheds its skin; a handful of autumn light bears a cool fragrance.",
+  "tooltip.the_long_travail.moon_toad_pastry.details": "Eating Moon Toad Pastry restores %s nutrition and %s saturation and grants the following effects:",
+  "tooltip.the_long_travail.summary.moon_toad_pastry.obtain": "Obtain by §aright-clicking§r a frog with shears.",
+  "tooltip.the_long_travail.moon_toad_pastry.harvest": "Right-click a frog with shears to obtain 1 Moon Toad Pastry, consuming 1 durability and dealing 1 damage to the frog."
 }

@@ -11,7 +11,7 @@
   "attribute.name.the_long_travail.insight": "见切",
   "attribute.name.the_long_travail.critical_chance": "必杀",
   "attribute.name.the_long_travail.overlord": "霸主",
-  "attribute.name.the_long_travail.insight.desc": "受到有来源伤害时，减少等同于见切值的伤害，并以见切值反击伤害来源。",
+  "attribute.name.the_long_travail.insight.desc": "结算他者伤害时，减少等同于见切值的伤害，并以见切值反击伤害来源。",
   "attribute.name.the_long_travail.critical_chance.desc": "造成伤害后，有对应概率使本次伤害翻倍。",
   "attribute.name.the_long_travail.overlord.desc": "免疫不超过最大生命值乘以霸主值的伤害。",
   "command.the_long_travail.execute.result": "处决结果：死亡 %s，强制终结 %s，未完成 %s，跳过 %s，异常 %s。",
@@ -47,5 +47,8 @@
   "tooltip.the_long_travail.summary.requires_diary_state": "§4当前未佩戴苦旅，依赖苦旅状态的效果尚不能生效。§r",
   "effect.the_long_travail.mara_transformation": "波旬变生",
   "effect.the_long_travail.among_all_things": "我于万物之中",
-  "effect.the_long_travail.revival": "还魂"
+  "effect.the_long_travail.revival": "还魂",
+  "tooltip.the_long_travail.theme_food.effect": "- %s%s，持续%s秒；",
+  "tooltip.the_long_travail.theme_food.effect.last": "- %s%s，持续%s秒。",
+  "tooltip.the_long_travail.theme_food.always_edible": "饱食度已满时仍可食用。"
 }
