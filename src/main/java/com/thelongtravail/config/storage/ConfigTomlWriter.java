@@ -19,14 +19,30 @@ final class ConfigTomlWriter {
     private static final Gson JSON = new GsonBuilder().disableHtmlEscaping().create();
     private static final String PRESETS =
             """
-            ── 联动预设处理记录（高级） / Preset processing records (advanced) ──
-            预设是内置的联动配置条目，满足条件时只补入池中缺少的内容；普通玩家通常无需修改这里。
-            Presets are built-in compatibility entries that add missing pool content when eligible. Most players can leave these records alone.
-            true：停止补入（已处理或手动跳过）；false：等待处理。不是功能启用开关。
-            true: stop additions (processed or manually skipped); false: pending. These are not feature switches.
-            上一级“配置说明.txt”：预设介绍 [P00]；重试与跳过 [P01]；配置键读法 [C02]。
-            See ../Configuration Guide.txt: preset basics [P00], retry/skip [P01], dotted keys [C02].
-            """;
+预设注入区
+Preset injection
+用于补入模组联动的预设配置。
+Adds preset configuration for mod compatibility.
+true：停止补入；false：等待补入。
+true: stop additions; false: pending.
+""";
+    private static final String PREVIOUS_PRESETS =
+            """
+预设处理记录（高级）
+Preset processing records (advanced)
+true：停止补入；false：等待补入。此处记录预设处理状态，不控制物品效果。
+true: stop additions; false: pending. These records do not enable or disable item effects.
+""";
+    private static final String LEGACY_PRESETS =
+            """
+── 联动预设处理记录（高级） / Preset processing records (advanced) ──
+预设是内置的联动配置条目，满足条件时只补入池中缺少的内容；普通玩家通常无需修改这里。
+Presets are built-in compatibility entries that add missing pool content when eligible. Most players can leave these records alone.
+true：停止补入（已处理或手动跳过）；false：等待处理。不是功能启用开关。
+true: stop additions (processed or manually skipped); false: pending. These are not feature switches.
+上一级“配置说明.txt”：预设介绍 [P00]；重试与跳过 [P01]；配置键读法 [C02]。
+See ../Configuration Guide.txt: preset basics [P00], retry/skip [P01], dotted keys [C02].
+""";
     private static final List<String> GROUPS =
             List.of(
                     "群系预设 / Biome presets|P02",
@@ -51,26 +67,9 @@ final class ConfigTomlWriter {
         writer.presets.sort(Comparator.comparingInt(t -> firstGroup(t.values())));
         boolean first = true;
         for (Table table : writer.presets) {
-            writer.comments((first ? PRESETS : "") + clean(table.comment()), "");
-            writer.output.append('[').append(key(table.path())).append("]\n");
-            if (hasTableComments(table.values())) {
-                writer.fields(table.values(), table.path(), false);
-            } else {
-                List<Field> fields = new ArrayList<>();
-                flatten(table.values(), List.of(), fields);
-                fields.sort(Comparator.comparingInt(f -> group(f.path().get(f.path().size() - 1))));
-                int previous = -1;
-                for (Field field : fields) {
-                    int category = group(field.path().get(field.path().size() - 1));
-                    if (category != previous && category < GROUPS.size()) {
-                        writer.output.append('\n');
-                        writer.comments(groupComment(category), "    ");
-                    }
-                    writer.field(field, false);
-                    previous = category;
-                }
-            }
-            writer.output.append('\n');
+            if (first) writer.comments(PRESETS, "");
+            if (table.path().equals(List.of("presets"))) writer.table(table, false, false);
+            else writer.presetTable(table);
             first = false;
         }
         return writer.output.toString();
@@ -79,8 +78,15 @@ final class ConfigTomlWriter {
     private void table(Table table, boolean array, boolean defer) {
         if (defer
                 && !table.path().isEmpty()
-                && table.path().get(table.path().size() - 1).equals("compatInitialization")) {
+                && (table.path().equals(List.of("presets"))
+                        || table.path()
+                                .get(table.path().size() - 1)
+                                .equals("compatInitialization"))) {
             presets.add(table);
+            return;
+        }
+        if (!array && table.path().size() == 2 && table.path().get(0).equals("presets")) {
+            presetTable(table);
             return;
         }
         comments(clean(table.comment()), "");
@@ -90,6 +96,29 @@ final class ConfigTomlWriter {
                     .append(array ? "]]\n" : "]\n");
         }
         fields(table.values(), table.path(), defer);
+    }
+
+    private void presetTable(Table table) {
+        comments(clean(table.comment()), "");
+        output.append('[').append(key(table.path())).append("]\n");
+        if (hasTableComments(table.values())) {
+            fields(table.values(), table.path(), false);
+        } else {
+            List<Field> fields = new ArrayList<>();
+            flatten(table.values(), List.of(), fields);
+            fields.sort(Comparator.comparingInt(f -> group(f.path().get(f.path().size() - 1))));
+            int previous = -1;
+            for (Field field : fields) {
+                int category = group(field.path().get(field.path().size() - 1));
+                if (category != previous && category < GROUPS.size()) {
+                    output.append('\n');
+                    comments(groupComment(category), "    ");
+                }
+                field(field, false);
+                previous = category;
+            }
+        }
+        output.append('\n');
     }
 
     private void fields(UnmodifiableConfig config, List<String> path, boolean defer) {
@@ -220,6 +249,10 @@ final class ConfigTomlWriter {
     }
 
     private static String groupComment(int category) {
+        return GROUPS.get(category).split("\\|")[0].replace(" / ", "\n") + "\n";
+    }
+
+    private static String legacyGroupComment(int category) {
         String[] parts = GROUPS.get(category).split("\\|");
         return "── "
                 + parts[0]
@@ -237,12 +270,14 @@ final class ConfigTomlWriter {
 
     private static String clean(String comment) {
         if (comment == null) return "";
-        if (comment.equals(PRESETS.stripTrailing())) return "";
-        String result = comment.replace(PRESETS, "");
+        String result =
+                (comment + "\n")
+                        .replace(PRESETS, "")
+                        .replace(PREVIOUS_PRESETS, "")
+                        .replace(LEGACY_PRESETS, "");
         for (int i = 0; i < GROUPS.size(); i++) {
-            if (result.equals(groupComment(i).stripTrailing())) return "";
-            result = result.replace(groupComment(i), "");
+            result = result.replace(groupComment(i), "").replace(legacyGroupComment(i), "");
         }
-        return result;
+        return result.endsWith("\n") ? result.substring(0, result.length() - 1) : result;
     }
 }

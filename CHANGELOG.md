@@ -4,6 +4,7 @@
 
 | 接入位置 | 当前要求 |
 | --- | --- |
+| 联动预设记录 | 主题文件使用独立的 `presets` 一级分组。旧 `compatInitialization` 记录自动迁入，新旧位置同时有值时采用新位置；脚本读写路径须同步更新，见[预设路径](docs/开发者查阅/runtime-integration.md#联动预设写入)。 |
 | 网络与物品注册 | 协议为 25-items- 加物品注册签名，两端精确匹配。读取可选 RegistryObject 前检查 isPresent()，注册配置修改后重启两端。 |
 | 效果植入 | 显式强制植入使用 EffectInsertion.addOrGet，完成业务更新后调用 synchronize；叠层及专用客户端同步由调用方负责，见运行时接入文档。 |
 | 旅程写入 | 使用 TravailJourneyApi；延迟授予见证携带发起时的 AspectJourneyKey。主题重置会改变轮次，旧身份不能写入新轮次。 |

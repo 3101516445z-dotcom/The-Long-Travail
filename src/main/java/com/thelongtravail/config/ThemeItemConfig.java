@@ -24,21 +24,24 @@ public final class ThemeItemConfig {
                 .25,
                 0,
                 100,
-                "受治疗量增幅（0.25 = 25%） / Received healing bonus (0.25 = 25%)");
+                "受到的治疗量提高的比例；0.25 表示提高 25%。\n"
+                        + "Fractional increase in healing received; 0.25 means 25%.");
         number(
                 b,
                 "sea_in_a_bottle.magicBonus",
                 .3,
                 0,
                 100,
-                "魔法类伤害增幅（0.3 = 30%） / Magic-class damage bonus (0.3 = 30%)");
+                "造成的魔法类伤害提高的比例；0.3 表示提高 30%。\n"
+                        + "Fractional increase in magic-class damage dealt; 0.3 means 30%.");
         integer(
                 b,
                 "sea_in_a_bottle.extraSlots",
                 1,
                 0,
                 64,
-                "额外饰品栏位数量（整数） / Extra curio slots (integer)");
+                "额外增加的通用饰品栏位数量；填写整数，0 表示不增加。\n"
+                        + "Additional generic curio slots; use an integer, with 0 adding none.");
         b = builders.get("aspects/far_reach.toml");
         number(
                 b,
@@ -46,23 +49,33 @@ public final class ThemeItemConfig {
                 .4,
                 0,
                 1,
-                "单次最终扣血上限，占最大生命比例 / Final health loss cap as a fraction of maximum health");
+                "穷遐恶意状态下，单次伤害最多扣除的生命值占最大生命值的比例；0.4 表示最多扣除 40%。\n"
+                        + "With Far Reach Malice, caps health lost per hit as a fraction of maximum"
+                        + " health; 0.4 means 40%.");
         number(
                 b,
                 "horizon_theory.invulnerabilitySeconds",
                 1.5,
                 0,
                 3600,
-                "独立无敌帧时长，秒 / Independent invulnerability duration in seconds");
+                "穷遐见证状态下，受伤后获得的独立无敌时间，单位：秒；0 表示不提供这段保护。\n"
+                        + "Independent invulnerability after damage with Far Reach Witness, in seconds;"
+                        + " 0 disables this protection.");
         b = builders.get("aspects/deep_valley.toml");
-        number(b, "last_affairs.holdSeconds", 1, .05, 3600, "长按使用时间，秒 / Hold duration in seconds");
+        number(
+                b,
+                "last_affairs.holdSeconds",
+                1,
+                .05,
+                3600,
+                "持续按住使用键多久后发动，单位：秒。\nTime to hold the use key before activation, in seconds.");
         number(
                 b,
                 "last_affairs.revivalSeconds",
                 7.5,
                 0,
                 1000000,
-                "还魂持续时间，秒 / Revival duration in seconds");
+                "还魂状态的持续时间，单位：秒。\nDuration of the revival state, in seconds.");
         b = builders.get("aspects/underworld.toml");
         food(b, "living_flesh", 6, 8);
         effect(b, "living_flesh", "physical", 15, 2);
@@ -74,7 +87,9 @@ public final class ThemeItemConfig {
                 15,
                 0,
                 1000000,
-                "波旬变生持续时间，秒 / Mara Transformation duration in seconds");
+                "食用后获得的波旬变生效果持续时间，单位：秒；0 表示不获得该效果。\n"
+                        + "Duration of Mara Transformation after eating, in seconds; 0 grants no"
+                        + " effect.");
         b = builders.get("aspects/boundless.toml");
         number(
                 b,
@@ -82,14 +97,17 @@ public final class ThemeItemConfig {
                 15,
                 0,
                 1000000,
-                "我于万物之中持续时间，秒 / Among All Things duration in seconds");
+                "发动技能后，我于万物之中效果的持续时间，单位：秒；0 表示不获得该效果。\n"
+                        + "Duration of Among All Things after activation, in seconds; 0 grants no"
+                        + " effect.");
         number(
                 b,
                 "holy_fool.cooldownSeconds",
                 90,
                 0,
                 1000000,
-                "技能冷却时间，秒 / Skill cooldown in seconds");
+                "从技能成功发动时开始计算的冷却时间，单位：秒；0 表示无冷却。\n"
+                        + "Cooldown from successful activation, in seconds; 0 means no cooldown.");
     }
 
     private static void food(ForgeConfigSpec.Builder b, String id, int nutrition, int saturation) {
@@ -99,26 +117,51 @@ public final class ThemeItemConfig {
                 nutrition,
                 0,
                 1000,
-                "恢复饱食度（整数） / Nutrition restored (integer)");
-        number(b, id + ".saturation", saturation, 0, 1000, "恢复饱和度点数 / Saturation points restored");
+                "每次食用恢复的饱食度；填写整数，2 点相当于饥饿条上的 1 个鸡腿图标。\n"
+                        + "Nutrition restored per use; use an integer, with 2 points equal to one"
+                        + " hunger icon.");
+        number(
+                b,
+                id + ".saturation",
+                saturation,
+                0,
+                1000,
+                "每次食用恢复的饱和度点数，不是恢复倍率。饱食度恢复量设为 0 时，此项也不恢复饱和度。\n"
+                        + "Saturation points restored per use, not a multiplier. No saturation is restored when nutrition is 0.");
     }
 
     private static void effect(
             ForgeConfigSpec.Builder b, String id, String effect, double seconds, int level) {
+        String name =
+                switch (effect) {
+                    case "magic" -> "魔法肃正";
+                    case "physical" -> "物理肃正";
+                    case "resistance" -> "抗性提升";
+                    case "saturation" -> "饱和";
+                    case "luck" -> "幸运";
+                    case "wither" -> "凋零";
+                    case "speed" -> "速度";
+                    default -> throw new IllegalArgumentException(effect);
+                };
         number(
                 b,
                 id + "." + effect + "Seconds",
                 seconds,
                 0,
                 1000000,
-                "效果持续时间，秒 / Effect duration in seconds");
+                name
+                        + "效果的持续时间，单位：秒；0 表示不获得该效果。\n"
+                        + "Duration of this effect in seconds; 0 grants no effect.");
         integer(
                 b,
                 id + "." + effect + "Level",
                 level,
                 1,
                 256,
-                "效果等级（整数，1为Ⅰ） / Effect level (integer, 1 means I)");
+                name
+                        + "效果的等级；填写整数，1 表示Ⅰ级，2 表示Ⅱ级。\n"
+                        + "Level of this effect; use an integer, with 1 meaning I and 2 meaning"
+                        + " II.");
     }
 
     private static void number(

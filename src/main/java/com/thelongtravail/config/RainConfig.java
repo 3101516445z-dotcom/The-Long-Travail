@@ -157,19 +157,15 @@ public final class RainConfig {
                         b,
                         "items.eki.carrying.externalInventoryTick",
                         true,
-                        "启用外部容器的模拟物品栏更新检测，须容器支持并启用。\n"
-                                + "Enable simulated inventory updates from external containers;"
-                                + " requires container support and activation.\n"
-                                + "检测记录最多保留 2 游戏刻，不写入存档。\n"
-                                + "Detection records last at most 2 game ticks and are not saved.");
+                        "启用外部容器的携带检测，须容器支持物品栏更新。\n"
+                                + "Enable carrying detection in external containers that support"
+                                + " inventory updates.");
 
         SLOTS =
                 b.comment(
-                                "东海道五十三次可生效的Curios槽位。自定义槽位还需通过数据包允许装备此物品；装备多个时效果不叠加。\n"
-                                        + "Curios slots in which Tokaido can take effect. Custom slots"
-                                        + " also require a data pack allowing this item to be equipped"
-                                        + " there. Equipping multiple copies does not stack their"
-                                        + " effects.")
+                                "允许生效的 Curios 槽位 ID。自定义槽位须另行允许此物品装备。\n"
+                                        + "Curios slot IDs where the item takes effect. Custom slots"
+                                        + " must also allow this item to be equipped.")
                         .defineListAllowEmpty(
                                 "items.tokaido.slots",
                                 List.of("feet"),

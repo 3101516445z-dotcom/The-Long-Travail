@@ -82,10 +82,8 @@ public final class UnderworldItemsConfig {
         relic(b, "banner.insightCap", 10, 1000000);
         WITHER_BONUS =
                 b.comment(
-                                "一千年后：每级凋零提供的伤害加成比例；0.30表示提高30%。此加成与本模组其他同类伤害加成相加。\n"
-                                        + "A Thousand Years Later: fractional damage bonus per Wither"
-                                        + " level; 0.30 means +30%. Adds to other damage bonuses of the"
-                                        + " same kind from this mod.")
+                                "每级凋零提供的伤害加成比例；0.3 表示提高 30%。\n"
+                                        + "Fractional damage bonus per Wither level; 0.3 means 30%.")
                         .defineInRange("items.thousandYears.witherBonusPerLevel", .30, 0, 1000000);
         KILL_THRESHOLD =
                 b.comment(

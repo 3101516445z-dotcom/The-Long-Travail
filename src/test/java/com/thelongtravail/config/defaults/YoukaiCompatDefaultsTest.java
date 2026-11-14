@@ -18,10 +18,8 @@ public final class YoukaiCompatDefaultsTest {
 
     public static void main(String[] args) {
         String pool = FishingEntityCompatDefaults.POOL;
-        String feastMarker =
-                "travail.witness.compatInitialization.youkaisfeasts.fishingEntitiesAdded";
-        String homeMarker =
-                "travail.witness.compatInitialization.youkaishomecoming.fishingEntitiesAdded";
+        String feastMarker = "presets.witness.youkaisfeasts.fishingEntitiesAdded";
+        String homeMarker = "presets.witness.youkaishomecoming.fishingEntitiesAdded";
         var config = CommentedConfig.inMemory();
         var manual = List.of("youkaisfeasts:deer|77", "youkaishomecoming:deer|99");
         config.set(pool, manual);
@@ -88,9 +86,7 @@ public final class YoukaiCompatDefaultsTest {
             var effects = CommentedConfig.inMemory();
             var existing = List.of("youkaisfeasts:craby|8|6", "youkaishomecoming:craby|7|9");
             effects.set(EffectCompatDefaults.POOL, existing);
-            effects.set(
-                    "travail.witness.compatInitialization.youkaisfeasts.positiveEffectsAdded",
-                    true);
+            effects.set("presets.witness.youkaisfeasts.positiveEffectsAdded", true);
             expect(
                     EffectCompatDefaults.apply(effects, aspect, home, true, id -> true),
                     "Other version marker cannot block effect preset");

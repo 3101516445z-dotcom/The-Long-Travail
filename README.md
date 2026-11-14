@@ -53,6 +53,8 @@
 
 配置位于 `config/the_long_travail/`，首次启动时自动生成。各主题设置放在 `aspects/` 下，饰品与道具奖励在 `general.toml` 中调整；材料与精粹来源由战利品数据表及注入规则定义，详见 [配置说明](src/main/resources/assets/the_long_travail/config/configuration-guide.zh_cn.txt)。
 
+主题文件按 `travail`（苦旅）、`items`（物品）和 `presets`（预设注入区）分组。模组联动预设集中在文件末尾，旧配置的预设处理状态会自动移入对应分组。
+
 苦旅造成的僵硬和视觉剥夺不能靠负面效果免疫或净化解除，但可以喝牛奶解除。管理员也可使用以下命令清除自身状态：
 
 ```text

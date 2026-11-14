@@ -29,8 +29,97 @@ public final class ConfigRecoveryTest {
         return builder.build();
     }
 
+    private static void presetMigration(Path root) throws Exception {
+        var oldGroups =
+                List.of(
+                        "travail.requirements.compatInitialization",
+                        "travail.witness.compatInitialization",
+                        "items.golden_age.compatInitialization",
+                        "items.perfect_fluid.compatInitialization");
+        var newGroups = List.of("exploration", "witness", "golden_age", "perfect_fluid");
+        var builder = new ForgeConfigSpec.Builder();
+        var original = parse("");
+        for (int i = 0; i < oldGroups.size(); i++) {
+            String ordinary = oldGroups.get(i).replace("compatInitialization", "pool");
+            builder.defineListAllowEmpty(ordinary, List.of(), value -> value instanceof String);
+            original.set(ordinary, List.of("last", "first", "last"));
+            builder.define("presets." + newGroups.get(i) + ".demo.done", false);
+            builder.define("presets." + newGroups.get(i) + ".demo.pending", true);
+            original.set(oldGroups.get(i) + ".demo.done", true);
+            original.set(oldGroups.get(i) + ".demo.pending", false);
+        }
+        var definition = builder.build();
+        Path file = root.resolve("preset-migration/aspects/demo.toml");
+        ConfigFileIO.write(file, original);
+        var migrated = ConfigRecovery.prepare(file.getParent(), file, definition);
+        for (int i = 0; i < oldGroups.size(); i++) {
+            String target = "presets." + newGroups.get(i);
+            expect(
+                    Boolean.TRUE.equals(migrated.get(target + ".demo.done")),
+                    "Processed state survives: " + target);
+            expect(
+                    Boolean.FALSE.equals(migrated.get(target + ".demo.pending")),
+                    "Pending state survives: " + target);
+            expect(!migrated.contains(oldGroups.get(i)), "Old section removed: " + target);
+            expect(
+                    migrated.get(oldGroups.get(i).replace("compatInitialization", "pool"))
+                            .equals(List.of("last", "first", "last")),
+                    "Ordinary list order and duplicates unchanged");
+        }
+        expect(
+                !Files.exists(file.getParent().resolve("invalid")),
+                "Valid migration needs no recovery archive");
+        byte[] once = Files.readAllBytes(file);
+        ConfigRecovery.prepare(file.getParent(), file, definition);
+        expect(
+                Arrays.equals(once, Files.readAllBytes(file)),
+                "Migration is stable on subsequent starts");
+
+        for (int i = 0; i < oldGroups.size(); i++) {
+            String target = "presets." + newGroups.get(i);
+            original.set(target + ".demo.done", false);
+            original.set(target + ".demo.pending", true);
+        }
+        var result = ConfigValidation.validate(original, definition, migrated);
+        expect(
+                !result.rejected() && result.issues().isEmpty(),
+                "Mixed old/new paths accepted on reload");
+        for (String group : newGroups) {
+            expect(
+                    Boolean.FALSE.equals(original.get("presets." + group + ".demo.done")),
+                    "New false wins: " + group);
+            expect(
+                    Boolean.TRUE.equals(original.get("presets." + group + ".demo.pending")),
+                    "New true wins: " + group);
+        }
+
+        var partial = parse("");
+        partial.set(oldGroups.get(0) + ".demo.done", true);
+        partial.set(oldGroups.get(0) + ".demo.pending", false);
+        partial.setComment(oldGroups.get(0) + ".demo.done", "player marker note");
+        partial.set("presets.exploration.demo.pending", true);
+        ConfigPresetMigration.migrate(partial, definition);
+        expect(
+                Boolean.TRUE.equals(partial.get("presets.exploration.demo.done")),
+                "Partial new group inherits missing old markers");
+        expect(
+                Boolean.TRUE.equals(partial.get("presets.exploration.demo.pending")),
+                "Partial new group keeps explicit markers");
+        expect(
+                "player marker note".equals(partial.getComment("presets.exploration.demo.done")),
+                "Migration retains marker comments");
+        partial.set("presets.exploration.demo.done", "invalid");
+        expect(
+                ConfigValidation.validate(partial, definition, migrated).rejected(),
+                "Invalid migrated record still validated");
+        expect(
+                Boolean.TRUE.equals(partial.get("presets.exploration.demo.done")),
+                "Invalid reload record uses previous valid state");
+    }
+
     public static void main(String[] args) throws Exception {
         Path root = Files.createTempDirectory(Path.of(args[0]), "config-recovery-");
+        presetMigration(root);
         ForgeConfigSpec spec = spec();
         for (String text :
                 List.of(

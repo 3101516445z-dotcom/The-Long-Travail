@@ -51,16 +51,9 @@ public final class FishingEntityCompatDefaultsTest {
                 expect(Integer.parseInt(parts[1]) == test.weight(), "Approved weight");
                 expect(ids.add(parts[0]), "No duplicate candidate");
             }
-            String marker =
-                    "travail.witness.compatInitialization."
-                            + test.namespace()
-                            + ".fishingEntitiesAdded";
-            config.set(
-                    "travail.witness.compatInitialization."
-                            + test.namespace()
-                            + ".fishingItemsAdded",
-                    true);
-            config.set("travail.requirements.compatInitialization.testBiomesAdded", true);
+            String marker = "presets.witness." + test.namespace() + ".fishingEntitiesAdded";
+            config.set("presets.witness." + test.namespace() + ".fishingItemsAdded", true);
+            config.set("presets.exploration.testBiomesAdded", true);
             expect(
                     !FishingEntityCompatDefaults.apply(
                             config, test.entries(), marker, false, id -> true),

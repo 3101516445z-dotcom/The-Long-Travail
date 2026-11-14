@@ -7,6 +7,23 @@ These switches require a full game/server restart; /reload cannot apply them. Cl
 Disabling registration may remove items from existing saves. Back up your world first. Dependent built-in recipes, trades and displays are disabled; external scripts and data packs may need adjustments.
 Missing switches default to true. Syntax, boolean-type or read errors stop startup until repaired, rather than using ordinary numeric-config recovery.
 
+Find the setting you need
+- Item effects: open the corresponding theme file and search for the item name with Ctrl+F.
+- Enable or disable an item: use item-registration.toml, then restart.
+- Visuals and skill messages: use client.toml.
+- Wayguide: use utility_items.toml.
+- Shared rules or chest rewards: use general.toml.
+- Skill keys: use Options > Controls > Key Binds in the game, not these files.
+
+Theme files are under aspects/:
+Flourishing: flourishing.toml; Abyss: abyss.toml; Far Reach: far_reach.toml;
+Deep Valley: deep_valley.toml; Underworld: underworld.toml; Boundless: boundless.toml.
+Only existing adjustable parameters are listed. Ancient Strange Tales currently has no separate numeric settings; its registration can be toggled in item-registration.toml.
+
+Normally edit only the value after = and keep the setting name. Defaults apply when settings are first generated; valid customized values are retained.
+Ordinary settings reload after saving. Item registration requires a restart; loot requires /reload or a restart.
+Exploration pools affect new journeys only. Read each setting's comment for effects on active skills and existing cooldowns.
+
 QUICK INDEX
 To find a section, open this guide and use the editor's Find command: hold Ctrl and press F, then type the code from the config comment (for example, P06). This searches the current file without changing it.
 Use Next or press Enter to move through matches; you can also scroll to the heading using the index below.
@@ -39,9 +56,12 @@ Other mechanics and troubleshooting
   M03  Azrael execution and protection
   M04  Wayguide search and cache
   M05  Client display preferences
-  M07  Among All Things and standard kill protection
   T01  Handling configuration errors
   M01  Maid compatibility
+  M06  Theme item eligibility and detection conditions
+  M07  Among All Things and standard kill protection
+  M08  Six themed item parameters
+  M09  Phosphophyllite healing trigger
 
 ====================================================================
 Editing configuration
@@ -59,7 +79,7 @@ Pool and draw-count changes affect new journeys only.
 
 Reading order
 general.toml: starter items, exploration rules, Malice, carrying and limits, compatibility, loot, internal upgrade records.
-Theme files: biome pools, structure pools, Malice, Witness, other theme rules, associated items, then preset processing records grouped by type.
+Theme files: three top-level sections, travail (The Long Travail), items, and presets (preset injection). Compatibility presets are grouped at the end of the file.
 The mod maintains upgrades; do not edit them manually. Compatibility preset initialization markers may be reset as described below.
 
 [C04] Basic syntax and units
@@ -85,7 +105,7 @@ Do not define a key twice in the same table. Quote full resource IDs containing 
 
 [C02] Reading configuration keys
 ------------------------------------------------
-Under [travail.witness.compatInitialization], goety.positiveEffectsAdded = false has the full path travail.witness.compatInitialization.goety.positiveEffectsAdded.
+Under [presets.witness], goety.positiveEffectsAdded = false has the full path presets.witness.goety.positiveEffectsAdded.
 Dotted keys express the original nested tables on one line without changing their meaning. Grouping by type does not merge records for different sources or pools.
 
 [C05] List format reference
@@ -157,6 +177,7 @@ Presets
 
 [P00] What is a preset?
 ------------------------------------------------
+The presets section is alongside travail and items and groups mod compatibility presets.
 A preset is a built-in list of configuration entries prepared by The Long Travail for supported content. When the corresponding source is available and processing is allowed, the mod adds its missing entries to the appropriate pools, saving players from entering each ID manually.
 
 For example, with Terralith available, an eligible theme can receive its predefined biome candidates. Existing entries for the same IDs keep their names and weights. You can edit or remove the appended entries afterward.
@@ -164,7 +185,7 @@ For example, with Terralith available, an eligible theme can receive its predefi
 Three things to distinguish
 - Pool: the actual candidate list used during play, such as biomes or positiveEffects.
 - Preset: the built-in entries that can be appended to that list. It is not an extra configuration file you need to fill in.
-- Processing record: a boolean under compatInitialization that controls whether an automatic addition attempt is still pending. See [P01].
+- Processing record: a boolean under presets that controls whether an automatic addition attempt is still pending. See [P01].
 
 Vanilla default pools are separate: defaults initialize new or missing settings, while compatibility presets supplement supported optional content. Neither replaces an existing complete pool merely because a preset marker was reset.
 
@@ -199,7 +220,7 @@ Sources and counts
 Terralith: Flourishing 16, Abyss 10, Far Reach 19, Deep Valley 9, Underworld 4, Boundless 7. Incendium: Underworld 8. Alex's Caves: Deep Valley 2.
 
 Records and scope
-Under each applicable theme's travail.requirements.compatInitialization, terralithBiomesAdded, incendiumBiomesAdded, and alexsCavesBiomesAdded record independent processing states.
+Under each applicable theme's presets.exploration, terralithBiomesAdded, incendiumBiomesAdded, and alexsCavesBiomesAdded record independent processing states.
 Themes without entries for an integration do not receive its marker.
 Translations come from mods or resource packs; see [E02]. Structure pools, draw counts, and existing journeys are unchanged.
 
@@ -214,7 +235,7 @@ Sources and counts
 Supported candidates: Terralith 18, Goety Awaken 9, Towns and Towers 8, Goety 8, Incendium 6, Iron's Spells and Spellbooks 4, Touhou Little Maid: Spell 4, Ars Nouveau 3, Aquamirae 2, Alex's Caves 1, Mowzie's Mobs 1, and T.O Magic 'n Extras 1; 65 in total.
 
 Records and scope
-Each applicable theme records independent *StructuresAdded markers under travail.requirements.compatInitialization. Biome markers do not block structure initialization; unrelated themes do not receive a marker.
+Each applicable theme records independent *StructuresAdded markers under presets.exploration. Biome markers do not block structure initialization; unrelated themes do not receive a marker.
 Existing names, weights, and order are retained. Mods or resource packs supply translations; missing translations show the ID. Unsupported sources and vanilla structures are not added automatically; manual entries remain.
 Draw counts and existing journeys are unchanged. requirements.structureDrawCount in general.toml still defaults to 0; set a count to enable structure objectives.
 
@@ -237,7 +258,7 @@ L2, Pandora and Apprentice Codex rewards have weight 2; the others have weight 3
 Add only registered IDs missing from that pool, preserving existing weights, quantities and order. ROR is excluded from presets; manual entries remain.
 
 Records and scope
-Under each applicable theme's travail.witness.compatInitialization.<namespace>, fishingItemsAdded and phantomDropsAdded track independent initialization, separate from biome and structure markers.
+Under each applicable theme's presets.witness.<namespace>, fishingItemsAdded and phantomDropsAdded track independent initialization, separate from biome and structure markers.
 Fishing trigger chances, phantom detection and kill rules, delivery limits and the fishing entity pool are unchanged. New candidates change only the relative item probabilities within each reward pool.
 
 [P05] Fishing entity defaults and compatibility presets
@@ -255,7 +276,7 @@ Optional candidates: Youkai's Feasts and Youkai's Homecoming each provide deer, 
 There are 15 candidates from 5 sources. With other sources available, a fresh configuration has 19 entries with either Homecoming or Feasts, or 24 with every candidate in both namespaces. Append only registered entity IDs missing from the pool and preserve manual weights and order. starfantasy_goety:apollyon is not added automatically; existing manual entries remain.
 
 Records and scope
-travail.witness.compatInitialization.<namespace>.fishingEntitiesAdded tracks each source independently of item reward and exploration markers.
+presets.witness.<namespace>.fishingEntitiesAdded tracks each source independently of item reward and exploration markers.
 Set false or remove a marker and reopen the world to retry, or set true beforehand to skip initialization. Worlds sharing a configuration share markers. Integration does not alter fishing trigger chances, entity creation behavior or item reward pools.
 
 [P06] Beneficial-effect compatibility presets
@@ -275,7 +296,7 @@ astral_dimension, esoteric_spell, projectile_damage and gtbcs_geomancy_plus are 
 
 Detection and processing
 On world startup, detect effect registry namespaces and append only registered beneficial effects missing from the pool, preserving existing level caps, weights and order.
-Each theme file independently stores travail.witness.compatInitialization.<namespace>.positiveEffectsAdded.
+Each theme file independently stores presets.witness.<namespace>.positiveEffectsAdded.
 Effect triggers, durations and level handling retain their existing rules. Far Reach's level-bonus cap still uses the higher cap for each ID across both pools.
 
 [P07] Golden Age compatibility blacklists
@@ -294,7 +315,7 @@ Enchantments: L2 Complements' projectile_reject, fire_reject, environment_reject
 
 Detection and processing
 On world startup, check installed mods and append only IDs registered in the corresponding registry and missing from the list, preserving manual entries and order.
-foodBlacklistAdded and enchantmentBlacklistAdded under items.golden_age.compatInitialization.<modId> track the lists independently of Witness rewards and effect pools.
+foodBlacklistAdded and enchantmentBlacklistAdded under presets.golden_age.<modId> track the lists independently of Witness rewards and effect pools.
 Only Golden Age's reward candidates are affected. Other acquisition methods, food filters and enchantment-level rules retain their existing behavior.
 
 [P08] Perfect Fluid compatibility blacklist
@@ -302,7 +323,7 @@ Only Golden Age's reward candidates are affected. Other acquisition methods, foo
 Shared record rules and retry steps: [P01].
 
 Settings
-In aspects/abyss.toml, items.perfect_fluid.itemBlacklist lists item IDs excluded from duplication. Records are under items.perfect_fluid.compatInitialization.
+In aspects/abyss.toml, items.perfect_fluid.itemBlacklist lists item IDs excluded from duplication. Records are under presets.perfect_fluid.
 
 Mods and items
 Touhou Little Maid (touhou_little_maid): maidSoulAdded covers initial and occupied Soul Spells, excluding empty Soul Spells.

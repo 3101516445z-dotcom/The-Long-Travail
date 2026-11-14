@@ -2,6 +2,7 @@ package com.thelongtravail.config;
 
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
 import com.thelongtravail.config.storage.ConfigFileIO;
+import com.thelongtravail.config.storage.ConfigFilesDescription;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -112,18 +113,49 @@ public final class ItemRegistrationConfig {
                 Object section = config.get(group.getKey());
                 if (section != null && !(section instanceof UnmodifiableConfig))
                     throw new IllegalArgumentException("Expected a table: " + group.getKey());
+                String heading =
+                        switch (group.getKey()) {
+                            case "flourishing" -> "繁茂\nFlourishing";
+                            case "abyss" -> "归墟\nAbyss";
+                            case "far_reach" -> "穷遐\nFar Reach";
+                            case "deep_valley" -> "幽谷\nDeep Valley";
+                            case "underworld" -> "冥府\nUnderworld";
+                            case "boundless" -> "无垠\nBoundless";
+                            default -> throw new IllegalArgumentException(group.getKey());
+                        };
+                if (group.getKey().equals("flourishing"))
+                    heading =
+                            "主题物品开关\n"
+                                    + "Theme item registration\n"
+                                    + "修改后需重启游戏或服务器；联机双方的设置必须一致。\n"
+                                    + "Restart the game or server after editing; both sides must"
+                                    + " match.\n"
+                                    + "关闭注册可能使旧存档中的对应物品丢失，请先备份世界。\n"
+                                    + "Disabling registration may remove saved items; back up the world"
+                                    + " first.\n\n"
+                                    + heading;
+                if (!heading.equals(config.getComment(group.getKey()))) {
+                    config.setComment(group.getKey(), heading);
+                    changed = true;
+                }
                 for (String id : group.getValue()) {
                     String key = group.getKey() + "." + id;
                     Object value = config.get(key);
                     if (value == null) {
                         config.set(key, true);
-                        config.setComment(
-                                key,
-                                "true: register / 注册；false: disable / 不注册。Restart required / 重启生效。");
                         changed = true;
                     } else if (!(value instanceof Boolean)) {
                         throw new IllegalArgumentException("Expected true or false: " + key);
                     } else if (Boolean.FALSE.equals(value)) disabled.add(id);
+                    String comment =
+                            ConfigFilesDescription.itemLabel(id)
+                                    + "\n"
+                                    + "true：启用此物品；false：禁用此物品。\n"
+                                    + "true: register this item; false: disable its registration.";
+                    if (!comment.equals(config.getComment(key))) {
+                        config.setComment(key, comment);
+                        changed = true;
+                    }
                 }
             }
             for (var entry : config.entrySet()) {
@@ -135,11 +167,6 @@ public final class ItemRegistrationConfig {
                             warn(entry.getKey() + "." + key.getKey());
             }
             if (changed) {
-                config.setComment(
-                        "flourishing",
-                        "主题物品注册开关 / Theme item registration\n"
-                                + "修改后重启；客户端与服务器必须一致。/ Restart required; both sides must match.\n"
-                                + "关闭注册可能丢失旧存档物品，请先备份世界。/ Disabling may remove saved items; back up your world.");
                 ConfigFileIO.write(file, config);
             }
             return Collections.unmodifiableSet(disabled);

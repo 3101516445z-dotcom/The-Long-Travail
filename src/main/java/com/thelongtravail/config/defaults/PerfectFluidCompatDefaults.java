@@ -53,7 +53,7 @@ public final class PerfectFluidCompatDefaults {
             String mod,
             List<String> items,
             String flag) {
-        String marker = BASE + "compatInitialization." + flag;
+        String marker = "presets.perfect_fluid." + flag;
         return ConfigDefaultEdits.appendOnce(
                 config,
                 BASE + "itemBlacklist",

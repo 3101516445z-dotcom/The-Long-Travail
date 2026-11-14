@@ -90,17 +90,17 @@ public final class CompatPresets {
                 factory.create(
                         "terralith",
                         "Terralith",
-                        "travail.requirements.compatInitialization.terralithBiomesAdded",
+                        "presets.exploration.terralithBiomesAdded",
                         TerralithBiomeDefaults::biomes),
                 factory.create(
                         "incendium",
                         "Incendium",
-                        "travail.requirements.compatInitialization.incendiumBiomesAdded",
+                        "presets.exploration.incendiumBiomesAdded",
                         IncendiumBiomeDefaults::biomes),
                 factory.create(
                         "alexscaves",
                         "Alex's Caves",
-                        "travail.requirements.compatInitialization.alexsCavesBiomesAdded",
+                        "presets.exploration.alexsCavesBiomesAdded",
                         AlexsCavesBiomeDefaults::biomes));
     }
 
@@ -109,72 +109,72 @@ public final class CompatPresets {
                 factory.create(
                         "eeeabsmobs",
                         "EEEAB's Mobs",
-                        "travail.requirements.compatInitialization.eeeabsmobsStructuresAdded",
+                        "presets.exploration.eeeabsmobsStructuresAdded",
                         EEEABMobsStructureDefaults::structures),
                 factory.create(
                         "legendary_monsters",
                         "Legendary Monsters",
-                        "travail.requirements.compatInitialization.legendarymonstersStructuresAdded",
+                        "presets.exploration.legendarymonstersStructuresAdded",
                         LegendaryMonstersStructureDefaults::structures),
                 factory.create(
                         "cataclysm",
                         "Cataclysm",
-                        "travail.requirements.compatInitialization.cataclysmStructuresAdded",
+                        "presets.exploration.cataclysmStructuresAdded",
                         CataclysmStructureDefaults::structures),
                 factory.create(
                         "terralith",
                         "Terralith",
-                        "travail.requirements.compatInitialization.terralithStructuresAdded",
+                        "presets.exploration.terralithStructuresAdded",
                         TerralithStructureDefaults::structures),
                 factory.create(
                         "goetyawaken",
                         "Goety Awaken",
-                        "travail.requirements.compatInitialization.goetyAwakenStructuresAdded",
+                        "presets.exploration.goetyAwakenStructuresAdded",
                         GoetyAwakenStructureDefaults::structures),
                 factory.create(
                         "towns_and_towers",
                         "Towns and Towers",
-                        "travail.requirements.compatInitialization.townsAndTowersStructuresAdded",
+                        "presets.exploration.townsAndTowersStructuresAdded",
                         TownsAndTowersStructureDefaults::structures),
                 factory.create(
                         "goety",
                         "Goety",
-                        "travail.requirements.compatInitialization.goetyStructuresAdded",
+                        "presets.exploration.goetyStructuresAdded",
                         GoetyStructureDefaults::structures),
                 factory.create(
                         "incendium",
                         "Incendium",
-                        "travail.requirements.compatInitialization.incendiumStructuresAdded",
+                        "presets.exploration.incendiumStructuresAdded",
                         IncendiumStructureDefaults::structures),
                 factory.create(
                         "irons_spellbooks",
                         "Iron's Spells and Spellbooks",
-                        "travail.requirements.compatInitialization.ironsSpellbooksStructuresAdded",
+                        "presets.exploration.ironsSpellbooksStructuresAdded",
                         IronsSpellbooksStructureDefaults::structures),
                 factory.create(
                         "touhou_little_maid_spell",
                         "Touhou Little Maid: Spell",
-                        "travail.requirements.compatInitialization.maidSpellStructuresAdded",
+                        "presets.exploration.maidSpellStructuresAdded",
                         MaidSpellStructureDefaults::structures),
                 factory.create(
                         "ars_nouveau",
                         "Ars Nouveau",
-                        "travail.requirements.compatInitialization.arsNouveauStructuresAdded",
+                        "presets.exploration.arsNouveauStructuresAdded",
                         ArsNouveauStructureDefaults::structures),
                 factory.create(
                         "aquamirae",
                         "Aquamirae",
-                        "travail.requirements.compatInitialization.aquamiraeStructuresAdded",
+                        "presets.exploration.aquamiraeStructuresAdded",
                         AquamiraeStructureDefaults::structures),
                 factory.create(
                         "mowziesmobs",
                         "Mowzie's Mobs",
-                        "travail.requirements.compatInitialization.mowziesMobsStructuresAdded",
+                        "presets.exploration.mowziesMobsStructuresAdded",
                         MowziesMobsStructureDefaults::structures),
                 factory.create(
                         "traveloptics",
                         "T.O Magic and Extras",
-                        "travail.requirements.compatInitialization.travelOpticsStructuresAdded",
+                        "presets.exploration.travelOpticsStructuresAdded",
                         TravelOpticsStructureDefaults::structures));
     }
 

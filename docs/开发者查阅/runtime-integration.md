@@ -18,6 +18,17 @@
 
 ## 联动预设写入
 
+主题文件中的 `presets` 与 `travail`、`items` 同级，集中保存联动预设处理记录。普通效果参数及目标列表仍位于各自原来的位置。
+
+| 旧记录前缀 | 当前记录前缀 |
+| --- | --- |
+| `travail.requirements.compatInitialization` | `presets.exploration` |
+| `travail.witness.compatInitialization` | `presets.witness` |
+| `items.golden_age.compatInitialization` | `presets.golden_age` |
+| `items.perfect_fluid.compatInitialization` | `presets.perfect_fluid` |
+
+前缀后的模组分组和字段名保持不变。[ConfigPresetMigration](../../src/main/java/com/thelongtravail/config/storage/ConfigPresetMigration.java) 在配置校验前迁移旧记录，仅处理当前 Spec 定义的预设组。缺少的新记录沿用旧值；新旧位置同时有值时采用新位置，包括显式设置的 `false`。迁移保留已处理状态，不触发已完成预设重新补入。脚本或附属应使用当前路径读写记录。
+
 `update` 在候选读取和写盘前检查磁盘变化，将列表及处理标记一次保存，再更新活动配置与 Spec 缓存。`edit` 返回 true 表示需要保存。该路径不分发 Forge Reloading 事件；启动预设后的运行池刷新由后续服务端启动事件完成。
 
 预设按来源、主题和目标池分别记录初始化。来源缺席时不标记；已处理但没有新增条目时仍标记；已有条目优先。标记随配置跨世界共用。重新补入预设时只处理对应标记，保留其他来源的用户配置。数据入口见[可选联动预设](optional-compat.md#数据预设)。

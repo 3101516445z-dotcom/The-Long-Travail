@@ -36,7 +36,44 @@ public final class FlourishingItemsConfig {
         FlourishingGrowthConfig.define(b);
         for (Flower f : Flower.values()) {
             String p = "items.spring_corner.flowers." + f.id;
-            ENABLED.put(f, b.comment("启用此花朵。\nEnable this flower.").define(p + ".enabled", true));
+            String flowerName =
+                    switch (f) {
+                        case DANDELION -> "蒲公英";
+                        case POPPY -> "虞美人";
+                        case BLUE_ORCHID -> "兰花";
+                        case ALLIUM -> "绒球葱";
+                        case AZURE_BLUET -> "蓝花美耳草";
+                        case RED_TULIP -> "红色郁金香";
+                        case ORANGE_TULIP -> "橙色郁金香";
+                        case WHITE_TULIP -> "白色郁金香";
+                        case PINK_TULIP -> "粉红色郁金香";
+                        case OXEYE_DAISY -> "滨菊";
+                        case CORNFLOWER -> "矢车菊";
+                        case LILY_OF_THE_VALLEY -> "铃兰";
+                        case WITHER_ROSE -> "凋灵玫瑰";
+                        case TORCHFLOWER -> "火把花";
+                        case SUNFLOWER -> "向日葵";
+                        case LILAC -> "丁香";
+                        case ROSE_BUSH -> "玫瑰丛";
+                        case PEONY -> "牡丹";
+                        case PITCHER_PLANT -> "瓶子草";
+                        case PINK_PETALS -> "粉红色花簇";
+                        case CHERRY_LEAVES -> "樱花树叶";
+                        case FLOWERING_AZALEA -> "盛开的杜鹃花丛";
+                        case CHORUS_FLOWER -> "紫颂花";
+                        case SPORE_BLOSSOM -> "孢子花";
+                        case FLOWERING_AZALEA_LEAVES -> "盛开的杜鹃树叶";
+                    };
+            b.comment(flowerName + "\n" + f.id.replace('_', ' '))
+                    .push(p)
+                    .pop(p.split("\\.").length);
+            ENABLED.put(
+                    f,
+                    b.comment(
+                                    "true：允许将此花朵用于春日一隅，并启用对应效果；false：禁止用于制作或添加，已有对应效果暂停。\n"
+                                            + "true: allow this flower and its effects; false: prevent"
+                                            + " new use and pause existing effects.")
+                            .define(p + ".enabled", true));
             String value =
                     switch (f) {
                         case OXEYE_DAISY -> "healing";
@@ -214,9 +251,7 @@ public final class FlourishingItemsConfig {
                         b,
                         "items.affection.entityBlacklist",
                         List.of(),
-                        "禁止绑定的实体类型ID。只使用原版所有权接口识别从属。\n"
-                                + "Entity type IDs that cannot be bound. Companions are identified"
-                                + " using only vanilla ownership interfaces.");
+                        "禁止绑定的实体类型 ID。\n" + "Entity type IDs that cannot be bound.");
     }
 
     private static boolean reduction(Flower f) {

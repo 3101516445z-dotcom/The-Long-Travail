@@ -41,9 +41,7 @@ public final class EffectCompatDefaults {
             new EnumMap<>(TravailAspect.class);
 
     private static String marker(Preset preset) {
-        return "travail.witness.compatInitialization."
-                + preset.namespace()
-                + ".positiveEffectsAdded";
+        return "presets.witness." + preset.namespace() + ".positiveEffectsAdded";
     }
 
     public static void define(ForgeConfigSpec.Builder builder, TravailAspect aspect) {

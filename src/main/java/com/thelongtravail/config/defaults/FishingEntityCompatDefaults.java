@@ -26,9 +26,7 @@ public final class FishingEntityCompatDefaults {
     private static ManagedConfig loaded;
 
     private static String marker(Preset preset) {
-        return "travail.witness.compatInitialization."
-                + preset.namespace()
-                + ".fishingEntitiesAdded";
+        return "presets.witness." + preset.namespace() + ".fishingEntitiesAdded";
     }
 
     public static void define(ForgeConfigSpec.Builder builder) {

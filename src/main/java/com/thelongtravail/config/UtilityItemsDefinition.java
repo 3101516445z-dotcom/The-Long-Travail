@@ -35,10 +35,8 @@ record UtilityItemsDefinition(
                         5000,
                         16,
                         30000000,
-                        "路引的最大水平搜索半径，单位：方块，可配置范围16至30000000。未找到目标不代表整个维度都没有目标。",
-                        "Maximum horizontal Wayguide search radius, in blocks, from 16 to 30000000."
-                                + " Not finding a target does not mean none exists in the entire"
-                                + " dimension.");
+                        "路引的最大水平搜索半径，单位：格。",
+                        "Maximum horizontal Wayguide search radius, in blocks.");
         ForgeConfigSpec.IntValue wayguideTimeoutSeconds =
                 integer(
                         builder,
@@ -46,11 +44,8 @@ record UtilityItemsDefinition(
                         30,
                         1,
                         300,
-                        "单次搜索的最长等待时间，按现实时间计秒。\n从请求被接受时开始计时，包含准备和排队。检测到超时后停止搜索并返还路引。",
-                        "Maximum waiting time for a search request, in real-world seconds.\n"
-                                + "Measured from acceptance of the request, including preparation and"
-                                + " queueing. When a timeout is detected, the search stops and the"
-                                + " Wayguide is returned.");
+                        "单次搜索的最长等待时间，单位：现实秒，包含准备和排队；超时后停止搜索并返还路引。",
+                        "Maximum wait per search, in real-world seconds, including preparation and queueing; a timeout stops the search and returns the Wayguide.");
         ForgeConfigSpec.IntValue wayguideBiomeSpacing =
                 integer(
                         builder,
@@ -88,11 +83,8 @@ record UtilityItemsDefinition(
                         2,
                         1,
                         50,
-                        "每游戏刻的搜索时间预算，单位：毫秒。\n包含准备、检查、采样和收尾。单次操作及必要清理可能使实际耗时超过预算。",
-                        "Target time spent on normal search processing per game tick, in"
-                                + " milliseconds.\n"
-                                + "Includes preparation, checks, sampling, and completion. Individual"
-                                + " operations and necessary state cleanup may exceed this budget.");
+                        "每游戏刻用于搜索的时间预算，单位：毫秒；单次处理可能使实际耗时超过预算。",
+                        "Target search processing time per game tick, in milliseconds; individual operations may exceed this budget.");
         ForgeConfigSpec.IntValue wayguideMaxSamples =
                 integer(
                         builder,
@@ -110,10 +102,8 @@ record UtilityItemsDefinition(
                         1200,
                         0,
                         72000,
-                        "搜索结果的缓存时间，单位：游戏刻；0表示不缓存。移动超过128格、切换维度或苦旅进度变化后，缓存失效。",
-                        "Search-result cache duration, in game ticks; 0 disables caching. Moving"
-                                + " more than 128 blocks, changing dimensions, or changing Long Travail"
-                                + " progress invalidates the cache.");
+                        "搜索结果的最长保留时间，单位：游戏刻；0 表示不保留。",
+                        "Maximum search-result cache duration, in game ticks; 0 disables caching.");
         return new UtilityItemsDefinition(
                 wayguideGuideDurationSeconds,
                 wayguideRadius,

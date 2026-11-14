@@ -1,8 +1,7 @@
 package com.thelongtravail.config;
 
-import com.thelongtravail.config.defaults.GoldenAgeCompatDefaults;
-
 import com.thelongtravail.common.TickDurations;
+import com.thelongtravail.config.defaults.GoldenAgeCompatDefaults;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -51,10 +50,9 @@ public final class FarReachItemsConfig {
                 .1,
                 0,
                 3600,
-                "空手掏取的冷却时间，单位：秒；每名玩家单独计时。0.1秒相当于2游戏刻，掏取不消耗沙块。\n"
-                        + "Cooldown for empty-handed digging, in seconds, tracked separately for each"
-                        + " player. 0.1 seconds equals 2 game ticks; digging does not consume sand"
-                        + " blocks.");
+                "空手掏取的冷却时间，单位：秒；每名玩家单独计时，0.1 秒相当于 2 游戏刻。\n"
+                        + "Cooldown for empty-handed digging, in seconds, tracked per player; 0.1"
+                        + " seconds equals 2 game ticks.");
         n(
                 b,
                 "golden_age.waterTime",
@@ -71,10 +69,9 @@ public final class FarReachItemsConfig {
                 8,
                 1,
                 64,
-                "允许金块转化时，投掷者与金块之间的最大距离，单位：方块。转化时，投掷者须存活、与金块处于同一维度，并佩戴黄金时代与苦旅。\n"
+                "金块转化时，投掷者与金块之间允许的最大距离，单位：格。\n"
                         + "Maximum distance between the thrower and the gold block at transformation,"
-                        + " in blocks. The thrower must be alive, in the same dimension as the block,"
-                        + " and wearing both Golden Age and The Long Travail.");
+                        + " in blocks.");
         n(
                 b,
                 "golden_age.batchSize",
@@ -115,29 +112,17 @@ public final class FarReachItemsConfig {
                 ids(
                         b,
                         "items.golden_age.enchantmentBlacklist",
-                        "禁止出现的附魔ID；基础默认列表为空，安装对应模组后一次性补入联动黑名单。除此之外所有已注册附魔均可出现，等级固定为I。\n"
-                                + "Enchantment IDs excluded from selection. Starts empty; compatibility"
-                                + " blacklists are added once when their mods are installed. All other"
-                                + " registered enchantments are eligible, always at level I.");
+                        "禁止抽取的附魔 ID。\n" + "Enchantment IDs excluded from selection.");
         FOOD_BLACKLIST =
                 ids(
                         b,
                         "items.golden_age.foodBlacklist",
-                        "禁止出现的食物物品ID；基础默认列表为空，安装对应模组后一次性补入联动黑名单。\n"
-                                + "Food item IDs excluded from selection. Starts empty; compatibility"
-                                + " blacklists are added once when their mods are installed.");
+                        "禁止抽取的食物物品 ID。\n" + "Food item IDs excluded from selection.");
         IGNITE_SECONDS =
                 b.comment(
-                                "命中后点燃目标的持续时间，单位：秒；\n"
-                                        + "0表示不点燃。\n"
-                                        + "若目标剩余的燃烧时间更长，重复命中不会将其缩短。\n"
-                                        + "实际燃烧时间仍受原版火焰保护附魔影响。\n"
-                                        + "Duration for which a hit sets the target on fire, in"
-                                        + " seconds.\n"
-                                        + "0 disables ignition.\n"
-                                        + "Repeated hits do not shorten a longer remaining burn"
-                                        + " duration.\n"
-                                        + "Vanilla Fire Protection still affects the actual duration.")
+                                "命中后点燃目标的持续时间，单位：秒；0 表示不点燃。\n"
+                                        + "Duration of ignition on hit, in seconds; 0 disables"
+                                        + " ignition.")
                         .defineInRange("items.icarus.igniteSeconds", 10, 0, 3600);
         n(
                 b,
@@ -175,16 +160,9 @@ public final class FarReachItemsConfig {
                         + " weather.");
         EXTRA_IMMUNITIES =
                 b.comment(
-                                "见证额外免疫池，默认为空列表。\n"
-                                        + "填写伤害类型ID或#伤害类型标签；\n"
-                                        + "允许非魔法类型。\n"
-                                        + "默认仅内置minecraft:magic和minecraft:indirect_magic，不自动兼容其他模组。\n"
-                                        + "Additional Witness damage immunities; empty by default.\n"
-                                        + "Accepts damage type IDs or #damage_type_tags.\n"
-                                        + "Non-magic damage types are also allowed.\n"
-                                        + "Only minecraft:magic and minecraft:indirect_magic are"
-                                        + " included by default; damage types from other mods are not"
-                                        + " automatically included.")
+                                "见证状态下额外免疫的伤害。填写伤害类型 ID 或 #伤害类型标签；[] 表示不增加额外免疫。\n"
+                                        + "Additional Witness damage immunities. Use damage type IDs or"
+                                        + " #damage_type_tags; [] adds no extra immunities.")
                         .defineListAllowEmpty(
                                 "items.icarus.extraImmunities",
                                 List.of(),

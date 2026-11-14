@@ -25,6 +25,7 @@ public final class ConfigValidation {
 
     static Result validate(CommentedConfig config, ForgeConfigSpec spec, CommentedConfig previous) {
         List<String> issues = new ArrayList<>();
+        ConfigPresetMigration.migrate(config, spec);
         migrateEnvironmentPeak(
                 config, spec, "items.icarus.", "sunnyPeak", "sunnyExtraPeak", issues);
         migrateEnvironmentPeak(

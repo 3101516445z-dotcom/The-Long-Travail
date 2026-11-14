@@ -80,7 +80,7 @@ public final class CompatCombinationTest {
                                 fish
                                         ? RewardCompatDefaults.FISH_POOL
                                         : RewardCompatDefaults.PHANTOM_POOL,
-                                "travail.witness.compatInitialization."
+                                "presets.witness."
                                         + ns
                                         + (fish ? ".fishingItemsAdded" : ".phantomDropsAdded"),
                                 raw,
@@ -96,7 +96,7 @@ public final class CompatCombinationTest {
                             "underworld",
                             ns,
                             FishingEntityCompatDefaults.POOL,
-                            "travail.witness.compatInitialization." + ns + ".fishingEntitiesAdded",
+                            "presets.witness." + ns + ".fishingEntitiesAdded",
                             raw,
                             raw));
         }
@@ -110,9 +110,7 @@ public final class CompatCombinationTest {
                                 far ? "far_reach" : "deep_valley",
                                 ns,
                                 EffectCompatDefaults.POOL,
-                                "travail.witness.compatInitialization."
-                                        + ns
-                                        + ".positiveEffectsAdded",
+                                "presets.witness." + ns + ".positiveEffectsAdded",
                                 raw,
                                 raw));
             }

@@ -9,16 +9,50 @@ public final class ConfigFilesDescription {
     public static final String GUIDE = guide("zh_cn");
     public static final String GUIDE_EN = guide("en_us");
 
+    public static String itemLabel(String id) {
+        return switch (id) {
+            case "spring_corner" -> "春日一隅\nA Corner of Spring";
+            case "affection" -> "喜欢的心情\nAffection";
+            case "mistletoe" -> "槲寄生\nMistletoe";
+            case "everlasting_flower" -> "无穷花\nEverlasting Flower";
+            case "immortal_bud" -> "永生芽\nImmortal Bud";
+            case "moon_toad_pastry" -> "月蟾酥\nMoon Toad Pastry";
+            case "eki" -> "駅\nEki";
+            case "tokaido" -> "东海道五十三次\nThe Fifty-three Stations of the Tokaido";
+            case "perfect_fluid" -> "完美流体\nPerfect Fluid";
+            case "midnight_lafite" -> "午夜拉菲\nMidnight Lafite";
+            case "liquefied_abundance" -> "液化丰饶\nLiquefied Abundance";
+            case "sea_in_a_bottle" -> "瓶中海\nSea in a Bottle";
+            case "golden_age" -> "黄金时代\nGolden Age";
+            case "icarus" -> "伊卡洛斯\nIcarus";
+            case "don_quixote" -> "堂吉诃德\nDon Quixote";
+            case "tower_of_babel" -> "巴别塔\nTower of Babel";
+            case "sun_chaser" -> "逐日\nSun Chaser";
+            case "horizon_theory" -> "地平论\nHorizon Theory";
+            case "azrael" -> "死告天使\nAzrael";
+            case "sword_and_lantern" -> "剑与灯\nSword and Lantern";
+            case "phosphophyllite" -> "磷叶石\nPhosphophyllite";
+            case "underground_velvet" -> "地下丝绒\nUnderground Velvet";
+            case "high_frequency_tremor" -> "高频战栗\nHigh Frequency Tremor";
+            case "last_affairs" -> "身后事\nLast Affairs";
+            case "a_thousand_years_later" -> "一千年后\nA Thousand Years Later";
+            case "book_of_the_dead" -> "死者之书\nBook of the Dead";
+            case "demon_king_of_the_sixth_heaven" -> "第六天魔王\nDemon King of the Sixth Heaven";
+            case "myriad_souls_banner" -> "万魂幡\nMyriad Souls Banner";
+            case "kagotsurube" -> "籠釣瓶\nKagotsurube";
+            case "living_flesh" -> "活血肉\nLiving Flesh";
+            case "free_and_easy_wandering" -> "逍遥游\nFree and Easy Wandering";
+            case "star_voice" -> "星之声\nVoice of the Stars";
+            case "little_prince" -> "小王子\nThe Little Prince";
+            case "lorentz_fantasy" -> "洛伦兹幻想\nLorentz Fantasy";
+            case "ancient_strange_tales" -> "古今语怪\nAncient Strange Tales";
+            case "holy_fool" -> "圣愚\nHoly Fool";
+            default -> throw new IllegalArgumentException("Unknown theme item: " + id);
+        };
+    }
+
     public static String presetMarker(String modName, String category, String categoryEnglish) {
-        return modName
-                + " "
-                + category
-                + "预设处理标记；true 表示停止补入，false 表示等待处理。\n"
-                + "Processing marker for "
-                + modName
-                + " "
-                + categoryEnglish
-                + " presets; true stops additions, false marks processing as pending.";
+        return modName + " " + category + "预设\n" + modName + " " + categoryEnglish + " presets";
     }
 
     public static void describe(ForgeConfigSpec.Builder builder, String file) {
@@ -30,40 +64,22 @@ public final class ConfigFilesDescription {
                         "The Long Travail / 苦旅 — client.toml\n"
                                 + "客户端显示偏好\n"
                                 + "Client display preferences\n"
-                                + "仅影响本客户端。保存后自动重新加载；重启客户端可确保生效。\n"
-                                + "Only affects this client. Reloads automatically after saving;"
-                                + " restarting the client ensures changes take effect.\n"
-                                + "名称光晕两项独立：HIGH 高、MEDIUM 中、LOW 低、OFF 关闭。\n"
-                                + "The two name-halo settings are independent: HIGH, MEDIUM, LOW,"
-                                + " OFF.\n"
-                                + "降低档位可减少绘制开销；关闭光晕仍保留名称内部动态效果。\n"
-                                + "Lower settings reduce rendering cost; disabling halos preserves"
-                                + " animation inside the names.\n"
-                                + "详细规则见同目录“配置说明.txt”[M05]。\n"
-                                + "Details: Configuration Guide.txt [M05].");
+                                + "仅影响本客户端，保存后自动重新加载。\n"
+                                + "Client-only; reloads after saving.\n"
+                                + "名称光晕档位：HIGH 高、MEDIUM 中、LOW 低、OFF 关闭。\n"
+                                + "Name halo levels: HIGH, MEDIUM, LOW, OFF.");
                 section(
                         builder,
                         "visualDeprivation",
-                        "本客户端的视觉剥夺动态效果设置，不改变服务端的触发规则和强度设置。\n"
-                                + "Visual Deprivation animation preferences for this client. Does not"
-                                + " change server-side trigger rules or intensity settings.");
+                        "本客户端的视觉剥夺显示设置。\n" + "Local Visual Deprivation display settings.");
                 section(builder, "messages", "本地技能提示显示。\nLocal skill-message display settings.");
-                section(
-                        builder,
-                        "timeStop",
-                        "时停区域边界的本地显示与性能档位，不改变范围和豁免规则。\n"
-                                + "Local time-stop boundary display and performance mode. Does not"
-                                + " change the area or exemption rules.");
+                section(builder, "timeStop", "时停边界显示。\n" + "Time-stop boundary display.");
             }
             case "general.toml" -> {
                 section(
                         builder,
                         "starter",
-                        "The Long Travail / 苦旅 — general.toml\n"
-                                + "通用规则\n"
-                                + "Shared rules\n"
-                                + "探索条件的抽取数量仅影响新生成的旅程。\n"
-                                + "Exploration draw counts affect only newly generated journeys.");
+                        "The Long Travail / 苦旅 — general.toml\n" + "通用规则\n" + "Shared rules");
                 section(
                         builder,
                         "requirements",
@@ -79,15 +95,9 @@ public final class ConfigFilesDescription {
                 section(
                         builder,
                         "carrying",
-                        "全局携带位置开关，适用于駅、巴别塔和小王子。\n"
-                                + "Shared carrying location switches for Eki, Tower of Babel and Little"
-                                + " Prince.\n"
-                                + "駅和巴别塔还须允许各自的独立位置开关；不会递归检查嵌套容器。\n"
-                                + "Eki and Babel also require their per-item switches; nested"
-                                + " containers are not searched recursively.\n"
-                                + "详见同目录“配置说明.txt”[C03] 携带位置开关。\n"
-                                + "See [C03] Carrying locations in Configuration Guide.txt in this"
-                                + " directory.");
+                        "携带位置开关，适用于駅、巴别塔和小王子；駅和巴别塔还须启用各自的对应开关。\n"
+                                + "Carrying locations for Eki, Tower of Babel and Little Prince; Eki"
+                                + " and Babel also require their corresponding per-item switches.");
                 section(builder, "journeyDetection", "探索进度检测。\nExploration progress detection.");
                 section(
                         builder,
@@ -104,10 +114,7 @@ public final class ConfigFilesDescription {
                                 + " corresponding theme files.\n"
                                 + "详细规则见同目录“配置说明.txt”[M02]。\n"
                                 + "Details: Configuration Guide.txt [M02].");
-                section(
-                        builder,
-                        "compatibility",
-                        "其他模组兼容行为。\nCompatibility behavior with other mods.");
+                section(builder, "compatibility", "其他功能开关\n" + "Other feature switches");
                 section(
                         builder,
                         "loot",
@@ -146,122 +153,56 @@ public final class ConfigFilesDescription {
                         "The Long Travail / 苦旅 — utility_items.toml\n"
                                 + "通用功能物品\n"
                                 + "General-purpose utility items");
+                section(builder, "items.wayguide", "路引\n" + "Wayguide");
+                section(builder, "items.wayguide.search", "搜索范围与等待时间。\nSearch range and timeout.");
                 section(
                         builder,
-                        "items.wayguide",
-                        "路引：查找当前苦旅尚未完成的探索条件。\n"
-                                + "Wayguide: locate unfinished exploration requirements for the current"
-                                + " Long Travail.\n"
-                                + "详细规则见同目录“配置说明.txt”[M04]。\n"
-                                + "Details: Configuration Guide.txt [M04].");
-                section(
-                        builder,
-                        "items.wayguide.search",
-                        "搜索范围与实际时间上限。\nSearch range and real-time timeout.");
-                section(builder, "items.wayguide.sampling", "群系采样精度。\nBiome sampling precision.");
+                        "items.wayguide.sampling",
+                        "高级设置：搜索的精细程度，通常无需修改。\n"
+                                + "Advanced: sampling precision; usually no change is needed.");
                 section(
                         builder,
                         "items.wayguide.budget",
-                        "全服每游戏刻及单次搜索的次数和耗时限制。\n"
+                        "高级设置：限制搜索的处理次数和耗时，通常无需修改。\n"
                                 + "Server-wide per-game-tick and per-search limits on operations and"
                                 + " elapsed time.");
                 section(
                         builder,
                         "items.wayguide.cache",
-                        "搜索结果的缓存设置。\nSearch-result cache settings.");
+                        "高级设置：搜索结果保留多久，通常无需修改。\n"
+                                + "Advanced: search-result cache; usually no change is needed.");
             }
             case "aspects/abyss.toml" -> {
                 section(
                         builder,
                         "travail",
-                        "The Long Travail / 苦旅 — aspects/abyss.toml\n"
-                                + "归墟主题\n"
-                                + "Abyss theme\n"
-                                + "探索条件池仅影响新生成的旅程。\n"
-                                + "Exploration requirement pools affect only newly generated"
-                                + " journeys.\n"
-                                + "技能时长和冷却的修改仅影响之后释放的技能。\n"
-                                + "Skill duration and cooldown changes affect only future casts.");
+                        "The Long Travail / 苦旅 — aspects/abyss.toml\n" + "归墟主题\n" + "Abyss theme");
                 section(
                         builder,
                         "travail.requirements",
-                        "苦旅探索条件池。仅影响新生成的旅程；统一抽取数量见 general.toml 的 requirements。\n"
-                                + "Long Travail exploration requirement pools. Only affects newly"
-                                + " generated journeys; shared draw counts are under requirements in"
-                                + " general.toml.\n"
-                                + "上一级“配置说明.txt”：填写格式 [E01]；@ 名称 [E02]；抽取与无效条目 [E03]。\n"
-                                + "See ../Configuration Guide.txt: entry format [E01], @ names [E02],"
-                                + " selection and invalid entries [E03].");
-                section(
-                        builder,
-                        "travail.malice",
-                        "苦旅：恶意状态的惩罚与触发规则。\n"
-                                + "The Long Travail: penalties and trigger rules while Malice is"
-                                + " active.");
-                section(
-                        builder,
-                        "travail.witness",
-                        "苦旅：完成探索后获得的见证能力。\n"
-                                + "The Long Travail: Witness abilities gained after completing"
-                                + " exploration.");
-                section(
-                        builder,
-                        "items",
-                        "归墟主题关联物品；按物品ID分别管理。\n"
-                                + "Items associated with Abyss, configured separately by item ID.");
-                section(
-                        builder,
-                        "items.eki",
-                        "駅：携带駅并佩戴苦旅时生效，与归墟恶意/见证联动。\n"
-                                + "Eki: active when carried while wearing The Long Travail; interacts"
-                                + " with Abyss Malice and Witness.");
+                        "探索条件池，仅影响新旅程。抽取数量见 general.toml 的 requirements。\n"
+                                + "Exploration pools for new journeys; draw counts are in general.toml"
+                                + " under requirements.");
+                section(builder, "travail.malice", "苦旅恶意\n" + "The Long Travail: Malice");
+                section(builder, "travail.witness", "苦旅见证\n" + "The Long Travail: Witness");
+                section(builder, "items", "归墟主题物品\n" + "Abyss items");
+                section(builder, "items.eki", itemLabel("eki"));
                 section(
                         builder,
                         "items.eki.carrying",
-                        "駅的独立携带位置开关；与 general.toml / carrying 同位置的开关同时启用才生效。\n"
-                                + "Eki per-item carrying switches; the matching general.toml / carrying"
-                                + " switch must also be enabled.\n"
-                                + "详见上一级“配置说明.txt”[C03] 携带位置开关。\n"
-                                + "See [C03] Carrying locations in ../Configuration Guide.txt.\n"
-                                + "仅适用于玩家，多个携带位置不叠加；女仆只检查原生饰品栏。\n"
-                                + "Players only; multiple carried copies do not stack. Maids use native"
-                                + " bauble slots only.");
-                section(
-                        builder,
-                        "items.tokaido",
-                        "东海道五十三次：玩家需装备在指定的 Curios 槽位，无需佩戴苦旅。\n"
-                                + "女仆需放入原生饰品栏，仅提供生命值恢复与火焰免疫。\n"
-                                + "Tokaido: players use the specified Curios slots without requiring"
-                                + " The Long Travail.\n"
-                                + "Maids use native bauble slots and receive only healing and fire"
-                                + " immunity.");
+                        "携带位置开关；须同时启用 general.toml 中 carrying 下对应位置的开关。\n"
+                                + "Carrying locations; the matching switch under carrying in"
+                                + " general.toml must also be enabled.");
+                section(builder, "items.tokaido", itemLabel("tokaido"));
                 section(
                         builder,
                         "items.tokaido.skill",
                         "主动唤雨；时长与冷却修改只影响之后释放的技能。\n"
                                 + "Active Call Rain skill. Duration and cooldown changes affect only"
                                 + " future casts.");
-                section(
-                        builder,
-                        "items.perfect_fluid",
-                        "完美流体：用于复制物品。检测到车万女仆及其性格模组时，分别将初始魂符及已收纳女仆的魂符、怪兽战斗仪加入黑名单一次（不包含空魂符）；之后可自由调整。初始化记录随本配置保存。\n"
-                                + "Perfect Fluid: duplicates items. Initial and occupied Soul Spells"
-                                + " (excluding empty Soul Spells) and Monster Battle Device are added"
-                                + " to the blacklist once when their respective maid mods are detected."
-                                + " The blacklist remains editable; initialization records belong to"
-                                + " this configuration.");
-                section(
-                        builder,
-                        "items.liquefied_abundance",
-                        "液化丰饶：随机药水转换；长按所需时间、默认持续时间与效果白名单、黑名单。\n"
-                                + "Liquefied Abundance: random potion conversion, hold threshold,"
-                                + " fallback duration, effect whitelist and blacklist.");
-                section(
-                        builder,
-                        "items.midnight_lafite",
-                        "午夜拉菲：手饰，基础效果独立；夜间伤害与免疫依赖归墟状态。\n"
-                                + "Midnight Lafite: hands accessory with independent base effects;"
-                                + " nighttime damage and immunity depend on Abyss state.");
+                section(builder, "items.perfect_fluid", itemLabel("perfect_fluid"));
+                section(builder, "items.liquefied_abundance", itemLabel("liquefied_abundance"));
+                section(builder, "items.midnight_lafite", itemLabel("midnight_lafite"));
             }
             case "aspects/boundless.toml" -> {
                 section(
@@ -269,32 +210,15 @@ public final class ConfigFilesDescription {
                         "travail",
                         "The Long Travail / 苦旅 — aspects/boundless.toml\n"
                                 + "无垠主题\n"
-                                + "Boundless theme\n"
-                                + "探索条件池仅影响新生成的旅程。\n"
-                                + "Exploration requirement pools affect only newly generated"
-                                + " journeys.");
+                                + "Boundless theme");
                 section(
                         builder,
                         "travail.requirements",
-                        "苦旅探索条件池。仅影响新生成的旅程；统一抽取数量见 general.toml 的 requirements。\n"
-                                + "Long Travail exploration requirement pools. Only affects newly"
-                                + " generated journeys; shared draw counts are under requirements in"
-                                + " general.toml.\n"
-                                + "上一级“配置说明.txt”：填写格式 [E01]；@ 名称 [E02]；抽取与无效条目 [E03]。\n"
-                                + "See ../Configuration Guide.txt: entry format [E01], @ names [E02],"
-                                + " selection and invalid entries [E03].");
-                section(
-                        builder,
-                        "travail.malice",
-                        "苦旅：恶意状态的惩罚与触发规则。\n"
-                                + "The Long Travail: penalties and trigger rules while Malice is"
-                                + " active.");
-                section(
-                        builder,
-                        "travail.witness",
-                        "苦旅：完成探索后获得的见证能力。\n"
-                                + "The Long Travail: Witness abilities gained after completing"
-                                + " exploration.");
+                        "探索条件池，仅影响新旅程。抽取数量见 general.toml 的 requirements。\n"
+                                + "Exploration pools for new journeys; draw counts are in general.toml"
+                                + " under requirements.");
+                section(builder, "travail.malice", "苦旅恶意\n" + "The Long Travail: Malice");
+                section(builder, "travail.witness", "苦旅见证\n" + "The Long Travail: Witness");
                 section(
                         builder,
                         "travail.witness.phantom",
@@ -308,70 +232,26 @@ public final class ConfigFilesDescription {
                         "travail",
                         "The Long Travail / 苦旅 — aspects/deep_valley.toml\n"
                                 + "幽谷主题\n"
-                                + "Deep Valley theme\n"
-                                + "探索条件池仅影响新生成的旅程。\n"
-                                + "Exploration requirement pools affect only newly generated"
-                                + " journeys.");
+                                + "Deep Valley theme");
                 section(
                         builder,
                         "travail.requirements",
-                        "苦旅探索条件池。仅影响新生成的旅程；统一抽取数量见 general.toml 的 requirements。\n"
-                                + "Long Travail exploration requirement pools. Only affects newly"
-                                + " generated journeys; shared draw counts are under requirements in"
-                                + " general.toml.\n"
-                                + "上一级“配置说明.txt”：填写格式 [E01]；@ 名称 [E02]；抽取与无效条目 [E03]。\n"
-                                + "See ../Configuration Guide.txt: entry format [E01], @ names [E02],"
-                                + " selection and invalid entries [E03].");
-                section(
-                        builder,
-                        "travail.malice",
-                        "苦旅：恶意状态的惩罚与触发规则。\n"
-                                + "The Long Travail: penalties and trigger rules while Malice is"
-                                + " active.");
-                section(
-                        builder,
-                        "travail.witness",
-                        "苦旅：完成探索后获得的见证能力。\n"
-                                + "The Long Travail: Witness abilities gained after completing"
-                                + " exploration.");
+                        "探索条件池，仅影响新旅程。抽取数量见 general.toml 的 requirements。\n"
+                                + "Exploration pools for new journeys; draw counts are in general.toml"
+                                + " under requirements.");
+                section(builder, "travail.malice", "苦旅恶意\n" + "The Long Travail: Malice");
+                section(builder, "travail.witness", "苦旅见证\n" + "The Long Travail: Witness");
                 section(
                         builder,
                         "travail.visualDeprivation",
                         "视觉剥夺：持续时间、过渡与画面样式；触发概率见 travail.malice。\n"
                                 + "Visual Deprivation: duration, transitions, and appearance. Trigger"
                                 + " chance is under travail.malice.");
-                section(builder, "items", "幽谷主题关联物品。\nItems associated with Deep Valley.");
-                section(
-                        builder,
-                        "items.high_frequency_tremor",
-                        "高频战栗：见证状态潜行右键破坏黑名单；同样作用于 FTB 连锁。\n"
-                                + "High Frequency Tremor: Witness sneak-use block blacklist, also applied to FTB Ultimine selections.");
-                section(
-                        builder,
-                        "items.azrael",
-                        "死告天使：玩家需同时佩戴苦旅。同类只生效一件。\n"
-                                + "见证状态下，每次实际造成伤害只判定一次。处决目标与处决佩戴者不会同时发生。\n"
-                                + "Azrael: players must also wear The Long Travail. Only one copy takes"
-                                + " effect.\n"
-                                + "With Witness, each instance of actual damage dealt makes one roll;"
-                                + " executing the target and executing the wearer cannot occur on the"
-                                + " same roll.\n"
-                                + "详细规则见上一级“配置说明.txt”[M03]。\n"
-                                + "Details: ../Configuration Guide.txt [M03].");
-                section(
-                        builder,
-                        "items.phosphophyllite",
-                        "磷叶石：需同时佩戴苦旅的通用饰品，支持女仆。按比例增加各项属性，见证治疗具有独立的触发方式、冷却和伤害类型排除配置；有效溢出治疗转化为伤害吸收量。\n"
-                                + "Phosphophyllite: a general-purpose curio that requires The Long"
-                                + " Travail and supports maids. Applies multiplicative attribute"
-                                + " bonuses, has independent Witness healing trigger, cooldown and damage-type exclusions, and converts"
-                                + " effective overhealing into absorption.");
-                section(
-                        builder,
-                        "items.underground_velvet",
-                        "地下丝绒：右键消耗1个，基础奖励8个同种矿石或锭；恶意抽取箱子条目，见证增加15级。\n"
-                                + "Underground Velvet: consume one for eight matching ores or ingots;"
-                                + " Malice samples chest entries, Witness grants 15 levels.");
+                section(builder, "items", "幽谷主题物品\n" + "Deep Valley items");
+                section(builder, "items.high_frequency_tremor", itemLabel("high_frequency_tremor"));
+                section(builder, "items.azrael", itemLabel("azrael"));
+                section(builder, "items.phosphophyllite", itemLabel("phosphophyllite"));
+                section(builder, "items.underground_velvet", itemLabel("underground_velvet"));
             }
             case "aspects/far_reach.toml" -> {
                 section(
@@ -379,117 +259,45 @@ public final class ConfigFilesDescription {
                         "travail",
                         "The Long Travail / 苦旅 — aspects/far_reach.toml\n"
                                 + "穷遐主题\n"
-                                + "Far Reach theme\n"
-                                + "探索条件池仅影响新生成的旅程。\n"
-                                + "Exploration requirement pools affect only newly generated"
-                                + " journeys.");
+                                + "Far Reach theme");
                 section(
                         builder,
                         "travail.requirements",
-                        "苦旅探索条件池。仅影响新生成的旅程；统一抽取数量见 general.toml 的 requirements。\n"
-                                + "Long Travail exploration requirement pools. Only affects newly"
-                                + " generated journeys; shared draw counts are under requirements in"
-                                + " general.toml.\n"
-                                + "上一级“配置说明.txt”：填写格式 [E01]；@ 名称 [E02]；抽取与无效条目 [E03]。\n"
-                                + "See ../Configuration Guide.txt: entry format [E01], @ names [E02],"
-                                + " selection and invalid entries [E03].");
-                section(
-                        builder,
-                        "travail.malice",
-                        "苦旅：恶意状态的惩罚与触发规则。\n"
-                                + "The Long Travail: penalties and trigger rules while Malice is"
-                                + " active.");
-                section(
-                        builder,
-                        "travail.witness",
-                        "苦旅：完成探索后获得的见证能力。\n"
-                                + "The Long Travail: Witness abilities gained after completing"
-                                + " exploration.");
-                section(
-                        builder,
-                        "items",
-                        "穷遐主题关联饰品：基础效果独立，恶意和见证分支需要佩戴苦旅。\n"
-                                + "Accessories associated with Far Reach. Base effects work"
-                                + " independently; Malice and Witness effects require The Long"
-                                + " Travail.");
+                        "探索条件池，仅影响新旅程。抽取数量见 general.toml 的 requirements。\n"
+                                + "Exploration pools for new journeys; draw counts are in general.toml"
+                                + " under requirements.");
+                section(builder, "travail.malice", "苦旅恶意\n" + "The Long Travail: Malice");
+                section(builder, "travail.witness", "苦旅见证\n" + "The Long Travail: Witness");
+                section(builder, "items", "穷遐主题物品\n" + "Far Reach items");
                 section(
                         builder,
                         "items.babel.carrying",
-                        "巴别塔的独立携带位置开关；与 general.toml / carrying 同位置的开关同时启用才生效。\n"
-                                + "Tower of Babel per-item carrying switches; the matching general.toml"
-                                + " / carrying switch must also be enabled.\n"
-                                + "详见上一级“配置说明.txt”[C03] 携带位置开关。\n"
-                                + "See [C03] Carrying locations in ../Configuration Guide.txt.");
-                section(
-                        builder,
-                        "items.golden_age",
-                        "黄金时代：护符。空手掏取不消耗方块；投入金块后按穷遐状态转化。\n"
-                                + "Golden Age: charm. Empty-handed digging does not consume blocks;"
-                                + " thrown gold blocks transform according to the Far Reach state.");
-                section(
-                        builder,
-                        "items.icarus",
-                        "伊卡洛斯：背饰。鞘翅飞行、命中点燃、基础免疫、按世界时间计算的太阳增伤、见证魔法免疫。\n"
-                                + "Icarus: back accessory. Elytra flight, ignition on hit, base"
-                                + " immunities, sunlight damage bonuses based on world time, and magic"
-                                + " immunity with Witness.");
+                        "携带位置开关；须同时启用 general.toml 中 carrying 下对应位置的开关。\n"
+                                + "Carrying locations; the matching switch under carrying in"
+                                + " general.toml must also be enabled.");
+                section(builder, "items.golden_age", itemLabel("golden_age"));
+                section(builder, "items.icarus", itemLabel("icarus"));
             }
             case "aspects/flourishing.toml" -> {
-                section(
-                        builder,
-                        "items.immortal_bud",
-                        "永生芽：赋予时固定修满耐久；目标黑名单仅限制新的赋予。\n"
-                                + "Immortal Bud: always repairs on application; the target blacklist"
-                                + " affects new applications only.");
+                section(builder, "items.immortal_bud", itemLabel("immortal_bud"));
                 section(
                         builder,
                         "travail",
                         "The Long Travail / 苦旅 — aspects/flourishing.toml\n"
                                 + "繁茂主题\n"
-                                + "Flourishing theme\n"
-                                + "探索条件池仅影响新生成的旅程。\n"
-                                + "Exploration requirement pools affect only newly generated"
-                                + " journeys.");
+                                + "Flourishing theme");
                 section(
                         builder,
                         "travail.requirements",
-                        "苦旅探索条件池。仅影响新生成的旅程；统一抽取数量见 general.toml 的 requirements。\n"
-                                + "Long Travail exploration requirement pools. Only affects newly"
-                                + " generated journeys; shared draw counts are under requirements in"
-                                + " general.toml.\n"
-                                + "上一级“配置说明.txt”：填写格式 [E01]；@ 名称 [E02]；抽取与无效条目 [E03]。\n"
-                                + "See ../Configuration Guide.txt: entry format [E01], @ names [E02],"
-                                + " selection and invalid entries [E03].");
-                section(
-                        builder,
-                        "travail.malice",
-                        "苦旅：恶意状态的惩罚与触发规则。\n"
-                                + "The Long Travail: penalties and trigger rules while Malice is"
-                                + " active.");
-                section(
-                        builder,
-                        "travail.witness",
-                        "苦旅：完成探索后获得的见证能力。\n"
-                                + "The Long Travail: Witness abilities gained after completing"
-                                + " exploration.");
-                section(builder, "items", "繁茂主题关联饰品。\nAccessories associated with Flourishing.");
-                section(
-                        builder,
-                        "items.spring_corner",
-                        "春日一隅：一朵永久主花、两朵可清洗配花。\n"
-                                + "A Corner of Spring: one permanent primary flower and two secondary"
-                                + " flowers that can be washed off.");
-                section(
-                        builder,
-                        "items.spring_corner.flowers",
-                        "各花朵独立设置。禁用后不能用于制作或添加；已有花朵保留，但对应效果暂停。\n"
-                                + "Configure flowers independently. Disabled flowers cannot be used in"
-                                + " crafting or added; existing flowers remain but their effects are"
-                                + " inactive.");
-                section(
-                        builder,
-                        "items.affection",
-                        "喜欢的心情：伙伴绑定与生命值相关加成。\nAffection: binding and health-based bonuses.");
+                        "探索条件池，仅影响新旅程。抽取数量见 general.toml 的 requirements。\n"
+                                + "Exploration pools for new journeys; draw counts are in general.toml"
+                                + " under requirements.");
+                section(builder, "travail.malice", "苦旅恶意\n" + "The Long Travail: Malice");
+                section(builder, "travail.witness", "苦旅见证\n" + "The Long Travail: Witness");
+                section(builder, "items", "繁茂主题物品\n" + "Flourishing items");
+                section(builder, "items.spring_corner", itemLabel("spring_corner"));
+                section(builder, "items.spring_corner.flowers", "花朵效果\n" + "Flower effects");
+                section(builder, "items.affection", itemLabel("affection"));
             }
             case "aspects/underworld.toml" -> {
                 section(
@@ -497,52 +305,63 @@ public final class ConfigFilesDescription {
                         "travail",
                         "The Long Travail / 苦旅 — aspects/underworld.toml\n"
                                 + "冥府主题\n"
-                                + "Underworld theme\n"
-                                + "探索条件池仅影响新生成的旅程。\n"
-                                + "Exploration requirement pools affect only newly generated"
-                                + " journeys.");
+                                + "Underworld theme");
                 section(
                         builder,
                         "travail.requirements",
-                        "苦旅探索条件池。仅影响新生成的旅程；统一抽取数量见 general.toml 的 requirements。\n"
-                                + "Long Travail exploration requirement pools. Only affects newly"
-                                + " generated journeys; shared draw counts are under requirements in"
-                                + " general.toml.\n"
-                                + "上一级“配置说明.txt”：填写格式 [E01]；@ 名称 [E02]；抽取与无效条目 [E03]。\n"
-                                + "See ../Configuration Guide.txt: entry format [E01], @ names [E02],"
-                                + " selection and invalid entries [E03].");
-                section(
-                        builder,
-                        "travail.malice",
-                        "苦旅：恶意状态的惩罚与触发规则。\n"
-                                + "The Long Travail: penalties and trigger rules while Malice is"
-                                + " active.");
-                section(
-                        builder,
-                        "travail.witness",
-                        "苦旅：完成探索后获得的见证能力。\n"
-                                + "The Long Travail: Witness abilities gained after completing"
-                                + " exploration.");
+                        "探索条件池，仅影响新旅程。抽取数量见 general.toml 的 requirements。\n"
+                                + "Exploration pools for new journeys; draw counts are in general.toml"
+                                + " under requirements.");
+                section(builder, "travail.malice", "苦旅恶意\n" + "The Long Travail: Malice");
+                section(builder, "travail.witness", "苦旅见证\n" + "The Long Travail: Witness");
                 section(
                         builder,
                         "travail.witness.fishing",
                         "冥府见证钓鱼：概率、物品池与实体池。\n"
                                 + "Underworld Witness fishing: probabilities, item pools, and entity"
                                 + " pools.");
-                section(
-                        builder,
-                        "items.relics.king",
-                        "第六天魔王；下列加成设为 0 时禁用对应加成。\n"
-                                + "Demon King of the Sixth Heaven; 0 disables the corresponding"
-                                + " bonus.");
-                section(
-                        builder,
-                        "items.relics.banner",
-                        "万魂幡；有效魂数不超过 capacity。下列加成设为 0 时禁用对应加成。\n"
-                                + "Myriad Souls Banner; effective souls are capped by capacity. A bonus"
-                                + " of 0 disables that bonus.");
+                section(builder, "items.relics.king", itemLabel("demon_king_of_the_sixth_heaven"));
+                section(builder, "items.relics.banner", itemLabel("myriad_souls_banner"));
             }
             default -> throw new IllegalArgumentException("Unknown config file: " + file);
+        }
+        itemHeadings(builder, file);
+    }
+
+    private static void itemHeadings(ForgeConfigSpec.Builder builder, String file) {
+        switch (file) {
+            case "aspects/flourishing.toml" -> {
+                section(builder, "items.mistletoe", itemLabel("mistletoe"));
+                section(builder, "items.everlasting_flower", itemLabel("everlasting_flower"));
+                section(builder, "items.moon_toad_pastry", itemLabel("moon_toad_pastry"));
+            }
+            case "aspects/abyss.toml" -> {
+                section(builder, "items.sea_in_a_bottle", itemLabel("sea_in_a_bottle"));
+            }
+            case "aspects/far_reach.toml" -> {
+                section(builder, "items.don_quixote", itemLabel("don_quixote"));
+                section(builder, "items.babel", itemLabel("tower_of_babel"));
+                section(builder, "items.sun_chaser", itemLabel("sun_chaser"));
+                section(builder, "items.horizon_theory", itemLabel("horizon_theory"));
+            }
+            case "aspects/deep_valley.toml" -> {
+                section(builder, "items.swordAndLantern", itemLabel("sword_and_lantern"));
+                section(builder, "items.last_affairs", itemLabel("last_affairs"));
+            }
+            case "aspects/underworld.toml" -> {
+                section(builder, "items.thousandYears", itemLabel("a_thousand_years_later"));
+                section(builder, "items.book", itemLabel("book_of_the_dead"));
+                section(builder, "items.kagotsurube", itemLabel("kagotsurube"));
+                section(builder, "items.living_flesh", itemLabel("living_flesh"));
+            }
+            case "aspects/boundless.toml" -> {
+                section(builder, "items.boundless.dream", itemLabel("free_and_easy_wandering"));
+                section(builder, "items.boundless.star", itemLabel("star_voice"));
+                section(builder, "items.boundless.prince", itemLabel("little_prince"));
+                section(builder, "items.boundless.lorentz", itemLabel("lorentz_fantasy"));
+                section(builder, "items.holy_fool", itemLabel("holy_fool"));
+            }
+            default -> {}
         }
     }
 
@@ -551,11 +370,11 @@ public final class ConfigFilesDescription {
             String directory = path.equals("travail") ? "上一级" : "同目录";
             String relative = path.equals("travail") ? "../" : "";
             comment +=
-                    "\n填写方法见"
+                    "\n填写说明："
                             + directory
-                            + "“配置说明.txt”：基础写法与单位 [C04]；列表格式速查 [C05]。\nEditing help: "
+                            + "“配置说明.txt”。\nEditing help: "
                             + relative
-                            + "Configuration Guide.txt [C04] syntax and units, [C05] list formats.";
+                            + "Configuration Guide.txt.";
         }
         builder.comment(comment).push(path).pop(path.split("\\.").length);
     }
@@ -573,9 +392,9 @@ public final class ConfigFilesDescription {
                     "启用 Curios 装备槽检测，不包括外观槽。\n"
                             + "Enable equipped Curios slot checks, excluding cosmetic slots.";
             case "externalInventoryTick" ->
-                    "启用外部容器的模拟物品栏更新检测，须容器支持并启用。\n"
-                            + "Enable simulated inventory updates from external containers; requires"
-                            + " container support and activation.";
+                    "启用外部容器的携带检测，须容器支持物品栏更新。\n"
+                            + "Enable carrying detection in external containers that support inventory"
+                            + " updates.";
             default -> throw new IllegalArgumentException(area);
         };
     }

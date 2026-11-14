@@ -112,8 +112,7 @@ public final class RewardCompatDefaultsTest {
                 expect(
                         preset.equals(test.entries()),
                         "Current independent presets retain approved values");
-                String marker =
-                        "travail.witness.compatInitialization." + test.namespace() + ".itemsAdded";
+                String marker = "presets.witness." + test.namespace() + ".itemsAdded";
                 var config = fresh(pool);
                 expect(
                         !RewardCompatDefaults.apply(
@@ -191,7 +190,7 @@ public final class RewardCompatDefaultsTest {
         var config = fresh(RewardCompatDefaults.FISH_POOL);
         config.set(RewardCompatDefaults.PHANTOM_POOL, List.of());
         var test = CASES.get(0);
-        String base = "travail.witness.compatInitialization.l2complements.";
+        String base = "presets.witness.l2complements.";
         config.set(base + "fishingItemsAdded", true);
         expect(
                 !RewardCompatDefaults.apply(
@@ -250,7 +249,7 @@ public final class RewardCompatDefaultsTest {
                 !RewardCompatDefaults.apply(
                         config, RewardCompatDefaults.FISHING, preset, true, id -> true),
                 "Fishing completion still prevents refill");
-        config.remove("travail.witness.compatInitialization.example.fishingItemsAdded");
+        config.remove("presets.witness.example.fishingItemsAdded");
         var changed =
                 new RewardCompatDefaults.Preset(
                         "example", "Example", List.of("example:new_fish|3|2|5"), phantom);
@@ -272,8 +271,7 @@ public final class RewardCompatDefaultsTest {
                         config, RewardCompatDefaults.FISHING, oneSided, true, id -> true),
                 "Source without fishing candidates ignored");
         expect(
-                !config.contains(
-                        "travail.witness.compatInitialization.phantom_only.fishingItemsAdded"),
+                !config.contains("presets.witness.phantom_only.fishingItemsAdded"),
                 "No completion for absent category");
         expect(
                 RewardCompatDefaults.apply(

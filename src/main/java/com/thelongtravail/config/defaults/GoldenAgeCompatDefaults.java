@@ -36,7 +36,7 @@ public final class GoldenAgeCompatDefaults {
         }
 
         String marker(String mod) {
-            return "items.golden_age.compatInitialization." + mod + "." + marker;
+            return "presets.golden_age." + mod + "." + marker;
         }
     }
 

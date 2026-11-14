@@ -11,36 +11,22 @@ public final class AzraelConfig {
     public static void define(ForgeConfigSpec.Builder b) {
         WATCH_SECONDS =
                 b.comment(
-                                "强制处决后主动防护的最长时限，单位：游戏秒（20 游戏刻）；仅影响之后的处决。完整清理规则见 [M03]。\n"
-                                        + "Maximum active-protection duration after forced execution,"
-                                        + " in game seconds (20 ticks); affects later executions only."
-                                        + " Full cleanup rules: [M03].")
+                                "强制处决后的最长防护时间，单位：秒（20 游戏刻）；仅影响之后的处决。\n"
+                                        + "Maximum protection duration after forced execution, in"
+                                        + " seconds (20 ticks); affects future executions only.")
                         .defineInRange("items.azrael.executionWatchSeconds", 300, 10, 3600);
         MALICE =
                 b.comment(
-                                "幽谷之恶意生效时，受击可获得一次处决判定机会，自身造成的攻击除外。\n"
-                                        + "此值为接下来首次实际造成伤害时，处决目标的概率。\n"
-                                        + "处决判定次数和处决概率均不可累计；\n"
-                                        + "0.025表示2.5%。\n"
-                                        + "With Deep Valley Malice active, being attacked grants one"
-                                        + " execution attempt, except for attacks from the wearer.\n"
-                                        + "This is the chance to execute the first target the wearer"
-                                        + " actually damages afterward.\n"
-                                        + "Neither execution attempts nor execution chance can"
-                                        + " accumulate.\n"
-                                        + "0.025 means 2.5%.")
+                                "恶意状态下，受击后首次实际造成伤害时处决目标的概率；0.025 表示 2.5%。\n"
+                                        + "Chance to execute the first target actually damaged after"
+                                        + " receiving an attack during Malice; 0.025 means 2.5%.")
                         .defineInRange("items.azrael.maliceChance", .025, 0, 1);
         TARGET =
                 b.comment(
-                                "幽谷之见证生效时，每次判定中处决目标的概率。\n"
-                                        + "处决目标与处决佩戴者不会在同一次判定中同时发生；\n"
-                                        + "两项概率之和超过1时，按原比例缩放至合计1。\n"
-                                        + "With Deep Valley Witness active, the chance to execute the"
-                                        + " target on each roll.\n"
-                                        + "Executing the target and executing the wearer are mutually"
-                                        + " exclusive outcomes of the same roll.\n"
-                                        + "If their chances total more than 1, they are scaled"
-                                        + " proportionally to total 1.")
+                                "见证状态下处决目标的概率；与 selfChance 之和超过 1 时，按原比例缩放至合计 1。\n"
+                                        + "Witness chance to execute the target; if this and selfChance"
+                                        + " total more than 1, both are scaled proportionally to total"
+                                        + " 1.")
                         .defineInRange("items.azrael.targetChance", .005, 0, 1);
         SELF =
                 b.comment(
@@ -50,26 +36,20 @@ public final class AzraelConfig {
                         .defineInRange("items.azrael.selfChance", .005, 0, 1);
         ATTEMPTS =
                 b.comment(
-                                "处决第一阶段使用无限大真实伤害的最大尝试次数。每次尝试前重置原版无敌帧，处决成功后停止尝试。\n"
-                                        + "Maximum number of attempts to deal infinite true damage"
-                                        + " during the first execution stage. Vanilla"
-                                        + " damage-invulnerability time is reset before each attempt."
-                                        + " Stops as soon as execution succeeds.")
+                                "处决时最多尝试造成伤害的次数；成功后停止。\n"
+                                        + "Maximum damage attempts during execution; stops on success.")
                         .defineInRange("items.azrael.damageAttempts", 10, 1, 10);
         KILL_FALLBACK =
                 b.comment(
-                                "第一阶段失败后，尝试一次保留玩家来源的generic_kill伤害。\n"
-                                        + "If the first stage fails, attempt generic_kill damage once,"
-                                        + " retaining the player as its source.")
+                                "伤害处决失败后，是否追加一次 generic_kill 伤害。\n"
+                                        + "Attempt generic_kill damage once if the initial damage"
+                                        + " execution fails.")
                         .define("items.azrael.genericKillFallback", true);
         DEATH_FALLBACK =
                 b.comment(
-                                "前两个阶段均失败后，跳过可取消死亡检查并锁定旧实体生命值；玩家保留重生流程，非玩家调用原版死亡方法后强制终结，可能绕过自定义掉落或Boss清理。\n"
-                                        + "If both earlier stages fail, bypass cancelable death checks"
-                                        + " and lock the old entity instance's health. Players retain"
-                                        + " the respawn process. Non-player entities run the vanilla"
-                                        + " death method before being forcibly terminated, which may"
-                                        + " bypass custom drops or boss cleanup.")
+                                "前两步处决失败后，是否直接强制死亡；可能跳过自定义掉落或死亡清理。\n"
+                                        + "Force death if both earlier execution stages fail; may"
+                                        + " bypass custom drops or death cleanup.")
                         .define("items.azrael.directDeathFallback", true);
     }
 

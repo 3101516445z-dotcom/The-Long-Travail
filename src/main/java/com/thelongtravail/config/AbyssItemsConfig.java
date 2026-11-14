@@ -34,23 +34,15 @@ public final class AbyssItemsConfig {
                                 1000000.0);
         ABUNDANCE_WHITELIST =
                 b.comment(
-                                "注意：白名单只要不是空列表，液化丰饶就只会生成名单内的药水效果，所有名单外的效果都不会再出现。",
-                                "IMPORTANT: Once this whitelist is nonempty, Liquefied Abundance generates"
-                                        + " ONLY listed potion effects. ALL effects outside the list are excluded.",
-                                "此列表用于限制可生成的效果，不是向原有效果池追加效果。填写完整状态效果 ID，精确匹配。",
-                                "This list restricts eligible effects; it does not add effects to the"
-                                        + " original pool. Use exact, full status effect IDs.",
-                                "例如，只填写 minecraft:speed 时，只会生成速度效果的药水。设为 [] 可取消白名单限制，但仍受黑名单限制。",
-                                "For example, listing only minecraft:speed allows only Speed potions."
-                                        + " Set this list to [] to remove whitelist restrictions;"
-                                        + " the blacklist still applies.",
-                                "黑名单优先；未知 ID 不参与抽取，重复项不增加权重。筛选后为空则取消转换且不消耗材料。",
-                                "The blacklist takes precedence. Unknown IDs are excluded and duplicates"
-                                        + " add no weight. An empty result cancels conversion"
-                                        + " without consuming materials.",
-                                "仅筛选效果种类，不改变等级、持续时间或分层等概率规则；仅影响之后的转换。",
-                                "Filters effect types only, without changing levels, durations or uniform"
-                                        + " selection within each tier. Affects future conversions only.")
+                                "允许生成的状态效果 ID。非空时只从名单内选择；[] 表示不限制。黑名单优先。\n"
+                                        + "Allowed effect IDs. A nonempty list limits selection to"
+                                        + " these entries; [] removes this restriction. The blacklist"
+                                        + " takes precedence.\n"
+                                        + "填写完整 ID，如 minecraft:speed。未知 ID"
+                                        + " 会被忽略，重复项不增加概率；没有可用效果时取消转换，不消耗材料。\n"
+                                        + "Use full IDs, such as minecraft:speed. Unknown IDs are"
+                                        + " ignored; duplicates add no weight. If no effects are"
+                                        + " eligible, conversion is cancelled without consuming materials.")
                         .defineListAllowEmpty(
                                 "items.liquefied_abundance.effectWhitelist",
                                 List.of(),
@@ -69,12 +61,10 @@ public final class AbyssItemsConfig {
                                                 && ResourceLocation.tryParse(s) != null);
         BLACKLIST =
                 b.comment(
-                                "禁止完美流体复制的物品"
-                                        + " ID。精确匹配；复制产物的容器及嵌套内容也会清除这些物品，原件不变。检测到女仆或性格模组时，对应联动物品会自动填入一次，之后可自行删除。\n"
-                                        + "Exact item IDs excluded from duplication, including contents"
-                                        + " of copied containers and nested containers; originals are"
-                                        + " unchanged. Maid compatibility items are added once when"
-                                        + " their mods are detected and may then be removed freely.")
+                                "禁止复制的物品 ID；也会从复制出的容器及嵌套内容中移除这些物品。填写完整 ID，精确匹配。\n"
+                                        + "Item IDs excluded from duplication. These items are also"
+                                        + " removed from copied containers and nested contents."
+                                        + " Use exact, full IDs.")
                         .defineListAllowEmpty(
                                 "items.perfect_fluid.itemBlacklist",
                                 List.of(),
@@ -83,25 +73,16 @@ public final class AbyssItemsConfig {
                                                 && s.contains(":")
                                                 && ResourceLocation.tryParse(s) != null);
         MAID_SOUL_ADDED =
-                b.comment(
-                                "车万女仆（Touhou Little Maid）：初始及已收纳女仆的魂符（不含空魂符）。\n"
-                                        + "Touhou Little Maid: initial and occupied Soul Spells,"
-                                        + " excluding empty ones.")
-                        .define("items.perfect_fluid.compatInitialization.maidSoulAdded", false);
+                b.comment("魂符黑名单的预设处理记录。\n" + "Soul Spell blacklist preset record.")
+                        .define("presets.perfect_fluid.maidSoulAdded", false);
         MONSTER_BATTLE_DEVICE_ADDED =
-                b.comment(
-                                "车万女仆性格模组（Touhou Little Maid Personality）：怪兽战斗仪。\n"
-                                        + "Touhou Little Maid Personality: Monster Battle Device.")
-                        .define(
-                                "items.perfect_fluid.compatInitialization.monsterBattleDeviceAdded",
-                                false);
+                b.comment("怪兽战斗仪黑名单的预设处理记录。\n" + "Monster Battle Device blacklist preset record.")
+                        .define("presets.perfect_fluid.monsterBattleDeviceAdded", false);
         REGENERATION =
                 b.comment(
-                                "新获得生命恢复效果时增加的等级数；0 表示不增加。与穷遐的等级加成叠加，并共用效果等级上限；不会降低已有的更高等级。\n"
+                                "新获得生命恢复效果时增加的等级数；0 表示不增加。\n"
                                         + "Levels added to newly applied Regeneration; 0 disables the"
-                                        + " bonus. Stacks with the Far Reach level bonus and uses the"
-                                        + " same effect-level cap. Never lowers an existing higher"
-                                        + " level.")
+                                        + " bonus.")
                         .defineInRange("items.midnight_lafite.regenerationLevelBonus", 1, 0, 255);
         SATURATION =
                 b.comment(

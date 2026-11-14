@@ -52,15 +52,59 @@ final class ConfigLayout {
                                 "effectLimits",
                                 "rewardDelivery",
                                 "compatibility",
+                                "effects",
                                 "loot",
                                 "upgrades");
                 case "client.toml" ->
                         List.of("nameEffects", "visualDeprivation", "messages", "timeStop");
-                default -> List.of("travail", "items");
+                default -> List.of("travail", "items", "presets");
             };
+        }
+        if (path.equals(List.of("presets"))) {
+            return List.of("exploration", "witness", "golden_age", "perfect_fluid");
         }
         if (path.equals(List.of("travail"))) {
             return List.of("requirements", "malice", "witness", "visualDeprivation");
+        }
+        if (path.equals(List.of("items", "phosphophyllite"))) {
+            return List.of(
+                    "maliceAttributes",
+                    "maliceDamage",
+                    "witnessAttributes",
+                    "witnessDamage",
+                    "healTrigger",
+                    "healChance",
+                    "healFraction",
+                    "healCooldownTicks",
+                    "healExcludedDamageTypes",
+                    "excludedAttributes",
+                    "damageAffectsCreativeAndSpectator");
+        }
+        if (path.equals(List.of("items", "azrael"))) {
+            return List.of(
+                    "maliceChance",
+                    "targetChance",
+                    "selfChance",
+                    "selfExecutionAffectsCreativeAndSpectator",
+                    "targetExecutionAffectsCreativeAndSpectator",
+                    "executionWatchSeconds",
+                    "damageAttempts",
+                    "genericKillFallback",
+                    "directDeathFallback");
+        }
+        if (path.equals(List.of("items", "boundless", "star"))) {
+            return List.of(
+                    "maliceChance",
+                    "maliceDuration",
+                    "maliceInterval",
+                    "witnessChance",
+                    "witnessDuration",
+                    "witnessInterval",
+                    "witnessCooldown",
+                    "radius",
+                    "groupLimit",
+                    "maxFieldsPerChunk",
+                    "affectCreativeAndSpectator");
         }
         return List.of();
     }

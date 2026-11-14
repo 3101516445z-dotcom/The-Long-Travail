@@ -7,6 +7,23 @@
 关闭注册可能导致旧存档中的物品丢失，请先备份世界。依赖关闭物品的内置配方、交易和展示会停用，其他模组的脚本或数据包引用需自行调整。
 此文件缺项补 true；语法、布尔值或读取错误会阻止启动，修复后重启，不套用普通数值配置的自动恢复策略。
 
+先找到要改的内容
+- 修改物品效果：打开对应主题文件，用 Ctrl+F 搜索物品的中文名称。
+- 开启或关闭某件物品：打开 item-registration.toml，修改后重启。
+- 修改画面和技能提示：打开 client.toml。
+- 修改路引：打开 utility_items.toml。
+- 修改公共规则或箱子奖励：打开 general.toml。
+- 修改技能按键：进入游戏的“选项 → 控制 → 按键绑定”，不在这些文件中修改。
+
+六个主题文件位于 aspects/：
+繁茂 flourishing.toml；归墟 abyss.toml；穷遐 far_reach.toml；
+幽谷 deep_valley.toml；冥府 underworld.toml；无垠 boundless.toml。
+各文件只列出已有的可调参数。古今语怪目前没有独立数值设置，可在物品注册文件中开关。
+
+一般只需修改等号右边的值，保留配置名称。默认值是首次生成时的设置，不会自动覆盖你已修改的有效数值。
+普通参数保存后会自动重新加载；物品注册需重启，战利品需 /reload 或重启。
+探索池只影响新旅程；技能时长、已有冷却等是否随修改变化，以对应注释为准。
+
 快速索引
 查找章节：打开本说明后，按住键盘上的 Ctrl，再按一下 F，打开“查找”框；输入配置注释中的章节编号（例如 P06）。这只会查找当前文件中的文字，不会修改文件。
 如果先找到目录或其他引用，可按回车或点击“下一个”继续查找；也可以按下面的目录向下翻阅正文。
@@ -39,9 +56,12 @@
   M03  死告天使的处决与防护
   M04  路引搜索与缓存
   M05  客户端显示偏好
-  M07  我于万物之中的标准 kill 保护
   T01  配置写错时如何处理
   M01  女仆兼容
+  M06  主题物品的适用范围与判定条件
+  M07  我于万物之中的标准 kill 保护
+  M08  六主题物品参数
+  M09  磷叶石治疗触发
 
 ====================================================================
 配置写法
@@ -58,8 +78,8 @@ aspects/：六个主题及其关联物品。各主题保留独立的探索条件
 探索池和抽取数量的修改只影响新生成的旅程，不改写已有苦旅。
 
 阅读顺序
-general.toml：初始物品、探索规则、恶意、携带检测与限制、兼容、战利品、内部升级记录。
-主题文件：群系池、结构池、恶意、见证、其他主题规则、关联物品，最后为按类型分组的联动预设处理记录。
+general.toml：初始物品、探索规则、恶意、携带检测与限制、兼容、状态效果、战利品、内部升级记录。
+主题文件：travail（苦旅）、items（物品）、presets（预设注入区）三个一级分组；联动预设集中放在文件末尾。
 upgrades 由模组维护，请勿手动修改；联动预设的初始化标记可按下文说明重置。
 
 [C04] 基础写法与单位
@@ -85,7 +105,7 @@ items = [
 
 [C02] 配置键的读法
 ------------------------------------------------
-例如在 [travail.witness.compatInitialization] 下，goety.positiveEffectsAdded = false 的完整路径为 travail.witness.compatInitialization.goety.positiveEffectsAdded。
+例如在 [presets.witness] 下，goety.positiveEffectsAdded = false 的完整路径为 presets.witness.goety.positiveEffectsAdded。
 点号只是把原来的嵌套表写成一行，配置含义不变；按类型集中排版不会合并各模组或各池的记录。
 
 [C05] 列表格式速查
@@ -162,6 +182,7 @@ loot.fishing_treasure.itemChance
 
 [P00] 预设是什么
 ------------------------------------------------
+预设注入区 presets 与 travail、items 并列，用于集中管理模组联动预设。
 预设是苦旅事先整理好的一组配置条目。检测到对应联动内容、且允许处理时，模组会把其中缺少的条目补进相应配置池，省去玩家逐个查找、填写 ID 的过程。
 
 例如安装 Terralith 后，符合条件的主题会补入预先选定的群系；玩家已配置同 ID 群系时，保留玩家的名称和权重。补入后仍可以自行修改或删除。
@@ -169,7 +190,7 @@ loot.fishing_treasure.itemChance
 需要区分的三个概念
 - 配置池：游戏实际使用的候选列表，例如 biomes 或 positiveEffects。
 - 预设：用于补充这个列表的内置条目，无需玩家另外填写一份“预设文件”。
-- 处理记录：compatInitialization 下的布尔值，控制是否还等待一次自动补入，具体操作见 [P01]。
+- 处理记录：presets 下的布尔值，控制是否还等待一次自动补入，具体操作见 [P01]。
 
 原版默认配置池另行维护：默认值用于新建或缺失的配置项；联动预设补充可选模组的内容。重置联动记录不会把已有完整配置池恢复成默认值。
 
@@ -204,7 +225,7 @@ false：等待一次处理机会，不表示联动被禁用。来源缺席或不
 Terralith：繁茂 16、归墟 10、穷遐 19、幽谷 9、冥府 4、无垠 7；Incendium：冥府 8；Alex 的洞穴：幽谷 2。
 
 记录与生效范围
-对应主题的 travail.requirements.compatInitialization 下，分别用 terralithBiomesAdded、incendiumBiomesAdded、alexsCavesBiomesAdded 记录处理状态。
+对应主题的 presets.exploration 下，分别用 terralithBiomesAdded、incendiumBiomesAdded、alexsCavesBiomesAdded 记录处理状态。
 无对应预设的主题不生成该联动标记。
 译名由模组或资源包提供，见 [E02]。结构池与抽取数量不变，已有旅程不重新抽取。
 
@@ -219,7 +240,7 @@ Terralith：繁茂 16、归墟 10、穷遐 19、幽谷 9、冥府 4、无垠 7�
 已接入 Terralith 18、诡厄巫法：觉醒 9、Towns and Towers 8、诡厄巫法 8、Incendium 6、Iron 的法术与魔法书 4、万法皆通 4、新生魔艺 3、海灵物语 2、Alex 的洞穴 1、Mowzie 的生物 1、T.O Magic 'n Extras 1，共 65 个结构。
 
 记录与生效范围
-各主题的 travail.requirements.compatInitialization 下以 *StructuresAdded 独立记录，不受群系的 *BiomesAdded 标记影响。无对应预设的主题不生成该标记。
+各主题的 presets.exploration 下以 *StructuresAdded 独立记录，不受群系的 *BiomesAdded 标记影响。无对应预设的主题不生成该标记。
 已有名称、权重和顺序保留；译文由模组或资源包提供，缺译显示 ID。未接入的模组及原版结构不自动补入，已有手动条目保留。
 不改变结构抽取数量和已有旅程；general.toml 的 requirements.structureDrawCount 默认仍为 0，需要结构目标时自行设置数量。
 
@@ -242,7 +263,7 @@ Terralith：繁茂 16、归墟 10、穷遐 19、幽谷 9、冥府 4、无垠 7�
 仅补入已注册且本池没有的 ID；已有同 ID 权重、数量和顺序优先。ROR 不加入预设，手动配置保留。
 
 记录与生效范围
-对应主题的 travail.witness.compatInitialization.<命名空间> 下，分别以 fishingItemsAdded、phantomDropsAdded 记录初始化，与群系、结构标记独立。
+对应主题的 presets.witness.<命名空间> 下，分别以 fishingItemsAdded、phantomDropsAdded 记录初始化，与群系、结构标记独立。
 联动不改变钓鱼触发概率、幻翼检测与击杀规则、发奖限制和钓出生物池；新增候选只改变物品池内的占比。
 
 [P05] 钓出生物默认配置池与联动预设
@@ -260,7 +281,7 @@ Terralith：繁茂 16、归墟 10、穷遐 19、幽谷 9、冥府 4、无垠 7�
 共 5 个来源、15 项候选；其他来源齐全、归家与飨宴只安装其一时，新配置共 19 项，两个命名空间候选全部存在时共 24 项。仅补入实体注册表中存在且池内缺少的 ID，保留已有权重与顺序；亚小妹 starfantasy_goety:apollyon 不自动加入，已有手动条目保留。
 
 记录与生效范围
-travail.witness.compatInitialization.<命名空间>.fishingEntitiesAdded 独立记录处理状态，与物品奖励及探索池分开。
+presets.witness.<命名空间>.fishingEntitiesAdded 独立记录处理状态，与物品奖励及探索池分开。
 联动不改变钓鱼触发概率、实际实体生成方式或物品奖励池。
 
 [P06] 增益效果联动预设
@@ -280,7 +301,7 @@ AD（astral_dimension）、esoteric_spell、projectile_damage、gtbcs_geomancy_p
 
 检测与处理规则
 加载世界时按效果注册表命名空间检测来源，只补入已注册、属于增益类型且本池缺少的 ID；已有最高等级、权重与顺序优先。
-各主题文件的 travail.witness.compatInitialization.<命名空间>.positiveEffectsAdded 独立记录处理状态。
+各主题文件的 presets.witness.<命名空间>.positiveEffectsAdded 独立记录处理状态。
 效果触发、持续时间与等级处理沿用原规则；穷遐等级加成上限仍取两池同 ID 的较高上限。
 
 [P07] 黄金时代联动黑名单
@@ -299,7 +320,7 @@ aspects/far_reach.toml 的 items.golden_age.foodBlacklist 与 enchantmentBlackli
 
 检测与处理规则
 加载世界时检查模组安装状态，只补入对应注册表中存在且列表内缺少的 ID，保留手动条目与顺序。
-items.golden_age.compatInitialization.<模组ID> 下的 foodBlacklistAdded、enchantmentBlacklistAdded 分别记录处理，与见证奖励和效果池独立。
+presets.golden_age.<模组ID> 下的 foodBlacklistAdded、enchantmentBlacklistAdded 分别记录处理，与见证奖励和效果池独立。
 只影响黄金时代的产出候选，其他获取途径不受影响；原有食物筛选和附魔等级规则保留。
 
 [P08] 完美流体联动黑名单
@@ -307,7 +328,7 @@ items.golden_age.compatInitialization.<模组ID> 下的 foodBlacklistAdded、enc
 通用记录规则与重试步骤见 [P01]。
 
 配置位置
-aspects/abyss.toml 的 items.perfect_fluid.itemBlacklist 保存禁止复制的物品 ID，处理记录位于 items.perfect_fluid.compatInitialization。
+aspects/abyss.toml 的 items.perfect_fluid.itemBlacklist 保存禁止复制的物品 ID，处理记录位于 presets.perfect_fluid。
 
 模组与对应物品
 车万女仆（Touhou Little Maid，touhou_little_maid）：maidSoulAdded 对应初始魂符和已收纳女仆的魂符，不包含空魂符。
@@ -545,6 +566,6 @@ general.toml 的 effects.amongAllThings.immuneToKill 默认为 true：开启时�
 ------------------------------------------------
 aspects/deep_valley.toml 的 items.phosphophyllite 独立控制磷叶石治疗：
 - healTrigger 默认 ATTACK_ATTEMPT（受击时）；HEALTH_LOSS 表示因伤害损失生命值时。
-- healCooldownTicks 默认 0，单位为 tick（20 tick = 1 秒），0 表示无冷却。
+- healCooldownTicks 默认 0，单位为游戏刻（20 游戏刻 = 1 秒），0 表示无冷却。
 - healExcludedDamageTypes 默认 []，填写不触发治疗的完整伤害类型 ID。
-日记仍使用自身的受击配置。物品描述和拾遗分别按各自服务端触发模式显示。
+苦旅仍使用自身的受击配置。物品描述和拾遗分别按各自服务端触发模式显示。

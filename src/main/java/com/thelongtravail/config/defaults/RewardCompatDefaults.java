@@ -47,7 +47,7 @@ public final class RewardCompatDefaults {
             new EnumMap<>(TravailAspect.class);
 
     private static String marker(Pool pool, Preset preset) {
-        return "travail.witness.compatInitialization." + preset.namespace() + "." + pool.marker();
+        return "presets.witness." + preset.namespace() + "." + pool.marker();
     }
 
     public static void define(ForgeConfigSpec.Builder builder, TravailAspect aspect) {

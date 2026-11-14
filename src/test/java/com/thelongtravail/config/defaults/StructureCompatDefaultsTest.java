@@ -17,86 +17,86 @@ public final class StructureCompatDefaultsTest {
             List.of(
                     new Case(
                             "terralith",
-                            "travail.requirements.compatInitialization.terralithStructuresAdded",
+                            "presets.exploration.terralithStructuresAdded",
                             com.thelongtravail.compat.terralith.TerralithStructureDefaults
                                     ::structures,
                             new int[] {8, 1, 3, 5, 1, 0}),
                     new Case(
                             "goetyawaken",
-                            "travail.requirements.compatInitialization.goetyAwakenStructuresAdded",
+                            "presets.exploration.goetyAwakenStructuresAdded",
                             com.thelongtravail.compat.goetyawaken.GoetyAwakenStructureDefaults
                                     ::structures,
                             new int[] {2, 1, 4, 1, 1, 0}),
                     new Case(
                             "towns_and_towers",
-                            "travail.requirements.compatInitialization.townsAndTowersStructuresAdded",
+                            "presets.exploration.townsAndTowersStructuresAdded",
                             com.thelongtravail.compat.townsandtowers.TownsAndTowersStructureDefaults
                                     ::structures,
                             new int[] {0, 7, 0, 0, 0, 1}),
                     new Case(
                             "goety",
-                            "travail.requirements.compatInitialization.goetyStructuresAdded",
+                            "presets.exploration.goetyStructuresAdded",
                             com.thelongtravail.compat.goety.GoetyStructureDefaults::structures,
                             new int[] {1, 0, 4, 1, 1, 2}),
                     new Case(
                             "incendium",
-                            "travail.requirements.compatInitialization.incendiumStructuresAdded",
+                            "presets.exploration.incendiumStructuresAdded",
                             com.thelongtravail.compat.incendium.IncendiumStructureDefaults
                                     ::structures,
                             new int[] {0, 0, 0, 0, 5, 1}),
                     new Case(
                             "irons_spellbooks",
-                            "travail.requirements.compatInitialization.ironsSpellbooksStructuresAdded",
+                            "presets.exploration.ironsSpellbooksStructuresAdded",
                             com.thelongtravail.compat.ironsspellbooks
                                             .IronsSpellbooksStructureDefaults
                                     ::structures,
                             new int[] {1, 1, 2, 1, 1, 1}),
                     new Case(
                             "touhou_little_maid_spell",
-                            "travail.requirements.compatInitialization.maidSpellStructuresAdded",
+                            "presets.exploration.maidSpellStructuresAdded",
                             com.thelongtravail.compat.maidspell.MaidSpellStructureDefaults
                                     ::structures,
                             new int[] {2, 0, 0, 0, 1, 0}),
                     new Case(
                             "ars_nouveau",
-                            "travail.requirements.compatInitialization.arsNouveauStructuresAdded",
+                            "presets.exploration.arsNouveauStructuresAdded",
                             com.thelongtravail.compat.arsnouveau.ArsNouveauStructureDefaults
                                     ::structures,
                             new int[] {0, 0, 0, 3, 0, 0}),
                     new Case(
                             "aquamirae",
-                            "travail.requirements.compatInitialization.aquamiraeStructuresAdded",
+                            "presets.exploration.aquamiraeStructuresAdded",
                             com.thelongtravail.compat.aquamirae.AquamiraeStructureDefaults
                                     ::structures,
                             new int[] {0, 2, 0, 0, 0, 0}),
                     new Case(
                             "mowziesmobs",
-                            "travail.requirements.compatInitialization.mowziesMobsStructuresAdded",
+                            "presets.exploration.mowziesMobsStructuresAdded",
                             com.thelongtravail.compat.mowziesmobs.MowziesMobsStructureDefaults
                                     ::structures,
                             new int[] {1, 0, 1, 1, 0, 0}),
                     new Case(
                             "traveloptics",
-                            "travail.requirements.compatInitialization.travelOpticsStructuresAdded",
+                            "presets.exploration.travelOpticsStructuresAdded",
                             com.thelongtravail.compat.traveloptics.TravelOpticsStructureDefaults
                                     ::structures,
                             new int[] {0, 0, 0, 0, 1, 0}),
                     new Case(
                             "cataclysm",
-                            "travail.requirements.compatInitialization.cataclysmStructuresAdded",
+                            "presets.exploration.cataclysmStructuresAdded",
                             com.thelongtravail.compat.cataclysm.CataclysmStructureDefaults
                                     ::structures,
                             new int[] {0, 2, 2, 1, 2, 1}),
                     new Case(
                             "legendary_monsters",
-                            "travail.requirements.compatInitialization.legendarymonstersStructuresAdded",
+                            "presets.exploration.legendarymonstersStructuresAdded",
                             com.thelongtravail.compat.legendarymonsters
                                             .LegendaryMonstersStructureDefaults
                                     ::structures,
                             new int[] {1, 0, 0, 0, 0, 2}),
                     new Case(
                             "eeeabsmobs",
-                            "travail.requirements.compatInitialization.eeeabsmobsStructuresAdded",
+                            "presets.exploration.eeeabsmobsStructuresAdded",
                             com.thelongtravail.compat.eeeabsmobs.EEEABMobsStructureDefaults
                                     ::structures,
                             new int[] {0, 0, 0, 1, 1, 0}));

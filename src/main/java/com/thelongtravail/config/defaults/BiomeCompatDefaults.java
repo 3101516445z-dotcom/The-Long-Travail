@@ -22,12 +22,9 @@ import java.util.function.Predicate;
 
 public final class BiomeCompatDefaults {
     public static final String POOL = "travail.requirements.biomes";
-    public static final String TERRALITH_MARKER =
-            "travail.requirements.compatInitialization.terralithBiomesAdded";
-    public static final String INCENDIUM_MARKER =
-            "travail.requirements.compatInitialization.incendiumBiomesAdded";
-    public static final String ALEXS_CAVES_MARKER =
-            "travail.requirements.compatInitialization.alexsCavesBiomesAdded";
+    public static final String TERRALITH_MARKER = "presets.exploration.terralithBiomesAdded";
+    public static final String INCENDIUM_MARKER = "presets.exploration.incendiumBiomesAdded";
+    public static final String ALEXS_CAVES_MARKER = "presets.exploration.alexsCavesBiomesAdded";
 
     private record Preset(
             String namespace,

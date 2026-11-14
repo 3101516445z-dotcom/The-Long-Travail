@@ -36,7 +36,7 @@ public final class GoldenAgeCompatDefaultsTest {
         config.set(ENCHANTMENT.path(), List.of("minecraft:mending", "example:custom_enchantment"));
         config.set("items.golden_age.minNutrition", 4.0);
         config.set("travail.witness.positiveEffects", List.of("minecraft:strength|3|9"));
-        config.set("travail.witness.compatInitialization.l2complements.fishingItemsAdded", true);
+        config.set("presets.witness.l2complements.fishingItemsAdded", true);
         return config;
     }
 
@@ -59,9 +59,7 @@ public final class GoldenAgeCompatDefaultsTest {
         expect(
                 !GoldenAgeCompatDefaults.apply(config, mod -> false, id -> true, id -> true),
                 "Absent mods do nothing");
-        expect(
-                !config.contains("items.golden_age.compatInitialization"),
-                "Absent mods remain pending");
+        expect(!config.contains("presets.golden_age"), "Absent mods remain pending");
         var food = new ArrayList<>(config.<List<String>>get(FOOD.path()));
         food.add(FOODS.get(0));
         var enchantments = new ArrayList<>(config.<List<String>>get(ENCHANTMENT.path()));
@@ -93,9 +91,7 @@ public final class GoldenAgeCompatDefaultsTest {
                         .equals(config.get("travail.witness.positiveEffects")),
                 "Witness effect pool unchanged");
         expect(
-                Boolean.TRUE.equals(
-                        config.get(
-                                "travail.witness.compatInitialization.l2complements.fishingItemsAdded")),
+                Boolean.TRUE.equals(config.get("presets.witness.l2complements.fishingItemsAdded")),
                 "Reward marker independent");
         expect(
                 !GoldenAgeCompatDefaults.apply(config, mod -> true, id -> true, id -> true),

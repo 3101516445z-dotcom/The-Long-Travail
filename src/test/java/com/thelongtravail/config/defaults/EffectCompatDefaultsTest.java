@@ -98,13 +98,13 @@ public final class EffectCompatDefaultsTest {
     }
 
     private static String marker(String namespace) {
-        return "travail.witness.compatInitialization." + namespace + ".positiveEffectsAdded";
+        return "presets.witness." + namespace + ".positiveEffectsAdded";
     }
 
     private static CommentedConfig fresh() {
         var config = CommentedConfig.inMemory();
         config.set(POOL, MANUAL);
-        config.set("travail.witness.compatInitialization.example.fishingItemsAdded", true);
+        config.set("presets.witness.example.fishingItemsAdded", true);
         config.set(
                 "travail.witness.beneficialLevelBonusBlacklist", List.of("minecraft:night_vision"));
         config.set("travail.requirements.biomes", List.of("minecraft:plains|Plains|7"));
@@ -148,8 +148,7 @@ public final class EffectCompatDefaultsTest {
                 expect(Boolean.TRUE.equals(config.get(mark)), "Completion persisted");
                 expect(
                         Boolean.TRUE.equals(
-                                config.get(
-                                        "travail.witness.compatInitialization.example.fishingItemsAdded")),
+                                config.get("presets.witness.example.fishingItemsAdded")),
                         "Other category marker retained");
                 expect(
                         List.of("minecraft:night_vision")

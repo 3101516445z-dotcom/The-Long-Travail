@@ -41,7 +41,7 @@ public final class TravailClientConfig {
                         .defineEnum("nameEffects.aspectNameHaloQuality", HaloQuality.HIGH);
         REDUCE_VISUAL_MOTION =
                 builder.comment(
-                                "是否在本客户端关闭视觉剥夺的周期性强弱变化。",
+                                "true：关闭本客户端视觉剥夺的强弱波动；false：允许显示波动。服务端仍需启用波动才会出现。",
                                 "Disable periodic changes in Visual Deprivation intensity on this"
                                         + " client.")
                         .define("visualDeprivation.reduceVisualMotion", false);
