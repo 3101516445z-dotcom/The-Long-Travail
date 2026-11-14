@@ -1,13 +1,12 @@
 package com.thelongtravail.underworld;
 
-import com.thelongtravail.registry.RegisteredItems;
-
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.common.AttributeModifierSet;
 import com.thelongtravail.config.UnderworldItemsConfig;
 import com.thelongtravail.registry.ModAttributes;
 import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.registry.RegisteredItems;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,8 +24,9 @@ import java.util.*;
 
 @Mod.EventBusSubscriber(modid = "the_long_travail")
 public final class UnderworldRelics {
-    private static final ResourceLocation SOURCE =
-            new ResourceLocation("the_long_travail", "underworld_relics");
+    private static final AttributeModifierSet.Source SOURCE =
+            new AttributeModifierSet.Source(
+                    new ResourceLocation("the_long_travail", "underworld_relics"));
     private static final Map<LivingEntity, Map<Attribute, AttributeModifierSet.Modifier>> APPLIED =
             new WeakHashMap<>();
 

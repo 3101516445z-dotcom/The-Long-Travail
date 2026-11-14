@@ -19,8 +19,9 @@ import java.util.*;
 
 @Mod.EventBusSubscriber(modid = "the_long_travail")
 public final class Phosphophyllite {
-    private static final ResourceLocation SOURCE =
-            new ResourceLocation("the_long_travail", "phosphophyllite");
+    private static final AttributeModifierSet.Source SOURCE =
+            new AttributeModifierSet.Source(
+                    new ResourceLocation("the_long_travail", "phosphophyllite"));
     private static final Set<String> COMPAT_EXCLUSIONS =
             ArsNouveauAttributeRules.phosphophylliteExclusions();
 

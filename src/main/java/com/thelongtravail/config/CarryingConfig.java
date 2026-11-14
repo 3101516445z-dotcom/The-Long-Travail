@@ -30,7 +30,9 @@ public final class CarryingConfig {
     }
 
     public static boolean enabled(String area) {
-        return AREAS.get(area).get();
+        var value = AREAS.get(area);
+        if (value == null) throw new IllegalArgumentException("Unknown carrying area: " + area);
+        return value.get();
     }
 
     private CarryingConfig() {}

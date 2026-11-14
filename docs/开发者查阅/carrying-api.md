@@ -17,7 +17,11 @@ CarryingApi.CarryingResult result = CarryingApi.query(player, item);
 
 默认扫描主物品栏（含快捷栏和主手）、副手、盔甲栏、末影箱、Curios 功能槽；排除外观槽，不递归打开背包和潜影盒，不读取普通方块容器。仅缓存已确认携带的位置，每次查询重新校验；不缓存未携带的结果。
 
+Curios 查询在找到首个匹配功能槽后结束；短期信号在一次遍历中完成过期清理与命中判断。逐日者的每 Tick 维护由 `maintain` 统一检查一次携带。不同查询之间不复用携带结论，因此同一 Tick 内移动物品、改变开关或更新外部来源后，下次查询仍读取当前状态；战斗阶段之间的重新检查也保留。
+
 位置策略在 `config/the_long_travail/general.toml` 的 `carrying` 下。駅与巴别塔的原位置开关作为兼容限制保留：全局开关和旧开关均启用时，该物品才使用此来源。新接入物品仅受全局开关控制。检测盔甲或 Curios 槽不自动赋予物品装备资格。
+
+`CarryingApi.allowed(item, area)` 接受 `inventory`、`offhand`、`armor`、`enderChest`、`curios` 和 `externalInventoryTick`；未知名称或 `null` 抛出 `IllegalArgumentException`。
 
 駅继续自行检查实际佩戴苦旅、天气和归墟阶段；巴别塔基础保护独立，交易强化检查穷遐恶意；小王子不依赖苦旅。不要缓存这些物品的最终效果状态。
 

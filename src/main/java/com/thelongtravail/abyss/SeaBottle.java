@@ -97,9 +97,13 @@ public final class SeaBottle {
                             incoming.isAmbient(),
                             incoming.isVisible(),
                             incoming.showIcon());
-            var inserted = EffectInsertion.addOrGet(actor, copy, recipient);
-            if (inserted != null)
-                com.thelongtravail.runtime.effects.InsertedEffectSync.synchronize(actor, inserted);
+            EffectInsertion.addOrGet(
+                    actor,
+                    copy,
+                    recipient,
+                    inserted ->
+                            com.thelongtravail.runtime.effects.InsertedEffectSync.synchronize(
+                                    actor, inserted));
         } finally {
             APPLYING.remove();
         }

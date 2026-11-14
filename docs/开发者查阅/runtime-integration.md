@@ -37,7 +37,7 @@
 
 | 入口 | 调用约定 |
 | --- | --- |
-| `common/AttributeModifierSet` | 各来源使用独立 ID；reconcile 幂等，clear 只移除该来源。 |
+| `common/AttributeModifierSet` | 各来源使用独立 ID；固定来源可持有不可变 `Source` 预计算 UUID，原 `ResourceLocation` 重载保留。reconcile 幂等，clear 只移除该来源。 |
 | `runtime/effects/OverflowHealing` | 显式加入溢出治疗；正常 heal 返回且目标存活后才增加吸收生命，嵌套普通 heal 不继承资格。 |
 | `combat/ReceivedHitGate` | 每个实例代表冷却分组，按实体计时，退出生命周期时清理。 |
 | `common/ItemDelivery` | 按合法堆叠入包，剩余掉落；取消掉落实体会阻止该部分交付。 |
@@ -75,12 +75,22 @@
 返回值为目标实际持有的效果实例，失败为 `null`。已有实例优先遵循正常 `addEffect` 的合并行为；目标拒绝更新时返回既有实例，不自动覆盖等级、累计时长或消耗物品。这些业务策略由调用方决定。直接改带属性修饰效果的等级还需要正确的属性更新回调，不能只改 amplifier。
 
 ```java
-var actual = EffectInsertion.addOrGet(target, incoming, source);
+var actual = EffectInsertion.addOrGet(target, incoming, source, inserted -> {
+    // 专用叠层、时长与同步放在此处，异常时一并恢复。
+    EffectInsertion.synchronize(target, inserted);
+});
 if (actual == null) return; // 由业务方决定失败处理
-// 如有专用叠层、时长或资源消耗规则，在此处理。
-EffectInsertion.synchronize(target, actual);
+// 成功返回后再消耗物品或其他资源。
 ```
+
+四参数重载将正常添加、强制写入、添加回调和调用方的实例调整／同步纳入同一失败恢复范围。发生 `RuntimeException` 或未取得实际效果时，恢复本次效果的原实例、标准详情与隐藏链，以及原有属性的基值、永久和瞬时修饰符、生命值、吸收值和本效果的追踪标记；回调首次实例化的属性恢复为实体默认值。成功时不恢复状态，保留原版合并规则。三参数重载仍可用，但返回后的业务操作不在其恢复范围内。
+
+恢复直接操作状态，不重试效果的添加、更新或移除回调。完成恢复后补发原状态的效果更新或移除包，并限频记录异常；恢复本身失败时保留异常链向上传播，不返回普通失败。严重 `Error` 不会被吞掉。旧隐藏链有循环或超过已有的 128 节上限时，在添加前拒绝操作。
+
+恢复范围限于本次效果和上述标准实体状态。世界修改、掉落物、其他实体／效果、能力数据、自定义效果字段及动态渲染因子等状态由回调所属实现管理；回调只执行一次。
 
 `synchronize` 刷新效果显示状态，并在服务端向当前追踪者广播原版效果包。`writeVerified` 是底层写入及回滚工具，供已有生命周期入口复用，不执行添加回调。
 
-客户端拒收兜底、首次追踪补包及移除补包只接入槲寄生。其它效果需要这些非玩家客户端显示行为时，由业务方显式接入相应同步处理。
+槲寄生使用专用客户端拒收兜底及追踪同步；瓶中海回施使用 `InsertedEffectSync` 的显式标记与同步。其它调用方需要客户端拒收兜底和后加入追踪者补包时，应显式接入相应同步处理。
+
+`InsertedEffectSync` 仅同步具有有效注册 ID 的效果；未注册项跳过并限频记录，其他合法项继续同步。跳过同步不会删除目标上的实际效果。

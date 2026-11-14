@@ -134,9 +134,9 @@ public final class SunChaser {
 
     @SubscribeEvent
     public static void tick(TickEvent.PlayerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END
-                || !(event.player instanceof ServerPlayer actor)
-                || !carrying(actor)) return;
+        if (event.phase != TickEvent.Phase.END || !(event.player instanceof ServerPlayer actor))
+            return;
+        // 携带检查统一由 maintain 执行，直接调用维护入口时也会检查。
         maintain(actor);
     }
 

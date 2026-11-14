@@ -116,17 +116,11 @@ public final class CarryingApi {
             locations.remove(item);
             for (String area : BUILTIN_AREAS) {
                 if (!allowed(item, area)) continue;
-                boolean enderChest = area.equals("enderChest");
-                var contents = enderChest ? null : stacks(player, area);
-                int size =
-                        enderChest
-                                ? player.getEnderChestInventory().getContainerSize()
-                                : contents.size();
+                var enderChest = area.equals("enderChest") ? player.getEnderChestInventory() : null;
+                var contents = enderChest != null ? null : stacks(player, area);
+                int size = enderChest != null ? enderChest.getContainerSize() : contents.size();
                 for (int i = 0; i < size; i++) {
-                    ItemStack stack =
-                            enderChest
-                                    ? player.getEnderChestInventory().getItem(i)
-                                    : contents.get(i);
+                    ItemStack stack = enderChest != null ? enderChest.getItem(i) : contents.get(i);
                     if (stack.is(item)) {
                         locations.put(item, new Location(area, "", i));
                         return CarryingResult.PRESENT;
@@ -135,21 +129,36 @@ public final class CarryingApi {
             }
             if (allowed(item, "curios")) {
                 var inventory = CuriosApi.getCuriosInventory(player).resolve();
-                if (inventory.isPresent())
-                    for (var found : inventory.get().findCurios(item)) {
+                if (inventory.isPresent()) {
+                    // 只需要一个功能槽命中，不必先收集全部同类饰品。
+                    var first = inventory.get().findFirstCurio(item);
+                    // 保留对返回外观槽的非标准实现的兼容，继续寻找后续功能槽。
+                    if (first.isPresent() && first.get().slotContext().cosmetic())
+                        first =
+                                inventory.get().findCurios(item).stream()
+                                        .filter(found -> !found.slotContext().cosmetic())
+                                        .findFirst();
+                    if (first.isPresent()) {
+                        var found = first.get();
                         var c = found.slotContext();
-                        if (c.cosmetic()) continue;
                         locations.put(item, new Location("curios", c.identifier(), c.index()));
                         return CarryingResult.PRESENT;
                     }
+                }
             }
             if (!allowed(item, "externalInventoryTick")) return CarryingResult.ABSENT;
             var signals = SIGNALS.get(player);
             long now = player.level().getGameTime();
             if (signals != null) {
-                signals.entrySet().removeIf(e -> now < e.getValue() || now - e.getValue() > 2);
-                if (signals.keySet().stream().anyMatch(s -> s.item == item))
-                    return CarryingResult.PRESENT;
+                boolean present = false;
+                // 同一次遍历完成过期清理和命中判断；命中后仍清理其余过期来源。
+                for (var iterator = signals.entrySet().iterator(); iterator.hasNext(); ) {
+                    var entry = iterator.next();
+                    long reported = entry.getValue();
+                    if (now < reported || now - reported > 2) iterator.remove();
+                    else if (entry.getKey().item == item) present = true;
+                }
+                if (present) return CarryingResult.PRESENT;
             }
             boolean failed = false;
             for (var entry : PROVIDER_SNAPSHOT) {

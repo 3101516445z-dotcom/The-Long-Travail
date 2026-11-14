@@ -9,16 +9,25 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public final class AttributeModifierSet {
-    private record SourceId(ResourceLocation source, UUID id) {}
+    // 固定来源由调用方持有，避免不同饰品交替更新时重复计算同一个 UUID。
+    public static final class Source {
+        private final ResourceLocation key;
+        private final UUID id;
 
-    private static volatile SourceId lastSource;
+        public Source(ResourceLocation key) {
+            this.key = Objects.requireNonNull(key);
+            this.id = UUID.nameUUIDFromBytes(key.toString().getBytes(StandardCharsets.UTF_8));
+        }
+    }
 
-    private static UUID sourceId(ResourceLocation source) {
-        SourceId cached = lastSource;
-        if (cached != null && cached.source.equals(source)) return cached.id;
-        UUID id = UUID.nameUUIDFromBytes(source.toString().getBytes(StandardCharsets.UTF_8));
-        lastSource = new SourceId(source, id);
-        return id;
+    private static volatile Source lastSource;
+
+    private static Source source(ResourceLocation key) {
+        Source cached = lastSource;
+        if (cached != null && cached.key.equals(key)) return cached;
+        Source resolved = new Source(key);
+        lastSource = resolved;
+        return resolved;
     }
 
     public record Modifier(double amount, AttributeModifier.Operation operation) {
@@ -30,7 +39,13 @@ public final class AttributeModifierSet {
 
     public static void reconcile(
             LivingEntity entity, ResourceLocation source, double amount, Set<String> excluded) {
-        UUID id = sourceId(source);
+        reconcile(entity, source(source), amount, excluded);
+    }
+
+    public static void reconcile(
+            LivingEntity entity, Source source, double amount, Set<String> excluded) {
+        UUID id = source.id;
+        ResourceLocation sourceKey = source.key;
         Modifier bonus =
                 Double.isFinite(amount) && amount != 0
                         ? new Modifier(amount, AttributeModifier.Operation.MULTIPLY_TOTAL)
@@ -44,7 +59,7 @@ public final class AttributeModifierSet {
                 var key = ForgeRegistries.ATTRIBUTES.getKey(attribute);
                 if (key != null && !excluded.contains(key.toString())) wanted = bonus;
             }
-            healthReduced |= reconcile(instance, attribute, source, id, wanted);
+            healthReduced |= reconcile(instance, attribute, sourceKey, id, wanted);
         }
         if (healthReduced && entity.getHealth() > entity.getMaxHealth())
             entity.setHealth(entity.getMaxHealth());
@@ -52,12 +67,18 @@ public final class AttributeModifierSet {
 
     public static void reconcile(
             LivingEntity entity, ResourceLocation source, Map<Attribute, Modifier> desired) {
-        UUID id = sourceId(source);
+        reconcile(entity, source(source), desired);
+    }
+
+    public static void reconcile(
+            LivingEntity entity, Source source, Map<Attribute, Modifier> desired) {
+        UUID id = source.id;
+        ResourceLocation sourceKey = source.key;
         boolean healthReduced = false;
         for (Attribute attribute : ForgeRegistries.ATTRIBUTES.getValues()) {
             AttributeInstance instance = entity.getAttribute(attribute);
             if (instance == null) continue;
-            healthReduced |= reconcile(instance, attribute, source, id, desired.get(attribute));
+            healthReduced |= reconcile(instance, attribute, sourceKey, id, desired.get(attribute));
         }
         if (healthReduced && entity.getHealth() > entity.getMaxHealth())
             entity.setHealth(entity.getMaxHealth());
@@ -85,6 +106,10 @@ public final class AttributeModifierSet {
     }
 
     public static void clear(LivingEntity entity, ResourceLocation source) {
+        reconcile(entity, source, Map.of());
+    }
+
+    public static void clear(LivingEntity entity, Source source) {
         reconcile(entity, source, Map.of());
     }
 

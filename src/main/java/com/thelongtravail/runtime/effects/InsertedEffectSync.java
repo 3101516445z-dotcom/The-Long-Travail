@@ -1,5 +1,6 @@
 package com.thelongtravail.runtime.effects;
 
+import com.thelongtravail.common.RuntimeFailures;
 import com.thelongtravail.network.InsertedEffectPacket;
 import com.thelongtravail.network.TravailNetwork;
 
@@ -17,10 +18,43 @@ import net.minecraftforge.registries.ForgeRegistries;
 public final class InsertedEffectSync {
     private static final String KEY = "the_long_travail:inserted_effects";
 
-    public static void synchronize(LivingEntity target, MobEffectInstance effect) {
+    static boolean isMarked(LivingEntity target, net.minecraft.world.effect.MobEffect effect) {
+        var id = ForgeRegistries.MOB_EFFECTS.getKey(effect);
+        return id != null && target.getPersistentData().getCompound(KEY).contains(id.toString());
+    }
+
+    // 失败恢复专用：先恢复追踪标记，再补发最终状态；不再次执行效果回调。
+    static void restore(
+            LivingEntity target,
+            net.minecraft.world.effect.MobEffect effect,
+            @javax.annotation.Nullable MobEffectInstance previous,
+            boolean wasMarked) {
+        var id = ForgeRegistries.MOB_EFFECTS.getKey(effect);
+        if (id == null) return;
         var data = target.getPersistentData();
         var marked = data.getCompound(KEY);
-        marked.putBoolean(ForgeRegistries.MOB_EFFECTS.getKey(effect.getEffect()).toString(), true);
+        if (wasMarked) marked.putBoolean(id.toString(), true);
+        else marked.remove(id.toString());
+        if (marked.isEmpty()) data.remove(KEY);
+        else data.put(KEY, marked);
+        if (previous != null) {
+            EffectInsertion.synchronize(target, previous);
+            if (wasMarked) TravailNetwork.sendInsertedEffect(target, packet(target, previous));
+        } else if (target.level() instanceof net.minecraft.server.level.ServerLevel level) {
+            level.getChunkSource()
+                    .broadcastAndSend(
+                            target,
+                            new net.minecraft.network.protocol.game
+                                    .ClientboundRemoveMobEffectPacket(target.getId(), effect));
+        }
+    }
+
+    public static void synchronize(LivingEntity target, MobEffectInstance effect) {
+        String id = registeredId(effect);
+        if (id == null) return;
+        var data = target.getPersistentData();
+        var marked = data.getCompound(KEY);
+        marked.putBoolean(id, true);
         data.put(KEY, marked);
         EffectInsertion.synchronize(target, effect);
         TravailNetwork.sendInsertedEffect(target, packet(target, effect));
@@ -32,10 +66,12 @@ public final class InsertedEffectSync {
     }
 
     public static void removed(LivingEntity target, MobEffectInstance effect) {
-        if (!(target.level() instanceof net.minecraft.server.level.ServerLevel level)
-                || !marked(target, effect)) return;
+        if (!(target.level() instanceof net.minecraft.server.level.ServerLevel level)) return;
         var marked = target.getPersistentData().getCompound(KEY);
-        marked.remove(ForgeRegistries.MOB_EFFECTS.getKey(effect.getEffect()).toString());
+        if (marked.isEmpty()) return;
+        String id = registeredId(effect);
+        if (id == null || !marked.contains(id)) return;
+        marked.remove(id);
         if (marked.isEmpty()) target.getPersistentData().remove(KEY);
         level.getChunkSource()
                 .broadcastAndSend(
@@ -45,11 +81,22 @@ public final class InsertedEffectSync {
     }
 
     private static boolean marked(LivingEntity target, MobEffectInstance effect) {
-        return target.getPersistentData().contains(KEY)
-                && target.getPersistentData()
-                        .getCompound(KEY)
-                        .contains(
-                                ForgeRegistries.MOB_EFFECTS.getKey(effect.getEffect()).toString());
+        var marked = target.getPersistentData().getCompound(KEY);
+        if (marked.isEmpty()) return false;
+        String id = registeredId(effect);
+        return id != null && marked.contains(id);
+    }
+
+    @javax.annotation.Nullable
+    private static String registeredId(MobEffectInstance effect) {
+        var id = ForgeRegistries.MOB_EFFECTS.getKey(effect.getEffect());
+        if (id != null) return id.toString();
+        RuntimeFailures.report(
+                "inserted effect sync",
+                new IllegalArgumentException(
+                        "Cannot synchronize unregistered effect: "
+                                + effect.getEffect().getClass().getName()));
+        return null;
     }
 
     @SubscribeEvent
@@ -57,9 +104,10 @@ public final class InsertedEffectSync {
         if (!(event.getEntity() instanceof ServerPlayer player)
                 || !(event.getTarget() instanceof LivingEntity target)) return;
         var marked = target.getPersistentData().getCompound(KEY);
+        if (marked.isEmpty()) return;
         for (var effect : target.getActiveEffects()) {
-            String id = ForgeRegistries.MOB_EFFECTS.getKey(effect.getEffect()).toString();
-            if (marked.contains(id))
+            String id = registeredId(effect);
+            if (id != null && marked.contains(id))
                 TravailNetwork.sendInsertedEffect(player, packet(target, effect));
         }
     }

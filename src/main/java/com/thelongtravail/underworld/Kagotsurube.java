@@ -28,8 +28,9 @@ import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = "the_long_travail")
 public final class Kagotsurube {
-    private static final ResourceLocation ATTRIBUTES =
-            new ResourceLocation("the_long_travail", "kagotsurube");
+    private static final AttributeModifierSet.Source ATTRIBUTES =
+            new AttributeModifierSet.Source(
+                    new ResourceLocation("the_long_travail", "kagotsurube"));
     private static final Map<LivingEntity, Map<Attribute, AttributeModifierSet.Modifier>> APPLIED =
             new java.util.WeakHashMap<>();
 

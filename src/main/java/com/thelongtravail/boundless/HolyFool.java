@@ -37,8 +37,12 @@ public final class HolyFool {
             return;
         }
         int duration = ThemeItemConfig.ticks("holy_fool.durationSeconds");
-        if (duration > 0)
+        if (duration > 0) {
             p.addEffect(new MobEffectInstance(ModRegistry.AMONG_ALL_THINGS.get(), duration));
+            // 拒收且没有既有效果时，不把这次尝试计为成功释放。
+            // addEffect 返回 false 也可能只是保留了已有的更长效果。
+            if (!p.hasEffect(ModRegistry.AMONG_ALL_THINGS.get())) return;
+        }
         p.getPersistentData()
                 .putLong(UNTIL, now + ThemeItemConfig.ticks("holy_fool.cooldownSeconds"));
         p.displayClientMessage(

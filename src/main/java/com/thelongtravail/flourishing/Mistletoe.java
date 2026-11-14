@@ -1,27 +1,28 @@
 package com.thelongtravail.flourishing;
 
-import com.thelongtravail.registry.RegisteredItems;
-
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.config.*;
-import com.thelongtravail.registry.ModRegistry;
-import com.thelongtravail.mixin.effects.EffectDurationAccessor;
-import com.thelongtravail.runtime.effects.EffectInsertion;
 import com.thelongtravail.loot.LootItemCollector;
+import com.thelongtravail.mixin.effects.EffectDurationAccessor;
+import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.registry.RegisteredItems;
+import com.thelongtravail.runtime.effects.EffectInsertion;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.*;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.GameRules;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
 import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
@@ -89,17 +90,23 @@ public final class Mistletoe {
                                                         ? 0
                                                         : Math.max(0, old.getDuration())));
         var effect = new MobEffectInstance(ModRegistry.MISTLETOE_EFFECT.get(), duration, next - 1);
-        var actual = EffectInsertion.addOrGet(target, effect, player);
+        var actual =
+                EffectInsertion.addOrGet(
+                        target,
+                        effect,
+                        player,
+                        inserted -> {
+                            ((EffectDurationAccessor) inserted).travail$amplifier(next - 1);
+                            ((EffectDurationAccessor) inserted).travail$duration(duration);
+                            ((EffectDurationAccessor) inserted).travail$hiddenEffect(null);
+                            syncSpeed(target);
+                            EffectInsertion.synchronize(target, inserted);
+                        });
         if (actual == null) {
             player.displayClientMessage(
                     Component.translatable("message.the_long_travail.mistletoe.rejected"), true);
             return InteractionResult.FAIL;
         }
-        ((EffectDurationAccessor) actual).travail$amplifier(next - 1);
-        ((EffectDurationAccessor) actual).travail$duration(duration);
-        ((EffectDurationAccessor) actual).travail$hiddenEffect(null);
-        syncSpeed(target);
-        EffectInsertion.synchronize(target, actual);
         if (!player.getAbilities().instabuild) stack.shrink(1);
         return InteractionResult.CONSUME;
     }
@@ -108,10 +115,11 @@ public final class Mistletoe {
         if (effect.getEffect() != ModRegistry.MISTLETOE_EFFECT.get()
                 || !(entity.level() instanceof ServerLevel level)) return;
         syncSpeed(entity);
-        level.getChunkSource().broadcastAndSend(
-                entity,
-                new net.minecraft.network.protocol.game.ClientboundRemoveMobEffectPacket(
-                        entity.getId(), effect.getEffect()));
+        level.getChunkSource()
+                .broadcastAndSend(
+                        entity,
+                        new net.minecraft.network.protocol.game.ClientboundRemoveMobEffectPacket(
+                                entity.getId(), effect.getEffect()));
     }
 
     @SubscribeEvent

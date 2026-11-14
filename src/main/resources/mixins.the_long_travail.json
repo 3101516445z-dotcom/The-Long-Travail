@@ -8,6 +8,7 @@
   "mixins": [
     "effects.InsertedEffectSyncMixin",
     "effects.LivingEffectsAccessor",
+    "effects.EffectAttributesAccessor",
     "anvil.TalesAnvilMixin",
     "flourishing.ImmortalBudDamageMixin",
     "flourishing.ImmortalBudHurtMixin",
