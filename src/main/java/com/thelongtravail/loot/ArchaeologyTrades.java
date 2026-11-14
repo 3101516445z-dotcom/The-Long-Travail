@@ -42,8 +42,8 @@ public final class ArchaeologyTrades {
         if (!(shepherd ? ModRegistry.DON_QUIXOTE : ModRegistry.PHOSPHOPHYLLITE).isPresent())
             return null;
         return new MerchantOffer(
-                shepherd ? new ItemStack(Items.SHIELD) : new ItemStack(Items.LAPIS_LAZULI, 64),
-                new ItemStack(shepherd ? Items.NETHERITE_SWORD : Items.GREEN_DYE),
+                shepherd ? new ItemStack(Items.SHIELD) : new ItemStack(Items.ECHO_SHARD, 9),
+                new ItemStack(shepherd ? Items.NETHERITE_SWORD : Items.AMETHYST_CLUSTER),
                 new ItemStack(result(shepherd)),
                 1,
                 30,
@@ -112,11 +112,11 @@ public final class ArchaeologyTrades {
                     var tag = current.createTag();
                     tag.put(
                             "buy",
-                            new ItemStack(Items.LAPIS_LAZULI, 64)
+                            new ItemStack(Items.ECHO_SHARD, 9)
                                     .save(new net.minecraft.nbt.CompoundTag()));
                     tag.put(
                             "buyB",
-                            new ItemStack(Items.GREEN_DYE)
+                            new ItemStack(Items.AMETHYST_CLUSTER)
                                     .save(new net.minecraft.nbt.CompoundTag()));
                     iterator.set(new MerchantOffer(tag));
                 }
@@ -143,9 +143,9 @@ public final class ArchaeologyTrades {
                         && offer.getCostB().is(Items.NETHERITE_SWORD)
                         && offer.getCostB().getCount() == 1)
                 || (RegisteredItems.is(offer.getResult(), ModRegistry.PHOSPHOPHYLLITE)
-                        && offer.getBaseCostA().is(Items.LAPIS_LAZULI)
-                        && offer.getBaseCostA().getCount() == 64
-                        && offer.getCostB().is(Items.GREEN_DYE)
+                        && offer.getBaseCostA().is(Items.ECHO_SHARD)
+                        && offer.getBaseCostA().getCount() == 9
+                        && offer.getCostB().is(Items.AMETHYST_CLUSTER)
                         && offer.getCostB().getCount() == 1);
     }
 
