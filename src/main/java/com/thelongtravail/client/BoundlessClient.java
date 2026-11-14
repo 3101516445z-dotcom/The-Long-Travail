@@ -19,7 +19,7 @@ public final class BoundlessClient {
                     "key.the_long_travail.dream",
                     KeyConflictContext.IN_GAME,
                     InputConstants.Type.KEYSYM,
-                    GLFW.GLFW_KEY_T,
+                    GLFW.GLFW_KEY_G,
                     "key.categories.the_long_travail");
     private static InputConstants.Key handledDreamKey;
     public static boolean dreaming, cooling;

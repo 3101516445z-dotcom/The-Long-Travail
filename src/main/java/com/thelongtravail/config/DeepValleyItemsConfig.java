@@ -72,21 +72,21 @@ public final class DeepValleyItemsConfig {
         number(
                 b,
                 "phosphophyllite.maliceAttributes",
-                .20,
+                .10,
                 0,
                 10,
                 "恶意状态下，各项属性的加成比例。\nFractional bonus to all affected attributes while Malice is active.");
         number(
                 b,
                 "phosphophyllite.witnessAttributes",
-                .10,
+                .05,
                 0,
                 10,
                 "见证状态下，各项属性的加成比例。\nFractional bonus to all affected attributes while Witness is active.");
         number(
                 b,
                 "phosphophyllite.maliceDamage",
-                .50,
+                .40,
                 0,
                 10,
                 "恶意状态下，受到的伤害增加的比例。\nFractional increase in damage taken while Malice is active.");

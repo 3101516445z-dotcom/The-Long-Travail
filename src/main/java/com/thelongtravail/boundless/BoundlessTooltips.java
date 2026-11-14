@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 
 public final class BoundlessTooltips {
     public static Supplier<Player> viewer = () -> null;
-    public static Supplier<Component> dreamKey = () -> Component.literal("T");
+    public static Supplier<Component> dreamKey = () -> Component.literal("G");
 
     private static String number(String key, double scale) {
         return BigDecimal.valueOf(
