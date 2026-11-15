@@ -50,7 +50,7 @@ public final class EffectCombatRules {
     }
 
     public static double bonus(DamageSource source) {
-        return mara(actor(source)) ? .3 : 0;
+        return mara(actor(source)) ? .15 : 0;
     }
 
     public static double remaining(DamageSource source) {

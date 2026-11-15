@@ -1,7 +1,5 @@
 package com.thelongtravail.mixin.flourishing;
 
-import com.thelongtravail.flourishing.ImmortalBud;
-
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.extensions.IForgeItem;

@@ -1,9 +1,9 @@
 package com.thelongtravail.compat.maid.client;
 
-import com.thelongtravail.registry.RegisteredItems;
-
 import com.thelongtravail.compat.maid.MaidAccessories;
 import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.registry.RegisteredItems;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
@@ -29,14 +29,11 @@ public final class MaidAccessoryTooltips {
                 insertion++,
                 Component.translatable(
                                 PREFIX
-                                        + (RegisteredItems.is(stack, ModRegistry.MIDNIGHT_LAFITE)
-                                                ? "lafite.basic"
-                                                : RegisteredItems.is(stack, ModRegistry.SOUL_BANNER)
-                                                                || RegisteredItems.is(
-                                                                        stack,
-                                                                        ModRegistry.DEMON_KING)
-                                                        ? "relic.basic"
-                                                        : "basic"))
+                                        + (RegisteredItems.is(stack, ModRegistry.SOUL_BANNER)
+                                                        || RegisteredItems.is(
+                                                                stack, ModRegistry.DEMON_KING)
+                                                ? "relic.basic"
+                                                : "basic"))
                         .withStyle(ChatFormatting.DARK_GRAY));
         if (RegisteredItems.is(stack, ModRegistry.TOKAIDO))
             lines.add(
@@ -46,13 +43,7 @@ public final class MaidAccessoryTooltips {
                 && !RegisteredItems.is(stack, ModRegistry.SWORD_AND_LANTERN))
             lines.add(
                     insertion++,
-                    Component.translatable(
-                                    PREFIX
-                                            + (RegisteredItems.is(
-                                                            stack, ModRegistry.MIDNIGHT_LAFITE)
-                                                    ? "lafite.diary"
-                                                    : "diary"))
-                            .withStyle(ChatFormatting.DARK_GRAY));
+                    Component.translatable(PREFIX + "diary").withStyle(ChatFormatting.DARK_GRAY));
         if (RegisteredItems.is(stack, ModRegistry.SOUL_BANNER)) {
             lines.add(
                     insertion++,

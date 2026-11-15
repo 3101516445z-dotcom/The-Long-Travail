@@ -24,7 +24,6 @@ import com.thelongtravail.config.ModeEffectRules;
 import com.thelongtravail.config.TravailConfig;
 
 import com.thelongtravail.equipment.TravailCurios;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -181,14 +180,6 @@ public final class TravailEffectActions {
         MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(selected.id());
         int amplifier = player.getRandom().nextInt(selected.maxLevel());
         EffectChanges.add(player, new MobEffectInstance(effect, duration, amplifier));
-    }
-
-    static int configuredMaxLevel(MobEffect effect) {
-        ResourceLocation id = ForgeRegistries.MOB_EFFECTS.getKey(effect);
-        if (id == null) return TravailConfig.FAR_WITNESS_FALLBACK_MAX_LEVEL.get();
-        return RuntimePools.current()
-                .maxLevels()
-                .getOrDefault(id, TravailConfig.FAR_WITNESS_FALLBACK_MAX_LEVEL.get());
     }
 
     public static void onHeal(LivingHealEvent event) {

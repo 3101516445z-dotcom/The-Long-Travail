@@ -18,7 +18,6 @@ import com.thelongtravail.runtime.effects.VisualDeprivation;
 
 import com.thelongtravail.runtime.pools.RuntimePools;
 
-import com.thelongtravail.journey.JourneyService;
 import com.thelongtravail.journey.JourneyQueries;
 import com.thelongtravail.journey.JourneyVisits;
 import com.thelongtravail.journey.LongTravailData;
@@ -155,17 +154,6 @@ public class TravailEvents {
     public void afterPlayerTick(net.minecraftforge.event.TickEvent.PlayerTickEvent event) {
         if (event.phase == net.minecraftforge.event.TickEvent.Phase.END
                 && event.player instanceof ServerPlayer player) EffectChanges.tick(player);
-    }
-
-    // 保留兼容入口；旅程服务直接调用 JourneyRuntimeMaintenance。
-    public static void onDiaryReset(ServerPlayer player, ItemStack diary) {
-        JourneyRuntimeMaintenance.onDiaryReset(player, diary);
-    }
-
-    // 保留兼容入口；旅程服务直接调用 JourneyRuntimeMaintenance。
-    public static void onJourneyChanged(
-            ServerPlayer player, ItemStack diary, JourneyService.OperationResult change) {
-        JourneyRuntimeMaintenance.onJourneyChanged(player, diary, change);
     }
 
     @SubscribeEvent

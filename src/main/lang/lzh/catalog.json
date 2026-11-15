@@ -73,7 +73,7 @@
   "gui.the_long_travail.catalog.glossary.physical_purification.body": "每級減物理類所傷一成，至多減九成九。",
   "gui.the_long_travail.catalog.glossary.mara_transformation.title": "波旬變生",
   "gui.the_long_travail.catalog.glossary.mara_transformation.aliases": "波旬變生",
-  "gui.the_long_travail.catalog.glossary.mara_transformation.body": "持有效果時：\n- 得三成傷害加成；\n- 所致之傷化為直擊傷害；\n- 傷敵時，施以凋零Ⅱ，歷5秒；\n- 每秒失相當於最大生命值5%之生命值（生命值不低於1）。",
+  "gui.the_long_travail.catalog.glossary.mara_transformation.body": "持有效果時：\n- 得一成半傷害加成；\n- 所致之傷化為直擊傷害；\n- 傷敵時，施以凋零Ⅱ，歷5秒；\n- 每秒失相當於最大生命值5%之生命值（生命值不低於1）。",
   "gui.the_long_travail.catalog.glossary.revival.title": "還魂",
   "gui.the_long_travail.catalog.glossary.revival.aliases": "還魂",
   "gui.the_long_travail.catalog.glossary.revival.body": "持有效果時：\n- 所致之傷減九成九；\n- 移速減半。",

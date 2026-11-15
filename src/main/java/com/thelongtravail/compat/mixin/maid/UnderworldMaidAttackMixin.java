@@ -1,9 +1,7 @@
 package com.thelongtravail.compat.mixin.maid;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
-import com.thelongtravail.underworld.UnderworldItems;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 

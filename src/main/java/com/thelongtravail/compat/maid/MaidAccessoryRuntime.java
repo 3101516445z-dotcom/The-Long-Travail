@@ -8,7 +8,6 @@ import com.thelongtravail.TravailAspect;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -64,14 +63,6 @@ public final class MaidAccessoryRuntime {
         return MaidAccess.equipped(m, item);
     }
 
-    public static ItemStack lorentzStack(LivingEntity e) {
-        return MaidAccessoryRules.lorentzStack(e);
-    }
-
-    public static int lorentzPhase(LivingEntity e) {
-        return MaidAccessoryRules.lorentzPhase(e);
-    }
-
     public static UUID lorentzOwner(LivingEntity e) {
         return e instanceof EntityMaid m ? m.getOwnerUUID() : null;
     }
@@ -84,14 +75,6 @@ public final class MaidAccessoryRuntime {
         return attacker(source);
     }
 
-    public static boolean quixote(LivingEntity e) {
-        return MaidAccessoryRules.quixote(e);
-    }
-
-    public static int quixotePhase(LivingEntity e) {
-        return MaidAccessoryRules.quixotePhase(e);
-    }
-
     public static UUID quixoteOwner(LivingEntity e) {
         return e instanceof EntityMaid m ? m.getOwnerUUID() : null;
     }
@@ -100,32 +83,8 @@ public final class MaidAccessoryRuntime {
         return MaidRuntimeState.quixoteCooldown(e, ticks);
     }
 
-    public static ItemStack flowerStack(LivingEntity entity) {
-        return MaidAccessoryRules.flowerStack(entity);
-    }
-
-    public static int flowerPhase(LivingEntity entity) {
-        return MaidAccessoryRules.flowerPhase(entity);
-    }
-
-    public static boolean lafite(LivingEntity entity) {
-        return MaidAccessoryRules.lafite(entity);
-    }
-
-    public static int lafitePhase(LivingEntity entity) {
-        return MaidAccessoryRules.lafitePhase(entity);
-    }
-
-    public static int phosphophyllitePhase(LivingEntity entity) {
-        return MaidAccessoryRules.phosphophyllitePhase(entity);
-    }
-
     public static int relicPhase(LivingEntity e) {
         return MaidAccessoryRules.relicPhase(e);
-    }
-
-    public static ItemStack relicStack(LivingEntity e, boolean banner) {
-        return MaidAccessoryRules.relicStack(e, banner);
     }
 
     public static Phase phase(EntityMaid m, TravailAspect aspect) {
@@ -144,20 +103,8 @@ public final class MaidAccessoryRuntime {
         return MaidAccessoryRules.canHarm(attacker, other);
     }
 
-    public static boolean lantern(Entity e) {
-        return MaidAccessoryRules.lantern(e);
-    }
-
-    public static EntityMaid attacker(Entity source) {
-        return MaidCombatCalculations.attacker(source);
-    }
-
     private static EntityMaid attacker(DamageSource source) {
         return MaidCombatCalculations.attacker(source);
-    }
-
-    public static ItemStack springCrown(LivingEntity entity) {
-        return MaidAccessoryRules.springCrown(entity);
     }
 
     public static double swimBonus(EntityMaid m) {
@@ -168,48 +115,6 @@ public final class MaidAccessoryRuntime {
         return MaidAccessoryRules.eki(m);
     }
 
-    public static double bonus(LivingEntity victim, DamageSource source) {
-        return MaidCombatCalculations.bonus(victim, source);
-    }
-
-    public static boolean seesUndead(LivingEntity e) {
-        return MaidAccessoryRules.seesUndead(e);
-    }
-
-    public static double witherBonus(LivingEntity victim, DamageSource source) {
-        return MaidCombatCalculations.witherBonus(victim, source);
-    }
-
-    public static boolean immune(LivingEntity victim, DamageSource source, float amount) {
-        return MaidCombatCalculations.immune(victim, source, amount);
-    }
-
-    public static double remainingMultiplier(
-            LivingEntity victim, DamageSource source, boolean poison) {
-        return MaidCombatCalculations.remainingMultiplier(victim, source, poison);
-    }
-
-    public static void received(LivingEntity victim, DamageSource source) {
-        MaidCombatFeedback.received(victim, source);
-    }
-
-    public static void confirmed(LivingEntity victim, DamageSource source, boolean rose) {
-        MaidCombatFeedback.confirmed(victim, source, rose);
-    }
-
-    public static void successful(LivingEntity victim, DamageSource source) {
-        MaidCombatFeedback.successful(victim, source);
-    }
-
-    public static void retaliate(LivingEntity victim, DamageSource source) {
-        MaidCombatFeedback.retaliate(victim, source);
-    }
-
-    public static MobEffectInstance extend(
-            LivingEntity target, MobEffectInstance effect, Entity source) {
-        return MaidCombatFeedback.extend(target, effect, source);
-    }
-
     public static void tick(EntityMaid m) {
         MaidPeriodicEffects.tick(m);
     }
@@ -217,6 +122,15 @@ public final class MaidAccessoryRuntime {
     private static List<SyncBaubleMessage> lanternChanges(
             EntityMaid m, CompoundTag previous, CompoundTag current) {
         return MaidBaubleSync.changes(m, previous, current);
+    }
+
+    // 在战斗记录写入前限伤，使万法皆通校验的记录与实际扣血一致。
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public void horizonDamage(net.minecraftforge.event.entity.living.LivingDamageEvent event) {
+        if (event.getEntity() instanceof EntityMaid)
+            event.setAmount(
+                    com.thelongtravail.farreach.HorizonTheory.capDamage(
+                            event.getEntity(), event.getSource(), event.getAmount()));
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

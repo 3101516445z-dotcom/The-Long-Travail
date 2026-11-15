@@ -1,7 +1,5 @@
 package com.thelongtravail.config.defaults;
 
-import com.thelongtravail.config.storage.ManagedConfig;
-
 import com.electronwill.nightconfig.core.CommentedConfig;
 import java.util.ArrayList;
 import java.util.List;

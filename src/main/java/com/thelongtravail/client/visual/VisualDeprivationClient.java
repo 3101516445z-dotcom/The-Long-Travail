@@ -15,10 +15,6 @@ public final class VisualDeprivationClient {
     private static Object level, owner;
     private static float phase, previousPhase;
 
-    public static void accept(int remaining, int total) {
-        accept(remaining, total, false);
-    }
-
     public static void progress(int remaining) {
         var mc = Minecraft.getInstance();
         if (mc.player != null && mc.player == owner && mc.level == level && mc.player.isAlive())

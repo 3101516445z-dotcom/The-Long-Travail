@@ -8,18 +8,21 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 
 public final class ThemeItemText {
-    public static java.util.function.Supplier<Component> skillKey = Component::empty;
+    public static java.util.function.Supplier<Component> whisperKey = Component::empty;
 
     public static void summary(String id, ItemStack stack, List<Component> lines) {
         Object[] args =
                 switch (id) {
                     case "sea_in_a_bottle" -> new Object[] {(int) value(id + ".extraSlots")};
                     case "holy_fool" ->
-                            new Object[] {skillKey.get(), number(value(id + ".durationSeconds"))};
+                            new Object[] {whisperKey.get(), number(value(id + ".durationSeconds"))};
                     case "last_affairs" ->
                             new Object[] {
-                                LastAffairsItem.message(
-                                        LastAffairsItem.spawn(stack) ? "spawn" : "death")
+                                Component.translatable(
+                                        "tooltip.the_long_travail.last_affairs.destination."
+                                                + (LastAffairsItem.spawn(stack)
+                                                        ? "spawn"
+                                                        : "death"))
                             };
                     default -> new Object[] {};
                 };
@@ -65,7 +68,7 @@ public final class ThemeItemText {
                             new Object[] {
                                 value(id + ".durationSeconds"),
                                 value(id + ".cooldownSeconds"),
-                                skillKey.get()
+                                whisperKey.get()
                             };
                     default ->
                             new Object[] {

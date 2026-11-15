@@ -13,23 +13,33 @@ import net.minecraftforge.client.settings.KeyConflictContext;
 
 import org.lwjgl.glfw.GLFW;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public final class BoundlessClient {
     public static final KeyMapping DREAM =
             new KeyMapping(
                     "key.the_long_travail.dream",
                     KeyConflictContext.IN_GAME,
                     InputConstants.Type.KEYSYM,
-                    GLFW.GLFW_KEY_G,
+                    GLFW.GLFW_KEY_Y,
                     "key.categories.the_long_travail");
-    private static InputConstants.Key handledDreamKey;
+    public static final KeyMapping WHISPER =
+            new KeyMapping(
+                    "key.the_long_travail.whisper",
+                    KeyConflictContext.IN_GAME,
+                    InputConstants.Type.KEYSYM,
+                    GLFW.GLFW_KEY_T,
+                    "key.categories.the_long_travail");
+    private static final Set<InputConstants.Key> handledSkillKeys = new HashSet<>();
     public static boolean dreaming, cooling;
     public static int cooldown;
 
     public static boolean press(InputConstants.Key key, int action) {
-        if (key.equals(handledDreamKey)) {
+        if (handledSkillKeys.contains(key)) {
             if (action == GLFW.GLFW_REPEAT) return true;
             if (action == GLFW.GLFW_RELEASE) {
-                handledDreamKey = null;
+                handledSkillKeys.remove(key);
                 return true;
             }
         }
@@ -39,33 +49,36 @@ public final class BoundlessClient {
                 || !mc.isWindowActive()
                 || mc.player == null
                 || !mc.player.isAlive()
-                || TimeStopManager.frozen(mc.player)
-                || !DREAM.isActiveAndMatches(key)) return false;
-        if (!dreaming
-                && (mc.player.isSpectator()
-                        || (!BoundlessEquipment.equipped(mc.player, true)
-                                && !com.thelongtravail.boundless.HolyFool.equipped(mc.player))))
-            return false;
-        handledDreamKey = key;
-        TravailNetwork.requestDream();
+                || TimeStopManager.frozen(mc.player)) return false;
+        boolean dream =
+                DREAM.isActiveAndMatches(key)
+                        && (dreaming
+                                || (!mc.player.isSpectator()
+                                        && BoundlessEquipment.equipped(mc.player, true)));
+        boolean whisper =
+                WHISPER.isActiveAndMatches(key)
+                        && !mc.player.isSpectator()
+                        && com.thelongtravail.boundless.HolyFool.equipped(mc.player);
+        if (!dream && !whisper) return false;
+        handledSkillKeys.add(key);
+        if (dream) TravailNetwork.requestDream();
+        if (whisper) TravailNetwork.requestWhisper();
         return true;
     }
 
     private static void message(BoundlessPacket.Message packet) {
-        if (packet.key().startsWith("message.the_long_travail.holy_fool.")) {
-            SkillCooldownNotice.show(packet.key(), packet.cooldownTicks(), false);
-            return;
-        }
+        boolean dreamMessage = packet.skill() == BoundlessPacket.Skill.DREAM;
         var player = Minecraft.getInstance().player;
-        if (player != null && com.thelongtravail.config.TravailClientConfig.DREAM_MESSAGES.get())
-            SkillCooldownNotice.show(packet.key(), packet.cooldownTicks(), true);
+        if (player != null
+                && (!dreamMessage
+                        || com.thelongtravail.config.TravailClientConfig.DREAM_MESSAGES.get()))
+            SkillCooldownNotice.show(packet.key(), packet.cooldownTicks(), dreamMessage);
     }
 
     static void register(RegisterKeyMappingsEvent e) {
         e.register(DREAM);
+        e.register(WHISPER);
         BoundlessPacket.Message.receiver = BoundlessClient::message;
-        com.thelongtravail.boundless.BoundlessTooltips.viewer =
-                () -> Minecraft.getInstance().player;
         com.thelongtravail.boundless.BoundlessTooltips.dreamKey =
                 () -> ThemeTooltips.keyName(DREAM);
         BoundlessPacket.receiver =
@@ -88,7 +101,7 @@ public final class BoundlessClient {
         dreaming = false;
         cooling = false;
         cooldown = 0;
-        handledDreamKey = null;
+        handledSkillKeys.clear();
     }
 
     private BoundlessClient() {}

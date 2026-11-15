@@ -24,26 +24,41 @@ import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = "the_long_travail")
 public final class SeaBottle {
-    private static final UUID SLOTS = UUID.fromString("276c6f49-e875-497c-9b86-96acfa9e04dd");
+    public static final UUID SLOTS = UUID.fromString("276c6f49-e875-497c-9b86-96acfa9e04dd");
     private static final ThreadLocal<Boolean> APPLYING = ThreadLocal.withInitial(() -> false);
 
-    public static boolean equipped(Player p) {
-        return AccessoryEquipRules.hasEquipped(p, ModRegistry.SEA_IN_A_BOTTLE);
+    public static boolean equipped(LivingEntity entity) {
+        return entity instanceof Player p
+                ? AccessoryEquipRules.hasEquipped(p, ModRegistry.SEA_IN_A_BOTTLE)
+                : com.thelongtravail.integration.MaidIntegration.equipped(
+                        entity, ModRegistry.SEA_IN_A_BOTTLE);
+    }
+
+    private static boolean phase(LivingEntity entity, boolean witness) {
+        var state =
+                entity instanceof Player p
+                        ? TravailStateApi.state(p, com.thelongtravail.TravailAspect.ABYSS)
+                        : com.thelongtravail.integration.MaidIntegration.phase(
+                                entity, com.thelongtravail.TravailAspect.ABYSS);
+        return state
+                == (witness
+                        ? TravailStateApi.AspectState.WITNESS
+                        : TravailStateApi.AspectState.MALICE);
     }
 
     public static double bonus(DamageSource source) {
         if (!source.is(DamageClassTags.MAGIC)) return 0;
         var actor = EffectCombatRules.actor(source);
-        return actor instanceof Player p && equipped(p) && TravailStateApi.hasAbyssWitness(p)
+        return actor != null && equipped(actor) && phase(actor, true)
                 ? ThemeItemConfig.get("sea_in_a_bottle.magicBonus")
                 : 0;
     }
 
     @SubscribeEvent
     public static void heal(LivingHealEvent event) {
-        if (event.getEntity() instanceof ServerPlayer p
-                && equipped(p)
-                && TravailStateApi.hasAbyssMalice(p))
+        if (!event.getEntity().level().isClientSide
+                && equipped(event.getEntity())
+                && phase(event.getEntity(), false))
             event.setAmount(
                     (float)
                             (event.getAmount()
@@ -63,9 +78,9 @@ public final class SeaBottle {
         return !APPLYING.get()
                 && incoming.getEffect().getCategory() == MobEffectCategory.HARMFUL
                 && !incoming.getEffect().isInstantenous()
-                && recipient instanceof ServerPlayer p
-                && equipped(p)
-                && TravailStateApi.hasAbyssMalice(p);
+                && !recipient.level().isClientSide
+                && equipped(recipient)
+                && phase(recipient, false);
     }
 
     public static void reapply(
@@ -76,9 +91,9 @@ public final class SeaBottle {
             boolean accepted) {
         if (!accepted
                 || APPLYING.get()
-                || !(recipient instanceof ServerPlayer p)
-                || !equipped(p)
-                || !TravailStateApi.hasAbyssMalice(p)
+                || recipient.level().isClientSide
+                || !equipped(recipient)
+                || !phase(recipient, false)
                 || incoming.getEffect().getCategory() != MobEffectCategory.HARMFUL
                 || incoming.getEffect().isInstantenous()
                 || incoming.getAmplifier() <= oldLevel) return;

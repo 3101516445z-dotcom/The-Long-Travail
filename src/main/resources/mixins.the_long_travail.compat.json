@@ -22,6 +22,8 @@
     "fluid.UnifiedEntryInvoker"
   ],
   "client": [
+    "configscreens.ConfigScreenMixin",
+    "configscreens.ConfigScreenSaveMixin",
     "apotheosis.AffixNameMixin",
     "maid.MaidTooltipMixin",
     "jei.JeiReadingOverlayMixin",

@@ -29,19 +29,22 @@ public final class TravailCurios {
     }
 
     public static void syncExtraSlots(ServerPlayer player, int desired, UUID source) {
-        CuriosApi.getCuriosInventory(player)
+        syncExtraSlots(player, desired, source, count -> evacuateAddedCurioSlots(player, count));
+    }
+
+    public static void syncExtraSlots(
+            net.minecraft.world.entity.LivingEntity entity,
+            int desired,
+            UUID source,
+            IntConsumer evacuate) {
+        CuriosApi.getCuriosInventory(entity)
                 .ifPresent(
                         handler ->
                                 handler.getStacksHandler("curio")
                                         .ifPresent(
                                                 slots ->
                                                         reconcileExtraSlots(
-                                                                slots,
-                                                                desired,
-                                                                count ->
-                                                                        evacuateAddedCurioSlots(
-                                                                                player, count),
-                                                                source)));
+                                                                slots, desired, evacuate, source)));
     }
 
     public static void reconcileExtraSlots(

@@ -1,22 +1,17 @@
 package com.thelongtravail.client;
 
-import com.thelongtravail.text.TooltipStyle;
-
 import com.thelongtravail.TheLongTravail;
-import com.thelongtravail.item.UnderworldAccessoryItem;
-import com.thelongtravail.equipment.TravailCurios;
-import com.thelongtravail.network.*;
+import com.thelongtravail.network.UnderworldPacket;
+import com.thelongtravail.network.TravailNetwork;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.DeathScreen;
-import net.minecraft.network.chat.*;
-import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import java.util.*;
+import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID, value = Dist.CLIENT)
 public final class UnderworldClient {
@@ -93,78 +88,5 @@ public final class UnderworldClient {
                             Component.translatable(
                                     "death.attack.generic", mc.player.getDisplayName()),
                             mc.level.getLevelData().isHardcore()));
-    }
-
-    public static List<Component> details(
-            UnderworldAccessoryItem item,
-            net.minecraft.world.entity.player.Player viewer,
-            boolean complete) {
-        List<Component> out = new ArrayList<>();
-        out.add(Component.empty());
-        {
-            String prefix =
-                    "tooltip.the_long_travail." + (item.ring ? "thousand_years." : "book_of_dead.");
-            boolean witnessed =
-                    !complete
-                            && viewer != null
-                            && com.thelongtravail.journey.LongTravailData.hasWitness(
-                                    TravailCurios.stack(viewer),
-                                    com.thelongtravail.TravailAspect.UNDERWORLD);
-            String[] keys =
-                    item.ring
-                            ? new String[] {
-                                "malice_title", "malice", "", "witness_title", "witness"
-                            }
-                            : witnessed
-                                    ? new String[] {"revive", "hardcore", "", "limits"}
-                                    : new String[] {
-                                        "revive",
-                                        "hardcore",
-                                        "",
-                                        "witness_condition",
-                                        "witness",
-                                        "",
-                                        "limits"
-                                    };
-            for (String key : keys) {
-                if (key.isEmpty()) {
-                    out.add(Component.empty());
-                    continue;
-                }
-                if (!item.ring && key.equals("revive")) {
-                    out.add(
-                            Component.translatable(
-                                            prefix + key,
-                                            revivalName(
-                                                    "tooltip.the_long_travail.book_of_dead.revival_name"))
-                                    .withStyle(s -> s.withColor(TooltipStyle.BODY_COLOR)));
-                    continue;
-                }
-                Object[] args =
-                        key.equals("malice")
-                                ? new Object[] {
-                                    number(
-                                            TooltipConfigSync.decimal("underworldItem.wither", .1)
-                                                    * 100)
-                                }
-                                : new Object[0];
-                out.add(
-                        TooltipStyle.coloredLine(
-                                Component.translatable(prefix + key, args)
-                                        .withStyle(
-                                                s ->
-                                                        s.withColor(
-                                                                key.endsWith("title")
-                                                                        ? TooltipStyle.TITLE_COLOR
-                                                                        : com.thelongtravail.text
-                                                                                .TooltipStyle
-                                                                                .BODY_COLOR))));
-            }
-        }
-        return List.copyOf(out);
-    }
-
-    private static String number(double d) {
-        return java.math.BigDecimal.valueOf(d).stripTrailingZeros().toPlainString();
     }
 }

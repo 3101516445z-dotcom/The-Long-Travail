@@ -5,7 +5,8 @@
 | 接入位置 | 当前要求 |
 | --- | --- |
 | 联动预设记录 | 主题文件使用独立的 `presets` 一级分组。旧 `compatInitialization` 记录自动迁入，新旧位置同时有值时采用新位置；脚本读写路径须同步更新，见[预设路径](docs/开发者查阅/runtime-integration.md#联动预设写入)。 |
-| 网络与物品注册 | 协议为 25-items- 加物品注册签名，两端精确匹配。读取可选 RegistryObject 前检查 isPresent()，注册配置修改后重启两端。 |
+| 旧转发入口 | 旅程维护直接调用 JourneyRuntimeMaintenance，配置重载使用 ConfigReloadCoordinator；女仆计算与反馈使用对应 MaidAccessoryRules、MaidCombatCalculations、MaidCombatFeedback。已移除的旧转发方法不再作为接入入口。 |
+| 网络与物品注册 | 协议为 27-items- 加物品注册签名，两端精确匹配。读取可选 RegistryObject 前检查 isPresent()，注册配置修改后重启两端。 |
 | 效果植入 | EffectInsertion.addOrGet 的四参数重载将实例调整与同步放入完成回调，失败时恢复本效果及标准实体状态；消耗放在成功返回之后。三参数入口保留，返回后的操作由调用方负责，见[恢复范围](docs/开发者查阅/runtime-integration.md#可复用的效果植入工具)。 |
 | 携带区域 | CarryingApi.allowed 的区域名限于六种内置来源，未知名称或 null 抛出 IllegalArgumentException；合法区域的开关含义不变，见[携带 API](docs/开发者查阅/carrying-api.md)。 |
 | 旅程写入 | 使用 TravailJourneyApi；延迟授予见证携带发起时的 AspectJourneyKey。主题重置会改变轮次，旧身份不能写入新轮次。 |

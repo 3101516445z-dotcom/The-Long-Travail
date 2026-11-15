@@ -1,7 +1,5 @@
 package com.thelongtravail.mixin.flourishing;
 
-import com.thelongtravail.flourishing.ImmortalBud;
-
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;

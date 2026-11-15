@@ -3,11 +3,13 @@ package com.thelongtravail.compat.maid;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.network.NetworkHandler;
 import com.github.tartaricacid.touhoulittlemaid.network.message.SyncBaubleMessage;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+
 import java.util.*;
 
 // 所有苦旅女仆饰品均按槽位同步；不能将筛选后的列表作为 fullSync 发送。
@@ -58,6 +60,7 @@ public final class MaidBaubleSync {
                 continue;
             }
             CompoundTag current = snapshot(maid);
+            if (!Objects.equals(PREVIOUS.get(maid), current)) MaidSeaBottleSlots.changed(maid);
             for (var message : changes(maid, PREVIOUS.get(maid), current))
                 NetworkHandler.sendToTrackingEntity(message, maid);
             PREVIOUS.put(maid, current);

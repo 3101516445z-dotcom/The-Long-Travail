@@ -15,12 +15,12 @@
   "jei.the_long_travail.block_drop.prince_poppy": "玩家破壞虞美人時，有%s%%的機率獲得1個小王子，創造模式不觸發。",
   "jei.the_long_travail.block_drop.prince_rose": "玩家破壞玫瑰叢時，有%s%%的機率獲得1個小王子，每株只判定一次，創造模式不觸發。",
   "tooltip.the_long_travail.jade.pick_up_for_details": "完整說明請拾取後在背包中查看。",
-  "tooltip.the_long_travail.maid_compat.lafite.basic": "作為女僕的飾品時僅在女僕的原生飾品欄中生效。",
-  "tooltip.the_long_travail.maid_compat.lafite.diary": "惡意與見證效果根據主人所佩戴苦旅的狀態生效",
   "jei.the_long_travail.perfect_fluid.title": "完美流體複製（範例）",
   "jei.the_long_travail.perfect_fluid.stackable": "範例：消耗一份完美流體和一顆鑽石，獲得兩顆鑽石。完美流體自身、《苦旅》及設定黑名單中的物品不能複製；複製品容器及其巢狀容器中的完美流體與《苦旅》會被清除。",
   "jei.the_long_travail.perfect_fluid.unstackable": "範例：消耗一份完美流體，獲得一把劍的複製品。右側另一把劍是留在合成欄的原件。原件的容器內容不受複製品清除規則影響。",
   "tooltip.the_long_travail.maid_compat.relic.basic": "作為女僕的飾品時僅在女僕的原生飾品欄中生效",
   "tooltip.the_long_travail.maid_compat.banner.souls": "女僕擊殺生物時，魂數僅計入女僕佩戴的萬魂幡",
-  "tooltip.the_long_travail.maid_compat.banner.diary": "主人未佩戴苦旅時，仍可積累魂數，但不提供依賴冥府狀態的屬性加成"
+  "tooltip.the_long_travail.maid_compat.banner.diary": "主人未佩戴苦旅時，仍可積累魂數，但不提供依賴冥府狀態的屬性加成",
+  "message.the_long_travail.configscreens.failed": "設定未儲存",
+  "message.the_long_travail.configscreens.reopen": "設定檔已變更、無法寫入或輸入無效。請返回設定清單並重新開啟後再試。"
 }

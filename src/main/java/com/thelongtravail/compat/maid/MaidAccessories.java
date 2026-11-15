@@ -23,6 +23,8 @@ public final class MaidAccessories {
 
     private static List<Item> buildItems() {
         return java.util.stream.Stream.of(
+                        ModRegistry.SEA_IN_A_BOTTLE,
+                        ModRegistry.HORIZON_THEORY,
                         ModRegistry.SUN_CHASER,
                         ModRegistry.KAGOTSURUBE,
                         ModRegistry.DEMON_KING,

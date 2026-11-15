@@ -15,12 +15,12 @@
   "jei.the_long_travail.block_drop.prince_poppy": "Players have a %s%% chance to obtain one Little Prince when breaking a poppy. Does not trigger in Creative mode.",
   "jei.the_long_travail.block_drop.prince_rose": "Players have a %s%% chance to obtain one Little Prince when breaking a rose bush. Rolls once per plant. Does not trigger in Creative mode.",
   "tooltip.the_long_travail.jade.pick_up_for_details": "Pick up this item to view its full description in your inventory.",
-  "tooltip.the_long_travail.maid_compat.lafite.basic": "Functions as a maid accessory only when equipped in the maid's native bauble slots.",
-  "tooltip.the_long_travail.maid_compat.lafite.diary": "Malice and Witness effects follow the state of The Long Travail worn by the owner",
   "jei.the_long_travail.perfect_fluid.title": "Perfect Fluid Duplication (Examples)",
   "jei.the_long_travail.perfect_fluid.stackable": "Example: consume one Perfect Fluid and one diamond to obtain two diamonds. Perfect Fluid itself, The Long Travail, and blacklisted items cannot be copied. Perfect Fluid and The Long Travail are removed from copied containers and their nested containers.",
   "jei.the_long_travail.perfect_fluid.unstackable": "Example: consume one Perfect Fluid to obtain a copy of a sword. The far-right sword is the original left in the crafting grid. Removing Perfect Fluid from the copy does not affect the original container contents.",
   "tooltip.the_long_travail.maid_compat.relic.basic": "Functions as a maid accessory only when equipped in the maid's native bauble slots",
   "tooltip.the_long_travail.maid_compat.banner.souls": "Souls from creatures killed by a maid are added only to the banner she wears",
-  "tooltip.the_long_travail.maid_compat.banner.diary": "Souls can still be collected without the owner wearing The Long Travail, but Underworld-state attribute bonuses remain inactive"
+  "tooltip.the_long_travail.maid_compat.banner.diary": "Souls can still be collected without the owner wearing The Long Travail, but Underworld-state attribute bonuses remain inactive",
+  "message.the_long_travail.configscreens.failed": "Configuration not saved",
+  "message.the_long_travail.configscreens.reopen": "The file changed, could not be written, or contains invalid input. Return to the configuration list and reopen the editor before retrying."
 }

@@ -33,20 +33,17 @@ public record BoundlessPacket(boolean active, int cooldown) {
                                 .getInt(com.thelongtravail.boundless.dream.DreamState.COOLDOWN)));
     }
 
-    public record Message(String key, int cooldownTicks) {
-        public Message(String key) {
-            this(key, 0);
-        }
-
+    public record Message(Skill skill, String key, int cooldownTicks) {
         public static Consumer<Message> receiver = key -> {};
 
         public static void encode(Message p, FriendlyByteBuf b) {
+            b.writeEnum(p.skill);
             b.writeUtf(p.key, 128);
             b.writeVarInt(p.cooldownTicks);
         }
 
         public static Message decode(FriendlyByteBuf b) {
-            return new Message(b.readUtf(128), b.readVarInt());
+            return new Message(b.readEnum(Skill.class), b.readUtf(128), b.readVarInt());
         }
 
         public static void handle(Message p, Supplier<NetworkEvent.Context> s) {
@@ -56,11 +53,18 @@ public record BoundlessPacket(boolean active, int cooldown) {
         }
     }
 
-    public record Cast() {
-        public static void encode(Cast p, FriendlyByteBuf b) {}
+    public enum Skill {
+        DREAM,
+        WHISPER
+    }
+
+    public record Cast(Skill skill) {
+        public static void encode(Cast p, FriendlyByteBuf b) {
+            b.writeEnum(p.skill);
+        }
 
         public static Cast decode(FriendlyByteBuf b) {
-            return new Cast();
+            return new Cast(b.readEnum(Skill.class));
         }
 
         public static void handle(Cast p, Supplier<NetworkEvent.Context> s) {
@@ -81,11 +85,11 @@ public record BoundlessPacket(boolean active, int cooldown) {
                                                 .getPlayerList()
                                                 .getPlayer(sender.getUUID())
                                         != sender) return;
-                        if (com.thelongtravail.boundless.HolyFool.equipped(sender)
-                                && !com.thelongtravail.boundless.BoundlessEquipment.equipped(
-                                        sender, true))
-                            com.thelongtravail.boundless.HolyFool.cast(sender);
-                        else com.thelongtravail.boundless.dream.DreamState.cast(sender);
+                        switch (p.skill) {
+                            case DREAM ->
+                                    com.thelongtravail.boundless.dream.DreamState.cast(sender);
+                            case WHISPER -> com.thelongtravail.boundless.HolyFool.cast(sender);
+                        }
                     });
             c.setPacketHandled(true);
         }

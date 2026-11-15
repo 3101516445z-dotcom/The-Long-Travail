@@ -14,10 +14,43 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 public final class HorizonTheory {
-    private static final Map<ServerPlayer, Long> UNTIL = new WeakHashMap<>();
+    public static float capDamage(LivingEntity target, DamageSource source, float amount) {
+        if (!target.level().isClientSide
+                && ordinary(source)
+                && carrying(target)
+                && phase(target, false)) {
+            return Math.min(
+                    amount,
+                    (float)
+                            (target.getMaxHealth()
+                                    * ThemeItemConfig.get("horizon_theory.damageCap")));
+        }
+        return amount;
+    }
 
-    private static boolean carrying(ServerPlayer p) {
-        return CarryingApi.isCarrying(p, ModRegistry.HORIZON_THEORY);
+    private static final Map<LivingEntity, Long> UNTIL = new WeakHashMap<>();
+
+    private static boolean carrying(LivingEntity entity) {
+        return entity instanceof ServerPlayer p
+                ? CarryingApi.isCarrying(p, ModRegistry.HORIZON_THEORY)
+                : com.thelongtravail.integration.MaidIntegration.equipped(
+                        entity, ModRegistry.HORIZON_THEORY);
+    }
+
+    private static boolean phase(LivingEntity entity, boolean witness) {
+        var state =
+                entity instanceof ServerPlayer p
+                        ? TravailStateApi.state(p, com.thelongtravail.TravailAspect.FAR_REACH)
+                        : com.thelongtravail.integration.MaidIntegration.phase(
+                                entity, com.thelongtravail.TravailAspect.FAR_REACH);
+        return state
+                == (witness
+                        ? TravailStateApi.AspectState.WITNESS
+                        : TravailStateApi.AspectState.MALICE);
+    }
+
+    public static void clear(LivingEntity entity) {
+        UNTIL.remove(entity);
     }
 
     private static boolean ordinary(DamageSource source) {
@@ -25,34 +58,35 @@ public final class HorizonTheory {
     }
 
     public static boolean blocked(LivingEntity target, DamageSource source) {
-        return target instanceof ServerPlayer p
+        return !target.level().isClientSide
                 && ordinary(source)
-                && p.server.overworld().getGameTime() < UNTIL.getOrDefault(p, Long.MIN_VALUE)
-                && carrying(p)
-                && TravailStateApi.hasFarReachWitness(p);
+                && target.getServer().overworld().getGameTime()
+                        < UNTIL.getOrDefault(target, Long.MIN_VALUE)
+                && carrying(target)
+                && phase(target, true);
     }
 
     public static void confirmed(LivingEntity target, DamageSource source) {
-        if (target instanceof ServerPlayer p
+        if (!target.level().isClientSide
                 && ordinary(source)
-                && carrying(p)
-                && TravailStateApi.hasFarReachWitness(p))
+                && carrying(target)
+                && phase(target, true))
             UNTIL.put(
-                    p,
-                    p.server.overworld().getGameTime()
+                    target,
+                    target.getServer().overworld().getGameTime()
                             + ThemeItemConfig.ticks("horizon_theory.invulnerabilitySeconds"));
     }
 
     public static float capHealth(LivingEntity target, DamageSource source, float requested) {
-        if (target instanceof ServerPlayer p
+        if (!target.level().isClientSide
                 && ordinary(source)
-                && carrying(p)
-                && TravailStateApi.hasFarReachMalice(p))
+                && carrying(target)
+                && phase(target, false))
             return Math.max(
                     requested,
-                    p.getHealth()
+                    target.getHealth()
                             - (float)
-                                    (p.getMaxHealth()
+                                    (target.getMaxHealth()
                                             * ThemeItemConfig.get("horizon_theory.damageCap")));
         return requested;
     }

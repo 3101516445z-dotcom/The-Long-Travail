@@ -1,7 +1,5 @@
 package com.thelongtravail.compat.maid;
 
-import com.thelongtravail.registry.RegisteredItems;
-
 import static com.thelongtravail.compat.maid.MaidAccess.identity;
 import static com.thelongtravail.compat.maid.MaidAccessoryRules.has;
 import static com.thelongtravail.compat.maid.MaidAccessoryRules.phase;
@@ -11,6 +9,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.compat.maid.MaidAccessoryRuntime.Phase;
 import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.registry.RegisteredItems;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
@@ -42,11 +41,16 @@ final class MaidRuntimeState {
 
     public static void watch(EntityMaid m) {
         MaidBaubleSync.watch(m);
-        if (!m.level().isClientSide) STATES.computeIfAbsent(m, k -> new State());
+        if (!m.level().isClientSide && !STATES.containsKey(m)) {
+            STATES.put(m, new State());
+            MaidSeaBottleSlots.changed(m);
+        }
     }
 
     public static void equipmentChanged(EntityMaid m) {
         watch(m);
+        MaidSeaBottleSlots.changed(m);
+        if (!has(m, ModRegistry.HORIZON_THEORY)) com.thelongtravail.farreach.HorizonTheory.clear(m);
         com.thelongtravail.farreach.DonQuixoteState.forget(m);
         var state = STATES.get(m);
         if (state != null) {
@@ -58,6 +62,13 @@ final class MaidRuntimeState {
 
     public static void equipmentChanged(EntityMaid m, ItemStack changed) {
         watch(m);
+        if (RegisteredItems.is(changed, ModRegistry.SEA_IN_A_BOTTLE)) MaidSeaBottleSlots.changed(m);
+        if (RegisteredItems.is(changed, ModRegistry.HORIZON_THEORY))
+            defer(
+                    () -> {
+                        if (!has(m, ModRegistry.HORIZON_THEORY))
+                            com.thelongtravail.farreach.HorizonTheory.clear(m);
+                    });
         if (RegisteredItems.is(changed, ModRegistry.DON_QUIXOTE))
             com.thelongtravail.farreach.DonQuixoteState.forget(m);
         var s = STATES.get(m);
@@ -135,6 +146,7 @@ final class MaidRuntimeState {
         STATES.clear();
         EFFECT_TIMES.clear();
         PENDING.clear();
+        MaidSeaBottleSlots.clear();
         MaidLanternCombat.clear();
     }
 
@@ -148,6 +160,7 @@ final class MaidRuntimeState {
 
     static void forget(EntityMaid m) {
         com.thelongtravail.underworld.Kagotsurube.clear(m);
+        com.thelongtravail.farreach.HorizonTheory.clear(m);
         STATES.remove(m);
         com.thelongtravail.farreach.DonQuixoteState.forget(m);
         MaidLanternCombat.forget(m);

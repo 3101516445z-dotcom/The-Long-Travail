@@ -9,7 +9,6 @@ import com.thelongtravail.config.TravailClientConfig;
 import com.thelongtravail.network.*;
 import com.thelongtravail.abyss.*;
 import net.minecraft.client.*;
-import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.settings.KeyConflictContext;

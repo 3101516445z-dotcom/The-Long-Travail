@@ -27,7 +27,6 @@ import com.thelongtravail.registry.ModRegistry;
 import com.thelongtravail.valley.execution.AzraelExecution;
 import com.thelongtravail.valley.execution.AzraelState;
 import java.util.HashSet;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;

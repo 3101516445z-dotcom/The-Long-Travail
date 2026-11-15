@@ -5,10 +5,7 @@ import static com.thelongtravail.registry.ModRegistry.*;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.abyss.rain.RainTooltips;
 import com.thelongtravail.client.RainClient;
-import com.thelongtravail.client.UnderworldClient;
 import com.thelongtravail.equipment.TravailCurios;
-import com.thelongtravail.item.FarReachAccessoryItem;
-import com.thelongtravail.item.UnderworldAccessoryItem;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -516,18 +513,6 @@ public final class CatalogEntries {
                                         .withStyle(line.getStyle())
                                 : line);
         return lines;
-    }
-
-    private static List<Component> far(ItemStack stack) {
-        List<Component> out = new ArrayList<>();
-        ((FarReachAccessoryItem) stack.getItem())
-                .appendDetails(out, Minecraft.getInstance().player, stack, true);
-        return out;
-    }
-
-    private static List<Component> underworld(ItemStack stack) {
-        return UnderworldClient.details(
-                (UnderworldAccessoryItem) stack.getItem(), Minecraft.getInstance().player, true);
     }
 
     public static List<Component> details(Entry entry, ItemStack actual) {

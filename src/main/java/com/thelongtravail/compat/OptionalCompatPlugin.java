@@ -19,6 +19,41 @@ public final class OptionalCompatPlugin implements IMixinConfigPlugin {
     }
 
     public boolean shouldApplyMixin(String target, String mixin) {
+        if (mixin.contains(".configscreens.")) {
+            boolean supportedVersion =
+                    net.minecraftforge.fml.loading.FMLLoader.getLoadingModList().getMods().stream()
+                            .anyMatch(
+                                    info ->
+                                            info.getModId().equals("forgeconfigscreens")
+                                                    && info.getVersion()
+                                                            .toString()
+                                                            .equals("8.0.2"));
+            if (!supportedVersion) return false;
+            try {
+                var provider = MixinService.getService().getBytecodeProvider();
+                var screen =
+                        provider.getClassNode(
+                                "fuzs.forgeconfigscreens.client.gui.screens.ConfigScreen");
+                var main =
+                        provider.getClassNode(
+                                "fuzs.forgeconfigscreens.client.gui.screens.ConfigScreen$Main");
+                return screen.methods.stream()
+                                .anyMatch(
+                                        m ->
+                                                m.name.equals("create")
+                                                        && m.desc.equals(
+                                                                "(Lnet/minecraft/client/gui/screens/Screen;Lnet/minecraft/network/chat/Component;Lnet/minecraftforge/fml/config/ModConfig;Ljava/util/Map;)Lfuzs/forgeconfigscreens/client/gui/screens/ConfigScreen;"))
+                        && main.methods.stream()
+                                .anyMatch(
+                                        m ->
+                                                m.name.equals("lambda$init$0")
+                                                        && m.desc.equals(
+                                                                "(Lnet/minecraft/client/gui/components/Button;)V"));
+            } catch (ClassNotFoundException | java.io.IOException unavailable) {
+                warn(target, "config screen adapter unavailable");
+                return false;
+            }
+        }
         if (mixin.contains(".fluid.")) {
             String mod =
                     mixin.endsWith("BackpackStorageAccessor")

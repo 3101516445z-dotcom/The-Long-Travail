@@ -63,10 +63,6 @@ public final class RevivalPosition {
         queue.add(new Cell(p, origin.distanceToSqr(x, y, z)));
     }
 
-    public static int direction(Vec3 v) {
-        return direction(v.x, v.y, v.z);
-    }
-
     private static int direction(double x, double y, double z) {
         return z < 0 ? 0 : x > 0 ? 1 : z > 0 ? 2 : x < 0 ? 3 : y > 0 ? 4 : 5;
     }

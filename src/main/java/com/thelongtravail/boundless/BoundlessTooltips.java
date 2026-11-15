@@ -3,7 +3,6 @@ package com.thelongtravail.boundless;
 import com.thelongtravail.text.TooltipStyle;
 
 import com.thelongtravail.config.BoundlessItemsConfig;
-import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.network.TooltipConfigSync;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -12,8 +11,7 @@ import java.util.*;
 import java.util.function.Supplier;
 
 public final class BoundlessTooltips {
-    public static Supplier<Player> viewer = () -> null;
-    public static Supplier<Component> dreamKey = () -> Component.literal("G");
+    public static Supplier<Component> dreamKey = () -> Component.literal("Y");
 
     private static String number(String key, double scale) {
         return BigDecimal.valueOf(

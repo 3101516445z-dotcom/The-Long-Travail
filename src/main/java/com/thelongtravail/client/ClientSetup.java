@@ -31,9 +31,9 @@ final class ClientSetup {
                     com.thelongtravail.network.InsertedEffectPacket.receiver =
                             InsertedEffectClient::receive;
                     com.thelongtravail.item.ItemSummary.append = ThemeTooltips::append;
-                    com.thelongtravail.item.ThemeItemText.skillKey =
+                    com.thelongtravail.item.ThemeItemText.whisperKey =
                             () ->
-                                    ThemeTooltips.keyName(BoundlessClient.DREAM)
+                                    ThemeTooltips.keyName(BoundlessClient.WHISPER)
                                             .copy()
                                             .withStyle(
                                                     style ->

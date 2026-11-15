@@ -2,7 +2,6 @@ package com.thelongtravail.boundless;
 
 import com.thelongtravail.config.ThemeItemConfig;
 import com.thelongtravail.equipment.AccessoryEquipRules;
-import com.thelongtravail.network.BoundlessPacket;
 import com.thelongtravail.network.TravailNetwork;
 import com.thelongtravail.registry.ModRegistry;
 
@@ -29,11 +28,7 @@ public final class HolyFool {
         long now = p.server.overworld().getGameTime();
         long remaining = p.getPersistentData().getLong(UNTIL) - now;
         if (remaining > 0) {
-            TravailNetwork.sendSkillMessage(
-                    p,
-                    new BoundlessPacket.Message(
-                            "message.the_long_travail.holy_fool.cooldown",
-                            (int) Math.min(Integer.MAX_VALUE, remaining)));
+            TravailNetwork.sendWhisperCooldown(p, (int) Math.min(Integer.MAX_VALUE, remaining));
             return;
         }
         int duration = ThemeItemConfig.ticks("holy_fool.durationSeconds");

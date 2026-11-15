@@ -7,7 +7,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
@@ -20,7 +19,7 @@ import java.util.function.Supplier;
 
 public final class TravailNetwork {
     private static final String PROTOCOL =
-            "25-items-" + com.thelongtravail.config.ItemRegistrationConfig.signature();
+            "27-items-" + com.thelongtravail.config.ItemRegistrationConfig.signature();
     private static final SimpleChannel CHANNEL =
             NetworkRegistry.newSimpleChannel(
                     new ResourceLocation(TheLongTravail.MODID, "main"),
@@ -377,11 +376,6 @@ public final class TravailNetwork {
         }
     }
 
-    // 保留公开兼容入口；模组事件直接注册到配置重载协调器。
-    public static void onConfigReloading(ModConfigEvent.Reloading event) {
-        com.thelongtravail.config.ConfigReloadCoordinator.onConfigReloading(event);
-    }
-
     // 一次生成快照，再向所有玩家发送，保证本次广播使用同一组配置值。
     public static void broadcastTooltipConfig(MinecraftServer server) {
         TooltipConfigPacket snapshot = tooltipSnapshot();
@@ -436,6 +430,7 @@ public final class TravailNetwork {
         CHANNEL.send(
                 PacketDistributor.PLAYER.with(() -> player),
                 new BoundlessPacket.Message(
+                        BoundlessPacket.Skill.DREAM,
                         "message.the_long_travail.dream." + key,
                         key.equals("cooldown")
                                 ? Math.max(
@@ -453,8 +448,14 @@ public final class TravailNetwork {
                                         : 0));
     }
 
-    public static void sendSkillMessage(ServerPlayer p, BoundlessPacket.Message message) {
-        if (p.connection != null) CHANNEL.send(PacketDistributor.PLAYER.with(() -> p), message);
+    public static void sendWhisperCooldown(ServerPlayer player, int remainingTicks) {
+        if (player.connection != null)
+            CHANNEL.send(
+                    PacketDistributor.PLAYER.with(() -> player),
+                    new BoundlessPacket.Message(
+                            BoundlessPacket.Skill.WHISPER,
+                            "message.the_long_travail.holy_fool.cooldown",
+                            remainingTicks));
     }
 
     public static void sendInsertedEffect(
@@ -468,7 +469,11 @@ public final class TravailNetwork {
     }
 
     public static void requestDream() {
-        CHANNEL.sendToServer(new BoundlessPacket.Cast());
+        CHANNEL.sendToServer(new BoundlessPacket.Cast(BoundlessPacket.Skill.DREAM));
+    }
+
+    public static void requestWhisper() {
+        CHANNEL.sendToServer(new BoundlessPacket.Cast(BoundlessPacket.Skill.WHISPER));
     }
 
     public static void sendBoundless(ServerPlayer p, BoundlessPacket packet) {

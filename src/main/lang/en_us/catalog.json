@@ -73,7 +73,7 @@
   "gui.the_long_travail.catalog.glossary.physical_purification.body": "Reduces incoming physical-type damage by 10% per level, up to 99%.",
   "gui.the_long_travail.catalog.glossary.mara_transformation.title": "Mara Transformation",
   "gui.the_long_travail.catalog.glossary.mara_transformation.aliases": "Mara Transformation",
-  "gui.the_long_travail.catalog.glossary.mara_transformation.body": "While the effect is active:\n- Gain a 30% damage bonus;\n- Convert damage dealt into Direct Strike damage;\n- When dealing damage, apply Wither II to the target for 5 seconds;\n- Lose health equal to 5% of maximum health each second (cannot reduce health below 1).",
+  "gui.the_long_travail.catalog.glossary.mara_transformation.body": "While the effect is active:\n- Gain a 15% damage bonus;\n- Convert damage dealt into Direct Strike damage;\n- When dealing damage, apply Wither II to the target for 5 seconds;\n- Lose health equal to 5% of maximum health each second (cannot reduce health below 1).",
   "gui.the_long_travail.catalog.glossary.revival.title": "Revival",
   "gui.the_long_travail.catalog.glossary.revival.aliases": "Revival",
   "gui.the_long_travail.catalog.glossary.revival.body": "While the effect is active:\n- Damage dealt is reduced by 99%;\n- Movement speed is reduced by 50%.",
