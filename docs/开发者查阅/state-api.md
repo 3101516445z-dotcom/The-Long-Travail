@@ -75,7 +75,7 @@ if (current.hasWitness(TravailAspect.ABYSS) && current.hasMalice(TravailAspect.D
 
 除 `identity` 返回身份外，上表写入方法均返回 `JourneyService.OperationResult`；`Override` 使用 `NATURAL`、`MALICE` 或 `WITNESS`。
 
-`RequirementRef` 区分群系和结构；`AspectJourneyKey` 包含整本身份、主题和轮次。死者之书旧账本只匹配旧主题轮次，不恢复精粹开启的新轮次；未知或损坏身份不回退到旧格式。存档不支持降级，客户端与服务端须同步。
+`RequirementRef` 区分群系和结构；`AspectJourneyKey` 包含整本身份、主题和轮次。延迟写入须匹配发起时的主题轮次；未知或损坏身份不回退到旧格式。存档不支持降级，客户端与服务端须同步。
 
 结果对象提供变更与重置主题、前后有效状态位、前后身份、探索与展示变化。自然到访保留原有多主题完成和受控查询续接；外部写入进度会取消旧查询与路引任务。来源或覆盖变化只更新状态修订，不取消探索确认。底层 `JourneyOperations` 和 NBT 入口供模组内部集成使用，外部集成应使用上述 API。
 

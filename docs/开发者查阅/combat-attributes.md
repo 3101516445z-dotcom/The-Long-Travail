@@ -1,33 +1,14 @@
-# 见切、必杀、霸主
+# 战斗属性接入
 
-三项均为标准实体属性，默认 0，通过 MOD 总线 `EntityAttributeModificationEvent` 挂载到有属性供应器的实体。入口：注册 `registry/ModAttributes`，读取 `combat/CombatAttributes`，单次伤害状态 `combat/AttributeDamage`，结算调度 `combat/CombatContext`。
+注册入口为 `registry/ModAttributes`，读取入口为 `combat/CombatAttributes`。属性通过 Forge `EntityAttributeModificationEvent` 挂载到有属性供应器的实体，并同步到客户端。
 
-| 属性 | 注册 ID | 范围 | 单位 |
+| 属性 | 注册 ID | 范围 | 含义 |
 | --- | --- | --- | --- |
-| 见切 | `the_long_travail:insight` | 0 至 Float.MAX_VALUE | 固定伤害点数，允许小数 |
-| 必杀 | `the_long_travail:critical_chance` | 0 至 1 | 概率，0.1 为 10% |
-| 霸主 | `the_long_travail:overlord` | 0 至 Float.MAX_VALUE | 最大生命比例 |
+| 见切 | `the_long_travail:insight` | 0 至 Float.MAX_VALUE | 固定减伤与反击点数 |
+| 必杀 | `the_long_travail:critical_chance` | 0 至 1 | 独立双倍伤害概率 |
+| 霸主 | `the_long_travail:overlord` | 0 至 Float.MAX_VALUE | 相对于最大生命的整笔伤害免疫阈值 |
 
-## 结算约定
-
-适用的苦旅受伤放大 → 必杀 → 原版护甲与魔法防御 → 本模组输出加成与减伤 → 见切 → 霸主 → 吸收生命 → 最终伤害事件 → 普通生命。无论三个属性是否非零，普通输出加成与本模组减伤统一在护甲后、吸收生命前结算；不会因增加极小属性值而改变加成位置。
-
-- 见切：责任实体 `DamageSource.getEntity()` 非空且不是受击者时，扣除见切值，不消耗属性。见切将伤害减到 0 仍反击完整属性值。无源伤害与自伤不触发见切。
-- 反击：原版 `minecraft:falling_anvil`，责任实体为受击者，基础值为见切值。目标正常防御、头盔、受伤冷却、吸收生命仍然适用；反击只可获得必杀，不叠加本模组其他输出加成；防御侧照常计算。主伤害及本模组后续效果结束后才反击，受击者已经死亡则不反击；按最终存活状态判断，被不死图腾或其他效果救活后仍可反击。独立 DamageSource 实例标记区分反击与普通铁砧。箭矢反击射手。无有效来源实体时跳过反击。
-- 反伤链：见切、蔷薇和原版荆棘反伤不继续产生见切/蔷薇反击；防御侧见切减伤与霸主仍有效。见切反击跳过普通成功攻击分派，但可触发位于特殊来源早退之前的逐日与籠釣瓶效果；交叉关系见[伤害结算与追加效果](伤害结算与追加效果.md#追加与重放)。已有蔷薇/荆棘的其他反馈保留。第三方可通过 `the_long_travail:retaliation` 伤害类型标签标识反伤；见切反击同步调用链内的嵌套伤害也不会再次产生本模组反击。其他模组的延迟反伤需带上述类型标签，才能被识别为反伤。
-- 必杀：每次有效 Hurt 结算只抽取一次，以独立乘数 2 翻倍；不追加第二次 hurt。0 永不触发，1 必定触发。使用责任生物自己的属性，宠物不自动继承主人属性。自伤不触发必杀。
-- 霸主：若该阶段伤害不大于 `getMaxHealth() * overlord`，整笔免疫，否则不减额。最大生命不含吸收生命。免疫不消耗黄心；全额免疫且没有有效嵌套受伤时，恢复本次调用前的 `invulnerableTime` 和 `lastHurt`，避免免疫攻击占用受伤冷却；不撤销此前的护甲耐久消耗、击退、附带效果等。
-- 霸主不按伤害类型豁免；包括虚空和强制蔷薇伤害。本模组处决明确豁免三个属性：专用 `azrael_execution`、`azrael_self` 伤害以及当前处决目标与来源实例匹配的兜底伤害均跳过三个属性。处决回调中无关的普通伤害不继承豁免。直接 setHealth/移除不属于普通伤害结算。强制伤害逻辑不能恢复见切/霸主已经消除的伤害。
-- 已结算伤害重放、堂吉诃德结算追加伤害不再次必杀/见切，仍检查当前霸主。
-- 整笔伤害被正常外部事件取消时，不产生见切反击。最终事件把正伤害改为 0 且没有消耗吸收生命时，同样不反击；自身见切/霸主归零仍允许反击。普通最终伤害的负数、NaN、无穷值统一归零，处决自身的非有限伤害保持专用处理。双方见切不会往返递归。
-
-## 苦旅负面
-
-归墟流体侵蚀 `the_long_travail:fluid_erosion` 是当前苦旅直接自伤入口，明确绕过全部三个属性。该排除也列入 `the_long_travail:bypasses_combat_attributes` 伤害类型标签，便于后续新增专用负面伤害；核心流体侵蚀另有代码兜底，数据包移除标签也不会让霸主免疫诅咒。
-
-繁茂高生命值受伤倍率、归墟环境伤害倍率保留，先放大原始伤害，再计算三个属性。不是整笔排除。冥府输出削弱、无垠攻击限制、治疗限制及其他非伤害负面仍然生效。
-
-## 调用
+## 读取与修饰
 
 ```java
 double insight = CombatAttributes.insight(entity);
@@ -35,9 +16,9 @@ double chance = CombatAttributes.criticalChance(entity);
 double overlord = CombatAttributes.overlord(entity);
 ```
 
-参数必须是非空 `LivingEntity`。读取的是修饰符生效后的值，缺少属性或出现非有限值时返回 0。三项同步客户端。装备建议用固定来源 UUID 的临时 `ADDITION` 修饰符；基础值配置才使用 `setBaseValue`，不要每 tick 覆盖其他来源。
+参数为非空 `LivingEntity`。读取修饰符生效后的值，缺少属性或出现非有限值时返回 0。
 
-Apothic Attributes 为可选联动，构造入口为 `compat/attributeslib/PercentAttributes.create`：检测到 `attributeslib` 且隔离实现直接构造成功时，必杀和霸主使用其 `PercentBasedAttribute` 进行界面格式化，因此显示为百分比；未安装或发生调用或链接错误时回退为原版 `RangedAttribute`，不改变实际取值或模组依赖关系。见切始终按固定数值显示。三个属性的 `.desc` 本地化键兼容 Apothic 的属性详情界面。
+装备加成使用固定来源 UUID 的临时属性修饰符，卸装时移除本来源；基础值设置使用 `setBaseValue`。属性属于实体自身，宠物不会自动继承主人属性。
 
 ```mcfunction
 /attribute @s the_long_travail:insight base set 5
@@ -45,16 +26,12 @@ Apothic Attributes 为可选联动，构造入口为 `compat/attributeslib/Perce
 /attribute @s the_long_travail:overlord base set 0.1
 ```
 
-全属性倍率作用于三项，仍受表中范围约束；霸主不在 100% 截断。最大生命与霸主各 +20% 时阈值为原来的 1.44 倍。排除属性配置使用上述 ID。
+## 结算约定
 
-## 数值边界
+- 必杀在有效 Hurt 结算中抽取一次，使用独立乘数 2；不追加第二次 `hurt`。自伤不触发。
+- 见切在百分比减伤之后扣除固定值。责任实体有效且不是自身时可产生反击，第三方反伤通过 `the_long_travail:retaliation` 标签参与反伤链识别。
+- 霸主在吸收生命之前比较当前伤害与 `getMaxHealth() * overlord`；不超过阈值时整笔免疫，超过时不减额。最大生命不包含吸收生命。
+- 霸主阈值以 double 计算，再转为与伤害一致的 float 精度比较。最终 Damage 事件修改金额后不重新判定霸主。
+- 直接生命写入不属于普通伤害结算；专用来源可具有独立处理规则。
 
-霸主阈值先以 double 计算，再转换为与伤害相同的 float 精度进行比较，不添加固定 epsilon。最大生命 3、霸主 0.1 时，0.3f 伤害按相等免疫；下一个更大的可表示 float 仍正常受伤。
-
-服务端伤害入口在进入原版 hurt 之前拒绝零、负数、NaN 和正负无穷，不产生受伤事件、冷却或见切反击。只有当前处决目标和 DamageSource 实例同时匹配时才保留处决专用输入，不向无关嵌套攻击扩散。后续事件阶段仍保留非法数值过滤。
-
-最终 LivingDamageEvent 取消不退还此前已消耗的黄心，也不触发见切反击；霸主在吸收生命之前只判定一次，最终事件修改伤害不重新触发判定。
-
-## 玩家与车万女仆
-
-女仆通过同一事件获得属性，无需重复注册；缺少女仆模组时不加载其实体类。玩家和女仆均使用自身属性，支持 `/attribute`、标准修饰符、实体 NBT 保存恢复及客户端同步。女仆不继承主人属性；资格、冷却和恢复见[女仆饰品](optional-compat.md#队伍与女仆)。
+完整次序与来源身份见[伤害结算](伤害结算与追加效果.md)。
