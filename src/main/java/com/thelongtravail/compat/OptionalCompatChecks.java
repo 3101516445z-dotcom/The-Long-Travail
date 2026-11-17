@@ -1,11 +1,12 @@
 package com.thelongtravail.compat;
 
 import com.thelongtravail.compat.gravestone.GravestoneAccess;
-import java.io.IOException;
-import java.util.List;
+
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.LdcInsnNode;
+
+import java.io.IOException;
+import java.util.List;
 
 public final class OptionalCompatChecks {
     @FunctionalInterface
@@ -84,21 +85,6 @@ public final class OptionalCompatChecks {
                                                                                                 .ACC_STATIC
                                                                                         | Opcodes
                                                                                                 .ACC_ENUM)));
-    }
-
-    public static boolean anvil(ClassNode node) {
-        for (var method : node.methods) {
-            if (!method.name.equals("apoth_removeLevelCap") || !method.desc.equals("(I)I"))
-                continue;
-            var instructions = new java.util.ArrayList<org.objectweb.asm.tree.AbstractInsnNode>();
-            for (var instruction : method.instructions)
-                if (instruction.getOpcode() >= 0) instructions.add(instruction);
-            return instructions.size() == 2
-                    && instructions.get(0) instanceof LdcInsnNode constant
-                    && Integer.valueOf(Integer.MAX_VALUE).equals(constant.cst)
-                    && instructions.get(1).getOpcode() == Opcodes.IRETURN;
-        }
-        return false;
     }
 
     private OptionalCompatChecks() {}

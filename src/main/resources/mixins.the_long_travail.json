@@ -2,7 +2,6 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.thelongtravail.mixin",
-  "plugin": "com.thelongtravail.compat.apotheosis.AnvilCompatPlugin",
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixins.the_long_travail.refmap.json",
   "mixins": [

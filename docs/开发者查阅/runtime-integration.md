@@ -6,15 +6,15 @@
 
 [TravailNetwork](../../src/main/java/com/thelongtravail/network/TravailNetwork.java) 的协议标识为 `27-items-` 加物品注册签名，两端精确匹配。变更注册配置后须重启客户端和服务端。关闭注册会影响旧存档中对应的物品数据。
 
-附属执行消耗、奖励、旅程写入及伤害时使用逻辑服务端游戏线程；客户端读取同步状态显示。网络处理器排队进入游戏线程后，再校验发送者、当前菜单及操作身份。
+执行消耗、奖励、旅程写入及伤害时使用逻辑服务端游戏线程；客户端读取同步状态显示。网络处理器排队进入游戏线程后，再校验发送者、当前菜单及操作身份。
 
 ## 配置加载与重载
 
 配置位于 `config/the_long_travail/`，由 [TravailConfig](../../src/main/java/com/thelongtravail/config/TravailConfig.java) 装配 Forge Spec。通用设置位于 `general.toml`，主题设置位于 `aspects/`。字段格式见[随包配置说明](../../src/main/resources/assets/the_long_travail/config/configuration-guide.zh_cn.txt)。
 
-`config/storage/ManagedConfig` 先读取候选配置，再校验并发布。热重载时，非法普通值沿用上一有效值或默认值，其他合法修改仍可发布；无法解析的文件保留旧活动配置。有非法输入时保留磁盘原文并阻止自动覆盖。附属监听 Forge 配置重载事件后，应重新取得有效值及相关缓存。
+`config/storage/ManagedConfig` 先读取候选配置，再校验并发布。热重载时，非法普通值沿用上一有效值或默认值，其他合法修改仍可发布；无法解析的文件保留旧活动配置。有非法输入时保留磁盘原文并阻止自动覆盖。监听 Forge 配置重载事件后，应重新取得有效值及相关缓存。
 
-配置文件的磁盘内容与当前活动值可能不同；附属读取运行值时，以已完成校验的 Forge Spec 为准。
+配置文件的磁盘内容与当前活动值可能不同；读取运行值时，以已完成校验的 Forge Spec 为准。
 
 ## 联动预设写入
 
@@ -27,7 +27,7 @@
 | `items.golden_age.compatInitialization` | `presets.golden_age` |
 | `items.perfect_fluid.compatInitialization` | `presets.perfect_fluid` |
 
-前缀后的模组分组和字段名保持不变。[ConfigPresetMigration](../../src/main/java/com/thelongtravail/config/storage/ConfigPresetMigration.java) 在配置校验前迁移旧记录，仅处理当前 Spec 定义的预设组。缺少的新记录沿用旧值；新旧位置同时有值时采用新位置，包括显式设置的 `false`。迁移保留已处理状态，不触发已完成预设重新补入。脚本或附属应使用当前路径读写记录。
+前缀后的模组分组和字段名保持不变。[ConfigPresetMigration](../../src/main/java/com/thelongtravail/config/storage/ConfigPresetMigration.java) 在配置校验前迁移旧记录，仅处理当前 Spec 定义的预设组。缺少的新记录沿用旧值；新旧位置同时有值时采用新位置，包括显式设置的 `false`。迁移保留已处理状态，不触发已完成预设重新补入。通过当前路径读写预设记录。
 
 预设按来源、主题和目标池分别记录初始化。来源缺席时不标记；已处理但没有新增条目时仍标记；已有条目优先。标记随配置跨世界共用。重新补入预设时只处理对应标记，保留其他来源的用户配置。
 

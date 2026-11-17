@@ -1,14 +1,16 @@
 package com.thelongtravail.compat;
 
 import com.thelongtravail.compat.gravestone.GravestoneAccess;
+
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.tree.*;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.jar.JarFile;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.*;
 
 public final class OptionalCompatTest {
     private static int passed;
@@ -167,16 +169,6 @@ public final class OptionalCompatTest {
         factory.access |= Opcodes.ACC_STATIC;
         tri.fields.remove(2);
         expect(!OptionalCompatChecks.caelus(source(nodes)));
-        ClassNode anvil = node("fixture.Anvil");
-        MethodNode limit = method(anvil, "apoth_removeLevelCap", "(I)I", 0);
-        limit.instructions.add(new LdcInsnNode(Integer.MAX_VALUE));
-        limit.instructions.add(new InsnNode(Opcodes.IRETURN));
-        expect(OptionalCompatChecks.anvil(anvil));
-        ((LdcInsnNode) limit.instructions.getFirst()).cst = 40;
-        expect(!OptionalCompatChecks.anvil(anvil));
-        ((LdcInsnNode) limit.instructions.getFirst()).cst = Integer.MAX_VALUE;
-        limit.instructions.insert(new VarInsnNode(Opcodes.ILOAD, 1));
-        expect(!OptionalCompatChecks.anvil(anvil));
     }
 
     private static void artifact(String path) throws Exception {
@@ -195,15 +187,7 @@ public final class OptionalCompatTest {
                 expect(OptionalCompatChecks.gravestone(classes));
             else if (jar.getJarEntry("top/theillusivec4/caelus/api/CaelusApi.class") != null)
                 expect(OptionalCompatChecks.caelus(classes));
-            else {
-                expect(
-                        OptionalCompatChecks.anvil(
-                                classes.read("dev.shadowsoffire.apotheosis.mixin.AnvilMenuMixin")));
-                expect(
-                        OptionalCompatChecks.anvil(
-                                classes.read(
-                                        "dev.shadowsoffire.apotheosis.mixin.client.AnvilScreenMixin")));
-            }
+            else throw new IllegalArgumentException("No compatibility check for " + path);
             System.out.println("PASS artifact: " + jar.getName());
         }
     }

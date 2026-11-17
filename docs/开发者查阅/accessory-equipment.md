@@ -26,17 +26,13 @@ public boolean canEquip(SlotContext context, ItemStack stack) {
 
 `CuriosRestoreMixin` 为 `readTag` 建立 `AccessoryRestore` 作用域，结束或异常时自动清理，支持嵌套并按实体隔离。一般饰品不直接创建作用域。`DependentAccessories.unique` 保留为转发入口，现有调用自动使用统一规则。
 
-## 恢复检查要点
-
-新增饰品时，应检查重生复制、同玩家数据重载、前置条件、物品 NBT、单件限制及恢复作用域隔离。第三方死亡存储还需检查物品副本的一致性。
-
 ## 前置失效与卸装
 
 `DependentAccessories.register(Supplier<Item>, Predicate<ServerPlayer>, Consumer<ServerPlayer>)` 登记依赖关系，初始化时注册一次，避免重复登记。cleanup 应可重复调用，且只撤销自己的属性、托管模式或短期状态。实际槽位修改完成后可调用 `reconcile(player)`；不要在单次 onUnequip 回调或普通 NBT 更新中推断前置已经失去。
 
 `reconcile` 核对前置、槽位及物品，处理重入，并将移除物品返还背包或掉落；不要另建扫描/返还流程。主题分支失效时，应保留无苦旅前置的基础能力。
 
-第三方死亡储物、墓碑和外部库存可能在实体之外保存物品副本。消耗或迁移特定物品时需要稳定身份和专用存储适配，不能只处理玩家当前背包，更不能按物品 ID 清除所有同类物品。涉及旅程轮次的恢复另见 [状态与旅程 API](state-api.md)。
+第三方死亡储物、墓碑和外部库存可在实体之外保存物品副本。消耗或迁移时，通过稳定身份识别同一件物品，并同步处理这些存储中的副本。涉及旅程轮次的恢复另见 [状态与旅程 API](state-api.md)。
 
 ## 通用饰品槽位提示
 

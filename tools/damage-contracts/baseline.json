@@ -151,7 +151,6 @@
     "src/main/java/com/thelongtravail/compat/alexscaves/AlexsCavesStructureDefaults.java": "f5f41089c1d956b199c57330acc77602f3db06498c2d78a7090f327384003384",
     "src/main/java/com/thelongtravail/compat/alexsmobs/AlexsMobsEffectDefaults.java": "940424d826ca3f937923448fab7c83b05205d1f2b506e4d4c76f3c96e35605e8",
     "src/main/java/com/thelongtravail/compat/apotheosis/AffixNameStyle.java": "b48e3b3a13c6449e7665e7c1af60eb160274f9aa6b7fd6c031f5ce094e151fe8",
-    "src/main/java/com/thelongtravail/compat/apotheosis/AnvilCompatPlugin.java": "a0a11ca5b72eaae669be925807188db2826daa8504b9dad552dde3e5133d4503",
     "src/main/java/com/thelongtravail/compat/apprenticecodex/ApprenticeCodexRewardDefaults.java": "c862a0abb5f9d929edabf90283a041fff8bc302ac17ace2689a4b5ede482a2ae",
     "src/main/java/com/thelongtravail/compat/aquamirae/AquamiraeStructureDefaults.java": "b898e6ee5f33e38dd6f822e2ac02f4b2e0159cf06ee42a9ad879b2e70b85dd83",
     "src/main/java/com/thelongtravail/compat/arselemental/ArsElementalFishingDefaults.java": "ce2e8946f4eb51c0ee070b0f492bf8a70990e56fa7b5f5fc4c10b99d8ad29bc9",
@@ -257,9 +256,9 @@
     "src/main/java/com/thelongtravail/compat/mixin/sounds/SoundsPotionCompatMixin.java": "3ac787e0651a2e7e6410ae11ecfaf38d5cfa27068a4da7f452ad55c6509c722c",
     "src/main/java/com/thelongtravail/compat/morepotioneffects/MorePotionEffectsDefaults.java": "938d4bd108f8f7420a04a6eac95bd9ba7768722d193a49539ec57814e060302d",
     "src/main/java/com/thelongtravail/compat/mowziesmobs/MowziesMobsStructureDefaults.java": "77f54e91b8cc587bed5bef09f382560ef23f547071c24977d93acb85947249eb",
-    "src/main/java/com/thelongtravail/compat/OptionalCompatChecks.java": "dcdb168ea58e00a2f29abd7e0d36eca406aaf3661199a94aa4a540d1b8ffc49f",
+    "src/main/java/com/thelongtravail/compat/OptionalCompatChecks.java": "d222c3a89b3c967432c73d8619105a6abb50ce3838fb8f1c5686cb04bdac6d30",
     "src/main/java/com/thelongtravail/compat/OptionalCompatPlugin.java": "7adc824e6a41382777d4b4f78f0ef34cc0c5ddfee97ccf88acfbbde30e458e2d",
-    "src/main/java/com/thelongtravail/compat/OptionalCompatState.java": "103d3f5627710a8cd84e55d7070131cb6693a3faeeb8eb71b2727bfd672013c7",
+    "src/main/java/com/thelongtravail/compat/OptionalCompatState.java": "65b82efb5a25353cdd9209e9783d9a051368b5e273e2f7bfdd15f54a0630b12c",
     "src/main/java/com/thelongtravail/compat/quark/DiaryRunes.java": "3f65469bea4067fb4ee65f8c02db26af35769c7299892b61f958b2e06e170e55",
     "src/main/java/com/thelongtravail/compat/sounds/EffectSoundPolicy.java": "e67f761a5cad1fa837db8ea7cdecc409c83cc8c67973c42faa083c74fa2d999d",
     "src/main/java/com/thelongtravail/compat/sounds/EffectSounds.java": "3d90f76741d2e6857a26658c90723a3448ed25b5820e1455af3c60e02fcec414",
@@ -439,9 +438,9 @@
     "src/main/java/com/thelongtravail/menu/ColoringMenu.java": "59a7e53a5a1dee4fd49635b80188f604335391e126679e71423b31da28b3444a",
     "src/main/java/com/thelongtravail/mixin/abyss/AbundanceLingeringPotionMixin.java": "f78d4ec66aaf429e4f2380b5f3444c046a460c25a5e326a7cc6a3c7276f856d5",
     "src/main/java/com/thelongtravail/mixin/abyss/LafiteInstantEffectMixin.java": "54e83db1c75c322e072fb0c4035a31cc2cd1d5b9ab85521580b8e092709c2bb7",
-    "src/main/java/com/thelongtravail/mixin/anvil/AnvilLevelLimitMixin.java": "08e92564702dd4620c0e9eb06a02b463c82fd68458a218a22da8edc29eb867a9",
-    "src/main/java/com/thelongtravail/mixin/anvil/AnvilMenuMixin.java": "a36d4aec0b059962da3303227da014042ab922ffa0d05985be3aa9adf7cbf6f0",
-    "src/main/java/com/thelongtravail/mixin/anvil/AnvilScreenMixin.java": "c6ec6e4d0c1920080063fb223490ae1e55a57921434eabecb8f298177bc0750e",
+    "src/main/java/com/thelongtravail/mixin/anvil/AnvilLevelLimitMixin.java": "7853c7d115db8e20516eb4f8afba90212b77796965b595cc4ae78e7ccb239cb8",
+    "src/main/java/com/thelongtravail/mixin/anvil/AnvilMenuMixin.java": "be2c300a61a90259ababb1460936a0836db844de0de104396b6c6151fb07a0ba",
+    "src/main/java/com/thelongtravail/mixin/anvil/AnvilScreenMixin.java": "067f4f18715dfad60d5a73544d34e4c0eff2b58832eced2b4665f47c19fd7275",
     "src/main/java/com/thelongtravail/mixin/anvil/ItemCombinerMenuAccessor.java": "adbcaf7714addc089b5c5ca4ced7800b7f172b2955305d3ffa146f708b67ab8a",
     "src/main/java/com/thelongtravail/mixin/anvil/TalesAnvilMixin.java": "0e30427aba591a7ea83d6526966d48157c81e3ca4aef5916aee18e3d05b22ad8",
     "src/main/java/com/thelongtravail/mixin/babel/BabelBrainMixin.java": "8b780e921362ff1f2c9d1146106e8ae0911e8a3eef636aebef61a8305e2dd39f",
@@ -704,6 +703,6 @@
     "src/main/resources/data/the_long_travail/tags/damage_type/physical_damage.json": "8f5da4d65cfb3be1394c1c0ba7e3a3496ebfffcecf3cbe02c7c86ae344f12428",
     "src/main/resources/data/the_long_travail/tags/damage_type/retaliation.json": "280b0bf23318faed326c6140ae2a5b7e507a58f80241223b78d23ce173643f30",
     "src/main/resources/mixins.the_long_travail.compat.json": "d2f7443f2250a1b3ff3ac618fedc403c184c1a744c629d34d0e880c3af1fdbf8",
-    "src/main/resources/mixins.the_long_travail.json": "a168b46b18b2a16ce78e379154d4118fa0720dcb1678da790bef6e4a412522e9"
+    "src/main/resources/mixins.the_long_travail.json": "781fab2d9537a0c739d229ee0adc80dadcd29d6d9186be800c91d669ad5c9cc5"
   }
 }

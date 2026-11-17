@@ -1,13 +1,12 @@
 package com.thelongtravail.compat;
 
-import java.io.IOException;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 public final class OptionalCompatState {
     public static final Gate GRAVESTONE = new Gate("Gravestone item reconciliation");
     public static final Gate CAELUS = new Gate("Caelus Icarus flight adapter");
-    public static final Gate APOTHEOSIS_ANVIL =
-            new Gate("Apotheosis anvil level-limit coordination");
 
     @FunctionalInterface
     public interface Probe {

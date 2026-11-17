@@ -1,6 +1,6 @@
 # 开发接入目录
 
-面向 Minecraft 1.20.1 / Forge 的兼容模组、附属和数据包开发。Java 包根为 `com.thelongtravail`。
+本目录按状态、物品、战斗和运行时整理接口说明。Java 包根为 `com.thelongtravail`。
 
 ## 状态与物品
 
@@ -19,6 +19,6 @@
 
 - [战利品数据接入](loot-integration.md)：数据覆盖、抽样、注入与重载。
 - [运行时接入](runtime-integration.md)：注册、网络、配置、共享工具与生命周期。
-- [可选依赖接入](optional-compat.md)：依赖声明、加载隔离和适配边界。
+- [可选依赖接入](optional-compat.md)：依赖声明、加载隔离和状态更新。
 
 [源码构建](../../README.md#源码构建) · [兼容迁移说明](../../CHANGELOG.md) · [文档入口](../README.md)

@@ -39,7 +39,7 @@
 | Modern UI | 3.12.0.1 | 适配名称和日记文字的字体渲染 |
 | Enigmatic Legacy | 2.30.1 | 使用**死者苏生**时，避免消耗绑定的重生锚 |
 | Apothic Attributes | 1.3.7 | 将必杀与霸主按百分比显示，补充属性详情。 |
-| Apotheosis | 7.4.8 | 协调铁砧等级限制；带品质的名称与光晕跟随品质颜色。 |
+| Apotheosis | 7.4.8 | 带品质的名称与光晕跟随品质颜色。 |
 | Quark | 4.0-462 | 允许未附魔的《苦旅》使用符文，并显示对应闪光。 |
 | Applied Energistics 2 | 15.4.11 | 完美流体复制受支持的物品与流体存储元件，保留库存及设置。 |
 | Refined Storage 及已支持附属 | 按接口匹配 | 完美流体复制存储盘，复制后的库存与原件独立。 |
@@ -81,16 +81,15 @@
 
 当前版本为 **1.0.6**（待发布）。接口与数据迁移见[兼容迁移说明](CHANGELOG.md)。更新后生成或重置的旅程数据不支持降级到旧版模组。
 
-
 ## 开发文档
 
-[文档入口](docs/README.md)按接入任务组织公开 API、战斗结算、数据与运行时接入约定，供兼容模组、附属与数据包使用。
+[文档入口](docs/README.md)包含状态与物品 API、战斗结算、数据格式和运行时接口说明。
 
 ## 源码构建
 
 准备 JDK 17 和 Node.js 18 或更新版本，在项目根目录通过仓库附带的 Gradle Wrapper 构建。Node.js 用于合并和校验全部五种语言文件，无需安装 npm 依赖。当前 Wrapper 固定为 Gradle 8.8，源码编译目标为 Java 17。
 
-Gradle 默认调用 PATH 中的 `node`；需要指定程序时，可在构建命令后追加 `-PnodeExecutable="Node.js 可执行文件的绝对路径"`。语言源文件位于 `src/main/lang/`，构建直接使用的 `generate-language-files.cjs`、`verify-language-files.cjs`、`test-language-generation.cjs` 位于 `tools/`，均须随源码保留；该目录另有受版本控制的 `verify-locale.cjs` 用于单语言专项检查；不要手动编辑 `build/` 下的生成语言文件。
+Gradle 默认调用 PATH 中的 `node`；需要指定程序时，可在构建命令后追加 `-PnodeExecutable="Node.js 可执行文件的绝对路径"`。语言源文件位于 `src/main/lang/`，构建时由 `tools/` 下的脚本合并并校验。
 
 Windows：
 
