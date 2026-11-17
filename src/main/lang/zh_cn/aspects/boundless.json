@@ -83,5 +83,5 @@
   "tooltip.the_long_travail.holy_fool.details": "佩戴「圣愚」后，按[%3$s]发动呢喃，获得「我于万物之中」效果，持续%1$s秒。\n技能冷却时间为%2$s秒，从获得效果时开始计算。",
   "message.the_long_travail.holy_fool.cooldown": "盲目痴愈的呓语尚未消散……%s",
   "message.the_long_travail.holy_fool.success": "我于万物之中……",
-  "tooltip.the_long_travail.summary.theme_items.holy_fool": "主动技能·呢喃：\n- 按[%1$s]呢喃，获得%2$s秒「我于万物之中」效果"
+  "tooltip.the_long_travail.summary.theme_items.holy_fool": "§6主动技能·呢喃§r：\n- 按[§a%1$s§r]§6呢喃§r，获得§a%2$s秒§r「§6我于万物之中§r」"
 }

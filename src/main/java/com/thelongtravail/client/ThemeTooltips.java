@@ -174,20 +174,7 @@ public final class ThemeTooltips {
                                     AbundanceUseClient.selectedMode())));
         block.addAll(attributes);
         if (NON_STACKING_CARRIED_ITEMS.contains(entry.id())) block.add(carryingLimitHint());
-        block.add(
-                (FLOURISHING_SUMMARIES.contains(entry.id()) || utility(entry.id()))
-                        ? catalogPrompt(
-                                entry.id().equals("spring_corner")
-                                        ? "spring_corner.open"
-                                        : "flourishing.open")
-                        : BOUNDLESS_SUMMARIES.contains(entry.id())
-                                        || UNDERWORLD_SUMMARIES.contains(entry.id())
-                                        || VALLEY_SUMMARIES.contains(entry.id())
-                                        || FAR_REACH_SUMMARIES.contains(entry.id())
-                                        || ABYSS_SUMMARIES.contains(entry.id())
-                                        || NON_STACKING_CARRIED_ITEMS.contains(entry.id())
-                                ? catalogPrompt("abyss.open")
-                                : catalogPrompt());
+        block.add(catalogPrompt());
         if (!maid.isEmpty()) {
             block.add(Component.empty());
             block.addAll(maid);
@@ -207,18 +194,14 @@ public final class ThemeTooltips {
                         .toList());
     }
 
-    public static Component catalogPrompt() {
-        return catalogPrompt("open");
-    }
-
     private static Component carryingLimitHint() {
         return com.thelongtravail.client.TooltipTranslations.text(PREFIX + "carrying_non_stacking")
                 .withStyle(style -> style.withColor(0x555555).withBold(false).withItalic(false));
     }
 
-    private static Component catalogPrompt(String suffix) {
+    public static Component catalogPrompt() {
         return com.thelongtravail.client.TooltipTranslations.text(
-                        PREFIX + suffix,
+                        PREFIX + "open",
                         keyName(CatalogSession.OPEN)
                                 .copy()
                                 .withStyle(s -> s.withColor(TooltipStyle.ACCENT_COLOR)))

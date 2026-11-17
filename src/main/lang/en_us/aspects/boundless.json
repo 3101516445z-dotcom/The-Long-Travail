@@ -83,5 +83,5 @@
   "tooltip.the_long_travail.holy_fool.details": "After equipping Holy Fool, press [%3$s] to Whisper and gain Among All Things for %1$s seconds.\nThe skill cooldown is %2$s seconds, starting when the effect is granted.",
   "message.the_long_travail.holy_fool.cooldown": "The blind, foolish murmurs have yet to fade… %s",
   "message.the_long_travail.holy_fool.success": "I am among all things…",
-  "tooltip.the_long_travail.summary.theme_items.holy_fool": "Active Skill · Whisper:\n- Press [%1$s] to Whisper, gaining Among All Things for %2$s seconds"
+  "tooltip.the_long_travail.summary.theme_items.holy_fool": "§6Active Skill · Whisper§r:\n- Press [§a%1$s§r] to §6Whisper§r, gaining §6Among All Things§r for §a%2$s seconds§r"
 }

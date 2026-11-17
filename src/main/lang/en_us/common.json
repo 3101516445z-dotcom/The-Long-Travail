@@ -28,7 +28,7 @@
   "advancement.the_long_travail.root.description": "A long road traveled…",
   "key.categories.the_long_travail": "The Long Travail",
   "command.the_long_travail.stiff.cleared": "Stiff cleared.",
-  "tooltip.the_long_travail.summary.open": "Hold [%s] to view details in Shiyi.",
+  "tooltip.the_long_travail.summary.open": "Hold [%s] to view Shiyi details",
   "tooltip.the_long_travail.summary.unbound": "Unbound",
   "tooltip.the_long_travail.summary.requires_diary_equip": "§4Only those who bear Travail may equip this",
   "tooltip.the_long_travail.summary.requires_diary_effect": "§4Only grants its effects to those who bear Travail",

@@ -123,8 +123,6 @@
   "tooltip.the_long_travail.immortal_bud.details.4": "永生芽自身及受保护的物品，在掉落物状态下防火、防岩浆、防爆、防仙人掌、不会自然消失。",
   "tooltip.the_long_travail.immortal_bud.details.5": "合成消耗、物品放置或使用消耗不受「恒久长青」保护。另外，受保护物品若坠入虚空，也无法找回。",
   "tooltip.the_long_travail.immortal_bud.blacklist": "以下物品不能接受新的赋予，已有标记不受影响：%s。",
-  "tooltip.the_long_travail.summary.flourishing.open": "长按[%s]查看拾遗详情",
-  "tooltip.the_long_travail.summary.spring_corner.open": "长按[%s]查看各花朵效果详情",
   "item.the_long_travail.moon_toad_pastry": "月蟾酥",
   "tooltip.the_long_travail.flavor.moon_toad_pastry": "老蟾遗蜕月中取，一掬秋光是冷香。",
   "tooltip.the_long_travail.moon_toad_pastry.details": "食用「月蟾酥」后，恢复%s点饱食度和%s点饱和度，并获得以下效果：",

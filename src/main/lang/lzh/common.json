@@ -28,7 +28,7 @@
   "advancement.the_long_travail.root.description": "行過長路……",
   "key.categories.the_long_travail": "苦旅",
   "command.the_long_travail.stiff.cleared": "已解其僵。",
-  "tooltip.the_long_travail.summary.open": "長按[%s]啟拾遺，以閱其詳。",
+  "tooltip.the_long_travail.summary.open": "長按[%s]閱拾遺之詳",
   "tooltip.the_long_travail.summary.unbound": "未繫其鍵",
   "tooltip.the_long_travail.summary.requires_diary_equip": "§4唯承「苦旅」者可佩",
   "tooltip.the_long_travail.summary.requires_diary_effect": "§4唯承「苦旅」者得其效",

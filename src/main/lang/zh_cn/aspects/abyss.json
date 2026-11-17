@@ -118,7 +118,6 @@
   "tooltip.the_long_travail.summary.eki.requires_diary_effect": "§4只对承受「苦旅」之人赋予效果§r",
   "tooltip.the_long_travail.abyss_items.summary.heading": "§6佩戴效果§r：",
   "tooltip.the_long_travail.summary.liquefied_abundance.state": "§6当前转化类型§r：§a%s§r",
-  "tooltip.the_long_travail.summary.abyss.open": "长按[%s]查看拾遗详情",
   "item.the_long_travail.sea_in_a_bottle": "瓶中海",
   "tooltip.the_long_travail.flavor.sea_in_a_bottle": "醉后不知天在水，满船清梦压星河。",
   "tooltip.the_long_travail.sea_in_a_bottle.details": "佩戴「瓶中海」后，+%1$s 通用饰品栏位。\n\n§d佩戴苦旅且归墟尚有恶意时：§r\n- 受到的治疗量提高%2$s%%；\n- 新获得减益效果时，将该效果回施给施加者；\n- 已有减益效果的等级被提高时，将该效果回施给施加者。\n\n§d佩戴苦旅且归墟已然见证时：§r\n- 造成的魔法类伤害提高%3$s%%。",

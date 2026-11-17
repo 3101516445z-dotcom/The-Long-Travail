@@ -28,7 +28,7 @@
   "advancement.the_long_travail.root.description": "走过漫漫长路……",
   "key.categories.the_long_travail": "苦旅",
   "command.the_long_travail.stiff.cleared": "已清除僵硬。",
-  "tooltip.the_long_travail.summary.open": "长按[%s]打开拾遗查看详情。",
+  "tooltip.the_long_travail.summary.open": "长按[%s]查看拾遗详情",
   "tooltip.the_long_travail.summary.unbound": "未绑定按键",
   "tooltip.the_long_travail.summary.requires_diary_equip": "§4唯有承受「苦旅」之人方可佩戴",
   "tooltip.the_long_travail.summary.requires_diary_effect": "§4只对承受「苦旅」之人赋予效果",
