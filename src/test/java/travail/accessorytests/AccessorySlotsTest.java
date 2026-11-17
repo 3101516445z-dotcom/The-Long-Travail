@@ -61,6 +61,12 @@ public final class AccessorySlotsTest {
 
     private static final class Wearer extends ServerPlayer {
         ItemStack diary;
+        final List<net.minecraft.network.chat.Component> messages = new ArrayList<>();
+
+        @Override
+        public void sendSystemMessage(net.minecraft.network.chat.Component message) {
+            messages.add(message);
+        }
 
         Wearer(ServerLevel level) {
             this(level, UUID.randomUUID());
@@ -544,6 +550,11 @@ public final class AccessorySlotsTest {
     private void started(ServerStartedEvent event) {
         server = event.getServer();
         try {
+            if (System.getProperty("travail.slots.stage", "full").equals("star-message")) {
+                starMessage(server.overworld());
+                finish(null);
+                return;
+            }
             if (System.getProperty("travail.slots.stage", "full").equals("verify")) {
                 verifyRestart(server.overworld());
                 finish(null);
@@ -557,6 +568,73 @@ public final class AccessorySlotsTest {
             running = true;
         } catch (Throwable failure) {
             finish(failure);
+        }
+    }
+
+    private static void starMessage(ServerLevel level) {
+        context = "star-message";
+        var viewer = new Wearer(level);
+        viewer.setPos(0, 100, 0);
+        level.addNewPlayer(viewer);
+        var manager = TimeStopManager.get(level);
+        var cow = EntityType.COW.create(level);
+        require(cow != null, "non-player caster created");
+        cow.setCustomName(net.minecraft.network.chat.Component.literal("NamedCaster"));
+        cow.setPos(viewer.position());
+        try {
+            viewer.messages.clear();
+            require(manager.start(viewer, false), "player start succeeds");
+            require(viewer.messages.size() == 1, "one player notice");
+            var contents =
+                    (net.minecraft.network.chat.contents.TranslatableContents)
+                            viewer.messages.get(0).getContents();
+            require(
+                    contents.getKey().equals("message.the_long_travail.star_voice.triggered"),
+                    "notice key");
+            require(
+                    ((net.minecraft.network.chat.Component) contents.getArgs()[0])
+                            .getString()
+                            .equals(viewer.getDisplayName().getString()),
+                    "player display name");
+            require(!manager.start(viewer, false), "locked start rejected");
+            require(viewer.messages.size() == 1, "failed start stays silent");
+            TimeStopManager.clear();
+            manager = TimeStopManager.get(level);
+            require(
+                    manager.startCaster(
+                            cow,
+                            false,
+                            level.getGameTime(),
+                            cow.position(),
+                            32,
+                            40,
+                            Set.of(cow.getUUID(), viewer.getUUID())),
+                    "non-player start succeeds");
+            require(viewer.messages.size() == 2, "one non-player notice");
+            contents =
+                    (net.minecraft.network.chat.contents.TranslatableContents)
+                            viewer.messages.get(1).getContents();
+            require(
+                    ((net.minecraft.network.chat.Component) contents.getArgs()[0])
+                            .getString()
+                            .equals("NamedCaster"),
+                    "non-player custom name");
+            TimeStopManager.clear();
+            manager = TimeStopManager.get(level);
+            StarVoiceState.received(viewer, viewer.damageSources().generic());
+            StarVoiceState.confirmed(cow, viewer.damageSources().generic());
+            require(!TimeStopManager.active(level), "unattributed damage does not trigger");
+            require(
+                    !manager.startCaster(
+                            null, false, level.getGameTime(), viewer.position(), 32, 40, Set.of()),
+                    "null caster rejected");
+            require(!manager.start(null, false), "null player shortcut rejected");
+            require(viewer.messages.size() == 2, "no-source attempts stay silent");
+            System.out.println("STAR_MESSAGE_PASS checks=" + checks);
+        } finally {
+            TimeStopManager.clear();
+            viewer.discard();
+            cow.discard();
         }
     }
 

@@ -3,6 +3,7 @@ package com.thelongtravail.boundless.timestop;
 import com.thelongtravail.config.BoundlessItemsConfig;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.*;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.*;
@@ -165,6 +166,7 @@ public final class TimeStopManager {
     }
 
     public boolean start(ServerPlayer p, boolean witness) {
+        if (p == null) return false;
         return start(
                 p,
                 witness,
@@ -256,6 +258,12 @@ public final class TimeStopManager {
         rebuild();
         dirty = true;
         com.thelongtravail.network.TravailNetwork.sendTimeStopCue(p);
+        Component message =
+                Component.translatable(
+                        "message.the_long_travail.star_voice.triggered", p.getDisplayName());
+        for (ServerPlayer viewer : level.players()) {
+            if (f.contains(viewer.position())) viewer.sendSystemMessage(message);
+        }
         return true;
     }
 

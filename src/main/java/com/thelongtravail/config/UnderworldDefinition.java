@@ -82,7 +82,7 @@ record UnderworldDefinition(
                 decimal(
                         builder,
                         "travail.witness.fishing.fishingEntityChance",
-                        0.30D,
+                        0.10D,
                         0.0D,
                         1.0D,
                         "钓出生物的概率。与钓出特殊物品的概率之和超过100%时，两项按原比例缩放至合计100%。",
