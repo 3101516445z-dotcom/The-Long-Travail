@@ -22,26 +22,26 @@ public final class SeaBottleRecipe implements SmithingRecipe {
     @Override
     public boolean matches(Container grid, Level level) {
         return ModRegistry.SEA_IN_A_BOTTLE.isPresent()
-                && grid.getItem(0).isEmpty()
+                && isTemplateIngredient(grid.getItem(0))
                 && isBaseIngredient(grid.getItem(1))
                 && isAdditionIngredient(grid.getItem(2));
     }
 
     @Override
     public boolean isTemplateIngredient(ItemStack stack) {
-        return stack.isEmpty();
+        return stack.is(Items.POTION) && PotionUtils.getPotion(stack) == Potions.WATER;
     }
 
     @Override
     public boolean isBaseIngredient(ItemStack stack) {
-        return net.minecraftforge.registries.ForgeRegistries.ITEMS
-                .getKey(stack.getItem())
-                .equals(new ResourceLocation("the_long_travail", "boundless_essence"));
+        return stack.is(Items.HEART_OF_THE_SEA);
     }
 
     @Override
     public boolean isAdditionIngredient(ItemStack stack) {
-        return stack.is(Items.POTION) && PotionUtils.getPotion(stack) == Potions.WATER;
+        return net.minecraftforge.registries.ForgeRegistries.ITEMS
+                .getKey(stack.getItem())
+                .equals(new ResourceLocation("the_long_travail", "boundless_essence"));
     }
 
     @Override
