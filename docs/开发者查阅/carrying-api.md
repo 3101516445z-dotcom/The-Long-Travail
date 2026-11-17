@@ -11,7 +11,7 @@ CarryingApi.CarryingResult result = CarryingApi.query(player, item);
 
 `query` 返回 `PRESENT`（已确认携带）、`ABSENT`（未携带）或 `UNKNOWN`（无确认来源且至少一个外部检测器失败）；任一来源确认携带即优先返回 `PRESENT`。`isCarrying` 仅对 `PRESENT` 返回 true，false 不能作为故障时清退装备的依据。
 
-调用方应显式处理 `UNKNOWN`：资格未确认时暂缓新增收益或撤销已有保护。
+调用方应显式处理 `UNKNOWN`：暂缓新增收益，也不要仅因这次查询未知就撤销已有保护。
 
 查询不授予效果、修改 NBT 或替代佩戴资格。`query` 对死亡或观察者玩家返回 `ABSENT`。
 

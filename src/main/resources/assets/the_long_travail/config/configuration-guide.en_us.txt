@@ -342,7 +342,7 @@ Other mechanics and troubleshooting
 [C03] Carrying locations
 ------------------------------------------------
 Locations and scope
-- general.toml / carrying: shared location switches used by Eki, Tower of Babel and Little Prince.
+- general.toml / carrying: shared location switches for unified carrying detection.
 - aspects/abyss.toml / items.eki.carrying: additional location switches for Eki.
 - aspects/far_reach.toml / items.babel.carrying: additional location switches for Tower of Babel.
 
@@ -352,7 +352,7 @@ Example: carrying.inventory = true allows inventory checks globally, but items.b
 Location-specific details
 - inventory: main inventory and hotbar; offhand: offhand; armor: four vanilla armor slots; enderChest: ender chest.
 - curios: equipped Curios slots, excluding cosmetic slots. Enabling a location does not grant permission to equip an item there.
-- externalInventoryTick: external containers must support and enable simulated inventory updates. Ordinary nested containers are not searched recursively.
+- externalInventoryTick: external containers must provide a carrying API or support and enable simulated inventory updates. Ordinary nested containers are not searched recursively. RSI resonance disks integrate with unified carrying queries through the public API without an item allowlist or denylist; effects must use these queries, and all other activation requirements still apply.
 - Eki's location switches apply to players. Maid accessories use native bauble slots; see [M01]. Carrying Eki in multiple locations does not stack its effects.
 
 [M02] Automatic effects and reward delivery limits

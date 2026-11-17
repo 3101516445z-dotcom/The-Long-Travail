@@ -15,9 +15,11 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class MistletoeClientEffectsMixin {
     @WrapOperation(
             method = "handleUpdateMobEffect",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/LivingEntity;forceAddEffect(Lnet/minecraft/world/effect/MobEffectInstance;Lnet/minecraft/world/entity/Entity;)V"))
+            at =
+                    @At(
+                            value = "INVOKE",
+                            target =
+                                    "Lnet/minecraft/world/entity/LivingEntity;forceAddEffect(Lnet/minecraft/world/effect/MobEffectInstance;Lnet/minecraft/world/entity/Entity;)V"))
     private void travail$receiveMistletoe(
             LivingEntity entity,
             MobEffectInstance effect,

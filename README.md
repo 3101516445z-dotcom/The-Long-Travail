@@ -43,6 +43,8 @@
 | Quark | 4.0-462 | 允许未附魔的《苦旅》使用符文，并显示对应闪光。 |
 | Applied Energistics 2 | 15.4.11 | 完美流体复制受支持的物品与流体存储元件，保留库存及设置。 |
 | Refined Storage 及已支持附属 | 按接口匹配 | 完美流体复制存储盘，复制后的库存与原件独立。 |
+| Forge Config Screens | 按接口与注入结构匹配 | 配置编辑页接入候选校验与保存流程。 |
+| RS Integration / RSI | 按共振 API 兼容性匹配 | 共振存储盘接入统一携带判定，支持使用该查询的携带物效果。 |
 | Ars Nouveau | 按属性 ID 匹配 | 磷叶石不增幅药水持续时间属性。 |
 | Sophisticated Backpacks | 按接口匹配 | 完美流体独立复制背包库存、升级、设置及嵌套内容。 |
 | MmmMmmMmmMmm | 按接口匹配 | 使用假人记录的有效伤害触发本模组的伤害后效果。 |
@@ -77,7 +79,7 @@
 
 ## 版本与升级
 
-当前版本为 **1.0.5**（待发布）。接口与数据迁移见[兼容迁移说明](CHANGELOG.md)。更新后生成或重置的旅程数据不支持降级到旧版模组。
+当前版本为 **1.0.6**（待发布）。接口与数据迁移见[兼容迁移说明](CHANGELOG.md)。更新后生成或重置的旅程数据不支持降级到旧版模组。
 
 
 ## 开发文档
@@ -102,7 +104,7 @@ Linux / macOS：
 ./gradlew build jarJar
 ```
 
-首次构建需要联网，Gradle 会自动下载依赖；缓存齐全后可追加 `--offline`。当前构建包为 `build/libs/The_Long_Travail-1.0.5.jar`，带 `-slim` 后缀的包不包含内嵌依赖，不用于直接安装。
+首次构建需要联网，Gradle 会自动下载依赖；缓存齐全后可追加 `--offline`。当前构建包为 `build/libs/The_Long_Travail-1.0.6.jar`，带 `-slim` 后缀的包不包含内嵌依赖，不用于直接安装。
 
 Caelus、Embeddium、Jade、JEI、女仆、Apotheosis、Placebo、Quark 和 Zeta 的可选 API 仅用于编译，不打包进成品。女仆 API 固定为 Forge 1.20.1 的 1.5.3 版本，由 Gradle 自动下载；需要本地替代时使用 `-PmaidApiJar=/absolute/path/to/touhoulittlemaid.jar`。MixinExtras 随正式包内嵌，Curios 需另行安装。具体版本及仓库地址见 `build.gradle` 和 `gradle/optional-compat.gradle`。
 

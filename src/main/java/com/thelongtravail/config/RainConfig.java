@@ -157,8 +157,8 @@ public final class RainConfig {
                         b,
                         "items.eki.carrying.externalInventoryTick",
                         true,
-                        "启用外部容器的携带检测，须容器支持物品栏更新。\n"
-                                + "Enable carrying detection in external containers that support"
+                        "启用外部容器的携带检测，须容器提供携带接口或模拟物品栏更新。\n"
+                                + "Enable carrying detection through external providers or simulated"
                                 + " inventory updates.");
 
         SLOTS =

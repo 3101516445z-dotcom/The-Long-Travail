@@ -95,8 +95,8 @@ public final class ConfigFilesDescription {
                 section(
                         builder,
                         "carrying",
-                        "携带位置开关，适用于駅、巴别塔和小王子；駅和巴别塔还须启用各自的对应开关。\n"
-                                + "Carrying locations for Eki, Tower of Babel and Little Prince; Eki"
+                        "统一携带检测的位置开关；駅和巴别塔还须启用各自的对应开关。\n"
+                                + "Shared carrying locations; Eki"
                                 + " and Babel also require their corresponding per-item switches.");
                 section(builder, "journeyDetection", "探索进度检测。\nExploration progress detection.");
                 section(
@@ -392,8 +392,8 @@ public final class ConfigFilesDescription {
                     "启用 Curios 装备槽检测，不包括外观槽。\n"
                             + "Enable equipped Curios slot checks, excluding cosmetic slots.";
             case "externalInventoryTick" ->
-                    "启用外部容器的携带检测，须容器支持物品栏更新。\n"
-                            + "Enable carrying detection in external containers that support inventory"
+                    "启用外部容器的携带检测，须容器提供携带接口或模拟物品栏更新。\n"
+                            + "Enable carrying detection through external providers or simulated inventory"
                             + " updates.";
             default -> throw new IllegalArgumentException(area);
         };

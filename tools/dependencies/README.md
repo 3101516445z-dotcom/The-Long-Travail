@@ -11,4 +11,4 @@ python tools/dependencies/prepare-direct-compat.py --search <模组目录> --sea
 .\gradlew.bat build --offline --no-daemon
 ```
 
-缺少的固定 API 会集中列出，脚本不会用其他版本静默替代。RSI 固定使用 1.5.3 API，旧版适配已移除。可用 `-PcompatApiDirectory=<目录>` 指定非默认目录。此目录中的文件名须为锁文件键名加 `-local.jar`。
+缺少的固定 API 会集中列出，脚本不会用其他版本静默替代。RSI 的编译基线为 1.5.3；共振携带联动在运行时检查公开 API 的兼容性，不锁定模组版本号。统一盘复制沿用独立的存储适配。可用 `-PcompatApiDirectory=<目录>` 指定非默认目录。此目录中的文件名须为锁文件键名加 `-local.jar`。

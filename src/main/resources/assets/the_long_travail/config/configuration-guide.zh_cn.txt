@@ -347,7 +347,7 @@ aspects/abyss.toml 的 items.perfect_fluid.itemBlacklist 保存禁止复制的�
 [C03] 携带位置开关
 ------------------------------------------------
 配置位置与作用范围
-- general.toml / carrying：駅、巴别塔与小王子共用的位置开关。
+- general.toml / carrying：统一携带检测共用的位置开关。
 - aspects/abyss.toml / items.eki.carrying：駅的独立位置开关。
 - aspects/far_reach.toml / items.babel.carrying：巴别塔的独立位置开关。
 
@@ -357,7 +357,7 @@ aspects/abyss.toml 的 items.perfect_fluid.itemBlacklist 保存禁止复制的�
 各位置的特殊规则
 - inventory：主背包与快捷栏；offhand：副手；armor：四个原版盔甲槽；enderChest：末影箱。
 - curios：已装备的 Curios 槽位，不含外观槽。启用检测不会赋予物品装备到某个槽位的能力。
-- externalInventoryTick：外部容器须支持并启用模拟物品栏更新；普通嵌套容器不会被递归搜索。
+- externalInventoryTick：外部容器须提供携带接口或支持并启用模拟物品栏更新；普通嵌套容器不会被递归搜索。RSI 共振盘通过公开 API 接入统一携带查询，不设物品名单；物品效果须使用该查询，其他生效条件仍须满足。
 - 駅的位置开关只适用于玩家。女仆使用原生饰品栏，见 [M01]；玩家在多个位置携带駅也不叠加效果。
 
 [M02] 自动效果与奖励发放限制

@@ -13,8 +13,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 @Mixin(LivingEntity.class)
 public abstract class MistletoeExpiryMixin {
     @Inject(method = "onEffectRemoved", at = @At("TAIL"))
-    private void travail$removed(
-            MobEffectInstance effect, CallbackInfo ci) {
+    private void travail$removed(MobEffectInstance effect, CallbackInfo ci) {
         Mistletoe.removed((LivingEntity) (Object) this, effect);
     }
 
