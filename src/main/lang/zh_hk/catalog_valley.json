@@ -51,14 +51,12 @@
   "gui.the_long_travail.catalog.glossary.eligible_attributes.title": "可接受屬性",
   "gui.the_long_travail.catalog.glossary.eligible_attributes.aliases": "可接受屬性",
   "gui.the_long_travail.catalog.glossary.eligible_attributes.body": "佩戴者的所有實體屬性，被配置或兼容規則排除的除外。",
-  "gui.the_long_travail.catalog.glossary.special_breaking.title": "特殊破壞",
-  "gui.the_long_travail.catalog.glossary.special_breaking.aliases": "特殊破壞",
-  "gui.the_long_travail.catalog.glossary.special_breaking.body": "掉落物按方塊的正常規則結算。\n成功破壞是否獲得掉落物仍取決于方塊掉落規則與高頻戰慄的采掘能力。",
   "gui.the_long_travail.catalog.glossary.lantern_undead.title": "對陣亡靈",
   "gui.the_long_travail.catalog.glossary.lantern_undead.aliases": "對陣亡靈",
   "gui.the_long_travail.catalog.glossary.lantern_undead.body": "周圍敵人中包含亡靈生物即滿足要求。",
   "gui.the_long_travail.catalog.valley.phos.heal.health_loss": "佩戴者因傷害損失生命值時，有%s%%的概率恢復相當于佩戴者最大生命值%s%%的生命值，溢出的治療量轉化為傷害吸收",
   "gui.the_long_travail.catalog.valley.tremor.harvest": "具有下界合金鎬的采掘能力",
   "gui.the_long_travail.catalog.valley.tremor.speed": "挖掘速度為下界合金鎬的2倍",
-  "gui.the_long_travail.catalog.valley.tremor.durability": "使用時不會損耗耐久"
+  "gui.the_long_travail.catalog.valley.tremor.durability": "使用時不會損耗耐久",
+  "gui.the_long_travail.catalog.valley.tremor.collection": "正常破壞與特殊破壞產生的方塊掉落物都會自動進入背包"
 }

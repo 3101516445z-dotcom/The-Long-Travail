@@ -39,7 +39,6 @@ public final class CatalogGlossary {
                     "lantern_undead",
                     "lantern_combat",
                     "eligible_attributes",
-                    "special_breaking",
                     "souls",
                     "high_altitude",
                     "magic_damage",
@@ -156,7 +155,6 @@ public final class CatalogGlossary {
             case "eligible_attributes" -> item.equals("phosphophyllite");
             case "high_altitude" -> item.equals("free_and_easy_wandering");
             case "souls" -> item.equals("myriad_souls_banner");
-            case "special_breaking" -> item.equals("high_frequency_tremor");
             case "daytime" -> item.equals("icarus");
             case "size_ratio" -> item.equals("don_quixote");
             case "gold_panning", "delicacy" -> item.equals("golden_age");

@@ -172,9 +172,10 @@ public final class CatalogValleyDetails {
                 out.add(line("tremor.0"));
                 bullets(
                         out,
+                        line("tremor.durability"),
                         line("tremor.harvest"),
                         line("tremor.speed"),
-                        line("tremor.durability"));
+                        line("tremor.collection"));
                 out.add(line("tremor.1"));
                 section(out, "malice");
                 out.add(line("tremor.2"));

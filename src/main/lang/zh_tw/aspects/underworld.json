@@ -46,7 +46,7 @@
   "tooltip.the_long_travail.relic.banner.boundaries": "同一次死亡只累積1點魂數，生物復活後再次被擊殺時可再次累積。",
   "tooltip.the_long_travail.summary.demon_king_of_the_sixth_heaven.0": "§d佩戴苦旅且冥府尚有惡意時：§r\n- 提高對§a燃燒目標§r造成的§6傷害§r\n- 造成傷害時可§6恢復自身生命值§r\n- 受到§a亡靈生物§r的§6傷害§r降低",
   "tooltip.the_long_travail.summary.demon_king_of_the_sixth_heaven.1": "§d佩戴苦旅且冥府已然見證時：§r\n- 提高自身§6霸主§r屬性\n- 身處§a非露天環境或下界群系§r時，獲得§6傷害加成§r",
-  "tooltip.the_long_travail.summary.myriad_souls_banner.0": "§6基礎效果§r：\n- 佩戴時，擊殺生物積攢[§6魂數§r]",
+  "tooltip.the_long_travail.summary.myriad_souls_banner.0": "§6佩戴效果：§r\n- 擊殺生物積攢[§6魂數§r]",
   "tooltip.the_long_travail.summary.myriad_souls_banner.1": "§d佩戴苦旅且冥府尚有惡意時：§r\n- 隨[§a魂數§r]提高自身§6必殺§r屬性",
   "tooltip.the_long_travail.summary.myriad_souls_banner.state": "§6當前魂數§r：§a%1$s§r / §a%2$s§r",
   "tooltip.the_long_travail.relic.banner.persistence": "摘下萬魂幡、轉交他人或切換冥府狀態時，已有魂數不會清零。",

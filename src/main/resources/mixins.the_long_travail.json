@@ -127,6 +127,7 @@
     "boundless.LorentzArrowAccessor",
     "abyss.AbundanceLingeringPotionMixin",
     "valley.TremorBlockDropsMixin",
+    "valley.TremorHarvestMixin",
     "valley.TremorFortuneMixin",
     "farreach.SunFireMixin",
     "combat.ReflectedProjectileAccessor",

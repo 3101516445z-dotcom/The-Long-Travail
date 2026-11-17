@@ -46,7 +46,7 @@
   "tooltip.the_long_travail.relic.banner.boundaries": "Each death grants only 1 soul. A revived creature can grant another soul when killed again.",
   "tooltip.the_long_travail.summary.demon_king_of_the_sixth_heaven.0": "§dWhile wearing Travail and Underworld remains malicious:§r\n- Increases §6damage§r dealt to §aburning targets§r\n- Dealing damage can §6restore your health§r\n- Reduces §6damage§r taken from §aundead§r",
   "tooltip.the_long_travail.summary.demon_king_of_the_sixth_heaven.1": "§dWhile wearing Travail and Underworld has been witnessed:§r\n- Increases your §6Overlord§r attribute\n- Gain a §6damage bonus§r §aunder cover or in Nether biomes§r",
-  "tooltip.the_long_travail.summary.myriad_souls_banner.0": "§6Base effects§r:\n- While equipped, killing creatures accumulates [§6souls§r]",
+  "tooltip.the_long_travail.summary.myriad_souls_banner.0": "§6While equipped:§r\n- Killing creatures accumulates [§6souls§r]",
   "tooltip.the_long_travail.summary.myriad_souls_banner.1": "§dWhile wearing Travail and Underworld remains malicious:§r\n- Increases your §6Critical Chance§r attribute with [§asouls§r]",
   "tooltip.the_long_travail.summary.myriad_souls_banner.state": "§6Current souls§r: §a%1$s§r / §a%2$s§r",
   "tooltip.the_long_travail.relic.banner.persistence": "Souls are retained when the banner is unequipped, passed to another wearer, or the Underworld state changes.",

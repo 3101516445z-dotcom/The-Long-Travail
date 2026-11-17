@@ -114,7 +114,16 @@ public final class PlayerBlockBreaker {
                 if (harvest) {
                     HARVESTING.set(true);
                     try {
-                        state.getBlock().playerDestroy(level, player, pos, state, entity, tool);
+                        TremorDropCollection.harvest(
+                                level,
+                                player,
+                                pos,
+                                state,
+                                tool,
+                                () ->
+                                        state.getBlock()
+                                                .playerDestroy(
+                                                        level, player, pos, state, entity, tool));
                     } finally {
                         HARVESTING.remove();
                     }
