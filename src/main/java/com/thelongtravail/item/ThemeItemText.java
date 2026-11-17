@@ -58,7 +58,10 @@ public final class ThemeItemText {
                     case "horizon_theory" ->
                             new Object[] {
                                 value(id + ".damageCap") * 100,
-                                value(id + ".invulnerabilitySeconds")
+                                value(id + ".invulnerabilitySeconds"),
+                                value(id + ".maliceHeightDifference"),
+                                value(id + ".witnessHeightDifference"),
+                                value(id + ".heightDamageBonus") * 100
                             };
                     case "last_affairs" ->
                             new Object[] {

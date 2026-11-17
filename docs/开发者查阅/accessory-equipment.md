@@ -2,7 +2,7 @@
 
 公共入口：`com.thelongtravail.equipment.AccessoryEquipRules`。
 
-Curios 的 `readTag` 在提交新槽位表前调用 `canEquip`。重生、登录及其他整套饰品数据恢复期间，不应直接读取当前装备来判断前置条件或重复物品。
+Curios 的 `readTag` 在提交新槽位表前调用 `canEquip`。重生、登录及整套饰品恢复时，使用以下入口检查待恢复数据中的前置条件与唯一性。
 
 ## 新饰品接入
 
@@ -28,9 +28,9 @@ public boolean canEquip(SlotContext context, ItemStack stack) {
 
 ## 前置失效与卸装
 
-`DependentAccessories.register(Supplier<Item>, Predicate<ServerPlayer>, Consumer<ServerPlayer>)` 登记依赖关系，初始化时注册一次，避免重复登记。cleanup 应可重复调用，且只撤销自己的属性、托管模式或短期状态。实际槽位修改完成后可调用 `reconcile(player)`；不要在单次 onUnequip 回调或普通 NBT 更新中推断前置已经失去。
+`DependentAccessories.register(Supplier<Item>, Predicate<ServerPlayer>, Consumer<ServerPlayer>)` 登记依赖关系，初始化时注册一次。cleanup 应可重复调用，负责撤销自身的属性、托管模式或短期状态。实际槽位修改完成后调用 `reconcile(player)` 核对前置；单次 onUnequip 回调和普通 NBT 更新可能发生在槽位调整过程中。
 
-`reconcile` 核对前置、槽位及物品，处理重入，并将移除物品返还背包或掉落；不要另建扫描/返还流程。主题分支失效时，应保留无苦旅前置的基础能力。
+`reconcile` 核对前置、槽位及物品，处理重入，并将移除物品返还背包或掉落。主题分支失效时，应保留无苦旅前置的基础能力。
 
 第三方死亡储物、墓碑和外部库存可在实体之外保存物品副本。消耗或迁移时，通过稳定身份识别同一件物品，并同步处理这些存储中的副本。涉及旅程轮次的恢复另见 [状态与旅程 API](state-api.md)。
 

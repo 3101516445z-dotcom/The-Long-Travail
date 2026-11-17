@@ -268,6 +268,13 @@ public final class CatalogTextStyle {
                 continue;
             }
             String text = f.text;
+            // 高频战栗拆分出的三项能力各自计算强调额度，保留其他列表的原有规则。
+            if (text.startsWith("- ")
+                    && Pattern.compile(
+                                    "采掘能力|採掘能力|挖掘速度|掘速|不会损耗耐久|不會損耗耐久|不損耐久|Harvests like a netherite pickaxe|Mines at twice|Loses no durability",
+                                    Pattern.CASE_INSENSITIVE)
+                            .matcher(text)
+                            .find()) highlights.sentenceCount = 0;
             boolean objectList =
                     blacklistNamesNext
                             || matchesParameterLine(text, "abyss_items.fluid.blacklist_current")
@@ -432,6 +439,38 @@ public final class CatalogTextStyle {
                                         Pattern.CASE_INSENSITIVE)
                                 .matcher(text);
                 while (values.find()) paint(result, f.styles, values.start(), values.end(), VALUE);
+            }
+            // 高度差与附魔等级分支沿用条件绿色；数值与完整单位保持连续着色。
+            if (!heading && !supplement && !objectList) {
+                var conditions =
+                        Pattern.compile(
+                                        "高度差(?:超过|超過|逾)[0-9.]+格|height difference from the (?:attacker|target) exceeds [0-9.]+ blocks"
+                                                + "|目标(?:没有|已有)同种附魔|目標(?:沒有|已有|未有)同種附魔"
+                                                + "|the target (?:does not have|already has) the enchantment",
+                                        Pattern.CASE_INSENSITIVE)
+                                .matcher(text);
+                while (conditions.find())
+                    paint(result, f.styles, conditions.start(), conditions.end(), VALUE);
+                if (text.contains("高度差")
+                        || text.toLowerCase(java.util.Locale.ROOT).contains("height difference")) {
+                    // 卡片引用词使用机制金色，条件阈值仍为青色。
+                    var heightTerm =
+                            Pattern.compile("高度差|height difference", Pattern.CASE_INSENSITIVE)
+                                    .matcher(text);
+                    while (heightTerm.find())
+                        paint(result, f.styles, heightTerm.start(), heightTerm.end(), GOLD);
+                    var immunity =
+                            Pattern.compile(
+                                            "免疫其造成的伤害|免疫其造成的傷害|免疫其所致傷害|immune to damage",
+                                            Pattern.CASE_INSENSITIVE)
+                                    .matcher(text);
+                    while (immunity.find())
+                        paint(result, f.styles, immunity.start(), immunity.end(), GOLD);
+                }
+            }
+            if (text.contains("twice the speed of a netherite pickaxe")) {
+                int start = text.indexOf("twice");
+                paint(result, f.styles, start, start + "twice".length(), VALUE);
             }
             // 物品名苦旅保持强调，红色提示与整行紫色标题仍沿用原样式。
             var diaryName =

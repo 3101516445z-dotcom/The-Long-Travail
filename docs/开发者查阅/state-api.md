@@ -1,6 +1,6 @@
 # 状态查询与旅程写入接口
 
-入口：`com.thelongtravail.api.TravailStateApi`，查询玩家恶意与见证，无需自行读取 NBT 或扫描饰品栏。
+入口：`com.thelongtravail.api.TravailStateApi`，查询玩家恶意与见证。
 
 ## 十二个便捷接口
 
@@ -42,7 +42,7 @@ if (current.hasWitness(TravailAspect.ABYSS) && current.hasMalice(TravailAspect.D
 
 ## 状态约定
 
-- `INACTIVE`：没有装备苦旅，或传入空玩家。六个恶意与六个见证查询全部返回 false。因此不能用 `!hasWitness(...)` 代替 `hasMalice(...)`。
+- `INACTIVE`：没有装备苦旅，或传入空玩家。六个恶意与六个见证查询全部返回 false；恶意使用 `hasMalice(...)` 判断。
 - `MALICE` / `WITNESS`：以 Curios 槽位中第一件已装备的苦旅为准；背包、主手中的苦旅不激活玩家状态。异常情况下装备多件时也不合并状态。
 - 装备尚未初始化的苦旅时，没有见证标记的类别属于恶意。接口不会生成旅程或改写存档；可用快照的 `initialized()` 额外要求旅程已经初始化。
 - 支持自然完成与调试命令的强制状态；优先级为强制恶意 > 强制见证 > 自然见证。
@@ -85,4 +85,4 @@ if (current.hasWitness(TravailAspect.ABYSS) && current.hasMalice(TravailAspect.D
 
 第三方自主更新可调用 `com.thelongtravail.api.TimeStopApi.isFrozen(entity)` 或 `isFrozen(level, blockPos)`。在对应逻辑端的游戏线程中查询；空参数返回 false。服务器以服务端结果决定更新，客户端仅控制显示。
 
-时停不自动接管独立 ServerTickEvent、KubeJS 全局循环、系统时钟或非标准机器传输。调用方在自主更新之前跳过被冻结对象；主动攻击仍走正常伤害链。查询接口只回答是否冻结，不代替第三方实现暂停、恢复、存档与重入保护。
+独立 ServerTickEvent、KubeJS 全局循环和机器传输等自主更新，在更新前查询冻结状态并跳过被冻结对象。暂停、恢复、存档与重入由调用方管理；主动攻击仍走正常伤害链。

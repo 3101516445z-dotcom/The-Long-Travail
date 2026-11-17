@@ -61,6 +61,33 @@ public final class ThemeItemConfig {
                 "穷遐见证状态下，受伤后获得的独立无敌时间，单位：秒；0 表示不提供这段保护。\n"
                         + "Independent invulnerability after damage with Far Reach Witness, in seconds;"
                         + " 0 disables this protection.");
+        number(
+                b,
+                "horizon_theory.maliceHeightDifference",
+                5,
+                0,
+                60000000,
+                "穷遐恶意状态下，免疫与自身实体原点的高度差大于此值的攻击者造成的伤害，单位：格。\n"
+                        + "With Far Reach Malice, blocks attackers whose absolute entity Y difference"
+                        + " exceeds this value, in blocks.");
+        number(
+                b,
+                "horizon_theory.witnessHeightDifference",
+                3,
+                0,
+                60000000,
+                "穷遐见证状态下，对实体原点高度差大于此值的目标增伤，单位：格。\n"
+                        + "With Far Reach Witness, increases damage against targets whose absolute"
+                        + " entity Y difference exceeds this value, in blocks.");
+        number(
+                b,
+                "horizon_theory.heightDamageBonus",
+                .3,
+                0,
+                100,
+                "穷遐见证状态下，满足高度差条件时的伤害增幅；0.3 表示增加 30%。\n"
+                        + "Damage bonus when the Far Reach Witness height condition is met; 0.3 means"
+                        + " 30%.");
         b = builders.get("aspects/deep_valley.toml");
         number(
                 b,

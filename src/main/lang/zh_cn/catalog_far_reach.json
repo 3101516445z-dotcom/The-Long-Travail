@@ -51,5 +51,8 @@
   "gui.the_long_travail.catalog.glossary.daytime.body": "按所在维度的世界时间判断。\n末地始终视为晴天，下界始终不视为晴天。",
   "gui.the_long_travail.catalog.glossary.size_ratio.title": "体型倍率",
   "gui.the_long_travail.catalog.glossary.size_ratio.aliases": "体型倍率",
-  "gui.the_long_travail.catalog.glossary.size_ratio.body": "通常取目标当前碰撞箱体积与标准玩家体积之比的立方根，部分生物会应用配置体积。"
+  "gui.the_long_travail.catalog.glossary.size_ratio.body": "通常取目标当前碰撞箱体积与标准玩家体积之比的立方根，部分生物会应用配置体积。",
+  "gui.the_long_travail.catalog.glossary.height_difference.title": "高度差",
+  "gui.the_long_travail.catalog.glossary.height_difference.aliases": "高度差",
+  "gui.the_long_travail.catalog.glossary.height_difference.body": "双方Y坐标之差的绝对值，不区分上下方，不按体型修正。\n投射物造成伤害时，按攻击者与受击者的位置计算。"
 }

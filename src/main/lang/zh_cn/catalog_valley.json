@@ -33,12 +33,12 @@
   "gui.the_long_travail.catalog.valley.velvet.city": "%s%%的概率获得2件远古城市战利品",
   "gui.the_long_travail.catalog.valley.velvet.none": "%s%%的概率不获得额外战利品",
   "gui.the_long_travail.catalog.valley.velvet.exp": "使用后额外增加15级经验等级。",
-  "gui.the_long_travail.catalog.valley.tremor.0": "「高频战栗」具有下界合金镐的采掘能力，挖掘速度为下界合金镐的2倍，且使用时不会损耗耐久。",
+  "gui.the_long_travail.catalog.valley.tremor.0": "「高频战栗」具有以下能力：",
   "gui.the_long_travail.catalog.valley.tremor.1": "佩戴苦旅并主手持有高频战栗时，潜行右键方块可发动特殊破坏。",
   "gui.the_long_travail.catalog.valley.tremor.2": "立即挖掘可正常破坏的方块，掉落结算中的时运等级与使用者的幸运值变为原来的2倍。",
   "gui.the_long_travail.catalog.valley.tremor.3": "拥有精准采集附魔时，按精准采集规则结算，不再通过时运增加产量。",
   "gui.the_long_travail.catalog.valley.tremor.4": "可破坏黑名单以外的方块，包括通常不可挖掘的方块。",
-  "gui.the_long_travail.catalog.valley.tremor.blacklist": "当前禁止破坏的方块：",
+  "gui.the_long_travail.catalog.valley.tremor.blacklist": "以下方块仍不可破坏：%s。",
   "gui.the_long_travail.catalog.glossary.lantern_alone.title": "孤身一人",
   "gui.the_long_travail.catalog.glossary.lantern_alone.aliases": "孤身一人",
   "gui.the_long_travail.catalog.glossary.lantern_alone.body": "判定范围内没有非敌对玩家和自己的伙伴生物。",
@@ -57,5 +57,8 @@
   "gui.the_long_travail.catalog.glossary.lantern_undead.title": "对阵亡灵",
   "gui.the_long_travail.catalog.glossary.lantern_undead.aliases": "对阵亡灵",
   "gui.the_long_travail.catalog.glossary.lantern_undead.body": "周围敌人中包含亡灵生物即满足要求。",
-  "gui.the_long_travail.catalog.valley.phos.heal.health_loss": "佩戴者因伤害损失生命值时，有%s%%的概率恢复相当于佩戴者最大生命值%s%%的生命值，溢出的治疗量转化为伤害吸收"
+  "gui.the_long_travail.catalog.valley.phos.heal.health_loss": "佩戴者因伤害损失生命值时，有%s%%的概率恢复相当于佩戴者最大生命值%s%%的生命值，溢出的治疗量转化为伤害吸收",
+  "gui.the_long_travail.catalog.valley.tremor.harvest": "具有下界合金镐的采掘能力",
+  "gui.the_long_travail.catalog.valley.tremor.speed": "挖掘速度为下界合金镐的2倍",
+  "gui.the_long_travail.catalog.valley.tremor.durability": "使用时不会损耗耐久"
 }

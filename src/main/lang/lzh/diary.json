@@ -38,7 +38,7 @@
   "message.the_long_travail.already_revealed": "%1$s之霧已揭，無須復用。",
   "message.the_long_travail.essence.completed": "已成%s之一記。",
   "message.the_long_travail.essence.reset": "已重置%s逆之進度，並重抽逆條。",
-  "message.the_long_travail.journey.invalid_pool": "途之條件有誤，暫不能啟新途。請告有司；舊有進度與道具皆存。",
+  "message.the_long_travail.journey.invalid_pool": "[TLT] 苦旅之旅途條件設定有誤，暫不能啟新旅，請告管理者。原有進度與物皆已保留。",
   "message.the_long_travail.journey.no_diary": "請先佩苦旅。",
   "message.the_long_travail.journey.uninitialized": "苦旅之途未生，請察其條件。",
   "message.the_long_travail.journey.invalid_data": "途之數據無效，未改",

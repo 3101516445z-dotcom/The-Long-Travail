@@ -1,7 +1,9 @@
 package com.thelongtravail.farreach;
 
 import com.thelongtravail.api.CarryingApi;
+import com.thelongtravail.api.EntityHeightApi;
 import com.thelongtravail.api.TravailStateApi;
+import com.thelongtravail.combat.EffectCombatRules;
 import com.thelongtravail.config.ThemeItemConfig;
 import com.thelongtravail.registry.ModRegistry;
 
@@ -58,12 +60,31 @@ public final class HorizonTheory {
     }
 
     public static boolean blocked(LivingEntity target, DamageSource source) {
-        return !target.level().isClientSide
-                && ordinary(source)
-                && target.getServer().overworld().getGameTime()
+        if (target.level().isClientSide || !ordinary(source)) return false;
+        LivingEntity actor = EffectCombatRules.actor(source);
+        if (actor != null
+                && actor != target
+                && EntityHeightApi.heightDifference(actor, target)
+                        > ThemeItemConfig.get("horizon_theory.maliceHeightDifference")
+                && carrying(target)
+                && phase(target, false)) return true;
+        return target.getServer().overworld().getGameTime()
                         < UNTIL.getOrDefault(target, Long.MIN_VALUE)
                 && carrying(target)
                 && phase(target, true);
+    }
+
+    public static double bonus(LivingEntity target, DamageSource source) {
+        if (target.level().isClientSide) return 0;
+        LivingEntity actor = EffectCombatRules.actor(source);
+        return actor != null
+                        && actor != target
+                        && EntityHeightApi.heightDifference(actor, target)
+                                > ThemeItemConfig.get("horizon_theory.witnessHeightDifference")
+                        && carrying(actor)
+                        && phase(actor, true)
+                ? ThemeItemConfig.get("horizon_theory.heightDamageBonus")
+                : 0;
     }
 
     public static void confirmed(LivingEntity target, DamageSource source) {

@@ -440,6 +440,7 @@ public final class CombatContext implements AutoCloseable {
                 + witherBonus
                 + relicBonus
                 + com.thelongtravail.abyss.SeaBottle.bonus(effectiveSource)
+                + com.thelongtravail.farreach.HorizonTheory.bonus(target, effectiveSource)
                 + lorentzBonus
                 + sun.bonus()
                 + EffectCombatRules.bonus(source);

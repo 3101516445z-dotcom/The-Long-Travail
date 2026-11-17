@@ -33,12 +33,12 @@
   "gui.the_long_travail.catalog.valley.velvet.city": "%s%%之機得2件遠古城市戰利品",
   "gui.the_long_travail.catalog.valley.velvet.none": "%s%%之機無額外戰利品",
   "gui.the_long_travail.catalog.valley.velvet.exp": "用後另增15級經驗等級。",
-  "gui.the_long_travail.catalog.valley.tremor.0": "「高頻戰慄」之採掘能力同下界合金鎬，掘速為其2倍，用之不損耐久。",
+  "gui.the_long_travail.catalog.valley.tremor.0": "「高頻戰慄」有如下之能：",
   "gui.the_long_travail.catalog.valley.tremor.1": "佩苦旅而主手持高頻戰慄，潛行右鍵方塊，可發動特殊破壞。",
   "gui.the_long_travail.catalog.valley.tremor.2": "即掘可正常破壞之方塊，掉落結算之時運等級與使用者幸運值皆倍之。",
   "gui.the_long_travail.catalog.valley.tremor.3": "有精準採集附魔，則依精準採集結算，不再藉時運增產。",
   "gui.the_long_travail.catalog.valley.tremor.4": "可破壞黑名單以外之方塊，常不可掘者亦在其列。",
-  "gui.the_long_travail.catalog.valley.tremor.blacklist": "當前禁毀之方塊：",
+  "gui.the_long_travail.catalog.valley.tremor.blacklist": "下列方塊仍不可毀：%s。",
   "gui.the_long_travail.catalog.glossary.lantern_alone.title": "孤身一人",
   "gui.the_long_travail.catalog.glossary.lantern_alone.aliases": "孤身一人",
   "gui.the_long_travail.catalog.glossary.lantern_alone.body": "判定範圍內無非敵對玩家，亦無己之夥伴生物。",
@@ -57,5 +57,8 @@
   "gui.the_long_travail.catalog.glossary.lantern_undead.title": "對陣亡靈",
   "gui.the_long_travail.catalog.glossary.lantern_undead.aliases": "對陣亡靈",
   "gui.the_long_travail.catalog.glossary.lantern_undead.body": "周圍敵人有亡靈生物，即合其條件。",
-  "gui.the_long_travail.catalog.valley.phos.heal.health_loss": "佩者因傷損失生命值，有%s%%之機回復自身最大生命值%s%%之生命值，溢出治療轉為傷害吸收"
+  "gui.the_long_travail.catalog.valley.phos.heal.health_loss": "佩者因傷損失生命值，有%s%%之機回復自身最大生命值%s%%之生命值，溢出治療轉為傷害吸收",
+  "gui.the_long_travail.catalog.valley.tremor.harvest": "採掘能力同下界合金鎬",
+  "gui.the_long_travail.catalog.valley.tremor.speed": "掘速為下界合金鎬之2倍",
+  "gui.the_long_travail.catalog.valley.tremor.durability": "用之不損耐久"
 }

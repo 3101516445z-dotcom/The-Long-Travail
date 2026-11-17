@@ -25,9 +25,10 @@
   "gui.the_long_travail.catalog.underworld.blade.base": "佩「籠釣瓶」，造成傷害時施目標凋零Ⅰ，歷%s秒。",
   "gui.the_long_travail.catalog.underworld.blade.extend": "目標已有凋零，則留其原級，延時%s秒。",
   "gui.the_long_travail.catalog.underworld.blade.infinite": "無限持續之凋零不變。",
-  "gui.the_long_travail.catalog.underworld.blade.malice": "佩者見切增%s，霸主增%s。",
+  "gui.the_long_travail.catalog.underworld.blade.malice": "佩者見切增%s",
   "gui.the_long_travail.catalog.underworld.blade.witness": "凡歸屬佩者之傷害，皆轉為直擊傷害。",
   "gui.the_long_travail.catalog.glossary.souls.title": "魂數",
   "gui.the_long_travail.catalog.glossary.souls.aliases": "魂數",
-  "gui.the_long_travail.catalog.glossary.souls.body": "唯計歸屬佩者之擊殺，玩家、盔甲架與練習假人不供魂數。\n一死只計一次，生物復生後再殺，則可再計。"
+  "gui.the_long_travail.catalog.glossary.souls.body": "唯計歸屬佩者之擊殺，玩家、盔甲架與練習假人不供魂數。\n一死只計一次，生物復生後再殺，則可再計。",
+  "gui.the_long_travail.catalog.underworld.blade.overlord": "佩者霸主增%s"
 }

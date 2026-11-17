@@ -33,12 +33,12 @@
   "gui.the_long_travail.catalog.valley.velvet.city": "%s%% chance to receive 2 items from ancient city loot",
   "gui.the_long_travail.catalog.valley.velvet.none": "%s%% chance to receive no additional loot",
   "gui.the_long_travail.catalog.valley.velvet.exp": "Gain 15 additional experience levels after use.",
-  "gui.the_long_travail.catalog.valley.tremor.0": "「High Frequency Tremor」 has the harvesting capability of a netherite pickaxe, twice its mining speed, and loses no durability through use.",
+  "gui.the_long_travail.catalog.valley.tremor.0": "High Frequency Tremor has the following capabilities:",
   "gui.the_long_travail.catalog.valley.tremor.1": "With The Long Travail equipped and High Frequency Tremor in the main hand, sneak-right-click a block to perform special breaking.",
   "gui.the_long_travail.catalog.valley.tremor.2": "Instantly mine normally breakable blocks. Fortune level and the user's luck are doubled for loot calculation.",
   "gui.the_long_travail.catalog.valley.tremor.3": "With Silk Touch, drops follow Silk Touch rules instead of gaining additional yield from Fortune.",
   "gui.the_long_travail.catalog.valley.tremor.4": "Can break blocks outside the blacklist, including normally unbreakable blocks.",
-  "gui.the_long_travail.catalog.valley.tremor.blacklist": "Blocks currently forbidden from breaking:",
+  "gui.the_long_travail.catalog.valley.tremor.blacklist": "These blocks still cannot be broken: %s.",
   "gui.the_long_travail.catalog.glossary.lantern_alone.title": "Alone",
   "gui.the_long_travail.catalog.glossary.lantern_alone.aliases": "Alone",
   "gui.the_long_travail.catalog.glossary.lantern_alone.body": "There are no non-hostile players or your own companions within the detection range.",
@@ -57,5 +57,8 @@
   "gui.the_long_travail.catalog.glossary.lantern_undead.title": "Facing undead",
   "gui.the_long_travail.catalog.glossary.lantern_undead.aliases": "Facing undead",
   "gui.the_long_travail.catalog.glossary.lantern_undead.body": "The condition is met when nearby enemies include an undead creature.",
-  "gui.the_long_travail.catalog.valley.phos.heal.health_loss": "When losing health to damage, the wearer has a %s%% chance to heal %s%% of their maximum health, converting excess healing into absorption"
+  "gui.the_long_travail.catalog.valley.phos.heal.health_loss": "When losing health to damage, the wearer has a %s%% chance to heal %s%% of their maximum health, converting excess healing into absorption",
+  "gui.the_long_travail.catalog.valley.tremor.harvest": "Harvests like a netherite pickaxe",
+  "gui.the_long_travail.catalog.valley.tremor.speed": "Mines at twice the speed of a netherite pickaxe",
+  "gui.the_long_travail.catalog.valley.tremor.durability": "Loses no durability through use"
 }

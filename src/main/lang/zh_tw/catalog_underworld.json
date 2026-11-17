@@ -25,9 +25,10 @@
   "gui.the_long_travail.catalog.underworld.blade.base": "佩戴「籠釣瓶」後，造成傷害時對目標施加凋零Ⅰ，持續%s秒。",
   "gui.the_long_travail.catalog.underworld.blade.extend": "若目標已有凋零效果，則保留原等級，持續時間延長%s秒。",
   "gui.the_long_travail.catalog.underworld.blade.infinite": "無限持續的凋零效果保持不變。",
-  "gui.the_long_travail.catalog.underworld.blade.malice": "佩戴者的見切提高%s，霸主提高%s。",
+  "gui.the_long_travail.catalog.underworld.blade.malice": "佩戴者的見切提高%s",
   "gui.the_long_travail.catalog.underworld.blade.witness": "將所有歸屬於佩戴者的傷害轉化為直擊傷害。",
   "gui.the_long_travail.catalog.glossary.souls.title": "魂數",
   "gui.the_long_travail.catalog.glossary.souls.aliases": "魂數",
-  "gui.the_long_travail.catalog.glossary.souls.body": "僅計算歸屬於佩戴者的擊殺，玩家、盔甲架和練習假人不提供魂數。\n同一次死亡只計入一次，生物復活後再次被擊殺時可再次計入。"
+  "gui.the_long_travail.catalog.glossary.souls.body": "僅計算歸屬於佩戴者的擊殺，玩家、盔甲架和練習假人不提供魂數。\n同一次死亡只計入一次，生物復活後再次被擊殺時可再次計入。",
+  "gui.the_long_travail.catalog.underworld.blade.overlord": "佩戴者的霸主提高%s"
 }

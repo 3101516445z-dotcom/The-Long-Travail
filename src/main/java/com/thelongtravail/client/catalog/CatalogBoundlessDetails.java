@@ -69,11 +69,16 @@ public final class CatalogBoundlessDetails {
                 out.add(line("star.9"));
             }
             case "little_prince" -> {
-                out.add(line("prince.0", n("prince.stepHeight", 1)));
+                out.add(line("prince.0"));
+                bullets(out, line("prince.flight"), line("prince.step", n("prince.stepHeight", 1)));
                 out.add(line("prince.1"));
             }
             case "lorentz_fantasy" -> {
-                out.add(line("lorentz.0", n("lorentz.pierce", 1)));
+                out.add(line("lorentz.0"));
+                bullets(
+                        out,
+                        line("lorentz.gravity"),
+                        line("lorentz.piercing", n("lorentz.pierce", 1)));
                 out.add(line("lorentz.1"));
                 section(out, "malice");
                 bullets(
@@ -89,8 +94,9 @@ public final class CatalogBoundlessDetails {
                 out.add(line("tales.0"));
                 out.add(line("tales.1"));
                 out.add(Component.empty());
-                out.add(line("tales.2"));
-                out.add(line("tales.3"));
+                out.add(line("tales.levels"));
+                bullets(out, line("tales.2"), line("tales.3"));
+                out.add(Component.empty());
                 out.add(
                         line("tales.materials")
                                 .copy()
@@ -100,6 +106,7 @@ public final class CatalogBoundlessDetails {
                                                         .withInsertion(
                                                                 "the_long_travail:emphasis")));
                 bullets(out, line("tales.4"), line("tales.5"), line("tales.6"));
+                out.add(Component.empty());
                 out.add(line("tales.7"));
                 out.add(line("tales.8"));
                 section(out, "tales.filter");

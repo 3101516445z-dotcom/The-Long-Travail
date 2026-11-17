@@ -554,7 +554,7 @@ The three combat effects have fixed strength regardless of their amplifier.
 
 [M08] Six themed item parameters
 ------------------------------------------------
-Parameters are stored under items.<item_id> in each aspect file. Both foods expose nutrition, saturation points, effect durations and levels; fixed-strength effects expose duration only. Sea in a Bottle exposes healing and magic-class damage bonuses and extra slots. Horizon Theory exposes the maximum-health loss cap and independent invulnerability duration. Last Affairs exposes hold and Revival durations. Holy Fool exposes skill duration and cooldown. Durations use seconds; bonuses and ratios use decimal fractions.
+Parameters are stored under items.<item_id> in each aspect file. Both foods expose nutrition, saturation points, effect durations and levels; fixed-strength effects expose duration only. Sea in a Bottle exposes healing and magic-class damage bonuses and extra slots. Horizon Theory exposes the maximum-health loss cap, independent invulnerability duration, Malice and Witness height-difference thresholds in blocks, and the Witness damage bonus. Last Affairs exposes hold and Revival durations. Holy Fool exposes skill duration and cooldown. Durations use seconds; bonuses and ratios use decimal fractions.
 Frog harvesting yields one item, deals one point of input damage and consumes one base point of shears durability. Recipes use data packs; Holy Fool loot probabilities use general.toml / loot.tables. Old default tables are upgraded; custom tables retain their settings.
 
 [M09] Phosphophyllite healing trigger

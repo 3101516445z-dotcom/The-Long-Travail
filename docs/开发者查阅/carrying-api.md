@@ -11,9 +11,9 @@ CarryingApi.CarryingResult result = CarryingApi.query(player, item);
 
 `query` 返回 `PRESENT`（已确认携带）、`ABSENT`（未携带）或 `UNKNOWN`（无确认来源且至少一个外部检测器失败）；任一来源确认携带即优先返回 `PRESENT`。`isCarrying` 仅对 `PRESENT` 返回 true，false 不能作为故障时清退装备的依据。
 
-调用方应显式处理 `UNKNOWN`：暂缓新增收益，也不要仅因这次查询未知就撤销已有保护。
+调用方遇到 `UNKNOWN` 时暂缓新增收益，保留已有保护。
 
-查询不授予效果、修改 NBT 或替代佩戴资格。`query` 对死亡或观察者玩家返回 `ABSENT`。
+`query` 对死亡或观察者玩家返回 `ABSENT`。效果及佩戴资格由调用方判定。
 
 默认扫描主物品栏（含快捷栏和主手）、副手、盔甲栏、末影箱、Curios 功能槽；排除外观槽，不递归打开背包和潜影盒，不读取普通方块容器。仅缓存已确认携带的位置，每次查询重新校验；不缓存未携带的结果。
 
@@ -31,7 +31,7 @@ CarryingApi.CarryingResult result = CarryingApi.query(player, item);
 
 ## 外部库存检测器
 
-初始化时单线程注册唯一 ID 的检测器；入口不校验服务端线程，也不支持并发注册。仅检查接入方拥有且允许生效的库存，避免重复扫描已有来源。
+初始化时单线程注册唯一 ID 的检测器；入口不校验服务端线程，也不支持并发注册。检测器负责接入方拥有且允许生效的库存。
 
 ```java
 CarryingApi.registerProvider(
@@ -53,10 +53,10 @@ CarryingApi.reportCarried(player, stack.getItem(),
     ResourceLocation.fromNamespaceAndPath("your_mod", "inventory_tick"));
 ```
 
-信号按玩家、物品和来源记录，上报时刻及其后 2 游戏刻有效，不写入存档。持续携带须持续上报，不能只在打开容器时上报一次。
+信号按玩家、物品和来源记录，上报时刻及其后 2 游戏刻有效，不写入存档。持续携带期间逐刻上报。
 
 ## 生命周期与生效条件
 
-玩家退出和服务端结束时清理临时记录。外部库存无需复制进玩家背包，也不应调用苦旅状态写入接口。
+玩家退出和服务端结束时清理临时记录。
 
 苦旅本身仍必须有效佩戴；外部库存或末影箱中的苦旅只参与携带查询。本接口的查询主体为玩家。

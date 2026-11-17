@@ -170,13 +170,17 @@ public final class CatalogValleyDetails {
             }
             case "high_frequency_tremor" -> {
                 out.add(line("tremor.0"));
+                bullets(
+                        out,
+                        line("tremor.harvest"),
+                        line("tremor.speed"),
+                        line("tremor.durability"));
                 out.add(line("tremor.1"));
                 section(out, "malice");
                 out.add(line("tremor.2"));
                 out.add(line("tremor.3"));
                 section(out, "witness");
                 out.add(line("tremor.4"));
-                heading(out, "tremor.blacklist");
                 var ids =
                         TooltipConfigSync.pool(
                                 "deepValley.tremorBlacklist",
@@ -198,7 +202,7 @@ public final class CatalogValleyDetails {
                                                                     "the_long_travail:blacklist_name")));
                 }
                 if (ids.isEmpty()) names.append(line("none"));
-                out.add(names);
+                out.add(line("tremor.blacklist", names));
             }
             default -> throw new IllegalArgumentException(id);
         }

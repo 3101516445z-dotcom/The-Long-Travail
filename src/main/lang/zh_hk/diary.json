@@ -38,7 +38,7 @@
   "message.the_long_travail.already_revealed": "你已經揭開了%1$s的迷霧，無需再次使用。",
   "message.the_long_travail.essence.completed": "已完成%s的一條旅程記錄。",
   "message.the_long_travail.essence.reset": "已重置%s的反轉進度，並重新抽取反轉條件。",
-  "message.the_long_travail.journey.invalid_pool": "旅途條件設定有誤，暫時無法開啟新的旅途。請聯絡管理員；原有進度與道具已保留。",
+  "message.the_long_travail.journey.invalid_pool": "[TLT] 苦旅的旅途條件設定有誤，暫時無法開啟新的旅途，請聯絡管理員。原有進度與道具已保留。",
   "message.the_long_travail.journey.no_diary": "請先佩戴苦旅。",
   "message.the_long_travail.journey.uninitialized": "苦旅的旅程尚未生成，請檢查條件設定。",
   "message.the_long_travail.journey.invalid_data": "旅程資料無效，未進行修改",

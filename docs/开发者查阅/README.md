@@ -7,6 +7,7 @@
 - [状态与旅程 API](state-api.md)：查询主题状态、写入旅程进度和查询时停。
 - [携带 API](carrying-api.md)：查询携带物、接入外部库存和短期携带信号。
 - [饰品佩戴与恢复](accessory-equipment.md)：装备资格、唯一性、恢复与前置失效。
+- [实体高度差 API](entity-height-api.md)：按实体原点比较绝对高度差。
 
 ## 战斗接入
 

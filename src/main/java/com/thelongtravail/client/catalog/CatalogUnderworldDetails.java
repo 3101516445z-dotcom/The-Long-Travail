@@ -100,7 +100,10 @@ public final class CatalogUnderworldDetails {
                 out.add(line("blade.extend", blade("witherSeconds")));
                 out.add(line("blade.infinite"));
                 section(out, "malice");
-                out.add(line("blade.malice", blade("insight"), blade("overlord")));
+                bullets(
+                        out,
+                        line("blade.malice", blade("insight")),
+                        line("blade.overlord", blade("overlord")));
                 section(out, "witness");
                 out.add(line("blade.witness"));
             }

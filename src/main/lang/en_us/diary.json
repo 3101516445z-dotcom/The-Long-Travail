@@ -38,7 +38,7 @@
   "message.the_long_travail.already_revealed": "You have already revealed %1$s; the stone was not consumed.",
   "message.the_long_travail.essence.completed": "Completed one journey record for %s.",
   "message.the_long_travail.essence.reset": "Reset the journey progress of %s and drew new journey requirements.",
-  "message.the_long_travail.journey.invalid_pool": "The journey configuration is invalid. Please contact the administrator. Your existing progress and items have been preserved.",
+  "message.the_long_travail.journey.invalid_pool": "[TLT] The Long Travail journey conditions are misconfigured, so a new journey cannot begin. Please contact an administrator. Existing progress and items have been preserved.",
   "message.the_long_travail.journey.no_diary": "Equip the Long Travail first.",
   "message.the_long_travail.journey.uninitialized": "The Long Travail's journey has not been generated yet. Check its requirement configuration.",
   "message.the_long_travail.journey.invalid_data": "Invalid journey data, no changes were made",

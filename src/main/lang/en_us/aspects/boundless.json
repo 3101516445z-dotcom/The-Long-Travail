@@ -52,7 +52,7 @@
   "tooltip.the_long_travail.lorentz.base": "Arrows fired by the wearer §6do not fall§r and gain §a+%s§r §6piercing§r.",
   "tooltip.the_long_travail.lorentz.toggle": "§aSneak-use§r while holding to enable or disable §6gravity-free arrows§r. Only affects arrows fired afterward.",
   "tooltip.the_long_travail.lorentz.witness": "When an arrow fired by the wearer §ahits a target§r, it deals additional §6direct-strike damage§r equal to §a%s%% of the target's current health§r, even if the target is immune to projectile damage.",
-  "tooltip.the_long_travail.summary.little_prince.0": "§6While carried§r:\n- Grants §6creative flight§r\n- Step directly onto blocks up to §a%s high§r",
+  "tooltip.the_long_travail.summary.little_prince.0": "§6While carried:§r\n- Grants §6creative flight§r\n- Step directly onto blocks up to §a%s high§r",
   "tooltip.the_long_travail.summary.lorentz_fantasy.0": "§6Base effects§r:\n- While equipped, fired arrows §6do not fall§r and gain increased §6piercing§r",
   "tooltip.the_long_travail.summary.lorentz_fantasy.1": "§dWhile wearing Travail and Boundless remains malicious:§r\n- Increases your §6Critical Chance§r attribute\n- Increases §6projectile damage§r\n- Arrows hitting the target's §ahead§r gain a §6damage bonus§r",
   "tooltip.the_long_travail.little_prince.one": "one block",

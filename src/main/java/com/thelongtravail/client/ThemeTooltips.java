@@ -379,9 +379,7 @@ public final class ThemeTooltips {
             case "book_of_the_dead" -> {
                 for (int i = 0; i < 3; i++) out.add(text(id + "." + i));
             }
-            case "mistletoe" -> {
-                for (int i = 0; i < 3; i++) out.add(text(id + "." + i));
-            }
+            case "mistletoe" -> out.add(text(id + ".0"));
             case "everlasting_flower" -> {
                 for (int i = 0; i < 3; i++) out.add(text(id + "." + i));
                 out.add(

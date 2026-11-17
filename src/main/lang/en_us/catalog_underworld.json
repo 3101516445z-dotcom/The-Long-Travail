@@ -25,9 +25,10 @@
   "gui.the_long_travail.catalog.underworld.blade.base": "While wearing \"Kagotsurube\", dealing damage applies Wither I to the target for %s seconds.",
   "gui.the_long_travail.catalog.underworld.blade.extend": "If the target already has Wither, its level is preserved and its duration is extended by %s seconds.",
   "gui.the_long_travail.catalog.underworld.blade.infinite": "Infinite-duration Wither remains unchanged.",
-  "gui.the_long_travail.catalog.underworld.blade.malice": "Increase the wearer's Insight by %s and Overlord by %s.",
+  "gui.the_long_travail.catalog.underworld.blade.malice": "Increase the wearer's Insight by %s",
   "gui.the_long_travail.catalog.underworld.blade.witness": "Convert all damage attributed to the wearer into Direct Strike damage.",
   "gui.the_long_travail.catalog.glossary.souls.title": "Souls",
   "gui.the_long_travail.catalog.glossary.souls.aliases": "soul|souls",
-  "gui.the_long_travail.catalog.glossary.souls.body": "Only kills attributed to the wearer count. Players, armor stands and training dummies grant no souls.\nEach death counts once. A revived creature can count again when killed again."
+  "gui.the_long_travail.catalog.glossary.souls.body": "Only kills attributed to the wearer count. Players, armor stands and training dummies grant no souls.\nEach death counts once. A revived creature can count again when killed again.",
+  "gui.the_long_travail.catalog.underworld.blade.overlord": "Increase the wearer's Overlord by %s"
 }

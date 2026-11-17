@@ -51,5 +51,8 @@
   "gui.the_long_travail.catalog.glossary.daytime.body": "Uses the world time of the current dimension.\nThe End always counts as clear weather. The Nether never does.",
   "gui.the_long_travail.catalog.glossary.size_ratio.title": "Size multiplier",
   "gui.the_long_travail.catalog.glossary.size_ratio.aliases": "size multiplier",
-  "gui.the_long_travail.catalog.glossary.size_ratio.body": "Usually the cube root of the target’s current hitbox volume divided by a standard player’s volume. Some creatures use configured volumes."
+  "gui.the_long_travail.catalog.glossary.size_ratio.body": "Usually the cube root of the target’s current hitbox volume divided by a standard player’s volume. Some creatures use configured volumes.",
+  "gui.the_long_travail.catalog.glossary.height_difference.title": "Height difference",
+  "gui.the_long_travail.catalog.glossary.height_difference.aliases": "height difference",
+  "gui.the_long_travail.catalog.glossary.height_difference.body": "The absolute difference between the two entities' Y coordinates, regardless of which is higher and without adjustment for body size.\nFor projectile damage, use the positions of the attacker and the entity hit."
 }
