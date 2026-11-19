@@ -17,13 +17,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ItemEntity.class)
 public abstract class ImmortalBudDropMixin {
     @Shadow private int age;
+    @Shadow private int pickupDelay;
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void travail$preserveDrop(CallbackInfo ci) {
-        if (age >= 0 && ImmortalBud.protectsDrop(((ItemEntity) (Object) this).getItem())) {
-            // 保留正常拾取与合并行为，避免使用无限寿命哨兵值。
-            age = -1;
-        }
+        if (age < 0) return;
+        ItemEntity self = (ItemEntity) (Object) this;
+        if (!ImmortalBud.protectsDrop(self.getItem())) return;
+        // makeFakeItem 将拾取延迟设为 32767，并把年龄设到消失期限前一刻。
+        // 这类临时展示物正常到期，真实掉落物继续保留。
+        if (pickupDelay == 32767
+                && age >= self.getItem().getEntityLifespan(self.level()) - 1) return;
+        // 保留正常拾取与合并行为，避免使用无限寿命哨兵值。
+        age = -1;
     }
 
     @Inject(method = "hurt", at = @At("HEAD"), cancellable = true)
