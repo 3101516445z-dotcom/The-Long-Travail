@@ -24,8 +24,7 @@ public final class RainConfig {
             DURATION,
             COOLDOWN;
     public static ForgeConfigSpec.IntValue FOOD;
-    public static ForgeConfigSpec.BooleanValue MALICE_SKIP,
-            IMMUNE_SKIP,
+    public static ForgeConfigSpec.BooleanValue IMMUNE_SKIP,
             FALLBACK,
             INVENTORY,
             OFFHAND,
@@ -75,14 +74,6 @@ public final class RainConfig {
                         1,
                         "归墟之见证生效时，駅额外取消伤害的概率。\n"
                                 + "Additional chance for Eki to negate damage while Abyss Witness is"
-                                + " active.");
-        MALICE_SKIP =
-                flag(
-                        b,
-                        "items.eki.skipMaliceOnHit",
-                        true,
-                        "处于归墟之恶意状态时，跳过苦旅的受击惩罚。\n"
-                                + "Skip The Long Travail's on-hit penalties while Abyss Malice is"
                                 + " active.");
         IMMUNE_SKIP =
                 flag(

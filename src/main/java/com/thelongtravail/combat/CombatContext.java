@@ -357,8 +357,6 @@ public final class CombatContext implements AutoCloseable {
                                 != com.thelongtravail.abyss.rain.RainState.EkiState.INACTIVE;
                 boolean witness =
                         !diary.isEmpty() && LongTravailData.hasWitness(diary, TravailAspect.ABYSS);
-                if (ekiActive && !witness)
-                    skipReceivedPenalty = com.thelongtravail.config.RainConfig.MALICE_SKIP.get();
                 boolean ekiEligible =
                         ekiActive
                                 && witness
