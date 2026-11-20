@@ -33,7 +33,7 @@
   "gui.the_long_travail.catalog.far.quixote.3": "單次造成的傷害超過目標最大生命值的%s%%時，受到該目標造成的傷害降低%s%%，持續%s秒。",
   "gui.the_long_travail.catalog.far.quixote.4": "觸發冷卻為%s秒。",
   "gui.the_long_travail.catalog.far.babel.0": "攜帶「巴別塔」時，友善與中立生物不會主動對攜帶者產生仇恨。普通豬靈不會主動進攻，末影人也不會因攜帶者的直視而被激怒。",
-  "gui.the_long_travail.catalog.far.babel.1": "攜帶者或其夥伴生物傷害某只生物後，對該生物的仇恨保護永久失效。",
+  "gui.the_long_travail.catalog.far.babel.1": "攜帶者或其夥伴生物傷害某隻生物後，對這隻生物的仇恨保護永久失效。",
   "gui.the_long_travail.catalog.far.babel.2": "與村民交易時，第一項材料的需求數量變為原來的%s%%，向上取整且至少為1，第二項材料不變",
   "gui.the_long_travail.catalog.far.babel.3": "周圍%s格內的村民補貨速度加快，補貨間隔最短為%s秒，每日最多補貨%s次",
   "gui.the_long_travail.catalog.far.babel.4": "本模組物品的固定兌換不享受上述折扣。",

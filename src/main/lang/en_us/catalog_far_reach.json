@@ -33,7 +33,7 @@
   "gui.the_long_travail.catalog.far.quixote.3": "When a single hit exceeds %s%% of the target’s maximum health, damage received from that target decreases by %s%% for %s seconds.",
   "gui.the_long_travail.catalog.far.quixote.4": "Trigger cooldown: %s seconds.",
   "gui.the_long_travail.catalog.far.babel.0": "Carry Tower of Babel to prevent friendly and neutral creatures from becoming hostile toward you unprovoked. Normal piglins will not attack unprovoked, and staring at endermen will not anger them.",
-  "gui.the_long_travail.catalog.far.babel.1": "If you or your companion damages a creature, its hostility protection toward you is permanently lost.",
+  "gui.the_long_travail.catalog.far.babel.1": "After the carrier or their companion creatures damage a creature, hostility protection against that creature permanently ends.",
   "gui.the_long_travail.catalog.far.babel.2": "The first trade ingredient costs %s%% of its original amount, rounded up to at least 1. The second ingredient is unchanged",
   "gui.the_long_travail.catalog.far.babel.3": "Villagers within %s blocks restock faster, at intervals of at least %s seconds and up to %s times per day",
   "gui.the_long_travail.catalog.far.babel.4": "Fixed exchanges for this mod’s items do not receive the discount.",
