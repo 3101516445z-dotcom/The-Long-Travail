@@ -12,6 +12,12 @@ public final class SunBladeConfig {
     public static void sun(ForgeConfigSpec.Builder b) {
         define(
                 b,
+                "sun_chaser.lootingBonusPerLevel",
+                .05,
+                100,
+                "每级有效抢夺额外提高的弹射物伤害比例；0.05 表示每级提高 5%。\nAdditional projectile damage per effective Looting level; 0.05 means 5% per level.");
+        define(
+                b,
                 "sun_chaser.projectileBonus",
                 .50,
                 100,

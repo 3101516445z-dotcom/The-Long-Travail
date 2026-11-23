@@ -1,24 +1,18 @@
 package com.thelongtravail.runtime.rewards;
 
-import com.thelongtravail.runtime.rewards.RewardDelivery;
-
-import com.thelongtravail.runtime.pools.RuntimePools;
-import com.thelongtravail.runtime.pools.RewardEntry;
-
-import com.thelongtravail.common.weighted.WeightedEntry;
-import com.thelongtravail.common.weighted.WeightedTable;
-
-import com.thelongtravail.journey.LongTravailData;
 
 import com.thelongtravail.TravailAspect;
+import com.thelongtravail.combat.DirectDeath;
+import com.thelongtravail.common.weighted.WeightedTable;
 import com.thelongtravail.config.TravailConfig;
-
 import com.thelongtravail.equipment.TravailCurios;
+import com.thelongtravail.journey.LongTravailData;
+import com.thelongtravail.runtime.pools.RewardEntry;
+import com.thelongtravail.runtime.pools.RuntimePools;
+
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -31,21 +25,9 @@ public final class TravailRewards {
     public static void onFishing(ItemFishedEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         ItemStack travail = TravailCurios.stack(player);
-        if (travail.isEmpty() || !LongTravailData.hasWitness(travail, TravailAspect.UNDERWORLD))
-            return;
-        double entityChance = TravailConfig.FISH_ENTITY_CHANCE.get();
-        double itemChance = TravailConfig.FISH_SPECIAL_CHANCE.get();
-        double total = entityChance + itemChance;
-        if (total > 1.0D) {
-            entityChance /= total;
-            itemChance /= total;
-        }
-        double roll = player.getRandom().nextDouble();
-        if (roll < entityChance) {
-            spawnFishingEntity(player, event);
-        } else if (roll < entityChance + itemChance) {
+        if (travail.isEmpty() || !LongTravailData.hasWitness(travail, TravailAspect.ABYSS)) return;
+        if (player.getRandom().nextDouble() < TravailConfig.FISH_SPECIAL_CHANCE.get())
             spawnFishingReward(player, event);
-        }
     }
 
     public static void killNearbyPhantoms(ServerPlayer player) {
@@ -71,8 +53,7 @@ public final class TravailRewards {
                     queue.warnFull(player.server);
                     break;
                 }
-                phantom.hurt(player.damageSources().playerAttack(player), Float.MAX_VALUE);
-                if (!phantom.isAlive())
+                if (DirectDeath.tryPlayerKill(phantom, player))
                     queueReward(
                             reservation,
                             player.serverLevel(),
@@ -87,18 +68,6 @@ public final class TravailRewards {
         Vec3 position = event.getHookEntity().position();
         spawnRewardAt(
                 player.serverLevel(), position, RuntimePools.current().fish(), player.getRandom());
-    }
-
-    static void spawnFishingEntity(ServerPlayer player, ItemFishedEvent event) {
-        WeightedEntry selected = RuntimePools.current().entities().choose(player.getRandom());
-        if (selected == null) return;
-        EntityType<?> type = ForgeRegistries.ENTITY_TYPES.getValue(selected.id());
-        Entity entity = type == null ? null : type.create(player.serverLevel());
-        if (entity != null) {
-            Vec3 pos = event.getHookEntity().position();
-            entity.moveTo(pos.x, pos.y, pos.z, player.getYRot(), 0.0F);
-            player.serverLevel().addFreshEntity(entity);
-        }
     }
 
     static void spawnRewardAt(

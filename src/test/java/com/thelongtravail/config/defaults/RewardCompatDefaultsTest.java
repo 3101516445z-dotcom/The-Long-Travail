@@ -80,7 +80,6 @@ public final class RewardCompatDefaultsTest {
     private static CommentedConfig fresh(String pool) {
         var config = CommentedConfig.inMemory();
         config.set(pool, new ArrayList<>(MANUAL));
-        config.set("travail.witness.fishing.fishingEntities", List.of("minecraft:pig|10"));
         config.set("travail.witness.fishing.fishingSpecialItemChance", 0.5);
         config.set("travail.witness.phantom.phantomMaxKillsPerScan", 16);
         config.set(BiomeCompatDefaults.TERRALITH_MARKER, true);
@@ -140,10 +139,6 @@ public final class RewardCompatDefaultsTest {
                         "Append exact weights and counts");
                 expect(merged.size() == MANUAL.size() + test.count(), "Same ID not duplicated");
                 expect(Boolean.TRUE.equals(config.get(marker)), "Recorded completion");
-                expect(
-                        config.<List<String>>get("travail.witness.fishing.fishingEntities")
-                                .equals(List.of("minecraft:pig|10")),
-                        "Entity pool preserved");
                 expect(
                         config.<Double>get("travail.witness.fishing.fishingSpecialItemChance")
                                 == 0.5,

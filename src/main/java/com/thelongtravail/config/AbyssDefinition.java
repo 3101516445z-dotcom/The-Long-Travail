@@ -13,6 +13,8 @@ import java.util.Map;
 
 // 归墟主题的要求池与规则。
 record AbyssDefinition(
+        ForgeConfigSpec.DoubleValue fishSpecialChance,
+        ForgeConfigSpec.ConfigValue<List<? extends String>> fishSpecialItems,
         ForgeConfigSpec.DoubleValue abyssFluidDamage,
         ForgeConfigSpec.DoubleValue abyssFluidIntervalSeconds,
         ForgeConfigSpec.DoubleValue abyssMiningReduction,
@@ -124,7 +126,31 @@ record AbyssDefinition(
                 List.of(
                         "minecraft:monument|@structure.minecraft.monument|1",
                         "minecraft:ruined_portal_ocean|@structure.minecraft.ruined_portal_ocean|1"));
+        com.thelongtravail.config.defaults.RewardCompatDefaults.define(
+                builder, TravailAspect.ABYSS);
+        var fishSpecialChance =
+                decimal(
+                        builder,
+                        "travail.witness.fishing.fishingSpecialItemChance",
+                        0.5D,
+                        0,
+                        1,
+                        "钓鱼获得额外物品的概率。",
+                        "Chance to receive an extra item when fishing.");
+        ForgeConfigSpec.ConfigValue<List<? extends String>> fishSpecialItems =
+                builder.comment(
+                                "格式：物品ID|权重|最小数量|最大数量",
+                                "Format: item_id|weight|min_count|max_count",
+                                "不可堆叠的物品每件都会生成一个掉落实体；一次发放过多可能造成卡顿。",
+                                "Each non-stackable item creates a separate dropped item entity."
+                                        + " Delivering too many at once may cause lag.")
+                        .defineListAllowEmpty(
+                                "travail.witness.fishing.fishingSpecialItems",
+                                TravailPoolDefaults.defaultFishingItems(),
+                                TravailDefinitionSupport::validRewardEntry);
         return new AbyssDefinition(
+                fishSpecialChance,
+                fishSpecialItems,
                 abyssFluidDamage,
                 abyssFluidIntervalSeconds,
                 abyssMiningReduction,

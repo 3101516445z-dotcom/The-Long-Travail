@@ -121,8 +121,8 @@ public final class CatalogFarReachDetails {
                 section(out, "malice");
                 bullets(
                         out,
-                        line("sun.3"),
                         line("sun.4", n("sun_chaser.projectileBonus", 100)),
+                        line("sun.3", n("sun_chaser.lootingBonusPerLevel", 100)),
                         line("sun.5", n("sun_chaser.burningBonus", 100)));
                 section(out, "witness");
                 bullets(

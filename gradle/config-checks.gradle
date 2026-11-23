@@ -12,7 +12,6 @@ tasks.named('check') {
     dependsOn 'testBiomeCompatDefaults'
     dependsOn 'testStructureCompatDefaults'
     dependsOn 'testRewardCompatDefaults'
-    dependsOn 'testFishingEntityCompatDefaults'
     dependsOn 'testEffectCompatDefaults'
     dependsOn 'testGoldenAgeCompatDefaults'
     dependsOn 'testYoukaiCompatDefaults'
@@ -48,12 +47,6 @@ tasks.register('testRewardCompatDefaults', JavaExec) {
     dependsOn tasks.named('testClasses')
     classpath = sourceSets.test.runtimeClasspath
     mainClass = 'com.thelongtravail.config.defaults.RewardCompatDefaultsTest'
-}
-
-tasks.register('testFishingEntityCompatDefaults', JavaExec) {
-    dependsOn tasks.named('testClasses')
-    classpath = sourceSets.test.runtimeClasspath
-    mainClass = 'com.thelongtravail.config.defaults.FishingEntityCompatDefaultsTest'
 }
 
 tasks.register('testEffectCompatDefaults', JavaExec) {

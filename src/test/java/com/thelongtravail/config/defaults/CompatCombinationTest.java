@@ -75,7 +75,7 @@ public final class CompatCombinationTest {
                 all.add(
                         new Descriptor(
                                 "reward",
-                                fish ? "underworld" : "boundless",
+                                fish ? "abyss" : "boundless",
                                 ns,
                                 fish
                                         ? RewardCompatDefaults.FISH_POOL
@@ -86,19 +86,6 @@ public final class CompatCombinationTest {
                                 raw,
                                 raw));
             }
-        }
-        for (Object p : presets(FishingEntityCompatDefaults.class)) {
-            String ns = (String) value(p, "namespace");
-            var raw = (List<String>) value(p, "entries");
-            all.add(
-                    new Descriptor(
-                            "entity",
-                            "underworld",
-                            ns,
-                            FishingEntityCompatDefaults.POOL,
-                            "presets.witness." + ns + ".fishingEntitiesAdded",
-                            raw,
-                            raw));
         }
         for (Object p : presets(EffectCompatDefaults.class)) {
             String ns = (String) value(p, "namespace");
@@ -153,8 +140,6 @@ public final class CompatCombinationTest {
                     StructureCompatDefaults.apply(c, d.raw(), d.marker(), present, exists);
             case "reward" ->
                     RewardCompatDefaults.apply(c, d.pool(), d.raw(), d.marker(), present, exists);
-            case "entity" ->
-                    FishingEntityCompatDefaults.apply(c, d.raw(), d.marker(), present, exists);
             case "effect" ->
                     EffectCompatDefaults.apply(
                             c,
@@ -225,7 +210,6 @@ public final class CompatCombinationTest {
                             case "biome", "structure" -> target + "|玩家自定名称|77";
                             case "reward" -> target + "|77|2|7";
                             case "effect" -> target + "|7|77";
-                            case "entity" -> target + "|77";
                             default -> target;
                         };
                 if (entries.stream().noneMatch(old -> id(old).equals(id(manual))))
@@ -277,8 +261,7 @@ public final class CompatCombinationTest {
         long start = System.nanoTime();
         var ds = descriptors();
         var stats = new LinkedHashMap<String, Integer>();
-        for (String family :
-                List.of("biome", "structure", "reward", "entity", "effect", "golden")) {
+        for (String family : List.of("biome", "structure", "reward", "effect", "golden")) {
             var subset =
                     ds.stream()
                             .filter(
@@ -321,26 +304,27 @@ public final class CompatCombinationTest {
         var pressure = CommentedConfig.inMemory();
         var large = new ArrayList<String>();
         for (int i = 0; i < 20000; i++) large.add("manual:entry_" + i + "|77");
-        pressure.set(FishingEntityCompatDefaults.POOL, large);
-        var entities =
-                ds.stream()
-                        .filter(
-                                d ->
-                                        d.family().equals("entity")
-                                                && !d.namespace().equals("youkaisfeasts"))
-                        .toList();
+        pressure.set(RewardCompatDefaults.FISH_POOL, large);
+        var fishPresets =
+                ds.stream().filter(d -> d.pool().equals(RewardCompatDefaults.FISH_POOL)).toList();
         for (int cycle = 0; cycle < 50; cycle++) {
-            for (Descriptor d : entities) {
+            for (Descriptor d : fishPresets) {
                 pressure.remove(d.marker());
                 apply(pressure, d, true, id -> true);
             }
             expect(
-                    pressure.<List<String>>get(FishingEntityCompatDefaults.POOL)
+                    pressure.<List<String>>get(RewardCompatDefaults.FISH_POOL)
                             .subList(0, 20000)
                             .equals(large),
                     "Large manual pool retained");
             expect(
-                    pressure.<List<String>>get(FishingEntityCompatDefaults.POOL).size() == 20010,
+                    pressure.<List<String>>get(RewardCompatDefaults.FISH_POOL).size()
+                            == 20000
+                                    + fishPresets.stream()
+                                            .flatMap(d -> d.raw().stream())
+                                            .map(CompatCombinationTest::id)
+                                            .distinct()
+                                            .count(),
                     "No growth on repeated reset");
         }
         var output = Path.of(args[0]);

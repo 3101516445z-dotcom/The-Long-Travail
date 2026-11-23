@@ -1,13 +1,12 @@
 package com.thelongtravail.config;
 
-import com.thelongtravail.config.defaults.RewardCompatDefaults;
-
 import static com.thelongtravail.config.TravailDefinitionSupport.decimal;
 import static com.thelongtravail.config.TravailDefinitionSupport.defineRequirements;
 import static com.thelongtravail.config.TravailDefinitionSupport.integer;
 import static com.thelongtravail.config.TravailPoolDefaults.defaultPhantomDrops;
 
 import com.thelongtravail.TravailAspect;
+import com.thelongtravail.config.defaults.RewardCompatDefaults;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
@@ -18,7 +17,6 @@ import java.util.Map;
 record BoundlessDefinition(
         ForgeConfigSpec.DoubleValue boundlessHeightThreshold,
         ForgeConfigSpec.DoubleValue boundlessSpeedReduction,
-        ForgeConfigSpec.IntValue boundlessExtraCurioSlots,
         ForgeConfigSpec.IntValue phantomRange,
         ForgeConfigSpec.DoubleValue phantomCheckIntervalSeconds,
         ForgeConfigSpec.IntValue phantomMaxKills,
@@ -48,15 +46,6 @@ record BoundlessDefinition(
                         "高空速度削减比例；0.5表示削减50%。",
                         "Fractional movement speed reduction at high altitude; 0.5 means a 50%"
                                 + " reduction.");
-        ForgeConfigSpec.IntValue boundlessExtraCurioSlots =
-                integer(
-                        builder,
-                        "travail.witness.extraGenericCurioSlots",
-                        1,
-                        0,
-                        64,
-                        "无垠之见证提供的通用Curios饰品槽数量。",
-                        "Number of generic Curios accessory slots granted by Boundless Witness.");
         ForgeConfigSpec.IntValue phantomRange =
                 integer(
                         builder,
@@ -117,7 +106,6 @@ record BoundlessDefinition(
         return new BoundlessDefinition(
                 boundlessHeightThreshold,
                 boundlessSpeedReduction,
-                boundlessExtraCurioSlots,
                 phantomRange,
                 phantomCheckIntervalSeconds,
                 phantomMaxKills,

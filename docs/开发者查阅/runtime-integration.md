@@ -18,7 +18,7 @@
 
 ## 联动预设写入
 
-主题文件中的 `presets` 与 `travail`、`items` 同级，集中保存联动预设处理记录。普通效果参数及目标列表仍位于各自原来的位置。
+主题文件中的 `presets` 与 `travail`、`items` 同级，集中保存联动预设处理记录。跨文件迁移保留目标文件中已有的设置，包括空列表和显式关闭的设置。主题配置的位置变化见[兼容迁移说明](../../CHANGELOG.md)。
 
 | 旧记录前缀 | 当前记录前缀 |
 | --- | --- |
@@ -27,7 +27,7 @@
 | `items.golden_age.compatInitialization` | `presets.golden_age` |
 | `items.perfect_fluid.compatInitialization` | `presets.perfect_fluid` |
 
-前缀后的模组分组和字段名保持不变。[ConfigPresetMigration](../../src/main/java/com/thelongtravail/config/storage/ConfigPresetMigration.java) 在配置校验前迁移旧记录，仅处理当前 Spec 定义的预设组。缺少的新记录沿用旧值；新旧位置同时有值时采用新位置，包括显式设置的 `false`。迁移保留已处理状态，不触发已完成预设重新补入。通过当前路径读写预设记录。
+前缀后的模组分组和字段名保持不变。[ConfigPresetMigration](../../src/main/java/com/thelongtravail/migration/config/ConfigPresetMigration.java) 在配置校验前迁移旧记录，仅处理当前 Spec 定义的预设组。缺少的新记录沿用旧值；新旧位置同时有值时采用新位置，包括显式设置的 `false`。迁移保留已处理状态，不触发已完成预设重新补入。通过当前路径读写预设记录。
 
 预设按来源、主题和目标池分别记录初始化。来源缺席时不标记；已处理但没有新增条目时仍标记；已有条目优先。标记随配置跨世界共用。重新补入预设时只处理对应标记，保留其他来源的用户配置。
 

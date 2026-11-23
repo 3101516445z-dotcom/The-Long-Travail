@@ -22,19 +22,6 @@ final class TravailPoolDefaults {
                 "minecraft:strength|3|2");
     }
 
-    static List<String> defaultFishingEntities() {
-        return List.of(
-                "minecraft:pig|100",
-                "minecraft:cow|100",
-                "minecraft:sheep|100",
-                "minecraft:villager|50",
-                "minecraft:wandering_trader|50",
-                "minecraft:cat|50",
-                "minecraft:fox|25",
-                "minecraft:axolotl|25",
-                "minecraft:turtle|25");
-    }
-
     static List<String> defaultFishingItems() {
         return List.of(
                 "minecraft:apple|6|1|5",

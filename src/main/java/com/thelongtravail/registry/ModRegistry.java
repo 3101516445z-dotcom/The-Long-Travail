@@ -180,7 +180,7 @@ public final class ModRegistry {
                     "free_and_easy_wandering",
                     () -> new com.thelongtravail.item.BoundlessAccessoryItem(true));
     public static final RegistryObject<Item> LITTLE_PRINCE =
-            themeItem("little_prince", () -> new com.thelongtravail.item.BoundlessRelicItem(true));
+            themeItem("little_prince", com.thelongtravail.item.BoundlessRelicItem.Prince::new);
     public static final RegistryObject<
                     RecipeSerializer<
                             com.thelongtravail.boundless.transfer.EnchantmentTransferRecipe>>

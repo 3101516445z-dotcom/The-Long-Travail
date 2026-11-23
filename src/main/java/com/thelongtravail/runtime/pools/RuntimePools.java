@@ -1,7 +1,6 @@
 package com.thelongtravail.runtime.pools;
 
 import com.thelongtravail.TheLongTravail;
-import com.thelongtravail.common.weighted.WeightedEntry;
 import com.thelongtravail.common.weighted.WeightedTable;
 import com.thelongtravail.config.TravailConfig;
 import com.thelongtravail.exploration.WayguideSearch;
@@ -20,21 +19,17 @@ import java.util.function.Predicate;
 
 public final class RuntimePools {
     public record Snapshot(
-            WeightedTable<EffectEntry> far,
             WeightedTable<EffectEntry> valley,
             WeightedTable<RewardEntry> fish,
             WeightedTable<RewardEntry> phantom,
-            WeightedTable<WeightedEntry> entities,
             Map<ResourceLocation, Integer> maxLevels,
             Set<ResourceLocation> levelBonusBlacklist) {}
 
     private static volatile Snapshot snapshot =
             new Snapshot(
                     new WeightedTable<>(List.of(), EffectEntry::weight),
-                    new WeightedTable<>(List.of(), EffectEntry::weight),
                     new WeightedTable<>(List.of(), RewardEntry::weight),
                     new WeightedTable<>(List.of(), RewardEntry::weight),
-                    new WeightedTable<>(List.of(), WeightedEntry::weight),
                     Map.of(),
                     Set.of());
 
@@ -58,20 +53,12 @@ public final class RuntimePools {
                     com.thelongtravail.effect.PurificationEffect.DEFAULT_MAX_LEVEL);
         snapshot =
                 new Snapshot(
-                        new WeightedTable<>(far, EffectEntry::weight),
                         new WeightedTable<>(valley, EffectEntry::weight),
                         new WeightedTable<>(
                                 rewards(TravailConfig.FISH_SPECIAL_ITEMS.get()),
                                 RewardEntry::weight),
                         new WeightedTable<>(
                                 rewards(TravailConfig.PHANTOM_DROPS.get()), RewardEntry::weight),
-                        new WeightedTable<>(
-                                parse(
-                                        TravailConfig.FISH_ENTITIES.get(),
-                                        WeightedEntry::parse,
-                                        e -> ForgeRegistries.ENTITY_TYPES.containsKey(e.id()),
-                                        WeightedEntry::id),
-                                WeightedEntry::weight),
                         Map.copyOf(levels),
                         levelBonusBlacklist());
         JourneyQueries.clear();

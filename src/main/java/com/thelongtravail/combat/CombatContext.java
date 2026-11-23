@@ -277,6 +277,9 @@ public final class CombatContext implements AutoCloseable {
     }
 
     public void finish() {
+        if (damageRecord.healthLoss() > 0)
+            net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(
+                    new DamageHealthLossEvent(target, source, damageRecord.healthLoss()));
         if (damageConfirmed && !execution && !sunFinished) {
             sunFinished = true;
             com.thelongtravail.farreach.SunChaser.finish(target, source, sun);
@@ -425,23 +428,25 @@ public final class CombatContext implements AutoCloseable {
                 || icarusImmune;
     }
 
-    public double outgoingBonus() {
-        if (!policy.outgoingBonus()) return EffectCombatRules.bonus(source);
-        return (quixote == null ? 0 : quixote.bonus())
-                + ekiDamageBonus
-                + floralBonus
-                + icarusDamageBonus
-                + lafiteDamageBonus
-                + swordLanternBonus
-                + maidBonus
-                + growthBonus
-                + witherBonus
-                + relicBonus
-                + com.thelongtravail.abyss.SeaBottle.bonus(effectiveSource)
-                + com.thelongtravail.farreach.HorizonTheory.bonus(target, effectiveSource)
-                + lorentzBonus
-                + sun.bonus()
-                + EffectCombatRules.bonus(source);
+    private double outgoingMultiplier() {
+        if (!policy.outgoingBonus()) return 1 + EffectCombatRules.bonus(source);
+        double bonus =
+                (quixote == null ? 0 : quixote.bonus())
+                        + ekiDamageBonus
+                        + floralBonus
+                        + icarusDamageBonus
+                        + lafiteDamageBonus
+                        + swordLanternBonus
+                        + maidBonus
+                        + growthBonus
+                        + witherBonus
+                        + relicBonus
+                        + com.thelongtravail.abyss.SeaBottle.bonus(effectiveSource)
+                        + com.thelongtravail.farreach.HorizonTheory.bonus(target, effectiveSource)
+                        + lorentzBonus
+                        + sun.bonus()
+                        + EffectCombatRules.bonus(source);
+        return (1 + bonus) * sun.projectileMultiplier();
     }
 
     public boolean penetrating() {
@@ -517,7 +522,7 @@ public final class CombatContext implements AutoCloseable {
                 blocked() || externallyCancelled
                         ? 0
                         : penetrating && hurtEvaluated ? protect(external) : external;
-        return amount > 0 && !outputApplied ? multiply(amount, 1 + outgoingBonus()) : amount;
+        return amount > 0 && !outputApplied ? multiply(amount, outgoingMultiplier()) : amount;
     }
 
     public float beforeAbsorption(float amount) {
@@ -529,7 +534,7 @@ public final class CombatContext implements AutoCloseable {
                             amount,
                             roseDamage
                                     ? 1 + witherBonus + EffectCombatRules.bonus(source)
-                                    : 1 + outgoingBonus());
+                                    : outgoingMultiplier());
             outputApplied = true;
         }
         amount = effectOutput(amount, outputApplied);

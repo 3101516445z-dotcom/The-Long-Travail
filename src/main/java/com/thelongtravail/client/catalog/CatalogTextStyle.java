@@ -18,6 +18,7 @@ import static com.thelongtravail.client.catalog.CatalogHighlightRules.VALUES;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.util.StringDecomposer;
 
 import java.util.*;
@@ -157,6 +158,15 @@ public final class CatalogTextStyle {
                 && text.endsWith(template.substring(at + 1));
     }
 
+    private static boolean sunConditionRow(Component source) {
+        // 拾遗的项目符号包在外层，实际条目的翻译键在参数中。
+        return source.getContents() instanceof TranslatableContents wrapper
+                && wrapper.getArgs().length == 1
+                && wrapper.getArgs()[0] instanceof Component row
+                && row.getContents() instanceof TranslatableContents translation
+                && CatalogHighlightRules.SUN_CONDITION_ROWS.contains(translation.getKey());
+    }
+
     public static List<Component> apply(List<Component> paragraphs) {
         List<Component> out = new ArrayList<>();
         HighlightState highlights = new HighlightState();
@@ -198,6 +208,7 @@ public final class CatalogTextStyle {
                             && utilityTranslation
                                     .getKey()
                                     .startsWith("gui.the_long_travail.catalog.details.");
+            boolean sunCondition = sunConditionRow(source);
             boolean sunBlade =
                     source.getContents()
                                     instanceof
@@ -392,7 +403,10 @@ public final class CatalogTextStyle {
                                                                         ? ABUNDANCE_TERMS
                                                                         : immortalBud
                                                                                 ? IMMORTAL_BUD_TERMS
-                                                                                : TERMS);
+                                                                                : sunCondition
+                                                                                        ? CatalogHighlightRules
+                                                                                                .SUN_ROW_TERMS
+                                                                                        : TERMS);
             } else if (heading) highlights.sentenceCount = 0;
             else highlights.advance(text, 0, text.length());
             if (!supplement && !objectList) {
@@ -413,6 +427,11 @@ public final class CatalogTextStyle {
                                 .matcher(text);
                 while (lingering.find())
                     paint(result, f.styles, lingering.start(), lingering.end(), GOLD);
+            }
+            if (sunCondition) {
+                var conditions = CatalogHighlightRules.SUN_CONDITIONS.matcher(text);
+                while (conditions.find())
+                    paint(result, f.styles, conditions.start(), conditions.end(), VALUE);
             }
             if (sunBlade) {
                 var values = SUN_BLADE_VALUES.matcher(text);

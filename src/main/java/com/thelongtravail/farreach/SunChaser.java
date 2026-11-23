@@ -31,7 +31,12 @@ public final class SunChaser {
         }
     }
 
-    public record Hit(boolean witness, boolean burning, double maximum, double bonus) {}
+    public record Hit(
+            boolean witness,
+            boolean burning,
+            double maximum,
+            double bonus,
+            double projectileMultiplier) {}
 
     public static boolean carrying(LivingEntity entity) {
         return entity instanceof ServerPlayer actor
@@ -52,31 +57,29 @@ public final class SunChaser {
         return actor.isInLava() && carrying(actor);
     }
 
-    public static boolean reflects(LivingEntity actor) {
-        return carrying(actor)
-                && (SunBladeActors.phase(actor, TravailAspect.FAR_REACH)
-                        == TravailStateApi.AspectState.MALICE);
-    }
-
     public static Hit snapshot(LivingEntity target, DamageSource source) {
         LivingEntity actor = SunBladeActors.attacker(source);
         if (actor == null || actor == target || !carrying(actor))
-            return new Hit(false, false, 0, 0);
+            return new Hit(false, false, 0, 0, 1);
         boolean burning = target.isOnFire();
-        double bonus =
-                (SunBladeActors.phase(actor, TravailAspect.FAR_REACH)
-                                == TravailStateApi.AspectState.MALICE)
-                        ? (source.is(DamageTypeTags.IS_PROJECTILE)
-                                        ? SunBladeConfig.value("sun_chaser.projectileBonus")
-                                        : 0)
-                                + (burning ? SunBladeConfig.value("sun_chaser.burningBonus") : 0)
-                        : 0;
+        var phase = SunBladeActors.phase(actor, TravailAspect.FAR_REACH);
+        boolean malice = phase == TravailStateApi.AspectState.MALICE;
+        boolean projectile = malice && source.is(DamageTypeTags.IS_PROJECTILE);
+        double bonus = malice && burning ? SunBladeConfig.value("sun_chaser.burningBonus") : 0;
+        double multiplier = 1;
+        if (projectile) {
+            bonus += SunBladeConfig.value("sun_chaser.projectileBonus");
+            int looting =
+                    net.minecraftforge.common.ForgeHooks.getLootingLevel(target, actor, source);
+            multiplier +=
+                    Math.max(0, looting) * SunBladeConfig.value("sun_chaser.lootingBonusPerLevel");
+        }
         return new Hit(
-                (SunBladeActors.phase(actor, TravailAspect.FAR_REACH)
-                        == TravailStateApi.AspectState.WITNESS),
+                phase == TravailStateApi.AspectState.WITNESS,
                 burning,
                 target.getMaxHealth(),
-                bonus);
+                bonus,
+                multiplier);
     }
 
     public static void confirmed(LivingEntity target, DamageSource source, Hit hit) {

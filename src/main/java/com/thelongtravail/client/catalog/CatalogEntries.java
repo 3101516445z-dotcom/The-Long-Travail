@@ -525,6 +525,7 @@ public final class CatalogEntries {
                                         "demon_king_of_the_sixth_heaven",
                                         "myriad_souls_banner",
                                         "phosphophyllite",
+                                        "little_prince",
                                         "underground_velvet",
                                         "don_quixote",
                                         "high_frequency_tremor",

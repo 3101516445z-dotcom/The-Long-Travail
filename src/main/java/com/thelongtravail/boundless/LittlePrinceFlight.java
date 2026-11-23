@@ -1,6 +1,5 @@
 package com.thelongtravail.boundless;
 
-import com.thelongtravail.api.CarryingApi.CarryingResult;
 import java.util.Map;
 import java.util.WeakHashMap;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,13 +21,9 @@ public final class LittlePrinceFlight {
         int lastSync;
     }
 
-    public static boolean update(ServerPlayer player, CarryingResult carrying) {
+    public static boolean update(ServerPlayer player, boolean equipped) {
         State state = STATES.computeIfAbsent(player, p -> new State());
-        boolean active =
-                player.isAlive()
-                        && !player.isSpectator()
-                        && (carrying == CarryingResult.PRESENT
-                                || carrying == CarryingResult.UNKNOWN && state.active);
+        boolean active = equipped && player.isAlive() && !player.isSpectator();
         boolean previous = state.active || player.getPersistentData().getBoolean(ACTIVE);
         state.active = active;
         if (active) player.getPersistentData().putBoolean(ACTIVE, true);

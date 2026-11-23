@@ -25,10 +25,7 @@ public final class PhosphophylliteItem extends Item
 
     @Override
     public boolean canEquip(SlotContext c, ItemStack stack) {
-        return !c.cosmetic()
-                && c.entity() instanceof Player p
-                && AccessoryEquipRules.hasDiary(p)
-                && AccessoryEquipRules.unique(c, this);
+        return AccessoryEquipRules.canEquipWithDiary(c, this);
     }
 
     @Override

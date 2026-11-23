@@ -1,5 +1,7 @@
 package com.thelongtravail.config.storage;
 
+import com.thelongtravail.migration.config.ConfigUpgrade;
+
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.core.io.ParsingException;
 
@@ -98,7 +100,7 @@ public final class ConfigRecoveryTest {
         partial.set(oldGroups.get(0) + ".demo.pending", false);
         partial.setComment(oldGroups.get(0) + ".demo.done", "player marker note");
         partial.set("presets.exploration.demo.pending", true);
-        ConfigPresetMigration.migrate(partial, definition);
+        ConfigUpgrade.beforeValidation(partial, definition, new java.util.ArrayList<>());
         expect(
                 Boolean.TRUE.equals(partial.get("presets.exploration.demo.done")),
                 "Partial new group inherits missing old markers");
@@ -117,9 +119,86 @@ public final class ConfigRecoveryTest {
                 "Invalid reload record uses previous valid state");
     }
 
+    private static void witnessUpgrade(Path root) throws Exception {
+        Path aspects = root.resolve("witness/aspects");
+        Path old = aspects.resolve("underworld.toml");
+        Path next = aspects.resolve("abyss.toml");
+        Path slots = aspects.resolve("boundless.toml");
+        String fish = "travail.witness.fishing.";
+        String slot = "travail.witness.extraGenericCurioSlots";
+        String marker = "presets.witness.demo.fishingItemsAdded";
+        var underworld = parse("");
+        underworld.set(fish + "fishingSpecialItems", List.of());
+        underworld.set(fish + "fishingSpecialItemChance", 0);
+        underworld.set(fish + "fishingEntities", List.of("minecraft:cow|1"));
+        underworld.set("travail.witness.compatInitialization.demo.fishingItemsAdded", true);
+        underworld.set(marker, false);
+        underworld.set("presets.witness.demo.fishingEntitiesAdded", true);
+        underworld.set("presets.witness.demo.unrelated", false);
+        var boundless = parse("");
+        boundless.set(slot, 0);
+        var abyss = parse("");
+        abyss.set(fish + "fishingSpecialItemChance", .37);
+        ConfigFileIO.write(old, underworld);
+        ConfigFileIO.write(slots, boundless);
+        ConfigFileIO.write(next, abyss);
+        ConfigUpgrade.witnessRewards(aspects);
+        abyss = ConfigFileIO.read(next);
+        expect(
+                List.of().equals(abyss.get(fish + "fishingSpecialItems")),
+                "empty custom pool retained");
+        expect(
+                Double.valueOf(.37).equals(abyss.get(fish + "fishingSpecialItemChance")),
+                "new chance wins");
+        expect(Boolean.FALSE.equals(abyss.get(marker)), "explicit pending preset retained");
+        expect(Integer.valueOf(0).equals(ConfigFileIO.read(old).get(slot)), "zero slot retained");
+        expect(!ConfigFileIO.read(slots).contains(slot), "old slot retired");
+        expect(
+                !ConfigFileIO.read(old).contains("travail.witness.fishing")
+                        && Boolean.FALSE.equals(
+                                ConfigFileIO.read(old).get("presets.witness.demo.unrelated")),
+                "retired fishing keys removed without touching sibling");
+        var files = List.of(old, next, slots);
+        var bytes = new ArrayList<byte[]>();
+        for (Path file : files) bytes.add(Files.readAllBytes(file));
+        ConfigUpgrade.witnessRewards(aspects);
+        for (int i = 0; i < files.size(); i++)
+            expect(
+                    Arrays.equals(bytes.get(i), Files.readAllBytes(files.get(i))),
+                    "second run stable");
+
+        underworld = parse("");
+        underworld.set("travail.witness.compatInitialization.old.fishingEntitiesAdded", false);
+        underworld.set("presets.witness.demo.fishingEntitiesAdded", true);
+        ConfigFileIO.write(old, underworld);
+        ConfigUpgrade.witnessRewards(aspects);
+        expect(ConfigFileIO.read(old).isEmpty(), "retired markers alone removed in both layouts");
+        expect(
+                Arrays.equals(bytes.get(1), Files.readAllBytes(next)),
+                "no reward changes for entity-only markers");
+
+        underworld = parse("");
+        underworld.set("travail.witness.compatInitialization.demo.fishingItemsAdded", true);
+        underworld.set(fish + "fishingSpecialItemChance", 0);
+        ConfigFileIO.write(old, underworld);
+        Files.writeString(next, "broken = [");
+        ConfigUpgrade.witnessRewards(aspects);
+        abyss = ConfigFileIO.read(next);
+        expect(
+                Integer.valueOf(0).equals(abyss.get(fish + "fishingSpecialItemChance"))
+                        && Boolean.TRUE.equals(abyss.get(marker)),
+                "older marker and disabled chance inherited");
+        try (var archives = Files.walk(aspects.getParent().resolve("invalid"))) {
+            Path backup =
+                    archives.filter(path -> path.endsWith("abyss.toml")).findFirst().orElseThrow();
+            expect(Files.readString(backup).equals("broken = ["), "broken destination archived");
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         Path root = Files.createTempDirectory(Path.of(args[0]), "config-recovery-");
         presetMigration(root);
+        witnessUpgrade(root);
         ForgeConfigSpec spec = spec();
         for (String text :
                 List.of(
@@ -231,7 +310,7 @@ public final class ConfigRecoveryTest {
                 chance = 0.42
                 items = ["the_long_travail:affection|1|1|1"]
                 """);
-        expect(ConfigUpgrade.sixThemeItems(file, loot), "six item upgrade applied");
+        expect(ConfigUpgrade.upgradeGeneral(file, loot), "six item upgrade applied");
         com.electronwill.nightconfig.core.Config tables = loot.get("loot.tables");
         com.electronwill.nightconfig.core.Config desert =
                 tables.get(List.of("minecraft:chests/desert_pyramid"));
@@ -250,7 +329,7 @@ public final class ConfigRecoveryTest {
                 ((Number) jungle.get("chance")).doubleValue() == .42
                         && jungle.get("items").equals(List.of("the_long_travail:affection|1|1|1")),
                 "custom loot unchanged");
-        expect(!ConfigUpgrade.sixThemeItems(file, loot), "upgrade idempotent");
+        expect(!ConfigUpgrade.upgradeGeneral(file, loot), "upgrade idempotent");
         System.out.println("CONFIG_RECOVERY_PASS checks=" + checks + " directory=" + root);
     }
 }

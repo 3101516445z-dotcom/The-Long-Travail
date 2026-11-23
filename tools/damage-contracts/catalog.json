@@ -248,18 +248,6 @@
       ]
     },
     {
-      "id": "reflection",
-      "name": "逐日反射",
-      "stage": "弹射物即将命中",
-      "amount": "只改变运动与归属",
-      "ownership": "后续碰撞使用反射后的所有者",
-      "guard": "当前入口不立即 hurt；碰撞是新的伤害事件",
-      "sources": [
-        "src/main/java/com/thelongtravail/combat/ProjectileReflection.java"
-      ],
-      "successors": []
-    },
-    {
       "id": "feedback",
       "name": "常规确认及受击分派",
       "stage": "confirmedLoss 实际损失确认或 attackAttempt 攻击尝试",

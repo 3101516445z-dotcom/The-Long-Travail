@@ -71,7 +71,6 @@ public final class CatalogBoundlessDetails {
             case "little_prince" -> {
                 out.add(line("prince.0"));
                 bullets(out, line("prince.flight"), line("prince.step", n("prince.stepHeight", 1)));
-                out.add(line("prince.1"));
             }
             case "lorentz_fantasy" -> {
                 out.add(line("lorentz.0"));

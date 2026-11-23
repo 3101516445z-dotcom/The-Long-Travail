@@ -114,6 +114,29 @@ public final class FtbTeamsCompat {
         }
     }
 
+    public static boolean projectileAlly(ServerPlayer player, UUID owner) {
+        if (!access.installed()) return false;
+        try {
+            var manager = (dev.ftb.mods.ftbteams.api.TeamManager) manager();
+            var team = manager.getTeamForPlayer(player);
+            if (team.isEmpty()) return false;
+            var ally = dev.ftb.mods.ftbteams.api.TeamRank.ALLY;
+            if (team.get().getRankForPlayer(owner) == ally) return true;
+            return manager.getTeamForPlayerID(owner)
+                    .map(
+                            other ->
+                                    other.getId().equals(team.get().getId())
+                                            || team.get().getRankForPlayer(other.getId()) == ally
+                                            || (other.isPartyTeam()
+                                                    && team.get().getRankForPlayer(other.getOwner())
+                                                            == ally))
+                    .orElse(false);
+        } catch (ReflectiveOperationException | RuntimeException | LinkageError failure) {
+            failure(failure);
+            return true;
+        }
+    }
+
     public static boolean lanternTeammates(ServerPlayer player, Player other) {
         return relationship(player, other) != Relationship.DIFFERENT;
     }

@@ -14,7 +14,7 @@
   "tooltip.the_long_travail.abyss.malice.title": "-- Abyss Malice --",
   "tooltip.the_long_travail.abyss.malice.effect": "• Take %1$s points of true damage every %2$s seconds while in fluid.\n\n• Mining speed is reduced by %3$s.\n\n• Suffocation, cramming, drowning and freezing damage taken becomes %4$s times its original amount.",
   "tooltip.the_long_travail.abyss.witness.title": "-- Abyss Witness --",
-  "tooltip.the_long_travail.abyss.witness.effect": "• While in fluid, incoming damage has a %1$s chance to be negated.\n\n• Immune to suffocation, cramming, drowning and freezing damage.",
+  "tooltip.the_long_travail.abyss.witness.effect": "• While in fluid, incoming damage has a %1$s chance to be negated.\n\n• Immune to suffocation, cramming, drowning and freezing damage.\n\n• Fishing has a %2$s chance to grant extra loot.",
   "tooltip.the_long_travail.rain.prose.condition": "During %s, the wearer gains special powers%s",
   "tooltip.the_long_travail.rain.prose.weather.rain_or_thunder": "§arain, snow or thunderstorms§r",
   "tooltip.the_long_travail.rain.prose.local": "The local biome must allow §arain or snow§r.",

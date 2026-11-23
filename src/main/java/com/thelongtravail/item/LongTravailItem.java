@@ -64,11 +64,8 @@ public class LongTravailItem extends Item implements ICurioItem {
                         com.thelongtravail.text.ActionMessages.text(
                                 "message.the_long_travail.journey.invalid_pool"),
                         true);
-            TravailCurios.syncExtraSlots(
-                    player,
-                    LongTravailData.hasWitness(stack, TravailAspect.BOUNDLESS)
-                            ? TravailConfig.BOUNDLESS_EXTRA_CURIO_SLOTS.get()
-                            : 0);
+            com.thelongtravail.runtime.player.TravailPlayerMaintenance.updateExtraSlots(
+                    player, stack);
         }
     }
 
@@ -78,8 +75,10 @@ public class LongTravailItem extends Item implements ICurioItem {
             com.thelongtravail.runtime.attributes.AltitudePenalty.forget(player);
         // Curios 在 NBT 变化时也会调用此方法，包括攻击冷却时间戳更新。
         // 替换日记由 onEquip 校正，只有真正卸下时才清理槽位。
-        if (slotContext.entity() instanceof ServerPlayer player && !newStack.is(this))
+        if (slotContext.entity() instanceof ServerPlayer player && !newStack.is(this)) {
+            com.thelongtravail.farreach.WitnessAbsorption.reclaim(player);
             TravailCurios.syncExtraSlots(player, 0);
+        }
     }
 
     @Override
@@ -233,7 +232,11 @@ public class LongTravailItem extends Item implements ICurioItem {
                                     percent(
                                             d(
                                                     "abyss.cancelChance",
-                                                    TravailConfig.ABYSS_CANCEL_CHANCE.get())))
+                                                    TravailConfig.ABYSS_CANCEL_CHANCE.get())),
+                                    percent(
+                                            d(
+                                                    "abyss.fishingItemChance",
+                                                    TravailConfig.FISH_SPECIAL_CHANCE.get())))
                             : Component.translatable(
                                     "tooltip.the_long_travail.abyss.malice.effect",
                                     number(
@@ -268,13 +271,7 @@ public class LongTravailItem extends Item implements ICurioItem {
                                                             .get())),
                                     i(
                                             "farReach.actionCount",
-                                            TravailConfig.FAR_WITNESS_ACTION_COUNT.get()),
-                                    number(
-                                            d(
-                                                    "farReach.effectDuration",
-                                                    TravailConfig
-                                                            .FAR_WITNESS_POSITIVE_DURATION_SECONDS
-                                                            .get())))
+                                            TravailConfig.FAR_WITNESS_ACTION_COUNT.get()))
                             : Component.translatable(
                                     "tooltip.the_long_travail.far_reach.malice.effect"
                                             + (com.thelongtravail.network.TooltipConfigSync
@@ -361,8 +358,9 @@ public class LongTravailItem extends Item implements ICurioItem {
                                     i(
                                             "underworld.lootingBonus",
                                             TravailConfig.UNDERWORLD_LOOTING_BONUS.get()),
-                                    percent(effectiveFishingChance(true)),
-                                    percent(effectiveFishingChance(false)))
+                                    i(
+                                            "underworld.extraSlots",
+                                            TravailConfig.UNDERWORLD_EXTRA_CURIO_SLOTS.get()))
                             : Component.translatable(
                                     "tooltip.the_long_travail.underworld.malice.effect",
                                     percent(
@@ -377,9 +375,6 @@ public class LongTravailItem extends Item implements ICurioItem {
                     completed
                             ? Component.translatable(
                                     "tooltip.the_long_travail.boundless.witness.effect",
-                                    i(
-                                            "boundless.extraSlots",
-                                            TravailConfig.BOUNDLESS_EXTRA_CURIO_SLOTS.get()),
                                     i("boundless.phantomRange", TravailConfig.PHANTOM_RANGE.get()),
                                     number(
                                             d(
@@ -399,16 +394,6 @@ public class LongTravailItem extends Item implements ICurioItem {
                                                     TravailConfig.BOUNDLESS_SPEED_REDUCTION
                                                             .get())));
         };
-    }
-
-    private static double effectiveFishingChance(boolean specialItem) {
-        double itemChance =
-                d("underworld.fishingItemChance", TravailConfig.FISH_SPECIAL_CHANCE.get());
-        double entityChance =
-                d("underworld.fishingEntityChance", TravailConfig.FISH_ENTITY_CHANCE.get());
-        double total = itemChance + entityChance;
-        if (total > 1.0D) return (specialItem ? itemChance : entityChance) / total;
-        return specialItem ? itemChance : entityChance;
     }
 
     private static double d(String key, double fallback) {

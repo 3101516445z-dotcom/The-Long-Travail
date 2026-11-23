@@ -320,7 +320,7 @@ public final class ConfigLayoutTest {
                         .contains("custom parent note"),
                 "Parent note retained");
         var zh = codes(ConfigFilesDescription.GUIDE);
-        expect(zh.size() == 28, "28 guide sections");
+        expect(zh.size() == 27 && !zh.contains("P05"), "27 current guide sections");
         expect(zh.contains("M06"), "Theme item configuration section");
         expect(zh.equals(codes(ConfigFilesDescription.GUIDE_EN)), "Matching bilingual sections");
         checkGuideIndex(ConfigFilesDescription.GUIDE);

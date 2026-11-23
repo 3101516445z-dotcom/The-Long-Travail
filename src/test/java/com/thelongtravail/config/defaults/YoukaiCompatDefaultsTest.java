@@ -2,9 +2,7 @@ package com.thelongtravail.config.defaults;
 
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.thelongtravail.TravailAspect;
-import com.thelongtravail.compat.youkaisfeasts.YoukaisFeastsFishingDefaults;
 import com.thelongtravail.compat.youkaishomecoming.YoukaisHomecomingEffectDefaults;
-import com.thelongtravail.compat.youkaishomecoming.YoukaisHomecomingFishingDefaults;
 
 import java.util.List;
 
@@ -17,65 +15,6 @@ public final class YoukaiCompatDefaultsTest {
     }
 
     public static void main(String[] args) {
-        String pool = FishingEntityCompatDefaults.POOL;
-        String feastMarker = "presets.witness.youkaisfeasts.fishingEntitiesAdded";
-        String homeMarker = "presets.witness.youkaishomecoming.fishingEntitiesAdded";
-        var config = CommentedConfig.inMemory();
-        var manual = List.of("youkaisfeasts:deer|77", "youkaishomecoming:deer|99");
-        config.set(pool, manual);
-        config.set(feastMarker, true);
-        expect(
-                FishingEntityCompatDefaults.apply(
-                        config,
-                        YoukaisHomecomingFishingDefaults.entities(),
-                        homeMarker,
-                        true,
-                        id -> id.startsWith("youkaishomecoming:")),
-                "Initialized Feasts does not block Homecoming");
-        List<String> merged = config.get(pool);
-        expect(
-                merged.subList(0, 2).equals(manual),
-                "Same path in different namespaces retains distinct manual weights");
-        expect(merged.size() == 6, "Only Homecoming missing entries added");
-        expect(
-                merged.subList(2, 6)
-                        .equals(YoukaisHomecomingFishingDefaults.entities().subList(1, 5)),
-                "Exact Homecoming IDs");
-        config.set(pool, List.of());
-        config.set(feastMarker, false);
-        expect(
-                !FishingEntityCompatDefaults.apply(
-                        config,
-                        YoukaisHomecomingFishingDefaults.entities(),
-                        homeMarker,
-                        true,
-                        id -> true),
-                "Reset Feasts does not reset Homecoming");
-        expect(
-                FishingEntityCompatDefaults.apply(
-                        config,
-                        YoukaisFeastsFishingDefaults.entities(),
-                        feastMarker,
-                        true,
-                        id -> true),
-                "Feasts independently reset");
-        expect(
-                config.get(pool).equals(YoukaisFeastsFishingDefaults.entities()),
-                "No namespace migration");
-        var fresh = CommentedConfig.inMemory();
-        fresh.set(pool, List.of());
-        expect(
-                FishingEntityCompatDefaults.apply(
-                        fresh,
-                        YoukaisHomecomingFishingDefaults.entities(),
-                        homeMarker,
-                        true,
-                        id -> id.startsWith("youkaisfeasts:")),
-                "Other namespace is not a matching registration");
-        expect(
-                fresh.<List<String>>get(pool).isEmpty(),
-                "Feasts registration never produces Homecoming IDs");
-
         var home =
                 new EffectCompatDefaults.Preset(
                         "youkaishomecoming",

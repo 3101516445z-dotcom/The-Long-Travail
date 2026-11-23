@@ -184,6 +184,10 @@ public final class ConfigFilesDescription {
                                 + "Exploration pools for new journeys; draw counts are in general.toml"
                                 + " under requirements.");
                 section(builder, "travail.malice", "苦旅恶意\n" + "The Long Travail: Malice");
+                section(
+                        builder,
+                        "travail.witness.fishing",
+                        "归墟见证钓鱼奖励。\nAbyss Witness fishing rewards.");
                 section(builder, "travail.witness", "苦旅见证\n" + "The Long Travail: Witness");
                 section(builder, "items", "归墟主题物品\n" + "Abyss items");
                 section(builder, "items.eki", itemLabel("eki"));
@@ -314,12 +318,6 @@ public final class ConfigFilesDescription {
                                 + " under requirements.");
                 section(builder, "travail.malice", "苦旅恶意\n" + "The Long Travail: Malice");
                 section(builder, "travail.witness", "苦旅见证\n" + "The Long Travail: Witness");
-                section(
-                        builder,
-                        "travail.witness.fishing",
-                        "冥府见证钓鱼：概率、物品池与实体池。\n"
-                                + "Underworld Witness fishing: probabilities, item pools, and entity"
-                                + " pools.");
                 section(builder, "items.relics.king", itemLabel("demon_king_of_the_sixth_heaven"));
                 section(builder, "items.relics.banner", itemLabel("myriad_souls_banner"));
             }

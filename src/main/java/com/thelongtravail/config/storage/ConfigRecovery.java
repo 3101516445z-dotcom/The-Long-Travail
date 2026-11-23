@@ -1,5 +1,7 @@
 package com.thelongtravail.config.storage;
 
+import com.thelongtravail.migration.config.ConfigUpgrade;
+
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.core.io.ParsingException;
 
@@ -30,8 +32,7 @@ final class ConfigRecovery {
         boolean upgraded =
                 issues.isEmpty()
                         && path.getFileName().toString().equals("general.toml")
-                        && (ConfigUpgrade.boundless(path, config)
-                                | ConfigUpgrade.sixThemeItems(path, config));
+                        && ConfigUpgrade.upgradeGeneral(path, config);
         issues.addAll(ConfigValidation.validate(config, spec, null).issues());
         if (original != null && !issues.isEmpty()) archive(root, path, original, issues);
         else if (original != null && upgraded) {

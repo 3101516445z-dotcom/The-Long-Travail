@@ -1,13 +1,8 @@
 package com.thelongtravail.config;
 
-import com.thelongtravail.config.defaults.FishingEntityCompatDefaults;
-import com.thelongtravail.config.defaults.RewardCompatDefaults;
-
 import static com.thelongtravail.config.TravailDefinitionSupport.decimal;
 import static com.thelongtravail.config.TravailDefinitionSupport.defineRequirements;
 import static com.thelongtravail.config.TravailDefinitionSupport.integer;
-import static com.thelongtravail.config.TravailPoolDefaults.defaultFishingEntities;
-import static com.thelongtravail.config.TravailPoolDefaults.defaultFishingItems;
 
 import com.thelongtravail.TravailAspect;
 
@@ -23,10 +18,7 @@ record UnderworldDefinition(
         ForgeConfigSpec.IntValue underworldAnvilLevelCap,
         ForgeConfigSpec.IntValue underworldFortuneBonus,
         ForgeConfigSpec.IntValue underworldLootingBonus,
-        ForgeConfigSpec.DoubleValue fishEntityChance,
-        ForgeConfigSpec.DoubleValue fishSpecialChance,
-        ForgeConfigSpec.ConfigValue<List<? extends String>> fishSpecialItems,
-        ForgeConfigSpec.ConfigValue<List<? extends String>> fishEntities) {
+        ForgeConfigSpec.IntValue underworldExtraCurioSlots) {
     static UnderworldDefinition define(
             ForgeConfigSpec.Builder builder,
             Map<TravailAspect, ForgeConfigSpec.ConfigValue<List<? extends String>>> biomePools,
@@ -78,26 +70,15 @@ record UnderworldDefinition(
                         1_000_000,
                         "冥府之见证提供的抢夺等级加成。",
                         "Looting level bonus granted by Underworld Witness.");
-        ForgeConfigSpec.DoubleValue fishEntityChance =
-                decimal(
+        ForgeConfigSpec.IntValue underworldExtraCurioSlots =
+                integer(
                         builder,
-                        "travail.witness.fishing.fishingEntityChance",
-                        0.10D,
-                        0.0D,
-                        1.0D,
-                        "钓出生物的概率。与钓出特殊物品的概率之和超过100%时，两项按原比例缩放至合计100%。",
-                        "Chance to fish up a creature. If this and the special-item chance total"
-                                + " more than 100%, both are scaled proportionally to total 100%.");
-        ForgeConfigSpec.DoubleValue fishSpecialChance =
-                decimal(
-                        builder,
-                        "travail.witness.fishing.fishingSpecialItemChance",
-                        0.50D,
-                        0.0D,
-                        1.0D,
-                        "钓出特殊物品的概率。与钓出生物的概率之和超过100%时，两项按原比例缩放至合计100%。",
-                        "Chance to fish up a special item. If this and the creature chance total"
-                                + " more than 100%, both are scaled proportionally to total 100%.");
+                        "travail.witness.extraGenericCurioSlots",
+                        1,
+                        0,
+                        64,
+                        "冥府之见证提供的通用Curios饰品槽数量。",
+                        "Number of generic Curios accessory slots granted by Underworld Witness.");
         defineRequirements(
                 builder,
                 biomePools,
@@ -113,34 +94,12 @@ record UnderworldDefinition(
                 List.of(
                         "minecraft:fortress|@structure.minecraft.fortress|1",
                         "minecraft:bastion_remnant|@structure.minecraft.bastion_remnant|1"));
-        RewardCompatDefaults.define(builder, TravailAspect.UNDERWORLD);
-        ForgeConfigSpec.ConfigValue<List<? extends String>> fishSpecialItems =
-                builder.comment(
-                                "格式：物品ID|权重|最小数量|最大数量",
-                                "Format: item_id|weight|min_count|max_count",
-                                "不可堆叠的物品每件都会生成一个掉落实体；一次发放过多可能造成卡顿。",
-                                "Each non-stackable item creates a separate dropped item entity."
-                                        + " Delivering too many at once may cause lag.")
-                        .defineListAllowEmpty(
-                                "travail.witness.fishing.fishingSpecialItems",
-                                defaultFishingItems(),
-                                TravailDefinitionSupport::validRewardEntry);
-        FishingEntityCompatDefaults.define(builder);
-        ForgeConfigSpec.ConfigValue<List<? extends String>> fishEntities =
-                builder.comment("格式：实体ID|权重", "Format: entity_id|weight")
-                        .defineListAllowEmpty(
-                                "travail.witness.fishing.fishingEntities",
-                                defaultFishingEntities(),
-                                TravailDefinitionSupport::validWeightedEntry);
         return new UnderworldDefinition(
                 underworldDamageReduction,
                 underworldExperienceLevelCap,
                 underworldAnvilLevelCap,
                 underworldFortuneBonus,
                 underworldLootingBonus,
-                fishEntityChance,
-                fishSpecialChance,
-                fishSpecialItems,
-                fishEntities);
+                underworldExtraCurioSlots);
     }
 }

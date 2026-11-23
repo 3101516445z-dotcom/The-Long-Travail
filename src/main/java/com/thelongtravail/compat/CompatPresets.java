@@ -5,9 +5,7 @@ import com.thelongtravail.compat.alexscaves.AlexsCavesBiomeDefaults;
 import com.thelongtravail.compat.alexsmobs.AlexsMobsEffectDefaults;
 import com.thelongtravail.compat.apprenticecodex.ApprenticeCodexRewardDefaults;
 import com.thelongtravail.compat.aquamirae.AquamiraeStructureDefaults;
-import com.thelongtravail.compat.arselemental.ArsElementalFishingDefaults;
 import com.thelongtravail.compat.arsnouveau.ArsNouveauEffectDefaults;
-import com.thelongtravail.compat.arsnouveau.ArsNouveauFishingDefaults;
 import com.thelongtravail.compat.arsnouveau.ArsNouveauStructureDefaults;
 import com.thelongtravail.compat.attributeslib.AttributesLibEffectDefaults;
 import com.thelongtravail.compat.cataclysm.CataclysmEffectDefaults;
@@ -35,7 +33,6 @@ import com.thelongtravail.compat.ironsspellsdelight.IronsSpellsDelightEffectDefa
 import com.thelongtravail.compat.l2complements.L2ComplementsGoldenAgeDefaults;
 import com.thelongtravail.compat.l2complements.L2ComplementsRewardDefaults;
 import com.thelongtravail.compat.legendarymonsters.LegendaryMonstersStructureDefaults;
-import com.thelongtravail.compat.maid.MaidFishingDefaults;
 import com.thelongtravail.compat.maidspell.MaidSpellStructureDefaults;
 import com.thelongtravail.compat.morepotioneffects.MorePotionEffectsDefaults;
 import com.thelongtravail.compat.mowziesmobs.MowziesMobsStructureDefaults;
@@ -44,9 +41,7 @@ import com.thelongtravail.compat.terralith.TerralithStructureDefaults;
 import com.thelongtravail.compat.townsandtowers.TownsAndTowersStructureDefaults;
 import com.thelongtravail.compat.traveloptics.TravelOpticsStructureDefaults;
 import com.thelongtravail.compat.youkaisfeasts.YoukaisFeastsEffectDefaults;
-import com.thelongtravail.compat.youkaisfeasts.YoukaisFeastsFishingDefaults;
 import com.thelongtravail.compat.youkaishomecoming.YoukaisHomecomingEffectDefaults;
-import com.thelongtravail.compat.youkaishomecoming.YoukaisHomecomingFishingDefaults;
 
 import java.util.List;
 import java.util.function.Function;
@@ -284,25 +279,6 @@ public final class CompatPresets {
                         "Enigmatic Delicacy",
                         EnigmaticDelicacyRewardDefaults.fishingItems(),
                         EnigmaticDelicacyRewardDefaults.phantomDrops()));
-    }
-
-    public static <T> List<T> fishing(EntriesFactory<T> factory) {
-        return List.of(
-                factory.create(
-                        "youkaisfeasts",
-                        "Youkai's Feasts",
-                        YoukaisFeastsFishingDefaults.entities()),
-                factory.create(
-                        "youkaishomecoming",
-                        "Youkai's Homecoming",
-                        YoukaisHomecomingFishingDefaults.entities()),
-                factory.create("ars_nouveau", "Ars Nouveau", ArsNouveauFishingDefaults.entities()),
-                factory.create(
-                        "ars_elemental", "Ars Elemental", ArsElementalFishingDefaults.entities()),
-                factory.create(
-                        "touhou_little_maid",
-                        "Touhou Little Maid",
-                        MaidFishingDefaults.entities()));
     }
 
     public static <T, P> List<T> goldenAge(GoldenFactory<T, P> factory, P food, P enchantment) {

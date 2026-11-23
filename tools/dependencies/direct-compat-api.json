@@ -132,5 +132,14 @@
       }
     ],
     "implementationVersion": "1.20.1-1.3.78.2249"
+  },
+  "irons_spellbooks": {
+    "sha256": "fcb035bb4041d4d9b0288da31ee770535c51aa6fa1f79476428e50a116dba20c",
+    "mods": [
+      {
+        "id": "irons_spellbooks",
+        "version": "3.16.4"
+      }
+    ]
   }
 }

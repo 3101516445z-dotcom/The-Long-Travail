@@ -194,10 +194,6 @@ public final class TooltipConfigSync {
         put(values, "farReach.actionCount", TravailConfig.FAR_WITNESS_ACTION_COUNT.get());
         put(
                 values,
-                "farReach.effectDuration",
-                TravailConfig.FAR_WITNESS_POSITIVE_DURATION_SECONDS.get());
-        put(
-                values,
                 "deepValley.visualDeprivationChance",
                 TravailConfig.VALLEY_VISUAL_DEPRIVATION_CHANCE.get());
         put(
@@ -251,11 +247,10 @@ public final class TooltipConfigSync {
         put(values, "underworld.anvilCap", TravailConfig.UNDERWORLD_ANVIL_LEVEL_CAP.get());
         put(values, "underworld.fortuneBonus", TravailConfig.UNDERWORLD_FORTUNE_BONUS.get());
         put(values, "underworld.lootingBonus", TravailConfig.UNDERWORLD_LOOTING_BONUS.get());
-        put(values, "underworld.fishingEntityChance", TravailConfig.FISH_ENTITY_CHANCE.get());
-        put(values, "underworld.fishingItemChance", TravailConfig.FISH_SPECIAL_CHANCE.get());
+        put(values, "abyss.fishingItemChance", TravailConfig.FISH_SPECIAL_CHANCE.get());
         put(values, "boundless.heightThreshold", TravailConfig.BOUNDLESS_HEIGHT_THRESHOLD.get());
         put(values, "boundless.speedReduction", TravailConfig.BOUNDLESS_SPEED_REDUCTION.get());
-        put(values, "boundless.extraSlots", TravailConfig.BOUNDLESS_EXTRA_CURIO_SLOTS.get());
+        put(values, "underworld.extraSlots", TravailConfig.UNDERWORLD_EXTRA_CURIO_SLOTS.get());
         put(values, "boundless.phantomRange", TravailConfig.PHANTOM_RANGE.get());
         put(
                 values,

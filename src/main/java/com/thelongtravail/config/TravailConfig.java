@@ -86,7 +86,6 @@ public final class TravailConfig {
     public static final ForgeConfigSpec.IntValue FAR_WITNESS_FALLBACK_MAX_LEVEL;
     public static final ForgeConfigSpec.DoubleValue FAR_WITNESS_INTERVAL_SECONDS;
     public static final ForgeConfigSpec.IntValue FAR_WITNESS_ACTION_COUNT;
-    public static final ForgeConfigSpec.DoubleValue FAR_WITNESS_POSITIVE_DURATION_SECONDS;
     public static final ForgeConfigSpec.DoubleValue VALLEY_VISUAL_DEPRIVATION_CHANCE;
     public static final ForgeConfigSpec.DoubleValue VALLEY_VISUAL_DEPRIVATION_DURATION_SECONDS;
     public static final ForgeConfigSpec.IntValue VALLEY_VISUAL_DEPRIVATION_FADE_IN_TICKS;
@@ -103,11 +102,10 @@ public final class TravailConfig {
     public static final ForgeConfigSpec.IntValue UNDERWORLD_ANVIL_LEVEL_CAP;
     public static final ForgeConfigSpec.IntValue UNDERWORLD_FORTUNE_BONUS;
     public static final ForgeConfigSpec.IntValue UNDERWORLD_LOOTING_BONUS;
-    public static final ForgeConfigSpec.DoubleValue FISH_ENTITY_CHANCE;
     public static final ForgeConfigSpec.DoubleValue FISH_SPECIAL_CHANCE;
     public static final ForgeConfigSpec.DoubleValue BOUNDLESS_HEIGHT_THRESHOLD;
     public static final ForgeConfigSpec.DoubleValue BOUNDLESS_SPEED_REDUCTION;
-    public static final ForgeConfigSpec.IntValue BOUNDLESS_EXTRA_CURIO_SLOTS;
+    public static final ForgeConfigSpec.IntValue UNDERWORLD_EXTRA_CURIO_SLOTS;
     public static final ForgeConfigSpec.IntValue PHANTOM_RANGE;
     public static final ForgeConfigSpec.DoubleValue PHANTOM_CHECK_INTERVAL_SECONDS;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>>
@@ -115,7 +113,6 @@ public final class TravailConfig {
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>>
             DEEP_VALLEY_POSITIVE_EFFECTS;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> FISH_SPECIAL_ITEMS;
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> FISH_ENTITIES;
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> PHANTOM_DROPS;
 
     static {
@@ -172,6 +169,8 @@ public final class TravailConfig {
                                 "aspects/abyss.toml", key -> new ForgeConfigSpec.Builder()),
                         BIOME_POOLS,
                         STRUCTURE_POOLS);
+        FISH_SPECIAL_CHANCE = abyss.fishSpecialChance();
+        FISH_SPECIAL_ITEMS = abyss.fishSpecialItems();
         ABYSS_FLUID_DAMAGE = abyss.abyssFluidDamage();
         ABYSS_FLUID_INTERVAL_SECONDS = abyss.abyssFluidIntervalSeconds();
         ABYSS_MINING_REDUCTION = abyss.abyssMiningReduction();
@@ -193,7 +192,6 @@ public final class TravailConfig {
         FAR_WITNESS_FALLBACK_MAX_LEVEL = farReach.farWitnessFallbackMaxLevel();
         FAR_WITNESS_INTERVAL_SECONDS = farReach.farWitnessIntervalSeconds();
         FAR_WITNESS_ACTION_COUNT = farReach.farWitnessActionCount();
-        FAR_WITNESS_POSITIVE_DURATION_SECONDS = farReach.farWitnessPositiveDurationSeconds();
         FAR_REACH_POSITIVE_EFFECTS = farReach.farReachPositiveEffects();
         var deepValley =
                 DeepValleyDefinition.define(
@@ -222,13 +220,10 @@ public final class TravailConfig {
                         STRUCTURE_POOLS);
         UNDERWORLD_DAMAGE_REDUCTION = underworld.underworldDamageReduction();
         UNDERWORLD_EXPERIENCE_LEVEL_CAP = underworld.underworldExperienceLevelCap();
+        UNDERWORLD_EXTRA_CURIO_SLOTS = underworld.underworldExtraCurioSlots();
         UNDERWORLD_ANVIL_LEVEL_CAP = underworld.underworldAnvilLevelCap();
         UNDERWORLD_FORTUNE_BONUS = underworld.underworldFortuneBonus();
         UNDERWORLD_LOOTING_BONUS = underworld.underworldLootingBonus();
-        FISH_ENTITY_CHANCE = underworld.fishEntityChance();
-        FISH_SPECIAL_CHANCE = underworld.fishSpecialChance();
-        FISH_SPECIAL_ITEMS = underworld.fishSpecialItems();
-        FISH_ENTITIES = underworld.fishEntities();
         var boundless =
                 BoundlessDefinition.define(
                         builders.computeIfAbsent(
@@ -237,7 +232,6 @@ public final class TravailConfig {
                         STRUCTURE_POOLS);
         BOUNDLESS_HEIGHT_THRESHOLD = boundless.boundlessHeightThreshold();
         BOUNDLESS_SPEED_REDUCTION = boundless.boundlessSpeedReduction();
-        BOUNDLESS_EXTRA_CURIO_SLOTS = boundless.boundlessExtraCurioSlots();
         PHANTOM_RANGE = boundless.phantomRange();
         PHANTOM_CHECK_INTERVAL_SECONDS = boundless.phantomCheckIntervalSeconds();
         PHANTOM_MAX_KILLS = boundless.phantomMaxKills();

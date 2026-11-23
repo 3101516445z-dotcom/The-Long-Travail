@@ -4,6 +4,7 @@ import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.api.CarryingApi;
 import com.thelongtravail.config.BoundlessItemsConfig;
 import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.equipment.AccessoryEquipRules;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraftforge.common.ForgeMod;
@@ -26,8 +27,10 @@ public final class LittlePrince {
     }
 
     public static void refresh(ServerPlayer p) {
-        var carrying = CarryingApi.query(p, ModRegistry.LITTLE_PRINCE);
-        boolean active = LittlePrinceFlight.update(p, carrying);
+        boolean equipped =
+                AccessoryEquipRules.hasEquipped(p, ModRegistry.LITTLE_PRINCE)
+                        && AccessoryEquipRules.hasDiary(p);
+        boolean active = LittlePrinceFlight.update(p, equipped);
         var attr = p.getAttribute(ForgeMod.STEP_HEIGHT_ADDITION.get());
         if (attr != null) {
             var old = attr.getModifier(STEP);

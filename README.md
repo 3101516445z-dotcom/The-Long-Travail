@@ -34,7 +34,8 @@
 | Caelus | 3.2.0+1.20.1 | 让 Caelus 识别**伊卡洛斯**提供的飞行能力，并遵守禁飞限制。 |
 | Embeddium | 0.3.31+mc1.20.1 | 适配的**剑与灯**动态照明。 |
 | Sounds | 2.2.1+1.20.1+forge | 按苦旅规则过滤效果变化通知音，不屏蔽普通喝药或装备音效。 |
-| FTB Teams | 2001.3.2 | 兼容本模组的队友识别判定。 |
+| Iron’s Spells ’n Spellbooks / 铁魔法 | 1.20.1-3.16.4 | 无垠之见证按召唤者判定法术召唤物的阵营，放行佩戴者及友方召唤物发射的弹射物。 |
+| FTB Teams | 2001.3.2 | 无垠之见证将同队和盟友队伍的玩家视为友方。 |
 | Gravestone | 1.20.1-1.0.35 | 在墓碑保存和恢复物品时，校正**死者之书**及日记相关数据 |
 | Modern UI | 3.12.0.1 | 适配名称和日记文字的字体渲染 |
 | Enigmatic Legacy | 2.30.1 | 使用**死者苏生**时，避免消耗绑定的重生锚 |
@@ -79,7 +80,7 @@
 
 ## 版本与升级
 
-当前版本为 **1.0.6**（待发布）。接口与数据迁移见[兼容迁移说明](CHANGELOG.md)。更新后生成或重置的旅程数据不支持降级到旧版模组。
+当前版本为 **0.1.7**（待发布）。接口与数据迁移见[兼容迁移说明](CHANGELOG.md)。更新后生成或重置的旅程数据不支持降级到旧版模组。
 
 ## 开发文档
 
@@ -103,7 +104,7 @@ Linux / macOS：
 ./gradlew build jarJar
 ```
 
-首次构建需要联网，Gradle 会自动下载依赖；缓存齐全后可追加 `--offline`。当前构建包为 `build/libs/The_Long_Travail-1.0.6.jar`，带 `-slim` 后缀的包不包含内嵌依赖，不用于直接安装。
+首次构建需要联网，Gradle 会自动下载依赖；缓存齐全后可追加 `--offline`。当前构建包为 `build/libs/The_Long_Travail-0.1.7.jar`，带 `-slim` 后缀的包不包含内嵌依赖，不用于直接安装。
 
 Caelus、Embeddium、Jade、JEI、女仆、Apotheosis、Placebo、Quark 和 Zeta 的可选 API 仅用于编译，不打包进成品。女仆 API 固定为 Forge 1.20.1 的 1.5.3 版本，由 Gradle 自动下载；需要本地替代时使用 `-PmaidApiJar=/absolute/path/to/touhoulittlemaid.jar`。MixinExtras 随正式包内嵌，Curios 需另行安装。具体版本及仓库地址见 `build.gradle` 和 `gradle/optional-compat.gradle`。
 

@@ -45,7 +45,6 @@ Presets
   P02  Compatible biome presets
   P03  Compatible structure presets
   P04  Witness reward pools and compatibility presets
-  P05  Fishing entity defaults and compatibility presets
   P06  Beneficial-effect compatibility presets
   P07  Golden Age compatibility blacklists
   P08  Perfect Fluid compatibility blacklist
@@ -114,7 +113,6 @@ Choose the format for the pool. The | character separates fields; do not enter p
 
 Biomes/structures: id|display_name|positive_integer_weight, e.g. minecraft:plains|@biome.minecraft.plains|3. See [E01], [E02].
 Item rewards/shared loot: item_id|weight|min_count|max_count, e.g. minecraft:apple|6|1|5. See [C06], [P04].
-Fishing entities: entity_id|weight, e.g. minecraft:pig|100. See [P05].
 Beneficial effects: effect_id|max_level|weight, e.g. minecraft:jump_boost|5|5. See [P06].
 Item/enchantment blacklists: full IDs only, e.g. "enigmaticlegacy:astral_fruit", without weights. See [P07], [P08].
 
@@ -244,7 +242,7 @@ Draw counts and existing journeys are unchanged. requirements.structureDrawCount
 Shared record rules and retry steps: [P01].
 
 Settings and format
-Underworld fishingSpecialItems and Boundless phantomDrops use item_id|weight|min_count|max_count, without a display-name field.
+Abyss fishingSpecialItems and Boundless phantomDrops use item_id|weight|min_count|max_count, without a display-name field.
 Vanilla defaults and compatibility presets are defined separately for fishing and phantom rewards. They currently match but can be adjusted independently.
 
 Vanilla defaults
@@ -259,25 +257,7 @@ Add only registered IDs missing from that pool, preserving existing weights, qua
 
 Records and scope
 Under each applicable theme's presets.witness.<namespace>, fishingItemsAdded and phantomDropsAdded track independent initialization, separate from biome and structure markers.
-Fishing trigger chances, phantom detection and kill rules, delivery limits and the fishing entity pool are unchanged. New candidates change only the relative item probabilities within each reward pool.
-
-[P05] Fishing entity defaults and compatibility presets
-------------------------------------------------
-Shared record rules and retry steps: [P01].
-
-Settings and format
-Underworld travail.witness.fishing.fishingEntities uses entity_id|weight. One entity is selected and created at the fishing hook.
-
-Vanilla defaults
-The vanilla default pool contains 9 entries: pigs, cows and sheep at weight 100 each; villagers, wandering traders and cats at 50; foxes, axolotls and turtles at 25. Defaults apply only to new or missing entries; existing valid lists are retained.
-
-Compatibility candidates
-Optional candidates: Youkai's Feasts and Youkai's Homecoming each provide deer, crab, lamprey, tuna and boar at weight 40; Ars Nouveau starbuncle, whirlisprig and drygmy at 25; Ars Elemental Siren at 25; Touhou Little Maid's Maid Fairy at 15.
-There are 15 candidates from 5 sources. With other sources available, a fresh configuration has 19 entries with either Homecoming or Feasts, or 24 with every candidate in both namespaces. Append only registered entity IDs missing from the pool and preserve manual weights and order. starfantasy_goety:apollyon is not added automatically; existing manual entries remain.
-
-Records and scope
-presets.witness.<namespace>.fishingEntitiesAdded tracks each source independently of item reward and exploration markers.
-Set false or remove a marker and reopen the world to retry, or set true beforehand to skip initialization. Worlds sharing a configuration share markers. Integration does not alter fishing trigger chances, entity creation behavior or item reward pools.
+Added items are drawn according to their weights in the reward pool.
 
 [P06] Beneficial-effect compatibility presets
 ------------------------------------------------

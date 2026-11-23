@@ -39,6 +39,7 @@ public final class DependentAccessories {
                 ModRegistry.PHOSPHOPHYLLITE,
                 p -> !TravailCurios.stack(p).isEmpty(),
                 com.thelongtravail.valley.Phosphophyllite::tick);
+        register(ModRegistry.LITTLE_PRINCE, AccessoryEquipRules::hasDiary, p -> {});
         register(ModRegistry.THOUSAND_YEARS, p -> !TravailCurios.stack(p).isEmpty(), p -> {});
         register(ModRegistry.STAR_VOICE, p -> !TravailCurios.stack(p).isEmpty(), p -> {});
         register(

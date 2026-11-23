@@ -1,11 +1,10 @@
 package com.thelongtravail.config.defaults;
 
+import com.electronwill.nightconfig.core.CommentedConfig;
+import com.thelongtravail.TravailAspect;
 import com.thelongtravail.config.TravailConfig;
 import com.thelongtravail.config.storage.ConfigFilesDescription;
 import com.thelongtravail.config.storage.ManagedConfig;
-
-import com.electronwill.nightconfig.core.CommentedConfig;
-import com.thelongtravail.TravailAspect;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -27,7 +26,7 @@ public final class RewardCompatDefaults {
             String namespace, String name, List<String> fishingItems, List<String> phantomDrops) {
         List<String> entries(TravailAspect aspect) {
             return switch (aspect) {
-                case UNDERWORLD -> fishingItems;
+                case ABYSS -> fishingItems;
                 case BOUNDLESS -> phantomDrops;
                 default -> List.of();
             };
@@ -36,7 +35,7 @@ public final class RewardCompatDefaults {
 
     record Pool(TravailAspect aspect, String path, String marker) {}
 
-    static final Pool FISHING = new Pool(TravailAspect.UNDERWORLD, FISH_POOL, "fishingItemsAdded");
+    static final Pool FISHING = new Pool(TravailAspect.ABYSS, FISH_POOL, "fishingItemsAdded");
     static final Pool PHANTOM =
             new Pool(TravailAspect.BOUNDLESS, PHANTOM_POOL, "phantomDropsAdded");
 

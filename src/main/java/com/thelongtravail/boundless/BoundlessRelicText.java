@@ -45,9 +45,10 @@ public final class BoundlessRelicText {
     public static List<Component> details(boolean prince) {
         List<Component> out = new ArrayList<>();
         if (prince) {
-            out.add(line("little_prince.base", princeHeight()));
-            out.add(Component.empty());
-            out.add(line("little_prince.limit"));
+            String prefix = "gui.the_long_travail.catalog.boundless.prince.";
+            out.add(Component.translatable(prefix + "0"));
+            out.add(Component.translatable(prefix + "flight"));
+            out.add(Component.translatable(prefix + "step", number("prince.stepHeight", 1)));
         } else {
             out.add(line("lorentz.base", number("lorentz.pierce", 1)));
             out.add(Component.empty());

@@ -1,42 +1,32 @@
 package com.thelongtravail.event;
 
+import com.thelongtravail.TravailAspect;
+import com.thelongtravail.abyss.FluidErosionDamage;
 import com.thelongtravail.command.TravailCommands;
-import com.thelongtravail.runtime.effects.TravailEffectActions;
-import com.thelongtravail.runtime.player.TravailPlayerMaintenance;
-import com.thelongtravail.runtime.rewards.TravailRewards;
-
-import com.thelongtravail.runtime.scheduling.PeriodicSchedule;
-
-import com.thelongtravail.runtime.rewards.RewardDelivery;
-
-import com.thelongtravail.runtime.attributes.AltitudePenalty;
-
-import com.thelongtravail.runtime.effects.AutomaticEffectBudget;
-import com.thelongtravail.runtime.effects.EffectChanges;
-import com.thelongtravail.runtime.effects.StiffState;
-import com.thelongtravail.runtime.effects.VisualDeprivation;
-
-import com.thelongtravail.runtime.pools.RuntimePools;
-
+import com.thelongtravail.config.ModeEffectRules;
+import com.thelongtravail.config.TravailConfig;
+import com.thelongtravail.equipment.TravailCurios;
+import com.thelongtravail.exploration.WayguideReturns;
+import com.thelongtravail.exploration.WayguideSearch;
 import com.thelongtravail.journey.JourneyQueries;
 import com.thelongtravail.journey.JourneyVisits;
 import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.journey.PlayerJourneyData;
 import com.thelongtravail.journey.RequirementPools;
 import com.thelongtravail.journey.TravailAdvancements;
-
 import com.thelongtravail.journey.runtime.JourneyRuntimeMaintenance;
-
-import com.thelongtravail.exploration.WayguideSearch;
-import com.thelongtravail.exploration.WayguideReturns;
-
-import com.thelongtravail.TravailAspect;
-import com.thelongtravail.config.ModeEffectRules;
-import com.thelongtravail.config.TravailConfig;
-
-import com.thelongtravail.equipment.TravailCurios;
-import com.thelongtravail.abyss.FluidErosionDamage;
 import com.thelongtravail.network.TravailNetwork;
+import com.thelongtravail.runtime.attributes.AltitudePenalty;
+import com.thelongtravail.runtime.effects.AutomaticEffectBudget;
+import com.thelongtravail.runtime.effects.EffectChanges;
+import com.thelongtravail.runtime.effects.StiffState;
+import com.thelongtravail.runtime.effects.TravailEffectActions;
+import com.thelongtravail.runtime.effects.VisualDeprivation;
+import com.thelongtravail.runtime.player.TravailPlayerMaintenance;
+import com.thelongtravail.runtime.pools.RuntimePools;
+import com.thelongtravail.runtime.rewards.RewardDelivery;
+import com.thelongtravail.runtime.rewards.TravailRewards;
+import com.thelongtravail.runtime.scheduling.PeriodicSchedule;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -180,6 +170,10 @@ public class TravailEvents {
         StiffState.tick(player);
         ItemStack fastTravail = TravailCurios.stack(player);
         if (player.tickCount % 20 == 0) JourneyQueries.update(player, fastTravail);
+        if (com.thelongtravail.farreach.WitnessAbsorption.balance(player) > 0
+                && (fastTravail.isEmpty()
+                        || !LongTravailData.hasWitness(fastTravail, TravailAspect.FAR_REACH)))
+            com.thelongtravail.farreach.WitnessAbsorption.reclaim(player);
         if (fastTravail.isEmpty()) {
             EffectChanges.unequipped(player);
             AltitudePenalty.forget(player);
@@ -209,15 +203,16 @@ public class TravailEvents {
         if (ModeEffectRules.diaryApplies(player)
                 && !LongTravailData.hasWitness(travail, TravailAspect.UNDERWORLD))
             TravailPlayerMaintenance.clampExperience(player);
-        if (LongTravailData.hasWitness(travail, TravailAspect.BOUNDLESS)
-                && Math.floorMod(
-                                player.level().getGameTime() + player.getUUID().hashCode(),
-                                Math.max(
-                                        20,
-                                        TravailEffectActions.secondsToTicks(
-                                                TravailConfig.PHANTOM_CHECK_INTERVAL_SECONDS
-                                                        .get())))
-                        == 0) TravailRewards.killNearbyPhantoms(player);
+        if (LongTravailData.hasWitness(travail, TravailAspect.BOUNDLESS)) {
+            com.thelongtravail.boundless.ProjectileWard.scan(player);
+            if (Math.floorMod(
+                            player.level().getGameTime() + player.getUUID().hashCode(),
+                            Math.max(
+                                    20,
+                                    TravailEffectActions.secondsToTicks(
+                                            TravailConfig.PHANTOM_CHECK_INTERVAL_SECONDS.get())))
+                    == 0) TravailRewards.killNearbyPhantoms(player);
+        }
         if (LongTravailData.hasWitness(travail, TravailAspect.DEEP_VALLEY)) {
             if (player.hasEffect(MobEffects.DARKNESS))
                 EffectChanges.remove(player, MobEffects.DARKNESS, false);

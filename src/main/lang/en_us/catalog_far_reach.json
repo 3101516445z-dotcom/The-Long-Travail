@@ -41,7 +41,7 @@
   "gui.the_long_travail.catalog.far.sun.0": "While carrying Sun Chaser:",
   "gui.the_long_travail.catalog.far.sun.1": "Become immune to fire and lava damage and cannot be ignited",
   "gui.the_long_travail.catalog.far.sun.2": "While in lava, restore %s health per second and avoid Abyss Malice’s periodic fluid damage",
-  "gui.the_long_travail.catalog.far.sun.3": "Reflect incoming projectiles, taking ownership of them",
+  "gui.the_long_travail.catalog.far.sun.3": "Each effective level of Looting on the carrier increases projectile damage by an additional %s%%",
   "gui.the_long_travail.catalog.far.sun.4": "Projectile damage gains a %s%% damage bonus",
   "gui.the_long_travail.catalog.far.sun.5": "Damage against burning targets gains a %s%% damage bonus",
   "gui.the_long_travail.catalog.far.sun.6": "Dealing damage prevents normal healing and damage invulnerability frames for %s seconds, refreshed by further damage",

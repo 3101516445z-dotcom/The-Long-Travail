@@ -32,7 +32,10 @@ public final class SunBladeText {
                 Component.translatable(prefix + "malice_heading")
                         .withStyle(s -> s.withColor(0xC9B8FF)));
         if (sun) {
-            out.add(Component.translatable(prefix + "reflect"));
+            out.add(
+                    Component.translatable(
+                            "gui.the_long_travail.catalog.far.sun.3",
+                            number(id + ".lootingBonusPerLevel", 100)));
             out.add(
                     Component.translatable(
                             prefix + "projectile", number(id + ".projectileBonus", 100)));

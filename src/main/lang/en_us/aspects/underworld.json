@@ -16,7 +16,7 @@
   "tooltip.the_long_travail.underworld.malice.title": "-- Underworld Malice --",
   "tooltip.the_long_travail.underworld.malice.effect": "• Damage dealt is reduced by %1$s.\n\n• Experience level cannot exceed %2$s.",
   "tooltip.the_long_travail.underworld.witness.title": "-- Underworld Witness --",
-  "tooltip.the_long_travail.underworld.witness.effect": "• Using an anvil costs no more than %1$s experience levels.\n\n• Fortune +%2$s.\n\n• Looting +%3$s.\n\n• Fishing has a %4$s chance to grant extra loot and a %5$s chance to reel in an extra creature.",
+  "tooltip.the_long_travail.underworld.witness.effect": "• Using an anvil costs no more than %1$s experience levels.\n\n• Fortune +%2$s.\n\n• Looting +%3$s.\n\n• General accessory slots +%4$s.",
   "tooltip.the_long_travail.thousand_years.malice_title": "If the Underworld still bears Malice:",
   "tooltip.the_long_travail.thousand_years.malice": "When the wearer deals damage, §6damage dealt§r to the target increases by §a%s%%§r for §aeach level§r of §6Wither§r on that target.",
   "tooltip.the_long_travail.thousand_years.witness_title": "Once the Underworld has been witnessed:",

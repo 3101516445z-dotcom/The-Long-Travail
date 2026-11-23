@@ -16,7 +16,7 @@
   "tooltip.the_long_travail.underworld.malice.title": "-- 冥府之惡意 --",
   "tooltip.the_long_travail.underworld.malice.effect": "• 所傷損%1$s。\n\n• 經驗之級，不得過%2$s級。",
   "tooltip.the_long_travail.underworld.witness.title": "-- 冥府之見證 --",
-  "tooltip.the_long_travail.underworld.witness.effect": "• 用鐵砧所耗經驗，不過%1$s級。\n\n• 幸運+%2$s。\n\n• 掠奪+%3$s。\n\n• 釣時，有%4$s之率得額外戰利品，有%5$s之率釣出額外生物。",
+  "tooltip.the_long_travail.underworld.witness.effect": "• 用鐵砧所耗經驗，不過%1$s級。\n\n• 幸運+%2$s。\n\n• 掠奪+%3$s。\n\n• 通用飾品欄+%4$s。",
   "tooltip.the_long_travail.thousand_years.malice_title": "若冥府尚有惡意，則：",
   "tooltip.the_long_travail.thousand_years.malice": "佩者傷敵時，目標每有§a一級§r§6凋零§r之效，佩者對其§6所加之傷§r增§a%s%%§r。",
   "tooltip.the_long_travail.thousand_years.witness_title": "若冥府已見證，則：",

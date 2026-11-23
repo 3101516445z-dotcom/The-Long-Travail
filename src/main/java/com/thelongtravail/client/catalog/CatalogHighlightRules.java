@@ -1,6 +1,7 @@
 package com.thelongtravail.client.catalog;
 
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 // 拾遗详情使用的固定词表和匹配模式，按主题保存原有条目顺序。
@@ -261,6 +262,21 @@ final class CatalogHighlightRules {
                     "Insight",
                     "霸主",
                     "Overlord");
+    static final Set<String> SUN_CONDITION_ROWS =
+            Set.of(
+                    "gui.the_long_travail.catalog.far.sun.3",
+                    "gui.the_long_travail.catalog.far.sun.5",
+                    "gui.the_long_travail.catalog.far.sun.7");
+    static final Pattern SUN_CONDITIONS =
+            Pattern.compile(
+                    "1级有效抢夺|1級有效掠奪|有效掠奪每一級|Each effective level of Looting"
+                            + "|燃烧目标|燃燒目標|burning targets",
+                    Pattern.CASE_INSENSITIVE);
+    static final List<String> SUN_ROW_TERMS =
+            java.util.stream.Stream.concat(
+                            TERMS.stream(),
+                            java.util.stream.Stream.of("直击伤害", "直擊傷害", "Direct Strike damage"))
+                    .toList();
     static final Pattern SUN_BLADE_VALUES =
             Pattern.compile("\\b\\d+(?:\\.\\d+)?\\s+health\\b", Pattern.CASE_INSENSITIVE);
 

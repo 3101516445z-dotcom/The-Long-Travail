@@ -1,8 +1,9 @@
 package com.thelongtravail.runtime.effects;
 
-import java.util.*;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.*;
+
+import java.util.*;
 
 public final class CleanseRotation {
     private static final Map<ServerPlayer, ArrayDeque<MobEffect>> QUEUES = new WeakHashMap<>();
@@ -18,6 +19,10 @@ public final class CleanseRotation {
     public static int remove(
             ServerPlayer player, int actions, java.util.function.BooleanSupplier acquire) {
         if (actions <= 0) return 0;
+        if (player.getActiveEffects().isEmpty()) {
+            forget(player);
+            return 0;
+        }
         Set<MobEffect> active = new HashSet<>();
         for (var instance : player.getActiveEffects())
             if (instance.getEffect().getCategory() == MobEffectCategory.HARMFUL)

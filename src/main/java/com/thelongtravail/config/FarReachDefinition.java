@@ -1,13 +1,12 @@
 package com.thelongtravail.config;
 
-import com.thelongtravail.config.defaults.EffectCompatDefaults;
-
 import static com.thelongtravail.config.TravailDefinitionSupport.decimal;
 import static com.thelongtravail.config.TravailDefinitionSupport.defineRequirements;
 import static com.thelongtravail.config.TravailDefinitionSupport.integer;
 import static com.thelongtravail.config.TravailPoolDefaults.defaultFarReachEffects;
 
 import com.thelongtravail.TravailAspect;
+import com.thelongtravail.config.defaults.EffectCompatDefaults;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
@@ -24,7 +23,6 @@ record FarReachDefinition(
         ForgeConfigSpec.IntValue farWitnessFallbackMaxLevel,
         ForgeConfigSpec.DoubleValue farWitnessIntervalSeconds,
         ForgeConfigSpec.IntValue farWitnessActionCount,
-        ForgeConfigSpec.DoubleValue farWitnessPositiveDurationSeconds,
         ForgeConfigSpec.ConfigValue<List<? extends String>> farReachPositiveEffects) {
     static FarReachDefinition define(
             ForgeConfigSpec.Builder builder,
@@ -98,8 +96,8 @@ record FarReachDefinition(
                         5.0D,
                         0.0D,
                         1_000_000.0D,
-                        "净化或给予增益效果的触发间隔，单位：秒；0表示每游戏刻触发。间隔过短且每轮次数较多时，可能增加游戏负担。",
-                        "Interval between cleansing or granting beneficial effects, in seconds; 0"
+                        "净化减益效果的触发间隔，单位：秒；0表示每游戏刻触发。间隔过短且每轮次数较多时，可能增加游戏负担。",
+                        "Interval between cleanses, in seconds; 0"
                                 + " triggers every game tick. Short intervals combined with many"
                                 + " attempts per cycle may increase processing load.");
         ForgeConfigSpec.IntValue farWitnessActionCount =
@@ -109,19 +107,8 @@ record FarReachDefinition(
                         2,
                         0,
                         64,
-                        "每轮尝试清除减益效果的次数；剩余次数用于给予增益效果。次数过多且触发间隔过短时，可能增加游戏负担。",
-                        "Attempts to remove harmful effects per cycle; remaining attempts grant"
-                                + " beneficial effects. Many attempts combined with short trigger"
-                                + " intervals may increase processing load.");
-        ForgeConfigSpec.DoubleValue farWitnessPositiveDurationSeconds =
-                decimal(
-                        builder,
-                        "travail.witness.grantedEffectDurationSeconds",
-                        5.0D,
-                        0.0D,
-                        1_000_000.0D,
-                        "随机给予的增益效果持续时间，单位：秒。",
-                        "Duration of randomly granted beneficial effects, in seconds.");
+                        "每轮最多清除的减益效果数。",
+                        "Maximum harmful effects removed per cycle.");
         defineRequirements(
                 builder,
                 biomePools,
@@ -153,7 +140,6 @@ record FarReachDefinition(
                 farWitnessFallbackMaxLevel,
                 farWitnessIntervalSeconds,
                 farWitnessActionCount,
-                farWitnessPositiveDurationSeconds,
                 farReachPositiveEffects);
     }
 }

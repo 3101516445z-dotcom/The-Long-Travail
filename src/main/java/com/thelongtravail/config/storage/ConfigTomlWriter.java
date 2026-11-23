@@ -48,7 +48,6 @@ See ../Configuration Guide.txt: preset basics [P00], retry/skip [P01], dotted ke
                     "群系预设 / Biome presets|P02",
                     "结构预设 / Structure presets|P03",
                     "奖励预设 / Reward presets|P04",
-                    "生物预设 / Entity presets|P05",
                     "增益效果预设 / Beneficial effect presets|P06",
                     "食物黑名单预设 / Food blacklist presets|P07",
                     "附魔黑名单预设 / Enchantment blacklist presets|P07",
@@ -239,11 +238,10 @@ See ../Configuration Guide.txt: preset basics [P00], retry/skip [P01], dotted ke
         if (key.endsWith("StructuresAdded")) return 1;
         return switch (key) {
             case "fishingItemsAdded", "phantomDropsAdded" -> 2;
-            case "fishingEntitiesAdded" -> 3;
-            case "positiveEffectsAdded" -> 4;
-            case "foodBlacklistAdded" -> 5;
-            case "enchantmentBlacklistAdded" -> 6;
-            case "maidSoulAdded", "monsterBattleDeviceAdded" -> 7;
+            case "positiveEffectsAdded" -> 3;
+            case "foodBlacklistAdded" -> 4;
+            case "enchantmentBlacklistAdded" -> 5;
+            case "maidSoulAdded", "monsterBattleDeviceAdded" -> 6;
             default -> GROUPS.size();
         };
     }
@@ -261,7 +259,7 @@ See ../Configuration Guide.txt: preset basics [P00], retry/skip [P01], dotted ke
                 + "]。\nDetails: ../Configuration Guide.txt ["
                 + parts[1]
                 + "].\n"
-                + (category == 7
+                + (category == 6
                         ? "完整重启游戏或服务器时处理；须安装对应模组，且该组预设物品全部已注册。\n"
                                 + "Processed on full game/server startup, only with the mod installed"
                                 + " and every item in that group registered.\n"

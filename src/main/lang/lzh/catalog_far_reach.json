@@ -41,7 +41,7 @@
   "gui.the_long_travail.catalog.far.sun.0": "攜「逐日」：",
   "gui.the_long_travail.catalog.far.sun.1": "免疫火焰、岩漿之傷，亦不被燃",
   "gui.the_long_travail.catalog.far.sun.2": "身處岩漿，每秒復%s點生命值，且免受歸墟之惡意週期性流體傷害",
-  "gui.the_long_travail.catalog.far.sun.3": "反彈將中之彈射物，反彈後歸屬攜者",
+  "gui.the_long_travail.catalog.far.sun.3": "攜者有效掠奪每一級，彈射物傷害另增%s%%",
   "gui.the_long_travail.catalog.far.sun.4": "彈射物傷害獲%s%%傷害加成",
   "gui.the_long_travail.catalog.far.sun.5": "對燃燒目標所致傷害獲%s%%傷害加成",
   "gui.the_long_travail.catalog.far.sun.6": "造成傷害後，目標於%s秒內不可藉正常治療回復生命值，亦不得受傷無敵幀，再傷則刷新時長",

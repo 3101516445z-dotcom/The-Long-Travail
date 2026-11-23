@@ -130,8 +130,6 @@
     "valley.TremorHarvestMixin",
     "valley.TremorFortuneMixin",
     "farreach.SunFireMixin",
-    "combat.ReflectedProjectileAccessor",
-    "combat.ReflectedShulkerAccessor",
     "effects.CombatEffectHealthMixin",
     "movement.RevivalPropulsionMixin",
     "movement.RevivalImpulseMixin",

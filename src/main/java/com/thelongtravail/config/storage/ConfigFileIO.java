@@ -16,6 +16,23 @@ public final class ConfigFileIO {
         }
     }
 
+    public static CommentedConfig readForMigration(Path path) throws IOException {
+        byte[] original = Files.exists(path) ? Files.readAllBytes(path) : new byte[0];
+        try {
+            return parse(original);
+        } catch (com.electronwill.nightconfig.core.io.ParsingException invalid) {
+            // 迁移可能先于正常恢复流程写入目标文件，先保存无法解析的原文。
+            ConfigRecovery.archive(
+                    path.getParent().getParent(),
+                    path,
+                    original,
+                    java.util.List.of(
+                            "无法解析旧配置 / Unreadable configuration: " + invalid.getMessage()));
+            ConfigRecovery.checkUnchanged(path, original);
+            return parse(new byte[0]);
+        }
+    }
+
     static CommentedConfig parse(byte[] bytes) {
         try {
             String text =

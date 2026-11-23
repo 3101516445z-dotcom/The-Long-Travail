@@ -47,7 +47,7 @@ public final class ThemeTooltips {
     private static final Set<String> ABYSS_SUMMARIES =
             Set.of("eki", "tokaido", "perfect_fluid", "midnight_lafite", "liquefied_abundance");
     private static final Set<String> NON_STACKING_CARRIED_ITEMS =
-            Set.of("eki", "tower_of_babel", "little_prince", "golden_age", "sun_chaser");
+            Set.of("eki", "tower_of_babel", "golden_age", "sun_chaser");
 
     private static boolean utility(String id) {
         return Set.of("homecoming", "renewal", "wayguide", "coloring").contains(id)
@@ -342,6 +342,7 @@ public final class ThemeTooltips {
                             "phosphophyllite",
                             "azrael",
                             "a_thousand_years_later",
+                            "little_prince",
                             "star_voice")
                     .contains(id)) out.add(text("requires_diary_equip"));
             else if (id.equals("eki")) out.add(text("eki.requires_diary_effect"));

@@ -14,7 +14,7 @@
   "tooltip.the_long_travail.abyss.malice.title": "-- 歸墟之惡意 --",
   "tooltip.the_long_travail.abyss.malice.effect": "• 身處流體內時，每%2$s秒受到%1$s點真實傷害。\n\n• 挖掘速度降低%3$s。\n\n• 受到的窒息、擠壓、溺水、凍結傷害變為原來的%4$s倍。",
   "tooltip.the_long_travail.abyss.witness.title": "-- 歸墟之見證 --",
-  "tooltip.the_long_travail.abyss.witness.effect": "• 身處流體內時受到傷害將會有%1$s機率免傷。\n\n• 免疫窒息、擠壓、溺水、凍結傷害。",
+  "tooltip.the_long_travail.abyss.witness.effect": "• 身處流體內時受到傷害將會有%1$s機率免傷。\n\n• 免疫窒息、擠壓、溺水、凍結傷害。\n\n• 釣魚時有%2$s的機率獲得額外戰利品。",
   "tooltip.the_long_travail.rain.prose.condition": "處於%s時，佩戴者獲得特殊的力量%s",
   "tooltip.the_long_travail.rain.prose.weather.rain_or_thunder": "§a雨雪或雷暴天氣§r",
   "tooltip.the_long_travail.rain.prose.local": "需要當地生態域允許§a降雨或降雪§r。",

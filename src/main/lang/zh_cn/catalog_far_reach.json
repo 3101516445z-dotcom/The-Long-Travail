@@ -41,7 +41,7 @@
   "gui.the_long_travail.catalog.far.sun.0": "携带「逐日」时：",
   "gui.the_long_travail.catalog.far.sun.1": "免疫火焰、岩浆伤害，且不会被点燃",
   "gui.the_long_travail.catalog.far.sun.2": "身处岩浆中时，每秒恢复%s点生命值，并免受归墟之恶意的周期性流体伤害",
-  "gui.the_long_travail.catalog.far.sun.3": "反弹即将命中的弹射物，反弹后的弹射物归属于携带者",
+  "gui.the_long_travail.catalog.far.sun.3": "携带者每有1级有效抢夺，弹射物伤害额外提高%s%%",
   "gui.the_long_travail.catalog.far.sun.4": "弹射物伤害获得%s%%的伤害加成",
   "gui.the_long_travail.catalog.far.sun.5": "对燃烧目标造成的伤害获得%s%%的伤害加成",
   "gui.the_long_travail.catalog.far.sun.6": "造成伤害后，使目标在%s秒内无法通过正常治疗恢复生命值，也无法获得受伤无敌帧，再次造成伤害时刷新持续时间",

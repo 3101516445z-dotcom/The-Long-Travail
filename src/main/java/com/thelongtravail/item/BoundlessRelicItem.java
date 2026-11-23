@@ -1,14 +1,12 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
-import com.thelongtravail.api.CarryingApi;
+import com.thelongtravail.equipment.AccessoryEquipRules;
 import com.thelongtravail.boundless.*;
 import com.thelongtravail.equipment.DependentAccessories;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
-import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
@@ -18,7 +16,18 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import java.util.*;
 
-public final class BoundlessRelicItem extends Item implements ItemDescription, ICurioItem {
+public class BoundlessRelicItem extends Item implements ItemDescription, ICurioItem {
+    public static final class Prince extends BoundlessRelicItem implements UniversalAccessoryItem {
+        public Prince() {
+            super(true);
+        }
+
+        @Override
+        public boolean canEquip(SlotContext context, ItemStack stack) {
+            return AccessoryEquipRules.canEquipWithDiary(context, this);
+        }
+    }
+
     public final boolean prince;
 
     public BoundlessRelicItem(boolean prince) {
@@ -32,14 +41,8 @@ public final class BoundlessRelicItem extends Item implements ItemDescription, I
     }
 
     @Override
-    public void inventoryTick(ItemStack s, Level l, Entity e, int slot, boolean selected) {
-        if (prince && e instanceof ServerPlayer p) CarryingApi.inventoryTick(p, this, slot);
-    }
-
-    @Override
     public boolean canEquip(SlotContext c, ItemStack s) {
-        return !prince
-                && !c.cosmetic()
+        return !c.cosmetic()
                 && c.identifier().equals("bracelet")
                 && c.entity() instanceof Player p
                 && DependentAccessories.unique(c, this);

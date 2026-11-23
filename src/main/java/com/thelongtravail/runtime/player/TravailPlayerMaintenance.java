@@ -1,22 +1,20 @@
 package com.thelongtravail.runtime.player;
 
-import com.thelongtravail.runtime.attributes.FlightSpeedAdjustment;
-
-import com.thelongtravail.journey.LongTravailData;
-
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.config.ModeEffectRules;
 import com.thelongtravail.config.TravailConfig;
-
 import com.thelongtravail.equipment.TravailCurios;
+import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.runtime.attributes.FlightSpeedAdjustment;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.player.PlayerXpEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerXpEvent;
 
 public final class TravailPlayerMaintenance {
     public static void refreshJourneyEffects(ServerPlayer player, ItemStack diary) {
@@ -82,8 +80,8 @@ public final class TravailPlayerMaintenance {
     public static void updateExtraSlots(ServerPlayer player, ItemStack travail) {
         TravailCurios.syncExtraSlots(
                 player,
-                LongTravailData.hasWitness(travail, TravailAspect.BOUNDLESS)
-                        ? TravailConfig.BOUNDLESS_EXTRA_CURIO_SLOTS.get()
+                LongTravailData.hasWitness(travail, TravailAspect.UNDERWORLD)
+                        ? TravailConfig.UNDERWORLD_EXTRA_CURIO_SLOTS.get()
                         : 0);
     }
 

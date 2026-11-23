@@ -37,6 +37,13 @@ public final class AccessoryEquipRules {
         return hasEquipped(player, "travel_diary", ModRegistry.LONG_TRAVAIL.get());
     }
 
+    public static boolean canEquipWithDiary(SlotContext context, Item item) {
+        return !context.cosmetic()
+                && context.entity() instanceof Player player
+                && hasDiary(player)
+                && unique(context, item);
+    }
+
     public static boolean unique(SlotContext context, Item item) {
         return unique(context, item, false);
     }

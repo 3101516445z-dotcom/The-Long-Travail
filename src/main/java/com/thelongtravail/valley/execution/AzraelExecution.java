@@ -135,12 +135,9 @@ public final class AzraelExecution {
     // 每次调用前须先记录伤害归属；第三阶段处决不能依赖仅在 hurt 成功后写入的记录。
     private static void credit(LivingEntity player, LivingEntity target) {
         if (player == null || target == player) return;
-        if (!(player instanceof ServerPlayer)) target.setLastHurtByMob(player);
-        if (player instanceof ServerPlayer p) {
-            target.setLastHurtByPlayer(p);
-            ((com.thelongtravail.mixin.execution.AzraelLivingAccessor) target)
-                    .travail$recentPlayerHit(100);
-        }
+        if (player instanceof ServerPlayer p)
+            com.thelongtravail.combat.DirectDeath.creditPlayer(target, p);
+        else target.setLastHurtByMob(player);
     }
 
     private static float snapshotHealth(LivingEntity target) {

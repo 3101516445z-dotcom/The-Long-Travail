@@ -1,5 +1,7 @@
 package com.thelongtravail.config.storage;
 
+import com.thelongtravail.migration.config.ConfigUpgrade;
+
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
 
@@ -25,16 +27,7 @@ public final class ConfigValidation {
 
     static Result validate(CommentedConfig config, ForgeConfigSpec spec, CommentedConfig previous) {
         List<String> issues = new ArrayList<>();
-        ConfigPresetMigration.migrate(config, spec);
-        migrateEnvironmentPeak(
-                config, spec, "items.icarus.", "sunnyPeak", "sunnyExtraPeak", issues);
-        migrateEnvironmentPeak(
-                config,
-                spec,
-                "items.midnight_lafite.",
-                "shelteredNonClearPeak",
-                "shelteredNonClearExtraPeak",
-                issues);
+        ConfigUpgrade.beforeValidation(config, spec, issues);
         boolean rejected = values(config, spec.getSpec(), previous, List.of(), issues);
         Object raw = config.get("loot.tables");
         if (raw instanceof UnmodifiableConfig tables) {
@@ -63,34 +56,6 @@ public final class ConfigValidation {
                                 String.join(".", path) + ": 未识别的配置已移除 / Unknown setting removed");
                 });
         return new Result(List.copyOf(issues), rejected);
-    }
-
-    private static void migrateEnvironmentPeak(
-            CommentedConfig config,
-            ForgeConfigSpec spec,
-            String prefix,
-            String oldKey,
-            String newKey,
-            List<String> issues) {
-        if (spec.getSpec().getRaw(prefix + newKey) == null
-                || config.getRaw(prefix + newKey) != null
-                || config.getRaw(prefix + oldKey) == null) return;
-        try {
-            double peak = number(config.getRaw(prefix + oldKey)).doubleValue();
-            Object base = config.getRaw(prefix + "malicePeak");
-            double ordinary = base == null ? .5 : number(base).doubleValue();
-            double extra =
-                    BigDecimal.valueOf(peak).subtract(BigDecimal.valueOf(ordinary)).doubleValue();
-            config.set(prefix + newKey, Math.max(.01, Math.min(1000, extra)));
-            issues.add(
-                    prefix
-                            + oldKey
-                            + " -> "
-                            + newKey
-                            + ": 环境总峰值已迁移为额外增量，下限0.01 / Total peak migrated to additional bonus, minimum 0.01");
-        } catch (IllegalArgumentException ignored) {
-            // 旧值无效时不生成新值；后续补齐默认值并清理旧键，问题原文由恢复流程归档。
-        }
     }
 
     private static boolean values(

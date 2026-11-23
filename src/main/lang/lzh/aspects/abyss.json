@@ -14,7 +14,7 @@
   "tooltip.the_long_travail.abyss.malice.title": "-- 歸墟之惡意 --",
   "tooltip.the_long_travail.abyss.malice.effect": "• 在流體中，每%2$s秒受%1$s點真實之傷。\n\n• 掘速減%3$s。\n\n• 所受窒息、擠壓、溺水、凍結之傷，為其舊%4$s倍。",
   "tooltip.the_long_travail.abyss.witness.title": "-- 歸墟之見證 --",
-  "tooltip.the_long_travail.abyss.witness.effect": "• 在流體中受創，有%1$s之機可免。\n\n• 免窒息、擠壓、溺水、凍結之傷。",
+  "tooltip.the_long_travail.abyss.witness.effect": "• 在流體中受創，有%1$s之機可免。\n\n• 免窒息、擠壓、溺水、凍結之傷。\n\n• 釣時，有%2$s之率得額外戰利品。",
   "tooltip.the_long_travail.rain.prose.condition": "居%s時，佩者得異力%s",
   "tooltip.the_long_travail.rain.prose.weather.rain_or_thunder": "§a雨雪或雷暴之天§r",
   "tooltip.the_long_travail.rain.prose.local": "須當地之域允§a降雨或降雪§r。",

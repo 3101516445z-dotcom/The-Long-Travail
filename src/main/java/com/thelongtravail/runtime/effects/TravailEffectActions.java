@@ -1,29 +1,17 @@
 package com.thelongtravail.runtime.effects;
 
-import com.thelongtravail.runtime.attributes.FlourishingBonus;
-
-import com.thelongtravail.runtime.effects.AutomaticEffectBudget;
-import com.thelongtravail.runtime.effects.CleanseRotation;
-import com.thelongtravail.runtime.effects.EffectChanges;
-import com.thelongtravail.runtime.effects.IncomingEffectLevels;
-import com.thelongtravail.runtime.effects.StiffState;
-import com.thelongtravail.runtime.effects.VisualDeprivation;
-
-import com.thelongtravail.runtime.pools.RuntimePools;
-import com.thelongtravail.runtime.pools.EffectEntry;
-
-import com.thelongtravail.common.weighted.WeightedTable;
-
-import com.thelongtravail.journey.LongTravailData;
-import com.thelongtravail.journey.PlayerJourneyData;
-
-import com.thelongtravail.common.TickDurations;
-
 import com.thelongtravail.TravailAspect;
+import com.thelongtravail.common.TickDurations;
+import com.thelongtravail.common.weighted.WeightedTable;
 import com.thelongtravail.config.ModeEffectRules;
 import com.thelongtravail.config.TravailConfig;
-
 import com.thelongtravail.equipment.TravailCurios;
+import com.thelongtravail.journey.LongTravailData;
+import com.thelongtravail.journey.PlayerJourneyData;
+import com.thelongtravail.runtime.attributes.FlourishingBonus;
+import com.thelongtravail.runtime.pools.EffectEntry;
+import com.thelongtravail.runtime.pools.RuntimePools;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -130,14 +118,7 @@ public final class TravailEffectActions {
 
     public static void processFarReachWitness(ServerPlayer player) {
         int actions = TravailConfig.FAR_WITNESS_ACTION_COUNT.get();
-        int removed =
-                CleanseRotation.remove(
-                        player, actions, () -> AutomaticEffectBudget.acquire(player));
-        for (int i = removed; i < actions; i++)
-            grantRandomBeneficial(
-                    player,
-                    RuntimePools.current().far(),
-                    secondsToTicks(TravailConfig.FAR_WITNESS_POSITIVE_DURATION_SECONDS.get()));
+        CleanseRotation.remove(player, actions, () -> AutomaticEffectBudget.acquire(player));
     }
 
     public static boolean isFlyingAttack(ServerPlayer player, DamageSource source) {

@@ -1,11 +1,12 @@
 package com.thelongtravail.config.storage;
 
+import com.thelongtravail.migration.config.ConfigUpgrade;
+
 import com.thelongtravail.config.DeepValleyItemsConfig;
 import com.thelongtravail.config.TravailClientConfig;
 import com.thelongtravail.config.TravailConfig;
 import com.thelongtravail.config.defaults.BiomeCompatDefaults;
 import com.thelongtravail.config.defaults.EffectCompatDefaults;
-import com.thelongtravail.config.defaults.FishingEntityCompatDefaults;
 import com.thelongtravail.config.defaults.GoldenAgeCompatDefaults;
 import com.thelongtravail.config.defaults.PerfectFluidCompatDefaults;
 import com.thelongtravail.config.defaults.RewardCompatDefaults;
@@ -15,6 +16,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,7 +33,6 @@ public final class ConfigFiles {
         context.getModEventBus().addListener(BiomeCompatDefaults::loaded);
         context.getModEventBus().addListener(StructureCompatDefaults::loaded);
         context.getModEventBus().addListener(RewardCompatDefaults::loaded);
-        context.getModEventBus().addListener(FishingEntityCompatDefaults::loaded);
         context.getModEventBus().addListener(EffectCompatDefaults::loaded);
         context.getModEventBus().addListener(GoldenAgeCompatDefaults::loaded);
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
@@ -40,8 +41,6 @@ public final class ConfigFiles {
                 StructureCompatDefaults::starting);
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 RewardCompatDefaults::starting);
-        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
-                FishingEntityCompatDefaults::starting);
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
                 EffectCompatDefaults::starting);
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(
@@ -53,6 +52,7 @@ public final class ConfigFiles {
                         });
         Path configDirectory = FMLPaths.CONFIGDIR.get();
         try {
+            ConfigUpgrade.witnessRewards(configDirectory.resolve(DIRECTORY).resolve("aspects"));
             writeGuides(configDirectory.resolve(DIRECTORY));
             for (var entry : TravailConfig.SPECS.entrySet()) {
                 register(

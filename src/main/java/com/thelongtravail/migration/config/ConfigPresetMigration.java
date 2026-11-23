@@ -1,4 +1,4 @@
-package com.thelongtravail.config.storage;
+package com.thelongtravail.migration.config;
 
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.core.UnmodifiableConfig;

@@ -17,6 +17,7 @@ public boolean canEquip(SlotContext context, ItemStack stack) {
 }
 ```
 
+- `canEquipWithDiary(context, item)`：适用于依赖苦旅且可放入任意功能槽的玩家饰品，同时检查佩戴资格和唯一性。
 - `hasDiary(player)`：正常穿戴时检查旅行日记槽；恢复时检查待恢复数据中的旅行日记槽。
 - `hasEquipped(player, slot, item)`：指定功能槽中的前置物品检查。恢复期检查的是输入快照，不递归验证其他饰品的依赖；应使用本身可独立恢复的前置物品，避免循环依赖。
 - `unique(context, item)`：正常穿戴允许同槽位替换，并拒绝其他功能槽已有同种物品；恢复时只允许首个通过本物品校验的位置，同一位置重复校验不影响结果。必须在其他条件均通过后最后调用。
