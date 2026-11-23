@@ -85,14 +85,14 @@
     ]
   },
   "maidspell": {
-    "sha256": "0483b17900950ac781141f42de8ecab950cb10adeef409b629af65cc837bf29b",
+    "sha256": "d9cdec1b517045c0060d36b4bf0e270388a07a2f46187bca4d5518e3471faec4",
     "mods": [
       {
         "id": "touhou_little_maid_spell",
-        "version": "1.9.2.1-forge+mc1.20.1"
+        "version": "1.9.4.0-forge+mc1.20.1"
       }
     ],
-    "implementationVersion": "1.9.2.1-forge+mc1.20.1"
+    "implementationVersion": "1.9.4.0-forge+mc1.20.1"
   },
   "refinedstorage": {
     "sha256": "d8ae3926c2121336efcd6956c43d91f21ce405b77ac7c7201c559d4c19f380d2",

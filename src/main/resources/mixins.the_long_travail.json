@@ -20,6 +20,7 @@
     "equipment.IcarusLivingFlightMixin",
     "farreach.GoldenAgeItemMixin",
     "interaction.GoldenAgeInteractionMixin",
+    "interaction.ColoringBrushMixin",
     "farreach.GoldenAgePlayerDropMixin",
     "farreach.GoldenAgeMenuDropMixin",
     "loot.TravailLootTableMixin",

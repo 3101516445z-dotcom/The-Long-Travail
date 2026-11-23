@@ -1,87 +1,81 @@
 package com.thelongtravail.compat.maidspell;
 
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.yimeng261.maidspell.mixin.accessor.LivingEntityHealthAccessor;
+import com.github.yimeng261.maidspell.utils.MaidHealthWriteGuard;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.world.entity.LivingEntity;
+import com.thelongtravail.integration.MaidIntegration;
+import com.thelongtravail.runtime.effects.HealthLoss;
 import net.minecraftforge.fml.ModList;
 
 public final class MaidSpellHealth {
-    private static boolean inspected;
-    private static boolean guardedWrite;
-    private static EntityDataAccessor<Float> health;
+    private MaidSpellHealth() {}
 
-    @SuppressWarnings("unchecked")
-    private static void inspect() {
-        if (inspected) return;
-        inspected = true;
-        if (!ModList.get().isLoaded("touhou_little_maid_spell")) return;
-        try {
-            health = com.thelongtravail.compat.DirectCalls.call(Direct::health);
-            guardedWrite = true;
-        } catch (ReflectiveOperationException failure) {
-            org.slf4j.LoggerFactory.getLogger("the_long_travail.compat")
-                    .warn(
-                            "MaidSpell health-cap API unavailable; retaining normal health setter",
-                            failure);
-        }
+    private static boolean available() {
+        return ModList.get().isLoaded("touhou_little_maid_spell") && Guard.WRITE != null;
     }
 
     public static void clampAfterModifierRemoval(LivingEntity maid) {
         float maximum = maid.getMaxHealth();
         if (!Float.isFinite(maximum) || maximum <= 0 || maid.getHealth() <= maximum) return;
-        inspect();
-        if (guardedWrite) {
+        if (available()) Guard.lower(maid, maximum);
+        else maid.setHealth(maximum);
+    }
+
+    public static boolean applyNonlethalEffectLoss(LivingEntity maid, float nextHealth) {
+        if (!MaidIntegration.isMaid(maid) || !available()) return false;
+        if (!HealthLoss.blocks(maid, nextHealth)) Guard.lower(maid, nextHealth);
+        return true;
+    }
+
+    // 首次使用时解析受限写入接口，按方法签名启用联动。
+    private static final class Guard {
+        static final MethodHandle WRITE = resolve();
+
+        private static MethodHandle resolve() {
             try {
-                com.thelongtravail.compat.DirectCalls.call(
-                        () -> {
-                            Direct.write(() -> maid.getEntityData().set(health, maximum));
-                            return null;
-                        });
-                return;
-            } catch (ReflectiveOperationException failure) {
-                throw new IllegalStateException(
-                        "MaidSpell failed to reconcile removed health modifier", failure);
+                var lookup =
+                        MethodHandles.privateLookupIn(
+                                MaidHealthWriteGuard.class, MethodHandles.lookup());
+                var signature =
+                        MethodType.methodType(
+                                void.class,
+                                EntityMaid.class,
+                                EntityDataAccessor.class,
+                                float.class,
+                                boolean.class);
+                var write =
+                        lookup.findStatic(MaidHealthWriteGuard.class, "writeAuthorized", signature);
+                return MethodHandles.insertArguments(
+                        write, 1, LivingEntityHealthAccessor.maidspell$getHealthAccessor());
+            } catch (ReflectiveOperationException | LinkageError failure) {
+                org.slf4j.LoggerFactory.getLogger("the_long_travail.compat")
+                        .warn("MaidSpell guarded health write unavailable", failure);
+                return null;
             }
         }
-        maid.setHealth(maximum);
-    }
 
-    // 校验预计算的非致死效果损失，并在女仆现有生命写入作用域内应用。
-    public static boolean applyNonlethalEffectLoss(LivingEntity maid, float nextHealth) {
-        if (!com.thelongtravail.integration.MaidIntegration.isMaid(maid)) return false;
-        inspect();
-        if (!guardedWrite) return false;
-        if (maid.level().isClientSide
-                || !maid.isAlive()
-                || com.thelongtravail.runtime.effects.HealthLoss.blocks(maid, nextHealth)
-                || !Float.isFinite(nextHealth)
-                || nextHealth < 1
-                || nextHealth >= maid.getHealth()) return true;
-        try {
-            com.thelongtravail.compat.DirectCalls.call(
-                    () -> {
-                        Direct.write(() -> maid.getEntityData().set(health, nextHealth));
-                        return null;
-                    });
-            return true;
-        } catch (ReflectiveOperationException failure) {
-            throw new IllegalStateException(
-                    "MaidSpell failed to apply nonlethal effect loss", failure);
+        static void lower(LivingEntity entity, float target) {
+            float current = entity.getHealth();
+            if (!(entity instanceof EntityMaid maid)
+                    || entity.level().isClientSide
+                    || !entity.isAlive()
+                    || !Float.isFinite(current)
+                    || !Float.isFinite(entity.getMaxHealth())
+                    || !Float.isFinite(target)
+                    || target < 1
+                    || target >= current) return;
+            try {
+                WRITE.invokeExact(maid, target, false);
+            } catch (RuntimeException | Error failure) {
+                throw failure;
+            } catch (Throwable failure) {
+                throw new IllegalStateException("MaidSpell guarded health write failed", failure);
+            }
         }
     }
-
-    private static final class Direct {
-        private static final java.util.function.Consumer<Runnable> WRITE =
-                com.github.yimeng261.maidspell.utils.MaidHealthWriteGuard::runBypassing;
-
-        static EntityDataAccessor<Float> health() {
-            return com.github.yimeng261.maidspell.mixin.accessor.LivingEntityHealthAccessor
-                    .maidspell$getHealthAccessor();
-        }
-
-        static void write(Runnable action) {
-            WRITE.accept(action);
-        }
-    }
-
-    private MaidSpellHealth() {}
 }

@@ -6,6 +6,7 @@ import com.thelongtravail.registry.ModRegistry;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.animal.frog.Frog;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShearsItem;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,7 +18,8 @@ public final class MoonToadHarvest {
     public static void interact(PlayerInteractEvent.EntityInteract event) {
         if (!(event.getTarget() instanceof Frog frog)
                 || !frog.isAlive()
-                || !event.getItemStack().is(Tags.Items.SHEARS)
+                || !(event.getItemStack().is(Tags.Items.SHEARS)
+                        || event.getItemStack().getItem() instanceof ShearsItem)
                 || !ModRegistry.MOON_TOAD_PASTRY.isPresent()) return;
         event.setCanceled(true);
         event.setCancellationResult(InteractionResult.sidedSuccess(event.getLevel().isClientSide));

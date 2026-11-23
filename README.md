@@ -30,6 +30,7 @@
 | --- | --- | --- |
 | JEI | 15.20.0.132 | 花饰配方、完美流体示例及方块掉落来源展示；阅读札记或拾遗时隐藏覆盖层。 |
 | Jade | 11.13.3 | 将苦旅掉落物的长说明替换为拾取查看提示。 |
+| Touhou Little Maid: Spell / 万法皆通 | 按生命写入接口启用 | 支持女仆生命上限回落和非致死扣血，包括佩戴魂之书时。 |
 | Touhou Little Maid / 车万女仆 | 1.5.3（Forge 1.20.1） | 女仆原生饰品栏支持部分主题饰品，读取在线主人的苦旅状态。 |
 | Caelus | 3.2.0+1.20.1 | 让 Caelus 识别**伊卡洛斯**提供的飞行能力，并遵守禁飞限制。 |
 | Embeddium | 0.3.31+mc1.20.1 | 适配的**剑与灯**动态照明。 |
@@ -80,7 +81,7 @@
 
 ## 版本与升级
 
-当前版本为 **0.1.7**（待发布）。接口与数据迁移见[兼容迁移说明](CHANGELOG.md)。更新后生成或重置的旅程数据不支持降级到旧版模组。
+当前版本为 **0.1.7-fix**（待发布）。接口与数据迁移见[兼容迁移说明](CHANGELOG.md)。更新后生成或重置的旅程数据不支持降级到旧版模组。
 
 ## 开发文档
 
@@ -91,6 +92,8 @@
 准备 JDK 17 和 Node.js 18 或更新版本，在项目根目录通过仓库附带的 Gradle Wrapper 构建。Node.js 用于合并和校验全部五种语言文件，无需安装 npm 依赖。当前 Wrapper 固定为 Gradle 8.8，源码编译目标为 Java 17。
 
 Gradle 默认调用 PATH 中的 `node`；需要指定程序时，可在构建命令后追加 `-PnodeExecutable="Node.js 可执行文件的绝对路径"`。语言源文件位于 `src/main/lang/`，构建时由 `tools/` 下的脚本合并并校验。
+
+首次构建前，按[编译依赖说明](tools/dependencies/README.md)准备可选联动 API。
 
 Windows：
 
@@ -104,7 +107,7 @@ Linux / macOS：
 ./gradlew build jarJar
 ```
 
-首次构建需要联网，Gradle 会自动下载依赖；缓存齐全后可追加 `--offline`。当前构建包为 `build/libs/The_Long_Travail-0.1.7.jar`，带 `-slim` 后缀的包不包含内嵌依赖，不用于直接安装。
+首次构建需要联网，Gradle 会自动下载依赖；缓存齐全后可追加 `--offline`。当前构建包为 `build/libs/The_Long_Travail-0.1.7-fix.jar`，带 `-slim` 后缀的包不包含内嵌依赖，不用于直接安装。
 
 Caelus、Embeddium、Jade、JEI、女仆、Apotheosis、Placebo、Quark 和 Zeta 的可选 API 仅用于编译，不打包进成品。女仆 API 固定为 Forge 1.20.1 的 1.5.3 版本，由 Gradle 自动下载；需要本地替代时使用 `-PmaidApiJar=/absolute/path/to/touhoulittlemaid.jar`。MixinExtras 随正式包内嵌，Curios 需另行安装。具体版本及仓库地址见 `build.gradle` 和 `gradle/optional-compat.gradle`。
 

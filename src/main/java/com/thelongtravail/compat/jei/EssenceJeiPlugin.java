@@ -106,7 +106,7 @@ public final class EssenceJeiPlugin implements IModPlugin {
 
         @Override
         public IDrawable getIcon() {
-            return gui.createDrawableItemStack(Items.BUDDING_AMETHYST.getDefaultInstance());
+            return gui.createDrawableItemStack(Items.IRON_PICKAXE.getDefaultInstance());
         }
 
         @Override

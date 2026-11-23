@@ -10,7 +10,7 @@
   "jei.the_long_travail.wash": "Craft: wash away secondary flowers",
   "jei.the_long_travail.select": "Craft: choose the primary flower",
   "jei.the_long_travail.limits": "Up to three flowers, with no duplicate flower types",
-  "jei.the_long_travail.block_drop": "Block Breaking",
+  "jei.the_long_travail.block_drop": "Break Blocks",
   "jei.the_long_travail.block_drop.description": "Breaking Budding Amethyst as a player has a 0.5% chance to drop 1 essence; Silk Touch and Fortune do not affect the chance or amount.",
   "jei.the_long_travail.block_drop.prince_poppy": "Players have a %s%% chance to obtain one Little Prince when breaking a poppy. Does not trigger in Creative mode.",
   "jei.the_long_travail.block_drop.prince_rose": "Players have a %s%% chance to obtain one Little Prince when breaking a rose bush. Rolls once per plant. Does not trigger in Creative mode.",

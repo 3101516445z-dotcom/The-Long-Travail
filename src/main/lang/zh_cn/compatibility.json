@@ -10,7 +10,7 @@
   "jei.the_long_travail.wash": "工作台合成：洗去配花",
   "jei.the_long_travail.select": "工作台合成：选择主花",
   "jei.the_long_travail.limits": "最多容纳三朵花，且花朵种类不能重复",
-  "jei.the_long_travail.block_drop": "方块破坏",
+  "jei.the_long_travail.block_drop": "破坏方块",
   "jei.the_long_travail.block_drop.description": "玩家破坏紫水晶母岩时有0.5%的概率掉落1枚，精准采集与时运不影响概率或数量。",
   "jei.the_long_travail.block_drop.prince_poppy": "玩家破坏虞美人时，有%s%%的概率获得1个小王子，创造模式不触发。",
   "jei.the_long_travail.block_drop.prince_rose": "玩家破坏玫瑰丛时，有%s%%的概率获得1个小王子，每株只判定一次，创造模式不触发。",

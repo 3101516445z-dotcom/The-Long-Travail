@@ -24,7 +24,7 @@ public final class CatalogUtilityDetails {
     private static List<Component> paragraphs(String id, Component theme, Component item) {
         List<String> rows =
                 switch (id) {
-                    case "coloring" -> List.of("0", "1", "", "3", "4");
+                    case "coloring" -> List.of("0", "1", "2", "", "3", "4", "5", "6", "7");
                     case "renewal" -> List.of("0", "3", "", "heading", "4", "1", "revealed", "6");
                     case "homecoming" -> List.of("0", "2", "", "heading", "1", "4", "5", "7");
                     case "wayguide" -> List.of("0", "1", "2", "structures", "", "4", "5", "6", "8");
