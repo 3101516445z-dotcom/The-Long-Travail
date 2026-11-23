@@ -57,6 +57,8 @@ desktop.ini
 # 文档按受众区分；对外文档可被 Git 跟踪，本地规则不发布
 /docs/*
 !/docs/README.md
+!/docs/build.md
+!/docs/配置与指令.md
 !/docs/开发者查阅/
 !/docs/开发者查阅/**
 !/docs/玩家查阅/

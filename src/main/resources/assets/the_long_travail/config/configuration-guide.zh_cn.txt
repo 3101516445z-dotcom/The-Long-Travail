@@ -18,7 +18,6 @@
 六个主题文件位于 aspects/：
 繁茂 flourishing.toml；归墟 abyss.toml；穷遐 far_reach.toml；
 幽谷 deep_valley.toml；冥府 underworld.toml；无垠 boundless.toml。
-各文件只列出已有的可调参数。古今语怪目前没有独立数值设置，可在物品注册文件中开关。
 
 一般只需修改等号右边的值，保留配置名称。默认值是首次生成时的设置，不会自动覆盖你已修改的有效数值。
 普通参数保存后会自动重新加载；物品注册需重启，战利品需 /reload 或重启。
@@ -348,7 +347,7 @@ aspects/abyss.toml 的 items.perfect_fluid.itemBlacklist 保存禁止复制的�
 ~~~~~~~~~~~~~~~~~~~~~~~~
 effectLimits.maxAutomaticEffectActionsPerPlayerPerSecond
 每名玩家任意连续20游戏刻内，穷遐之见证与幽谷之见证共用的自动效果尝试次数上限。
-包括穷遐的净化和增益，以及幽谷攻击触发的增益；失败或被取消的尝试也计数。
+包括穷遐之见证清除减益，以及幽谷之见证在攻击后施加增益。失败或被取消的尝试也计数。
 超出上限的尝试直接跳过，不补发。0表示不限次数。
 不影响受击恶意、视觉剥夺，以及幽谷的黑暗和失明免疫。
 

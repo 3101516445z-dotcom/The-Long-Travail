@@ -2,7 +2,7 @@
 
 这里是全部语言翻译的唯一维护源。不要编辑 build 下的生成文件，也不要在 src/main/resources/assets/the_long_travail/lang 中新增同名文件。
 
-现有 5 种语言：`zh_cn`（简体中文）、`zh_tw`（台湾繁体）、`zh_hk`（香港繁体）、`lzh`（文言）、`en_us`（英文）。每种语言各有 17 个分组；groups.json 决定合并顺序。**`zh_cn` 是键名与顺序的基准**，其余 4 种语言必须与它保持相同的键名与键顺序。增加已有功能的文本时，同时修改 5 种语言的对应文件；新增分组时，先添加到 groups.json，再为每种语言建立文件。
+现有 5 种语言：`zh_cn`（简体中文）、`zh_tw`（台湾繁体）、`zh_hk`（香港繁体）、`lzh`（文言）、`en_us`（英文）。分组及合并顺序见 [groups.json](groups.json)。**`zh_cn` 是键名与顺序的基准**，其余 4 种语言必须与它保持相同的键名与键顺序。增加已有功能的文本时，同时修改 5 种语言的对应文件；新增分组时，先添加到 groups.json，再为每种语言建立文件。
 
 
 | 分组 | 内容 |
@@ -26,7 +26,7 @@
 
 需要 Node.js 18 或更新版本（无需 npm 安装依赖）。Gradle 默认调用 PATH 中的 node；可用 -PnodeExecutable=绝对路径 指定程序。
 
-- `node tools/verify-language-files.cjs`：检查源分组、重复键、全部语言的键及顺序、占位参数，以及新增三种语言的颜色代码。
+- `node tools/verify-language-files.cjs`：检查源分组、重复键、全部语言的键及顺序、占位参数，以及台湾繁体、香港繁体和文言的颜色代码。
 - `node tools/verify-locale.cjs zh_tw [group ...]`：检查指定语言的分组，省略分组时检查全部；语言名可替换为其余已支持的语言。
 - `node tools/test-language-generation.cjs`：运行错误输入与确定性生成测试。
 - `./gradlew.bat generateLanguageFiles --offline`：生成标准语言文件。

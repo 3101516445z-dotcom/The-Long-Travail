@@ -9,7 +9,7 @@
 | 新增有前置条件的饰品 | [饰品佩戴与恢复](accessory-equipment.md) |
 | 读取注册项、处理网络与配置重载 | [运行时接入](runtime-integration.md) |
 
-内置模组联动及适用版本见[可选联动](../../README.md#可选联动)。
+内置联动见本页的[可选联动](#可选联动)。
 
 ## 依赖与加载隔离
 
@@ -22,3 +22,31 @@
 携带检测器在初始化时单线程注册唯一来源 ID，读取当前真实库存，不保留玩家或物品栈引用。重复注册、运行时来源故障和未知携带结果的处理见[携带 API](carrying-api.md#外部库存检测器)。
 
 延迟旅程写入保存发起时的主题身份，并在执行时交由 `TravailJourneyApi` 校验。饰品卸装和前置失效时只撤销调用方自身的属性与状态，使用[饰品恢复入口](accessory-equipment.md#前置失效与卸装)协调返还。
+
+
+## 可选联动
+
+| 模组 | 联动范围 |
+| --- | --- |
+| JEI | 配方与方块掉落查询，拾遗和札记界面适配。 |
+| Jade | 掉落物提示。 |
+| Touhou Little Maid: Spell / 万法皆通 | 女仆生命值调整。 |
+| Touhou Little Maid / 车万女仆 | 女仆原生饰品栏与主人旅程状态。 |
+| Caelus | 飞行能力与禁飞规则。 |
+| Embeddium | 动态照明。 |
+| Sounds | 状态效果提示音。 |
+| Iron’s Spells ’n Spellbooks / 铁魔法 | 召唤物及其弹射物的友方识别。 |
+| FTB Teams | 队伍与盟友识别。 |
+| Gravestone | 死亡物品与墓碑存储。 |
+| Modern UI | 字体渲染。 |
+| Enigmatic Legacy | 重生锚交互。 |
+| Apothic Attributes | 战斗属性显示。 |
+| Apotheosis | 品质名称与光晕。 |
+| Quark | 符文支持。 |
+| Applied Energistics 2 | 存储元件复制。 |
+| Refined Storage 及已支持附属 | 存储盘复制。 |
+| Forge Config Screens | 配置界面。 |
+| RS Integration / RSI | 共振存储盘的携带判定。 |
+| Ars Nouveau | 药水持续时间属性。 |
+| Sophisticated Backpacks | 背包与升级存储。 |
+| MmmMmmMmmMmm | 假人受击记录。 |

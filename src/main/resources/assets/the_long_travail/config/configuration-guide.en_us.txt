@@ -18,7 +18,6 @@ Find the setting you need
 Theme files are under aspects/:
 Flourishing: flourishing.toml; Abyss: abyss.toml; Far Reach: far_reach.toml;
 Deep Valley: deep_valley.toml; Underworld: underworld.toml; Boundless: boundless.toml.
-Only existing adjustable parameters are listed. Ancient Strange Tales currently has no separate numeric settings; its registration can be toggled in item-registration.toml.
 
 Normally edit only the value after = and keep the setting name. Defaults apply when settings are first generated; valid customized values are retained.
 Ordinary settings reload after saving. Item registration requires a restart; loot requires /reload or a restart.
@@ -343,7 +342,7 @@ Automatic effect attempt limits
 ~~~~~~~~~~~~~~~~~~~~~~~~
 effectLimits.maxAutomaticEffectActionsPerPlayerPerSecond
 Maximum automatic effect attempts shared by Far Reach Witness and Deep Valley Witness per player within any consecutive 20 game ticks.
-Includes Far Reach cleansing and buffs, and buffs triggered by Deep Valley attacks. Failed or canceled attempts also count.
+Counts attempts by Far Reach Witness to remove harmful effects and by Deep Valley Witness to grant beneficial effects after an attack. Failed or canceled attempts also count.
 Attempts exceeding the limit are skipped and are not retried later. 0 means unlimited attempts.
 Does not affect on-hit Malice, Visual Deprivation, or Deep Valley's Darkness and Blindness immunity.
 
