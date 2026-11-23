@@ -4,6 +4,8 @@
 
 物品注册由 [ItemRegistrationConfig](../../src/main/java/com/thelongtravail/config/ItemRegistrationConfig.java) 在启动时确定。配置关闭的物品没有注册实例；读取对应 `RegistryObject` 前先检查 `isPresent()`。配方可使用 Forge 条件检查物品是否存在。
 
+覆盖籠釣瓶旧配方的数据包，请参照[当前配方](../../src/main/resources/data/the_long_travail/recipes/kagotsurube.json)，使用 `minecraft:crafting_shaped` 和 `the_long_travail:cursed_book` 材料。
+
 [TravailNetwork](../../src/main/java/com/thelongtravail/network/TravailNetwork.java) 的协议标识为 `27-items-` 加物品注册签名，两端精确匹配。变更注册配置后须重启客户端和服务端。关闭注册会影响旧存档中对应的物品数据。
 
 执行消耗、奖励、旅程写入及伤害时使用逻辑服务端游戏线程；客户端读取同步状态显示。网络处理器排队进入游戏线程后，再校验发送者、当前菜单及操作身份。
@@ -18,7 +20,7 @@
 
 ## 联动预设写入
 
-主题文件中的 `presets` 与 `travail`、`items` 同级，集中保存联动预设处理记录。跨文件迁移保留目标文件中已有的设置，包括空列表和显式关闭的设置。主题配置的位置变化见[兼容迁移说明](../../CHANGELOG.md)。
+主题文件中的 `presets` 与 `travail`、`items` 同级，集中保存联动预设处理记录。跨文件迁移保留目标文件中已有的设置，包括空列表和显式关闭的设置。仍读写旧路径的脚本，请按下表更新配置键。
 
 | 旧记录前缀 | 当前记录前缀 |
 | --- | --- |

@@ -30,7 +30,7 @@
 | --- | --- |
 | JEI | 配方与方块掉落查询，拾遗和札记界面适配。 |
 | Jade | 掉落物提示。 |
-| Touhou Little Maid: Spell / 万法皆通 | 女仆生命值调整。 |
+| Touhou Little Maid: Spell / 万法皆通 | 女仆生命值调整。整合包若装有 `maidspell-legacy-health-compat`，在苦旅与旅者纹章均已适配新版生命接口后即可移除该补丁。 |
 | Touhou Little Maid / 车万女仆 | 女仆原生饰品栏与主人旅程状态。 |
 | Caelus | 飞行能力与禁飞规则。 |
 | Embeddium | 动态照明。 |

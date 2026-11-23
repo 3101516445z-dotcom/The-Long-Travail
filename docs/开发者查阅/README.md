@@ -22,4 +22,4 @@
 - [运行时接入](runtime-integration.md)：注册、网络、配置、共享工具与生命周期。
 - [可选依赖接入](optional-compat.md)：依赖声明、加载隔离和状态更新。
 
-[源码构建](../build.md) · [兼容迁移说明](../../CHANGELOG.md) · [文档入口](../README.md)
+[源码构建](../build.md) · [文档入口](../README.md)
