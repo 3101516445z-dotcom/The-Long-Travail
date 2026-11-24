@@ -8,4 +8,4 @@
 
 Minecraft **1.20.1** · Forge **47.4.10 或更高的 47.x 版本** · Java **17** · Curios **5.14.1 或更高的兼容版本**
 
-[配置与指令](docs/配置与指令.md) · [文档目录](docs/README.md) · [MIT 许可证](LICENSE)
+[源码构建](docs/build.md) · [源码索引](docs/source-index.md) · [MIT 许可证](LICENSE)

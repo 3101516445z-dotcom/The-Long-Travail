@@ -7,7 +7,7 @@ node tools/damage-contracts/check.mjs
 node --test tools/damage-contracts/check.test.mjs
 ```
 
-`catalog.json` 记录效果阶段、金额、归属、保护、源码与可能后继；`entryOwners` 分类显式伤害、生命写入及死亡入口文件。一个文件可能承担多个效果，详细关系见 effects 与[伤害链文档](../../docs/开发者查阅/伤害结算与追加效果.md)。
+`catalog.json` 记录效果阶段、金额、归属、保护、源码与可能后继；`entryOwners` 分类显式伤害、生命写入及死亡入口文件。一个文件可能承担多个效果，详细关系见 effects 与[源码索引](../../docs/source-index.md)。
 
 检查器验证目录引用与入口分类，并比较 `baseline.json`：覆盖全部生产 Java、伤害类型/标签和 Mixin 注册文件，统一 CRLF/LF 后计算 SHA-256。任一文件新增、删除或变化均要求复查，所以修改非战斗 Java 也会报告。这样可以发现通过辅助类或回调引入、没有新增字面 hurt 调用的变化。候选扫描按文本定位入口，源码指纹负责报告文件变化。
 
@@ -22,4 +22,4 @@ node --test tools/damage-contracts/check.test.mjs
 
 更新基线前完成源码复查。目录中的 successors 表示带条件的效果资格关系；递归判定同时核对同步作用域与跨刻续接规则，重点包括 `SUN_CHAIN`、`InsightRetaliation.CHAIN`、Replay Frame、特殊来源早退顺序及各队列清理。
 
-运行时可使用[伤害诊断入口](../../docs/开发者查阅/伤害结算与追加效果.md#诊断入口)查看调用链。
+运行时添加 JVM 参数 `-Dthelongtravail.damageTrace=true`，通过 `TLT_DAMAGE` 日志查看调用链。
