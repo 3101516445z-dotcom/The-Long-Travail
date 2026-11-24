@@ -21,7 +21,6 @@
   "state.the_long_travail.witness": "見證",
   "text.the_long_travail.traveler": "旅人",
   "itemGroup.the_long_travail": "苦旅",
-  "tooltip.the_long_travail.slot": "欄位：%1$s",
   "message.the_long_travail.cooldown.remaining": "（冷卻剩餘：%s）",
   "message.the_long_travail.cooldown.seconds": "%s秒",
   "advancement.the_long_travail.root.title": "苦旅",
@@ -44,11 +43,11 @@
   "tooltip.the_long_travail.summary.disabled": "§c停用§r",
   "message.the_long_travail.config_recovery": "苦旅偵測到設定問題，已使用可用設定或停用對應獎勵。請查看日誌；如發生自動修正，原檔案保存在 config/the_long_travail/invalid。",
   "tooltip.the_long_travail.summary.carrying_non_stacking": "攜帶多件時，效果不疊加",
-  "tooltip.the_long_travail.summary.requires_diary_state": "§4目前未佩戴苦旅，依賴苦旅狀態的效果尚不能生效。§r",
   "effect.the_long_travail.mara_transformation": "波旬變生",
   "effect.the_long_travail.among_all_things": "我於萬物之中",
   "effect.the_long_travail.revival": "還魂",
   "tooltip.the_long_travail.theme_food.effect": "- %s%s，持續%s秒；",
   "tooltip.the_long_travail.theme_food.effect.last": "- %s%s，持續%s秒。",
-  "tooltip.the_long_travail.theme_food.always_edible": "飽食度已滿時仍可食用。"
+  "tooltip.the_long_travail.theme_food.always_edible": "飽食度已滿時仍可食用。",
+  "tooltip.the_long_travail.summary.requires_diary_use": "未佩戴「苦旅」，無法使用"
 }

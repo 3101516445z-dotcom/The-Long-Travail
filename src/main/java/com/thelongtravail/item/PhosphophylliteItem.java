@@ -1,19 +1,18 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
-import com.thelongtravail.equipment.AccessoryEquipRules;
+import com.thelongtravail.api.CarryingApi;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 
-import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.List;
 
-public final class PhosphophylliteItem extends Item
-        implements UniversalAccessoryItem, ItemDescription {
+public final class PhosphophylliteItem extends Item implements ItemDescription {
     public PhosphophylliteItem() {
         super(new Properties().stacksTo(1).rarity(Rarity.RARE));
     }
@@ -24,24 +23,9 @@ public final class PhosphophylliteItem extends Item
     }
 
     @Override
-    public boolean canEquip(SlotContext c, ItemStack stack) {
-        return AccessoryEquipRules.canEquipWithDiary(c, this);
-    }
-
-    @Override
-    public boolean canEquipFromUse(SlotContext c, ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    public boolean canRightClickEquip(ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    public void onUnequip(SlotContext c, ItemStack next, ItemStack old) {
-        if (!c.entity().level().isClientSide)
-            com.thelongtravail.valley.Phosphophyllite.tick(c.entity());
+    public void inventoryTick(
+            ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
+        if (entity instanceof ServerPlayer player) CarryingApi.inventoryTick(player, this, slot);
     }
 
     @Override

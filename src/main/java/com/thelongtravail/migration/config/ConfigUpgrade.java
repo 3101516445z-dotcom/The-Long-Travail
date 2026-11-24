@@ -86,6 +86,9 @@ public final class ConfigUpgrade {
             CommentedConfig config, ForgeConfigSpec spec, List<String> issues) {
         if (spec.getSpec().getRaw("travail.witness.cleanseOrGrantCount") != null)
             removeKey(config, "travail.witness.grantedEffectDurationSeconds");
+        for (String group : List.of("items.spring_corner", "items.affection", "items.tokaido")) {
+            if (spec.getSpec().contains(group)) removeKey(config, group + ".slots");
+        }
         ConfigPresetMigration.migrate(config, spec);
         migrateEnvironmentPeak(
                 config, spec, "items.icarus.", "sunnyPeak", "sunnyExtraPeak", issues);

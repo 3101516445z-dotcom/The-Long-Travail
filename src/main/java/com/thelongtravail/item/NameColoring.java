@@ -22,6 +22,10 @@ public final class NameColoring {
         "underworld", "boundless", "prose", "flavor", "clear"
     };
 
+    static Style travailStyle(Style style) {
+        return style.withColor(0xC5AA77).withInsertion("the_long_travail:name");
+    }
+
     public static int selection(ItemStack stack) {
         var tag = stack.getTag();
         if (tag == null || !tag.contains(KEY, Tag.TAG_STRING)) return -1;
@@ -87,7 +91,7 @@ public final class NameColoring {
             if (ours) style = style.withInsertion(null).withColor(fallback);
             if (forceClear != null) style = style.withColor(forceClear);
         } else if (choice == 0) {
-            style = style.withColor(0xC5AA77).withInsertion("the_long_travail:name");
+            style = travailStyle(style);
         } else if (choice <= 6) {
             style =
                     AspectTheme.values()[choice - 1]

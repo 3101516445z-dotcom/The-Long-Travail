@@ -25,9 +25,7 @@ public final class KagotsurubeItem extends Item implements ICurioItem, ItemDescr
 
     @Override
     public boolean canEquip(SlotContext c, ItemStack s) {
-        return !c.cosmetic()
-                && c.identifier().equals("belt")
-                && AccessoryEquipRules.unique(c, this);
+        return AccessoryEquipRules.canEquipUnique(c, this, "belt");
     }
 
     @Override

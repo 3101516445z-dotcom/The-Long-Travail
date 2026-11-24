@@ -1,5 +1,9 @@
 package com.thelongtravail.underworld;
 
+import com.thelongtravail.equipment.CurioLookup;
+
+import com.thelongtravail.equipment.AccessoryEquipRules;
+
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.config.UnderworldItemsConfig;
 import com.thelongtravail.journey.LongTravailData;
@@ -13,7 +17,6 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-import top.theillusivec4.curios.api.CuriosApi;
 
 public final class UnderworldItems {
     public static ItemStack equipped(Player p, boolean ring) {
@@ -25,20 +28,13 @@ public final class UnderworldItems {
                     ? com.thelongtravail.api.CarryingApi.findStack(
                             sp, ModRegistry.BOOK_OF_DEAD.get(), stack -> !consumed(p, stack))
                     : ItemStack.EMPTY;
-        return CuriosApi.getCuriosInventory(p)
-                .map(
-                        inv ->
-                                inv.findCurios(ModRegistry.THOUSAND_YEARS.get()).stream()
-                                        .filter(
-                                                r ->
-                                                        !r.slotContext().cosmetic()
-                                                                && r.slotContext()
-                                                                        .identifier()
-                                                                        .equals("ring")
-                                                                && !consumed(p, r.stack()))
-                                        .map(r -> r.stack())
-                                        .findFirst()
-                                        .orElse(ItemStack.EMPTY))
+        return CurioLookup.findFunctional(
+                        p,
+                        ModRegistry.THOUSAND_YEARS.get(),
+                        r ->
+                                AccessoryEquipRules.matchesSlot(r.slotContext(), "ring")
+                                        && !consumed(p, r.stack()))
+                .map(r -> r.stack())
                 .orElse(ItemStack.EMPTY);
     }
 

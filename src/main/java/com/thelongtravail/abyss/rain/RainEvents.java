@@ -127,15 +127,7 @@ public final class RainEvents {
                 && last.fire() == fire) return;
         RainPacket packet =
                 new RainPacket(
-                        p.getId(),
-                        weather,
-                        dry,
-                        snow,
-                        speed,
-                        fire,
-                        config.eki(),
-                        config.tokaido(),
-                        config.slots());
+                        p.getId(), weather, dry, snow, speed, fire, config.eki(), config.tokaido());
         s.last = packet;
         s.configRevision = config.revision();
         TravailNetwork.sendRain(p, packet);

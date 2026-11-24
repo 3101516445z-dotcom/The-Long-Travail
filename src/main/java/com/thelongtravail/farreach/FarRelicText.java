@@ -17,7 +17,7 @@ public final class FarRelicText {
                 .toPlainString();
     }
 
-    private static void line(List<Component> out, String key, Object... args) {
+    public static void line(List<Component> out, String key, Object... args) {
         out.add(
                 TooltipStyle.coloredLine(
                         Component.translatable("tooltip.the_long_travail." + key, args)

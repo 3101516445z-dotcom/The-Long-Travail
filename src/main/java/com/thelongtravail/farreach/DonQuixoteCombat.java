@@ -1,5 +1,7 @@
 package com.thelongtravail.farreach;
 
+import com.thelongtravail.TravailAspect;
+
 import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.config.FarReachRelicsConfig;
 import com.thelongtravail.equipment.CurioLookup;
@@ -51,9 +53,7 @@ public final class DonQuixoteCombat {
 
     public static int phase(LivingEntity e) {
         return e instanceof ServerPlayer p
-                ? (TravailStateApi.hasFarReachWitness(p)
-                        ? 2
-                        : TravailStateApi.hasFarReachMalice(p) ? 1 : 0)
+                ? TravailStateApi.state(p, TravailAspect.FAR_REACH).phase()
                 : MaidIntegration.quixotePhase(e);
     }
 
@@ -101,9 +101,10 @@ public final class DonQuixoteCombat {
             }
         }
         double hp = target.getHealth(), ph = p.getHealth(), max = target.getMaxHealth();
-        boolean witness = phase(p) == 2;
+        int stage = phase(p);
+        boolean witness = stage == 2;
         boolean strike =
-                (phase(p) == 1)
+                stage == 1
                         && Double.isFinite(hp)
                         && Double.isFinite(ph)
                         && ph > 0

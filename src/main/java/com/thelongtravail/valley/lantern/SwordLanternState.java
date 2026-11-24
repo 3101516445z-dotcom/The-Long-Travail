@@ -10,7 +10,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.damagesource.DamageSource;
-import top.theillusivec4.curios.api.CuriosApi;
 import java.util.*;
 
 public final class SwordLanternState {
@@ -24,17 +23,8 @@ public final class SwordLanternState {
     }
 
     public static boolean equipped(Player p) {
-        if (!p.isAlive() || p.isSpectator()) return false;
-        var inventory = CuriosApi.getCuriosInventory(p).resolve();
-        if (inventory.isEmpty()) return false;
-        var belt = inventory.get().getStacksHandler("belt");
-        if (belt.isEmpty()) return false;
-
-        var stacks = belt.get().getStacks();
-        for (int i = 0; i < stacks.getSlots(); i++)
-            if (RegisteredItems.is(stacks.getStackInSlot(i), ModRegistry.SWORD_AND_LANTERN))
-                return true;
-        return false;
+        return LanternSources.hasEquippedLantern(
+                p, stack -> RegisteredItems.is(stack, ModRegistry.SWORD_AND_LANTERN));
     }
 
     public static boolean teammates(ServerPlayer p, Player other) {
@@ -54,7 +44,7 @@ public final class SwordLanternState {
         return master != null && teammates(p, master);
     }
 
-    private static boolean nearby(ServerPlayer p, LivingEntity e) {
+    public static boolean nearby(LivingEntity p, LivingEntity e) {
         return e != p
                 && e.isAlive()
                 && !e.isRemoved()

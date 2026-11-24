@@ -5,7 +5,6 @@ import com.thelongtravail.equipment.AccessoryEquipRules;
 import com.thelongtravail.underworld.UnderworldRelics;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 
@@ -29,11 +28,10 @@ public final class UnderworldRelicItem extends Item implements ICurioItem {
 
     @Override
     public boolean canEquip(SlotContext c, ItemStack s) {
-        return !c.cosmetic()
-                && c.identifier().equals(banner ? "charm" : "bracelet")
-                && c.entity() instanceof Player p
-                && (banner || AccessoryEquipRules.hasDiary(p))
-                && AccessoryEquipRules.unique(c, this);
+        return banner
+                ? AccessoryEquipRules.canEquipUnique(c, this, "charm")
+                : AccessoryEquipRules.matchesSlot(c, "bracelet")
+                        && AccessoryEquipRules.canEquipWithDiary(c, this);
     }
 
     @Override

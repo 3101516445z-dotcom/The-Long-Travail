@@ -5,7 +5,6 @@
   "gui.the_long_travail.catalog.abyss.period": "。",
   "gui.the_long_travail.catalog.abyss.local": "仅在允许降雨或降雪的群系中生效。",
   "gui.the_long_travail.catalog.abyss.sky": "仅在头顶无遮挡时生效。",
-  "gui.the_long_travail.catalog.abyss.carrying": "携带多件时，效果不叠加。",
   "gui.the_long_travail.catalog.abyss.eki.intro": "携带「駅」并佩戴苦旅后，在主世界的雨雪或雷暴天气中生效。",
   "gui.the_long_travail.catalog.abyss.eki.malice": "佩戴苦旅且归墟尚有恶意时：",
   "gui.the_long_travail.catalog.abyss.eki.damage": "获得%s%%的伤害加成",

@@ -1,9 +1,10 @@
 package com.thelongtravail.item;
 
-import com.thelongtravail.text.TooltipStyle;
+import static com.thelongtravail.farreach.FarRelicText.line;
+
 import com.thelongtravail.AspectTheme;
 import com.thelongtravail.config.FarReachItemsConfig;
-import com.thelongtravail.equipment.DependentAccessories;
+import com.thelongtravail.equipment.AccessoryEquipRules;
 import com.thelongtravail.network.TooltipConfigSync;
 
 import net.minecraft.network.chat.Component;
@@ -42,10 +43,7 @@ public final class FarReachAccessoryItem extends Item implements ICurioItem {
 
     @Override
     public boolean canEquip(SlotContext c, ItemStack s) {
-        return !gold
-                && !c.cosmetic()
-                && c.identifier().equals("back")
-                && DependentAccessories.unique(c, this);
+        return !gold && AccessoryEquipRules.canEquipUnique(c, this, "back");
     }
 
     @Override
@@ -82,18 +80,6 @@ public final class FarReachAccessoryItem extends Item implements ICurioItem {
                                 * scale)
                 .stripTrailingZeros()
                 .toPlainString();
-    }
-
-    private static void line(List<Component> out, String key, Object... args) {
-        out.add(
-                TooltipStyle.coloredLine(
-                        Component.translatable("tooltip.the_long_travail." + key, args)
-                                .withStyle(
-                                        s ->
-                                                s.withColor(
-                                                        key.endsWith("heading")
-                                                                ? TooltipStyle.TITLE_COLOR
-                                                                : TooltipStyle.BODY_COLOR))));
     }
 
     @Override

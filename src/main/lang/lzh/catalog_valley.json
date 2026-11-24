@@ -21,10 +21,10 @@
   "gui.the_long_travail.catalog.valley.lantern.6": "持續戰鬥逾%s分鐘，獲%s%%傷害加成",
   "gui.the_long_travail.catalog.valley.lantern.7": "當前生命值不足最大生命值之%s%%，獲%s%%傷害加成",
   "gui.the_long_travail.catalog.valley.lantern.8": "周圍敵人與孤身一人之判定，半徑為%s格。",
-  "gui.the_long_travail.catalog.valley.phos.malice": "佩者可接受屬性增%s%%，所受傷害增%s%%。",
-  "gui.the_long_travail.catalog.valley.phos.stats": "佩者可接受屬性增%s%%，所受傷害增%s%%",
-  "gui.the_long_travail.catalog.valley.phos.heal": "佩者受擊，有%s%%之機回復自身最大生命值%s%%之生命值，溢出治療轉為傷害吸收",
-  "gui.the_long_travail.catalog.valley.phos.end": "卸「磷葉石」，既得之傷害吸收不除。",
+  "gui.the_long_travail.catalog.valley.phos.malice": "可接受屬性增%s%%，所受傷害增%s%%。",
+  "gui.the_long_travail.catalog.valley.phos.stats": "可接受屬性增%s%%，所受傷害增%s%%",
+  "gui.the_long_travail.catalog.valley.phos.heal": "受擊，有%s%%之機回復自身最大生命值%s%%之生命值，溢出治療轉為傷害吸收",
+  "gui.the_long_travail.catalog.valley.phos.end": "「磷葉石」效止，既得之傷害吸收猶存。",
   "gui.the_long_travail.catalog.valley.velvet.0": "右鍵用「地下絲絨」，耗1個而隨機得下列一種獎勵：",
   "gui.the_long_travail.catalog.valley.velvet.ore": "%s%%之機得8個同種礦石",
   "gui.the_long_travail.catalog.valley.velvet.ingot": "%s%%之機得8個同種錠",
@@ -54,9 +54,10 @@
   "gui.the_long_travail.catalog.glossary.lantern_undead.title": "對陣亡靈",
   "gui.the_long_travail.catalog.glossary.lantern_undead.aliases": "對陣亡靈",
   "gui.the_long_travail.catalog.glossary.lantern_undead.body": "周圍敵人有亡靈生物，即合其條件。",
-  "gui.the_long_travail.catalog.valley.phos.heal.health_loss": "佩者因傷損失生命值，有%s%%之機回復自身最大生命值%s%%之生命值，溢出治療轉為傷害吸收",
+  "gui.the_long_travail.catalog.valley.phos.heal.health_loss": "因傷損失生命值，有%s%%之機回復自身最大生命值%s%%之生命值，溢出治療轉為傷害吸收",
   "gui.the_long_travail.catalog.valley.tremor.harvest": "採掘能力同下界合金鎬",
   "gui.the_long_travail.catalog.valley.tremor.speed": "掘速為下界合金鎬之2倍",
   "gui.the_long_travail.catalog.valley.tremor.durability": "用之不損耐久",
-  "gui.the_long_travail.catalog.valley.tremor.collection": "常法採掘與特殊破壞所得之物，皆自入行囊"
+  "gui.the_long_travail.catalog.valley.tremor.collection": "常法採掘與特殊破壞所得之物，皆自入行囊",
+  "gui.the_long_travail.catalog.valley.phos.intro": "攜「磷葉石」並佩苦旅，乃生其效。"
 }

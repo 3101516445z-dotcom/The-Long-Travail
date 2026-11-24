@@ -27,7 +27,7 @@ public final class CatalogBoundlessDetails {
     }
 
     private static void heading(List<Component> out, String key) {
-        out.add(line(key).copy().withStyle(s -> s.withColor(CatalogTextStyle.CONDITION)));
+        out.add(CatalogTextStyle.heading(line(key)));
     }
 
     private static void section(List<Component> out, String key) {
@@ -36,19 +36,22 @@ public final class CatalogBoundlessDetails {
     }
 
     private static void bullets(List<Component> out, Component... lines) {
-        for (int i = 0; i < lines.length; i++)
-            out.add(line(i == lines.length - 1 ? "last" : "row", lines[i]));
+        CatalogTextStyle.bullets(
+                out, java.util.Arrays.asList(lines), CatalogBoundlessDetails::line);
     }
 
     public static List<Component> details(String id) {
         var out = new ArrayList<Component>();
         switch (id) {
             case "free_and_easy_wandering" -> {
-                out.add(line("dream.0", BoundlessTooltips.dreamKey.get(), n("dream.duration", 1)));
-                out.add(line("dream.1"));
-                out.add(line("dream.2", n("dream.cooldown", 1)));
-                out.add(Component.empty());
-                out.add(line("dream.3"));
+                heading(out, "dream.skill");
+                bullets(
+                        out,
+                        line("dream.0", BoundlessTooltips.dreamKey.get(), n("dream.duration", 1)),
+                        line("dream.1"),
+                        line("dream.2", n("dream.cooldown", 1)));
+                section(out, "dream.landing");
+                bullets(out, line("dream.3"), line("dream.4"), line("dream.5"));
             }
             case "star_voice" -> {
                 heading(out, "malice");

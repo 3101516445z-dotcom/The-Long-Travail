@@ -21,7 +21,6 @@
   "state.the_long_travail.witness": "Witness",
   "text.the_long_travail.traveler": "Traveler",
   "itemGroup.the_long_travail": "The Long Travail",
-  "tooltip.the_long_travail.slot": "Slot: %1$s",
   "message.the_long_travail.cooldown.remaining": " (Cooldown remaining: %s)",
   "message.the_long_travail.cooldown.seconds": "%s seconds",
   "advancement.the_long_travail.root.title": "The Long Travail",
@@ -44,11 +43,11 @@
   "tooltip.the_long_travail.summary.disabled": "§cDisabled§r",
   "message.the_long_travail.config_recovery": "The Long Travail found configuration issues and used fallback settings or disabled affected rewards. Check the log; originals from automatic corrections are saved in config/the_long_travail/invalid.",
   "tooltip.the_long_travail.summary.carrying_non_stacking": "Carrying multiple copies does not stack their effects",
-  "tooltip.the_long_travail.summary.requires_diary_state": "§4The Long Travail is not equipped. Effects that depend on its state are inactive.§r",
   "effect.the_long_travail.mara_transformation": "Mara Transformation",
   "effect.the_long_travail.among_all_things": "Among All Things",
   "effect.the_long_travail.revival": "Revival",
   "tooltip.the_long_travail.theme_food.effect": "- %s%s, for %s seconds;",
   "tooltip.the_long_travail.theme_food.effect.last": "- %s%s, for %s seconds.",
-  "tooltip.the_long_travail.theme_food.always_edible": "Can be eaten even when fully fed."
+  "tooltip.the_long_travail.theme_food.always_edible": "Can be eaten even when fully fed.",
+  "tooltip.the_long_travail.summary.requires_diary_use": "Cannot be used without wearing The Long Travail"
 }

@@ -1,11 +1,14 @@
 package com.thelongtravail.farreach.icarus;
 
+import com.thelongtravail.equipment.CurioLookup;
+
+import com.thelongtravail.equipment.AccessoryEquipRules;
+
 import com.thelongtravail.registry.RegisteredItems;
 import com.thelongtravail.registry.ModRegistry;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import top.theillusivec4.curios.api.CuriosApi;
 
 public final class IcarusFlight {
     private static final String DISABLED = "IcarusFlightDisabled";
@@ -27,22 +30,7 @@ public final class IcarusFlight {
     }
 
     public static boolean equipped(LivingEntity entity) {
-        if (!ModRegistry.ICARUS.isPresent()) return false;
-        return entity instanceof Player player
-                && player.isAlive()
-                && !player.isSpectator()
-                && CuriosApi.getCuriosInventory(player)
-                        .map(
-                                inv ->
-                                        inv.findCurios(ModRegistry.ICARUS.get()).stream()
-                                                .anyMatch(
-                                                        r ->
-                                                                !r.slotContext().cosmetic()
-                                                                        && r.slotContext()
-                                                                                .identifier()
-                                                                                .equals("back")
-                                                                        && enabled(r.stack())))
-                        .orElse(false);
+        return !enabledStack(entity, false).isEmpty();
     }
 
     public static boolean allowed(LivingEntity entity) {
@@ -50,24 +38,23 @@ public final class IcarusFlight {
     }
 
     public static ItemStack visibleStack(LivingEntity entity) {
-        if (!ModRegistry.ICARUS.isPresent()) return ItemStack.EMPTY;
-        if (!(entity instanceof Player player) || !equipped(player) || player.isInvisible())
-            return ItemStack.EMPTY;
-        return CuriosApi.getCuriosInventory(player)
-                .map(
-                        inv ->
-                                inv.findCurios(ModRegistry.ICARUS.get()).stream()
-                                        .filter(
-                                                r ->
-                                                        !r.slotContext().cosmetic()
-                                                                && r.slotContext()
-                                                                        .identifier()
-                                                                        .equals("back")
-                                                                && r.slotContext().visible()
-                                                                && enabled(r.stack()))
-                                        .map(r -> r.stack())
-                                        .findFirst()
-                                        .orElse(ItemStack.EMPTY))
+        return enabledStack(entity, true);
+    }
+
+    private static ItemStack enabledStack(LivingEntity entity, boolean visibleOnly) {
+        if (!ModRegistry.ICARUS.isPresent()
+                || !(entity instanceof Player player)
+                || !player.isAlive()
+                || player.isSpectator()
+                || (visibleOnly && player.isInvisible())) return ItemStack.EMPTY;
+        return CurioLookup.findFunctional(
+                        player,
+                        ModRegistry.ICARUS.get(),
+                        r ->
+                                AccessoryEquipRules.matchesSlot(r.slotContext(), "back")
+                                        && (!visibleOnly || r.slotContext().visible())
+                                        && enabled(r.stack()))
+                .map(r -> r.stack())
                 .orElse(ItemStack.EMPTY);
     }
 }

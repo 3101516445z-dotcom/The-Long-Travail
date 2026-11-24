@@ -1,5 +1,9 @@
 package com.thelongtravail.api;
 
+import net.minecraftforge.registries.RegistryObject;
+import net.minecraft.world.item.Item;
+import com.thelongtravail.equipment.CurioLookup;
+
 import com.thelongtravail.config.*;
 import com.thelongtravail.registry.ModRegistry;
 
@@ -20,13 +24,13 @@ public final class CarryingApi {
 
     public static boolean isCarrying(
             ServerPlayer player,
-            net.minecraftforge.registries.RegistryObject<net.minecraft.world.item.Item> item) {
+            RegistryObject<Item> item) {
         return item.isPresent() && isCarrying(player, item.get());
     }
 
     public static CarryingResult query(
             ServerPlayer player,
-            net.minecraftforge.registries.RegistryObject<net.minecraft.world.item.Item> item) {
+            RegistryObject<Item> item) {
         return item.isPresent() ? query(player, item.get()) : CarryingResult.ABSENT;
     }
 
@@ -128,22 +132,11 @@ public final class CarryingApi {
                 }
             }
             if (allowed(item, "curios")) {
-                var inventory = CuriosApi.getCuriosInventory(player).resolve();
-                if (inventory.isPresent()) {
-                    // 只需要一个功能槽命中，不必先收集全部同类饰品。
-                    var first = inventory.get().findFirstCurio(item);
-                    // 保留对返回外观槽的非标准实现的兼容，继续寻找后续功能槽。
-                    if (first.isPresent() && first.get().slotContext().cosmetic())
-                        first =
-                                inventory.get().findCurios(item).stream()
-                                        .filter(found -> !found.slotContext().cosmetic())
-                                        .findFirst();
-                    if (first.isPresent()) {
-                        var found = first.get();
-                        var c = found.slotContext();
-                        locations.put(item, new Location("curios", c.identifier(), c.index()));
-                        return CarryingResult.PRESENT;
-                    }
+                var first = CurioLookup.findFunctional(player, item);
+                if (first.isPresent()) {
+                    var slot = first.get().slotContext();
+                    locations.put(item, new Location("curios", slot.identifier(), slot.index()));
+                    return CarryingResult.PRESENT;
                 }
             }
             if (!allowed(item, "externalInventoryTick")) return CarryingResult.ABSENT;
@@ -201,17 +194,8 @@ public final class CarryingApi {
             }
         }
         if (allowed(item, "curios"))
-            return CuriosApi.getCuriosInventory(player)
-                    .map(
-                            h ->
-                                    h.findCurios(item).stream()
-                                            .filter(
-                                                    r ->
-                                                            !r.slotContext().cosmetic()
-                                                                    && filter.test(r.stack()))
-                                            .map(r -> r.stack())
-                                            .findFirst()
-                                            .orElse(ItemStack.EMPTY))
+            return CurioLookup.findFunctional(player, item, result -> filter.test(result.stack()))
+                    .map(top.theillusivec4.curios.api.SlotResult::stack)
                     .orElse(ItemStack.EMPTY);
         return ItemStack.EMPTY;
     }

@@ -120,10 +120,7 @@ public class LongTravailItem extends Item implements ICurioItem {
 
     @Override
     public Component getName(ItemStack stack) {
-        return super.getName(stack)
-                .copy()
-                .withStyle(
-                        style -> style.withColor(0xC5AA77).withInsertion("the_long_travail:name"));
+        return super.getName(stack).copy().withStyle(NameColoring::travailStyle);
     }
 
     @Override
@@ -145,11 +142,12 @@ public class LongTravailItem extends Item implements ICurioItem {
     public void appendHoverText(
             ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(
-                Component.translatable(
-                                "tooltip.the_long_travail.slot",
+                Component.translatable("curios.tooltip.slot")
+                        .append(" ")
+                        .withStyle(ChatFormatting.GOLD)
+                        .append(
                                 Component.translatable("gui.the_long_travail.diary.title")
-                                        .withStyle(ChatFormatting.YELLOW))
-                        .withStyle(ChatFormatting.GOLD));
+                                        .withStyle(ChatFormatting.YELLOW)));
         tooltip.add(Component.empty());
         for (int index = 0; index < 10; index++)
             tooltip.add(

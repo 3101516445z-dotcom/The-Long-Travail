@@ -1,5 +1,6 @@
 package com.thelongtravail.compat.maid;
 
+import net.minecraftforge.registries.RegistryObject;
 import static com.thelongtravail.compat.maid.MaidAccess.equipped;
 import static com.thelongtravail.compat.maid.MaidAccess.owner;
 
@@ -27,7 +28,7 @@ import net.minecraft.world.item.ItemStack;
 public final class MaidAccessoryRules {
     static boolean has(
             EntityMaid maid,
-            net.minecraftforge.registries.RegistryObject<net.minecraft.world.item.Item> item) {
+            RegistryObject<Item> item) {
         return item.isPresent() && has(maid, item.get());
     }
 
@@ -55,26 +56,15 @@ public final class MaidAccessoryRules {
     }
 
     public static int lorentzPhase(LivingEntity e) {
-        return e instanceof EntityMaid m
-                ? switch (phase(m, TravailAspect.BOUNDLESS)) {
-                    case MALICE -> 1;
-                    case WITNESS -> 2;
-                    default -> 0;
-                }
-                : 0;
+        return aspectState(e, TravailAspect.BOUNDLESS).phase();
     }
 
     public static boolean quixote(LivingEntity e) {
-        return e instanceof EntityMaid m && has(m, ModRegistry.DON_QUIXOTE);
+        return ModRegistry.DON_QUIXOTE.isPresent() && hasEquipped(e, ModRegistry.DON_QUIXOTE.get());
     }
 
     public static int quixotePhase(LivingEntity e) {
-        if (!(e instanceof EntityMaid m)) return 0;
-        return switch (phase(m, TravailAspect.FAR_REACH)) {
-            case MALICE -> 1;
-            case WITNESS -> 2;
-            default -> 0;
-        };
+        return aspectState(e, TravailAspect.FAR_REACH).phase();
     }
 
     public static ItemStack flowerStack(LivingEntity entity) {
@@ -84,12 +74,7 @@ public final class MaidAccessoryRules {
     }
 
     public static int flowerPhase(LivingEntity entity) {
-        if (!(entity instanceof EntityMaid maid)) return 0;
-        return switch (phase(maid, TravailAspect.FLOURISHING)) {
-            case MALICE -> 1;
-            case WITNESS -> 2;
-            default -> 0;
-        };
+        return aspectState(entity, TravailAspect.FLOURISHING).phase();
     }
 
     public static boolean lafite(LivingEntity entity) {
@@ -97,31 +82,17 @@ public final class MaidAccessoryRules {
     }
 
     public static int lafitePhase(LivingEntity entity) {
-        if (!(entity instanceof EntityMaid m)) return 0;
-        return switch (phase(m, TravailAspect.ABYSS)) {
-            case MALICE -> 1;
-            case WITNESS -> 2;
-            default -> 0;
-        };
+        return aspectState(entity, TravailAspect.ABYSS).phase();
     }
 
     public static int phosphophyllitePhase(LivingEntity entity) {
         if (!(entity instanceof EntityMaid maid) || !has(maid, ModRegistry.PHOSPHOPHYLLITE))
             return 0;
-        return switch (phase(maid, TravailAspect.DEEP_VALLEY)) {
-            case MALICE -> 1;
-            case WITNESS -> 2;
-            default -> 0;
-        };
+        return aspectState(entity, TravailAspect.DEEP_VALLEY).phase();
     }
 
     public static int relicPhase(LivingEntity e) {
-        if (!(e instanceof EntityMaid m)) return 0;
-        return switch (phase(m, TravailAspect.UNDERWORLD)) {
-            case MALICE -> 1;
-            case WITNESS -> 2;
-            default -> 0;
-        };
+        return aspectState(e, TravailAspect.UNDERWORLD).phase();
     }
 
     public static ItemStack relicStack(LivingEntity e, boolean banner) {

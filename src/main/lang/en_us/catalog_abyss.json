@@ -5,7 +5,6 @@
   "gui.the_long_travail.catalog.abyss.period": ".",
   "gui.the_long_travail.catalog.abyss.local": "Only active in biomes that allow rain or snow.",
   "gui.the_long_travail.catalog.abyss.sky": "Only active with open sky overhead.",
-  "gui.the_long_travail.catalog.abyss.carrying": "Carrying multiple copies does not stack their effects.",
   "gui.the_long_travail.catalog.abyss.eki.intro": "Carry Eki while wearing The Long Travail to activate it during rain, snow or thunderstorms in the Overworld.",
   "gui.the_long_travail.catalog.abyss.eki.malice": "While wearing The Long Travail with Abyss Malice:",
   "gui.the_long_travail.catalog.abyss.eki.damage": "Gain a %s%% damage bonus",

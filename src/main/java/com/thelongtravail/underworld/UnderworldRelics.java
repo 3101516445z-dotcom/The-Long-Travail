@@ -1,5 +1,9 @@
 package com.thelongtravail.underworld;
 
+import com.thelongtravail.equipment.CurioLookup;
+
+import com.thelongtravail.equipment.AccessoryEquipRules;
+
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.common.AttributeModifierSet;
@@ -18,7 +22,6 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.*;
 
@@ -33,11 +36,7 @@ public final class UnderworldRelics {
     public static int phase(LivingEntity e) {
         if (!e.isAlive() || e.isRemoved() || e.isSpectator()) return 0;
         if (e instanceof Player p)
-            return switch (TravailStateApi.state(p, TravailAspect.UNDERWORLD)) {
-                case MALICE -> 1;
-                case WITNESS -> 2;
-                default -> 0;
-            };
+            return TravailStateApi.state(p, TravailAspect.UNDERWORLD).phase();
         return com.thelongtravail.integration.MaidIntegration.relicPhase(e);
     }
 
@@ -58,22 +57,13 @@ public final class UnderworldRelics {
         var item = reference.get();
         if (!(e instanceof Player p))
             return com.thelongtravail.integration.MaidIntegration.relicStack(e, banner);
-        return CuriosApi.getCuriosInventory(p)
-                .map(
-                        inv ->
-                                inv.findCurios(item).stream()
-                                        .filter(
-                                                r ->
-                                                        !r.slotContext().cosmetic()
-                                                                && r.slotContext()
-                                                                        .identifier()
-                                                                        .equals(
-                                                                                banner
-                                                                                        ? "charm"
-                                                                                        : "bracelet"))
-                                        .map(r -> r.stack())
-                                        .findFirst()
-                                        .orElse(ItemStack.EMPTY))
+        return CurioLookup.findFunctional(
+                        p,
+                        item,
+                        r ->
+                                AccessoryEquipRules.matchesSlot(
+                                        r.slotContext(), banner ? "charm" : "bracelet"))
+                .map(r -> r.stack())
                 .orElse(ItemStack.EMPTY);
     }
 
@@ -99,10 +89,11 @@ public final class UnderworldRelics {
         if (e.level().isClientSide) return;
         // Modifier 是值对象；身份比较会把每次新建的等值修饰符误判为变化。
         Map<Attribute, AttributeModifierSet.Modifier> wanted = new HashMap<>();
-        int phase = phase(e), n = souls(equipped(e, true));
-        if (phase == 2 && !equipped(e, false).isEmpty())
+        int phase = phase(e);
+        int n = phase == 0 ? 0 : souls(wornStack(e, true));
+        if (phase == 2 && !wornStack(e, false).isEmpty())
             put(wanted, ModAttributes.OVERLORD.get(), value("king.overlord"));
-        if (n > 0 && phase != 0) {
+        if (n > 0) {
             put(
                     wanted,
                     ModAttributes.CRITICAL_CHANCE.get(),

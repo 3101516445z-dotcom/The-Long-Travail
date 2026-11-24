@@ -1,5 +1,7 @@
 package com.thelongtravail.farreach;
 
+import com.thelongtravail.equipment.AccessoryEquipRules;
+
 import com.thelongtravail.equipment.CurioLookup;
 import com.thelongtravail.registry.ModRegistry;
 
@@ -13,7 +15,9 @@ public final class FarReachEquipment {
         return player.isAlive()
                 && !player.isSpectator()
                 && CurioLookup.hasFunctional(
-                        player, ModRegistry.ICARUS, context -> context.identifier().equals("back"));
+                        player,
+                        ModRegistry.ICARUS,
+                        context -> AccessoryEquipRules.matchesSlot(context, "back"));
     }
 
     private FarReachEquipment() {}

@@ -24,27 +24,19 @@ public final class RainState {
         WITNESS
     }
 
-    private enum Area {
-        INVENTORY,
-        OFFHAND,
-        ARMOR,
-        ENDER,
-        CURIOS
-    }
-
-    private record Location(Area area, String identifier, int slot) {}
+    private record Location(String identifier, int slot) {}
 
     private static final Map<Player, Location> TOKAIDO_LOCATIONS = new WeakHashMap<>();
     public static boolean clientWeather, clientDry, clientSnow;
     public static float clientSpeed = 1;
     public static boolean clientFire;
     public static int clientPlayerId = Integer.MIN_VALUE;
-    public static List<String> clientSlots;
+    public static final String DECLARED_SLOT = "feet";
+    private static final List<String> TOKAIDO_SLOTS = List.of(DECLARED_SLOT, "curio");
 
     public static void resetClient() {
         clientWeather = clientDry = clientSnow = clientFire = false;
         clientSpeed = 1;
-        clientSlots = null;
         clientPlayerId = Integer.MIN_VALUE;
     }
 
@@ -77,7 +69,7 @@ public final class RainState {
                 .map(
                         h -> {
                             var hint = TOKAIDO_LOCATIONS.get(p);
-                            if (hint != null && RainConfig.SLOTS.get().contains(hint.identifier)) {
+                            if (hint != null && TOKAIDO_SLOTS.contains(hint.identifier)) {
                                 var current = h.getStacksHandler(hint.identifier);
                                 if (current.isPresent()
                                         && hint.slot >= 0
@@ -87,14 +79,14 @@ public final class RainState {
                                                 ModRegistry.TOKAIDO)) return true;
                             }
                             TOKAIDO_LOCATIONS.remove(p);
-                            for (String id : RainConfig.SLOTS.get()) {
+                            for (String id : TOKAIDO_SLOTS) {
                                 var handler = h.getStacksHandler(id);
                                 if (handler.isEmpty()) continue;
                                 var stacks = handler.get().getStacks();
                                 for (int i = 0; i < stacks.getSlots(); i++)
                                     if (RegisteredItems.is(
                                             stacks.getStackInSlot(i), ModRegistry.TOKAIDO)) {
-                                        TOKAIDO_LOCATIONS.put(p, new Location(Area.CURIOS, id, i));
+                                        TOKAIDO_LOCATIONS.put(p, new Location(id, i));
                                         return true;
                                     }
                             }

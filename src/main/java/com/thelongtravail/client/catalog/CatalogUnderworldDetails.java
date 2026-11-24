@@ -18,7 +18,7 @@ public final class CatalogUnderworldDetails {
     }
 
     private static void heading(List<Component> out, String key) {
-        out.add(line(key).copy().withStyle(s -> s.withColor(CatalogTextStyle.CONDITION)));
+        out.add(CatalogTextStyle.heading(line(key)));
     }
 
     private static void section(List<Component> out, String key) {
@@ -27,8 +27,8 @@ public final class CatalogUnderworldDetails {
     }
 
     private static void bullets(List<Component> out, Component... rows) {
-        for (int i = 0; i < rows.length; i++)
-            out.add(line(i == rows.length - 1 ? "last" : "row", rows[i]));
+        CatalogTextStyle.bullets(
+                out, java.util.Arrays.asList(rows), CatalogUnderworldDetails::line);
     }
 
     private static String relic(String key, int scale) {

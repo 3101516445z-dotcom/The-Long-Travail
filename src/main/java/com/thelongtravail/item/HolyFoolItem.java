@@ -24,9 +24,7 @@ public final class HolyFoolItem extends Item implements ICurioItem, ItemDescript
 
     @Override
     public boolean canEquip(SlotContext context, ItemStack stack) {
-        return !context.cosmetic()
-                && context.identifier().equals("head")
-                && AccessoryEquipRules.unique(context, this);
+        return AccessoryEquipRules.canEquipUnique(context, this, "head");
     }
 
     @Override

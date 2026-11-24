@@ -2,19 +2,11 @@
   "replace": false,
   "values": [
     {
-      "id": "the_long_travail:little_prince",
-      "required": false
-    },
-    {
       "id": "the_long_travail:free_and_easy_wandering",
       "required": false
     },
     {
       "id": "the_long_travail:everlasting_flower",
-      "required": false
-    },
-    {
-      "id": "the_long_travail:phosphophyllite",
       "required": false
     },
     {

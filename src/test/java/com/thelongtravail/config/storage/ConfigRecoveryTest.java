@@ -31,6 +31,29 @@ public final class ConfigRecoveryTest {
         return builder.build();
     }
 
+    private static void fixedAccessorySlots(Path root) throws Exception {
+        for (String group : List.of("items.spring_corner", "items.affection", "items.tokaido")) {
+            var builder = new ForgeConfigSpec.Builder();
+            builder.defineInRange(group + ".amount", 1, 1, 10);
+            var definition = builder.build();
+            Path directory = root.resolve("fixed-slots").resolve(group);
+            Path file = directory.resolve("aspects.toml");
+            var original = parse("");
+            original.set(group + ".amount", 7);
+            original.set(group + ".slots", List.of("custom_slot"));
+            original.setComment(group + ".slots", "legacy slots");
+            ConfigFileIO.write(file, original);
+            ConfigRecovery.prepare(directory, file, definition);
+            byte[] migrated = Files.readAllBytes(file);
+            var saved = ConfigFileIO.parse(migrated);
+            expect(!saved.contains(group + ".slots"), "obsolete slots removed: " + group);
+            expect(Integer.valueOf(7).equals(saved.get(group + ".amount")), "sibling preserved");
+            expect(!Files.exists(directory.resolve("invalid")), "migration needs no repair");
+            ConfigRecovery.prepare(directory, file, definition);
+            expect(Arrays.equals(migrated, Files.readAllBytes(file)), "repeat migration stable");
+        }
+    }
+
     private static void presetMigration(Path root) throws Exception {
         var oldGroups =
                 List.of(
@@ -197,6 +220,7 @@ public final class ConfigRecoveryTest {
 
     public static void main(String[] args) throws Exception {
         Path root = Files.createTempDirectory(Path.of(args[0]), "config-recovery-");
+        fixedAccessorySlots(root);
         presetMigration(root);
         witnessUpgrade(root);
         ForgeConfigSpec spec = spec();

@@ -39,17 +39,8 @@ public final class MaidLanternCombat {
         return other != null && SwordLanternState.teammates(master, other);
     }
 
-    private static boolean nearby(EntityMaid p, LivingEntity e) {
-        return e != p
-                && e.isAlive()
-                && !e.isRemoved()
-                && !e.isSpectator()
-                && e.level() == p.level()
-                && p.distanceToSqr(e) <= SwordLanternConfig.radiusSquared();
-    }
-
     private static boolean eligible(EntityMaid p, LivingEntity e) {
-        return nearby(p, e)
+        return SwordLanternState.nearby(p, e)
                 && e.isAttackable()
                 && !friendly(p, e)
                 && (!(e instanceof Player other)
@@ -83,7 +74,7 @@ public final class MaidLanternCombat {
                             .getEntitiesOfClass(
                                     LivingEntity.class,
                                     p.getBoundingBox().inflate(radius),
-                                    e -> nearby(p, e));
+                                    e -> SwordLanternState.nearby(p, e));
             s.scan = now;
         }
         return s;
@@ -115,7 +106,7 @@ public final class MaidLanternCombat {
         if (pending != null) candidates.add(pending);
         for (LivingEntity e :
                 com.google.common.collect.Iterables.concat(nearbySnapshot, candidates)) {
-            if (!seen.add(e.getUUID()) || !nearby(p, e)) continue;
+            if (!seen.add(e.getUUID()) || !SwordLanternState.nearby(p, e)) continue;
             boolean hostile = enemy(p, s, e, pending);
             if (hostile) {
                 enemies++;

@@ -30,9 +30,7 @@ public final class MidnightLafite {
 
     public static int phase(LivingEntity e) {
         if (e instanceof Player p)
-            return TravailStateApi.hasAbyssWitness(p)
-                    ? 2
-                    : TravailStateApi.hasAbyssMalice(p) ? 1 : 0;
+            return TravailStateApi.state(p, com.thelongtravail.TravailAspect.ABYSS).phase();
         return MaidIntegration.lafitePhase(e);
     }
 

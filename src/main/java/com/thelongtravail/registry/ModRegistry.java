@@ -195,8 +195,7 @@ public final class ModRegistry {
                                                     ::new));
 
     public static final RegistryObject<Item> LORENTZ_FANTASY =
-            themeItem(
-                    "lorentz_fantasy", () -> new com.thelongtravail.item.BoundlessRelicItem(false));
+            themeItem("lorentz_fantasy", com.thelongtravail.item.BoundlessRelicItem.Lorentz::new);
     public static final RegistryObject<Item> STAR_VOICE =
             themeItem(
                     "star_voice", () -> new com.thelongtravail.item.BoundlessAccessoryItem(false));

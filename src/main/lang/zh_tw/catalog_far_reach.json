@@ -6,7 +6,6 @@
   "gui.the_long_travail.catalog.glossary.delicacy.aliases": "佳肴",
   "gui.the_long_travail.catalog.glossary.delicacy.body": "恢復至少%s點飽食度、%s點飽和度的隨機食物，且排除配置黑名單內的食物與具有負面效果的食物。",
   "gui.the_long_travail.catalog.glossary.delicacy.allowed": "恢復至少%s點飽食度、%s點飽和度的隨機食物，且排除配置黑名單內的食物。",
-  "gui.the_long_travail.catalog.far.carrying": "攜帶多件時，效果不疊加。",
   "gui.the_long_travail.catalog.far.malice": "佩戴苦旅且窮遐尚有惡意時：",
   "gui.the_long_travail.catalog.far.witness": "佩戴苦旅且窮遐已然見證時：",
   "gui.the_long_travail.catalog.far.row": "- %s；",

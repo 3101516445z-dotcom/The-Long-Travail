@@ -1,12 +1,15 @@
 package com.thelongtravail.boundless;
 
+import com.thelongtravail.equipment.CurioLookup;
+
+import com.thelongtravail.equipment.AccessoryEquipRules;
+
 import com.thelongtravail.boundless.timestop.TimeStopManager;
 
 import com.thelongtravail.*;
 import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.combat.DirectStrikeDamage;
 import com.thelongtravail.config.BoundlessItemsConfig;
-import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.integration.MaidIntegration;
 import com.thelongtravail.registry.*;
 
@@ -59,18 +62,10 @@ public final class LorentzFantasy {
         if (!e.isAlive() || e.isRemoved()) return ItemStack.EMPTY;
         if (e instanceof ServerPlayer p) {
             if (p.isSpectator()) return ItemStack.EMPTY;
-            return top.theillusivec4.curios.api.CuriosApi.getCuriosInventory(p)
-                    .resolve()
-                    .flatMap(
-                            h ->
-                                    h.findCurios(ModRegistry.LORENTZ_FANTASY.get()).stream()
-                                            .filter(
-                                                    r ->
-                                                            !r.slotContext().cosmetic()
-                                                                    && r.slotContext()
-                                                                            .identifier()
-                                                                            .equals("bracelet"))
-                                            .findFirst())
+            return CurioLookup.findFunctional(
+                            p,
+                            ModRegistry.LORENTZ_FANTASY.get(),
+                            r -> AccessoryEquipRules.matchesSlot(r.slotContext(), "bracelet"))
                     .map(r -> r.stack())
                     .orElse(ItemStack.EMPTY);
         }
@@ -79,13 +74,8 @@ public final class LorentzFantasy {
 
     public static int phase(LivingEntity e) {
         if (equipped(e).isEmpty()) return 0;
-        if (e instanceof ServerPlayer p && TravailCurios.stack(p).isEmpty()) return 0;
         if (e instanceof ServerPlayer p)
-            return switch (TravailStateApi.state(p, TravailAspect.BOUNDLESS)) {
-                case MALICE -> 1;
-                case WITNESS -> 2;
-                default -> 0;
-            };
+            return TravailStateApi.state(p, TravailAspect.BOUNDLESS).phase();
         return MaidIntegration.lorentzPhase(e);
     }
 

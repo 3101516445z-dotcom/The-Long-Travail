@@ -28,8 +28,8 @@ public final class LittlePrince {
 
     public static void refresh(ServerPlayer p) {
         boolean equipped =
-                AccessoryEquipRules.hasEquipped(p, ModRegistry.LITTLE_PRINCE)
-                        && AccessoryEquipRules.hasDiary(p);
+                AccessoryEquipRules.hasDiary(p)
+                        && CarryingApi.isCarrying(p, ModRegistry.LITTLE_PRINCE);
         boolean active = LittlePrinceFlight.update(p, equipped);
         var attr = p.getAttribute(ForgeMod.STEP_HEIGHT_ADDITION.get());
         if (attr != null) {

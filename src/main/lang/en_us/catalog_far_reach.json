@@ -6,7 +6,6 @@
   "gui.the_long_travail.catalog.glossary.delicacy.aliases": "delicacy",
   "gui.the_long_travail.catalog.glossary.delicacy.body": "Random food restoring at least %s hunger and %s saturation, excluding configured blacklisted foods and foods with harmful effects.",
   "gui.the_long_travail.catalog.glossary.delicacy.allowed": "Random food restoring at least %s hunger and %s saturation, excluding configured blacklisted foods.",
-  "gui.the_long_travail.catalog.far.carrying": "Carrying multiple copies does not stack their effects.",
   "gui.the_long_travail.catalog.far.malice": "While wearing The Long Travail with Far Reach Malice:",
   "gui.the_long_travail.catalog.far.witness": "While wearing The Long Travail with Far Reach Witness:",
   "gui.the_long_travail.catalog.far.row": "- %s;",

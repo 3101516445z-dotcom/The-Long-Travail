@@ -21,10 +21,10 @@
   "gui.the_long_travail.catalog.valley.lantern.6": "After more than %s minutes of continuous combat, gain a %s%% damage bonus",
   "gui.the_long_travail.catalog.valley.lantern.7": "While below %s%% of maximum health, gain a %s%% damage bonus",
   "gui.the_long_travail.catalog.valley.lantern.8": "Nearby enemies and being alone are checked within %s blocks.",
-  "gui.the_long_travail.catalog.valley.phos.malice": "The wearer's eligible attributes increase by %s%%, and damage received increases by %s%%.",
-  "gui.the_long_travail.catalog.valley.phos.stats": "The wearer's eligible attributes increase by %s%%, and damage received increases by %s%%",
-  "gui.the_long_travail.catalog.valley.phos.heal": "When hit, the wearer has a %s%% chance to heal %s%% of their maximum health, converting excess healing into absorption",
-  "gui.the_long_travail.catalog.valley.phos.end": "Unequipping 「Phosphophyllite」 does not remove absorption already gained.",
+  "gui.the_long_travail.catalog.valley.phos.malice": "Eligible attributes increase by %s%%, and damage received increases by %s%%.",
+  "gui.the_long_travail.catalog.valley.phos.stats": "Eligible attributes increase by %s%%, and damage received increases by %s%%",
+  "gui.the_long_travail.catalog.valley.phos.heal": "When hit, you have a %s%% chance to heal %s%% of your maximum health, converting excess healing into absorption",
+  "gui.the_long_travail.catalog.valley.phos.end": "Absorption already gained remains when Phosphophyllite stops taking effect.",
   "gui.the_long_travail.catalog.valley.velvet.0": "Right-click to consume one 「Underground Velvet」 and randomly receive one of the following rewards:",
   "gui.the_long_travail.catalog.valley.velvet.ore": "%s%% chance to receive 8 ores of one type",
   "gui.the_long_travail.catalog.valley.velvet.ingot": "%s%% chance to receive 8 ingots of one type",
@@ -54,9 +54,10 @@
   "gui.the_long_travail.catalog.glossary.lantern_undead.title": "Facing undead",
   "gui.the_long_travail.catalog.glossary.lantern_undead.aliases": "Facing undead",
   "gui.the_long_travail.catalog.glossary.lantern_undead.body": "The condition is met when nearby enemies include an undead creature.",
-  "gui.the_long_travail.catalog.valley.phos.heal.health_loss": "When losing health to damage, the wearer has a %s%% chance to heal %s%% of their maximum health, converting excess healing into absorption",
+  "gui.the_long_travail.catalog.valley.phos.heal.health_loss": "When losing health to damage, you have a %s%% chance to heal %s%% of your maximum health, converting excess healing into absorption",
   "gui.the_long_travail.catalog.valley.tremor.harvest": "Harvests like a netherite pickaxe",
   "gui.the_long_travail.catalog.valley.tremor.speed": "Mines at twice the speed of a netherite pickaxe",
   "gui.the_long_travail.catalog.valley.tremor.durability": "Loses no durability through use",
-  "gui.the_long_travail.catalog.valley.tremor.collection": "Block drops from both normal and special breaking automatically enter your inventory"
+  "gui.the_long_travail.catalog.valley.tremor.collection": "Block drops from both normal and special breaking automatically enter your inventory",
+  "gui.the_long_travail.catalog.valley.phos.intro": "Carry Phosphophyllite and equip The Long Travail for its effects to apply."
 }

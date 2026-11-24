@@ -64,7 +64,7 @@ public final class CatalogValleyDetails {
     }
 
     private static void heading(List<Component> out, String key) {
-        out.add(line(key).copy().withStyle(s -> s.withColor(CatalogTextStyle.CONDITION)));
+        out.add(CatalogTextStyle.heading(line(key)));
     }
 
     private static void section(List<Component> out, String key) {
@@ -73,8 +73,7 @@ public final class CatalogValleyDetails {
     }
 
     private static void bullets(List<Component> out, Component... rows) {
-        for (int i = 0; i < rows.length; i++)
-            out.add(line(i == rows.length - 1 ? "last" : "row", rows[i]));
+        CatalogTextStyle.bullets(out, java.util.Arrays.asList(rows), CatalogValleyDetails::line);
     }
 
     public static List<Component> details(String id) {
@@ -125,6 +124,8 @@ public final class CatalogValleyDetails {
                 out.add(line("lantern.8", number(lantern("radius"))));
             }
             case "phosphophyllite" -> {
+                out.add(line("phos.intro"));
+                out.add(Component.empty());
                 heading(out, "malice");
                 out.add(line("phos.malice", stat("maliceAttributes"), stat("maliceDamage")));
                 section(out, "witness");

@@ -2,7 +2,6 @@ package com.thelongtravail.network;
 
 import com.thelongtravail.abyss.rain.RainState;
 import com.thelongtravail.abyss.rain.RainTooltips;
-import com.thelongtravail.config.RainConfig;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.network.NetworkEvent;
@@ -17,8 +16,7 @@ public record RainPacket(
         float speed,
         boolean fire,
         List<Component> eki,
-        List<Component> tokaido,
-        List<String> slots) {
+        List<Component> tokaido) {
     public static void encode(RainPacket p, FriendlyByteBuf b) {
         b.writeVarInt(p.playerId);
         b.writeBoolean(p.weather);
@@ -28,20 +26,24 @@ public record RainPacket(
         b.writeBoolean(p.fire);
         b.writeCollection(p.eki, FriendlyByteBuf::writeComponent);
         b.writeCollection(p.tokaido, FriendlyByteBuf::writeComponent);
-        b.writeCollection(p.slots, (buf, value) -> buf.writeUtf(value, RainConfig.MAX_SLOT_LENGTH));
+        // Retain the trailing slot list for older clients.
+        b.writeVarInt(1);
+        b.writeUtf(RainState.DECLARED_SLOT);
     }
 
     public static RainPacket decode(FriendlyByteBuf b) {
-        return new RainPacket(
-                b.readVarInt(),
-                b.readBoolean(),
-                b.readBoolean(),
-                b.readBoolean(),
-                b.readFloat(),
-                b.readBoolean(),
-                b.readList(FriendlyByteBuf::readComponent),
-                b.readList(FriendlyByteBuf::readComponent),
-                b.readList(buf -> buf.readUtf(RainConfig.MAX_SLOT_LENGTH)));
+        var packet =
+                new RainPacket(
+                        b.readVarInt(),
+                        b.readBoolean(),
+                        b.readBoolean(),
+                        b.readBoolean(),
+                        b.readFloat(),
+                        b.readBoolean(),
+                        b.readList(FriendlyByteBuf::readComponent),
+                        b.readList(FriendlyByteBuf::readComponent));
+        b.readList(buf -> buf.readUtf(128));
+        return packet;
     }
 
     public static void handle(RainPacket p, Supplier<NetworkEvent.Context> supplier) {
@@ -56,7 +58,6 @@ public record RainPacket(
                     RainState.clientFire = p.fire;
                     RainTooltips.clientEki = p.eki;
                     RainTooltips.clientTokaido = p.tokaido;
-                    RainState.clientSlots = p.slots;
                 });
         c.setPacketHandled(true);
     }

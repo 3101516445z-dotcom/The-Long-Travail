@@ -46,9 +46,6 @@ public final class ThemeTooltips {
             Set.of("golden_age", "icarus", "don_quixote", "tower_of_babel", "sun_chaser");
     private static final Set<String> ABYSS_SUMMARIES =
             Set.of("eki", "tokaido", "perfect_fluid", "midnight_lafite", "liquefied_abundance");
-    private static final Set<String> NON_STACKING_CARRIED_ITEMS =
-            Set.of("eki", "tower_of_babel", "golden_age", "sun_chaser");
-
     private static boolean utility(String id) {
         return Set.of("homecoming", "renewal", "wayguide", "coloring").contains(id)
                 || id.endsWith("_stone")
@@ -165,6 +162,9 @@ public final class ThemeTooltips {
                                                 "the_long_travail:prose:flavor:" + width)));
             }
         }
+        String warningKey = CarryingConditions.diaryWarningKey(entry.id());
+        if (warningKey != null && viewer != null && !AccessoryEquipRules.hasDiary(viewer))
+            block.add(CarryingConditions.diaryWarning(warningKey, false));
         block.addAll(summary(entry.id(), stack, viewer));
         if (entry.id().equals("liquefied_abundance"))
             block.add(
@@ -173,12 +173,13 @@ public final class ThemeTooltips {
                             com.thelongtravail.abyss.abundance.LiquefiedAbundance.modeName(
                                     AbundanceUseClient.selectedMode())));
         block.addAll(attributes);
-        if (NON_STACKING_CARRIED_ITEMS.contains(entry.id())) block.add(carryingLimitHint());
+        if (CarryingConditions.hasNonStackingHint(entry.id())) block.add(carryingLimitHint());
         block.add(catalogPrompt());
         if (!maid.isEmpty()) {
             block.add(Component.empty());
             block.addAll(maid);
         }
+        if (warningKey != null) block.removeIf(ThemeTooltips::blank);
         lines.addAll(
                 at,
                 block.stream()
@@ -284,7 +285,7 @@ public final class ThemeTooltips {
                 && !VALLEY_SUMMARIES.contains(id)
                 && !FAR_REACH_SUMMARIES.contains(id)
                 && !ABYSS_SUMMARIES.contains(id)
-                && !NON_STACKING_CARRIED_ITEMS.contains(id)
+                && !CarryingConditions.hasNonStackingHint(id)
                 && !utility(id)) return lines;
         // 将文案中的显式换行拆成独立悬浮行，同时保留各片段的语义染色。
         var result = new ArrayList<Component>();
@@ -335,20 +336,6 @@ public final class ThemeTooltips {
             out.add(text(id + ".0"));
             out.add(text(id + ".1"));
             return out;
-        }
-        if (viewer != null && !AccessoryEquipRules.hasDiary(viewer)) {
-            if (Set.of(
-                            "demon_king_of_the_sixth_heaven",
-                            "phosphophyllite",
-                            "azrael",
-                            "a_thousand_years_later",
-                            "little_prince",
-                            "star_voice")
-                    .contains(id)) out.add(text("requires_diary_equip"));
-            else if (id.equals("eki")) out.add(text("eki.requires_diary_effect"));
-            else if (id.equals("book_of_the_dead")) out.add(text("requires_diary_effect"));
-            else if (Set.of("myriad_souls_banner", "lorentz_fantasy").contains(id))
-                out.add(text("requires_diary_state"));
         }
         switch (id) {
             case "sun_chaser", "kagotsurube" -> out.add(text(id + ".0"));
@@ -509,11 +496,6 @@ public final class ThemeTooltips {
                 out.add(text(id + ".0"));
                 out.add(text(id + ".1"));
             }
-        }
-        if (VALLEY_SUMMARIES.contains(id)
-                && !out.isEmpty()
-                && key(out.get(0), (PREFIX + "requires_diary_equip")::equals)) {
-            out.add(out.remove(0));
         }
         return out;
     }

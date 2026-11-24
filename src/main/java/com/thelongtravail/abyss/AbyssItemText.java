@@ -1,5 +1,9 @@
 package com.thelongtravail.abyss;
 
+import static com.thelongtravail.text.DisplayNumbers.percent;
+
+import static com.thelongtravail.text.DisplayNumbers.number;
+
 import com.thelongtravail.text.TooltipStyle;
 
 import com.thelongtravail.config.AbyssItemsConfig;
@@ -25,14 +29,6 @@ public final class AbyssItemText {
         return TooltipConfigSync.decimal("abyssItem." + key, fallback);
     }
 
-    private static String n(double number) {
-        return BigDecimal.valueOf(number).stripTrailingZeros().toPlainString();
-    }
-
-    private static String percent(double number) {
-        return BigDecimal.valueOf(number).movePointRight(2).stripTrailingZeros().toPlainString();
-    }
-
     private static Component raw(String key, Object... args) {
         return Component.translatable(PREFIX + key, args)
                 .withStyle(s -> s.withColor(TooltipStyle.BODY_COLOR));
@@ -55,9 +51,10 @@ public final class AbyssItemText {
         var out = new ArrayList<Component>();
         var levels = new ArrayList<Component>();
         double regen = value("regenerationLevelBonus"), saturation = value("saturationLevelBonus");
-        if (regen > 0) levels.add(raw("regeneration", n(regen)));
+        if (regen > 0) levels.add(raw("regeneration", number(regen)));
         if (saturation > 0)
-            levels.add(raw(levels.isEmpty() ? "saturation_first" : "saturation", n(saturation)));
+            levels.add(
+                    raw(levels.isEmpty() ? "saturation_first" : "saturation", number(saturation)));
         if (!levels.isEmpty()) out.add(sentence(levels));
         var durations = new ArrayList<Component>();
         double poison = value("poisonDurationMultiplier"),

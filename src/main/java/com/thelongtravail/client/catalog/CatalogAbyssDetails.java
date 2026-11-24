@@ -1,5 +1,9 @@
 package com.thelongtravail.client.catalog;
 
+import static com.thelongtravail.text.DisplayNumbers.percent;
+
+import static com.thelongtravail.text.DisplayNumbers.number;
+
 import com.thelongtravail.abyss.AbyssItemText;
 import com.thelongtravail.client.RainClient;
 import com.thelongtravail.client.ThemeTooltips;
@@ -11,7 +15,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 // 拾遗专用文稿。配置经现有 TooltipConfigSync 同步，不改变物品行为。
@@ -23,15 +26,7 @@ public final class CatalogAbyssDetails {
     }
 
     private static Component heading(String key) {
-        return line(key).copy().withStyle(s -> s.withColor(CatalogTextStyle.CONDITION));
-    }
-
-    private static String number(double value) {
-        return BigDecimal.valueOf(value).stripTrailingZeros().toPlainString();
-    }
-
-    private static String percent(double value) {
-        return BigDecimal.valueOf(value).movePointRight(2).stripTrailingZeros().toPlainString();
+        return CatalogTextStyle.heading(line(key));
     }
 
     private static double rain(String key, Number fallback) {
@@ -54,8 +49,7 @@ public final class CatalogAbyssDetails {
     }
 
     private static void bullets(List<Component> out, List<Component> rows) {
-        for (int i = 0; i < rows.size(); i++)
-            out.add(line(i == rows.size() - 1 ? "last" : "row", rows.get(i)));
+        CatalogTextStyle.bullets(out, rows, CatalogAbyssDetails::line);
     }
 
     public static List<Component> details(String id) {
@@ -64,7 +58,6 @@ public final class CatalogAbyssDetails {
             case "eki" -> {
                 out.add(line("eki.intro"));
                 weather(out, true);
-                out.add(line("carrying"));
                 out.add(Component.empty());
                 out.add(heading("eki.malice"));
                 bullets(

@@ -1,5 +1,7 @@
 package com.thelongtravail.item;
 
+import com.thelongtravail.equipment.AccessoryEquipRules;
+
 import com.thelongtravail.AspectTheme;
 import com.thelongtravail.config.FlourishingItemsConfig;
 import com.thelongtravail.flourishing.*;
@@ -61,17 +63,9 @@ public final class FlourishingAccessoryItem extends Item implements ICurioItem, 
     @Override
     public boolean canEquip(SlotContext context, ItemStack stack) {
         if (!(context.entity() instanceof Player p)) return false;
-        var slots =
-                spring
-                        ? FlourishingItemsConfig.SPRING_SLOTS.get()
-                        : FlourishingItemsConfig.AFFECTION_SLOTS.get();
-        if (p.level().isClientSide)
-            slots =
-                    com.thelongtravail.network.TooltipConfigSync.pool(
-                            spring ? "floral.springSlots" : "floral.affectionSlots", slots);
-        if (!slots.contains(context.identifier()) || (!spring && !Affection.ownerAllowed(stack, p)))
-            return false;
-        return com.thelongtravail.equipment.AccessoryEquipRules.unique(context, this, true);
+        if (!AccessoryEquipRules.matchesSlot(context, Affection.declaredSlot(spring))
+                || (!spring && !Affection.ownerAllowed(stack, p))) return false;
+        return com.thelongtravail.equipment.AccessoryEquipRules.unique(context, this);
     }
 
     @Override

@@ -1,5 +1,9 @@
 package com.thelongtravail.flourishing;
 
+import com.thelongtravail.equipment.CurioLookup;
+
+import com.thelongtravail.equipment.AccessoryEquipRules;
+
 import com.thelongtravail.config.FlourishingItemsConfig;
 import com.thelongtravail.registry.ModRegistry;
 
@@ -10,7 +14,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.*;
 
@@ -52,26 +55,22 @@ public final class Affection {
         return null;
     }
 
+    public static String declaredSlot(boolean spring) {
+        return spring ? "head" : "body";
+    }
+
     public static ItemStack equipped(Player p, boolean spring) {
         var reference = spring ? ModRegistry.SPRING_CORNER : ModRegistry.AFFECTION;
         if (!reference.isPresent()) return ItemStack.EMPTY;
         var item = reference.get();
-        var slots =
-                spring
-                        ? FlourishingItemsConfig.SPRING_SLOTS.get()
-                        : FlourishingItemsConfig.AFFECTION_SLOTS.get();
-        return CuriosApi.getCuriosInventory(p)
-                .map(
-                        inv -> {
-                            for (var result : inv.findCurios(item)) {
-                                var context = result.slotContext();
-                                if (!context.cosmetic()
-                                        && slots.contains(context.identifier())
-                                        && (spring || ownerAllowed(result.stack(), p)))
-                                    return result.stack();
-                            }
-                            return ItemStack.EMPTY;
-                        })
+        return CurioLookup.findFunctional(
+                        p,
+                        item,
+                        r ->
+                                AccessoryEquipRules.matchesSlot(
+                                                r.slotContext(), declaredSlot(spring))
+                                        && (spring || ownerAllowed(r.stack(), p)))
+                .map(r -> r.stack())
                 .orElse(ItemStack.EMPTY);
     }
 

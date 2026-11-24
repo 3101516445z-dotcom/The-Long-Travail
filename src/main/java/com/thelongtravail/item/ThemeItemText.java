@@ -1,5 +1,7 @@
 package com.thelongtravail.item;
 
+import static com.thelongtravail.text.DisplayNumbers.number;
+
 import com.thelongtravail.config.ThemeItemConfig;
 
 import net.minecraft.network.chat.Component;
@@ -129,10 +131,6 @@ public final class ThemeItemText {
                 },
                 net.minecraft.network.chat.Style.EMPTY);
         lines.add(current[0]);
-    }
-
-    private static String number(double value) {
-        return java.math.BigDecimal.valueOf(value).stripTrailingZeros().toPlainString();
     }
 
     private ThemeItemText() {}

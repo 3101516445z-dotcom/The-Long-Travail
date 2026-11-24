@@ -23,7 +23,7 @@ public final class DonQuixoteItem extends Item implements UniversalAccessoryItem
 
     @Override
     public boolean canEquip(SlotContext c, ItemStack s) {
-        return !c.cosmetic() && AccessoryEquipRules.unique(c, this);
+        return AccessoryEquipRules.canEquipUnique(c, this);
     }
 
     @Override

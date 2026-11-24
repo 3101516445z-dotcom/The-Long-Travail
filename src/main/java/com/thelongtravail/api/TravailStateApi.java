@@ -15,7 +15,15 @@ public final class TravailStateApi {
     public enum AspectState {
         INACTIVE,
         MALICE,
-        WITNESS
+        WITNESS;
+
+        public int phase() {
+            return switch (this) {
+                case INACTIVE -> 0;
+                case MALICE -> 1;
+                case WITNESS -> 2;
+            };
+        }
     }
 
     // 未装备日记时返回 INACTIVE；已装备但未初始化的日记按现有规则判定。

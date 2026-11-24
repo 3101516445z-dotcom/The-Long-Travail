@@ -23,7 +23,7 @@ public final class SeaBottleItem extends Item implements UniversalAccessoryItem,
 
     @Override
     public boolean canEquip(SlotContext context, ItemStack stack) {
-        return !context.cosmetic() && AccessoryEquipRules.unique(context, this);
+        return AccessoryEquipRules.canEquipUnique(context, this);
     }
 
     @Override

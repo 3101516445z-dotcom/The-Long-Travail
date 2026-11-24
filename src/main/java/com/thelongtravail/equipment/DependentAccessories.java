@@ -33,18 +33,14 @@ public final class DependentAccessories {
     static {
         register(
                 ModRegistry.DEMON_KING,
-                p -> !TravailCurios.stack(p).isEmpty(),
+                AccessoryEquipRules::hasDiary,
                 com.thelongtravail.underworld.UnderworldRelics::refresh);
-        register(
-                ModRegistry.PHOSPHOPHYLLITE,
-                p -> !TravailCurios.stack(p).isEmpty(),
-                com.thelongtravail.valley.Phosphophyllite::tick);
-        register(ModRegistry.LITTLE_PRINCE, AccessoryEquipRules::hasDiary, p -> {});
-        register(ModRegistry.THOUSAND_YEARS, p -> !TravailCurios.stack(p).isEmpty(), p -> {});
-        register(ModRegistry.STAR_VOICE, p -> !TravailCurios.stack(p).isEmpty(), p -> {});
+        register(ModRegistry.FREE_AND_EASY_WANDERING, AccessoryEquipRules::hasDiary, p -> {});
+        register(ModRegistry.THOUSAND_YEARS, AccessoryEquipRules::hasDiary, p -> {});
+        register(ModRegistry.STAR_VOICE, AccessoryEquipRules::hasDiary, p -> {});
         register(
                 ModRegistry.AZRAEL,
-                p -> !TravailCurios.stack(p).isEmpty(),
+                AccessoryEquipRules::hasDiary,
                 com.thelongtravail.valley.execution.AzraelState::forget);
     }
 

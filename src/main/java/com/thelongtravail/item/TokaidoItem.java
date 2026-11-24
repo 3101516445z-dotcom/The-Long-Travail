@@ -1,7 +1,9 @@
 package com.thelongtravail.item;
 
+import com.thelongtravail.equipment.AccessoryEquipRules;
+
 import com.thelongtravail.abyss.rain.RainTooltips;
-import com.thelongtravail.config.RainConfig;
+import com.thelongtravail.abyss.rain.RainState;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
@@ -34,13 +36,7 @@ public final class TokaidoItem extends Item implements ICurioItem, ItemDescripti
 
     @Override
     public boolean canEquip(SlotContext context, ItemStack stack) {
-        var slots =
-                context.entity().level().isClientSide
-                                && com.thelongtravail.abyss.rain.RainState.clientSlots != null
-                        ? com.thelongtravail.abyss.rain.RainState.clientSlots
-                        : RainConfig.SLOTS.get();
-        return slots.contains(context.identifier())
-                && com.thelongtravail.equipment.DependentAccessories.unique(context, this);
+        return AccessoryEquipRules.canEquipUnique(context, this, RainState.DECLARED_SLOT);
     }
 
     @Override

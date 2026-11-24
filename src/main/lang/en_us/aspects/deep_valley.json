@@ -53,7 +53,7 @@
   "tooltip.the_long_travail.underground_velvet.witness": "Using Underground Velvet increases the user's §6experience level§r by §a15 levels§r.",
   "message.the_long_travail.underground_velvet.failed": "A complete reward could not be generated, Underground Velvet was not consumed",
   "message.the_long_travail.underground_velvet.delivery_failed": "Some rewards could not be confirmed as delivered. Consumed Underground Velvet will not be refunded, and rewards will not be reissued.",
-  "tooltip.the_long_travail.summary.phosphophyllite.0": "§dWith The Long Travail equipped and Deep Valley still malicious:§r\n- Increases §6eligible attributes§r, but amplifies §6damage taken§r",
+  "tooltip.the_long_travail.summary.phosphophyllite.0": "Carry this item and equip The Long Travail for its effects to apply\n§dWith The Long Travail equipped and Deep Valley still malicious:§r\n- Increases §6eligible attributes§r, but amplifies §6damage taken§r",
   "tooltip.the_long_travail.summary.phosphophyllite.1": "§dWith The Long Travail equipped and Deep Valley witnessed:§r\n- Increases §6eligible attributes§r, but amplifies §6damage taken§r\n- §aBeing hit§r has a chance to §6restore health§r\n- Excess healing becomes §6absorption§r",
   "tooltip.the_long_travail.summary.underground_velvet.0": "§6Use while held:§r\n- §aRight-click§r to consume §a1 item§r and randomly obtain §aone type§r of §6ore or ingot§r",
   "tooltip.the_long_travail.summary.underground_velvet.1": "§dWith The Long Travail equipped and Deep Valley still malicious:§r\n- Use has a chance to grant extra §6loot§r from §aabandoned mineshafts§r\n- Use has a chance to grant extra §6loot§r from §aancient cities§r",

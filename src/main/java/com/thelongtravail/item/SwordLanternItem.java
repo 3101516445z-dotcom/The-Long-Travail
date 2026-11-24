@@ -3,7 +3,7 @@ package com.thelongtravail.item;
 import com.thelongtravail.text.TooltipStyle;
 
 import com.thelongtravail.AspectTheme;
-import com.thelongtravail.equipment.DependentAccessories;
+import com.thelongtravail.equipment.AccessoryEquipRules;
 import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.config.SwordLanternConfig;
 
@@ -28,9 +28,7 @@ public final class SwordLanternItem extends Item implements ICurioItem, ItemDesc
 
     @Override
     public boolean canEquip(SlotContext c, ItemStack s) {
-        return !c.cosmetic()
-                && c.identifier().equals("belt")
-                && DependentAccessories.unique(c, this);
+        return AccessoryEquipRules.canEquipUnique(c, this, "belt");
     }
 
     @Override

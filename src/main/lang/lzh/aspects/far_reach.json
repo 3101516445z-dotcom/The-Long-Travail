@@ -76,7 +76,7 @@
   "tooltip.the_long_travail.sun_chaser.strike": "攜者傷燃燒之目標時，另致相當於目標最大生命值%s%%之直擊傷害。",
   "item.the_long_travail.horizon_theory": "地平論",
   "tooltip.the_long_travail.flavor.horizon_theory": "大地居中，與萬物等距故也。",
-  "tooltip.the_long_travail.horizon_theory.details": "攜「地平論」並佩苦旅，乃生其效。\n攜多件不疊加。\n\n§d佩苦旅且窮遐惡意尚存時：§r\n- 單次受傷，所失生命值不逾最大生命值之%1$s%%；\n- 受擊時，若與攻擊者之高度差逾%3$s格，則免疫其所致傷害。\n\n§d佩苦旅且窮遐已然見證時：§r\n- 受傷後，得%2$s秒獨立無敵幀；\n- 與目標之高度差逾%4$s格時，對其所致傷害得%5$s%%傷害加成。",
+  "tooltip.the_long_travail.horizon_theory.details": "攜「地平論」並佩苦旅，乃生其效。\n\n§d佩苦旅且窮遐惡意尚存時：§r\n- 單次受傷，所失生命值不逾最大生命值之%1$s%%；\n- 受擊時，若與攻擊者之高度差逾%3$s格，則免疫其所致傷害。\n\n§d佩苦旅且窮遐已然見證時：§r\n- 受傷後，得%2$s秒獨立無敵幀；\n- 與目標之高度差逾%4$s格時，對其所致傷害得%5$s%%傷害加成。",
   "tooltip.the_long_travail.far_reach.malice.effect.health_loss": "• 因傷損失生命值，隨機去一增益，有%1$s之率盡去其增益。\n\n• 傷敵時，有%2$s之率隨機去一增益。此每%3$s秒至多一次。",
-  "tooltip.the_long_travail.summary.theme_items.horizon_theory": "攜之並佩苦旅後生效。\n§d佩苦旅且窮遐惡意尚存時：§r\n- 限單次受傷§6所失生命值§r\n- 與攻擊者§a高度差甚大§r時，§6免疫其傷害§r\n§d佩苦旅且窮遐已然見證時：§r\n- 受傷後得§6獨立無敵幀§r\n- 與目標§a高度差甚大§r時，得§6傷害加成§r"
+  "tooltip.the_long_travail.summary.theme_items.horizon_theory": "攜之並佩苦旅後生效\n§d佩苦旅且窮遐惡意尚存時：§r\n- 限單次受傷§6所失生命值§r\n- 與攻擊者§a高度差甚大§r時，§6免疫其傷害§r\n§d佩苦旅且窮遐已然見證時：§r\n- 受傷後得§6獨立無敵幀§r\n- 與目標§a高度差甚大§r時，得§6傷害加成§r"
 }

@@ -2,10 +2,8 @@ package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
 import com.thelongtravail.equipment.AccessoryEquipRules;
-import com.thelongtravail.equipment.DependentAccessories;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 
@@ -26,11 +24,8 @@ public final class AzraelItem extends Item implements ICurioItem {
 
     @Override
     public boolean canEquip(SlotContext context, ItemStack stack) {
-        return !context.cosmetic()
-                && context.identifier().equals("head")
-                && context.entity() instanceof Player player
-                && AccessoryEquipRules.hasDiary(player)
-                && DependentAccessories.unique(context, this);
+        return AccessoryEquipRules.matchesSlot(context, "head")
+                && AccessoryEquipRules.canEquipWithDiary(context, this);
     }
 
     @Override

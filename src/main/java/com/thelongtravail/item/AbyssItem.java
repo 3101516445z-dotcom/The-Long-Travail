@@ -45,9 +45,7 @@ public class AbyssItem extends Item implements ItemDescription {
 
         @Override
         public boolean canEquip(SlotContext c, ItemStack stack) {
-            return !c.cosmetic()
-                    && c.identifier().equals("hands")
-                    && AccessoryEquipRules.unique(c, this);
+            return AccessoryEquipRules.canEquipUnique(c, this, "hands");
         }
 
         @Override

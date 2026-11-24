@@ -14,9 +14,7 @@ public final class FlourishingItemsConfig {
     public static final Map<String, ForgeConfigSpec.DoubleValue> NUMBERS = new LinkedHashMap<>();
     public static final Map<Flower, ForgeConfigSpec.BooleanValue> ENABLED =
             new EnumMap<>(Flower.class);
-    public static ForgeConfigSpec.ConfigValue<List<? extends String>> SPRING_SLOTS,
-            AFFECTION_SLOTS,
-            BLACKLIST;
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> BLACKLIST;
 
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> BUD_BLACKLIST;
 
@@ -244,8 +242,6 @@ public final class FlourishingItemsConfig {
                 "生效距离，单位：方块；双方须处于同一维度。\n"
                         + "Maximum distance at which the effects apply, in blocks. Both entities must"
                         + " be in the same dimension.");
-        SPRING_SLOTS = slots(b, "spring_corner", "head");
-        AFFECTION_SLOTS = slots(b, "affection", "body");
         BLACKLIST =
                 ids(
                         b,
@@ -366,18 +362,6 @@ public final class FlourishingItemsConfig {
         number(b, "affection." + key, "items.affection." + key, v, min, max, comment);
     }
 
-    private static ForgeConfigSpec.ConfigValue<List<? extends String>> slots(
-            ForgeConfigSpec.Builder b, String id, String slot) {
-        return b.comment(
-                        "饰品可生效的Curios槽位。使用自定义槽位时，还需配置允许该饰品装备到该槽位的物品标签。",
-                        "Curios slots in which the accessory can take effect. Custom slots also"
-                                + " require item tags allowing the accessory to be equipped in those"
-                                + " slots.")
-                .defineListAllowEmpty(
-                        "items." + id + ".slots",
-                        List.of(slot),
-                        v -> v instanceof String s && s.matches("[a-z0-9_/-]{1,128}"));
-    }
 
     private static ForgeConfigSpec.ConfigValue<List<? extends String>> ids(
             ForgeConfigSpec.Builder b, String key, List<String> values, String comment) {

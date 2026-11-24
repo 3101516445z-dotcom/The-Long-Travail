@@ -1,5 +1,9 @@
 package com.thelongtravail.valley.execution;
 
+import com.thelongtravail.equipment.CurioLookup;
+
+import com.thelongtravail.equipment.AccessoryEquipRules;
+
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.config.AzraelConfig;
@@ -16,7 +20,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import top.theillusivec4.curios.api.CuriosApi;
 import java.util.*;
 
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
@@ -43,17 +46,8 @@ public final class AzraelState {
     public static boolean equipped(Player player) {
         if (!ModRegistry.AZRAEL.isPresent()) return false;
         if (TravailCurios.stack(player).isEmpty()) return false;
-        return CuriosApi.getCuriosInventory(player)
-                .map(
-                        inv ->
-                                inv.findCurios(ModRegistry.AZRAEL.get()).stream()
-                                        .anyMatch(
-                                                r ->
-                                                        !r.slotContext().cosmetic()
-                                                                && r.slotContext()
-                                                                        .identifier()
-                                                                        .equals("head")))
-                .orElse(false);
+        return CurioLookup.hasFunctional(
+                player, ModRegistry.AZRAEL, slot -> AccessoryEquipRules.matchesSlot(slot, "head"));
     }
 
     private static State state(ServerPlayer player) {

@@ -1,5 +1,10 @@
 package com.thelongtravail.valley.lantern;
 
+import com.thelongtravail.equipment.AccessoryEquipRules;
+
+import java.util.function.Predicate;
+import com.thelongtravail.equipment.CurioLookup;
+
 import com.thelongtravail.registry.RegisteredItems;
 
 import com.thelongtravail.registry.ModRegistry;
@@ -24,16 +29,20 @@ public final class LanternSources {
     }
 
     public static boolean equipped(Player player) {
-        if (!player.isAlive() || player.isSpectator()) return false;
-        var inventory = top.theillusivec4.curios.api.CuriosApi.getCuriosInventory(player).resolve();
-        if (inventory.isEmpty()) return false;
-        var belt = inventory.get().getStacksHandler("belt");
-        if (belt.isEmpty()) return false;
+        return hasEquippedLantern(player, LanternSources::enabled);
+    }
 
-        var stacks = belt.get().getStacks();
-        for (int i = 0; i < stacks.getSlots(); i++)
-            if (enabled(stacks.getStackInSlot(i))) return true;
-        return false;
+    static boolean hasEquippedLantern(Player player, Predicate<ItemStack> matches) {
+        if (!player.isAlive() || player.isSpectator()) return false;
+        return ModRegistry.SWORD_AND_LANTERN.isPresent()
+                && CurioLookup.findFunctional(
+                                player,
+                                ModRegistry.SWORD_AND_LANTERN.get(),
+                                result ->
+                                        AccessoryEquipRules.matchesSlot(
+                                                        result.slotContext(), "belt")
+                                                && matches.test(result.stack()))
+                        .isPresent();
     }
 
     public static boolean held(Player player) {

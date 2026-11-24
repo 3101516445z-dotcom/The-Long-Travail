@@ -2,7 +2,6 @@ package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
 import com.thelongtravail.equipment.AccessoryEquipRules;
-import com.thelongtravail.equipment.DependentAccessories;
 import com.thelongtravail.underworld.UnderworldItems;
 
 import net.minecraft.network.chat.Component;
@@ -31,12 +30,10 @@ public final class UnderworldAccessoryItem extends Item implements ICurioItem {
     @Override
     public boolean canEquip(SlotContext c, ItemStack stack) {
         return ring
-                && !c.cosmetic()
-                && c.identifier().equals("ring")
-                && c.entity() instanceof Player p
-                && !UnderworldItems.consumed(p, stack)
-                && AccessoryEquipRules.hasDiary(p)
-                && DependentAccessories.unique(c, this);
+                && AccessoryEquipRules.matchesSlot(c, "ring")
+                && c.entity() instanceof Player player
+                && !UnderworldItems.consumed(player, stack)
+                && AccessoryEquipRules.canEquipWithDiary(c, this);
     }
 
     @Override

@@ -24,10 +24,7 @@ public final class WayguideItem extends Item {
 
     @Override
     public Component getName(ItemStack stack) {
-        return super.getName(stack)
-                .copy()
-                .withStyle(
-                        style -> style.withColor(0xC5AA77).withInsertion("the_long_travail:name"));
+        return super.getName(stack).copy().withStyle(NameColoring::travailStyle);
     }
 
     @Override

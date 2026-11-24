@@ -40,6 +40,7 @@ public final class CatalogGlossary {
                     "lantern_combat",
                     "eligible_attributes",
                     "souls",
+                    "safe_landing",
                     "high_altitude",
                     "magic_damage",
                     "physical_damage",
@@ -124,6 +125,7 @@ public final class CatalogGlossary {
 
     private static boolean enabled(String id, String item) {
         return switch (id) {
+            case "safe_landing" -> item.equals("free_and_easy_wandering");
             case "magic_damage", "reapplication" -> item.equals("sea_in_a_bottle");
             // 物理类伤害卡片保留备用，暂不标记物品正文。
             case "physical_damage" -> false;

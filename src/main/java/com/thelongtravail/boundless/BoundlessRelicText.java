@@ -1,21 +1,19 @@
 package com.thelongtravail.boundless;
 
+import com.thelongtravail.text.DisplayNumbers;
+
 import com.thelongtravail.text.TooltipStyle;
 
 import com.thelongtravail.config.BoundlessItemsConfig;
 import com.thelongtravail.network.TooltipConfigSync;
 import net.minecraft.network.chat.Component;
-import java.math.BigDecimal;
 import java.util.*;
 
 public final class BoundlessRelicText {
-    private static String number(String key, double scale) {
-        return BigDecimal.valueOf(
-                        TooltipConfigSync.decimal(
-                                        "boundlessItem." + key, BoundlessItemsConfig.get(key))
-                                * scale)
-                .stripTrailingZeros()
-                .toPlainString();
+    static String number(String key, double scale) {
+        double value =
+                TooltipConfigSync.decimal("boundlessItem." + key, BoundlessItemsConfig.get(key));
+        return DisplayNumbers.number(value * scale);
     }
 
     public static String dreamDuration() {

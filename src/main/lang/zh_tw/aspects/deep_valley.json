@@ -53,7 +53,7 @@
   "tooltip.the_long_travail.underground_velvet.witness": "使用地下絲絨後，使用者的§6經驗等級§r增加§a15級§r。",
   "message.the_long_travail.underground_velvet.failed": "無法生成完整獎勵，本次未消耗地下絲絨",
   "message.the_long_travail.underground_velvet.delivery_failed": "部分獎勵未能確認送達。已消耗的地下絲絨不會返還，獎勵不會補發。",
-  "tooltip.the_long_travail.summary.phosphophyllite.0": "§d佩戴苦旅且幽谷尚有惡意時：§r\n- §6可接受屬性§r提高，但§6受到的傷害§r會被放大",
+  "tooltip.the_long_travail.summary.phosphophyllite.0": "攜帶並佩戴苦旅後生效\n§d佩戴苦旅且幽谷尚有惡意時：§r\n- §6可接受屬性§r提高，但§6受到的傷害§r會被放大",
   "tooltip.the_long_travail.summary.phosphophyllite.1": "§d佩戴苦旅且幽谷已然見證時：§r\n- §6可接受屬性§r提高，但§6受到的傷害§r會被放大\n- §a受擊§r時有概率§6恢復生命§r\n- 溢出治療量轉為§6傷害吸收§r",
   "tooltip.the_long_travail.summary.underground_velvet.0": "§6手持使用：§r\n- §a右擊§r，消耗§a1個§r並隨機獲得§a一種§r§6礦石或錠§r",
   "tooltip.the_long_travail.summary.underground_velvet.1": "§d佩戴苦旅且幽谷尚有惡意時：§r\n- 使用時有概率額外獲得§a廢棄礦井§r的§6戰利品§r\n- 使用時有概率額外獲得§a遠古城市§r的§6戰利品§r",

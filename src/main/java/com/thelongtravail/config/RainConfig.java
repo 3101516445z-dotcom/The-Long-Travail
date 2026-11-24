@@ -13,7 +13,6 @@ public final class RainConfig {
         REJECT
     }
 
-    public static final int MAX_SLOT_LENGTH = 128;
     public static ForgeConfigSpec.DoubleValue DAMAGE,
             SPEED,
             IMMUNITY,
@@ -40,7 +39,7 @@ public final class RainConfig {
             DRY_RAIN,
             SNOW_RAIN;
     public static ForgeConfigSpec.EnumValue<Repeat> REPEAT;
-    public static ForgeConfigSpec.ConfigValue<List<? extends String>> IMMUNITY_EXCLUSIONS, SLOTS;
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> IMMUNITY_EXCLUSIONS;
 
     public static void define(ForgeConfigSpec.Builder b) {
 
@@ -152,18 +151,6 @@ public final class RainConfig {
                                 + "Enable carrying detection through external providers or simulated"
                                 + " inventory updates.");
 
-        SLOTS =
-                b.comment(
-                                "允许生效的 Curios 槽位 ID。自定义槽位须另行允许此物品装备。\n"
-                                        + "Curios slot IDs where the item takes effect. Custom slots"
-                                        + " must also allow this item to be equipped.")
-                        .defineListAllowEmpty(
-                                "items.tokaido.slots",
-                                List.of("feet"),
-                                v ->
-                                        v instanceof String s
-                                                && s.length() <= MAX_SLOT_LENGTH
-                                                && s.matches("[a-z0-9_/-]+"));
         TOKAIDO_LOCAL =
                 flag(
                         b,

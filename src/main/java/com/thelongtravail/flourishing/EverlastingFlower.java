@@ -1,16 +1,18 @@
 package com.thelongtravail.flourishing;
 
+import com.thelongtravail.api.TravailStateApi;
+import com.thelongtravail.equipment.CurioLookup;
+
 import com.thelongtravail.*;
 import com.thelongtravail.combat.DamageReplay;
 import com.thelongtravail.config.*;
-import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.growth.GrowthScheduler;
-import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.registry.ModRegistry;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.*;
@@ -21,7 +23,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotResult;
 
 import java.util.UUID;
 
@@ -50,14 +52,9 @@ public final class EverlastingFlower {
         if (!entity.isAlive() || entity.isSpectator()) return ItemStack.EMPTY;
         if (com.thelongtravail.integration.MaidIntegration.isMaid(entity))
             return com.thelongtravail.integration.MaidIntegration.flowerStack(entity);
-        if (!(entity instanceof net.minecraft.world.entity.player.Player)) return ItemStack.EMPTY;
-        return CuriosApi.getCuriosInventory(entity)
-                .map(
-                        inv -> {
-                            for (var result : inv.findCurios(ModRegistry.EVERLASTING_FLOWER.get()))
-                                if (!result.slotContext().cosmetic()) return result.stack();
-                            return ItemStack.EMPTY;
-                        })
+        if (!(entity instanceof Player player)) return ItemStack.EMPTY;
+        return CurioLookup.findFunctional(player, ModRegistry.EVERLASTING_FLOWER.get())
+                .map(SlotResult::stack)
                 .orElse(ItemStack.EMPTY);
     }
 
@@ -69,10 +66,7 @@ public final class EverlastingFlower {
         if (equipped.isEmpty()) return 0;
         if (!(entity instanceof ServerPlayer player))
             return com.thelongtravail.integration.MaidIntegration.flowerPhase(entity);
-        var diary = TravailCurios.stack(player);
-        return diary.isEmpty()
-                ? 0
-                : LongTravailData.hasWitness(diary, TravailAspect.FLOURISHING) ? 2 : 1;
+        return TravailStateApi.state(player, TravailAspect.FLOURISHING).phase();
     }
 
     public static boolean growthEnabled(ItemStack stack) {

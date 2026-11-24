@@ -1,11 +1,12 @@
 package com.thelongtravail.client.catalog;
 
+import com.thelongtravail.client.CarryingConditions;
+import com.thelongtravail.equipment.AccessoryEquipRules;
 import static com.thelongtravail.registry.ModRegistry.*;
 
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.abyss.rain.RainTooltips;
 import com.thelongtravail.client.RainClient;
-import com.thelongtravail.equipment.TravailCurios;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -518,39 +519,24 @@ public final class CatalogEntries {
     public static List<Component> details(Entry entry, ItemStack actual) {
         List<Component> out = new ArrayList<>();
         var player = Minecraft.getInstance().player;
-        if (player != null
-                && TravailCurios.stack(player).isEmpty()
-                && (entry.category == Category.ESSENCE
-                        || Set.of(
-                                        "demon_king_of_the_sixth_heaven",
-                                        "myriad_souls_banner",
-                                        "phosphophyllite",
-                                        "little_prince",
-                                        "underground_velvet",
-                                        "don_quixote",
-                                        "high_frequency_tremor",
-                                        "sun_chaser",
-                                        "kagotsurube",
-                                        "tower_of_babel",
-                                        "everlasting_flower",
-                                        "eki",
-                                        "golden_age",
-                                        "icarus",
-                                        "midnight_lafite",
-                                        "azrael",
-                                        "a_thousand_years_later",
-                                        "book_of_the_dead",
-                                        "star_voice",
-                                        "lorentz_fantasy")
-                                .contains(entry.id))) {
-            out.add(
-                    Component.translatable("gui.the_long_travail.catalog.missing_travail")
-                            .withStyle(s -> s.withColor(CatalogTextStyle.WARNING)));
+        String warningKey = CarryingConditions.diaryWarningKey(entry.id);
+        if (warningKey != null && player != null && !AccessoryEquipRules.hasDiary(player)) {
+            out.add(CarryingConditions.diaryWarning(warningKey, true));
             out.add(Component.empty());
         }
         var body = new ArrayList<>(entry.details.build(entry.stack()));
         while (!body.isEmpty() && body.get(0).getString().isBlank()) body.remove(0);
         out.addAll(body);
+        if (CarryingConditions.hasNonStackingHint(entry.id)) {
+            while (!out.isEmpty() && out.get(out.size() - 1).getString().isBlank())
+                out.remove(out.size() - 1);
+            out.add(Component.empty());
+            out.add(
+                    Component.translatable("tooltip.the_long_travail.summary.carrying_non_stacking")
+                            .append(
+                                    Component.translatable(
+                                            "gui.the_long_travail.catalog.abyss.period")));
+        }
         return CatalogTextStyle.apply(out);
     }
 

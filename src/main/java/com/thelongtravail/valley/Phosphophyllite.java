@@ -4,7 +4,7 @@ import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.common.*;
 import com.thelongtravail.compat.arsnouveau.ArsNouveauAttributeRules;
 import com.thelongtravail.config.*;
-import com.thelongtravail.equipment.AccessoryEquipRules;
+import com.thelongtravail.api.CarryingApi;
 import com.thelongtravail.registry.ModRegistry;
 import com.thelongtravail.runtime.effects.OverflowHealing;
 
@@ -48,10 +48,8 @@ public final class Phosphophyllite {
     public static int phase(LivingEntity entity) {
         if (!entity.isAlive() || entity.isSpectator()) return 0;
         if (entity instanceof ServerPlayer p) {
-            if (!AccessoryEquipRules.hasEquipped(p, ModRegistry.PHOSPHOPHYLLITE)) return 0;
-            return TravailStateApi.hasDeepValleyWitness(p)
-                    ? 2
-                    : TravailStateApi.hasDeepValleyMalice(p) ? 1 : 0;
+            if (!CarryingApi.isCarrying(p, ModRegistry.PHOSPHOPHYLLITE)) return 0;
+            return TravailStateApi.state(p, com.thelongtravail.TravailAspect.DEEP_VALLEY).phase();
         }
         return com.thelongtravail.integration.MaidIntegration.phosphophyllitePhase(entity);
     }

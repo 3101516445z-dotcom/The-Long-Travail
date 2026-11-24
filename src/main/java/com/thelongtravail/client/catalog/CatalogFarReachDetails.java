@@ -17,7 +17,7 @@ public final class CatalogFarReachDetails {
 
     private static void section(List<Component> out, String key) {
         out.add(Component.empty());
-        out.add(line(key).copy().withStyle(s -> s.withColor(CatalogTextStyle.CONDITION)));
+        out.add(CatalogTextStyle.heading(line(key)));
     }
 
     private static String n(String key, int scale) {
@@ -39,8 +39,7 @@ public final class CatalogFarReachDetails {
     }
 
     private static void bullets(List<Component> out, Component... rows) {
-        for (int i = 0; i < rows.length; i++)
-            out.add(line(i == rows.length - 1 ? "last" : "row", rows[i]));
+        CatalogTextStyle.bullets(out, java.util.Arrays.asList(rows), CatalogFarReachDetails::line);
     }
 
     public static List<Component> details(String id) {
@@ -48,7 +47,6 @@ public final class CatalogFarReachDetails {
         switch (id) {
             case "golden_age" -> {
                 out.add(line("gold.0"));
-                out.add(line("carrying"));
                 out.add(Component.empty());
                 out.add(line("gold.1"));
                 out.add(line("gold.2", n("golden_age.waterTime", 1), n("golden_age.range", 1)));
@@ -101,7 +99,6 @@ public final class CatalogFarReachDetails {
             case "tower_of_babel" -> {
                 out.add(line("babel.0"));
                 out.add(line("babel.1"));
-                out.add(line("carrying"));
                 section(out, "malice");
                 bullets(
                         out,
@@ -117,7 +114,6 @@ public final class CatalogFarReachDetails {
             case "sun_chaser" -> {
                 out.add(line("sun.0"));
                 bullets(out, line("sun.1"), line("sun.2", n("sun_chaser.healing", 1)));
-                out.add(line("carrying"));
                 section(out, "malice");
                 bullets(
                         out,

@@ -1,9 +1,11 @@
 package com.thelongtravail.item;
 
 import com.thelongtravail.AspectTheme;
+import com.thelongtravail.api.CarryingApi;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import com.thelongtravail.equipment.AccessoryEquipRules;
 import com.thelongtravail.boundless.*;
-import com.thelongtravail.equipment.DependentAccessories;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.*;
@@ -16,15 +18,38 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import java.util.*;
 
-public class BoundlessRelicItem extends Item implements ItemDescription, ICurioItem {
-    public static final class Prince extends BoundlessRelicItem implements UniversalAccessoryItem {
+public class BoundlessRelicItem extends Item implements ItemDescription {
+    public static final class Prince extends BoundlessRelicItem {
         public Prince() {
             super(true);
         }
 
         @Override
-        public boolean canEquip(SlotContext context, ItemStack stack) {
-            return AccessoryEquipRules.canEquipWithDiary(context, this);
+        public void inventoryTick(
+                ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
+            if (entity instanceof ServerPlayer player)
+                CarryingApi.inventoryTick(player, this, slot);
+        }
+    }
+
+    public static final class Lorentz extends BoundlessRelicItem implements ICurioItem {
+        public Lorentz() {
+            super(false);
+        }
+
+        @Override
+        public boolean canEquip(SlotContext c, ItemStack s) {
+            return AccessoryEquipRules.canEquipUnique(c, this, "bracelet");
+        }
+
+        @Override
+        public boolean canEquipFromUse(SlotContext c, ItemStack s) {
+            return !c.entity().isShiftKeyDown();
+        }
+
+        @Override
+        public boolean canRightClickEquip(ItemStack s) {
+            return true;
         }
     }
 
@@ -38,24 +63,6 @@ public class BoundlessRelicItem extends Item implements ItemDescription, ICurioI
     @Override
     public Component getName(ItemStack s) {
         return AspectTheme.BOUNDLESS.name(super.getName(s));
-    }
-
-    @Override
-    public boolean canEquip(SlotContext c, ItemStack s) {
-        return !c.cosmetic()
-                && c.identifier().equals("bracelet")
-                && c.entity() instanceof Player p
-                && DependentAccessories.unique(c, this);
-    }
-
-    @Override
-    public boolean canEquipFromUse(SlotContext c, ItemStack s) {
-        return !c.entity().isShiftKeyDown();
-    }
-
-    @Override
-    public boolean canRightClickEquip(ItemStack s) {
-        return true;
     }
 
     @Override

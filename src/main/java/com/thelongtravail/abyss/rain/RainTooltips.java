@@ -8,8 +8,7 @@ import java.util.*;
 
 public final class RainTooltips {
     // 服务端共用的组件只供读取；客户端修改样式前须先复制。
-    record ServerSnapshot(
-            long revision, List<Component> eki, List<Component> tokaido, List<String> slots) {}
+    record ServerSnapshot(long revision, List<Component> eki, List<Component> tokaido) {}
 
     private static ServerSnapshot serverSnapshot;
     private static List<Object> serverValues;
@@ -47,7 +46,6 @@ public final class RainTooltips {
                                     com.thelongtravail.registry.ModRegistry.EKI,
                                     "externalInventoryTick"),
                             List.copyOf(RainConfig.IMMUNITY_EXCLUSIONS.get()),
-                            List.copyOf(RainConfig.SLOTS.get()),
                             RainConfig.TOKAIDO_LOCAL.get(),
                             RainConfig.TOKAIDO_SKY.get(),
                             RainConfig.HEAL.get(),
@@ -62,12 +60,7 @@ public final class RainTooltips {
                             RainConfig.SNOW_RAIN.get());
             if (!values.equals(serverValues)) {
                 serverValues = values;
-                serverSnapshot =
-                        new ServerSnapshot(
-                                ++revision,
-                                ekiSnapshot(),
-                                tokaidoSnapshot(),
-                                List.copyOf(RainConfig.SLOTS.get()));
+                serverSnapshot = new ServerSnapshot(++revision, ekiSnapshot(), tokaidoSnapshot());
             }
         }
         return serverSnapshot;

@@ -33,6 +33,18 @@ public final class CatalogTextStyle {
             WARNING = 0xFF5555,
             MUTED = 0x555555;
 
+    static Component heading(Component title) {
+        return title.copy().withStyle(style -> style.withColor(CONDITION));
+    }
+
+    static void bullets(
+            List<Component> out,
+            List<Component> rows,
+            java.util.function.BiFunction<String, Component, Component> line) {
+        for (int i = 0; i < rows.size(); i++)
+            out.add(line.apply(i == rows.size() - 1 ? "last" : "row", rows.get(i)));
+    }
+
     private record Flat(String text, List<Style> styles) {}
 
     private record TermMatch(int start, int end, String term) {}

@@ -21,10 +21,10 @@
   "gui.the_long_travail.catalog.valley.lantern.6": "持续战斗超过%s分钟时，获得%s%%的伤害加成",
   "gui.the_long_travail.catalog.valley.lantern.7": "当前生命值低于最大生命值的%s%%时，获得%s%%的伤害加成",
   "gui.the_long_travail.catalog.valley.lantern.8": "周围敌人与孤身一人的判定半径为%s格。",
-  "gui.the_long_travail.catalog.valley.phos.malice": "佩戴者可接受属性提高%s%%，受到的伤害提高%s%%。",
-  "gui.the_long_travail.catalog.valley.phos.stats": "佩戴者可接受属性提高%s%%，受到的伤害提高%s%%",
-  "gui.the_long_travail.catalog.valley.phos.heal": "佩戴者受击时，有%s%%的概率恢复相当于佩戴者最大生命值%s%%的生命值，溢出的治疗量转化为伤害吸收",
-  "gui.the_long_travail.catalog.valley.phos.end": "卸下「磷叶石」不会清除已获得的伤害吸收。",
+  "gui.the_long_travail.catalog.valley.phos.malice": "可接受属性提高%s%%，受到的伤害提高%s%%。",
+  "gui.the_long_travail.catalog.valley.phos.stats": "可接受属性提高%s%%，受到的伤害提高%s%%",
+  "gui.the_long_travail.catalog.valley.phos.heal": "受击时，有%s%%的概率恢复自身最大生命值的%s%%，溢出的治疗量转化为伤害吸收",
+  "gui.the_long_travail.catalog.valley.phos.end": "「磷叶石」停止生效后，已获得的伤害吸收仍会保留。",
   "gui.the_long_travail.catalog.valley.velvet.0": "右键使用「地下丝绒」，消耗1个并随机获得以下一种奖励：",
   "gui.the_long_travail.catalog.valley.velvet.ore": "%s%%的概率获得8个同种矿石",
   "gui.the_long_travail.catalog.valley.velvet.ingot": "%s%%的概率获得8个同种锭",
@@ -54,9 +54,10 @@
   "gui.the_long_travail.catalog.glossary.lantern_undead.title": "对阵亡灵",
   "gui.the_long_travail.catalog.glossary.lantern_undead.aliases": "对阵亡灵",
   "gui.the_long_travail.catalog.glossary.lantern_undead.body": "周围敌人中包含亡灵生物即满足要求。",
-  "gui.the_long_travail.catalog.valley.phos.heal.health_loss": "佩戴者因伤害损失生命值时，有%s%%的概率恢复相当于佩戴者最大生命值%s%%的生命值，溢出的治疗量转化为伤害吸收",
+  "gui.the_long_travail.catalog.valley.phos.heal.health_loss": "因伤害损失生命值时，有%s%%的概率恢复自身最大生命值的%s%%，溢出的治疗量转化为伤害吸收",
   "gui.the_long_travail.catalog.valley.tremor.harvest": "具有下界合金镐的采掘能力",
   "gui.the_long_travail.catalog.valley.tremor.speed": "挖掘速度为下界合金镐的2倍",
   "gui.the_long_travail.catalog.valley.tremor.durability": "使用时不会损耗耐久",
-  "gui.the_long_travail.catalog.valley.tremor.collection": "正常破坏与特殊破坏产生的方块掉落物都会自动进入背包"
+  "gui.the_long_travail.catalog.valley.tremor.collection": "正常破坏与特殊破坏产生的方块掉落物都会自动进入背包",
+  "gui.the_long_travail.catalog.valley.phos.intro": "携带「磷叶石」并佩戴苦旅后生效。"
 }

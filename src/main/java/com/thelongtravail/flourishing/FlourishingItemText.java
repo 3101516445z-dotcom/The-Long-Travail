@@ -1,12 +1,14 @@
 package com.thelongtravail.flourishing;
 
+import static com.thelongtravail.text.DisplayNumbers.number;
+
 import com.thelongtravail.text.TooltipStyle;
 
 import com.thelongtravail.config.FlourishingGrowthConfig;
 import com.thelongtravail.config.FlourishingItemsConfig;
 import com.thelongtravail.network.TooltipConfigSync;
 import net.minecraft.network.chat.Component;
-import java.math.BigDecimal;
+import com.thelongtravail.text.DisplayNumbers;
 import java.util.*;
 
 public final class FlourishingItemText {
@@ -23,15 +25,8 @@ public final class FlourishingItemText {
         return TooltipConfigSync.decimal("floral." + key, fallback);
     }
 
-    private static String n(double v) {
-        return BigDecimal.valueOf(v).stripTrailingZeros().toPlainString();
-    }
-
     private static String percent(String key) {
-        return BigDecimal.valueOf(value(key))
-                .movePointRight(2)
-                .stripTrailingZeros()
-                .toPlainString();
+        return DisplayNumbers.percent(value(key));
     }
 
     private static Component line(String key, Object... args) {
@@ -44,7 +39,7 @@ public final class FlourishingItemText {
         var out = new ArrayList<Component>();
         String id = flower ? "everlasting_flower." : "mistletoe.";
         if (!flower) {
-            out.add(line(id + "0", n(value("mistletoe.durationSeconds"))));
+            out.add(line(id + "0", number(value("mistletoe.durationSeconds"))));
             out.add(
                     line(
                             id + "1",
@@ -54,8 +49,8 @@ public final class FlourishingItemText {
             out.add(
                     line(
                             id + "2",
-                            n(value("mistletoe.durationSeconds")),
-                            n(value("mistletoe.maxLevel"))));
+                            number(value("mistletoe.durationSeconds")),
+                            number(value("mistletoe.maxLevel"))));
             out.add(line(id + "3"));
             out.add(Component.empty());
             out.add(line(id + "4", percent("mistletoe.expiryDamagePerLevel")));
@@ -68,12 +63,12 @@ public final class FlourishingItemText {
             out.add(Component.empty());
             out.add(line(id + "7"));
         } else {
-            out.add(line(id + "0", n(value("growth.radius")), n(value("growth.height"))));
+            out.add(line(id + "0", number(value("growth.radius")), number(value("growth.height"))));
             out.add(line(id + "1"));
             out.add(Component.empty());
             out.add(line(id + "2"));
             double seconds = value("growth.interval") / 20;
-            out.add(seconds == 1 ? line(id + "every_second") : line(id + "3", n(seconds)));
+            out.add(seconds == 1 ? line(id + "every_second") : line(id + "3", number(seconds)));
             out.add(Component.empty());
             out.add(line(id + "4"));
             int rank = (int) value("resistanceLevel");
@@ -86,7 +81,7 @@ public final class FlourishingItemText {
                             id + "5",
                             percent("everlasting_flower.malice.resistanceChance"),
                             roman,
-                            n(value("everlasting_flower.malice.resistanceSeconds"))));
+                            number(value("everlasting_flower.malice.resistanceSeconds"))));
             out.add(
                     line(
                             id + "6",

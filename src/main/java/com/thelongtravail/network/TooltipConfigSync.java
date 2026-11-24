@@ -362,13 +362,6 @@ public final class TooltipConfigSync {
                     List.copyOf(TravailConfig.STRUCTURE_POOLS.get(aspect).get()));
         }
         pools.put(
-                "floral.springSlots",
-                List.copyOf(com.thelongtravail.config.FlourishingItemsConfig.SPRING_SLOTS.get()));
-        pools.put(
-                "floral.affectionSlots",
-                List.copyOf(
-                        com.thelongtravail.config.FlourishingItemsConfig.AFFECTION_SLOTS.get()));
-        pools.put(
                 "abyss.fluidBlacklist",
                 List.copyOf(com.thelongtravail.config.AbyssItemsConfig.BLACKLIST.get()));
         pools.put(
