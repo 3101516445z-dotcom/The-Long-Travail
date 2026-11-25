@@ -76,7 +76,7 @@
   "message.the_long_travail.high_frequency_tremor.blacklisted": "高频战栗：该方块已被列入破坏黑名单。",
   "item.the_long_travail.last_affairs": "身后事",
   "tooltip.the_long_travail.flavor.last_affairs": "因饥饿而形销骨立，因将死而朝不虑夕……",
-  "tooltip.the_long_travail.last_affairs.details": "手持「身后事」时，潜行右键可切换传送目的地：出生点、最近一次的死亡位置。\n长按右键蓄力满%1$s秒，消耗一份身后事，将使用者传送到目的地，并为使用者施加%2$s秒还魂。",
+  "tooltip.the_long_travail.last_affairs.details": "手持「身后事」时，潜行右键可切换传送目的地：出生点、最近一次的死亡位置。\n长按右键蓄力满%1$s秒，消耗一份身后事，将使用者传送到目的地。使用者获得「还魂」，持续%2$s秒。",
   "message.the_long_travail.last_affairs.charging_spawn": "蓄满后返回出生点",
   "message.the_long_travail.last_affairs.charging_death": "蓄满后返回最近死亡位置",
   "tooltip.the_long_travail.last_affairs.destination.spawn": "§6传送目的地：§r§a出生点§r",

@@ -12,7 +12,7 @@
   "gui.the_long_travail.diary.prose.boundless.witness": "平凡的日子被远远留在身后，\n曾经坠落的天空，\n在虚无中缓慢盛放。\n\n黑暗交错如藤，\n牵住脚步，指引前路。\n旅人走入那扇门后，\n成为空空世界的独一无二。",
   "gui.the_long_travail.diary.prose.boundless.malice": "梦走在梦中，天悬于天外。\n末路，末路，再向前走一点。\n\n旅人记叙着虚空的混沌，\n攥写无形无相之物。\n荒原浮在群星之四方，\n沉睡在宏大的寂静里。",
   "tooltip.the_long_travail.boundless.malice.title": "-- 无垠之恶意 --",
-  "tooltip.the_long_travail.boundless.malice.effect": "• 飞行与鞘翅飞行时无法造成伤害。\n\n• Y 坐标高于%1$s时，移动速度降低%2$s。",
+  "tooltip.the_long_travail.boundless.malice.effect": "• 飞行与鞘翅飞行时无法造成伤害。\n\n• Y 坐标高于%1$s时，移动速度降低%2$s，飞行与鞘翅飞行同样受此限制。",
   "tooltip.the_long_travail.boundless.witness.title": "-- 无垠之见证 --",
   "tooltip.the_long_travail.boundless.witness.effect": "• 摧毁3格内不属于自身或友方的弹射物，已插入方块的箭矢和三叉戟除外。\n\n• 每%2$s秒，击杀佩戴者%1$s格内的幻翼并获得额外战利品。",
   "tooltip.the_long_travail.free_and_easy_wandering.effect": "按[§a%s§r]发动技能：§6入梦§r。",

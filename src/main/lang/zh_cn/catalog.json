@@ -75,7 +75,7 @@
   "gui.the_long_travail.catalog.glossary.mara_transformation.body": "效果持续期间：\n- 获得15%的伤害加成；\n- 造成的伤害转化为直击伤害；\n- 造成伤害时，对目标施加凋零Ⅱ，持续5秒；\n- 每秒损失相当于最大生命值5%的生命值（不会使生命值低于1）。",
   "gui.the_long_travail.catalog.glossary.revival.title": "还魂",
   "gui.the_long_travail.catalog.glossary.revival.aliases": "还魂",
-  "gui.the_long_travail.catalog.glossary.revival.body": "效果持续期间：\n- 造成的伤害降低99%；\n- 移动速度降低50%。",
+  "gui.the_long_travail.catalog.glossary.revival.body": "效果持续期间：\n- 造成的伤害降低99%；\n- 移动速度降低50%，飞行与鞘翅飞行同样受此限制。",
   "gui.the_long_travail.catalog.glossary.among_all_things.title": "我于万物之中",
   "gui.the_long_travail.catalog.glossary.among_all_things.aliases": "我于万物之中",
   "gui.the_long_travail.catalog.glossary.among_all_things.body": "效果持续期间：\n- 无法造成或受到伤害；\n- 阻止生命值被直接扣除；\n- 无法被其他生物选为攻击或复仇目标。"
