@@ -126,9 +126,9 @@ public final class CatalogGlossary {
     private static boolean enabled(String id, String item) {
         return switch (id) {
             case "safe_landing" -> item.equals("free_and_easy_wandering");
-            case "magic_damage", "reapplication" -> item.equals("sea_in_a_bottle");
-            // 物理类伤害卡片保留备用，暂不标记物品正文。
-            case "physical_damage" -> false;
+            case "magic_damage" -> item.equals("sea_in_a_bottle") || item.equals("icarus");
+            case "reapplication" -> item.equals("sea_in_a_bottle");
+            case "physical_damage" -> item.equals("kagotsurube");
             case "independent_invulnerability", "height_difference" ->
                     item.equals("horizon_theory");
             case "magic_purification" -> item.equals("moon_toad_pastry");
@@ -150,6 +150,8 @@ public final class CatalogGlossary {
                                     "everlasting_flower",
                                     "icarus",
                                     "don_quixote",
+                                    "sea_in_a_bottle",
+                                    "kagotsurube",
                                     "sun_chaser")
                             .contains(item);
             case "lantern_alone", "lantern_enemies", "lantern_undead", "lantern_combat" ->

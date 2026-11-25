@@ -1,9 +1,9 @@
 package com.thelongtravail.farreach;
 
-import com.thelongtravail.farreach.babel.BabelCarrying;
-
 import com.thelongtravail.config.FarReachRelicsConfig;
+import com.thelongtravail.farreach.babel.BabelCarrying;
 import com.thelongtravail.integration.MaidIntegration;
+import com.thelongtravail.runtime.player.PlayerCooldowns;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -59,8 +59,12 @@ public final class DonQuixoteState {
     }
 
     public static void tick(LivingEntity p) {
-        int ticks = cooldown(p);
-        if (ticks > 0) cooldown(p, ticks - 1);
+        if (p instanceof ServerPlayer player) {
+            PlayerCooldowns.tick(player, COOLDOWN);
+        } else {
+            int ticks = MaidIntegration.quixoteCooldown(p);
+            if (ticks > 0) MaidIntegration.quixoteCooldown(p, ticks - 1);
+        }
         Guard guard = GUARDS.get(p);
         if (!DonQuixoteCombat.equipped(p)
                 || DonQuixoteCombat.phase(p) != 2
@@ -73,13 +77,13 @@ public final class DonQuixoteState {
     }
 
     private static int cooldown(LivingEntity e) {
-        return e instanceof ServerPlayer
-                ? e.getPersistentData().getInt(COOLDOWN)
+        return e instanceof ServerPlayer player
+                ? PlayerCooldowns.remainingTicks(player, COOLDOWN)
                 : MaidIntegration.quixoteCooldown(e);
     }
 
     private static void cooldown(LivingEntity e, int ticks) {
-        if (e instanceof ServerPlayer) e.getPersistentData().putInt(COOLDOWN, ticks);
+        if (e instanceof ServerPlayer player) PlayerCooldowns.startTicks(player, COOLDOWN, ticks);
         else MaidIntegration.quixoteCooldown(e, ticks);
     }
 
@@ -90,9 +94,8 @@ public final class DonQuixoteState {
 
     @SubscribeEvent
     public static void clone(PlayerEvent.Clone e) {
-        e.getEntity()
-                .getPersistentData()
-                .putInt(COOLDOWN, e.getOriginal().getPersistentData().getInt(COOLDOWN));
+        PlayerCooldowns.startTicks(
+                e.getEntity(), COOLDOWN, PlayerCooldowns.storedTicks(e.getOriginal(), COOLDOWN));
         if (e.getOriginal() instanceof ServerPlayer p) GUARDS.remove(p);
     }
 

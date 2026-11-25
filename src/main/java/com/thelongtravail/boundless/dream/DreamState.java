@@ -1,17 +1,16 @@
 package com.thelongtravail.boundless.dream;
 
 import com.thelongtravail.boundless.BoundlessEquipment;
-
 import com.thelongtravail.boundless.timestop.TimeStopManager;
-import com.thelongtravail.boundless.timestop.StarVoiceState;
-
 import com.thelongtravail.config.BoundlessItemsConfig;
 import com.thelongtravail.network.BoundlessPacket;
+import com.thelongtravail.runtime.player.PlayerCooldowns;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.GameType;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.Vec3;
 
 public final class DreamState {
@@ -33,7 +32,7 @@ public final class DreamState {
                 || p.isSpectator()
                 || !BoundlessEquipment.equipped(p, true)
                 || p.containerMenu != p.inventoryMenu) return;
-        if (p.getPersistentData().getInt(COOLDOWN) > 0) {
+        if (PlayerCooldowns.remainingTicks(p, COOLDOWN) > 0) {
             message(p, "cooldown");
             return;
         }
@@ -51,17 +50,14 @@ public final class DreamState {
             return;
         }
         p.stopRiding();
-        p.getPersistentData().putInt(COOLDOWN, BoundlessItemsConfig.ticks("dream.cooldown"));
+        PlayerCooldowns.startTicks(p, COOLDOWN, BoundlessItemsConfig.ticks("dream.cooldown"));
         BoundlessPacket.sendDream(p, true);
         message(p, "success");
         if (n.getInt("left") > 0 && n.getInt("left") <= 100) message(p, "countdown");
     }
 
     public static void tick(ServerPlayer p) {
-        int oldCooldown = p.getPersistentData().getInt(COOLDOWN);
-        StarVoiceState.decrement(p, COOLDOWN);
-        if (oldCooldown > 0 && p.getPersistentData().getInt(COOLDOWN) == 0)
-            BoundlessPacket.sendDream(p, active(p));
+        if (PlayerCooldowns.tick(p, COOLDOWN)) BoundlessPacket.sendDream(p, active(p));
         if (!active(p)) return;
         CompoundTag n = p.getPersistentData().getCompound(RECORD);
         if (n.getBoolean("exiting")) {

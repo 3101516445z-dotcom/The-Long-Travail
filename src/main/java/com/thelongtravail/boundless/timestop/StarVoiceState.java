@@ -1,9 +1,10 @@
 package com.thelongtravail.boundless.timestop;
 
-import com.thelongtravail.boundless.BoundlessEquipment;
-
 import com.thelongtravail.api.TravailStateApi;
+import com.thelongtravail.boundless.BoundlessEquipment;
 import com.thelongtravail.config.BoundlessItemsConfig;
+import com.thelongtravail.runtime.player.PlayerCooldowns;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -39,28 +40,27 @@ public final class StarVoiceState {
         boolean witness = TravailStateApi.hasBoundlessWitness(p);
         if (attacking != witness) return;
         if (witness
-                && (p.getPersistentData().getInt(COOLDOWN) > 0
-                        || p.getPersistentData().getInt(INTERVAL) > 0)) return;
-        if (!witness && p.getPersistentData().getInt(RECEIVED_INTERVAL) > 0) return;
-        p.getPersistentData()
-                .putInt(
-                        witness ? INTERVAL : RECEIVED_INTERVAL,
-                        BoundlessItemsConfig.ticks(
-                                witness ? "star.witnessInterval" : "star.maliceInterval"));
+                && (PlayerCooldowns.remainingTicks(p, COOLDOWN) > 0
+                        || PlayerCooldowns.remainingTicks(p, INTERVAL) > 0)) return;
+        if (!witness && PlayerCooldowns.remainingTicks(p, RECEIVED_INTERVAL) > 0) return;
+        PlayerCooldowns.startTicks(
+                p,
+                witness ? INTERVAL : RECEIVED_INTERVAL,
+                BoundlessItemsConfig.ticks(
+                        witness ? "star.witnessInterval" : "star.maliceInterval"));
         if (p.getRandom().nextDouble()
                 < BoundlessItemsConfig.get(witness ? "star.witnessChance" : "star.maliceChance"))
             TimeStopManager.get(p.serverLevel()).start(p, witness);
     }
 
     public static void tick(ServerPlayer p) {
-        if (!TimeStopManager.locked(p.getUUID())) decrement(p, COOLDOWN);
-        decrement(p, INTERVAL);
-        decrement(p, RECEIVED_INTERVAL);
+        if (!TimeStopManager.locked(p.getUUID())) PlayerCooldowns.tick(p, COOLDOWN);
+        PlayerCooldowns.tick(p, INTERVAL);
+        PlayerCooldowns.tick(p, RECEIVED_INTERVAL);
     }
 
     public static void decrement(ServerPlayer p, String key) {
-        int c = p.getPersistentData().getInt(key);
-        if (c > 0) p.getPersistentData().putInt(key, c - 1);
+        PlayerCooldowns.tick(p, key);
     }
 
     private StarVoiceState() {}

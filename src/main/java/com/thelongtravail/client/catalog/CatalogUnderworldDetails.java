@@ -36,9 +36,13 @@ public final class CatalogUnderworldDetails {
     }
 
     private static String blade(String key) {
+        return blade(key, 1);
+    }
+
+    private static String blade(String key, int scale) {
         String full = "kagotsurube." + key;
         return UnderworldRelicText.number(
-                TooltipConfigSync.decimal("sunBlade." + full, SunBladeConfig.value(full)));
+                TooltipConfigSync.decimal("sunBlade." + full, SunBladeConfig.value(full)) * scale);
     }
 
     public static List<Component> details(String id) {
@@ -100,12 +104,13 @@ public final class CatalogUnderworldDetails {
                 out.add(line("blade.extend", blade("witherSeconds")));
                 out.add(line("blade.infinite"));
                 section(out, "malice");
+                out.add(line("blade.direct_strike"));
+                section(out, "witness");
                 bullets(
                         out,
-                        line("blade.malice", blade("insight")),
+                        line("blade.physical_bonus", blade("physicalBonus", 100)),
+                        line("blade.insight", blade("insight")),
                         line("blade.overlord", blade("overlord")));
-                section(out, "witness");
-                out.add(line("blade.witness"));
             }
             default -> throw new IllegalArgumentException(id);
         }

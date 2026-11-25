@@ -1,12 +1,13 @@
 package com.thelongtravail.abyss.rain;
 
-import com.thelongtravail.network.RainMessagePacket;
-import com.thelongtravail.network.RainPacket;
-import com.thelongtravail.network.TravailNetwork;
-
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.config.RainConfig;
 import com.thelongtravail.network.*;
+import com.thelongtravail.network.RainMessagePacket;
+import com.thelongtravail.network.RainPacket;
+import com.thelongtravail.network.TravailNetwork;
+import com.thelongtravail.runtime.player.PlayerCooldowns;
+
 import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
 import net.minecraft.server.level.*;
 import net.minecraft.world.level.Level;
@@ -15,6 +16,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
 import java.util.*;
 
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
@@ -30,8 +32,7 @@ public final class RainEvents {
     @SubscribeEvent
     public static void tick(TickEvent.PlayerTickEvent e) {
         if (e.phase != TickEvent.Phase.END || !(e.player instanceof ServerPlayer p)) return;
-        int cooldown = RainState.cooldown(p);
-        if (cooldown > 0) p.getPersistentData().putInt(RainState.COOLDOWN_KEY, cooldown - 1);
+        PlayerCooldowns.tick(p, RainState.COOLDOWN_KEY);
         Progress progress = PLAYERS.computeIfAbsent(p, unused -> new Progress());
         boolean eligible = p.isAlive() && !p.isSpectator();
         boolean active = eligible && RainState.passive(p);
@@ -89,8 +90,8 @@ public final class RainEvents {
         }
         boolean natural = weather.naturalRain(p.serverLevel());
         weather.start(p.serverLevel(), RainConfig.ticks(RainConfig.DURATION.get()));
-        p.getPersistentData()
-                .putInt(RainState.COOLDOWN_KEY, RainConfig.ticks(RainConfig.COOLDOWN.get()));
+        PlayerCooldowns.startTicks(
+                p, RainState.COOLDOWN_KEY, RainConfig.ticks(RainConfig.COOLDOWN.get()));
         message(p, natural ? "natural" : "success");
     }
 
@@ -174,9 +175,8 @@ public final class RainEvents {
 
     @SubscribeEvent
     public static void clone(PlayerEvent.Clone e) {
-        e.getEntity()
-                .getPersistentData()
-                .putInt(RainState.COOLDOWN_KEY, RainState.cooldown(e.getOriginal()));
+        PlayerCooldowns.startTicks(
+                e.getEntity(), RainState.COOLDOWN_KEY, RainState.cooldown(e.getOriginal()));
     }
 
     @SubscribeEvent

@@ -33,7 +33,7 @@ public final class IcarusCombat {
     }
 
     public static boolean witnessImmune(DamageSource source) {
-        if (source.is(DamageTypes.MAGIC) || source.is(DamageTypes.INDIRECT_MAGIC)) return true;
+        if (source.is(com.thelongtravail.combat.DamageClassTags.MAGIC)) return true;
         for (String entry : FarReachItemsConfig.EXTRA_IMMUNITIES.get()) {
             boolean tag = entry.startsWith("#");
             ResourceLocation id = ResourceLocation.tryParse(tag ? entry.substring(1) : entry);

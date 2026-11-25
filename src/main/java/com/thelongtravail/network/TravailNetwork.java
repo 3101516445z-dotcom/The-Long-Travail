@@ -1,7 +1,9 @@
 package com.thelongtravail.network;
 
 import com.thelongtravail.TheLongTravail;
+import com.thelongtravail.boundless.dream.DreamState;
 import com.thelongtravail.journey.PlayerJourneyData;
+import com.thelongtravail.runtime.player.PlayerCooldowns;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -433,17 +435,10 @@ public final class TravailNetwork {
                         BoundlessPacket.Skill.DREAM,
                         "message.the_long_travail.dream." + key,
                         key.equals("cooldown")
-                                ? Math.max(
-                                        0,
-                                        player.getPersistentData()
-                                                .getInt(
-                                                        com.thelongtravail.boundless.dream
-                                                                .DreamState.COOLDOWN))
+                                ? PlayerCooldowns.remainingTicks(player, DreamState.COOLDOWN)
                                 : key.equals("countdown")
                                         ? player.getPersistentData()
-                                                .getCompound(
-                                                        com.thelongtravail.boundless.dream
-                                                                .DreamState.RECORD)
+                                                .getCompound(DreamState.RECORD)
                                                 .getInt("left")
                                         : 0));
     }

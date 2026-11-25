@@ -3,6 +3,7 @@ package com.thelongtravail.flourishing;
 import static com.thelongtravail.combat.DamageReduction.remaining;
 
 import com.thelongtravail.config.FlourishingItemsConfig;
+import com.thelongtravail.runtime.scheduling.TickDeadline;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.*;
@@ -12,7 +13,34 @@ import net.minecraft.world.damagesource.*;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.Map;
+import java.util.UUID;
+
 public final class FloralCombat {
+    private static final int MAX_FLOWER_COOLDOWNS_PER_TARGET = 256;
+
+    public static boolean hasFlowerIntervalElapsed(long lastTick, long now, Flower flower) {
+        int interval =
+                FlourishingItemsConfig.ticks(
+                        FlourishingItemsConfig.extra(flower, "cooldownSeconds"));
+        return TickDeadline.hasElapsed(lastTick, now, interval);
+    }
+
+    /** 调用方传入该目标的冷却记录和攻击者标识，同一朵花按攻击者分别计时。 */
+    public static boolean tryStartFlowerCooldown(
+            Map<String, Long> deadlines, UUID attackerId, Flower flower, long now) {
+        deadlines.values().removeIf(deadline -> deadline <= now);
+        String key = attackerId + ":" + flower.id;
+        if (deadlines.containsKey(key) || deadlines.size() >= MAX_FLOWER_COOLDOWNS_PER_TARGET)
+            return false;
+
+        int duration =
+                FlourishingItemsConfig.ticks(
+                        FlourishingItemsConfig.extra(flower, "cooldownSeconds"));
+        deadlines.put(key, now + duration);
+        return true;
+    }
+
     private static final class Rose extends DamageSource {
         Rose(LivingEntity actor) {
             super(

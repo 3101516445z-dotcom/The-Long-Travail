@@ -1,5 +1,8 @@
 package com.thelongtravail.network;
 
+import com.thelongtravail.boundless.dream.DreamState;
+import com.thelongtravail.runtime.player.PlayerCooldowns;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
@@ -27,10 +30,7 @@ public record BoundlessPacket(boolean active, int cooldown) {
     public static void sendDream(ServerPlayer p, boolean active) {
         TravailNetwork.sendBoundless(
                 p,
-                new BoundlessPacket(
-                        active,
-                        p.getPersistentData()
-                                .getInt(com.thelongtravail.boundless.dream.DreamState.COOLDOWN)));
+                new BoundlessPacket(active, PlayerCooldowns.storedTicks(p, DreamState.COOLDOWN)));
     }
 
     public record Message(Skill skill, String key, int cooldownTicks) {

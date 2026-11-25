@@ -20,15 +20,16 @@
   "gui.the_long_travail.catalog.underworld.banner.base": "佩戴「万魂幡」后，每击杀一个生物，积累1点魂数，最多积累%s点。",
   "gui.the_long_travail.catalog.underworld.banner.persistence": "摘下万魂幡、转交他人或切换冥府状态时，已有魂数不会清零。",
   "gui.the_long_travail.catalog.underworld.banner.malice": "每点魂数使佩戴者的必杀提高%s%%。",
-  "gui.the_long_travail.catalog.underworld.banner.insight": "每点魂数使佩戴者的见切提高%s，最多提高%s",
-  "gui.the_long_travail.catalog.underworld.banner.critical": "每点魂数使佩戴者的必杀提高%s%%",
+  "gui.the_long_travail.catalog.underworld.banner.insight": "每点魂数使见切提高%s，最多提高%s",
+  "gui.the_long_travail.catalog.underworld.banner.critical": "每点魂数使必杀提高%s%%",
   "gui.the_long_travail.catalog.underworld.blade.base": "佩戴「籠釣瓶」后，造成伤害时对目标施加凋零Ⅰ，持续%s秒。",
   "gui.the_long_travail.catalog.underworld.blade.extend": "若目标已有凋零效果，则保留原等级，持续时间延长%s秒。",
   "gui.the_long_travail.catalog.underworld.blade.infinite": "无限持续的凋零效果保持不变。",
-  "gui.the_long_travail.catalog.underworld.blade.malice": "佩戴者的见切提高%s",
-  "gui.the_long_travail.catalog.underworld.blade.witness": "将所有归属于佩戴者的伤害转化为直击伤害。",
+  "gui.the_long_travail.catalog.underworld.blade.direct_strike": "将所有归属于佩戴者的伤害转化为直击伤害。",
+  "gui.the_long_travail.catalog.underworld.blade.physical_bonus": "物理类伤害获得%s%%的伤害加成",
+  "gui.the_long_travail.catalog.underworld.blade.insight": "见切提高%s",
   "gui.the_long_travail.catalog.glossary.souls.title": "魂数",
   "gui.the_long_travail.catalog.glossary.souls.aliases": "魂数",
   "gui.the_long_travail.catalog.glossary.souls.body": "仅计算归属于佩戴者的击杀，玩家、盔甲架和练习假人不提供魂数。\n同一次死亡只计入一次，生物复活后再次被击杀时可再次计入。",
-  "gui.the_long_travail.catalog.underworld.blade.overlord": "佩戴者的霸主提高%s"
+  "gui.the_long_travail.catalog.underworld.blade.overlord": "霸主提高%s"
 }

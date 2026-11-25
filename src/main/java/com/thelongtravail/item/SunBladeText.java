@@ -41,11 +41,7 @@ public final class SunBladeText {
                             prefix + "projectile", number(id + ".projectileBonus", 100)));
             out.add(Component.translatable(prefix + "burning", number(id + ".burningBonus", 100)));
         } else {
-            out.add(
-                    Component.translatable(
-                            prefix + "malice",
-                            number(id + ".insight", 1),
-                            number(id + ".overlord", 1)));
+            out.add(Component.translatable(prefix + "direct_strike"));
         }
         out.add(Component.empty());
         out.add(
@@ -55,9 +51,17 @@ public final class SunBladeText {
             out.add(
                     Component.translatable(
                             prefix + "suppression", number(id + ".suppressionSeconds", 1)));
-            out.add(Component.translatable(prefix + "strike", number(id + ".strikeFraction", 100)));
+            out.add(
+                    Component.translatable(
+                            prefix + "strike",
+                            number(id + ".strikeFraction", 100),
+                            number(id + ".strikeCooldownSeconds", 1)));
         } else {
-            out.add(Component.translatable(prefix + "witness"));
+            out.add(
+                    Component.translatable(
+                            prefix + "attributes",
+                            number(id + ".insight", 1),
+                            number(id + ".overlord", 1)));
         }
         return out;
     }

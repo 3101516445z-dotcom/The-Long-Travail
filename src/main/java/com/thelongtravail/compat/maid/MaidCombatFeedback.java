@@ -26,7 +26,7 @@ import com.thelongtravail.flourishing.FlowerData;
 import com.thelongtravail.registry.ModRegistry;
 import com.thelongtravail.valley.execution.AzraelExecution;
 import com.thelongtravail.valley.execution.AzraelState;
-import java.util.HashSet;
+
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -42,6 +42,8 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHealEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.Event;
+
+import java.util.HashSet;
 
 // 执行战斗与效果反馈；事件注册由运行适配入口负责。
 public final class MaidCombatFeedback {
@@ -162,7 +164,7 @@ public final class MaidCombatFeedback {
             var s = state(defender);
             long now = defender.level().getGameTime();
             if (FlowerData.active(crown(defender), Flower.ROSE_BUSH)
-                    && ready(now, s.rose, Flower.ROSE_BUSH)
+                    && FloralCombat.hasFlowerIntervalElapsed(s.rose, now, Flower.ROSE_BUSH)
                     && ModeEffectRules.FLOWER_THORNS.applies(other)) {
                 s.rose = now;
                 var damage = FloralCombat.roseSource(defender);
@@ -175,26 +177,12 @@ public final class MaidCombatFeedback {
         }
     }
 
-    private static boolean ready(long now, long last, Flower flower) {
-        return last == Long.MIN_VALUE
-                || now - last
-                        >= FlourishingItemsConfig.ticks(
-                                FlourishingItemsConfig.extra(flower, "cooldownSeconds"));
-    }
-
     private static void apply(EntityMaid m, LivingEntity victim, Flower flower, MobEffect effect) {
         if (!ModeEffectRules.FLOWER_EFFECTS.applies(victim) || !FlowerData.active(crown(m), flower))
             return;
         long now = m.level().getGameTime();
         var times = MaidRuntimeState.effectTimes(victim);
-        times.entrySet().removeIf(e -> e.getValue() <= now);
-        String key = identity(m) + ":" + flower.id;
-        if (times.containsKey(key) || times.size() >= 256) return;
-        times.put(
-                key,
-                now
-                        + FlourishingItemsConfig.ticks(
-                                FlourishingItemsConfig.extra(flower, "cooldownSeconds")));
+        if (!FloralCombat.tryStartFlowerCooldown(times, identity(m), flower, now)) return;
         victim.addEffect(
                 new MobEffectInstance(
                         effect,
@@ -256,7 +244,7 @@ public final class MaidCombatFeedback {
                         return;
                     var s = state(m);
                     long now = m.level().getGameTime();
-                    if (ready(now, s.kill, Flower.PITCHER_PLANT)) {
+                    if (FloralCombat.hasFlowerIntervalElapsed(s.kill, now, Flower.PITCHER_PLANT)) {
                         s.kill = now;
                         m.heal(FloralCombat.safe(m.getMaxHealth() * value));
                     }

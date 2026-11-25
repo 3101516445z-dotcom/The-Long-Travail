@@ -1,6 +1,8 @@
 package com.thelongtravail.boundless.timestop;
 
 import com.thelongtravail.config.BoundlessItemsConfig;
+import com.thelongtravail.runtime.player.PlayerCooldowns;
+import com.thelongtravail.runtime.scheduling.RemainingTicks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -238,13 +240,11 @@ public final class TimeStopManager {
         int cooldown = witness ? BoundlessItemsConfig.ticks("star.witnessCooldown") : 0;
         merged.members.put(com.thelongtravail.integration.MaidIntegration.casterId(p), cooldown);
         com.thelongtravail.integration.MaidIntegration.starCooldown(p, cooldown);
-        if (cooldown > 0)
-            p.getPersistentData()
-                    .putInt(
-                            StarVoiceState.COOLDOWN,
-                            Math.max(
-                                    cooldown,
-                                    p.getPersistentData().getInt(StarVoiceState.COOLDOWN)));
+        if (cooldown > 0) {
+            if (p instanceof ServerPlayer player)
+                PlayerCooldowns.extendTicks(player, StarVoiceState.COOLDOWN, cooldown);
+            else RemainingTicks.extend(p.getPersistentData(), StarVoiceState.COOLDOWN, cooldown);
+        }
         Field f =
                 new Field(
                         nextId++,
@@ -298,13 +298,7 @@ public final class TimeStopManager {
                                 level.getServer(), uuid, cooldown)) return;
                         ServerPlayer p = level.getServer().getPlayerList().getPlayer(uuid);
                         if (p != null)
-                            p.getPersistentData()
-                                    .putInt(
-                                            StarVoiceState.COOLDOWN,
-                                            Math.max(
-                                                    cooldown,
-                                                    p.getPersistentData()
-                                                            .getInt(StarVoiceState.COOLDOWN)));
+                            PlayerCooldowns.extendTicks(p, StarVoiceState.COOLDOWN, cooldown);
                         else OFFLINE_COOLDOWNS.merge(uuid, cooldown, Math::max);
                     });
             i.remove();
@@ -313,11 +307,7 @@ public final class TimeStopManager {
 
     public static void login(ServerPlayer p) {
         Integer c = OFFLINE_COOLDOWNS.remove(p.getUUID());
-        if (c != null)
-            p.getPersistentData()
-                    .putInt(
-                            StarVoiceState.COOLDOWN,
-                            Math.max(c, p.getPersistentData().getInt(StarVoiceState.COOLDOWN)));
+        if (c != null) PlayerCooldowns.extendTicks(p, StarVoiceState.COOLDOWN, c);
     }
 
     public void tick(boolean broadcast) {

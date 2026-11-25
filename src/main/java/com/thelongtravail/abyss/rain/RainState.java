@@ -1,18 +1,21 @@
 package com.thelongtravail.abyss.rain;
 
-import com.thelongtravail.registry.RegisteredItems;
-
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.config.RainConfig;
-import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.equipment.TravailCurios;
+import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.registry.RegisteredItems;
+import com.thelongtravail.runtime.player.PlayerCooldowns;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+
 import top.theillusivec4.curios.api.CuriosApi;
+
 import java.util.*;
 
 public final class RainState {
@@ -152,7 +155,7 @@ public final class RainState {
     }
 
     public static int cooldown(Player p) {
-        return Math.max(0, p.getPersistentData().getInt(COOLDOWN_KEY));
+        return PlayerCooldowns.remainingTicks(p, COOLDOWN_KEY);
     }
 
     private RainState() {}

@@ -124,7 +124,10 @@ public final class CatalogFarReachDetails {
                 bullets(
                         out,
                         line("sun.6", n("sun_chaser.suppressionSeconds", 1)),
-                        line("sun.7", n("sun_chaser.strikeFraction", 100)));
+                        line(
+                                "sun.7",
+                                n("sun_chaser.strikeFraction", 100),
+                                n("sun_chaser.strikeCooldownSeconds", 1)));
             }
             default -> throw new IllegalArgumentException(id);
         }

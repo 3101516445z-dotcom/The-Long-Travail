@@ -4,6 +4,7 @@ import com.thelongtravail.config.ThemeItemConfig;
 import com.thelongtravail.equipment.AccessoryEquipRules;
 import com.thelongtravail.network.TravailNetwork;
 import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.runtime.player.PlayerCooldowns;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -26,7 +27,7 @@ public final class HolyFool {
                 || !equipped(p)
                 || com.thelongtravail.boundless.timestop.TimeStopManager.frozen(p)) return;
         long now = p.server.overworld().getGameTime();
-        long remaining = p.getPersistentData().getLong(UNTIL) - now;
+        long remaining = PlayerCooldowns.remainingUntil(p, UNTIL, now);
         if (remaining > 0) {
             TravailNetwork.sendWhisperCooldown(p, (int) Math.min(Integer.MAX_VALUE, remaining));
             return;
@@ -38,8 +39,8 @@ public final class HolyFool {
             // addEffect 返回 false 也可能只是保留了已有的更长效果。
             if (!p.hasEffect(ModRegistry.AMONG_ALL_THINGS.get())) return;
         }
-        p.getPersistentData()
-                .putLong(UNTIL, now + ThemeItemConfig.ticks("holy_fool.cooldownSeconds"));
+        PlayerCooldowns.startDeadline(
+                p, UNTIL, now, ThemeItemConfig.ticks("holy_fool.cooldownSeconds"));
         p.displayClientMessage(
                 net.minecraft.network.chat.Component.translatable(
                         "message.the_long_travail.holy_fool.success"),
@@ -48,10 +49,7 @@ public final class HolyFool {
 
     @SubscribeEvent
     public static void clone(PlayerEvent.Clone e) {
-        if (e.getOriginal().getPersistentData().contains(UNTIL))
-            e.getEntity()
-                    .getPersistentData()
-                    .putLong(UNTIL, e.getOriginal().getPersistentData().getLong(UNTIL));
+        PlayerCooldowns.copyDeadlineIfPresent(e.getOriginal(), e.getEntity(), UNTIL);
     }
 
     private HolyFool() {}

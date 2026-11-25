@@ -444,9 +444,11 @@ public final class CombatContext implements AutoCloseable {
                         + com.thelongtravail.abyss.SeaBottle.bonus(effectiveSource)
                         + com.thelongtravail.farreach.HorizonTheory.bonus(target, effectiveSource)
                         + lorentzBonus
+                        + com.thelongtravail.underworld.Kagotsurube.physicalBonus(
+                                target, effectiveSource)
                         + sun.bonus()
                         + EffectCombatRules.bonus(source);
-        return (1 + bonus) * sun.projectileMultiplier();
+        return 1 + bonus;
     }
 
     public boolean penetrating() {

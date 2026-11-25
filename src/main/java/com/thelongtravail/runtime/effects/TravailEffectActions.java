@@ -67,13 +67,12 @@ public final class TravailEffectActions {
             }
         } else {
             long now = player.level().getGameTime();
-            if (now < LongTravailData.getLong(travail, VALLEY_WITNESS_COOLDOWN)) return;
-            LongTravailData.putLong(
+            if (LongTravailData.isCooldownActive(travail, VALLEY_WITNESS_COOLDOWN, now)) return;
+            LongTravailData.startCooldown(
                     travail,
                     VALLEY_WITNESS_COOLDOWN,
-                    now
-                            + secondsToTicks(
-                                    TravailConfig.VALLEY_WITNESS_ATTACK_COOLDOWN_SECONDS.get()));
+                    now,
+                    secondsToTicks(TravailConfig.VALLEY_WITNESS_ATTACK_COOLDOWN_SECONDS.get()));
             if (AutomaticEffectBudget.acquire(player))
                 EffectChanges.add(
                         player,
@@ -100,7 +99,8 @@ public final class TravailEffectActions {
         double seconds = TravailConfig.FAR_ATTACK_COOLDOWN_SECONDS.get();
         int cooldown = seconds <= 0 ? 0 : secondsToTicks(seconds);
         long now = player.level().getGameTime();
-        if (cooldown > 0 && now < LongTravailData.getLong(travail, ATTACK_CLEANSE_COOLDOWN)) return;
+        if (cooldown > 0 && LongTravailData.isCooldownActive(travail, ATTACK_CLEANSE_COOLDOWN, now))
+            return;
         if (random.nextDouble() >= TravailConfig.FAR_ATTACK_CLEAR_CHANCE.get()) return;
         if (active == null) {
             active = new java.util.HashSet<>();
@@ -108,7 +108,7 @@ public final class TravailEffectActions {
         }
         active.add(id);
         try {
-            LongTravailData.putLong(travail, ATTACK_CLEANSE_COOLDOWN, now + cooldown);
+            LongTravailData.startCooldown(travail, ATTACK_CLEANSE_COOLDOWN, now, cooldown);
             removeOneBeneficial(player);
         } finally {
             active.remove(id);

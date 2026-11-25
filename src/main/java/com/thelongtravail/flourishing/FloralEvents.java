@@ -1,24 +1,25 @@
 package com.thelongtravail.flourishing;
 
-import com.thelongtravail.registry.RegisteredItems;
-
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.config.FlourishingItemsConfig;
 import com.thelongtravail.mixin.effects.EffectDurationAccessor;
+import com.thelongtravail.registry.RegisteredItems;
+
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.*;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.effect.*;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
 import java.util.*;
 
 @Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
@@ -167,18 +168,11 @@ public final class FloralEvents {
             State state = STATES.computeIfAbsent(player, k -> new State());
             long now = player.level().getGameTime();
             if (FlowerData.active(crown, Flower.ROSE_BUSH)
-                    && ready(now, state.rose, Flower.ROSE_BUSH)) {
+                    && FloralCombat.hasFlowerIntervalElapsed(state.rose, now, Flower.ROSE_BUSH)) {
                 state.rose = now;
                 FloralCombat.roseHit(player, attacker);
             }
         }
-    }
-
-    private static boolean ready(long now, long last, Flower f) {
-        return last == Long.MIN_VALUE
-                || now - last
-                        >= FlourishingItemsConfig.ticks(
-                                FlourishingItemsConfig.extra(f, "cooldownSeconds"));
     }
 
     private static void apply(
@@ -187,15 +181,7 @@ public final class FloralEvents {
                 || !FlowerData.active(crown, f)) return;
         long now = p.level().getGameTime();
         var cooldowns = TARGET_COOLDOWNS.computeIfAbsent(victim, k -> new HashMap<>());
-        cooldowns.entrySet().removeIf(e -> e.getValue() <= now);
-        String key = p.getUUID() + ":" + f.id;
-        if (cooldowns.containsKey(key)) return;
-        if (cooldowns.size() >= 256) return;
-        cooldowns.put(
-                key,
-                now
-                        + FlourishingItemsConfig.ticks(
-                                FlourishingItemsConfig.extra(f, "cooldownSeconds")));
+        if (!FloralCombat.tryStartFlowerCooldown(cooldowns, p.getUUID(), f, now)) return;
         victim.addEffect(
                 new MobEffectInstance(
                         effect,
@@ -267,7 +253,8 @@ public final class FloralEvents {
                 if (p != null && p.isAlive() && entry.healing() > 0) {
                     State state = STATES.computeIfAbsent(p, k -> new State());
                     long now = p.level().getGameTime();
-                    if (ready(now, state.kill, Flower.PITCHER_PLANT)) {
+                    if (FloralCombat.hasFlowerIntervalElapsed(
+                            state.kill, now, Flower.PITCHER_PLANT)) {
                         state.kill = now;
                         p.heal(FloralCombat.safe(p.getMaxHealth() * entry.healing()));
                     }

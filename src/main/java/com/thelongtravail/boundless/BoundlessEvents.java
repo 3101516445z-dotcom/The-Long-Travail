@@ -1,13 +1,15 @@
 package com.thelongtravail.boundless;
 
+import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.boundless.dream.DreamLandingSearch;
 import com.thelongtravail.boundless.dream.DreamState;
-import com.thelongtravail.boundless.timestop.TimeStopManager;
 import com.thelongtravail.boundless.timestop.FrozenBlockEvents;
 import com.thelongtravail.boundless.timestop.FrozenContainers;
 import com.thelongtravail.boundless.timestop.FrozenEntityClock;
 import com.thelongtravail.boundless.timestop.StarVoiceState;
-import com.thelongtravail.TheLongTravail;
+import com.thelongtravail.boundless.timestop.TimeStopManager;
+import com.thelongtravail.runtime.player.PlayerCooldowns;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.*;
@@ -107,9 +109,8 @@ public final class BoundlessEvents {
                     StarVoiceState.INTERVAL,
                     StarVoiceState.RECEIVED_INTERVAL
                 })
-            e.getEntity()
-                    .getPersistentData()
-                    .putInt(key, e.getOriginal().getPersistentData().getInt(key));
+            PlayerCooldowns.startTicks(
+                    e.getEntity(), key, PlayerCooldowns.storedTicks(e.getOriginal(), key));
     }
 
     @SubscribeEvent

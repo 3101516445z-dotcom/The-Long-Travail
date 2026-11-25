@@ -119,6 +119,6 @@
   "tooltip.the_long_travail.summary.liquefied_abundance.state": "§6当前转化类型：§r§a%s§r",
   "item.the_long_travail.sea_in_a_bottle": "瓶中海",
   "tooltip.the_long_travail.flavor.sea_in_a_bottle": "醉后不知天在水，满船清梦压星河。",
-  "tooltip.the_long_travail.sea_in_a_bottle.details": "佩戴「瓶中海」后，+%1$s 通用饰品栏位。\n\n§d佩戴苦旅且归墟尚有恶意时：§r\n- 受到的治疗量提高%2$s%%；\n- 新获得减益效果时，将该效果回施给施加者；\n- 已有减益效果的等级被提高时，将该效果回施给施加者。\n\n§d佩戴苦旅且归墟已然见证时：§r\n- 造成的魔法类伤害提高%3$s%%。",
+  "tooltip.the_long_travail.sea_in_a_bottle.details": "佩戴「瓶中海」后，+%1$s 通用饰品栏位。\n\n§d佩戴苦旅且归墟尚有恶意时：§r\n- 受到的治疗量提高%2$s%%；\n- 新获得减益效果时，将该效果回施给施加者；\n- 已有减益效果的等级被提高时，将该效果回施给施加者。\n\n§d佩戴苦旅且归墟已然见证时：§r\n- 魔法类伤害获得%3$s%%的伤害加成。",
   "tooltip.the_long_travail.summary.theme_items.sea_in_a_bottle": "佩戴效果：\n- +%s 通用饰品栏位\n§d佩戴苦旅且归墟尚有恶意时：§r\n- 受到的治疗量提高\n- 回施获得的减益效果\n§d佩戴苦旅且归墟已然见证时：§r\n- 提高魔法类伤害"
 }

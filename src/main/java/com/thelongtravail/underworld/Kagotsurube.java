@@ -43,16 +43,6 @@ public final class Kagotsurube {
                         : MaidIntegration.equipped(entity, ModRegistry.KAGOTSURUBE));
     }
 
-    public static DamageSource convert(LivingEntity target, DamageSource source) {
-        LivingEntity actor = SunBladeActors.attacker(source);
-        if (actor != null
-                && equipped(actor)
-                && SunBladeActors.phase(actor, TravailAspect.UNDERWORLD)
-                        == TravailStateApi.AspectState.WITNESS)
-            return DamageIdentity.convert(target, source);
-        return source;
-    }
-
     public static void confirmed(LivingEntity target, DamageSource source) {
         LivingEntity actor = SunBladeActors.attacker(source);
         if (actor == null
@@ -78,12 +68,34 @@ public final class Kagotsurube {
         }
     }
 
+    public static DamageSource convert(LivingEntity target, DamageSource source) {
+        LivingEntity actor = SunBladeActors.attacker(source);
+        if (actor != null
+                && equipped(actor)
+                && SunBladeActors.phase(actor, TravailAspect.UNDERWORLD)
+                        == TravailStateApi.AspectState.MALICE)
+            return DamageIdentity.convert(target, source);
+        return source;
+    }
+
+    public static double physicalBonus(LivingEntity target, DamageSource source) {
+        if (!source.is(com.thelongtravail.combat.DamageClassTags.PHYSICAL)) return 0;
+        LivingEntity actor = SunBladeActors.attacker(source);
+        return actor != null
+                        && actor != target
+                        && equipped(actor)
+                        && SunBladeActors.phase(actor, TravailAspect.UNDERWORLD)
+                                == TravailStateApi.AspectState.WITNESS
+                ? SunBladeConfig.value("kagotsurube.physicalBonus")
+                : 0;
+    }
+
     public static void refresh(LivingEntity entity) {
         if (entity.level().isClientSide) return;
         Map<Attribute, AttributeModifierSet.Modifier> wanted = new HashMap<>();
         if (equipped(entity)
                 && SunBladeActors.phase(entity, TravailAspect.UNDERWORLD)
-                        == TravailStateApi.AspectState.MALICE) {
+                        == TravailStateApi.AspectState.WITNESS) {
             wanted.put(
                     ModAttributes.INSIGHT.get(),
                     new AttributeModifierSet.Modifier(

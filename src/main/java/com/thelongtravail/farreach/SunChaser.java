@@ -9,6 +9,7 @@ import com.thelongtravail.combat.SunBladeActors;
 import com.thelongtravail.config.SunBladeConfig;
 import com.thelongtravail.integration.MaidIntegration;
 import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.runtime.scheduling.TickDeadline;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
@@ -21,9 +22,16 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import java.util.WeakHashMap;
+
 @Mod.EventBusSubscriber(modid = "the_long_travail")
 public final class SunChaser {
     private static final String UNTIL = "the_long_travail:sun_suppression_until";
+
+    private static final Map<LivingEntity, Map<UUID, Long>> LAST_STRIKES = new WeakHashMap<>();
 
     private static final class Strike extends DamageSource {
         Strike(LivingEntity target, LivingEntity actor) {
@@ -31,12 +39,7 @@ public final class SunChaser {
         }
     }
 
-    public record Hit(
-            boolean witness,
-            boolean burning,
-            double maximum,
-            double bonus,
-            double projectileMultiplier) {}
+    public record Hit(boolean witness, boolean burning, double maximum, double bonus) {}
 
     public static boolean carrying(LivingEntity entity) {
         return entity instanceof ServerPlayer actor
@@ -60,26 +63,23 @@ public final class SunChaser {
     public static Hit snapshot(LivingEntity target, DamageSource source) {
         LivingEntity actor = SunBladeActors.attacker(source);
         if (actor == null || actor == target || !carrying(actor))
-            return new Hit(false, false, 0, 0, 1);
+            return new Hit(false, false, 0, 0);
         boolean burning = target.isOnFire();
         var phase = SunBladeActors.phase(actor, TravailAspect.FAR_REACH);
         boolean malice = phase == TravailStateApi.AspectState.MALICE;
         boolean projectile = malice && source.is(DamageTypeTags.IS_PROJECTILE);
         double bonus = malice && burning ? SunBladeConfig.value("sun_chaser.burningBonus") : 0;
-        double multiplier = 1;
         if (projectile) {
             bonus += SunBladeConfig.value("sun_chaser.projectileBonus");
             int looting =
                     net.minecraftforge.common.ForgeHooks.getLootingLevel(target, actor, source);
-            multiplier +=
-                    Math.max(0, looting) * SunBladeConfig.value("sun_chaser.lootingBonusPerLevel");
+            bonus += Math.max(0, looting) * SunBladeConfig.value("sun_chaser.lootingBonusPerLevel");
         }
         return new Hit(
                 phase == TravailStateApi.AspectState.WITNESS,
                 burning,
                 target.getMaxHealth(),
-                bonus,
-                multiplier);
+                bonus);
     }
 
     public static void confirmed(LivingEntity target, DamageSource source, Hit hit) {
@@ -109,11 +109,17 @@ public final class SunChaser {
                         && !MaidIntegration.canHarm(actor, other)
                 || !carrying(actor)
                 || !(SunBladeActors.phase(actor, TravailAspect.FAR_REACH)
-                        == TravailStateApi.AspectState.WITNESS)
-                || !DamageScope.claimSun(actor.getUUID())) return;
+                        == TravailStateApi.AspectState.WITNESS)) return;
         double amount = hit.maximum * SunBladeConfig.value("sun_chaser.strikeFraction");
-        if (amount > 0 && Double.isFinite(amount))
-            target.hurt(new Strike(target, actor), (float) Math.min(Float.MAX_VALUE, amount));
+        if (!(amount > 0) || !Double.isFinite(amount)) return;
+        long now = target.level().getGameTime();
+        var strikes = LAST_STRIKES.computeIfAbsent(target, ignored -> new HashMap<>());
+        int interval = SunBladeConfig.ticks("sun_chaser.strikeCooldownSeconds");
+        strikes.values().removeIf(last -> TickDeadline.hasElapsed(last, now, interval));
+        UUID attacker = actor.getUUID();
+        if (strikes.containsKey(attacker) || !DamageScope.claimSun(attacker)) return;
+        strikes.put(attacker, now);
+        target.hurt(new Strike(target, actor), (float) Math.min(Float.MAX_VALUE, amount));
     }
 
     public static boolean suppressed(LivingEntity target) {

@@ -13,9 +13,9 @@ public final class SunBladeConfig {
         define(
                 b,
                 "sun_chaser.lootingBonusPerLevel",
-                .05,
+                .025,
                 100,
-                "每级有效抢夺额外提高的弹射物伤害比例；0.05 表示每级提高 5%。\nAdditional projectile damage per effective Looting level; 0.05 means 5% per level.");
+                "每级有效抢夺额外提高的弹射物伤害比例；0.025 表示每级提高 2.5%。\nAdditional projectile damage per effective Looting level; 0.025 means 2.5% per level.");
         define(
                 b,
                 "sun_chaser.projectileBonus",
@@ -51,6 +51,12 @@ public final class SunBladeConfig {
                 "追加直击伤害占目标最大生命值的比例；0.01 表示 1%。这部分伤害不再获得增伤或必杀。\n"
                         + "Additional direct strike fraction of target maximum health; no bonus or"
                         + " critical");
+        VALUES.put(
+                "sun_chaser.strikeCooldownSeconds",
+                b.comment(
+                                "同一携带者对同一目标追加直击的触发冷却，单位：秒。\n"
+                                        + "Direct strike cooldown per carrier and target, in seconds.")
+                        .defineInRange("items.sun_chaser.strikeCooldownSeconds", 1.0, .05, 3600.0));
     }
 
     public static void blade(ForgeConfigSpec.Builder b) {
@@ -62,18 +68,24 @@ public final class SunBladeConfig {
                 "每次实际造成伤害时，为凋零增加的持续时间，单位：秒。\nWither duration added per confirmed hit, in seconds.");
         define(
                 b,
+                "kagotsurube.physicalBonus",
+                .10,
+                100,
+                "冥府见证下，佩戴者的物理类伤害加成比例；0.1 表示提高 10%。\nPhysical damage bonus with Underworld Witness; 0.1 means a 10% increase.");
+        define(
+                b,
                 "kagotsurube.insight",
-                15,
+                12,
                 1000000,
-                "冥府恶意状态下，增加的见切属性点数；15 表示增加 15 点。\n"
-                        + "Flat Insight bonus with Underworld Malice; 15 adds 15 points.");
+                "冥府见证状态下，增加的见切属性点数；12 表示增加 12 点。\n"
+                        + "Flat Insight bonus with Underworld Witness; 12 adds 12 points.");
         define(
                 b,
                 "kagotsurube.overlord",
                 .1,
                 100,
-                "冥府恶意状态下，增加的霸主属性点数；0.1 表示增加 0.1 点，不是提高 10%。\n"
-                        + "Flat Overlord bonus with Underworld Malice; 0.1 adds 0.1 points, not 10%.");
+                "冥府见证状态下，增加的霸主属性点数；0.1 表示增加 0.1 点，不是提高 10%。\n"
+                        + "Flat Overlord bonus with Underworld Witness; 0.1 adds 0.1 points, not 10%.");
     }
 
     private static void define(

@@ -1,6 +1,8 @@
 package com.thelongtravail.journey;
 
 import com.thelongtravail.TravailAspect;
+import com.thelongtravail.runtime.scheduling.TickDeadline;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -201,6 +203,16 @@ public final class LongTravailData {
     }
 
     public record RequirementStatus(ResourceLocation id, boolean completed) {}
+
+    public static boolean isCooldownActive(ItemStack stack, String key, long now) {
+        return TickDeadline.isActive(root(stack), key, now);
+    }
+
+    public static void startCooldown(ItemStack stack, String key, long now, int duration) {
+        CompoundTag root = root(stack);
+        TickDeadline.start(root, key, now, duration);
+        saveRoot(stack, root);
+    }
 
     public static long getLong(ItemStack stack, String key) {
         return root(stack).getLong(key);
