@@ -118,7 +118,6 @@ public final class PlayerBlockBreaker {
                                 level,
                                 player,
                                 pos,
-                                state,
                                 tool,
                                 () ->
                                         state.getBlock()
@@ -128,7 +127,7 @@ public final class PlayerBlockBreaker {
                         HARVESTING.remove();
                     }
                 }
-                if (xp > 0) state.getBlock().popExperience(level, pos, xp);
+                if (xp > 0) state.getBlock().popExperience(level, player.blockPosition(), xp);
             }
             level.levelEvent(2001, pos, net.minecraft.world.level.block.Block.getId(state));
             if (player.serverLevel() == level)

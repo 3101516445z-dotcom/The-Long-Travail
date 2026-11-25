@@ -21,6 +21,11 @@ public final class AttributeDamage {
     private double insight, chance, retaliation;
     private float threshold;
     private float defendedAmount;
+    private boolean blockedByOverlord;
+
+    public boolean blockedByOverlord() {
+        return blockedByOverlord;
+    }
 
     public AttributeDamage(
             LivingEntity target, DamageSource source, boolean execution, boolean settled) {
@@ -94,7 +99,8 @@ public final class AttributeDamage {
             if (!InsightRetaliation.isRetaliation(source)) retaliation = insight;
             amount = (float) Math.max(0, amount - insight);
         }
-        return defendedAmount = amount <= threshold ? 0 : amount;
+        blockedByOverlord = amount > 0 && amount <= threshold;
+        return defendedAmount = blockedByOverlord ? 0 : amount;
     }
 
     public void finish() {

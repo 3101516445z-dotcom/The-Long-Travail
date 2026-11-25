@@ -294,9 +294,9 @@ public final class CatalogTextStyle {
             // 高频战栗各项能力独立计算强调额度，保留其他列表的原有规则。
             if (text.startsWith("- ")
                     && Pattern.compile(
-                                    "采掘能力|採掘能力|挖掘速度|掘速|不会损耗耐久|不會損耗耐久|不損耐久|自动进入背包|自動進入背包|自入行囊|Harvests"
+                                    "采掘能力|採掘能力|挖掘速度|掘速|不会损耗耐久|不會損耗耐久|不損耐久|出现在持有者脚边|出現在持有者腳邊|皆至持者足下|Harvests"
                                         + " like a netherite pickaxe|Mines at twice|Loses no"
-                                        + " durability|automatically enter your inventory",
+                                        + " durability|appear at your feet",
                                     Pattern.CASE_INSENSITIVE)
                             .matcher(text)
                             .find()) highlights.sentenceCount = 0;

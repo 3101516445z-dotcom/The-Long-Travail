@@ -69,7 +69,7 @@
   "tooltip.the_long_travail.high_frequency_tremor.6": "§d若此时幽谷已然见证，则：§r",
   "tooltip.the_long_travail.high_frequency_tremor.7": "可破坏§a任何§r黑名单以外的方块，包括通常不可挖掘的方块。",
   "tooltip.the_long_travail.high_frequency_tremor.8": "当前无法破坏的方块：%s。",
-  "tooltip.the_long_travail.summary.high_frequency_tremor.0": "§6基础效果：§r\n- 破坏方块产生的掉落物§6自动进入背包§r\n- 具备下界合金镐的采掘能力，§6挖掘更快§r且§6不损耗耐久§r",
+  "tooltip.the_long_travail.summary.high_frequency_tremor.0": "§6基础效果：§r\n- 破坏方块产生的掉落物和经验球§6出现在脚边§r\n- 具备下界合金镐的采掘能力，§6挖掘更快§r且§6不损耗耐久§r",
   "tooltip.the_long_travail.summary.high_frequency_tremor.1": "§d佩戴苦旅且幽谷尚有恶意时：§r\n- 主手持有并§a潜行右击§r方块，§6瞬间挖掘§r\n- 掉落结算中的§6时运与幸运§r翻倍",
   "tooltip.the_long_travail.summary.high_frequency_tremor.2": "§d佩戴苦旅且幽谷已然见证时：§r\n- 主手持有并§a潜行右击§r，可破坏§6通常无法挖掘§r的方块",
   "message.the_long_travail.high_frequency_tremor.failure": "特殊破坏发生异常，高频战栗本次操作已停止",

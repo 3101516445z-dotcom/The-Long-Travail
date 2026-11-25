@@ -69,7 +69,7 @@
   "tooltip.the_long_travail.high_frequency_tremor.6": "§d若幽谷已然見證，則：§r",
   "tooltip.the_long_travail.high_frequency_tremor.7": "禁單之外，§a任何§r方塊皆可破，常不可掘者亦然。",
   "tooltip.the_long_travail.high_frequency_tremor.8": "今不可破之塊：%s。",
-  "tooltip.the_long_travail.summary.high_frequency_tremor.0": "§6本具之效：§r\n- 破塊所得§6自入行囊§r\n- 具下界合金鎬之採掘能力，§6挖掘更快§r且§6不損耗耐久§r",
+  "tooltip.the_long_travail.summary.high_frequency_tremor.0": "§6本具之效：§r\n- 破塊所得之物與經驗珠§6皆至持者足下§r\n- 具下界合金鎬之採掘能力，§6挖掘更快§r且§6不損耗耐久§r",
   "tooltip.the_long_travail.summary.high_frequency_tremor.1": "§d佩戴苦旅且幽谷尚有惡意時：§r\n- 主手持有並§a潛行右擊§r方塊，§6瞬間挖掘§r\n- 掉落結算中的§6時運與幸運§r翻倍",
   "tooltip.the_long_travail.summary.high_frequency_tremor.2": "§d佩戴苦旅且幽谷已然見證時：§r\n- 主手持有並§a潛行右擊§r，可破壞§6通常無法挖掘§r之方塊",
   "message.the_long_travail.high_frequency_tremor.failure": "特殊破壞有異，高頻戰慄此次操作已止",

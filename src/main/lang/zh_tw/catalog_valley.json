@@ -58,6 +58,6 @@
   "gui.the_long_travail.catalog.valley.tremor.harvest": "具有下界合金鎬的采掘能力",
   "gui.the_long_travail.catalog.valley.tremor.speed": "挖掘速度為下界合金鎬的2倍",
   "gui.the_long_travail.catalog.valley.tremor.durability": "使用時不會損耗耐久",
-  "gui.the_long_travail.catalog.valley.tremor.collection": "正常破壞與特殊破壞產生的方塊掉落物都會自動進入背包",
+  "gui.the_long_travail.catalog.valley.tremor.collection": "正常破壞與特殊破壞產生的方塊掉落物和經驗球都會出現在持有者腳邊",
   "gui.the_long_travail.catalog.valley.phos.intro": "攜帶「磷葉石」並佩戴苦旅後生效。"
 }

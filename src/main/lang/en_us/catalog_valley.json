@@ -58,6 +58,6 @@
   "gui.the_long_travail.catalog.valley.tremor.harvest": "Harvests like a netherite pickaxe",
   "gui.the_long_travail.catalog.valley.tremor.speed": "Mines at twice the speed of a netherite pickaxe",
   "gui.the_long_travail.catalog.valley.tremor.durability": "Loses no durability through use",
-  "gui.the_long_travail.catalog.valley.tremor.collection": "Block drops from both normal and special breaking automatically enter your inventory",
+  "gui.the_long_travail.catalog.valley.tremor.collection": "Block drops and experience orbs from normal and special breaking appear at your feet",
   "gui.the_long_travail.catalog.valley.phos.intro": "Carry Phosphophyllite and equip The Long Travail for its effects to apply."
 }

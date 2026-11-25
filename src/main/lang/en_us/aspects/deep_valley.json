@@ -69,7 +69,7 @@
   "tooltip.the_long_travail.high_frequency_tremor.6": "§dWith Deep Valley Witness:§r",
   "tooltip.the_long_travail.high_frequency_tremor.7": "Break §aany§r block outside the blacklist, including normally unbreakable blocks.",
   "tooltip.the_long_travail.high_frequency_tremor.8": "Currently unbreakable blocks: %s.",
-  "tooltip.the_long_travail.summary.high_frequency_tremor.0": "§6Base effects:§r\n- Block drops §6automatically enter your inventory§r\n- Mines like a netherite pickaxe, with §6faster mining§r and §6no durability loss§r",
+  "tooltip.the_long_travail.summary.high_frequency_tremor.0": "§6Base effects:§r\n- Block drops and experience orbs §6appear at your feet§r\n- Mines like a netherite pickaxe, with §6faster mining§r and §6no durability loss§r",
   "tooltip.the_long_travail.summary.high_frequency_tremor.1": "§dWith The Long Travail equipped and Deep Valley still malicious:§r\n- Hold in your main hand and §asneak-right-click§r a block to §6mine instantly§r\n- §6Fortune and Luck§r are doubled for its loot calculation",
   "tooltip.the_long_travail.summary.high_frequency_tremor.2": "§dWith The Long Travail equipped and Deep Valley witnessed:§r\n- Hold in your main hand and §asneak-right-click§r to break §6normally unbreakable§r blocks",
   "message.the_long_travail.high_frequency_tremor.failure": "Special breaking encountered an error, this High Frequency Tremor operation has stopped",

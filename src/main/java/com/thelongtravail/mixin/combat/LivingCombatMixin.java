@@ -1,5 +1,6 @@
 package com.thelongtravail.mixin.combat;
 
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -7,7 +8,9 @@ import com.thelongtravail.combat.CombatContext;
 import com.thelongtravail.runtime.effects.EffectInsertion;
 
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -61,6 +64,40 @@ public abstract class LivingCombatMixin {
             return original.call(source, amount);
         return com.thelongtravail.combat.DamageScope.hurt(
                 target, source, amount, (effective, value) -> original.call(effective, value));
+    }
+
+    @WrapWithCondition(
+            method = "hurt",
+            at =
+                    @At(
+                            value = "INVOKE",
+                            target =
+                                    "Lnet/minecraft/world/level/Level;broadcastDamageEvent(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/damagesource/DamageSource;)V"))
+    private boolean travail$broadcastHit(Level level, Entity target, DamageSource source) {
+        return !CombatContext.blockedByOverlord((LivingEntity) target, source);
+    }
+
+    @WrapWithCondition(
+            method = "hurt",
+            at =
+                    @At(
+                            value = "INVOKE",
+                            target =
+                                    "Lnet/minecraft/world/entity/LivingEntity;playHurtSound(Lnet/minecraft/world/damagesource/DamageSource;)V"))
+    private boolean travail$playHitSound(LivingEntity target, DamageSource source) {
+        return !CombatContext.blockedByOverlord(target, source);
+    }
+
+    @WrapWithCondition(
+            method = "hurt",
+            at =
+                    @At(
+                            value = "INVOKE",
+                            target =
+                                    "Lnet/minecraft/world/entity/LivingEntity;indicateDamage(DD)V"))
+    private boolean travail$showHitDirection(
+            LivingEntity target, double x, double z, DamageSource source, float amount) {
+        return !CombatContext.blockedByOverlord(target, source);
     }
 
     @WrapOperation(

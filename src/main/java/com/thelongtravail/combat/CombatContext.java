@@ -204,6 +204,11 @@ public final class CombatContext implements AutoCloseable {
                 : null;
     }
 
+    public static boolean blockedByOverlord(LivingEntity target, DamageSource source) {
+        CombatContext context = current(target, source);
+        return context != null && context.attributeDamage.blockedByOverlord();
+    }
+
     public static boolean allowsKillHealthChange(LivingEntity target) {
         // 仅当前受击目标继承该笔标准 kill 的放行资格。
         CombatContext context = CURRENT.get();
