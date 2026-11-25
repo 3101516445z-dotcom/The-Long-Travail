@@ -34,12 +34,12 @@ minecraft {
 
     runs {
         client {
-            workingDirectory project.file('test-environments/minimal-client')
+            workingDirectory project.file('../test-environments/minimal-client')
             property 'forge.logging.console.level', 'info'
             mods { the_long_travail { source sourceSets.main } }
         }
         server {
-            workingDirectory project.file('test-environments/minimal-server')
+            workingDirectory project.file('../test-environments/minimal-server')
             args '--nogui'
             property 'forge.logging.console.level', 'info'
             mods { the_long_travail { source sourceSets.main } }

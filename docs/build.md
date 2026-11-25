@@ -20,6 +20,8 @@ Linux / macOS：
 
 构建产物位于 `build/libs/`，安装时选择包含内嵌依赖的 `The_Long_Travail-<版本>.jar`。带 `-slim` 后缀的是精简包。Curios 需另行安装。
 
+开发运行目录相对于工程根目录解析：`runClient` 使用 `../test-environments/minimal-client/`，`runServer` 使用 `../test-environments/minimal-server/`。
+
 离线构建可在缓存齐全后追加 `--offline`。要使用本地车万女仆 API，可指定 `-PmaidApiJar=<JAR路径>`。依赖版本见 [build.gradle](../build.gradle) 和[可选依赖配置](../gradle/optional-compat.gradle)。
 
 Gradle Wrapper 使用 Apache-2.0 许可证，第三方依赖沿用各自的许可证。
