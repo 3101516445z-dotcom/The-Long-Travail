@@ -1,11 +1,13 @@
 package com.thelongtravail.runtime.effects;
 
 import com.thelongtravail.TravailAspect;
+import com.thelongtravail.abyss.SeaBottle;
 import com.thelongtravail.common.TickDurations;
 import com.thelongtravail.common.weighted.WeightedTable;
 import com.thelongtravail.config.ModeEffectRules;
 import com.thelongtravail.config.TravailConfig;
 import com.thelongtravail.equipment.TravailCurios;
+import com.thelongtravail.flourishing.FloralCombat;
 import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.journey.PlayerJourneyData;
 import com.thelongtravail.runtime.attributes.FlourishingBonus;
@@ -20,6 +22,7 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -164,26 +167,28 @@ public final class TravailEffectActions {
     }
 
     public static void onHeal(LivingHealEvent event) {
-        if (!(event.getEntity() instanceof ServerPlayer player) || player.level().isClientSide)
-            return;
-        ItemStack travail = TravailCurios.stack(player);
-        if (travail.isEmpty()) return;
-        if (!LongTravailData.hasWitness(travail, TravailAspect.FLOURISHING)) {
-            if (!ModeEffectRules.diaryApplies(player)) return;
-            event.setAmount(
-                    event.getAmount()
-                            * (1.0F
-                                    - TravailConfig.FLOURISHING_HEALING_REDUCTION
-                                            .get()
-                                            .floatValue()));
-            return;
-        }
+        var entity = event.getEntity();
+        if (entity.level().isClientSide || event.getAmount() <= 0) return;
         double bonus =
-                FlourishingBonus.calculate(
-                        PlayerJourneyData.discoveredBiomeCount(player),
-                        TravailConfig.FLOURISHING_BONUS_PER_BIOME.get(),
-                        TravailConfig.MAX_HEALING_BONUS.get());
-        event.setAmount(safeMultiply(event.getAmount(), 1.0F + (float) bonus));
+                flourishingHealingBonus(entity)
+                        + SeaBottle.healingBonus(entity)
+                        + FloralCombat.healingBonus(entity);
+        if (bonus != 0)
+            event.setAmount(safeMultiply(event.getAmount(), (float) Math.max(0, 1 + bonus)));
+    }
+
+    private static double flourishingHealingBonus(LivingEntity entity) {
+        if (!(entity instanceof ServerPlayer player)) return 0;
+        ItemStack travail = TravailCurios.stack(player);
+        if (travail.isEmpty()) return 0;
+        if (!LongTravailData.hasWitness(travail, TravailAspect.FLOURISHING))
+            return ModeEffectRules.diaryApplies(player)
+                    ? -TravailConfig.FLOURISHING_HEALING_REDUCTION.get()
+                    : 0;
+        return FlourishingBonus.calculate(
+                PlayerJourneyData.discoveredBiomeCount(player),
+                TravailConfig.FLOURISHING_BONUS_PER_BIOME.get(),
+                TravailConfig.MAX_HEALING_BONUS.get());
     }
 
     public static void onEffectApplicable(MobEffectEvent.Applicable event) {

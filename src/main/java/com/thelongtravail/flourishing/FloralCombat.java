@@ -2,7 +2,9 @@ package com.thelongtravail.flourishing;
 
 import static com.thelongtravail.combat.DamageReduction.remaining;
 
+import com.thelongtravail.compat.maidspell.MaidSpellFlowers;
 import com.thelongtravail.config.FlourishingItemsConfig;
+import com.thelongtravail.integration.MaidIntegration;
 import com.thelongtravail.runtime.scheduling.TickDeadline;
 
 import net.minecraft.core.registries.Registries;
@@ -73,7 +75,7 @@ public final class FloralCombat {
         double result = 0;
         if (player != null && player != victim) {
             ItemStack crown = Affection.equipped(player, true);
-            result += crownBonus(player, crown, source);
+            result += crownBonus(player, crown, source, victim);
             if (direct == player) {
                 LivingEntity pet = Affection.target(player);
                 if (pet != null)
@@ -116,7 +118,8 @@ public final class FloralCombat {
         return multiplier;
     }
 
-    public static double crownBonus(LivingEntity wearer, ItemStack crown, DamageSource source) {
+    public static double crownBonus(
+            LivingEntity wearer, ItemStack crown, DamageSource source, LivingEntity victim) {
         double bonus = value(crown, Flower.POPPY);
         if (wearer.getHealth()
                 < wearer.getMaxHealth()
@@ -124,13 +127,13 @@ public final class FloralCombat {
             bonus += value(crown, Flower.RED_TULIP);
         if (source.is(DamageTypeTags.IS_PROJECTILE)) bonus += value(crown, Flower.CORNFLOWER);
         if (sunny(wearer)) bonus += value(crown, Flower.SUNFLOWER);
-        return bonus;
+        return bonus + MaidSpellFlowers.damageBonus(crown, wearer, victim);
     }
 
     // 保持 double 精度，调用方叠加其他减伤后再转换为最终伤害。
     public static double crownMultiplier(
             LivingEntity wearer, ItemStack crown, DamageSource source, boolean poison) {
-        double multiplier = 1;
+        double multiplier = remaining(MaidSpellFlowers.reduction(crown, wearer));
         if (poison) multiplier *= remaining(value(crown, Flower.ALLIUM));
         if (source.is(DamageTypeTags.IS_FALL))
             multiplier *= remaining(value(crown, Flower.AZURE_BLUET));
@@ -141,6 +144,15 @@ public final class FloralCombat {
                         * FlourishingItemsConfig.extra(Flower.WHITE_TULIP, "healthThreshold"))
             multiplier *= remaining(value(crown, Flower.WHITE_TULIP));
         return multiplier;
+    }
+
+    public static double healingBonus(LivingEntity wearer) {
+        ItemStack crown =
+                wearer instanceof ServerPlayer player
+                        ? Affection.equipped(player, true)
+                        : MaidIntegration.springCrown(wearer);
+        if (crown.isEmpty()) return 0;
+        return value(crown, Flower.PINK_TULIP) + MaidSpellFlowers.healingBonus(crown, wearer);
     }
 
     public static void roseHit(ServerPlayer player, LivingEntity attacker) {

@@ -1,9 +1,8 @@
 package com.thelongtravail.item;
 
-import com.thelongtravail.equipment.AccessoryEquipRules;
-
 import com.thelongtravail.AspectTheme;
 import com.thelongtravail.config.FlourishingItemsConfig;
+import com.thelongtravail.equipment.AccessoryEquipRules;
 import com.thelongtravail.flourishing.*;
 
 import net.minecraft.network.chat.Component;
@@ -11,6 +10,7 @@ import net.minecraft.world.*;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 
 import top.theillusivec4.curios.api.SlotContext;
@@ -105,6 +105,7 @@ public final class FlourishingAccessoryItem extends Item implements ICurioItem, 
         if (spring) {
             lines.add(Component.empty());
             for (Flower flower : Flower.values()) {
+                if (flower.item() == Items.AIR) continue;
                 Component name =
                         FloralText.gold(flower.item().getDescription())
                                 .copy()

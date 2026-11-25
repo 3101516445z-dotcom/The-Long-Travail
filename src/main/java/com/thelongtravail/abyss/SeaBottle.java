@@ -16,7 +16,6 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingHealEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -54,15 +53,10 @@ public final class SeaBottle {
                 : 0;
     }
 
-    @SubscribeEvent
-    public static void heal(LivingHealEvent event) {
-        if (!event.getEntity().level().isClientSide
-                && equipped(event.getEntity())
-                && phase(event.getEntity(), false))
-            event.setAmount(
-                    (float)
-                            (event.getAmount()
-                                    * (1 + ThemeItemConfig.get("sea_in_a_bottle.healingBonus"))));
+    public static double healingBonus(LivingEntity entity) {
+        return equipped(entity) && phase(entity, false)
+                ? ThemeItemConfig.get("sea_in_a_bottle.healingBonus")
+                : 0;
     }
 
     @SubscribeEvent

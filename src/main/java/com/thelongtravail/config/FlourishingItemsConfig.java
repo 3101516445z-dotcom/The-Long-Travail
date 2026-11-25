@@ -1,7 +1,6 @@
 package com.thelongtravail.config;
 
 import com.thelongtravail.common.TickDurations;
-
 import com.thelongtravail.flourishing.Flower;
 import com.thelongtravail.network.TooltipConfigSync;
 
@@ -22,8 +21,8 @@ public final class FlourishingItemsConfig {
         BUD_BLACKLIST =
                 b.comment(
                                 "禁止永生芽赋予的物品 ID，精确匹配；空列表不额外限制。不会撤销已有标记。",
-                                "Exact item IDs excluded from Immortal Bud application; an empty list adds"
-                                        + " no restriction. Existing marks are not revoked.")
+                                "Exact item IDs excluded from Immortal Bud application; an empty"
+                                    + " list adds no restriction. Existing marks are not revoked.")
                         .defineListAllowEmpty(
                                 "items.immortal_bud.itemBlacklist",
                                 List.of(),
@@ -38,6 +37,10 @@ public final class FlourishingItemsConfig {
                     switch (f) {
                         case DANDELION -> "蒲公英";
                         case POPPY -> "虞美人";
+                        case SCARLET_ZHUHUA -> "猩红朱华";
+                        case YUE_LINGLAN -> "月铃兰";
+                        case JINGXU_YOULAN -> "净墟幽兰";
+                        case STAR_GLOW_FLOWER_CLUSTER -> "星荧花簇";
                         case BLUE_ORCHID -> "兰花";
                         case ALLIUM -> "绒球葱";
                         case AZURE_BLUET -> "蓝花美耳草";
@@ -69,8 +72,8 @@ public final class FlourishingItemsConfig {
                     f,
                     b.comment(
                                     "true：允许将此花朵用于春日一隅，并启用对应效果；false：禁止用于制作或添加，已有对应效果暂停。\n"
-                                            + "true: allow this flower and its effects; false: prevent"
-                                            + " new use and pause existing effects.")
+                                        + "true: allow this flower and its effects; false: prevent"
+                                        + " new use and pause existing effects.")
                             .define(p + ".enabled", true));
             String value =
                     switch (f) {
@@ -104,26 +107,17 @@ public final class FlourishingItemsConfig {
                 0,
                 1000,
                 "食物提供的饱和度增加比例。\nFractional increase in saturation restored by food.");
-        extra(
-                b,
-                "red_tulip",
-                "healthThreshold",
-                .5,
-                0,
-                1,
-                "佩戴者当前生命值占最大生命值的比例低于此值时生效。\n"
-                        + "Applies while the wearer's current health as a fraction of maximum health is"
-                        + " below this value.");
-        extra(
-                b,
-                "white_tulip",
-                "healthThreshold",
-                .5,
-                0,
-                1,
-                "佩戴者当前生命值占最大生命值的比例低于此值时生效。\n"
-                        + "Applies while the wearer's current health as a fraction of maximum health is"
-                        + " below this value.");
+        for (String flower : List.of("red_tulip", "white_tulip", "yue_linglan"))
+            extra(
+                    b,
+                    flower,
+                    "healthThreshold",
+                    .5,
+                    0,
+                    1,
+                    "佩戴者当前生命值占最大生命值的比例低于此值时生效。\n"
+                        + "Applies while the wearer's current health as a fraction of maximum"
+                        + " health is below this value.");
         extra(
                 b,
                 "oxeye_daisy",
@@ -162,7 +156,7 @@ public final class FlourishingItemsConfig {
                 0,
                 1000,
                 "移动速度增加比例；固定要求白天且露天。\n"
-                        + "Fractional movement speed increase; always requires daytime and open sky.");
+                    + "Fractional movement speed increase; always requires daytime and open sky.");
         extra(
                 b,
                 "rose_bush",
@@ -253,6 +247,7 @@ public final class FlourishingItemsConfig {
     private static boolean reduction(Flower f) {
         return f == Flower.ALLIUM
                 || f == Flower.AZURE_BLUET
+                || f == Flower.JINGXU_YOULAN
                 || f == Flower.WHITE_TULIP
                 || f == Flower.TORCHFLOWER
                 || f == Flower.SPORE_BLOSSOM
@@ -275,9 +270,9 @@ public final class FlourishingItemsConfig {
                 switch (f) {
                     case DANDELION ->
                             "食物恢复的饱食度提高的比例；不足1点的部分会保留，并在之后进食时累计计算。\n"
-                                    + "Fractional increase in hunger restored by food. Fractions below"
-                                    + " 1 point are retained and accumulated across later meals.";
-                    case POPPY, RED_TULIP, SUNFLOWER ->
+                                + "Fractional increase in hunger restored by food. Fractions below"
+                                + " 1 point are retained and accumulated across later meals.";
+                    case SCARLET_ZHUHUA, STAR_GLOW_FLOWER_CLUSTER, POPPY, RED_TULIP, SUNFLOWER ->
                             "造成的伤害提高的比例。\nFractional increase in damage dealt.";
                     case BLUE_ORCHID -> "水中移动速度的增加比例。\nFractional increase in swimming speed.";
                     case ALLIUM ->
@@ -286,8 +281,9 @@ public final class FlourishingItemsConfig {
                                     + " magic damage.";
                     case AZURE_BLUET -> "摔落伤害的减免比例。\nFractional reduction in fall damage.";
                     case ORANGE_TULIP -> "攻击速度的增加比例。\nFractional increase in attack speed.";
-                    case WHITE_TULIP -> "受到的伤害降低的比例。\nFractional reduction in damage taken.";
-                    case PINK_TULIP ->
+                    case JINGXU_YOULAN, WHITE_TULIP ->
+                            "受到的伤害降低的比例。\nFractional reduction in damage taken.";
+                    case YUE_LINGLAN, PINK_TULIP ->
                             "佩戴者受到的治疗量提高的比例。\n"
                                     + "Fractional increase in healing received by the wearer.";
                     case CORNFLOWER ->
@@ -297,12 +293,13 @@ public final class FlourishingItemsConfig {
                                     + "Fractional reduction in fire, burning, and lava damage.";
                     case LILAC ->
                             "施加的中毒、凋零、缓慢和虚弱效果持续时间延长的比例。\n"
-                                    + "Fractional increase in the duration of Poison, Wither, Slowness,"
-                                    + " and Weakness effects applied.";
+                                + "Fractional increase in the duration of Poison, Wither, Slowness,"
+                                + " and Weakness effects applied.";
                     case ROSE_BUSH ->
                             "反伤占玩家当前最大生命值的比例；直击伤害，不受增伤影响。\n"
-                                    + "Retaliation damage as a fraction of the player's current maximum"
-                                    + " health. Deals direct strike damage and is unaffected by damage bonuses.";
+                                + "Retaliation damage as a fraction of the player's current maximum"
+                                + " health. Deals direct strike damage and is unaffected by damage"
+                                + " bonuses.";
                     case PEONY -> "最大生命值的增加比例。\nFractional increase in maximum health.";
                     case PITCHER_PLANT ->
                             "每次击杀敌对生物时，恢复量占佩戴者最大生命值的比例。\n"
@@ -314,8 +311,8 @@ public final class FlourishingItemsConfig {
                                     + " damage.";
                     case SPORE_BLOSSOM ->
                             "新施加的有限时长负面效果持续时间缩短的比例；不影响瞬间或无限持续效果。\n"
-                                    + "Fractional duration reduction for newly applied finite harmful"
-                                    + " effects; excludes instant and infinite effects.";
+                                + "Fractional duration reduction for newly applied finite harmful"
+                                + " effects; excludes instant and infinite effects.";
                     case PINK_PETALS -> "移动速度的增加比例。\nFractional increase in movement speed.";
                     default -> "效果比例。\nEffect fraction.";
                 };
@@ -361,7 +358,6 @@ public final class FlourishingItemsConfig {
             String comment) {
         number(b, "affection." + key, "items.affection." + key, v, min, max, comment);
     }
-
 
     private static ForgeConfigSpec.ConfigValue<List<? extends String>> ids(
             ForgeConfigSpec.Builder b, String key, List<String> values, String comment) {

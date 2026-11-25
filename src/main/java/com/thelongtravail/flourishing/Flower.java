@@ -1,8 +1,11 @@
 package com.thelongtravail.flourishing;
 
+import com.thelongtravail.compat.maidspell.MaidSpellFlowers;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public enum Flower {
@@ -30,10 +33,14 @@ public enum Flower {
     FLOWERING_AZALEA("flowering_azalea", .20),
     CHORUS_FLOWER("chorus_flower", 1),
     SPORE_BLOSSOM("spore_blossom", .20),
-    FLOWERING_AZALEA_LEAVES("flowering_azalea_leaves", 2);
+    FLOWERING_AZALEA_LEAVES("flowering_azalea_leaves", 2),
+    SCARLET_ZHUHUA(MaidSpellFlowers.SCARLET_ZHUHUA, .15),
+    YUE_LINGLAN(MaidSpellFlowers.YUE_LINGLAN, .30),
+    JINGXU_YOULAN(MaidSpellFlowers.JINGXU_YOULAN, .15),
+    STAR_GLOW_FLOWER_CLUSTER(MaidSpellFlowers.STAR_GLOW_FLOWER_CLUSTER, .15);
     public final String id;
     public final double initial;
-    private final ResourceLocation itemId;
+    final ResourceLocation itemId;
     private static final Flower[] ORDERED = values();
     private static final java.util.Map<String, Flower> BY_ID;
 
@@ -41,7 +48,7 @@ public enum Flower {
         var ids = new java.util.HashMap<String, Flower>();
         for (Flower flower : ORDERED) {
             ids.put(flower.id, flower);
-            ids.put("minecraft:" + flower.id, flower);
+            ids.put(flower.itemId.toString(), flower);
         }
         BY_ID = java.util.Collections.unmodifiableMap(ids);
     }
@@ -52,13 +59,14 @@ public enum Flower {
                     ResourceLocation.fromNamespaceAndPath("the_long_travail", "spring_flowers"));
 
     Flower(String id, double initial) {
-        this.id = id;
+        this.itemId = new ResourceLocation(id);
+        this.id = itemId.getPath();
         this.initial = initial;
-        this.itemId = ResourceLocation.fromNamespaceAndPath("minecraft", id);
     }
 
     public Item item() {
-        return ForgeRegistries.ITEMS.getValue(itemId);
+        return java.util.Objects.requireNonNullElse(
+                ForgeRegistries.ITEMS.getValue(itemId), Items.AIR);
     }
 
     public boolean craftable() {
@@ -66,6 +74,7 @@ public enum Flower {
     }
 
     public static Flower of(ItemStack stack) {
+        if (stack.isEmpty()) return null;
         for (Flower f : ORDERED) if (stack.is(f.item())) return f;
         return null;
     }

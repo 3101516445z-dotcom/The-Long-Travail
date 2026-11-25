@@ -1,7 +1,9 @@
 package com.thelongtravail.flourishing;
 
 import com.thelongtravail.config.FlourishingItemsConfig;
+
 import net.minecraft.network.chat.Component;
+
 import java.math.BigDecimal;
 
 public final class FlowerDescriptions {
@@ -33,7 +35,12 @@ public final class FlowerDescriptions {
     }
 
     public static Component describe(Flower f) {
-        return describe(f, "tooltip.the_long_travail.flower." + f.id);
+        return describe(
+                f,
+                (f.itemId.getNamespace().equals("minecraft")
+                                ? "tooltip.the_long_travail.flower."
+                                : "gui.the_long_travail.catalog.floral.flower.")
+                        + f.id);
     }
 
     public static Component describe(Flower f, String key) {
@@ -54,7 +61,7 @@ public final class FlowerDescriptions {
                             key,
                             percent(v),
                             percent(FlourishingItemsConfig.shown(root + "saturationBonus")));
-            case RED_TULIP, WHITE_TULIP ->
+            case YUE_LINGLAN, RED_TULIP, WHITE_TULIP ->
                     FloralText.text(
                             key,
                             percent(FlourishingItemsConfig.shown(root + "healthThreshold")),

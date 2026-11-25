@@ -1,0 +1,34 @@
+{
+  "type": "the_long_travail:spring_crown",
+  "category": "equipment",
+  "flower": "jingxu_youlan",
+  "pattern": [
+    "WWW",
+    "SFS",
+    "W W"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:wheat"
+    },
+    "S": {
+      "item": "minecraft:string"
+    },
+    "F": {
+      "item": "touhou_little_maid_spell:jingxu_youlan"
+    }
+  },
+  "result": {
+    "item": "the_long_travail:spring_corner"
+  },
+  "conditions": [
+    {
+      "type": "forge:item_exists",
+      "item": "the_long_travail:spring_corner"
+    },
+    {
+      "type": "forge:item_exists",
+      "item": "touhou_little_maid_spell:jingxu_youlan"
+    }
+  ]
+}

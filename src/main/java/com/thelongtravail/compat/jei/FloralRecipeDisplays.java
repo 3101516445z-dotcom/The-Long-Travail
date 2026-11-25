@@ -1,12 +1,13 @@
 package com.thelongtravail.compat.jei;
 
 import com.thelongtravail.flourishing.*;
-
 import com.thelongtravail.registry.ModRegistry;
+
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.*;
+
 import java.util.*;
 
 public final class FloralRecipeDisplays {
@@ -50,6 +51,7 @@ public final class FloralRecipeDisplays {
         for (Flower flower : enabled)
             row(select, stack(), new ItemStack(flower.item()), stack(flower));
         for (Flower primary : Flower.values()) {
+            if (primary.item() == Items.AIR) continue;
             for (Flower added : enabled)
                 if (primary != added) {
                     row(add, stack(primary), new ItemStack(added.item()), stack(primary, added));

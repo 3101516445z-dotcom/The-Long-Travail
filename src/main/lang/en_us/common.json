@@ -33,6 +33,7 @@
   "tooltip.the_long_travail.summary.requires_diary_effect": "§4Only grants its effects to those who bear Travail",
   "tooltip.the_long_travail.summary.owner_mismatch": "§4You are not the pact maker and cannot wear this accessory",
   "tooltip.the_long_travail.summary.companion_unbound": "No pact companion; bonuses are inactive",
+  "tooltip.the_long_travail.summary.flower_unavailable": "Missing flower",
   "tooltip.the_long_travail.summary.main_flower_missing": "No main flower; flower effects are inactive",
   "tooltip.the_long_travail.summary.main_flower": "§6Main flower§r: %s",
   "tooltip.the_long_travail.summary.secondary_flower": "§6Supporting flowers§r: %s",

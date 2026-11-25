@@ -8,9 +8,11 @@ import com.thelongtravail.network.TooltipConfigSync;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
+import java.util.Arrays;
 
 // 拾遗专用分区，数值与花朵效果继续使用原有配置读取路径。
 public final class CatalogFlourishingDetails {
@@ -64,7 +66,10 @@ public final class CatalogFlourishingDetails {
                 out.add(line("spring.1"));
                 out.add(Component.empty());
                 out.add(condition("spring.heading"));
-                Flower[] flowers = Flower.values();
+                Flower[] flowers =
+                        Arrays.stream(Flower.values())
+                                .filter(f -> f.item() != Items.AIR)
+                                .toArray(Flower[]::new);
                 for (int i = 0; i < flowers.length; i++) {
                     Flower flower = flowers[i];
                     var name =

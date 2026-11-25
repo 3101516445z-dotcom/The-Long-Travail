@@ -1,8 +1,10 @@
 package com.thelongtravail.flourishing;
 
 import com.thelongtravail.config.FlourishingItemsConfig;
+
 import net.minecraft.nbt.*;
 import net.minecraft.world.item.ItemStack;
+
 import java.util.*;
 
 public final class FlowerData {
@@ -38,7 +40,7 @@ public final class FlowerData {
             if (flower == null) continue;
             long bit = 1L << flower.ordinal();
             if ((seen & bit) != 0) continue;
-            if (flower == f) return true;
+            if (flower == f) return f.item() != net.minecraft.world.item.Items.AIR;
             seen |= bit;
             if (++count == 3) break;
         }

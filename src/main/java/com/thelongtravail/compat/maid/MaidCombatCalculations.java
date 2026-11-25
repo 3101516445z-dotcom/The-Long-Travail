@@ -54,7 +54,7 @@ public final class MaidCombatCalculations {
         var m = attacker(source);
         if (m == null || m == victim || m.level().isClientSide) return 0;
         var crown = crown(m);
-        double value = FloralCombat.crownBonus(m, crown, source);
+        double value = FloralCombat.crownBonus(m, crown, source, victim);
         if (eki(m) == Phase.MALICE) value += RainConfig.DAMAGE.get();
         if (has(m, ModRegistry.ICARUS)) {
             var phase = phase(m, TravailAspect.FAR_REACH);

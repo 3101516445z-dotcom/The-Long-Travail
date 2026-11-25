@@ -33,6 +33,7 @@
   "tooltip.the_long_travail.summary.requires_diary_effect": "§4只對承受「苦旅」之人賦予效果",
   "tooltip.the_long_travail.summary.owner_mismatch": "§4你並非締約者，無法佩戴此飾品",
   "tooltip.the_long_travail.summary.companion_unbound": "尚未締約夥伴，強化效果未生效",
+  "tooltip.the_long_travail.summary.flower_unavailable": "花材缺失",
   "tooltip.the_long_travail.summary.main_flower_missing": "尚未綴入主花，花朵效果未生效",
   "tooltip.the_long_travail.summary.main_flower": "§6主花§r：%s",
   "tooltip.the_long_travail.summary.secondary_flower": "§6配花§r：%s",

@@ -133,18 +133,6 @@ public final class FloralEvents {
             p.setHealth(p.getMaxHealth());
     }
 
-    @SubscribeEvent
-    public static void heal(LivingHealEvent e) {
-        if (e.getEntity() instanceof ServerPlayer p && e.getAmount() > 0)
-            e.setAmount(
-                    FloralCombat.safe(
-                            e.getAmount()
-                                    * (1
-                                            + FloralCombat.value(
-                                                    Affection.equipped(p, true),
-                                                    Flower.PINK_TULIP))));
-    }
-
     public static void successful(LivingEntity victim, DamageSource source) {
         if (FloralCombat.rose(source)) return;
         ServerPlayer p = Affection.attacker(source.getEntity());

@@ -393,6 +393,8 @@ public final class CatalogTextStyle {
                                                                 "击退抗性",
                                                                 "护甲韧性",
                                                                 "负面效果",
+                                                                "凋零",
+                                                                "末地",
                                                                 "方块交互距离",
                                                                 "近战攻击距离",
                                                                 "直击伤害",
@@ -486,9 +488,10 @@ public final class CatalogTextStyle {
             if (!heading && !supplement && !objectList) {
                 var conditions =
                         Pattern.compile(
-                                        "高度差(?:超过|超過|逾)[0-9.]+格|height difference from the (?:attacker|target) exceeds [0-9.]+ blocks"
-                                                + "|目标(?:没有|已有)同种附魔|目標(?:沒有|已有|未有)同種附魔"
-                                                + "|the target (?:does not have|already has) the enchantment",
+                                        "高度差(?:超过|超過|逾)[0-9.]+格|height difference from the"
+                                            + " (?:attacker|target) exceeds [0-9.]+ blocks"
+                                            + "|目标(?:没有|已有)同种附魔|目標(?:沒有|已有|未有)同種附魔|the target"
+                                            + " (?:does not have|already has) the enchantment",
                                         Pattern.CASE_INSENSITIVE)
                                 .matcher(text);
                 while (conditions.find())

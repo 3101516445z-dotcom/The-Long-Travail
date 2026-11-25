@@ -46,6 +46,7 @@ public final class ThemeTooltips {
             Set.of("golden_age", "icarus", "don_quixote", "tower_of_babel", "sun_chaser");
     private static final Set<String> ABYSS_SUMMARIES =
             Set.of("eki", "tokaido", "perfect_fluid", "midnight_lafite", "liquefied_abundance");
+
     private static boolean utility(String id) {
         return Set.of("homecoming", "renewal", "wayguide", "coloring").contains(id)
                 || id.endsWith("_stone")
@@ -213,6 +214,13 @@ public final class ThemeTooltips {
         return binding.isUnbound()
                 ? com.thelongtravail.client.TooltipTranslations.text(PREFIX + "unbound")
                 : TravailClientEvents.holdKeyLabel(binding);
+    }
+
+    private static Component flowerName(com.thelongtravail.flourishing.Flower flower) {
+        var item = flower.item();
+        return item == net.minecraft.world.item.Items.AIR
+                ? text("flower_unavailable")
+                : item.getDescription();
     }
 
     public static Component text(String suffix, Object... args) {
@@ -417,14 +425,14 @@ public final class ThemeTooltips {
                 var flowers = FlowerData.read(stack);
                 if (flowers.isEmpty()) out.add(text("main_flower_missing"));
                 else {
-                    out.add(text("main_flower", flowers.get(0).item().getDescription()));
+                    out.add(text("main_flower", flowerName(flowers.get(0))));
                     var secondary = Component.empty();
                     for (int i = 1; i < flowers.size(); i++) {
                         if (i > 1)
                             secondary.append(
                                     com.thelongtravail.client.TooltipTranslations.text(
                                             PREFIX + "list_separator"));
-                        secondary.append(flowers.get(i).item().getDescription());
+                        secondary.append(flowerName(flowers.get(i)));
                     }
                     out.add(
                             text(

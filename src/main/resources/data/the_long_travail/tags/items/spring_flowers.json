@@ -25,6 +25,22 @@
     "minecraft:flowering_azalea",
     "minecraft:chorus_flower",
     "minecraft:spore_blossom",
-    "minecraft:flowering_azalea_leaves"
+    "minecraft:flowering_azalea_leaves",
+    {
+      "id": "touhou_little_maid_spell:scarlet_zhuhua",
+      "required": false
+    },
+    {
+      "id": "touhou_little_maid_spell:yue_linglan",
+      "required": false
+    },
+    {
+      "id": "touhou_little_maid_spell:jingxu_youlan",
+      "required": false
+    },
+    {
+      "id": "touhou_little_maid_spell:star_glow_flower_cluster",
+      "required": false
+    }
   ]
 }

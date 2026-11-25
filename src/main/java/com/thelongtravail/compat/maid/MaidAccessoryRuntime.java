@@ -163,11 +163,6 @@ public final class MaidAccessoryRuntime {
         MaidRuntimeState.transformIn(e);
     }
 
-    @SubscribeEvent
-    public void heal(LivingHealEvent e) {
-        MaidCombatFeedback.heal(e);
-    }
-
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void effect(MobEffectEvent.Applicable e) {
         MaidCombatFeedback.effect(e);

@@ -39,7 +39,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingHealEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.Event;
 
@@ -214,13 +213,6 @@ public final class MaidCombatFeedback {
                                         Integer.MAX_VALUE,
                                         Math.ceil(effect.getDuration() * (1 + value))));
         return copy;
-    }
-
-    public static void heal(LivingHealEvent e) {
-        if (e.getEntity() instanceof EntityMaid m && !m.level().isClientSide && e.getAmount() > 0)
-            e.setAmount(
-                    FloralCombat.safe(
-                            e.getAmount() * (1 + FloralCombat.value(crown(m), Flower.PINK_TULIP))));
     }
 
     public static void effect(MobEffectEvent.Applicable e) {
