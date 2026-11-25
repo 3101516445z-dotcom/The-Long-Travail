@@ -55,7 +55,10 @@ public final class AttributeModifierSet {
             AttributeInstance instance = entity.getAttribute(attribute);
             if (instance == null) continue;
             Modifier wanted = null;
-            if (bonus != null) {
+            // 移速汇总值仅接收显式来源，避免全属性加成在基础移速和汇总值上重复生效。
+            if (bonus != null
+                    && attribute
+                            != com.thelongtravail.registry.ModAttributes.GROUND_SPEED_BONUS.get()) {
                 var key = ForgeRegistries.ATTRIBUTES.getKey(attribute);
                 if (key != null && !excluded.contains(key.toString())) wanted = bonus;
             }

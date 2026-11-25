@@ -1,22 +1,23 @@
 package com.thelongtravail.flourishing;
 
-import com.thelongtravail.api.TravailStateApi;
-import com.thelongtravail.equipment.CurioLookup;
-
 import com.thelongtravail.*;
+import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.combat.DamageReplay;
 import com.thelongtravail.config.*;
+import com.thelongtravail.equipment.CurioLookup;
 import com.thelongtravail.growth.GrowthScheduler;
 import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.runtime.attributes.GroundSpeed;
+import com.thelongtravail.runtime.effects.EffectInsertion;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.*;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -97,7 +98,7 @@ public final class EverlastingFlower {
     public static void update(LivingEntity entity) {
         if (entity.level().isClientSide) return;
         var stack = equipped(entity);
-        Mistletoe.setSpeed(
+        GroundSpeed.update(
                 entity,
                 SPEED,
                 !stack.isEmpty() && phase(entity, stack) == 1 && biome(entity)
@@ -137,14 +138,14 @@ public final class EverlastingFlower {
                 && attacker.getRandom().nextDouble()
                         < FlourishingGrowthConfig.flower("malice.resistanceChance")) {
             int amplifier = FlourishingGrowthConfig.RESISTANCE_LEVEL.get() - 1;
-            var old = attacker.getEffect(MobEffects.DAMAGE_RESISTANCE);
-            if (old == null || old.getAmplifier() <= amplifier)
-                attacker.addEffect(
-                        new MobEffectInstance(
-                                MobEffects.DAMAGE_RESISTANCE,
-                                FlourishingItemsConfig.ticks(
-                                        FlourishingGrowthConfig.flower("malice.resistanceSeconds")),
-                                amplifier));
+            EffectInsertion.addOrGet(
+                    attacker,
+                    new MobEffectInstance(
+                            MobEffects.DAMAGE_RESISTANCE,
+                            FlourishingItemsConfig.ticks(
+                                    FlourishingGrowthConfig.flower("malice.resistanceSeconds")),
+                            amplifier),
+                    null);
         } else if (phase == 2
                 && amount > 0
                 && Float.isFinite(amount)

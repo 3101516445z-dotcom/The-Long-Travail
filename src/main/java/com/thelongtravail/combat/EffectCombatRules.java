@@ -1,6 +1,7 @@
 package com.thelongtravail.combat;
 
 import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.runtime.effects.EffectInsertion;
 
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -60,9 +61,7 @@ public final class EffectCombatRules {
     public static void confirmed(LivingEntity target, DamageSource source) {
         LivingEntity actor = actor(source);
         if (!mara(actor) || !target.isAlive()) return;
-        MobEffectInstance old = target.getEffect(MobEffects.WITHER);
-        if (old == null || old.getAmplifier() <= 1)
-            target.addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 1), actor);
+        EffectInsertion.addOrGet(target, new MobEffectInstance(MobEffects.WITHER, 100, 1), actor);
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)

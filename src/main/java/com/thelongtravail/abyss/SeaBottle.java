@@ -8,6 +8,7 @@ import com.thelongtravail.equipment.AccessoryEquipRules;
 import com.thelongtravail.equipment.TravailCurios;
 import com.thelongtravail.registry.ModRegistry;
 import com.thelongtravail.runtime.effects.EffectInsertion;
+import com.thelongtravail.runtime.effects.InsertedEffectSync;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -110,9 +111,7 @@ public final class SeaBottle {
                     actor,
                     copy,
                     recipient,
-                    inserted ->
-                            com.thelongtravail.runtime.effects.InsertedEffectSync.synchronize(
-                                    actor, inserted));
+                    inserted -> InsertedEffectSync.synchronize(actor, inserted));
         } finally {
             APPLYING.remove();
         }

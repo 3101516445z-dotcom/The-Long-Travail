@@ -171,6 +171,13 @@ public final class FloralCombat {
         return sunny((LivingEntity) p);
     }
 
+    public static double crownMovementBonus(LivingEntity wearer, ItemStack crown) {
+        double speed = value(crown, Flower.PINK_PETALS);
+        if (FlowerData.active(crown, Flower.SUNFLOWER) && sunny(wearer))
+            speed += FlourishingItemsConfig.extra(Flower.SUNFLOWER, "speedBonus");
+        return speed;
+    }
+
     private static boolean sunny(LivingEntity p) {
         return p.level().isDay() && p.level().canSeeSky(p.blockPosition());
     }

@@ -32,7 +32,6 @@
     "rain.RainBiomeMixin",
     "rain.RainCommandMixin",
     "movement.AltitudeSpeedMixin",
-    "movement.AltitudeFlightMixin",
     "movement.AltitudeGlidingMixin",
     "movement.StiffSpeedMixin",
     "combat.FluidAbsorptionMixin",
@@ -132,11 +131,9 @@
     "valley.TremorFortuneMixin",
     "farreach.SunFireMixin",
     "effects.CombatEffectHealthMixin",
-    "movement.RevivalPropulsionMixin",
-    "movement.RevivalImpulseMixin",
+    "movement.EntityMovementMixin",
     "movement.RevivalGhastMixin",
-    "babel.PeacefulAngerMixin",
-    "movement.RevivalExplosionImpulseMixin"
+    "babel.PeacefulAngerMixin"
   ],
   "client": [
     "flourishing.MistletoeClientEffectsMixin",
@@ -163,8 +160,7 @@
     "valley.LanternLevelLightMixin",
     "valley.LanternEntityLightMixin",
     "underworld.BookDeathScreenMixin",
-    "underworld.BookDeathScreenAccessor",
-    "movement.RevivalClientExplosionMixin"
+    "underworld.BookDeathScreenAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

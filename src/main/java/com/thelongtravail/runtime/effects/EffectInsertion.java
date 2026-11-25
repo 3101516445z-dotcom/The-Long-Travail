@@ -1,6 +1,10 @@
 package com.thelongtravail.runtime.effects;
 
+import com.thelongtravail.abyss.MidnightLafite;
 import com.thelongtravail.common.RuntimeFailures;
+import com.thelongtravail.flourishing.FloralEvents;
+import com.thelongtravail.flourishing.FloralPassives;
+import com.thelongtravail.integration.MaidIntegration;
 import com.thelongtravail.mixin.effects.LivingEffectsAccessor;
 
 import net.minecraft.network.protocol.game.ClientboundUpdateMobEffectPacket;
@@ -13,6 +17,24 @@ import javax.annotation.Nullable;
 
 // 显式调用的效果植入工具；不修改全局药水免疫规则。
 public final class EffectInsertion {
+    private record Prepared(LivingEntity target, MobEffectInstance effect) {}
+
+    private static final ThreadLocal<Prepared> PREPARED = new ThreadLocal<>();
+
+    // 显式植入先修正一次；进入原版 addEffect 时复用同一实例。
+    public static MobEffectInstance prepare(
+            LivingEntity target, MobEffectInstance effect, @Nullable Entity source) {
+        var prepared = PREPARED.get();
+        if (prepared != null && prepared.target() == target && prepared.effect() == effect)
+            return effect;
+        if (MidnightLafite.levels(target, effect.getEffect()) > 0)
+            effect = MidnightLafite.copyEffect(effect);
+        effect = FloralEvents.extendedEffect(target, effect, source);
+        effect = MaidIntegration.extend(target, effect, source);
+        effect = MidnightLafite.duration(target, effect);
+        return FloralPassives.shorten(target, effect);
+    }
+
     // 服务端正常添加后返回实际实例；首次拒收时写入真实表并执行添加回调。
     // 已有效果的合并先遵循原版规则，拒绝更新时返回既有实例。
     // 返回 null 表示失败；业务方自行决定目标限制、叠层、时长和消耗。
@@ -20,7 +42,7 @@ public final class EffectInsertion {
     @Nullable
     public static MobEffectInstance addOrGet(
             LivingEntity target, MobEffectInstance incoming, @Nullable Entity source) {
-        return addOrGet(target, incoming, source, actual -> {});
+        return addOrGet(target, incoming, source, null);
     }
 
     // 调用方的实例调整与同步也纳入恢复范围；物品消耗必须在成功返回之后执行。
@@ -29,7 +51,7 @@ public final class EffectInsertion {
             LivingEntity target,
             MobEffectInstance incoming,
             @Nullable Entity source,
-            java.util.function.Consumer<MobEffectInstance> finish) {
+            @Nullable java.util.function.Consumer<MobEffectInstance> finish) {
         if (!(target.level() instanceof ServerLevel) || !target.isAlive()) return null;
         EffectInsertionState before;
         try {
@@ -40,14 +62,24 @@ public final class EffectInsertion {
         }
         RuntimeException failure = null;
         try {
-            target.addEffect(incoming, source);
+            incoming = prepare(target, incoming, source);
+            var previous = PREPARED.get();
+            PREPARED.set(new Prepared(target, incoming));
+            try {
+                target.addEffect(incoming, source);
+            } finally {
+                if (previous == null) PREPARED.remove();
+                else PREPARED.set(previous);
+            }
             var actual = target.getEffect(incoming.getEffect());
-            if (actual == null && writeVerified(target, incoming)) {
+            boolean inserted = actual == null && writeVerified(target, incoming);
+            if (inserted) {
                 ((LivingEffectsAccessor) target).travail$onEffectAdded(incoming, source);
                 actual = target.getEffect(incoming.getEffect());
             }
             if (actual != null) {
-                finish.accept(actual);
+                if (finish != null) finish.accept(actual);
+                else if (inserted) InsertedEffectSync.synchronize(target, actual);
                 if (target.getEffect(incoming.getEffect()) == actual) return actual;
             }
         } catch (RuntimeException caught) {

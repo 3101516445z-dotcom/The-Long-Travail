@@ -1,12 +1,14 @@
 package com.thelongtravail.mixin.movement;
 
-import com.thelongtravail.runtime.attributes.AltitudePenalty;
-import com.thelongtravail.runtime.effects.StiffState;
-import net.minecraft.world.entity.player.Player;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.thelongtravail.runtime.attributes.AltitudePenalty;
+import com.thelongtravail.runtime.attributes.GroundSpeed;
+
+import net.minecraft.world.entity.player.Player;
+
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(Player.class)
 public abstract class AltitudeSpeedMixin implements AltitudePenalty.Cache {
@@ -44,11 +46,6 @@ public abstract class AltitudeSpeedMixin implements AltitudePenalty.Cache {
 
     @WrapMethod(method = "getSpeed")
     private float travail$applyAltitudeSlow(Operation<Float> operation) {
-        float original = operation.call();
-        Player player = (Player) (Object) this;
-        if (StiffState.active(player)) return 0.0F;
-        float factor = AltitudePenalty.factor(player);
-        factor *= com.thelongtravail.abyss.rain.RainState.speed(player);
-        return original * factor;
+        return GroundSpeed.apply((Player) (Object) this, operation.call());
     }
 }

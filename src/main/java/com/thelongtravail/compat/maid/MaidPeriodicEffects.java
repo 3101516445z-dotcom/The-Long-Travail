@@ -4,7 +4,6 @@ import static com.thelongtravail.compat.maid.MaidAccess.identity;
 import static com.thelongtravail.compat.maid.MaidAccessoryRules.crown;
 import static com.thelongtravail.compat.maid.MaidAccessoryRules.eki;
 import static com.thelongtravail.compat.maid.MaidAccessoryRules.has;
-import static com.thelongtravail.compat.maid.MaidAccessoryRules.sunny;
 import static com.thelongtravail.compat.maid.MaidAccessoryRules.tokaido;
 import static com.thelongtravail.compat.maid.MaidRuntimeState.state;
 
@@ -17,6 +16,7 @@ import com.thelongtravail.flourishing.FloralCombat;
 import com.thelongtravail.flourishing.Flower;
 import com.thelongtravail.flourishing.FlowerData;
 import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.runtime.attributes.GroundSpeed;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
@@ -68,19 +68,9 @@ final class MaidPeriodicEffects {
                 m, Attributes.ATTACK_SPEED, ATTACK, FloralCombat.value(crown, Flower.ORANGE_TULIP));
         attribute(
                 m, ForgeMod.SWIM_SPEED.get(), SWIM, FloralCombat.value(crown, Flower.BLUE_ORCHID));
-        attribute(
-                m,
-                Attributes.MOVEMENT_SPEED,
-                SPEED,
-                FloralCombat.value(crown, Flower.PINK_PETALS)
-                        + (FlowerData.active(crown, Flower.SUNFLOWER) && sunny(m)
-                                ? FlourishingItemsConfig.extra(Flower.SUNFLOWER, "speedBonus")
-                                : 0));
-        attribute(
-                m,
-                Attributes.MOVEMENT_SPEED,
-                EKI_SPEED,
-                eki(m) == Phase.MALICE ? RainConfig.SPEED.get() : 0);
+        GroundSpeed.update(m, SPEED, FloralCombat.crownMovementBonus(m, crown), "Spring corner");
+        GroundSpeed.update(
+                m, EKI_SPEED, eki(m) == Phase.MALICE ? RainConfig.SPEED.get() : 0, "Eki");
         if (!has(m, ModRegistry.SWORD_AND_LANTERN)) MaidLanternCombat.forget(m);
         else
             for (var effect :

@@ -4,6 +4,7 @@ import com.thelongtravail.config.ThemeItemConfig;
 import com.thelongtravail.equipment.AccessoryEquipRules;
 import com.thelongtravail.network.TravailNetwork;
 import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.runtime.effects.EffectInsertion;
 import com.thelongtravail.runtime.player.PlayerCooldowns;
 
 import net.minecraft.server.level.ServerPlayer;
@@ -34,10 +35,11 @@ public final class HolyFool {
         }
         int duration = ThemeItemConfig.ticks("holy_fool.durationSeconds");
         if (duration > 0) {
-            p.addEffect(new MobEffectInstance(ModRegistry.AMONG_ALL_THINGS.get(), duration));
-            // 拒收且没有既有效果时，不把这次尝试计为成功释放。
-            // addEffect 返回 false 也可能只是保留了已有的更长效果。
-            if (!p.hasEffect(ModRegistry.AMONG_ALL_THINGS.get())) return;
+            if (EffectInsertion.addOrGet(
+                            p,
+                            new MobEffectInstance(ModRegistry.AMONG_ALL_THINGS.get(), duration),
+                            null)
+                    == null) return;
         }
         PlayerCooldowns.startDeadline(
                 p, UNTIL, now, ThemeItemConfig.ticks("holy_fool.cooldownSeconds"));

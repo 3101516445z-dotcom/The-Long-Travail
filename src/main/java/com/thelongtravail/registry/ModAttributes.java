@@ -1,6 +1,8 @@
 package com.thelongtravail.registry;
 
 import com.thelongtravail.TheLongTravail;
+import com.thelongtravail.compat.attributeslib.PercentAttributes;
+
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
@@ -8,7 +10,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import com.thelongtravail.compat.attributeslib.PercentAttributes;
 
 public final class ModAttributes {
     private static final DeferredRegister<Attribute> ATTRIBUTES =
@@ -18,6 +19,9 @@ public final class ModAttributes {
             registerPercent("critical_chance", 1);
     public static final RegistryObject<Attribute> OVERLORD =
             registerPercent("overlord", Float.MAX_VALUE);
+
+    public static final RegistryObject<Attribute> GROUND_SPEED_BONUS =
+            register("ground_speed_bonus", Float.MAX_VALUE);
 
     private static RegistryObject<Attribute> register(String name, double maximum) {
         return ATTRIBUTES.register(
@@ -42,7 +46,8 @@ public final class ModAttributes {
 
     private static void attach(EntityAttributeModificationEvent event) {
         for (var type : event.getTypes()) {
-            for (var entry : java.util.List.of(INSIGHT, CRITICAL_CHANCE, OVERLORD)) {
+            for (var entry :
+                    java.util.List.of(INSIGHT, CRITICAL_CHANCE, OVERLORD, GROUND_SPEED_BONUS)) {
                 if (!event.has(type, entry.get())) event.add(type, entry.get());
             }
         }

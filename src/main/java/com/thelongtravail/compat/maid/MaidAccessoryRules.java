@@ -126,10 +126,6 @@ public final class MaidAccessoryRules {
         return FloralCombat.value(crown(m), Flower.BLUE_ORCHID);
     }
 
-    static boolean sunny(EntityMaid m) {
-        return m.level().isDay() && m.level().canSeeSky(m.blockPosition());
-    }
-
     public static Phase eki(EntityMaid m) {
         return has(m, ModRegistry.EKI)
                         && RainState.weather(

@@ -24,6 +24,7 @@ import com.thelongtravail.flourishing.FloralCombat;
 import com.thelongtravail.flourishing.Flower;
 import com.thelongtravail.flourishing.FlowerData;
 import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.runtime.effects.EffectInsertion;
 import com.thelongtravail.valley.execution.AzraelExecution;
 import com.thelongtravail.valley.execution.AzraelState;
 
@@ -182,7 +183,8 @@ public final class MaidCombatFeedback {
         long now = m.level().getGameTime();
         var times = MaidRuntimeState.effectTimes(victim);
         if (!FloralCombat.tryStartFlowerCooldown(times, identity(m), flower, now)) return;
-        victim.addEffect(
+        EffectInsertion.addOrGet(
+                victim,
                 new MobEffectInstance(
                         effect,
                         FlourishingItemsConfig.ticks(

@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.thelongtravail.combat.CombatContext;
+import com.thelongtravail.runtime.effects.EffectInsertion;
 
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,18 +23,7 @@ public abstract class LivingCombatMixin {
             Operation<Boolean> original) {
         var target = (LivingEntity) (Object) this;
         try {
-            if (com.thelongtravail.abyss.MidnightLafite.levels(target, effect.getEffect()) > 0)
-                effect = com.thelongtravail.abyss.MidnightLafite.copyEffect(effect);
-            effect =
-                    com.thelongtravail.flourishing.FloralPassives.shorten(
-                            target,
-                            com.thelongtravail.abyss.MidnightLafite.duration(
-                                    target,
-                                    com.thelongtravail.integration.MaidIntegration.extend(
-                                            target,
-                                            com.thelongtravail.flourishing.FloralEvents
-                                                    .extendedEffect(target, effect, source),
-                                            source)));
+            effect = EffectInsertion.prepare(target, effect, source);
         } catch (com.thelongtravail.runtime.effects.EffectCopies.InvalidChain failure) {
             com.thelongtravail.common.RuntimeFailures.report(
                     "hidden effect chain "

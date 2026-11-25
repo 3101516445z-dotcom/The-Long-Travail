@@ -3,6 +3,7 @@ package com.thelongtravail.item;
 import com.thelongtravail.AspectTheme;
 import com.thelongtravail.config.ThemeItemConfig;
 import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.runtime.effects.EffectInsertion;
 
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.Component;
@@ -107,7 +108,9 @@ public final class LastAffairsItem extends Item implements ItemDescription {
         player.fallDistance = 0;
         if (!player.getAbilities().instabuild) stack.shrink(1);
         int ticks = ThemeItemConfig.ticks("last_affairs.revivalSeconds");
-        if (ticks > 0) player.addEffect(new MobEffectInstance(ModRegistry.REVIVAL.get(), ticks));
+        if (ticks > 0)
+            EffectInsertion.addOrGet(
+                    player, new MobEffectInstance(ModRegistry.REVIVAL.get(), ticks), null);
         return stack;
     }
 

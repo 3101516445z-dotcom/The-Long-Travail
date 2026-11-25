@@ -1,6 +1,6 @@
 package com.thelongtravail.mixin.movement;
 
-import com.thelongtravail.runtime.effects.RevivalMovement;
+import com.thelongtravail.runtime.attributes.GroundSpeed;
 
 import net.minecraft.world.entity.monster.Ghast;
 
@@ -20,6 +20,6 @@ public abstract class RevivalGhastMixin {
                                     "Lnet/minecraft/world/phys/Vec3;scale(D)Lnet/minecraft/world/phys/Vec3;"),
             index = 0)
     private double travail$propulsion(double speed) {
-        return speed * RevivalMovement.factor(ghast);
+        return speed * GroundSpeed.limit(ghast);
     }
 }

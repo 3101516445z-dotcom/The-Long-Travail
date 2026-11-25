@@ -1,9 +1,8 @@
 package com.thelongtravail.mixin.movement;
 
-import com.thelongtravail.runtime.attributes.AltitudePenalty;
+import com.thelongtravail.runtime.attributes.GroundSpeed;
 
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +16,6 @@ import org.spongepowered.asm.mixin.injection.Slice;
 @Mixin(LivingEntity.class)
 public abstract class AltitudeGlidingMixin {
     @Unique private float travail$glidingFactor = 1.0F;
-    @Unique private double travail$revivalImpactFactor = 1;
 
     // 1.20.1 的 travel 中三次直接 move 调用依次对应水、熔岩和鞘翅。
     // 陆地移动通过 handleRelativeFrictionAndCalculateMovement 处理。
@@ -33,14 +31,7 @@ public abstract class AltitudeGlidingMixin {
             require = 1,
             allow = 1)
     private Vec3 travail$scaleGlidingDisplacement(Vec3 displacement) {
-        travail$glidingFactor =
-                (Object) this instanceof Player player ? AltitudePenalty.factor(player) : 1.0F;
-        double originalHorizontal = displacement.horizontalDistance();
-        displacement =
-                com.thelongtravail.runtime.effects.RevivalMovement.glide(
-                        (LivingEntity) (Object) this, displacement);
-        travail$revivalImpactFactor =
-                originalHorizontal > 0 ? displacement.horizontalDistance() / originalHorizontal : 1;
+        travail$glidingFactor = GroundSpeed.limit((LivingEntity) (Object) this);
         return travail$glidingFactor < 1.0F
                 ? displacement.scale(travail$glidingFactor)
                 : displacement;
@@ -67,6 +58,6 @@ public abstract class AltitudeGlidingMixin {
             require = 1,
             allow = 1)
     private double travail$scaleGlidingImpact(double multiplier) {
-        return multiplier * travail$glidingFactor * travail$revivalImpactFactor;
+        return multiplier * travail$glidingFactor;
     }
 }

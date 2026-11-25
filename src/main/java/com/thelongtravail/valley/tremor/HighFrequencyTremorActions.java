@@ -1,18 +1,16 @@
 package com.thelongtravail.valley.tremor;
 
-import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.TravailAspect;
 import com.thelongtravail.api.TravailStateApi;
 import com.thelongtravail.compat.ftbultimine.TremorUltimine;
 import com.thelongtravail.item.HighFrequencyTremorItem;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.entity.player.*;
-import net.minecraftforge.eventbus.api.*;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.Event;
 
-@Mod.EventBusSubscriber(modid = TheLongTravail.MODID)
 public final class HighFrequencyTremorActions {
     public static boolean eligible(Player player, InteractionHand hand) {
         return hand == InteractionHand.MAIN_HAND
@@ -52,12 +50,6 @@ public final class HighFrequencyTremorActions {
                 TremorFeedback.FAILURE.send(server);
             }
         }
-    }
-
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void speed(PlayerEvent.BreakSpeed event) {
-        if (event.getEntity().getMainHandItem().getItem() instanceof HighFrequencyTremorItem)
-            event.setNewSpeed(event.getNewSpeed() * 2F);
     }
 
     private HighFrequencyTremorActions() {}

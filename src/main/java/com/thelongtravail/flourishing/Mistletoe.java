@@ -6,6 +6,7 @@ import com.thelongtravail.loot.LootItemCollector;
 import com.thelongtravail.mixin.effects.EffectDurationAccessor;
 import com.thelongtravail.registry.ModRegistry;
 import com.thelongtravail.registry.RegisteredItems;
+import com.thelongtravail.runtime.attributes.GroundSpeed;
 import com.thelongtravail.runtime.effects.EffectInsertion;
 
 import net.minecraft.network.chat.Component;
@@ -149,23 +150,11 @@ public final class Mistletoe {
 
     private static void syncSpeed(LivingEntity entity) {
         int rank = level(entity);
-        setSpeed(
+        GroundSpeed.update(
                 entity,
                 SPEED,
                 rank == 0 ? 0 : rank * FlourishingGrowthConfig.mistletoe("speedBonusPerLevel"),
                 "Mistletoe");
-    }
-
-    public static void setSpeed(LivingEntity entity, UUID id, double value, String name) {
-        var attribute = entity.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (attribute == null) return;
-        var old = attribute.getModifier(id);
-        if (old != null && old.getAmount() == value) return;
-        if (old != null) attribute.removeModifier(id);
-        if (value > 0)
-            attribute.addTransientModifier(
-                    new AttributeModifier(
-                            id, name, value, AttributeModifier.Operation.MULTIPLY_TOTAL));
     }
 
     @SubscribeEvent

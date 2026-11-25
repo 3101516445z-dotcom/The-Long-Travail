@@ -4,6 +4,8 @@ import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.config.FlourishingItemsConfig;
 import com.thelongtravail.mixin.effects.EffectDurationAccessor;
 import com.thelongtravail.registry.RegisteredItems;
+import com.thelongtravail.runtime.attributes.GroundSpeed;
+import com.thelongtravail.runtime.effects.EffectInsertion;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
@@ -97,14 +99,12 @@ public final class FloralEvents {
                 p, Attributes.ATTACK_SPEED, ATTACK, FloralCombat.value(crown, Flower.ORANGE_TULIP));
         attribute(
                 p, ForgeMod.SWIM_SPEED.get(), SWIM, FloralCombat.value(crown, Flower.BLUE_ORCHID));
-        double speed = FloralCombat.value(crown, Flower.PINK_PETALS);
-        if (FlowerData.active(crown, Flower.SUNFLOWER) && FloralCombat.sunny(p))
-            speed += FlourishingItemsConfig.extra(Flower.SUNFLOWER, "speedBonus");
+        double speed = FloralCombat.crownMovementBonus(p, crown);
         if (p.isSpectator()) Affection.reset(p);
         LivingEntity pet = p.isSpectator() ? null : Affection.target(p);
         if (pet != null)
             speed += FlourishingItemsConfig.get("affection.playerSpeedBonus") * Affection.lost(pet);
-        attribute(p, Attributes.MOVEMENT_SPEED, SPEED, speed);
+        GroundSpeed.update(p, SPEED, speed, "Flourishing accessories");
         if (FlowerData.active(crown, Flower.OXEYE_DAISY)) {
             if (++s.heal
                     >= FlourishingItemsConfig.ticks(
@@ -170,7 +170,8 @@ public final class FloralEvents {
         long now = p.level().getGameTime();
         var cooldowns = TARGET_COOLDOWNS.computeIfAbsent(victim, k -> new HashMap<>());
         if (!FloralCombat.tryStartFlowerCooldown(cooldowns, p.getUUID(), f, now)) return;
-        victim.addEffect(
+        EffectInsertion.addOrGet(
+                victim,
                 new MobEffectInstance(
                         effect,
                         FlourishingItemsConfig.ticks(

@@ -10,6 +10,7 @@ import com.thelongtravail.equipment.AccessoryEquipRules;
 import com.thelongtravail.integration.MaidIntegration;
 import com.thelongtravail.registry.ModAttributes;
 import com.thelongtravail.registry.ModRegistry;
+import com.thelongtravail.runtime.effects.EffectInsertion;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -56,7 +57,8 @@ public final class Kagotsurube {
         if (added <= 0) return;
         MobEffectInstance old = target.getEffect(MobEffects.WITHER);
         if (old == null)
-            target.addEffect(new MobEffectInstance(MobEffects.WITHER, added, 0), actor);
+            EffectInsertion.addOrGet(
+                    target, new MobEffectInstance(MobEffects.WITHER, added, 0), actor);
         else if (!old.isInfiniteDuration()) {
             // 原地更新 NBT 副本以保留等级、隐藏效果、显示标记；绕过 addEffect 的整段时长再放大。
             var data = old.save(new net.minecraft.nbt.CompoundTag());

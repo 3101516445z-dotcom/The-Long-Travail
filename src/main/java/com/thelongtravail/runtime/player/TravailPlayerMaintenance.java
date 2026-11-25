@@ -4,6 +4,7 @@ import com.thelongtravail.TravailAspect;
 import com.thelongtravail.config.ModeEffectRules;
 import com.thelongtravail.config.TravailConfig;
 import com.thelongtravail.equipment.TravailCurios;
+import com.thelongtravail.item.HighFrequencyTremorItem;
 import com.thelongtravail.journey.LongTravailData;
 import com.thelongtravail.network.TooltipConfigSync;
 import com.thelongtravail.registry.ModRegistry;
@@ -110,6 +111,7 @@ public final class TravailPlayerMaintenance {
 
     public static void onBreakSpeed(PlayerEvent.BreakSpeed event) {
         Player player = event.getEntity();
+        float speed = event.getNewSpeed();
         ItemStack travail = TravailCurios.stack(player);
         if (ModeEffectRules.diaryApplies(player)
                 && !travail.isEmpty()
@@ -118,8 +120,10 @@ public final class TravailPlayerMaintenance {
             if (player.level().isClientSide)
                 reduction = TooltipConfigSync.decimal("abyss.miningReduction", reduction);
             float multiplier = (float) (1.0D - Math.max(0.0D, Math.min(1.0D, reduction)));
-            event.setNewSpeed(event.getNewSpeed() * multiplier);
+            speed *= multiplier;
         }
+        if (player.getMainHandItem().getItem() instanceof HighFrequencyTremorItem) speed *= 2F;
+        event.setNewSpeed(speed);
     }
 
     public static void onExperienceChange(PlayerXpEvent.XpChange event) {
