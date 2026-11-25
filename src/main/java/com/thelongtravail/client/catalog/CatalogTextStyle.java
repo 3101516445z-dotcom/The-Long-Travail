@@ -462,6 +462,15 @@ public final class CatalogTextStyle {
                 while (scope.find()) paint(result, f.styles, scope.start(), scope.end(), VALUE);
             }
             if (utility) {
+                var translation =
+                        (net.minecraft.network.chat.contents.TranslatableContents)
+                                source.getContents();
+                if (translation
+                        .getKey()
+                        .startsWith("gui.the_long_travail.catalog.details.wayguide.")) {
+                    var spans = CatalogHighlightRules.WAYGUIDE_VALUES.matcher(text);
+                    while (spans.find()) paint(result, f.styles, spans.start(), spans.end(), VALUE);
+                }
                 var values = UTILITY_VALUES.matcher(text);
                 while (values.find()) paint(result, f.styles, values.start(), values.end(), VALUE);
             }

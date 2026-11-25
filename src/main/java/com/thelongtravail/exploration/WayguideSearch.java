@@ -81,6 +81,13 @@ public final class WayguideSearch {
         return task != null && task.entity.getUUID().equals(pearl);
     }
 
+    public static void stopForDrop(UUID player, UUID entity) {
+        if (!ownsSearch(player, entity)) return;
+        Task task = TASKS.remove(player);
+        QUEUE.remove(player);
+        if (task.scanner != null) task.scanner.close();
+    }
+
     public static void forget(ServerPlayer player) {
         UUID id = player.getUUID();
         Task task = TASKS.remove(id);

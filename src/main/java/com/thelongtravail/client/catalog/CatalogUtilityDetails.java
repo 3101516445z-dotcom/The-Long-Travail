@@ -27,7 +27,23 @@ public final class CatalogUtilityDetails {
                     case "coloring" -> List.of("0", "1", "2", "", "3", "4", "5", "6", "7");
                     case "renewal" -> List.of("0", "3", "", "heading", "4", "1", "revealed", "6");
                     case "homecoming" -> List.of("0", "2", "", "heading", "1", "4", "5", "7");
-                    case "wayguide" -> List.of("0", "1", "2", "structures", "", "4", "5", "6", "8");
+                    case "wayguide" ->
+                            List.of(
+                                    "0",
+                                    "unrevealed",
+                                    "",
+                                    "1",
+                                    "8",
+                                    "2",
+                                    "structures",
+                                    "none",
+                                    "",
+                                    "4",
+                                    "5",
+                                    "6",
+                                    "",
+                                    "knockdown",
+                                    "interrupt");
                     case "stone" -> List.of("0", "1", "", "heading", "2", "persistence", "4", "5");
                     case "essence" ->
                             List.of(

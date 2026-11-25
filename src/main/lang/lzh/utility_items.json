@@ -26,13 +26,13 @@
   "gui.the_long_travail.catalog.details.homecoming.4": "- 解苦旅後，其所供之效與額外飾品位亦撤；",
   "gui.the_long_travail.catalog.details.homecoming.5": "- 賴苦旅而佩之飾品、因位減而不能復佩者，皆退歸囊中，不容者墜於側。",
   "gui.the_long_travail.catalog.details.homecoming.7": "解苦旅成，則耗「歸鄉」。",
-  "gui.the_long_travail.catalog.details.wayguide.0": "持「路引」右鍵用之，可尋苦旅中未竟之途。雖未用解石，亦可藉路引以求其處。",
+  "gui.the_long_travail.catalog.details.wayguide.0": "佩苦旅，持「路引」右鍵用之，可尋苦旅中未竟之途。搜尋時，路引懸於佩者之上。",
   "gui.the_long_travail.catalog.details.wayguide.1": "尋路先後：",
-  "gui.the_long_travail.catalog.details.wayguide.2": "- 若本維度尚有可現之未竟目標生態域，則先求之；",
-  "gui.the_long_travail.catalog.details.wayguide.4": "搜尋時，路引懸於佩者之上。",
+  "gui.the_long_travail.catalog.details.wayguide.2": "- 若本維度尚有可現之未竟目標生態域，則專求之；",
+  "gui.the_long_travail.catalog.details.wayguide.4": "搜尋結束後：",
   "gui.the_long_travail.catalog.details.wayguide.5": "- 若得目標，路引即向其水平之方飛出一程，為佩者指路，少頃而落，可拾而復用；",
   "gui.the_long_travail.catalog.details.wayguide.6": "- 若未得目標，路引則返，可他往再試。",
-  "gui.the_long_travail.catalog.details.wayguide.8": "水平搜尋半徑至多%1$s格，唯於本維度求之。此番未得，不謂全維度皆無其處。",
+  "gui.the_long_travail.catalog.details.wayguide.8": "- 水平搜尋半徑至多%1$s格，唯於本維度求之；",
   "item.the_long_travail.coloring": "施色",
   "gui.the_long_travail.coloring.names": "染色",
   "gui.the_long_travail.coloring.option.travail": "苦旅",
@@ -66,5 +66,9 @@
   "gui.the_long_travail.catalog.details.homecoming.heading": "解苦旅後：",
   "gui.the_long_travail.catalog.details.renewal.heading": "重抽之則：",
   "gui.the_long_travail.catalog.details.renewal.revealed": "- 已以解石揭之主題仍揭，無須復解。",
-  "gui.the_long_travail.catalog.details.wayguide.structures": "- 無此類目標，則求未竟之結構。"
+  "gui.the_long_travail.catalog.details.wayguide.structures": "- 無此類目標，則求未竟之結構。",
+  "gui.the_long_travail.catalog.details.wayguide.unrevealed": "雖未用解石，亦可藉路引以求其處。",
+  "gui.the_long_travail.catalog.details.wayguide.none": "- 若此界無可生成之未至群系或結構，路引自返。",
+  "gui.the_long_travail.catalog.details.wayguide.knockdown": "路引懸空時，可空手右鍵，或以箭、雪球等投射物將其擊落。",
+  "gui.the_long_travail.catalog.details.wayguide.interrupt": "搜尋期間擊落路引，本次搜尋亦隨之結束。"
 }

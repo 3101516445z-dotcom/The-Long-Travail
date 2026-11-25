@@ -21,7 +21,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import java.util.UUID;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.OwnableEntity;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraftforge.event.entity.ProjectileImpactEvent;
+import net.minecraftforge.eventbus.api.*;
+import net.minecraftforge.fml.common.Mod;
 
+@Mod.EventBusSubscriber(modid = "the_long_travail")
 public final class WayguideEntity extends Entity implements ItemSupplier {
     private static final EntityDataAccessor<ItemStack> ITEM =
             SynchedEntityData.defineId(WayguideEntity.class, EntityDataSerializers.ITEM_STACK);
@@ -171,17 +181,62 @@ public final class WayguideEntity extends Entity implements ItemSupplier {
         int durationTicks =
                 com.thelongtravail.config.TravailConfig.WAYGUIDE_GUIDE_DURATION_SECONDS.get() * 20;
         if (age >= durationTicks && (age - durationTicks) % 20 == 0) {
-            if (!returnItem) {
-                discard();
-                return;
-            }
+            dropWayguide();
+        }
+    }
+
+    @Override
+    public boolean isPickable() {
+        return isAlive();
+    }
+
+    @Override
+    public boolean canBeHitByProjectile() {
+        return isAlive();
+    }
+
+    @Override
+    public InteractionResult interact(Player player, InteractionHand hand) {
+        if (!player.getItemInHand(hand).isEmpty()) return InteractionResult.PASS;
+        if (!level().isClientSide) dropWayguide();
+        return InteractionResult.sidedSuccess(level().isClientSide);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onProjectileImpact(ProjectileImpactEvent event) {
+        if (event.getImpactResult() == ProjectileImpactEvent.ImpactResult.DEFAULT
+                && event.getRayTraceResult() instanceof EntityHitResult hit
+                && hit.getEntity() instanceof WayguideEntity guide
+                && !guide.level().isClientSide
+                && event.getProjectile().getOwner() instanceof Player) guide.dropWayguide();
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        Entity direct = source.getDirectEntity();
+        if (direct == null || direct instanceof Player || isRemoved()) return false;
+        if (!(source.getEntity() instanceof Player)
+                && !(direct instanceof OwnableEntity owned && owned.getOwner() instanceof Player))
+            return false;
+        if (!level().isClientSide) dropWayguide();
+        return true;
+    }
+
+    private void dropWayguide() {
+        if (isRemoved()) return;
+        if (returnItem) {
             var drop = new ItemEntity(level(), getX(), getY(), getZ(), getItem().copy());
             drop.setDefaultPickUpDelay();
-            if (level().addFreshEntity(drop)) {
-                returnItem = false;
-                discard();
+            // 成功生成掉落物后再释放托管，生成被取消时仍可重试。
+            if (!level().addFreshEntity(drop)) return;
+            if (escrowed) {
+                WayguideReturns.get(((ServerLevel) level()).getServer()).release(getUUID());
+                escrowed = false;
             }
+            returnItem = false;
         }
+        if (searching()) WayguideSearch.stopForDrop(owner, getUUID());
+        discard();
     }
 
     @Override

@@ -51,6 +51,10 @@ final class CatalogHighlightRules {
                     "journey records",
                     "journey record",
                     "additional accessory slots");
+    static final Pattern WAYGUIDE_VALUES =
+            Pattern.compile(
+                    "\\d+\\h*格|空手右[键鍵]|right-click it with an empty hand",
+                    Pattern.CASE_INSENSITIVE);
     static final Pattern UTILITY_VALUES =
             Pattern.compile(
                     "一枚|六个|六個|六主題|右键|右鍵|右按|\\bright-click\\b|\\bone(?="
