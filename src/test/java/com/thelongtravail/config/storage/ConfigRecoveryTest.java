@@ -1,9 +1,8 @@
 package com.thelongtravail.config.storage;
 
-import com.thelongtravail.migration.config.ConfigUpgrade;
-
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.core.io.ParsingException;
+import com.thelongtravail.migration.config.ConfigUpgrade;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
@@ -29,6 +28,43 @@ public final class ConfigRecoveryTest {
         builder.defineInRange("count", 4, 1, 20);
         builder.define("group.enabled", true);
         return builder.build();
+    }
+
+    private static void balanceDefaults(
+            Path root,
+            String key,
+            double oldValue,
+            double newValue,
+            String newKey,
+            double addedDefault)
+            throws Exception {
+        var builder = new ForgeConfigSpec.Builder();
+        builder.defineInRange(key, newValue, 0, 100);
+        builder.defineInRange(newKey, addedDefault, 0, 100);
+        var definition = builder.build();
+        for (boolean hasNewKey : List.of(false, true)) {
+            for (double original : List.of(oldValue, 0.0, 7.0)) {
+                Path directory = root.resolve("balance-" + key + "-" + hasNewKey + "-" + original);
+                Path file = directory.resolve("aspect.toml");
+                var config = parse("");
+                config.set(key, original);
+                if (hasNewKey) config.set(newKey, 3.0);
+                ConfigFileIO.write(file, config);
+                var result = ConfigRecovery.prepare(directory, file, definition);
+                double expected = !hasNewKey && original == oldValue ? newValue : original;
+                expect(
+                        Double.valueOf(expected).equals(result.get(key)),
+                        "balance migration " + key);
+                expect(
+                        Double.valueOf(hasNewKey ? 3.0 : addedDefault).equals(result.get(newKey)),
+                        "explicit new setting preserved");
+                byte[] once = Files.readAllBytes(file);
+                ConfigRecovery.prepare(directory, file, definition);
+                expect(
+                        Arrays.equals(once, Files.readAllBytes(file)),
+                        "repeat balance migration stable");
+            }
+        }
     }
 
     private static void fixedAccessorySlots(Path root) throws Exception {
@@ -221,6 +257,15 @@ public final class ConfigRecoveryTest {
     public static void main(String[] args) throws Exception {
         Path root = Files.createTempDirectory(Path.of(args[0]), "config-recovery-");
         fixedAccessorySlots(root);
+        balanceDefaults(
+                root,
+                "items.sun_chaser.lootingBonusPerLevel",
+                .05,
+                .025,
+                "items.sun_chaser.strikeCooldownSeconds",
+                1);
+        balanceDefaults(
+                root, "items.kagotsurube.insight", 15, 12, "items.kagotsurube.physicalBonus", .10);
         presetMigration(root);
         witnessUpgrade(root);
         ForgeConfigSpec spec = spec();
@@ -327,13 +372,13 @@ public final class ConfigRecoveryTest {
         var loot =
                 parse(
                         """
-                [loot.tables."minecraft:chests/desert_pyramid"]
-                chance = 0.15
-                items = ["the_long_travail:book_of_the_dead|1|1|1", "the_long_travail:icarus|1|1|1"]
-                [loot.tables."minecraft:chests/jungle_temple"]
-                chance = 0.42
-                items = ["the_long_travail:affection|1|1|1"]
-                """);
+[loot.tables."minecraft:chests/desert_pyramid"]
+chance = 0.15
+items = ["the_long_travail:book_of_the_dead|1|1|1", "the_long_travail:icarus|1|1|1"]
+[loot.tables."minecraft:chests/jungle_temple"]
+chance = 0.42
+items = ["the_long_travail:affection|1|1|1"]
+""");
         expect(ConfigUpgrade.upgradeGeneral(file, loot), "six item upgrade applied");
         com.electronwill.nightconfig.core.Config tables = loot.get("loot.tables");
         com.electronwill.nightconfig.core.Config desert =

@@ -4,10 +4,10 @@ import com.electronwill.nightconfig.core.CommentedConfig;
 import com.thelongtravail.TheLongTravail;
 import com.thelongtravail.config.storage.ConfigFileIO;
 import com.thelongtravail.config.storage.ConfigValidation;
+
 import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.math.BigDecimal;
-
 import java.nio.file.*;
 import java.util.*;
 
@@ -89,6 +89,20 @@ public final class ConfigUpgrade {
         for (String group : List.of("items.spring_corner", "items.affection", "items.tokaido")) {
             if (spec.getSpec().contains(group)) removeKey(config, group + ".slots");
         }
+        migrate107Default(
+                config,
+                spec,
+                "items.sun_chaser.strikeCooldownSeconds",
+                "items.sun_chaser.lootingBonusPerLevel",
+                .05,
+                .025);
+        migrate107Default(
+                config,
+                spec,
+                "items.kagotsurube.physicalBonus",
+                "items.kagotsurube.insight",
+                15,
+                12);
         ConfigPresetMigration.migrate(config, spec);
         migrateEnvironmentPeak(
                 config, spec, "items.icarus.", "sunnyPeak", "sunnyExtraPeak", issues);
@@ -99,6 +113,20 @@ public final class ConfigUpgrade {
                 "shelteredNonClearPeak",
                 "shelteredNonClearExtraPeak",
                 issues);
+    }
+
+    // 同组的 1.0.8 新键由后续校验补齐；已有新键时保留用户选择的旧数值。
+    private static void migrate107Default(
+            CommentedConfig config,
+            ForgeConfigSpec spec,
+            String newKey,
+            String key,
+            double oldDefault,
+            double newDefault) {
+        if (spec.getSpec().contains(newKey)
+                && !config.contains(newKey)
+                && config.getRaw(key) instanceof Number value
+                && value.doubleValue() == oldDefault) config.set(key, newDefault);
     }
 
     private static void migrateEnvironmentPeak(
@@ -123,7 +151,8 @@ public final class ConfigUpgrade {
                             + oldKey
                             + " -> "
                             + newKey
-                            + ": 环境总峰值已迁移为额外增量，下限0.01 / Total peak migrated to additional bonus, minimum 0.01");
+                            + ": 环境总峰值已迁移为额外增量，下限0.01 / Total peak migrated to additional bonus,"
+                            + " minimum 0.01");
         } catch (IllegalArgumentException ignored) {
             // 旧值无效时不生成新值；后续补齐默认值并清理旧键，问题原文由恢复流程归档。
         }
